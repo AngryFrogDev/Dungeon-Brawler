@@ -1,6 +1,8 @@
 #ifndef __PERFTIMER__
 #define __PERFTIMER__
 
+#include "ProjDefs.h"
+
 class PerfTimer
 {
 public:

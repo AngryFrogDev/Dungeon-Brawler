@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "Application.h"
 #include "DebLog.h"
 #include "ProjDefs.h"
 // This is needed here because SDL redefines main function
@@ -6,8 +7,6 @@
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
-
-#include "Application.h"
 
 enum MainState {
 	CREATE = 0,

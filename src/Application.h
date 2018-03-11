@@ -3,9 +3,10 @@
 
 #include <list>
 #include "Module.h"
+#include "ProjDefs.h"
+#include "Timer.h"
 
 class PerfTimer;
-class Timer;
 // Modules
 
 class Application

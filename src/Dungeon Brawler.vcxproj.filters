@@ -18,6 +18,15 @@
     <ClCompile Include="Application.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="PerfTimer.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjDefs.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -30,6 +39,12 @@
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="DebLog.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="PerfTimer.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
       <Filter>Utilities</Filter>
     </ClInclude>
   </ItemGroup>

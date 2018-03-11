@@ -1,6 +1,8 @@
 #ifndef __TIMER__
 #define __TIMER__
 
+#include "ProjDefs.h"
+
 class Timer
 {
 public:
