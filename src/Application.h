@@ -8,6 +8,7 @@
 
 class PerfTimer;
 // Modules
+class mdWindow;
 
 class Application
 {
@@ -40,7 +41,7 @@ private:
 
 public:
 	// Modules
-
+	mdWindow* window;
 };
 
 extern Application* App;

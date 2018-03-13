@@ -3,8 +3,12 @@
 #include "PerfTimer.h"
 #include "Timer.h"
 
-Application::Application(int argc, char* args[]) {
+//Modules
+#include "mdWindow.h"
 
+Application::Application(int argc, char* args[]) {
+	window = new mdWindow;
+	addModule(window);
 }
 
 Application::~Application() {

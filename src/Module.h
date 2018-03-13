@@ -17,6 +17,7 @@ public:
 		active = true;
 	}
 
+	//TODO: Add XML support
 	// Called before render is available
 	virtual bool awake() {
 		return true;

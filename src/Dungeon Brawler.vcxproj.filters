@@ -27,6 +27,12 @@
     <ClCompile Include="ProjDefs.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="mdWindow.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="DebLog.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -46,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="mdWindow.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
