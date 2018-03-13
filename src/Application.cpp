@@ -21,8 +21,12 @@ Application::~Application() {
 bool Application::awake() {
 	bool ret = true;
 
+	pugi::xml_document config_file; //TODO: When filesystem module is added this should be actually loaded
+	pugi::xml_node module_config;
+	pugi::xml_node app_config;
+
 	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end(); ++it)
-		ret = (*it)->awake();
+		ret = (*it)->awake(module_config); //TODO: When filesystem module is added this should be actually loaded
 
 	startup_time.start();
 

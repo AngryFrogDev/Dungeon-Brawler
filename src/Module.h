@@ -2,6 +2,7 @@
 #define __MODULE__
 
 #include <string>
+#include "pugixml\pugixml.hpp"
 
 class Module
 {
@@ -19,7 +20,7 @@ public:
 
 	//TODO: Add XML support
 	// Called before render is available
-	virtual bool awake() {
+	virtual bool awake(pugi::xml_node& md_config) {
 		return true;
 	}
 
