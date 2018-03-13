@@ -18,17 +18,14 @@ bool mdWindow::awake(const pugi::xml_node& md_config) {
 	}
 	else {
 		uint32 flags = SDL_WINDOW_SHOWN;
-		//TODO: Here this module should read configuration files.
-		//This is hardcoded and should be read from the configuration file
-		bool fullscreen = false;
-		bool borderless = false;
-		bool resizable = false;
-		bool fullscreen_window = false;
+		bool fullscreen = md_config.child("fullscreen").attribute("value").as_bool(false);
+		bool borderless = md_config.child("borderless").attribute("value").as_bool(false);
+		bool resizable = md_config.child("resizable").attribute("value").as_bool(false);
+		bool fullscreen_window = md_config.child("fullscreen_window").attribute("value").as_bool(false);
 
-		uint width = 640;
-		uint height = 480;
-		title = "Test title";
-		//End of hardcode
+		uint width = md_config.child("resolution").attribute("width").as_int(640);
+		uint height = md_config.child("resolution").attribute("height").as_int(480);
+		title = md_config.child("title").text().as_string();
 
 		if (borderless) {
 			flags |= SDL_WINDOW_BORDERLESS;

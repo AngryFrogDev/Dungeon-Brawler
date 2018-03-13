@@ -11,7 +11,7 @@
 		<borderless value="false" />
 		<resizable value="false" />
 		<fullscreen_window value="false" />
-		<set_title />
+		<title>Dungeon Brawler</title>
 	</window>
 	<filesystem>
 	</filesystem>
