@@ -10,6 +10,9 @@
     <Filter Include="Utilities">
       <UniqueIdentifier>{cbba00b4-48e2-4547-8697-093bcb89a9f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utilities\PugiXML">
+      <UniqueIdentifier>{f4b42e4d-470f-4ed4-991e-5e89c1870b31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -33,6 +36,12 @@
     <ClCompile Include="DebLog.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="mdFilesystem.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="pugixml\pugixml.cpp">
+      <Filter>Utilities\PugiXML</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -55,6 +64,15 @@
     </ClInclude>
     <ClInclude Include="mdWindow.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdFilesystem.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="pugixml\pugiconfig.hpp">
+      <Filter>Utilities\PugiXML</Filter>
+    </ClInclude>
+    <ClInclude Include="pugixml\pugixml.hpp">
+      <Filter>Utilities\PugiXML</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

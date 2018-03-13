@@ -8,7 +8,7 @@ mdWindow::mdWindow() : Module() {
 	
 }
 
-bool mdWindow::awake(pugi::xml_node& md_config) {
+bool mdWindow::awake(const pugi::xml_node& md_config) {
 	LOG("mdWindow : Initiating SDL window and surface");
 	bool ret = true;
 

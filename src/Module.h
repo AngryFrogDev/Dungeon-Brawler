@@ -20,7 +20,7 @@ public:
 
 	//TODO: Add XML support
 	// Called before render is available
-	virtual bool awake(pugi::xml_node& md_config) {
+	virtual bool awake(const pugi::xml_node& md_config) {
 		return true;
 	}
 

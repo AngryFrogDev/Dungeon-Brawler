@@ -2,11 +2,16 @@
 #include "ProjDefs.h"
 #include "PerfTimer.h"
 #include "Timer.h"
+#include "DebLog.h"
 
 //Modules
 #include "mdWindow.h"
+#include "mdFilesystem.h"
+
 
 Application::Application(int argc, char* args[]) {
+	filesystem = new mdFilesystem;
+	addModule(filesystem);
 	window = new mdWindow;
 	addModule(window);
 }
@@ -21,13 +26,21 @@ Application::~Application() {
 bool Application::awake() {
 	bool ret = true;
 
-	pugi::xml_document config_file; //TODO: When filesystem module is added this should be actually loaded
-	pugi::xml_node module_config;
-	pugi::xml_node app_config;
+	pugi::xml_document config_file;
+	pugi::xml_node config;
+	
 
-	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end(); ++it)
-		ret = (*it)->awake(module_config); //TODO: When filesystem module is added this should be actually loaded
+	loadConfig(config_file, config);
 
+	if (config.empty()) {
+		ret = false;
+	}
+	else {
+		pugi::xml_node app_config = config.child("application");
+		
+		for (std::list<Module*>::iterator it = modules.begin(); it != modules.end(); ++it)
+			ret = (*it)->awake(config.child((*it)->name.c_str()));
+	}
 	startup_time.start();
 
 	return ret;
@@ -64,4 +77,17 @@ void Application::addModule(Module * module)
 {
 	module->init();
 	modules.push_back(module);
+}
+
+void Application::loadConfig(pugi::xml_document& config_file, pugi::xml_node& config_node) {
+	char* buffer;
+	int size = filesystem->load("config.xml", &buffer);
+	pugi::xml_parse_result result = config_file.load_buffer(buffer, size);
+	if (size != 0)
+		RELEASE(buffer);
+
+	if (result == NULL)
+		LOG("Application : Could not load config.xml - %s", result.description());
+	else
+		config_node = config_file.child("config");
 }

@@ -13,7 +13,7 @@ public:
 	mdWindow();
 	virtual ~mdWindow() {}
 
-	bool awake(pugi::xml_node& md_config);
+	bool awake(const pugi::xml_node& md_config);
 	bool cleanUp();
 
 	void setWindowTitle(const char* new_title);

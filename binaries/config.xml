@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config>
+	<application>
+		<framerate_cap>60</framerate_cap>
+		<product name="Dungeon Brawler" />
+		<organization>Angry Frogs</organization>
+	</application>
+	<window>
+		<resolution width="1280" height="720"/>
+		<fullscreen value="false" />
+		<borderless value="false" />
+		<resizable value="false" />
+		<fullscreen_window value="false" />
+		<set_title />
+	</window>
+	<filesystem>
+	</filesystem>
+</config>
