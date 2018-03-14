@@ -1,7 +1,6 @@
-#ifndef __j1RENDER_H__
-#define __j1RENDER_H__
+#ifndef __MDRENDER__
+#define __MDRENDER__
 
-#include "SDL/include/SDL.h"
 #include "Module.h"
 
 class mdRender : public Module {
@@ -20,7 +19,6 @@ public:
 
 	// Called each loop iteration
 	bool preUpdate();
-	bool update(float dt);
 	bool postUpdate();
 
 	// Called before quitting
@@ -35,7 +33,7 @@ public:
 	bool drawCircle(int x1, int y1, int redius, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool use_camera = true) const;
 
 	// Set background color
-	void SetBackgroundColor(SDL_Color color);
+	void setBackgroundColor(SDL_Color color);
 
 public:
 
@@ -46,4 +44,4 @@ public:
 
 };
 
-#endif // __j1RENDER_H__
+#endif // __MDRENDER__
