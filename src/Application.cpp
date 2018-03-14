@@ -7,13 +7,17 @@
 //Modules
 #include "mdWindow.h"
 #include "mdFilesystem.h"
+#include "mdRender.h"
 
 
 Application::Application(int argc, char* args[]) {
 	filesystem = new mdFilesystem;
-	addModule(filesystem);
 	window = new mdWindow;
+	render = new mdRender;
+
+	addModule(filesystem);
 	addModule(window);
+	addModule(render);
 }
 
 Application::~Application() {
