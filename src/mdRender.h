@@ -13,13 +13,13 @@ public:
 	virtual ~mdRender();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node&);
+	bool awake(const pugi::xml_node& md_config);
 
 	// Called before the first frame
 	bool start();
 
 	// Called each loop iteration
-	bool preUpdate(float dt);
+	bool preUpdate();
 	bool update(float dt);
 	bool postUpdate();
 

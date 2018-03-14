@@ -20,9 +20,6 @@ public:
 
 	void getWindowSize(uint& width, uint& height) const;
 	void setWindowSize(const uint& width, const uint& height);
-
-	uint getScale() const;
-
 public:
 	SDL_Window*		window = nullptr;
 	SDL_Surface*	window_surface = nullptr;

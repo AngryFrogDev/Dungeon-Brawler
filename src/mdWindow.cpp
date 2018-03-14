@@ -87,8 +87,3 @@ void mdWindow::setWindowSize(const uint& width, const uint& height) {
 	SDL_SetWindowSize(window, width, height);
 }
 
-uint mdWindow::getScale() const
-{
-	return scale;
-}
-

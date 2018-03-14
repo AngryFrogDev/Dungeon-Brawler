@@ -19,14 +19,14 @@ mdRender::~mdRender()
 {}
 
 // Called before render is available
-bool mdRender::Awake(pugi::xml_node& config)
+bool mdRender::awake(const pugi::xml_node& md_config)
 {
 	LOG("Create SDL rendering context");
 	bool ret = true;
 	// load flags
 	Uint32 flags = SDL_RENDERER_ACCELERATED;
 
-	if (config.child("vsync").attribute("value").as_bool(true) == true)
+	if (md_config.child("vsync").attribute("value").as_bool(true) == true)
 	{
 		flags |= SDL_RENDERER_PRESENTVSYNC;
 		LOG("Using vsync");
@@ -60,7 +60,7 @@ bool mdRender::start()
 }
 
 // Called each loop iteration
-bool mdRender::preUpdate(float dt)
+bool mdRender::preUpdate()
 {
 	SDL_RenderClear(renderer);
 	return true;
@@ -106,11 +106,10 @@ void mdRender::resetViewPort()
 bool mdRender::blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int pivot_x, int pivot_y) const
 {
 	bool ret = true;
-	uint scale = App->window->getScale();
 
 	SDL_Rect rect;
-	rect.x = (int)(camera.x * speed) + x * scale;
-	rect.y = (int)(camera.y * speed) + y * scale;
+	rect.x = (int)(camera.x * speed) + x;
+	rect.y = (int)(camera.y * speed) + y;
 
 	if (section != NULL)
 	{
@@ -121,9 +120,6 @@ bool mdRender::blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	{
 		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
 	}
-
-	rect.w *= scale;
-	rect.h *= scale;
 
 	SDL_Point* p = NULL;
 	SDL_Point pivot;
@@ -147,7 +143,6 @@ bool mdRender::blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 bool mdRender::drawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera) const
 {
 	bool ret = true;
-	uint scale = App->window->getScale();
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
@@ -155,10 +150,8 @@ bool mdRender::drawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a
 	SDL_Rect rec(rect);
 	if (use_camera)
 	{
-		rec.x = (int)(camera.x + rect.x * scale);
-		rec.y = (int)(camera.y + rect.y * scale);
-		rec.w *= scale;
-		rec.h *= scale;
+		rec.x = (int)(camera.x + rect.x);
+		rec.y = (int)(camera.y + rect.y);
 	}
 
 	int result = (filled) ? SDL_RenderFillRect(renderer, &rec) : SDL_RenderDrawRect(renderer, &rec);
@@ -175,7 +168,6 @@ bool mdRender::drawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a
 bool mdRender::drawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera) const
 {
 	bool ret = true;
-	uint scale = App->window->getScale();
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
@@ -183,9 +175,9 @@ bool mdRender::drawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 
 	int result = -1;
 
 	if (use_camera)
-		result = SDL_RenderDrawLine(renderer, camera.x + x1 * scale, camera.y + y1 * scale, camera.x + x2 * scale, camera.y + y2 * scale);
+		result = SDL_RenderDrawLine(renderer, camera.x + x1, camera.y + y1, camera.x + x2, camera.y + y2);
 	else
-		result = SDL_RenderDrawLine(renderer, x1 * scale, y1 * scale, x2 * scale, y2 * scale);
+		result = SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
 
 	if (result != 0)
 	{
@@ -199,7 +191,6 @@ bool mdRender::drawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 
 bool mdRender::drawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool use_camera) const
 {
 	bool ret = true;
-	uint scale = App->window->getScale();
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
