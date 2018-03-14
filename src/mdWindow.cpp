@@ -27,6 +27,8 @@ bool mdWindow::awake(const pugi::xml_node& md_config) {
 		uint height = md_config.child("resolution").attribute("height").as_int(480);
 		title = md_config.child("title").text().as_string();
 
+		scale = md_config.child("resolution").attribute("scale").as_int(1);
+
 		if (borderless) {
 			flags |= SDL_WINDOW_BORDERLESS;
 		}
@@ -83,5 +85,10 @@ void mdWindow::getWindowSize(uint & width, uint & height) const {
 
 void mdWindow::setWindowSize(const uint& width, const uint& height) {
 	SDL_SetWindowSize(window, width, height);
+}
+
+uint mdWindow::getScale() const
+{
+	return scale;
 }
 
