@@ -127,6 +127,7 @@
     <ClCompile Include="DebLog.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="mdFilesystem.cpp" />
+    <ClCompile Include="mdInput.cpp" />
     <ClCompile Include="mdRender.cpp" />
     <ClCompile Include="mdWindow.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
@@ -137,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="mdFilesystem.h" />
+    <ClInclude Include="mdInput.h" />
     <ClInclude Include="mdRender.h" />
     <ClInclude Include="mdWindow.h" />
     <ClInclude Include="PerfTimer.h" />

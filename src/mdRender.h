@@ -2,6 +2,7 @@
 #define __MDRENDER__
 
 #include "Module.h"
+#include "SDL/include/SDL.h"
 
 class mdRender : public Module {
 public:
