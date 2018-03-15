@@ -6,8 +6,8 @@
 #include <deque>
 #include <list>
 
-struct SDL_GameController;
-struct SDL_Haptic;
+#include "SDL/include/SDL.h"
+#include "SDL/include/SDL_gamecontroller.h"
 
 enum KEY_STATE {
 	KEY_NULL = 0,
@@ -48,6 +48,7 @@ enum CONTROLLER_BUTTON {
 };
 
 class Controller {
+public:
 	Controller(SDL_GameController* controller, SDL_Haptic* controller_haptic);
 	virtual ~Controller();
 
@@ -58,14 +59,16 @@ class Controller {
 	void popInput();
 	//Prunes any inputs that are older than milliseconds, if 0 it will clear the queue
 	void pruneInput(uint milliseconds = 0);
-	//void shakeController();
+	bool shakeController(float intensity, uint milliseconds) const;
+
+	uint getControllerID() const;
 	
 public:
-	uint id;
 	KEY_STATE buttons[SDL_CONTROLLER_BUTTON_MAX];
 	float axes[SDL_CONTROLLER_AXIS_MAX];
 
 private:
+	uint id;
 	SDL_GameController* controller;
 	SDL_Haptic* controller_haptic;
 
@@ -74,17 +77,22 @@ private:
 };
 
 class mdInput : public Module {
-
+public:
 	mdInput();
 	~mdInput();
 
 	bool awake(const pugi::xml_node& md_config);
-	bool update(float dt);
+	bool preUpdate();
 	bool cleanUp();
+
+private:
+	void handleAxes(const SDL_Event& event);
 
 private:
 	std::list<Controller*> controllers;
 	KEY_STATE* keyboard = nullptr;
+	uint controller_buffer_timeout = 0;
+	float axis_tolerance = 0.2f;
 };
 
 #endif

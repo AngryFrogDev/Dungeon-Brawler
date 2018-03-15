@@ -11,6 +11,7 @@ class PerfTimer;
 // Modules
 class mdWindow;
 class mdFilesystem;
+class mdInput;
 
 class Application
 {
@@ -50,6 +51,7 @@ public:
 	// Modules
 	mdWindow* window;
 	mdFilesystem* filesystem;
+	mdInput* input;
 };
 
 extern Application* App;
