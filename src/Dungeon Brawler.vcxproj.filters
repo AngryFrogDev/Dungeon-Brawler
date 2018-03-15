@@ -44,6 +44,9 @@
     </ClCompile>
     <ClCompile Include="mdInput.cpp">
       <Filter>Modules</Filter>
+	  </ClCompile>
+    <ClCompile Include="mdRender.cpp">
+      <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +81,9 @@
       <Filter>Utilities\PugiXML</Filter>
     </ClInclude>
     <ClInclude Include="mdInput.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdRender.h">
       <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>

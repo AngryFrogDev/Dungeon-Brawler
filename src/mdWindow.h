@@ -17,15 +17,17 @@ public:
 	bool cleanUp();
 
 	void setWindowTitle(const char* new_title);
+
 	void getWindowSize(uint& width, uint& height) const;
 	void setWindowSize(const uint& width, const uint& height);
-
 public:
-	SDL_Window* window = nullptr;
-	SDL_Surface* window_surface = nullptr;
+	SDL_Window*		window = nullptr;
+	SDL_Surface*	window_surface = nullptr;
 
 private:
-	std::string title;
+	std::string		title;
+
+	uint			scale; //requiered by the renderer
 };
 
 #endif //__MDWINDOW__

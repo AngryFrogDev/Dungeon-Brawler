@@ -8,6 +8,7 @@
 #include "mdWindow.h"
 #include "mdFilesystem.h"
 #include "mdInput.h"
+#include "mdRender.h"
 
 
 Application::Application(int argc, char* args[]) {
@@ -15,6 +16,8 @@ Application::Application(int argc, char* args[]) {
 	addModule(filesystem);
 	window = new mdWindow;
 	addModule(window);
+	render = new mdRender;
+	addModule(render);
 	input = new mdInput;
 	addModule(input);
 }

@@ -12,6 +12,7 @@ class PerfTimer;
 class mdWindow;
 class mdFilesystem;
 class mdInput;
+class mdRender;
 
 class Application
 {
@@ -40,18 +41,20 @@ private:
 	void loadConfig(pugi::xml_document& config_file, pugi::xml_node& config_node);
 
 private:
-	std::list<Module*> modules;
+	std::list<Module*>	modules;
+
 	uint64				frame_count = 0;
 	Timer				startup_time;
 	Timer				frame_time;
-	float	dt = 0.0f;
-	uint maxfps = 60;
+	float				dt = 0.0f;
+	uint				maxfps = 60;
 
 public:
 	// Modules
-	mdWindow* window;
-	mdFilesystem* filesystem;
-	mdInput* input;
+	mdWindow*		window;
+	mdFilesystem*	filesystem;
+	mdRender*		render;
+	mdInput*		input;
 };
 
 extern Application* App;
