@@ -103,6 +103,7 @@ bool mdInput::preUpdate() {
 			keyboard[i] = KEY_REPEAT;
 	}
 	for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
+		(*it)->pruneInput(controller_buffer_timeout);
 		for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; ++i) {
 			if ((*it)->buttons[i] == KEY_UP)
 				(*it)->buttons[i] = KEY_IDLE;
