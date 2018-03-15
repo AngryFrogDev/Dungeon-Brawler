@@ -1,6 +1,6 @@
 
-#ifndef __MDWINDOW__
-#define __MDWINDOW__
+#ifndef __MDTEXTURES__
+#define __MDTEXTURES__
 
 #include "Module.h"
 #include <list>
@@ -18,14 +18,14 @@ public:
 	bool init();
 	bool cleanUp();
 
-	SDL_Texture* const Load(const char* path);
-	SDL_Surface* const LoadSurface(const char* path);
-	SDL_Texture* const SurfaceToTexture(SDL_Surface* surface);
-	bool Unload(SDL_Texture* texture);
-	bool UnloadSurface(SDL_Surface* surface);
+	SDL_Texture* const load(const char* path);
+	SDL_Surface* const loadSurface(const char* path);
+	SDL_Texture* const surfaceToTexture(SDL_Surface* surface);
+	bool unload(SDL_Texture* texture);
+	bool unloadSurface(SDL_Surface* surface);
 
 public:
-	std::list<SDL_Texture*> textures;
+	std::list<SDL_Texture*> textures_list;
 };
 
-#endif // __MDWINDOW__
+#endif // __MDTEXTURES__

@@ -9,17 +9,27 @@
 #include "mdFilesystem.h"
 #include "mdInput.h"
 #include "mdRender.h"
+#include "mdTextures.h"
 
 
 Application::Application(int argc, char* args[]) {
 	filesystem = new mdFilesystem;
-	addModule(filesystem);
 	window = new mdWindow;
-	addModule(window);
 	render = new mdRender;
-	addModule(render);
 	input = new mdInput;
+	textures = new mdTextures;
+
+
+	addModule(filesystem);
+
+	addModule(window);
+
 	addModule(input);
+
+	addModule(textures);
+
+	addModule(render);
+
 }
 
 Application::~Application() {
