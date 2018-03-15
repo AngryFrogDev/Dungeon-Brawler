@@ -2,7 +2,6 @@
 #include "Application.h"
 #include "mdWindow.h"
 #include "mdRender.h"
-#include "SDL/include/SDL.h"
 
 mdRender::mdRender() : Module() {
 	name = "renderer";

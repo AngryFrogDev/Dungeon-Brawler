@@ -7,17 +7,19 @@
 //Modules
 #include "mdWindow.h"
 #include "mdFilesystem.h"
+#include "mdInput.h"
 #include "mdRender.h"
 
 
 Application::Application(int argc, char* args[]) {
 	filesystem = new mdFilesystem;
-	window = new mdWindow;
-	render = new mdRender;
-
 	addModule(filesystem);
+	window = new mdWindow;
 	addModule(window);
+	render = new mdRender;
 	addModule(render);
+	input = new mdInput;
+	addModule(input);
 }
 
 Application::~Application() {
@@ -56,13 +58,13 @@ bool Application::update() {
 	float dt = frame_time.readSec();
 	frame_time.start();
 
-	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end(); ++it)
+	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 		ret = (*it)->isActive() ? ret = (*it)->preUpdate() : true;
 
-	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end(); ++it)
+	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 		ret = (*it)->isActive() ? ret = (*it)->update(dt) : true;
 
-	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end(); ++it)
+	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 		ret = (*it)->isActive() ? ret = (*it)->postUpdate() : true;
 
 	return ret;
@@ -71,7 +73,7 @@ bool Application::update() {
 bool Application::cleanUp() {
 	bool ret = true;
 
-	for (std::list<Module*>::iterator it = modules.end(); it != modules.begin(); --it)
+	for (std::list<Module*>::reverse_iterator it = modules.rbegin(); it != modules.rend(); ++it)
 		ret = (*it)->cleanUp();
 
 	return ret;

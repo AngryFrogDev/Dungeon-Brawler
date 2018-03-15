@@ -15,4 +15,8 @@
 	</window>
 	<filesystem>
 	</filesystem>
+	<input>
+		<buffer window="1000"/>
+		<axis tolerance="0.2"/>
+	</input>
 </config>
