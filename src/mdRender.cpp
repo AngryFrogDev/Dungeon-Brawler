@@ -54,6 +54,7 @@ bool mdRender::start() {
 // Called each loop iteration
 bool mdRender::preUpdate() {
 	SDL_RenderClear(renderer);
+
 	return true;
 }
 

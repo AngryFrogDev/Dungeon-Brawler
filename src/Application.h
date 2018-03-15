@@ -13,6 +13,7 @@ class mdWindow;
 class mdFilesystem;
 class mdInput;
 class mdRender;
+class mdTextures;
 
 class Application
 {
@@ -55,6 +56,7 @@ public:
 	mdFilesystem*	filesystem;
 	mdRender*		render;
 	mdInput*		input;
+	mdTextures*		textures;
 };
 
 extern Application* App;

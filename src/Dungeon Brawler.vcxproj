@@ -129,6 +129,7 @@
     <ClCompile Include="mdFilesystem.cpp" />
     <ClCompile Include="mdInput.cpp" />
     <ClCompile Include="mdRender.cpp" />
+    <ClCompile Include="mdTextures.cpp" />
     <ClCompile Include="mdWindow.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
     <ClCompile Include="ProjDefs.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="mdFilesystem.h" />
     <ClInclude Include="mdInput.h" />
     <ClInclude Include="mdRender.h" />
+    <ClInclude Include="mdTextures.h" />
     <ClInclude Include="mdWindow.h" />
     <ClInclude Include="PerfTimer.h" />
     <ClInclude Include="ProjDefs.h" />

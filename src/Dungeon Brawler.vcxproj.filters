@@ -44,8 +44,11 @@
     </ClCompile>
     <ClCompile Include="mdInput.cpp">
       <Filter>Modules</Filter>
-	  </ClCompile>
+    </ClCompile>
     <ClCompile Include="mdRender.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="mdTextures.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
@@ -84,6 +87,9 @@
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="mdRender.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdTextures.h">
       <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
