@@ -19,17 +19,11 @@ Application::Application(int argc, char* args[]) {
 	input = new mdInput;
 	textures = new mdTextures;
 
-
 	addModule(filesystem);
-
 	addModule(window);
-
 	addModule(input);
-
 	addModule(textures);
-
 	addModule(render);
-
 }
 
 Application::~Application() {

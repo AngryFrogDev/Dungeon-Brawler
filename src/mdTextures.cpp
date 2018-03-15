@@ -9,22 +9,14 @@
 #include "SDL_image/include/SDL_image.h"
 #pragma comment( lib, "SDL_image/libx86/SDL2_image.lib" )
 
-mdTextures::mdTextures() : Module() {
-	//for (uint i = 0; i < MAX_TEXTURES; ++i) {
-	//	textures[i] = nullptr;
-	//	surfaces[i] = nullptr;
-	//}
-
-	///Amb la llista no cal fer res d'això, no?
-}
+mdTextures::mdTextures() : Module() {}
 
 // Destructor
-mdTextures::~mdTextures() {
-}
+mdTextures::~mdTextures() {}
 
 // Called before render is available
 bool mdTextures::init() {
-	LOG("Init Image library");
+	LOG("mdTextures : Init Image library");
 	bool ret = true;
 
 	// load support for the PNG image format
@@ -32,7 +24,7 @@ bool mdTextures::init() {
 	int init = IMG_Init(flags);
 
 	if ((init & flags) != flags) {
-		LOG("Could not initialize Image lib. IMG_Init: %s", IMG_GetError());
+		LOG("mdTextures : Could not initialize Image lib. IMG_Init: %s", IMG_GetError());
 		ret = false;
 	}
 
@@ -61,14 +53,14 @@ SDL_Texture* const mdTextures::load(const char* path) {
 	SDL_Texture* texture_loaded = nullptr;
 
 	if (image == NULL) {
-		LOG("Failed to load image \"%s\" IMG_Load: %s\n", path, IMG_GetError());
+		LOG("mdTextures : Failed to load image \"%s\" IMG_Load: %s\n", path, IMG_GetError());
 	}
 
 	else {
 		texture_loaded = SDL_CreateTextureFromSurface(App->render->renderer, image);
 
 		if (texture_loaded == NULL) {
-			LOG("Failed to create texture from surface SDL_CreateTextureFromSurface: %s\n", SDL_GetError());
+			LOG("mdTextures : Failed to create texture from surface SDL_CreateTextureFromSurface: %s\n", SDL_GetError());
 		}
 
 		else
@@ -85,12 +77,12 @@ SDL_Surface * const mdTextures::loadSurface(const char * path) {
 	surface = IMG_Load(path);
 
 	if (surface == NULL)
-		LOG("Failed to load image \"%s\" IMG_Load: %s\n", path, IMG_GetError());
+		LOG("mdTextures : Failed to load image \"%s\" IMG_Load: %s\n", path, IMG_GetError());
 
 	return surface;
 }
 
-SDL_Texture * const mdTextures::surfaceToTexture(SDL_Surface * surface) {
+SDL_Texture * const mdTextures::surfaceToTexture(SDL_Surface * surface) const {
 	SDL_Texture* ret = SDL_CreateTextureFromSurface(App->render->renderer, surface);
 
 	return ret;
