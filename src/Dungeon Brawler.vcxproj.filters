@@ -13,6 +13,15 @@
     <Filter Include="Utilities\PugiXML">
       <UniqueIdentifier>{f4b42e4d-470f-4ed4-991e-5e89c1870b31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{3db40ce5-4970-4393-9b25-fd42c9a18ba3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Container">
+      <UniqueIdentifier>{b14fe0f2-f8df-4d41-b258-91a5b71ec428}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Warrior">
+      <UniqueIdentifier>{f338f467-b14e-430d-8036-1adb35f43673}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -51,6 +60,16 @@
     <ClCompile Include="mdTextures.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="mdEntities.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Entities\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Warrior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -92,5 +111,15 @@
     <ClInclude Include="mdTextures.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="mdEntities.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Entities\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Warrior.h" />
   </ItemGroup>
 </Project>

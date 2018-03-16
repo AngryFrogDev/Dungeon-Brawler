@@ -58,7 +58,8 @@ public:
 	//Pops oldest input
 	void popInput();
 	//Prunes any inputs that are older than milliseconds, if 0 it will clear the queue
-	void pruneInput(uint milliseconds = 0);
+	void pruneInput
+	(uint milliseconds = 0);
 	bool shakeController(float intensity, uint milliseconds) const;
 
 	uint getControllerID() const;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{4A02FCC9-A402-402A-A846-EE691FD9099C}</ProjectGuid>
     <RootNamespace>DungeonBrawler</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -124,32 +124,40 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="DebLog.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="mdEntities.cpp" />
     <ClCompile Include="mdFilesystem.cpp" />
     <ClCompile Include="mdInput.cpp" />
     <ClCompile Include="mdRender.cpp" />
     <ClCompile Include="mdTextures.cpp" />
     <ClCompile Include="mdWindow.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="ProjDefs.cpp" />
     <ClCompile Include="pugixml\pugixml.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Warrior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="mdEntities.h" />
     <ClInclude Include="mdFilesystem.h" />
     <ClInclude Include="mdInput.h" />
     <ClInclude Include="mdRender.h" />
     <ClInclude Include="mdTextures.h" />
     <ClInclude Include="mdWindow.h" />
     <ClInclude Include="PerfTimer.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="ProjDefs.h" />
     <ClInclude Include="DebLog.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="pugixml\pugiconfig.hpp" />
     <ClInclude Include="pugixml\pugixml.hpp" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Warrior.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
