@@ -2,11 +2,11 @@
 
 
 
-mdEntities::mdEntities()
-{
+mdEntities::mdEntities(){
+
 }
 
 
-mdEntities::~mdEntities()
-{
+mdEntities::~mdEntities(){
+
 }

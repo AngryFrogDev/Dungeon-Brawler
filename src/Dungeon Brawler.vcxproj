@@ -141,6 +141,7 @@
     <ClCompile Include="Warrior.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Input-Combos\Input Combos\Animation.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="mdEntities.h" />

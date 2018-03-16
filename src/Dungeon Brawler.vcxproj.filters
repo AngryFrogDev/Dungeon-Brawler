@@ -69,7 +69,9 @@
     <ClCompile Include="Character.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Warrior.cpp" />
+    <ClCompile Include="Warrior.cpp">
+      <Filter>Entities\Warrior</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -120,6 +122,11 @@
     <ClInclude Include="Character.h">
       <Filter>Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Warrior.h" />
+    <ClInclude Include="Warrior.h">
+      <Filter>Entities\Warrior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Input-Combos\Input Combos\Animation.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

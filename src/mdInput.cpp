@@ -246,3 +246,7 @@ void mdInput::handleAxes(const SDL_Event & event) {
 }
 
 
+KEY_STATE mdInput::getKey(SDL_Scancode key) {
+	return keyboard[key];
+}
+

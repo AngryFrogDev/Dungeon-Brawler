@@ -86,6 +86,9 @@ public:
 	bool preUpdate();
 	bool cleanUp();
 
+
+	// Returns the state of the pressed key
+	KEY_STATE getKey(SDL_Scancode key);
 private:
 	void handleAxes(const SDL_Event& event);
 
