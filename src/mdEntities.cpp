@@ -20,7 +20,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	}
 
 	//PROVISIONAL: Should be loaded from an xml
-	warrior_graphics = App->textures->load("assets/warrior.png");
+	warrior_graphics = App->textures->load("Assets/warrior.png");
 
 	createCharacter(1, WARRIOR);
 
