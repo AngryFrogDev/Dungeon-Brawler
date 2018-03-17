@@ -25,19 +25,32 @@ Character::~Character() {
 
 void Character::recieveInput() {
 	
-	if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		activateInput(assigned_inputs.keyb_down);
-	if (App->input->getKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		activateInput(assigned_inputs.keyb_up);
-	if (App->input->getKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		activateInput(assigned_inputs.keyb_left);
-	if (App->input->getKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		activateInput(assigned_inputs.keyb_right);
-	if (App->input->getKey(SDL_SCANCODE_A) == KEY_REPEAT)
-		activateInput(assigned_inputs.keyb_a);
-	if (App->input->getKey(SDL_SCANCODE_S) == KEY_REPEAT)
-		activateInput(assigned_inputs.keyb_s);
 
+	if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+		modifyInput(assigned_inputs.keyb_down, true);
+	if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN)
+		modifyInput(assigned_inputs.keyb_up, true);
+	if (App->input->getKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+		modifyInput(assigned_inputs.keyb_left, true);
+	if (App->input->getKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+		modifyInput(assigned_inputs.keyb_right, true);
+	if (App->input->getKey(SDL_SCANCODE_A) == KEY_DOWN)
+		modifyInput(assigned_inputs.keyb_a, true);
+	if (App->input->getKey(SDL_SCANCODE_S) == KEY_DOWN)
+		modifyInput(assigned_inputs.keyb_s, true);
+
+	if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_UP)
+		modifyInput(assigned_inputs.keyb_down, false);
+	if (App->input->getKey(SDL_SCANCODE_UP) == KEY_UP)
+		modifyInput(assigned_inputs.keyb_up, false);
+	if (App->input->getKey(SDL_SCANCODE_LEFT) == KEY_UP)
+		modifyInput(assigned_inputs.keyb_left, false);
+	if (App->input->getKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+		modifyInput(assigned_inputs.keyb_right, false);
+	if (App->input->getKey(SDL_SCANCODE_A) == KEY_UP)
+		modifyInput(assigned_inputs.keyb_a, false);
+	if (App->input->getKey(SDL_SCANCODE_S) == KEY_UP)
+		modifyInput(assigned_inputs.keyb_s, false);
 	
 }
 
@@ -81,35 +94,35 @@ attack_deff Character::getAttackData(attack_type type) {
 	}
 }
 
-void Character::activateInput(input requested_input) {
+void Character::modifyInput(input requested_input, bool active) {
 
 	switch (requested_input) {
 		case UP:
-			inputs_pressed.up = true;
+			inputs_pressed.up = active;
 			break;
 		case DOWN:
-			inputs_pressed.down = true;
+			inputs_pressed.down = active;
 			break;
 		case LEFT:
-			inputs_pressed.left = true;
+			inputs_pressed.left = active;
 			break;
 		case RIGHT:
-			inputs_pressed.right = true;
+			inputs_pressed.right = active;
 			break;
 		case LIGHT_ATTACK:
-			inputs_pressed.light_attack = true;
+			inputs_pressed.light_attack = active;
 			break;
 		case HEAVY_ATTACK:
-			inputs_pressed.heavt_attack = true;
+			inputs_pressed.heavt_attack = active;
 			break;
 		case SPECIAL_1:
-			inputs_pressed.special_1 = true;
+			inputs_pressed.special_1 = active;
 			break;
 		case SPECIAL_2:
-			inputs_pressed.special_2 = true;
+			inputs_pressed.special_2 = active;
 			break;
 		case GRAB:
-			inputs_pressed.grab = true;
+			inputs_pressed.grab = active;
 			break;
 	}
 }

@@ -32,7 +32,7 @@ bool mdEntities::preUpdate() {
 
 	for (int i = 0; i < 4; i++) {
 		if (players[i] != nullptr)
-			players[i]->update(warrior_graphics); //We should check the type of character of the player and pass the correct textures
+			players[i]->update(warrior_graphics); // PROVISIONAL: We should check the type of character of the player and pass the correct textures
 	}
 
 	return ret;

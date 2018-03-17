@@ -100,7 +100,7 @@ public:
 	// PROVISIONAL: Returns if the state is neutral or not 
 	bool isNeutralState(state state);
 private:
-	void activateInput(input requested_input);
+	void modifyInput(input requested_input, bool active);
 protected:
 	//Character type
 	character_type type;

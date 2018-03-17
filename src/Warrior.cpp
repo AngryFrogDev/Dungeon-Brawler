@@ -7,7 +7,28 @@ Warrior::Warrior(): Character() {
 
 	//PROVISIONAL: Animations should be loaded from the xml
 	idle.PushBack({ 0,0,195,158 });
+	idle.PushBack({ 195,0,195,158 });
+	idle.PushBack({ 195 * 2,0,195,158 });
+	idle.PushBack({ 195 * 3,0,195,158 });
 
+	idle.loop = true;
+	idle.speed = 0.2;
+
+	walk.PushBack({ 0,158,195,158 });
+	walk.PushBack({ 195,158,195,158 });
+	walk.PushBack({ 195*2,158,195,158 });
+	walk.PushBack({ 195*3,158,195,158 });
+	walk.PushBack({ 195*4,158,195,158 });
+	walk.PushBack({ 195*5,158,195,158 });
+	walk.PushBack({ 195*6,158,195,158 });
+	walk.PushBack({ 195*7,158,195,158 });
+	walk.PushBack({ 195*8,158,195,158 });
+	walk.PushBack({ 195*9,158,195,158 });
+	walk.PushBack({ 195*10,158,195,158 });
+	walk.PushBack({ 195*11,158,195,158 });
+
+	walk.loop = true;
+	walk.speed = 0.2;
 }
 
 
