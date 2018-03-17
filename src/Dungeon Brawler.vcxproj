@@ -150,6 +150,7 @@
     <ClInclude Include="mdRender.h" />
     <ClInclude Include="mdTextures.h" />
     <ClInclude Include="mdWindow.h" />
+    <ClInclude Include="p2Point.h" />
     <ClInclude Include="PerfTimer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ProjDefs.h" />

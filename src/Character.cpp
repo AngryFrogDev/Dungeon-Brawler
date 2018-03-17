@@ -11,6 +11,11 @@ Character::Character() {
 	assigned_inputs.keyb_right = RIGHT;
 	assigned_inputs.keyb_a = LIGHT_ATTACK;
 	assigned_inputs.keyb_s = HEAVY_ATTACK;
+
+	current_state = IDLE;
+	fliped = false;
+	//PROVISIONAL: This should be a parameter in the constructor
+	position.y = position.x = 300;
 }
 
 
@@ -48,8 +53,8 @@ void Character::update() {
 
 }
 
-void Character::draw() {
-
+void Character::draw(SDL_Texture* graphic) {
+	App->render->blit(graphic, position.x, position.y, &current_animation->GetCurrentFrame());
 }
 
 void Character::doAttack(attack_deff attack) {
@@ -107,4 +112,9 @@ void Character::activateInput(input requested_input) {
 			inputs_pressed.grab = true;
 			break;
 	}
+}
+
+bool Character::isNeutralState(state state) 	{
+
+	return state == CROUCHING || state == WALKING_BACK || state == WALKING_FORWARD || state == IDLE;
 }

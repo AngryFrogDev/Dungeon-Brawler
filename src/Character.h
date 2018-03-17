@@ -1,7 +1,8 @@
 #include "Animation.h"
 #include "Application.h"
 #include "mdInput.h"
-
+#include "p2Point.h"
+#include "mdRender.h"
 enum character_type {
 	DEF_CHAR,
 	WARRIOR,
@@ -11,7 +12,7 @@ enum character_type {
 };
 
 enum attack_type {
-	DEF_ATT,
+	NO_ATT,
 	CR_L,
 	CR_H,
 	CR_S1,
@@ -86,18 +87,27 @@ public:
 	virtual void updateState();
 	// Logic update depending on state (animation, position)							
 	virtual void update();								 
- 
 	// Draw the entity
-	void draw();
+	void draw(SDL_Texture* graphic);
+
 	// Execute an attack depending on an attack deffinition (collider, animation, recovery...) -> attack_deff: Struct that holds all the properties of an attack										
 	void doAttack(attack_deff attack);					 
-	//void onCollision(Collider* collider)
+	//void onCollision(Collider* collider);
 	
 	// Get attack data from this entity depending on an attack_type -> attack_type: Enum with the basic attack types (light/heavy and crouching/standing/jumping
-	attack_deff getAttackData(attack_type type);		 
+	attack_deff getAttackData(attack_type type);
+
+	// PROVISIONAL: Returns if the state is neutral or not 
+	bool isNeutralState(state state);
 private:
 	void activateInput(input requested_input);
-private:
+protected:
+	//Character type
+	character_type type;
+
+	//Position
+	iPoint position;
+
 	// Current lifepoints
 	int life; 
 	// Maximum lifepoints										
@@ -105,6 +115,9 @@ private:
 
 	 // Walk speed
 	int walk_speed;	
+
+	// If the character is oriented left or right (true for left, false for right)
+	bool fliped;
 
 	// Gravity used for the jump
 	int gravity;	 
@@ -124,6 +137,8 @@ private:
 	state wanted_state;
 	//Current state
 	state current_state;
+	//Current attack
+	attack_type attack_doing;
 
 	//Animation to draw from
 	Animation* current_animation;

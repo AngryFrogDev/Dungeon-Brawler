@@ -4,14 +4,24 @@ Player::Player(){
 
 }
 
+Player::Player(int controller_id, character_type type) {
 
-Player::~Player(){
-
+	assignController(controller_id);
+	assignCharacter(type);
 }
 
-void Player::update()
+Player::~Player(){
+	delete curr_character;
+	curr_character = nullptr;
+}
+
+void Player::update(SDL_Texture* graphics)
 {
-	//curr_character.update();
+	curr_character->recieveInput();
+	curr_character->requestState();
+	curr_character->updateState();
+	curr_character->update();
+	curr_character->draw(graphics);
 }
 void Player::assignController(int id) {
 
@@ -24,7 +34,7 @@ void Player::assignCharacter(character_type type) {
 	{
 		case WARRIOR:
 		{
-			//curr_character = Character(WARRIOR);
+			curr_character = new Warrior();
 			break;
 		}
 		//case MAGE:

@@ -128,5 +128,8 @@
     <ClInclude Include="..\..\Input-Combos\Input Combos\Animation.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="p2Point.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,10 +5,12 @@ public:
 	Warrior();
 	~Warrior();
 	void requestState();
-	virtual void updateState();		
-	virtual void update();
+	void updateState();		
+	void update();
+
+	void updateAnimationWithState(state state);
 private:
-	Animation idle;
+	Animation idle, walk,crouch, light_attack, heavy_attack;
 
 };
 
