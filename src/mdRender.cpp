@@ -85,7 +85,7 @@ void mdRender::resetViewPort() {
 }
 
 // Blit to screen
-bool mdRender::blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int pivot_x, int pivot_y) const {
+bool mdRender::blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,double scale, float speed, double angle, int pivot_x, int pivot_y) const {
 	//TODO: Add option to blit at a different scale
 	bool ret = true;
 
@@ -99,6 +99,9 @@ bool mdRender::blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	}
 	else 
 		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
+
+	rect.w *= scale;
+	rect.h *= scale;
 
 	SDL_Point* p = NULL;
 	SDL_Point pivot;

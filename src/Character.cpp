@@ -67,7 +67,7 @@ void Character::update() {
 }
 
 void Character::draw(SDL_Texture* graphic) {
-	App->render->blit(graphic, position.x, position.y, &current_animation->GetCurrentFrame());
+	App->render->blit(graphic, position.x, position.y, &current_animation->GetCurrentFrame(),3);
 }
 
 void Character::doAttack(attack_deff attack) {
