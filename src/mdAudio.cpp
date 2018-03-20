@@ -133,10 +133,8 @@ void mdAudio::playSFX(Mix_Chunk * sfx) const {
 		LOG("mdAudio : Could not play sfx, sfx was null");
 }
 
-void mdAudio::sfxVolume(int percent) const {
-	if (percent > 100) 
-		percent = 100;
-	LOG("mdAudio : SFX volume changed from %d to %d", Mix_Volume(-1, MIX_MAX_VOLUME * percent / 100.0f), Mix_Volume(-1, -1));
+void mdAudio::sfxVolume(int new_volume) const {
+	LOG("mdAudio : SFX volume changed from %d to %d", Mix_Volume(-1, new_volume), Mix_Volume(-1, -1));
 
 }
 
@@ -154,10 +152,8 @@ void mdAudio::playMusic(Mix_Music * music, int fade_in) const {
 
 }
 
-void mdAudio::musicVolume(int percent) const {
-	if (percent > 100)
-		percent = 100;
-	LOG("mdAudio : Music volume changed from %d to %d", Mix_VolumeMusic(MIX_MAX_VOLUME * percent / 100.0f), Mix_VolumeMusic(-1));
+void mdAudio::musicVolume(int new_volume) const {
+	LOG("mdAudio : Music volume changed from %d to %d", Mix_VolumeMusic(new_volume), Mix_VolumeMusic(-1));
 	return;
 }
 

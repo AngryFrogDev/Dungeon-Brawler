@@ -20,9 +20,11 @@ public:
 	void freeMusic(Mix_Music* music);
 
 	void playSFX(Mix_Chunk* sfx) const;
-	void sfxVolume(int percent = 100) const;
+	//Changes the sfx volume to new_volume, MAX volume = 128
+	void sfxVolume(int new_volume = MIX_MAX_VOLUME) const;
 	void playMusic(Mix_Music* music, int fade_in = 5000) const;
-	void musicVolume(int percent = 100) const;
+	//Changes the music volume to new_volume, MAX volume = 128
+	void musicVolume(int new_volume = MIX_MAX_VOLUME) const;
 	void stopMusic(int fade_out = 2000) const;
 
 private:
