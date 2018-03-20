@@ -140,11 +140,14 @@ void mdAudio::sfxVolume(int new_volume) const {
 
 void mdAudio::playMusic(Mix_Music * music, int fade_in) const {
 	if (music != nullptr) {
-		if ((music != music_playing || Mix_FadingMusic() == MIX_FADING_OUT) && 
-			Mix_FadeInMusic(music, -1, fade_in) == 0)
-			music_playing = music;
+		if ((music != music_playing || Mix_FadingMusic() == MIX_FADING_OUT)) {
+			if (Mix_FadeInMusic(music, -1, fade_in) == 0)
+				music_playing = music;
+			else
+				LOG("mdAudio : Could not play music, error: %s\n", Mix_GetError());
+		}
 		else
-			LOG("mdAudio : Could not play music, error: %s\n", Mix_GetError());
+			LOG("mdAudio: Could not play music, music is already playing");
 	}
 	else
 		LOG("mdAudio : Could not play music, music was null");
