@@ -1,8 +1,13 @@
 #include "Character.h"
+#include "ProjDefs.h"
+#include "DebLog.h"
 
 
 
 Character::Character() {
+
+	velocity.y = 0;
+	velocity.x = 0;
 
 	//PROVISIONAL: This should be loaded from an xml
 	assigned_inputs.keyb_down = DOWN;
@@ -15,7 +20,8 @@ Character::Character() {
 	current_state = IDLE;
 	fliped = false;
 	//PROVISIONAL: This should be a parameter in the constructor
-	position.y = position.x = 300;
+	position.x = 300;
+	position.y = bottom_lane;
 }
 
 
@@ -64,6 +70,25 @@ void Character::updateState() {
 
 void Character::update() {
 
+}
+
+void Character::applyGravity() {
+
+	velocity.y += gravity;
+	if (velocity.y > 0) {
+		if (position.y < bottom_lane)
+			position.y += velocity.y;
+	}
+	else {
+		position.y += velocity.y;
+	}
+}
+
+void Character::setIfGrounded() {
+	//will be updated
+	LOG("%d",position.y);
+	if (position.y >= bottom_lane)
+		grounded = true;
 }
 
 void Character::draw(SDL_Texture* graphic) {

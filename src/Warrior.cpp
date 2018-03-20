@@ -64,6 +64,13 @@ Warrior::Warrior(): Character() {
 	light_attack.loop = false;
 	light_attack.speed = 0.2;
 
+
+	//PROVISIONAL, should be read from xml
+	grounded = true;
+
+
+	jump_power = 25.0f;
+
 }
 
 
@@ -76,6 +83,7 @@ void Warrior::requestState() {
 	// Movement
 	if (inputs_pressed.down)
 		wanted_state = CROUCHING;
+
 	else if (inputs_pressed.left){ 
 		if (fliped)
 			wanted_state = WALKING_FORWARD;
@@ -88,6 +96,7 @@ void Warrior::requestState() {
 		else
 			wanted_state = WALKING_FORWARD;
 	}
+
 	else if (inputs_pressed.up)
 		wanted_state = JUMPING;
 	else
@@ -139,19 +148,30 @@ void Warrior::requestState() {
 void Warrior::updateState() {
 
 	// PROVISIONAL: Should add more conditions (cancelability, jumping...)
-	if (isNeutralState(current_state)) {
-		current_state = wanted_state;
-		updateAnimationWithState(current_state);
-	}
-	else if (current_animation->Finished()) {
-		current_animation->Reset();
-		if (inputs_pressed.down)
-			current_state = CROUCHING;
-		else
-			current_state = IDLE;
+	if (current_state != JUMPING) {
+		if (isNeutralState(current_state)) {
+			current_state = wanted_state;
+			updateAnimationWithState(current_state);
+		}
 
-		updateAnimationWithState(current_state);
+		else if (current_animation->Finished()) {
+			current_animation->Reset();
+			if (inputs_pressed.down)
+				current_state = CROUCHING;
+			if (inputs_pressed.up)
+				current_state = JUMPING;
+			else
+				current_state = IDLE;
+
+
+			updateAnimationWithState(current_state);
+		}
 	}
+	else {
+		if (grounded)
+			current_state = IDLE;
+	}
+
 }
 void Warrior::update() {
 	// PROVISIONAL: Only supporting movement for the movement ( attacks need to be more sofisticated with "doAttack" 
@@ -168,6 +188,16 @@ void Warrior::update() {
 				position.x-= walk_speed;
 			else
 				position.x+= walk_speed;
+			break;
+		case JUMPING:
+			if (grounded) {
+				velocity.y -= jump_power;
+				grounded = false;
+			}
+
+
+			applyGravity();
+			setIfGrounded();
 			break;
 	}
 			

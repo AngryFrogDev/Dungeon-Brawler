@@ -79,15 +79,21 @@ class Character
 public:
 	Character();
 	~Character();
-	// Recieve input
+
 	void recieveInput();
+
 	// Request "wanted_state" depending on input and "current_state"								 
 	virtual void requestState(); 
+
 	// Substitute wanted_state with current_state if possible					
 	virtual void updateState();
-	// Logic update depending on state (animation, position)							
-	virtual void update();								 
-	// Draw the entity
+						
+	virtual void update();		
+
+	void applyGravity();
+
+	void setIfGrounded();
+
 	void draw(SDL_Texture* graphic);
 
 	// Execute an attack depending on an attack deffinition (collider, animation, recovery...) -> attack_deff: Struct that holds all the properties of an attack										
@@ -99,55 +105,49 @@ public:
 
 	// PROVISIONAL: Returns if the state is neutral or not 
 	bool isNeutralState(state state);
+
+
 private:
 	void modifyInput(input requested_input, bool active);
+
 protected:
-	//Character type
 	character_type type;
 
-	//Position
 	iPoint position;
+	iPoint velocity;
 
-	// Current lifepoints
-	int life; 
-	// Maximum lifepoints										
+	int current_life; 								
 	int max_life;	
-
-	 // Walk speed
 	int walk_speed;	
 
-	// If the character is oriented left or right (true for left, false for right)
-	bool fliped;
+	bool grounded;
+	float jump_power;
 
-	// Gravity used for the jump
-	int gravity;	 
-	// Initial degrees for jump arc								
-	int degree_of_jumping;		
+	int lane = 1; //Provisional 1 = bottom  2 = top
+
+	bool fliped;
 
 	// Entity collider
 	//Collider* hurtbox;								 
 	
-	//Input assigned values
+
 	input_values assigned_inputs;
-	//Directions being pressed
 	active_inputs inputs_pressed;
 	
 
-	//State requested in this frame
 	state wanted_state;
-	//Current state
 	state current_state;
-	//Current attack
 	attack_type attack_doing;
 
-	//Animation to draw from
 	Animation* current_animation;
 
 	//Struct that stores attack data loaded from xml
 	attack_deff standing_light;
 
-	
 
 
+	//PROVISIONAL should be read from xml
+	float gravity = 1;
+	float bottom_lane = 300;
 };
 

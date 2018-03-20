@@ -16,7 +16,9 @@ public:
 	void createCharacter(int player, character_type type);
 	// Destroys all the players
 	void destroyCharacters();
+
 private:
+
 	// Array that stores 4 players
 	Player* players[4];
 	//Graphics of the warrior
