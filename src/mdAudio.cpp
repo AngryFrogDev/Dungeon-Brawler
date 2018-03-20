@@ -48,7 +48,7 @@ bool mdAudio::cleanUp() {
 	bool ret = true;
 	LOG("mdAudio : Freeing sound effects and music");
 
-	Mix_HaltChannel(-1); //Stop playing all sfx to avoid problems.
+	Mix_AllocateChannels(0); //Will free and stop playing all channels to avoid problems.
 	for (std::list<Mix_Chunk*>::iterator it = sfxs.begin(); it != sfxs.end(); ++it)
 		Mix_FreeChunk(*it);
 	sfxs.clear();
