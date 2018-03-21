@@ -194,9 +194,7 @@ void Warrior::update() {
 				velocity.y -= jump_power;
 				grounded = false;
 			}
-
-
-			applyGravity();
+			applyGravity();		//Do not reverse order! Nasty things will happen
 			setIfGrounded();
 			break;
 	}
