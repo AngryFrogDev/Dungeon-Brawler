@@ -85,6 +85,8 @@ public:
 	bool preUpdate();
 	bool cleanUp();
 
+	KEY_STATE getKey(int key); 
+
 private:
 	void handleAxes(const SDL_Event& event);
 

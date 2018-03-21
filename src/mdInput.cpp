@@ -245,4 +245,9 @@ void mdInput::handleAxes(const SDL_Event & event) {
 	}
 }
 
+KEY_STATE mdInput::getKey(int key) 	{
+
+	return keyboard[key];
+}
+
 

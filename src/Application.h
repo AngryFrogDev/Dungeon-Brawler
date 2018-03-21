@@ -14,6 +14,7 @@ class mdFilesystem;
 class mdInput;
 class mdRender;
 class mdTextures;
+class mdCollision;
 
 class Application
 {
@@ -57,6 +58,7 @@ public:
 	mdRender*		render;
 	mdInput*		input;
 	mdTextures*		textures;
+	mdCollision*    collision;
 };
 
 extern Application* App;
