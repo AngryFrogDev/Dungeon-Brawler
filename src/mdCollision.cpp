@@ -9,8 +9,12 @@ mdCollision::mdCollision()
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 		colliders[i] = nullptr;
 
-	AddCollider({ 100,100,100,100 }, COLLIDER_NONE, this);
+
+	matrix[COLLIDER_NONE][COLLIDER_NONE] = true;
+
+	collider_one = AddCollider({ 100,100,100,100 }, COLLIDER_NONE, this);
 		
+	collider_two = AddCollider({ 500,100,100,100 }, COLLIDER_NONE, this);
 
 }
 
@@ -69,6 +73,12 @@ bool mdCollision::update(float dt)
 		}
 	}
 
+
+	// PROVISIONAL: Test
+	if (App->input->getKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
+		collider_one->rect.x++;
+	}
+
 	DebugDraw();
 
 return true;
@@ -114,6 +124,12 @@ bool mdCollision::cleanUp()
 
 	return true;
 }
+
+void mdCollision::onCollision(collider*c1, collider* c2) 	{
+
+	LOG("COLLISION!");
+}
+
 
 collider* mdCollision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, Module* callback)
 {

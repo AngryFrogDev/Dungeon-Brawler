@@ -10,7 +10,7 @@
 #pragma comment( lib, "SDL_image/libx86/SDL2_image.lib" )
 enum COLLIDER_TYPE
 {
-	COLLIDER_NONE = -1,
+	COLLIDER_NONE = 0,
 	COLLIDER_ATTACK,
 	COLLIDER_DEFFENSE,
 	COLLIDER_MAX
@@ -51,10 +51,16 @@ public:
 	bool preUpdate();
 	bool update(float dt);
 	bool cleanUp();
+	void onCollision(collider*, collider*);
 
 	collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, Module* callback = nullptr);
 	
 	void DebugDraw();
+
+
+	// PROVISIONAL: Test
+	collider* collider_one;
+	collider* collider_two;
 
 private:
 
