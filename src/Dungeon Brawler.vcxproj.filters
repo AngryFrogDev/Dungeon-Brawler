@@ -58,6 +58,8 @@
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Widgets.cpp" />
+    <ClCompile Include="Buttons.cpp" />
+    <ClCompile Include="Labels.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -106,5 +108,7 @@
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Widgets.h" />
+    <ClInclude Include="Buttons.h" />
+    <ClInclude Include="Labels.h" />
   </ItemGroup>
 </Project>
