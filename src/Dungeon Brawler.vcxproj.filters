@@ -51,6 +51,9 @@
     <ClCompile Include="mdTextures.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="mdAudio.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -90,6 +93,9 @@
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="mdTextures.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdAudio.h">
       <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
