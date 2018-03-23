@@ -54,6 +54,10 @@
     <ClCompile Include="mdAudio.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="mdGuiManager.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -98,5 +102,9 @@
     <ClInclude Include="mdAudio.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="mdGuiManager.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Widgets.h" />
   </ItemGroup>
 </Project>
