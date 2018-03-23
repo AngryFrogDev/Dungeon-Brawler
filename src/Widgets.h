@@ -8,7 +8,7 @@
 
 enum ui_elem_type
 {
-	DEFAULT = 0,
+	NO_ELEM = 0,
 	BUTTON,
 	LABEL,
 	BAR,

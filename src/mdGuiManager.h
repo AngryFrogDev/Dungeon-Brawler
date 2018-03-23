@@ -11,7 +11,7 @@
 //Some events may be missing
 enum controller_events
 {
-	DEFAULT = 0,
+	NO_EVENT = 0,
 	CLICK,
 	RELEASE,
 };
