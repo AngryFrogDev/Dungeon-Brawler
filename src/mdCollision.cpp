@@ -4,13 +4,7 @@
 #include "mdCollision.h"
 #include "DebLog.h"
 
-mdCollision::mdCollision()
-{
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
-		colliders[i] = nullptr;
-
-
-	matrix[COLLIDER_NONE][COLLIDER_NONE] = true;
+mdCollision::mdCollision() {
 
 	collider_one = AddCollider({ 100,100,100,100 }, COLLIDER_NONE, this);
 		
@@ -19,18 +13,18 @@ mdCollision::mdCollision()
 }
 
 // Destructor
-mdCollision::~mdCollision()
-{}
+mdCollision::~mdCollision(){
+}
 
 bool mdCollision::preUpdate()
 {
-	// Remove all colliders scheduled for deletion
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
-	{
-		if (colliders[i] != nullptr && colliders[i]->to_delete == true)
-		{
-			delete colliders[i];
-			colliders[i] = nullptr;
+	//// Remove all colliders scheduled for deletion
+	for (std::list<collider*>::iterator it = colliders.begin(); it != colliders.end();++it) {
+		collider* c = *it;
+
+		if (c->to_delete) {
+			colliders.remove(c);
+			delete c;
 		}
 	}
 
@@ -42,47 +36,37 @@ bool mdCollision::update(float dt)
 	collider* c1;
 	collider* c2;
 
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
-	{
-		// skip empty colliders
-		if (colliders[i] == nullptr)
-			continue;
 
-		c1 = colliders[i];
+	for (std::list<collider*>::iterator it1 = colliders.begin(); it1 != colliders.end(); ++it1) {
 
-		// avoid checking collisions already checked
-		for (uint k = i + 1; k < MAX_COLLIDERS; ++k)
-		{
-			// skip empty colliders
-			if (colliders[k] == nullptr)
-				continue;
 
-			c2 = colliders[k];
+		auto tmp = it1;
+		tmp++;
+		for (std::list<collider*>::iterator it2 = tmp; it2 != colliders.end(); ++it2) {
+			c1 = *it1;
+			c2 = *it2;
 
-			if (c1->checkCollision(c2->rect) == true)
-			{
-			
-				if (matrix[c1->type][c2->type] && c1->callback)
+			if (c1->checkCollision(c2->rect) == true) {
+
+				if (true)
 					c1->callback->onCollision(c1, c2);
-			
-			
-				if (matrix[c2->type][c1->type] && c2->callback)
-						c2->callback->onCollision(c2, c1);
-			
+				if (true)
+					c2->callback->onCollision(c2, c1);
 			}
 		}
-	}
-
-
+	}	
 	// PROVISIONAL: Test
 	if (App->input->getKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
-		collider_one->rect.x++;
+		collider_one->rect.x+= 5;
 	}
 
 	DebugDraw();
-
-return true;
+	return true;
 }
+
+
+
+
 
 void mdCollision::DebugDraw()
 {
@@ -93,17 +77,13 @@ void mdCollision::DebugDraw()
 		return;
 
 	Uint8 alpha = 80;
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
-	{
-		if (colliders[i] == nullptr)
-			continue;
-
-		switch (colliders[i]->type)
+	for (std::list<collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it) {
+		collider* c = *it;
+		switch (c->type)
 		{
-		case COLLIDER_NONE: // white
-			App->render->drawQuad(colliders[i]->rect, 255, 255, 255, alpha,true);
-			break;
-		
+			case COLLIDER_NONE: // white
+				App->render->drawQuad(c->rect, 255, 255, 255, alpha,true);
+				break;
 		}
 	}
 }
@@ -113,13 +93,11 @@ bool mdCollision::cleanUp()
 {
 	LOG("Freeing all colliders");
 
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
-	{
-		if (colliders[i] != nullptr)
-		{
-			delete colliders[i];
-			colliders[i] = nullptr;
-		}
+	for (std::list<collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it) {
+		collider* c = *it;
+		colliders.remove(c);
+		delete c;
+
 	}
 
 	return true;
@@ -133,16 +111,9 @@ void mdCollision::onCollision(collider*c1, collider* c2) 	{
 
 collider* mdCollision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, Module* callback)
 {
-	collider* ret = nullptr;
+	collider* ret = new collider(rect, type, callback);
 
-	for (uint i = 0; i < MAX_COLLIDERS; ++i)
-	{
-		if (colliders[i] == nullptr)
-		{
-			ret = colliders[i] = new collider(rect, type, callback);
-			break;
-		}
-	}
+	colliders.push_back(ret);
 
 	return ret;
 }

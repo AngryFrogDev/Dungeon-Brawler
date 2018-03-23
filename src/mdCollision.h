@@ -22,6 +22,7 @@ struct collider
 	bool to_delete = false;
 	COLLIDER_TYPE type;
 	Module* callback = nullptr;
+	//Character* character;      
 
 	collider(SDL_Rect rectangle, COLLIDER_TYPE type, Module* callback = nullptr) : rect(rectangle), type(type), callback(callback)
 	{}
@@ -64,9 +65,8 @@ public:
 
 private:
 
-	collider* colliders[MAX_COLLIDERS];      // PROVISIONAL: Should be a list
-	bool matrix[COLLIDER_MAX][COLLIDER_MAX]; // PROVISIONAL: Colliders "active" values should be added from xml
-	bool debug = true;						 // PROVISIONAL: Colliders should be loaded from the xml
+	std::list<collider*> colliders;      // PROVISIONAL: Should be a list
+	bool debug = true;						 // PROVISIONAL: Loaded from the xml
 };
 
 #endif // __ModuleCollision_H__
