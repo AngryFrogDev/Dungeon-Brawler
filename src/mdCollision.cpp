@@ -38,8 +38,6 @@ bool mdCollision::update(float dt)
 
 
 	for (std::list<collider*>::iterator it1 = colliders.begin(); it1 != colliders.end(); ++it1) {
-
-
 		auto tmp = it1;
 		tmp++;
 		for (std::list<collider*>::iterator it2 = tmp; it2 != colliders.end(); ++it2) {

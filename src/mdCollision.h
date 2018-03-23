@@ -65,7 +65,7 @@ public:
 
 private:
 
-	std::list<collider*> colliders;      // PROVISIONAL: Should be a list
+	std::list<collider*> colliders;      
 	bool debug = true;						 // PROVISIONAL: Loaded from the xml
 };
 
