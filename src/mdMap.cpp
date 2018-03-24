@@ -29,10 +29,10 @@ bool mdMap::awake(const pugi::xml_node& md_config) {
 void mdMap::draw() {
 	if (map_loaded) {
 		//Blit background
-		App->render->blit(data.background_image, 0, 0);
+		App->render->blit(data.background_image, 0, 0, (const SDL_Rect*)0, 3, 0.3);
 
 		//Blit map
-		App->render->blit(data.map_image, 0, 0);
+		App->render->blit(data.map_image, 0, 0, (const SDL_Rect*)0, 3);
 	}
 }
 
