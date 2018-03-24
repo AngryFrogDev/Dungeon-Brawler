@@ -6,8 +6,7 @@
 
 #include "SDL\include\SDL.h"
 
-enum ui_elem_type
-{
+enum ui_elem_type {
 	NO_ELEM = 0,
 	BUTTON,
 	LABEL,
@@ -15,8 +14,7 @@ enum ui_elem_type
 };
 
 
-class Widgets
-{
+class Widgets {
 public:
 	Widgets();
 	virtual ~Widgets();

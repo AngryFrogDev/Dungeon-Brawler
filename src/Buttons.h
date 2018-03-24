@@ -7,8 +7,7 @@
 #include "SDL/include/SDL.h"
 
 //Review button types
-enum button_types
-{
+enum button_types {
 	NO_BUTTON = 0,
 	NEW_GAME,
 	SETTINGS,
@@ -21,8 +20,7 @@ enum button_types
 	BACK,
 };
 
-class Buttons
-{
+class Buttons : public Widgets {
 public:
 	Buttons();
 	virtual ~Buttons();

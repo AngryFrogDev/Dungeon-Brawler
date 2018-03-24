@@ -9,20 +9,18 @@
 #include "SDL/include/SDL.h"
 
 //Some events may be missing
-enum controller_events
-{
+enum controller_events {
 	NO_EVENT = 0,
 	CLICK,
 	RELEASE,
 };
 
-class mdGuiManager : public Module
-{
+class mdGuiManager : public Module {
 public:
 	mdGuiManager();
 	virtual ~mdGuiManager();
 
-	bool awake(pugi::xml_node&);
+	bool awake(const pugi::xml_node&);
 	bool preUpdate();
 	bool update();
 	bool cleanUp();

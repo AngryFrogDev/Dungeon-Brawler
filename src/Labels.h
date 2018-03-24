@@ -5,8 +5,7 @@
 
 #include "SDL/include/SDL.h"
 
-class Labels
-{
+class Labels : public Widgets {
 public:
 	Labels();
 	virtual ~Labels();

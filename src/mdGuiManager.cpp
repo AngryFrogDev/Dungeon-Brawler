@@ -5,57 +5,47 @@
 
 
 
-mdGuiManager::mdGuiManager() : Module()
-{
+mdGuiManager::mdGuiManager() : Module() {
 	name = "gui";
 }
 
 mdGuiManager::~mdGuiManager() {}
 
-bool mdGuiManager::awake(pugi::xml_node& conf)
-{
+bool mdGuiManager::awake(const pugi::xml_node& md_config) {
 	LOG("Loading GUI atlas");
 	bool ret = true;
 
-	atlas_file_name = conf.child("atlas").attribute("file").as_string("");
+	atlas_file_name = md_config.child("atlas").attribute("file").as_string("");
 
 	return ret;
 }
 
-bool mdGuiManager::preUpdate()
-{
+bool mdGuiManager::preUpdate() {
 	return true;
 }
 
-bool mdGuiManager::update()
-{
+bool mdGuiManager::update() {
 	return true;
 }
 
-bool mdGuiManager::cleanUp()
-{
+bool mdGuiManager::cleanUp() {
 	return true;
 }
 
-Widgets * mdGuiManager::createWidget(ui_elem_type type, uint x, uint y, Module * callback)
-{
+Widgets * mdGuiManager::createWidget(ui_elem_type type, uint x, uint y, Module * callback) {
 	return nullptr;
 }
 
-bool mdGuiManager::destroyWidget(Widgets * widget)
-{
+bool mdGuiManager::destroyWidget(Widgets * widget) {
 	return true;
 }
 
-SDL_Texture * mdGuiManager::getAtlas() const
-{
+SDL_Texture * mdGuiManager::getAtlas() const {
 	return nullptr;
 }
 
-void mdGuiManager::draw()
-{
+void mdGuiManager::draw() {
 }
 
-void mdGuiManager::debugUi()
-{
+void mdGuiManager::debugUi() {
 }

@@ -9,13 +9,12 @@
 struct SDL_Texture;
 struct _TTF_Font;
 
-class mdFonts : public Module
-{
+class mdFonts : public Module {
 public:
 	mdFonts();
 	virtual ~mdFonts();
 
-	bool awake(pugi::xml_node&);
+	bool awake(const pugi::xml_node&);
 	bool cleanUp();
 
 	//Load Font

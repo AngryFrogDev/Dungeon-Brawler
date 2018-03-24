@@ -15,6 +15,10 @@
 	</window>
 	<filesystem>
 	</filesystem>
+        <fonts>
+	</fonts>
+	<gui>
+	</gui>
 	<input>
 		<buffer window="1000"/>
 		<axis tolerance="0.2"/>

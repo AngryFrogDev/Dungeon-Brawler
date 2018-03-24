@@ -7,16 +7,13 @@
 #include "SDL_ttf\include\SDL_ttf.h"
 #pragma comment( lib, "SDL_ttf/libx86/SDL2_ttf.lib" )
 
-mdFonts::mdFonts() : Module()
-{
+mdFonts::mdFonts() : Module() {
 	name = "fonts";
 }
 
-mdFonts::~mdFonts()
-{}
+mdFonts::~mdFonts() {}
 
-bool mdFonts::awake(pugi::xml_node &)
-{
+bool mdFonts::awake(const pugi::xml_node& md_config) {
 	LOG("Init True Type Font library");
 	bool ret = true;
 
@@ -34,8 +31,7 @@ bool mdFonts::awake(pugi::xml_node &)
 	return ret;
 }
 
-bool mdFonts::cleanUp()
-{
+bool mdFonts::cleanUp() {
 	LOG("Freeing True Type fonts and library");
 	std::list<_TTF_Font*>::iterator item;
 
@@ -50,8 +46,7 @@ bool mdFonts::cleanUp()
 	return true;
 }
 
-_TTF_Font * const mdFonts::Load(const char * path, int size)
-{
+_TTF_Font * const mdFonts::Load(const char * path, int size) {
 	TTF_Font* font = TTF_OpenFont(path, size);
 
 	if (font == NULL)
@@ -67,8 +62,7 @@ _TTF_Font * const mdFonts::Load(const char * path, int size)
 	return font;
 }
 
-SDL_Texture * mdFonts::print(const char * text, SDL_Color color, _TTF_Font * font)
-{
+SDL_Texture * mdFonts::print(const char * text, SDL_Color color, _TTF_Font * font) {
 	SDL_Texture* ret = NULL;
 	SDL_Surface* surface = TTF_RenderText_Blended((font) ? font : medium_size, text, color);
 
@@ -85,8 +79,7 @@ SDL_Texture * mdFonts::print(const char * text, SDL_Color color, _TTF_Font * fon
 	return ret;
 }
 
-bool mdFonts::calcSize(const char * text, int & width, int & height, _TTF_Font * font) const
-{
+bool mdFonts::calcSize(const char * text, int & width, int & height, _TTF_Font * font) const {
 	bool ret = false;
 
 	if (TTF_SizeText((font) ? font : medium_size, text, &width, &height) != 0)
