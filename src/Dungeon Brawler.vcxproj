@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{4A02FCC9-A402-402A-A846-EE691FD9099C}</ProjectGuid>
     <RootNamespace>DungeonBrawler</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -134,6 +134,7 @@
     <ClCompile Include="mdRender.cpp" />
     <ClCompile Include="mdTextures.cpp" />
     <ClCompile Include="mdWindow.cpp" />
+    <ClCompile Include="mdCollision.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ProjDefs.cpp" />
@@ -152,7 +153,11 @@
     <ClInclude Include="mdRender.h" />
     <ClInclude Include="mdTextures.h" />
     <ClInclude Include="mdWindow.h" />
+
+    <ClInclude Include="mdCollision.h" />
+
     <ClInclude Include="p2Point.h" />
+
     <ClInclude Include="PerfTimer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ProjDefs.h" />

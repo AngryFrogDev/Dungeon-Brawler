@@ -63,6 +63,9 @@
     <ClCompile Include="mdTextures.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+
+    <ClCompile Include="mdCollision.cpp">
+
     <ClCompile Include="mdEntities.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -76,6 +79,7 @@
       <Filter>Entities\Characters</Filter>
     </ClCompile>
     <ClCompile Include="mdAudio.cpp">
+
       <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
@@ -119,6 +123,8 @@
     <ClInclude Include="mdTextures.h">
       <Filter>Modules</Filter>
     </ClInclude>
+
+
     <ClInclude Include="mdEntities.h">
       <Filter>Modules</Filter>
     </ClInclude>
@@ -138,6 +144,7 @@
       <Filter>Entities\Characters</Filter>
     </ClInclude>
     <ClInclude Include="mdAudio.h">
+
       <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>

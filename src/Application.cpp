@@ -10,6 +10,7 @@
 #include "mdInput.h"
 #include "mdRender.h"
 #include "mdTextures.h"
+#include "mdCollision.h"
 #include "mdEntities.h"
 #include "mdAudio.h"
 
@@ -20,6 +21,7 @@ Application::Application(int argc, char* args[]) {
 	render = new mdRender;
 	input = new mdInput;
 	textures = new mdTextures;
+	collision = new mdCollision;
 	entities = new mdEntities;
 	audio = new mdAudio;
 
@@ -28,6 +30,7 @@ Application::Application(int argc, char* args[]) {
 	addModule(input);
 	addModule(textures);
 	addModule(render);
+	addModule(collision);
 	addModule(audio);
 	addModule(entities);
 }
