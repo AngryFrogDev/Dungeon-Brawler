@@ -58,8 +58,7 @@ public:
 	//Pops oldest input
 	void popInput();
 	//Prunes any inputs that are older than milliseconds, if 0 it will clear the queue
-	void pruneInput
-	(uint milliseconds = 0);
+	void pruneInput(uint milliseconds = 0);
 	bool shakeController(float intensity, uint milliseconds) const;
 
 	uint getControllerID() const;
@@ -88,7 +87,12 @@ public:
 
 
 	// Returns the state of the pressed key
-	KEY_STATE getKey(SDL_Scancode key);
+	KEY_STATE getKey(SDL_Scancode key) const;
+	KEY_STATE getControllerButton(int id, SDL_GameControllerButton button);
+
+	//Returns controllers that pressed button, if invalid button will return first controller.
+	std::list<Controller*> getController(SDL_GameControllerButton button = SDL_CONTROLLER_BUTTON_INVALID);
+
 private:
 	void handleAxes(const SDL_Event& event);
 

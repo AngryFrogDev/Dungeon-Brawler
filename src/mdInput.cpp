@@ -247,7 +247,31 @@ void mdInput::handleAxes(const SDL_Event & event) {
 }
 
 
-KEY_STATE mdInput::getKey(SDL_Scancode key) {
+KEY_STATE mdInput::getKey(SDL_Scancode key) const{
 	return keyboard[key];
+}
+
+KEY_STATE mdInput::getControllerButton(int id, SDL_GameControllerButton button) {
+	KEY_STATE ret = KEY_NULL;
+	for ( std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
+		if ((*it)->getControllerID() == id) {
+			ret = (*it)->buttons[button];
+			break;
+		}
+	}
+
+	return ret;
+}
+
+std::list<Controller*> mdInput::getController(SDL_GameControllerButton button){
+	std::list<Controller*> ret;
+	if (button == SDL_CONTROLLER_BUTTON_INVALID)
+		ret = controllers;
+	else {
+		for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it)
+			if ((*it)->buttons[button]) ret.push_back(*it);
+	}
+
+	return ret;
 }
 
