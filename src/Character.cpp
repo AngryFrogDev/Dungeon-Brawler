@@ -202,14 +202,17 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	case HIT:
 		//TODO: Define hit
+		current_state = CHAR_STATE::IDLE;
 		break;
 
 	case JUGGLE:
 		//TODO: Define juggle
+		current_state = CHAR_STATE::IDLE;
 		break;
 
 	case KNOCKDOWN:
 		//TODO: Define knockdown
+		current_state = CHAR_STATE::IDLE;
 		break;
 	}
 
@@ -246,14 +249,18 @@ void Character::doAttack() {
 	case ST_H:
 		updateAnimation(heavy_attack);
 		break;
+	default:
+		current_state = IDLE;
+		break;
 	}
 
 	if (current_animation->Finished())
-		current_state = CHAR_STATE::IDLE;
+		current_state = IDLE;
 }
 
 void Character::updateAnimation(Animation & new_animation) {
-	new_animation.Reset();
-	current_animation = &new_animation;
-
+	if (current_animation != &new_animation) {
+		new_animation.Reset();
+		current_animation = &new_animation;
+	}
 }
