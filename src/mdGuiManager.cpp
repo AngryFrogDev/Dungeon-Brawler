@@ -1,17 +1,17 @@
 #include "mdGuiManager.h"
+#include "DebLog.h"
 
 
-
-mdGuiManager::mdGuiManager()
+mdGuiManager::mdGuiManager() : Module()
 {
+	name = "gui";
 }
 
 
 mdGuiManager::~mdGuiManager()
-{
-}
+{}
 
-bool mdGuiManager::awake(pugi::xml_node &)
+bool mdGuiManager::awake(pugi::xml_node& conf)
 {
 	return false;
 }

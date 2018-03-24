@@ -16,7 +16,7 @@ enum controller_events
 	RELEASE,
 };
 
-class mdGuiManager
+class mdGuiManager : public Module
 {
 public:
 	mdGuiManager();
