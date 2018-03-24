@@ -1,5 +1,8 @@
-#include "mdGuiManager.h"
+#include "Application.h"
 #include "DebLog.h"
+#include "mdGuiManager.h"
+#include "mdTextures.h"
+
 
 
 mdGuiManager::mdGuiManager() : Module()
@@ -7,28 +10,31 @@ mdGuiManager::mdGuiManager() : Module()
 	name = "gui";
 }
 
-
-mdGuiManager::~mdGuiManager()
-{}
+mdGuiManager::~mdGuiManager() {}
 
 bool mdGuiManager::awake(pugi::xml_node& conf)
 {
-	return false;
+	LOG("Loading GUI atlas");
+	bool ret = true;
+
+	atlas_file_name = conf.child("atlas").attribute("file").as_string("");
+
+	return ret;
 }
 
 bool mdGuiManager::preUpdate()
 {
-	return false;
+	return true;
 }
 
 bool mdGuiManager::update()
 {
-	return false;
+	return true;
 }
 
 bool mdGuiManager::cleanUp()
 {
-	return false;
+	return true;
 }
 
 Widgets * mdGuiManager::createWidget(ui_elem_type type, uint x, uint y, Module * callback)
@@ -38,7 +44,7 @@ Widgets * mdGuiManager::createWidget(ui_elem_type type, uint x, uint y, Module *
 
 bool mdGuiManager::destroyWidget(Widgets * widget)
 {
-	return false;
+	return true;
 }
 
 SDL_Texture * mdGuiManager::getAtlas() const

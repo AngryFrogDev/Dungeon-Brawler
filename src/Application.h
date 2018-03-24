@@ -15,6 +15,8 @@ class mdInput;
 class mdRender;
 class mdTextures;
 class mdAudio;
+class mdFonts;
+class mdGuiManager;
 
 class Application
 {
@@ -59,6 +61,8 @@ public:
 	mdInput*		input;
 	mdTextures*		textures;
 	mdAudio*		audio;
+	mdFonts*		fonts;
+	mdGuiManager*	gui;
 };
 
 extern Application* App;

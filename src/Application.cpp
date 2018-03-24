@@ -11,6 +11,8 @@
 #include "mdRender.h"
 #include "mdTextures.h"
 #include "mdAudio.h"
+#include "mdFonts.h"
+#include "mdGuiManager.h"
 
 
 Application::Application(int argc, char* args[]) {
@@ -20,6 +22,8 @@ Application::Application(int argc, char* args[]) {
 	input = new mdInput;
 	textures = new mdTextures;
 	audio = new mdAudio;
+	fonts = new mdFonts;
+	gui = new mdGuiManager;
 
 	addModule(filesystem);
 	addModule(window);
@@ -27,6 +31,8 @@ Application::Application(int argc, char* args[]) {
 	addModule(textures);
 	addModule(render);
 	addModule(audio);
+	addModule(fonts);
+	addModule(gui);
 }
 
 Application::~Application() {
