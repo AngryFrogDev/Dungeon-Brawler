@@ -18,7 +18,7 @@ mdCollision::~mdCollision(){
 
 bool mdCollision::preUpdate()
 {
-	//// Remove all colliders scheduled for deletion
+	// Remove all colliders scheduled for deletion
 	for (std::list<collider*>::iterator it = colliders.begin(); it != colliders.end();++it) {
 		collider* c = *it;
 
@@ -46,7 +46,7 @@ bool mdCollision::update(float dt)
 
 			if (c1->checkCollision(c2->rect) == true) {
 
-				if (true)
+				if (true) //If c1->character != c2->character && c1->character->lane == c2->character->lane
 					c1->callback->onCollision(c1, c2);
 				if (true)
 					c2->callback->onCollision(c2, c1);
