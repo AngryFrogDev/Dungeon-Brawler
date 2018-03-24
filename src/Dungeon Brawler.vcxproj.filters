@@ -13,6 +13,9 @@
     <Filter Include="Utilities\PugiXML">
       <UniqueIdentifier>{f4b42e4d-470f-4ed4-991e-5e89c1870b31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{336ef45f-5c99-4f92-9e84-a5722bf3e5bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -57,11 +60,20 @@
     <ClCompile Include="mdGuiManager.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Widgets.cpp" />
-    <ClCompile Include="Buttons.cpp" />
-    <ClCompile Include="Labels.cpp" />
     <ClCompile Include="mdFonts.cpp">
       <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Widgets.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Labels.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Buttons.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Bars.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,11 +122,20 @@
     <ClInclude Include="mdGuiManager.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Widgets.h" />
-    <ClInclude Include="Buttons.h" />
-    <ClInclude Include="Labels.h" />
     <ClInclude Include="mdFonts.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Widgets.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Labels.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Buttons.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Bars.h">
+      <Filter>GUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

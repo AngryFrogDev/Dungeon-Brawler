@@ -124,6 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Bars.cpp" />
     <ClCompile Include="Buttons.cpp" />
     <ClCompile Include="DebLog.cpp" />
     <ClCompile Include="Labels.cpp" />
@@ -144,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Bars.h" />
     <ClInclude Include="Buttons.h" />
     <ClInclude Include="Labels.h" />
     <ClInclude Include="mdAudio.h" />

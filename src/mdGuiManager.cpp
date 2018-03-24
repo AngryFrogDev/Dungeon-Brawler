@@ -6,7 +6,7 @@
 #include "mdRender.h"
 #include "Buttons.h"
 #include "Labels.h"
-
+#include "Bars.h"
 
 mdGuiManager::mdGuiManager() : Module() {
 	name = "gui";
@@ -64,7 +64,7 @@ Widgets * mdGuiManager::createWidget(ui_elem_type type, uint x, uint y, Module *
 	case ui_elem_type::LABEL:
 		ret = new Labels(temp_pos, callback); break;
 	case ui_elem_type::BAR:
-		/*ret = new Bar(temp_pos, callback);*/ break;
+		ret = new Bars(temp_pos, callback); break;
 	}
 
 	if (ret != nullptr)
