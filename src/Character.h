@@ -49,7 +49,7 @@ enum CHAR_STATE {
 };
 
 enum CHARACTER_INPUTS {
-	NULL_INPUT,
+	NULL_INPUT = -1,
 	UP,
 	DOWN,
 	LEFT,

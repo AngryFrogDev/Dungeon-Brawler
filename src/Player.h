@@ -20,14 +20,16 @@ public:
 	// Function so assign a certain character to the player -> character_type: enum with all the character types			     
 	void assignCharacter(CHAR_TYPE type); 
 	
-	void assignControlScheme(controller_scheme* new_scheme);
+	void assignControlScheme(const controller_scheme& new_scheme);
+
+	Controller* getController() const;
 
 private:
 	// Number of the controller being used by the player
 	Controller* controller;
 	// Instance of the current character being used -> Character: Base class for the characters							
 	Character* curr_character;
-	controller_scheme* scheme;
+	controller_scheme scheme;
 };
 
 #endif //__PLAYER__

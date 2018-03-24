@@ -21,7 +21,7 @@
 	</input>
 	<entities>
 		<schemes>
-			<default up="12" down="13" left="14" right="15" light_attack="3" heavy_attack="1" special_1="11" special_2="10" grab="2" switch="4" />
+			<default up="11" down="12" left="13" right="14" light_attack="2" heavy_attack="0" special_1="10" special_2="9" grab="1" switch="3" />
 		</schemes>
 	</entities>
 </config>

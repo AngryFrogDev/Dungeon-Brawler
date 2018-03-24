@@ -20,11 +20,12 @@ void Player::update(SDL_Texture* graphics)
 	bool player_inputs[MAX_INPUTS];
 	if (controller != nullptr) {
 		for (int i = 0; i < MAX_INPUTS; i++)
-			player_inputs[i] = controller->isPressed(scheme->scheme[i]);
+			player_inputs[i] = controller->isPressed(scheme.scheme[i]);
 	}
-	
-	curr_character->update(player_inputs);
-	curr_character->draw(graphics);
+	if (curr_character != nullptr) {
+		curr_character->update(player_inputs);
+		curr_character->draw(graphics);
+	}
 }
 void Player::assignController(Controller* controller) {
 
@@ -58,6 +59,10 @@ void Player::assignCharacter(CHAR_TYPE type) {
 	}
 }
 
-void Player::assignControlScheme(controller_scheme* new_scheme) {
+void Player::assignControlScheme(const controller_scheme& new_scheme) {
 	scheme = new_scheme;
+}
+
+Controller * Player::getController() const {
+	return controller;
 }
