@@ -19,30 +19,45 @@ Controller::~Controller() {
 		SDL_HapticRumbleStop(controller_haptic);
 	SDL_HapticClose(controller_haptic);
 	SDL_GameControllerClose(controller);
+	input_buffer.clear();
 }
 
-const std::deque<CONTROLLER_BUTTON>& Controller::getInputs() const {
-	return input_buffer;
+bool Controller::isPressed(CONTROLLER_BUTTON button) const {
+	bool ret = false;
+	for (std::list<input_record>::const_iterator it = input_buffer.begin(); it != input_buffer.end(); ++it)
+		ret = button == (*it).input;
+	return ret;
+}
+
+const std::list<CONTROLLER_BUTTON> Controller::getInputs() const {
+	std::list<CONTROLLER_BUTTON> ret;
+
+	for (std::list<input_record>::const_iterator it = input_buffer.begin(); it != input_buffer.end(); ++it)
+		ret.push_back((*it).input);
+
+	return ret;
 }
 
 void Controller::addInput(CONTROLLER_BUTTON input, uint timestamp) {
-	input_buffer.push_back(input);
+	input_record new_input;
+	new_input.input = input;
 	if (timestamp == NULL)
 		timestamp = SDL_GetTicks();
-	input_times.push_back(timestamp);
+	new_input.timestamp = timestamp;
+	input_buffer.push_back(new_input);
+	LOG("input_buffer now has %d elements", input_buffer.size());
 }
 
 void Controller::popInput() {
-	if (!input_times.empty()) {
+	if (!input_buffer.empty()) {
 		input_buffer.pop_front();
-		input_times.pop_front();
+		LOG("input_buffer now has %d elements", input_buffer.size());
 	}
 }
 
 void Controller::pruneInput(uint milliseconds) {
-	while (!input_times.empty() && input_times[0] + milliseconds <= SDL_GetTicks()) {
-		input_buffer.pop_front();
-		input_times.pop_front();
+	while (!input_buffer.empty() && input_buffer.front().timestamp + milliseconds <= SDL_GetTicks()) {
+		popInput();
 	}
 }
 

@@ -3,7 +3,6 @@
 
 #include "Module.h"
 #include "ProjDefs.h"
-#include <deque>
 #include <list>
 
 #include "SDL/include/SDL.h"
@@ -18,7 +17,7 @@ enum KEY_STATE {
 };
 
 enum CONTROLLER_BUTTON {
-	BUTTON_INVALID = 0,
+	BUTTON_INVALID = -1,
 	BUTTON_A,
 	BUTTON_B,
 	BUTTON_X,
@@ -52,7 +51,8 @@ public:
 	Controller(SDL_GameController* controller, SDL_Haptic* controller_haptic);
 	virtual ~Controller();
 
-	const std::deque<CONTROLLER_BUTTON>& getInputs() const;
+	bool isPressed(CONTROLLER_BUTTON button) const;
+	const std::list<CONTROLLER_BUTTON> getInputs() const;
 	//Will add an input to the buffer, if no timestamp provided the current time will be used
 	void addInput(CONTROLLER_BUTTON input, uint timestamp = NULL);
 	//Pops oldest input
@@ -71,9 +71,13 @@ private:
 	uint id;
 	SDL_GameController* controller;
 	SDL_Haptic* controller_haptic;
+	struct input_record {
+		CONTROLLER_BUTTON input;
+		uint timestamp;
+	};
 
-	std::deque<CONTROLLER_BUTTON> input_buffer;
-	std::deque<uint> input_times;
+	std::list<input_record> input_buffer;
+	//std::list<int> input_times;
 };
 
 class mdInput : public Module {
