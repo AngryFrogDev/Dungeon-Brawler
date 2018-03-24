@@ -9,3 +9,4 @@ void releasePointer(void* x, bool is_array) {
 		x = nullptr;
 	}
 }
+

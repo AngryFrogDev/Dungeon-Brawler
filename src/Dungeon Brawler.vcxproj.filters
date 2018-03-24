@@ -13,6 +13,18 @@
     <Filter Include="Utilities\PugiXML">
       <UniqueIdentifier>{f4b42e4d-470f-4ed4-991e-5e89c1870b31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{3db40ce5-4970-4393-9b25-fd42c9a18ba3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Characters">
+      <UniqueIdentifier>{31c555d3-371d-4a88-991f-ea45196598fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Characters\Warrior">
+      <UniqueIdentifier>{f338f467-b14e-430d-8036-1adb35f43673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Player">
+      <UniqueIdentifier>{b14fe0f2-f8df-4d41-b258-91a5b71ec428}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -50,6 +62,18 @@
     </ClCompile>
     <ClCompile Include="mdTextures.cpp">
       <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="mdEntities.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Entities\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Warrior.cpp">
+      <Filter>Entities\Characters\Warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Entities\Characters</Filter>
     </ClCompile>
     <ClCompile Include="mdAudio.cpp">
       <Filter>Modules</Filter>
@@ -94,6 +118,24 @@
     </ClInclude>
     <ClInclude Include="mdTextures.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdEntities.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Entities\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Warrior.h">
+      <Filter>Entities\Characters\Warrior</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="p2Point.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Entities\Characters</Filter>
     </ClInclude>
     <ClInclude Include="mdAudio.h">
       <Filter>Modules</Filter>

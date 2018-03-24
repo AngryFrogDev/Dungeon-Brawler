@@ -14,6 +14,7 @@ class mdFilesystem;
 class mdInput;
 class mdRender;
 class mdTextures;
+class mdEntities;
 class mdAudio;
 
 class Application
@@ -31,6 +32,8 @@ public:
 
 	// Called each loop iteration
 	bool update();
+
+	bool finishUpdate();
 
 	// Called before quitting
 	bool cleanUp();
@@ -51,6 +54,10 @@ private:
 	float				dt = 0.0f;
 	uint				maxfps = 60;
 
+	Timer				last_sec_frame_time;
+	uint32				last_sec_frame_count = 0;
+	uint32				prev_last_sec_frame_count = 0;
+
 public:
 	// Modules
 	mdWindow*		window;
@@ -58,6 +65,7 @@ public:
 	mdRender*		render;
 	mdInput*		input;
 	mdTextures*		textures;
+	mdEntities*     entities;
 	mdAudio*		audio;
 };
 
