@@ -64,7 +64,7 @@ public:
 	uint getControllerID() const;
 	
 public:
-	KEY_STATE buttons[SDL_CONTROLLER_BUTTON_MAX];
+	KEY_STATE buttons[CONTROLLER_BUTTON::BUTTON_MAX];
 	float axes[SDL_CONTROLLER_AXIS_MAX];
 
 private:

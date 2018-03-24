@@ -23,10 +23,7 @@ Controller::~Controller() {
 }
 
 bool Controller::isPressed(CONTROLLER_BUTTON button) const {
-	bool ret = false;
-	for (std::list<input_record>::const_iterator it = input_buffer.begin(); it != input_buffer.end(); ++it)
-		ret = button == (*it).input;
-	return ret;
+	return buttons[button] == KEY_DOWN || buttons[button] == KEY_REPEAT;
 }
 
 const std::list<CONTROLLER_BUTTON> Controller::getInputs() const {
@@ -39,6 +36,7 @@ const std::list<CONTROLLER_BUTTON> Controller::getInputs() const {
 }
 
 void Controller::addInput(CONTROLLER_BUTTON input, uint timestamp) {
+	buttons[input] = KEY_DOWN;
 	input_record new_input;
 	new_input.input = input;
 	if (timestamp == NULL)
@@ -117,7 +115,7 @@ bool mdInput::preUpdate() {
 
 	for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
 		(*it)->pruneInput(controller_buffer_timeout);
-		for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; ++i) {
+		for (int i = 0; i < BUTTON_MAX; ++i) {
 			if ((*it)->buttons[i] == KEY_UP)
 				(*it)->buttons[i] = KEY_IDLE;
 			else if ((*it)->buttons[i] == KEY_DOWN)
@@ -158,7 +156,6 @@ bool mdInput::preUpdate() {
 				for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
 					if ((*it)->getControllerID() == event.cbutton.which) {
 						(*it)->addInput((CONTROLLER_BUTTON)event.cbutton.button, event.cbutton.timestamp);
-						(*it)->buttons[event.cbutton.button] = KEY_DOWN;
 						break;
 					}
 				}
@@ -208,50 +205,70 @@ void mdInput::handleAxes(const SDL_Event & event) {
 			switch (event.caxis.axis) {
 			case SDL_CONTROLLER_AXIS_LEFTX:
 				if (axis_value < prior_value) {
-					if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
+					if (prior_value >= axis_tolerance && axis_value < axis_tolerance)
+						(*it)->buttons[AXIS_LEFTX_POSITIVE] = KEY_UP;
+					else if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
 						(*it)->addInput(AXIS_LEFTX_NEGATIVE, event.caxis.timestamp);
 				}
 				else {
-					if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
+					if (prior_value <= -axis_tolerance && axis_value > axis_tolerance)
+						(*it)->buttons[AXIS_LEFTX_NEGATIVE] = KEY_UP;
+					else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
 						(*it)->addInput(AXIS_LEFTX_POSITIVE, event.caxis.timestamp);
 				}
 				break;
 			case SDL_CONTROLLER_AXIS_LEFTY:
 				if (axis_value < prior_value) {
-					if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
+					if (prior_value >= axis_tolerance && axis_value < axis_tolerance)
+						(*it)->buttons[AXIS_LEFTY_POSITIVE] = KEY_UP;
+					else if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
 						(*it)->addInput(AXIS_LEFTY_NEGATIVE, event.caxis.timestamp);
 				}
 				else {
-					if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
+					if (prior_value <= -axis_tolerance && axis_value > axis_tolerance)
+						(*it)->buttons[AXIS_LEFTY_NEGATIVE] = KEY_UP;
+					else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
 						(*it)->addInput(AXIS_LEFTY_POSITIVE, event.caxis.timestamp);
 				}
 				break;
 			case SDL_CONTROLLER_AXIS_RIGHTX:
 				if (axis_value < prior_value) {
-					if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
+					if (prior_value >= axis_tolerance && axis_value < axis_tolerance)
+						(*it)->buttons[AXIS_RIGHTX_POSITIVE] = KEY_UP;
+					else if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
 						(*it)->addInput(AXIS_RIGHTX_NEGATIVE, event.caxis.timestamp);
 				}
 				else {
-					if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
+					if (prior_value <= -axis_tolerance && axis_value > axis_tolerance)
+						(*it)->buttons[AXIS_RIGHTX_NEGATIVE] = KEY_UP;
+					else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
 						(*it)->addInput(AXIS_RIGHTX_POSITIVE, event.caxis.timestamp);
 				}
 				break;
 			case SDL_CONTROLLER_AXIS_RIGHTY:
 				if (axis_value < prior_value) {
-					if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
+					if (prior_value <= -axis_tolerance && axis_value > axis_tolerance)
+						(*it)->buttons[AXIS_RIGHTY_POSITIVE] = KEY_UP;
+					else if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
 						(*it)->addInput(AXIS_RIGHTY_NEGATIVE, event.caxis.timestamp);
 				}
 				else {
-					if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
+					if (prior_value <= -axis_tolerance && axis_value > axis_tolerance)
+						(*it)->buttons[AXIS_RIGHTY_NEGATIVE] = KEY_UP;
+					else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
 						(*it)->addInput(AXIS_RIGHTY_POSITIVE, event.caxis.timestamp);
 				}
 				break;
 			case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
-				if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
+				if (prior_value >= axis_tolerance && axis_value < axis_tolerance)
+					(*it)->buttons[AXIS_TRIGGERLEFT] = KEY_UP;
+				else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
 					(*it)->addInput(AXIS_TRIGGERLEFT, event.caxis.timestamp);
 				break;
 			case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
-				if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
+				if (prior_value >= axis_tolerance && axis_value < axis_tolerance)
+					(*it)->buttons[AXIS_TRIGGERRIGHT] = KEY_UP;
+				else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
 					(*it)->addInput(AXIS_TRIGGERRIGHT, event.caxis.timestamp);
 				break;
 			}
