@@ -74,7 +74,7 @@ bool Application::update() {
 	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 		ret = (*it)->isActive() ? ret = (*it)->postUpdate() : true;
 
-	ret = finishUpdate();
+	if (ret) ret = finishUpdate();
 
 	return ret;
 }

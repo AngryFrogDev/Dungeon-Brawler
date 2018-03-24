@@ -1,13 +1,13 @@
 #include "Player.h"
+#include "Character.h"
+#include "Warrior.h"
+#include "Application.h"
 
 Player::Player(){
 
 }
 
-Player::Player(int controller_id, character_type type) {
-
-	assignController(controller_id);
-	assignCharacter(type);
+Player::Player(Controller* controller) : controller(controller){
 }
 
 Player::~Player(){
@@ -17,18 +17,21 @@ Player::~Player(){
 
 void Player::update(SDL_Texture* graphics)
 {
-	curr_character->recieveInput();
-	curr_character->requestState();
-	curr_character->updateState();
-	curr_character->update();
+	bool player_inputs[MAX_INPUTS];
+	if (controller != nullptr) {
+		for (int i = 0; i < MAX_INPUTS; i++)
+			player_inputs[i] = controller->isPressed(scheme->scheme[i]);
+	}
+	
+	curr_character->update(player_inputs);
 	curr_character->draw(graphics);
 }
-void Player::assignController(int id) {
+void Player::assignController(Controller* controller) {
 
-	controller_id = id;
+	Player::controller = controller;
 }
 
-void Player::assignCharacter(character_type type) {
+void Player::assignCharacter(CHAR_TYPE type) {
 
 	switch(type)
 	{
@@ -53,4 +56,8 @@ void Player::assignCharacter(character_type type) {
 		//	break;
 		//}
 	}
+}
+
+void Player::assignControlScheme(controller_scheme* new_scheme) {
+	scheme = new_scheme;
 }

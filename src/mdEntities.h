@@ -1,6 +1,19 @@
+#ifndef __MDENTITIES__
+#define __MDENTITIES__
+
 #include "Module.h"
-#include "Player.h"
+#include "Character.h"
 #include "mdTextures.h"
+
+struct controller_scheme {
+	CONTROLLER_BUTTON scheme[CHARACTER_INPUTS::MAX_INPUTS];
+	std::string name;
+
+	controller_scheme() : name("") {}
+	controller_scheme(std::string name) : name(name){}
+};
+
+class Player;
 
 class mdEntities : public Module {
 
@@ -13,9 +26,12 @@ public:
 	bool cleanUp();
 
 	// Creates a character and assigns it to a player
-	void createCharacter(int player, character_type type);
+	void createCharacter(int player, CHAR_TYPE type);
 	// Destroys all the players
 	void destroyCharacters();
+
+public:
+	std::list<controller_scheme> schemes;
 
 private:
 
@@ -26,3 +42,5 @@ private:
 
 
 };
+
+#endif //__MDENTITIES__

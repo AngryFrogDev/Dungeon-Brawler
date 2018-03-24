@@ -16,7 +16,12 @@
 	<filesystem>
 	</filesystem>
 	<input>
-		<buffer window="1000"/>
+		<buffer window="2000"/>
 		<axis tolerance="0.2"/>
 	</input>
+	<entities>
+		<schemes>
+			<default up="12" down="13" left="14" right="15" light_attack="3" heavy_attack="1" special_1="11" special_2="10" grab="2" switch="4" />
+		</schemes>
+	</entities>
 </config>

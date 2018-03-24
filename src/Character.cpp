@@ -1,23 +1,14 @@
 #include "Character.h"
 #include "ProjDefs.h"
 #include "DebLog.h"
-
-
+#include "Player.h"
 
 Character::Character() {
 
 	velocity.y = 0;
 	velocity.x = 0;
 
-	//PROVISIONAL: This should be loaded from an xml
-	assigned_inputs.keyb_down = DOWN;
-	assigned_inputs.keyb_up = UP;
-	assigned_inputs.keyb_left = LEFT;
-	assigned_inputs.keyb_right = RIGHT;
-	assigned_inputs.keyb_a = LIGHT_ATTACK;
-	assigned_inputs.keyb_s = HEAVY_ATTACK;
-
-	current_state = IDLE;
+	current_state = CHAR_STATE::IDLE;
 	fliped = false;
 	//PROVISIONAL: This should be a parameter in the constructor
 	position.x = 300;
@@ -29,46 +20,198 @@ Character::~Character() {
 
 }
 
-void Character::recieveInput() {
-	
+void Character::update(const bool(&inputs)[MAX_INPUTS]) {
+	switch (current_state) {
+	case IDLE:
+		updateAnimation(idle);
+		if (hit)
+			current_state = CHAR_STATE::HIT;
+		else if (inputs[SWITCH])
+			current_state = CHAR_STATE::SWAPPING;
+		else if (inputs[RIGHT] && !fliped || inputs[LEFT] && fliped)
+			current_state = CHAR_STATE::WALKING_FORWARD;
+		else if (inputs[LEFT] && !fliped || inputs[RIGHT] && fliped)
+			current_state = CHAR_STATE::WALKING_BACK;
+		else if (inputs[UP]) {
+			velocity.y -= jump_power;
+			grounded = false;
+			current_state = CHAR_STATE::JUMPING;
+		}
+		else if (inputs[DOWN])
+			current_state = CHAR_STATE::CROUCHING;
+		else if (inputs[LIGHT_ATTACK]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::ST_L;
+		}
+		else if (inputs[HEAVY_ATTACK]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::ST_H;
+		}
+		else if (inputs[SPECIAL_1]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::ST_S1;
+		}
+		else if (inputs[SPECIAL_2]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::ST_S2;
+		}
+		break;
 
-	if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
-		modifyInput(assigned_inputs.keyb_down, true);
-	if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN)
-		modifyInput(assigned_inputs.keyb_up, true);
-	if (App->input->getKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
-		modifyInput(assigned_inputs.keyb_left, true);
-	if (App->input->getKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
-		modifyInput(assigned_inputs.keyb_right, true);
-	if (App->input->getKey(SDL_SCANCODE_A) == KEY_DOWN)
-		modifyInput(assigned_inputs.keyb_a, true);
-	if (App->input->getKey(SDL_SCANCODE_S) == KEY_DOWN)
-		modifyInput(assigned_inputs.keyb_s, true);
+	case WALKING_BACK:
+		updateAnimation(walk_back);
+		if (hit)
+			current_state = CHAR_STATE::BLOCKING;
+		else if (!fliped && !inputs[LEFT] || fliped && !inputs[RIGHT])
+			current_state = CHAR_STATE::IDLE;
+		else if (inputs[UP]) {
+			velocity.y -= jump_power;
+			grounded = false;
+			current_state = CHAR_STATE::JUMPING;
+		}
+		else if (inputs[DOWN])
+			current_state = CHAR_STATE::CROUCHING;
+		else if (inputs[LIGHT_ATTACK]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::ST_L;
+		}
+		else if (inputs[HEAVY_ATTACK]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::ST_H;
+		}
+		else if (inputs[SPECIAL_1]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::ST_S1;
+		}
+		else if (inputs[SPECIAL_2]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::ST_S2;
+		}
 
-	if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_UP)
-		modifyInput(assigned_inputs.keyb_down, false);
-	if (App->input->getKey(SDL_SCANCODE_UP) == KEY_UP)
-		modifyInput(assigned_inputs.keyb_up, false);
-	if (App->input->getKey(SDL_SCANCODE_LEFT) == KEY_UP)
-		modifyInput(assigned_inputs.keyb_left, false);
-	if (App->input->getKey(SDL_SCANCODE_RIGHT) == KEY_UP)
-		modifyInput(assigned_inputs.keyb_right, false);
-	if (App->input->getKey(SDL_SCANCODE_A) == KEY_UP)
-		modifyInput(assigned_inputs.keyb_a, false);
-	if (App->input->getKey(SDL_SCANCODE_S) == KEY_UP)
-		modifyInput(assigned_inputs.keyb_s, false);
-	
-}
+		if (fliped)
+			position.x += walk_speed;
+		else
+			position.x -= walk_speed;
+			
+		break;
 
-void Character::requestState() {
+	case WALKING_FORWARD:
+		updateAnimation(walk_forward);
+		if (hit)
+			current_state = CHAR_STATE::HIT;
+		else if (!fliped && !inputs[RIGHT] || fliped && !inputs[LEFT])
+			current_state = CHAR_STATE::IDLE;
+		else if (inputs[UP]) {
+			velocity.y -= jump_power;
+			grounded = false;
+			current_state = CHAR_STATE::JUMPING;
+		}
+		else if (inputs[DOWN])
+			current_state = CHAR_STATE::CROUCHING;
+		else if (inputs[LIGHT_ATTACK]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::ST_L;
+		}
+		else if (inputs[HEAVY_ATTACK]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::ST_H;
+		}
+		else if (inputs[SPECIAL_1]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::ST_S1;
+		}
+		else if (inputs[SPECIAL_2]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::ST_S2;
+		}
 
-}
+		if (fliped)
+			position.x -= walk_speed;
+		else
+			position.x += walk_speed;
+		break;
 
-void Character::updateState() {
+	case CROUCHING:
+		updateAnimation(crouch);
+		if (hit && inputs[LEFT] && !fliped || hit && inputs[RIGHT] && fliped)
+			current_state = CHAR_STATE::BLOCKING;
+		else if (hit)
+			current_state = CHAR_STATE::HIT;
+		else if (!inputs[DOWN])
+			current_state = CHAR_STATE::IDLE;
+		else if (inputs[SWITCH])
+			current_state = CHAR_STATE::SWAPPING;
+		else if (inputs[UP]) {
+			velocity.y -= jump_power;
+			grounded = false;
+			current_state = CHAR_STATE::JUMPING;
+		}
+		else if (inputs[LIGHT_ATTACK]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::CR_L;
+		}
+		else if (inputs[HEAVY_ATTACK]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::CR_H;
+		}
+		else if (inputs[SPECIAL_1]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::CR_S1;
+		}
+		else if (inputs[SPECIAL_2]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::CR_S2;
+		}
+		break;
 
-}
+	case JUMPING:
+		if (grounded)
+			current_state = CHAR_STATE::IDLE;
+		else if (hit)
+			current_state = CHAR_STATE::JUGGLE;
+		else if (inputs[LIGHT_ATTACK]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::JM_L;
+		}
+		else if (inputs[HEAVY_ATTACK]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::JM_H;
+		}
+		else if (inputs[SPECIAL_1]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::JM_S1;
+		}
+		else if (inputs[SPECIAL_2]) {
+			current_state = CHAR_STATE::ATTACKING;
+			attack_doing = CHAR_ATT_TYPE::JM_S2;
+		}
 
-void Character::update() {
+		applyGravity();		//Do not reverse order! Nasty things will happen
+		setIfGrounded();
+		break;
+
+	case ATTACKING:
+		doAttack();
+		break;
+
+	case BLOCKING:
+		if (!hit)
+			current_state = CHAR_STATE::WALKING_BACK;
+		else if (!fliped && !inputs[LEFT] || fliped && !inputs[RIGHT])
+			current_state = CHAR_STATE::IDLE;
+		break;
+
+	case HIT:
+		//TODO: Define hit
+		break;
+
+	case JUGGLE:
+		//TODO: Define juggle
+		break;
+
+	case KNOCKDOWN:
+		//TODO: Define knockdown
+		break;
+	}
 
 }
 
@@ -91,68 +234,26 @@ void Character::setIfGrounded() {
 		grounded = true;
 }
 
-void Character::draw(SDL_Texture* graphic) {
+void Character::draw(SDL_Texture* graphic)  const{
 	App->render->blit(graphic, position.x, position.y, &current_animation->GetCurrentFrame(),3);
 }
 
-void Character::doAttack(attack_deff attack) {
-
-}
-
-attack_deff Character::getAttackData(attack_type type) {
-
-	switch (type) {
-
-		case ST_L:
-			return standing_light;
-			break;
-		/*case ST_H:
-		{
-			return standing_heavy;
-		}
-		case ST_S1:
-		{
-			return standing_special_1;
-		}
-	   ...*/
-
+void Character::doAttack() {
+	switch (attack_doing) {
+	case ST_L:
+		updateAnimation(light_attack);
+		break;
+	case ST_H:
+		updateAnimation(heavy_attack);
+		break;
 	}
+
+	if (current_animation->Finished())
+		current_state = CHAR_STATE::IDLE;
 }
 
-void Character::modifyInput(input requested_input, bool active) {
+void Character::updateAnimation(Animation & new_animation) {
+	new_animation.Reset();
+	current_animation = &new_animation;
 
-	switch (requested_input) {
-		case UP:
-			inputs_pressed.up = active;
-			break;
-		case DOWN:
-			inputs_pressed.down = active;
-			break;
-		case LEFT:
-			inputs_pressed.left = active;
-			break;
-		case RIGHT:
-			inputs_pressed.right = active;
-			break;
-		case LIGHT_ATTACK:
-			inputs_pressed.light_attack = active;
-			break;
-		case HEAVY_ATTACK:
-			inputs_pressed.heavt_attack = active;
-			break;
-		case SPECIAL_1:
-			inputs_pressed.special_1 = active;
-			break;
-		case SPECIAL_2:
-			inputs_pressed.special_2 = active;
-			break;
-		case GRAB:
-			inputs_pressed.grab = active;
-			break;
-	}
-}
-
-bool Character::isNeutralState(state state) 	{
-
-	return state == CROUCHING || state == WALKING_BACK || state == WALKING_FORWARD || state == IDLE;
 }

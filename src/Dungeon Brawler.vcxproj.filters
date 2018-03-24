@@ -16,14 +16,14 @@
     <Filter Include="Entities">
       <UniqueIdentifier>{3db40ce5-4970-4393-9b25-fd42c9a18ba3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Entities\Container">
-      <UniqueIdentifier>{b14fe0f2-f8df-4d41-b258-91a5b71ec428}</UniqueIdentifier>
+    <Filter Include="Entities\Characters">
+      <UniqueIdentifier>{31c555d3-371d-4a88-991f-ea45196598fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Entities\Warrior">
+    <Filter Include="Entities\Characters\Warrior">
       <UniqueIdentifier>{f338f467-b14e-430d-8036-1adb35f43673}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Entities\Base class">
-      <UniqueIdentifier>{31c555d3-371d-4a88-991f-ea45196598fd}</UniqueIdentifier>
+    <Filter Include="Entities\Player">
+      <UniqueIdentifier>{b14fe0f2-f8df-4d41-b258-91a5b71ec428}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -67,13 +67,13 @@
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Entities\Container</Filter>
+      <Filter>Entities\Player</Filter>
     </ClCompile>
     <ClCompile Include="Warrior.cpp">
-      <Filter>Entities\Warrior</Filter>
+      <Filter>Entities\Characters\Warrior</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
-      <Filter>Entities\Base class</Filter>
+      <Filter>Entities\Characters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,10 +120,10 @@
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Entities\Container</Filter>
+      <Filter>Entities\Player</Filter>
     </ClInclude>
     <ClInclude Include="Warrior.h">
-      <Filter>Entities\Warrior</Filter>
+      <Filter>Entities\Characters\Warrior</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Input-Combos\Input Combos\Animation.h">
       <Filter>Utilities</Filter>
@@ -132,7 +132,7 @@
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
-      <Filter>Entities\Base class</Filter>
+      <Filter>Entities\Characters</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

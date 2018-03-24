@@ -1,9 +1,13 @@
+#ifndef __CHARACTER__
+#define __CHARACTER__
+
 #include "Animation.h"
 #include "Application.h"
 #include "mdInput.h"
 #include "p2Point.h"
 #include "mdRender.h"
-enum character_type {
+
+enum CHAR_TYPE {
 	DEF_CHAR,
 	WARRIOR,
 	MAGE,
@@ -11,7 +15,7 @@ enum character_type {
 	PALADIN
 };
 
-enum attack_type {
+enum CHAR_ATT_TYPE {
 	NO_ATT,
 	CR_L,
 	CR_H,
@@ -28,14 +32,15 @@ enum attack_type {
 	JM_S1,
 	JM_S2,
 };
-enum state {
-	DEF_STATE,
+enum CHAR_STATE {
+	NULL_STATE,
 	IDLE,
 	WALKING_BACK,
 	WALKING_FORWARD,
 	CROUCHING,
 	JUMPING,
 	ATTACKING,
+	SWAPPING,
 
 	BLOCKING,
 	HIT,
@@ -43,8 +48,8 @@ enum state {
 	KNOCKDOWN
 };
 
-enum input {
-	DEF_INPUT,
+enum CHARACTER_INPUTS {
+	NULL_INPUT,
 	UP,
 	DOWN,
 	LEFT,
@@ -53,65 +58,35 @@ enum input {
 	HEAVY_ATTACK,
 	SPECIAL_1,
 	SPECIAL_2,
-	GRAB
+	GRAB,
+	SWITCH,
+	MAX_INPUTS
 };
 
-struct input_values {
+class Player;
 
-	input keyb_down;
-	input keyb_up;
-	input keyb_left;
-	input keyb_right;
-	input keyb_a; //Light
-	input keyb_s; //Heavy
-};
-
-struct active_inputs {
-	bool up, down, left, right, light_attack, heavt_attack, special_1, special_2, grab = false;
-};
-
-struct attack_deff {
-	Animation anim;
-};
-
-class Character
-{
+class Character {
 public:
 	Character();
 	~Character();
-
-	void recieveInput();
-
-	// Request "wanted_state" depending on input and "current_state"								 
-	virtual void requestState(); 
-
-	// Substitute wanted_state with current_state if possible					
-	virtual void updateState();
 						
-	virtual void update();		
+	virtual void update(const bool (&inputs)[MAX_INPUTS]);		
 
 	void applyGravity();
 
 	void setIfGrounded();
 
-	void draw(SDL_Texture* graphic);
+	void draw(SDL_Texture* graphic) const;
 
-	// Execute an attack depending on an attack deffinition (collider, animation, recovery...) -> attack_deff: Struct that holds all the properties of an attack										
-	void doAttack(attack_deff attack);					 
+	//Execute attack, rewritable for every type of character
+	virtual void doAttack();					 
 	//void onCollision(Collider* collider);
-	
-	// Get attack data from this entity depending on an attack_type -> attack_type: Enum with the basic attack types (light/heavy and crouching/standing/jumping
-	attack_deff getAttackData(attack_type type);
-
-	// PROVISIONAL: Returns if the state is neutral or not 
-	bool isNeutralState(state state);
-
-
-private:
-	void modifyInput(input requested_input, bool active);
 
 protected:
-	character_type type;
+	void updateAnimation(Animation& new_animation);
+
+protected:
+	CHAR_TYPE type;
 
 	iPoint position;
 	iPoint velocity;
@@ -126,24 +101,23 @@ protected:
 	int lane = 1; //Provisional 1 = bottom  2 = top
 
 	bool fliped;
+	bool hit = false;
 
 	// Entity collider
 	//Collider* hurtbox;								 
 	
 
-	input_values assigned_inputs;
-	active_inputs inputs_pressed;
+	//input_values assigned_inputs;
+	//active_inputs inputs_pressed;
 	
 
-	state wanted_state;
-	state current_state;
-	attack_type attack_doing;
+	CHAR_STATE current_state;
+	CHAR_ATT_TYPE attack_doing;
 
 	Animation* current_animation;
+	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack;
 
-	//Struct that stores attack data loaded from xml
-	attack_deff standing_light;
-
+	Player* owner;
 
 
 	//PROVISIONAL should be read from xml
@@ -151,3 +125,4 @@ protected:
 	float bottom_lane = 300;
 };
 
+#endif //__CHARACTER__
