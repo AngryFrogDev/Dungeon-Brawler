@@ -75,6 +75,9 @@
     <ClCompile Include="Character.cpp">
       <Filter>Entities\Characters</Filter>
     </ClCompile>
+    <ClCompile Include="mdAudio.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -125,7 +128,7 @@
     <ClInclude Include="Warrior.h">
       <Filter>Entities\Characters\Warrior</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Input-Combos\Input Combos\Animation.h">
+    <ClInclude Include="Animation.h">
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="p2Point.h">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>Entities\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="mdAudio.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
