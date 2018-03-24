@@ -15,6 +15,7 @@ class mdInput;
 class mdRender;
 class mdTextures;
 class mdAudio;
+class mdMap;
 
 class Application
 {
@@ -59,6 +60,7 @@ public:
 	mdInput*		input;
 	mdTextures*		textures;
 	mdAudio*		audio;
+	mdMap*			map;
 };
 
 extern Application* App;

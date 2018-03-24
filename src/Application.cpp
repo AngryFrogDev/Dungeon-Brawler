@@ -11,6 +11,7 @@
 #include "mdRender.h"
 #include "mdTextures.h"
 #include "mdAudio.h"
+#include "mdMap.h"
 
 
 Application::Application(int argc, char* args[]) {
@@ -20,6 +21,7 @@ Application::Application(int argc, char* args[]) {
 	input = new mdInput;
 	textures = new mdTextures;
 	audio = new mdAudio;
+	map = new mdMap;
 
 	addModule(filesystem);
 	addModule(window);
@@ -27,6 +29,7 @@ Application::Application(int argc, char* args[]) {
 	addModule(textures);
 	addModule(render);
 	addModule(audio);
+	addModule(map);
 }
 
 Application::~Application() {
