@@ -19,8 +19,8 @@ bool mdMap::awake(const pugi::xml_node& md_config) {
 	bool ret = true;
 
 	// Provisional, should be loaded from XML
-	data.map_image = App->textures->load("Assets/village.png");
-	data.background_image = App->textures->load("Assets/village_background.png");
+	data.map_image = App->textures->load("village.png");
+	data.background_image = App->textures->load("village_background.png");
 	map_loaded = true;
 
 	return ret;
