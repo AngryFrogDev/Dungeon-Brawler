@@ -19,8 +19,8 @@ bool mdMap::awake(const pugi::xml_node& md_config) {
 	bool ret = true;
 
 	// Provisional, should be loaded from XML
-	data.map_image = App->textures->load("village.png");
-	data.background_image = App->textures->load("village_background.png");
+	data.map_image = App->textures->load("assets/village.png");
+	data.background_image = App->textures->load("assets/village_background.png");
 	map_loaded = true;
 
 	return ret;
@@ -29,10 +29,10 @@ bool mdMap::awake(const pugi::xml_node& md_config) {
 void mdMap::draw() {
 	if (map_loaded) {
 		//Blit background
-		App->render->blit(data.background_image, 0, 0, (const SDL_Rect*)0, 3);
+		App->render->blit(data.background_image, 0, 0);
 
 		//Blit map
-		App->render->blit(data.map_image, 0, 0, (const SDL_Rect*)0, 3);
+		App->render->blit(data.map_image, 0, 0);
 	}
 }
 

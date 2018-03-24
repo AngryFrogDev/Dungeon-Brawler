@@ -19,8 +19,4 @@
 		<buffer window="1000"/>
 		<axis tolerance="0.2"/>
 	</input>
-	<audio>
-		<flags flac="true" mod="false" mp3="true" ogg="true" />
-		<sfx chunksize="1024" channels="16" />
-	</audio>
 </config>
