@@ -45,14 +45,11 @@ void Controller::addInput(CONTROLLER_BUTTON input, uint timestamp) {
 		timestamp = SDL_GetTicks();
 	new_input.timestamp = timestamp;
 	input_buffer.push_back(new_input);
-	LOG("input_buffer now has %d elements", input_buffer.size());
 }
 
 void Controller::popInput() {
-	if (!input_buffer.empty()) {
+	if (!input_buffer.empty()) 
 		input_buffer.pop_front();
-		LOG("input_buffer now has %d elements", input_buffer.size());
-	}
 }
 
 void Controller::pruneInput(uint milliseconds) {
@@ -164,16 +161,18 @@ bool mdInput::preUpdate() {
 						(*it)->buttons[event.cbutton.button] = KEY_DOWN;
 						break;
 					}
+				}
 				break;
-			}
+
 			case SDL_CONTROLLERBUTTONUP:
 				for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
 					if ((*it)->getControllerID() == event.cbutton.which) {
 						(*it)->buttons[event.cbutton.button] = KEY_UP;
 						break;
 					}
+				}
 				break;
-			}
+
 			case SDL_CONTROLLERAXISMOTION:
 				handleAxes(event);
 				break;
