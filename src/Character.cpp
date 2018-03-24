@@ -245,17 +245,24 @@ void Character::doAttack() {
 	switch (attack_doing) {
 	case ST_L:
 		updateAnimation(light_attack);
+		if (current_animation->Finished())
+			current_state = IDLE;
 		break;
 	case ST_H:
 		updateAnimation(heavy_attack);
+		if (current_animation->Finished())
+			current_state = IDLE;
+		break;
+	case JM_L:
+	case JM_H:
+	case JM_S1:
+	case JM_S2:
+		current_state = JUMPING;
 		break;
 	default:
 		current_state = IDLE;
 		break;
 	}
-
-	if (current_animation->Finished())
-		current_state = IDLE;
 }
 
 void Character::updateAnimation(Animation & new_animation) {

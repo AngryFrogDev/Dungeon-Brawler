@@ -30,7 +30,7 @@ enum CHAR_ATT_TYPE {
 	JM_L,
 	JM_H,
 	JM_S1,
-	JM_S2,
+	JM_S2
 };
 enum CHAR_STATE {
 	NULL_STATE,
