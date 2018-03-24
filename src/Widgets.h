@@ -16,7 +16,7 @@ enum ui_elem_type {
 
 class Widgets {
 public:
-	Widgets();
+	Widgets(ui_elem_type type, std::pair<int, int> pos, Module* callback);
 	virtual ~Widgets();
 
 	virtual bool preUpdate() { return true; };
@@ -27,8 +27,8 @@ public:
 
 public:
 	ui_elem_type type;
-	bool being_clicked = false;
 	SDL_Rect world_area;
+	std::pair<int, int> position;
 
 protected:
 	Module* callback = nullptr;

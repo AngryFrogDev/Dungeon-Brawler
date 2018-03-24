@@ -2,7 +2,7 @@
 
 
 
-Labels::Labels() {
+Labels::Labels(std::pair<int, int> pos, Module* callback) : Widgets(ui_elem_type::LABEL, pos, callback) {
 }
 
 

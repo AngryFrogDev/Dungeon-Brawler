@@ -7,7 +7,7 @@
 
 class Labels : public Widgets {
 public:
-	Labels();
+	Labels(std::pair<int, int> pos, Module* callback);
 	virtual ~Labels();
 
 	void draw();

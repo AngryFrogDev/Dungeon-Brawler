@@ -22,12 +22,11 @@ enum button_types {
 
 class Buttons : public Widgets {
 public:
-	Buttons();
+	Buttons(std::pair<int, int> pos, Module* callback);
 	virtual ~Buttons();
 
 	void draw();
-	bool mouseOver(const SDL_Rect& button);
-	void getSection(SDL_Rect idle_sec, SDL_Rect highl_sec, SDL_Rect clicked_sec, SDL_Rect disabled_rec);
+	void getSection(SDL_Rect idle_sec, SDL_Rect highl_sec, SDL_Rect clicked_sec, SDL_Rect disabled_sec);
 	void setButtonType(button_types type);
 	void setArea(uint w, uint h);
 
@@ -40,7 +39,7 @@ public:
 	bool hovering = false;
 
 private:
-	SDL_Rect clic_rect;
+	SDL_Rect click_rect;
 	SDL_Rect idle_rect;
 	SDL_Rect highl_rect;
 	SDL_Rect disabled_rect;
