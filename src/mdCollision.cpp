@@ -93,10 +93,11 @@ bool mdCollision::cleanUp()
 
 	for (std::list<collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it) {
 		collider* c = *it;
-		colliders.remove(c);
 		delete c;
 
 	}
+
+	colliders.clear();
 
 	return true;
 }
