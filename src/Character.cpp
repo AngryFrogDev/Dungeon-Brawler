@@ -11,7 +11,7 @@ Character::Character() {
 	current_state = CHAR_STATE::IDLE;
 	fliped = false;
 	//PROVISIONAL: This should be a parameter in the constructor
-	position.x = 300;
+	position.x = 700;
 	position.y = bottom_lane;
 }
 
@@ -87,10 +87,14 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			attack_doing = CHAR_ATT_TYPE::ST_S2;
 		}
 
-		if (fliped)
+		if (fliped && position.x >= 600) { // The position limit should be a variable
 			position.x += walk_speed;
-		else
+			App->render->camera.x -= walk_speed; // Camera should NOT be managed here
+		}
+		else if (position.x >= 600) { // The position limit should be a variable
 			position.x -= walk_speed;
+			App->render->camera.x += walk_speed; // Camera should NOT be managed here
+		}
 			
 		break;
 
@@ -124,10 +128,14 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			attack_doing = CHAR_ATT_TYPE::ST_S2;
 		}
 
-		if (fliped)
+		if (fliped && position.x <= 2500) { // The position limit should be a variable
 			position.x -= walk_speed;
-		else
+			App->render->camera.x += walk_speed; // Camera should NOT be managed here
+		}
+		else if (position.x <= 2500) { // The position limit should be a variable)
 			position.x += walk_speed;
+			App->render->camera.x -= walk_speed; // Camera should NOT be managed here
+		}
 		break;
 
 	case CROUCHING:

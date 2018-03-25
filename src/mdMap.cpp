@@ -29,10 +29,10 @@ bool mdMap::awake(const pugi::xml_node& md_config) {
 void mdMap::draw() {
 	if (map_loaded) {
 		//Blit background
-		App->render->blit(1, data.background_image, 0, 0, (const SDL_Rect*)0, 3, 0.3);
+		App->render->blit(1, data.background_image, 0, 0, (const SDL_Rect*)0, 4, 0.3);
 
 		//Blit map
-		App->render->blit(2, data.map_image, 0, 0, (const SDL_Rect*)0, 3);
+		App->render->blit(2, data.map_image, 0, 0, (const SDL_Rect*)0, 4);
 	}
 }
 
@@ -54,8 +54,7 @@ bool mdMap::cleanUp() {
 }
 
 // Load map general properties
-bool mdMap::loadMap()
-{
+bool mdMap::loadMap() {
 	bool ret = true;
 	pugi::xml_node map = map_file.child("map");
 
@@ -64,22 +63,22 @@ bool mdMap::loadMap()
 		ret = false;
 	}
 	else {
-		// Load map characteristics
+		// Load map characteristics, (Provisional, should be done thorugh xml)
+		data.map_image = App->textures->load("assets/village.png");
+		data.background_image = App->textures->load("assets/village_background.png");
 	}
+	map_loaded = true;
 
 	return ret;
 }
 
-bool mdMap::loadBackground(pugi::xml_node& node) {
-	// Load background image
-
-	return true;
-}
-
-bool mdMap::loadForeground(pugi::xml_node& node) {
-	// Load background image
-
-	return true;
+bool mdMap::unloadMap() {
+	bool ret = true;
+	App->textures->unload(data.map_image);
+	App->textures->unload(data.background_image);
+	map_loaded = false;
+	
+	return ret;
 }
 
 bool mdMap::loadMapPropierties(pugi::xml_node& node) {

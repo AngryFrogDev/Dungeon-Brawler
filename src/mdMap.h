@@ -39,9 +39,8 @@ public:
 private:
 
 	bool loadMap();
-	bool loadBackground(pugi::xml_node& node);
-	bool loadForeground(pugi::xml_node& node);
 	bool loadMapPropierties(pugi::xml_node& node);
+	bool unloadMap();
 
 public:
 
