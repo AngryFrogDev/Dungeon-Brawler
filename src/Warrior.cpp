@@ -45,11 +45,6 @@ Warrior::Warrior(): Character() {
 	walk_back.loop = true;
 	walk_back.speed = 0.2;
 
-	crouch.PushBack({ 195 * 2	,158 * 19,195,158 });
-
-	crouch.loop = false;
-	crouch.speed = 0.2;
-
 	light_attack.PushBack({ 0,158 * 13,195, 158 });
 	light_attack.PushBack({ 195,158 * 13,195, 158 });
 	light_attack.PushBack({ 195 * 2,158 * 13,195, 158 });
@@ -58,8 +53,7 @@ Warrior::Warrior(): Character() {
 	light_attack.PushBack({ 195 * 5,158 * 13,195, 158 });
 
 	light_attack.loop = false;
-	light_attack.speed = 0.2;
-
+	light_attack.speed = 0.3;
 
 	heavy_attack.PushBack({ 0,158 * 12,195, 158 });
 	heavy_attack.PushBack({ 195,158 * 12,195, 158 });
@@ -73,20 +67,12 @@ Warrior::Warrior(): Character() {
 	heavy_attack.PushBack({ 195 * 9,158 * 12,195, 158 });
 
 	heavy_attack.loop = false;
-	heavy_attack.speed = 0.2;
-	
-	jump.PushBack({ 0, 158 * 2, 195, 158 });
-	jump.PushBack({ 195, 158 * 2, 195, 158 });
-	jump.PushBack({ 195 * 2, 158 * 2, 195, 158 });
-	jump.PushBack({ 195 * 3, 158 * 2, 195, 158 });
-	jump.PushBack({ 195 * 4, 158 * 2, 195, 158 });
-	jump.PushBack({ 195 * 5, 158 * 2, 195, 158 });
-	jump.PushBack({ 195 * 6, 158 * 2, 195, 158 });
-	jump.PushBack({ 195 * 7, 158 * 2, 195, 158 });
-	jump.PushBack({ 195 * 8, 158 * 2, 195, 158 });
+	heavy_attack.speed = 0.3;
 
-	jump.loop = false;
-	jump.speed = 0.2;
+	crouch.PushBack({ 195 * 2	,158 * 19,195,158 });
+
+	crouch.loop = false;
+	crouch.speed = 0.2;
 
 	crouching_light.PushBack({ 0,158 * 20,195,158 });
 	crouching_light.PushBack({ 195,158 * 20,195,158 });
@@ -109,6 +95,35 @@ Warrior::Warrior(): Character() {
 
 	crouching_heavy.loop = false;
 	crouching_heavy.speed = 0.2;
+	
+	jump.PushBack({ 0, 158 * 2, 195, 158 });
+	jump.PushBack({ 195, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 2, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 3, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 4, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 5, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 6, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 7, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 8, 158 * 2, 195, 158 });
+
+	
+
+	jump.loop = false;
+	jump.speed = 0.2;
+
+	jumping_light.PushBack({ 0      ,158 * 15,195,158 });
+	jumping_light.PushBack({ 195    ,158 * 15,195,158 });
+	jumping_light.PushBack({ 195 * 2,158 * 15,195,158 });
+
+	jumping_light.loop = false;
+	jumping_light.speed = 0.2;
+
+	jumping_heavy.PushBack({ 0      ,158 * 16,195,158 });
+	jumping_heavy.PushBack({ 195    ,158 * 16,195,158 });
+
+	jumping_heavy.loop = false;
+	jumping_heavy.speed = 0.2;
+
 	//PROVISIONAL, should be read from xml
 	grounded = true;
 

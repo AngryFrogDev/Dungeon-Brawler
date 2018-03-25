@@ -115,7 +115,7 @@ protected:
 	CHAR_ATT_TYPE attack_doing;
 
 	Animation* current_animation;
-	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy;
+	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy;
 
 	Player* owner;
 

@@ -268,7 +268,19 @@ void Character::doAttack() {
 			current_state = CROUCHING;
 		break;
 	case JM_L:
+		updateAnimation(jumping_light);
+		if (grounded)
+			current_state = IDLE; //Maybe should be "RECOVERY"
+		applyGravity();		//Do not reverse order! Nasty things will happen
+		setIfGrounded();
+		break;
 	case JM_H:
+		updateAnimation(jumping_heavy);
+		if (grounded)
+			current_state = IDLE; //Maybe should be "RECOVERY"
+		applyGravity();		//Do not reverse order! Nasty things will happen
+		setIfGrounded();
+		break;
 	case JM_S1:
 	case JM_S2:
 		current_state = JUMPING;
