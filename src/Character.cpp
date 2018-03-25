@@ -235,7 +235,10 @@ void Character::setIfGrounded() {
 	//will be updated
 	LOG("%d",position.y);
 	if (position.y >= bottom_lane)
+	{ 
 		grounded = true;
+		velocity.y = 0;
+	}
 }
 
 void Character::draw(SDL_Texture* graphic)  const{

@@ -96,7 +96,7 @@ protected:
 	int walk_speed;	
 
 	bool grounded;
-	float jump_power;
+	int jump_power;
 
 	int lane = 1; //Provisional 1 = bottom  2 = top
 
@@ -122,7 +122,7 @@ protected:
 
 	//PROVISIONAL should be read from xml
 	float gravity = 1;
-	float bottom_lane = 300;
+	int bottom_lane = 300;
 };
 
 #endif //__CHARACTER__
