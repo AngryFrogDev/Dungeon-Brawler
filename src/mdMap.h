@@ -6,6 +6,7 @@
 #include "Module.h"
 #include "mdRender.h"
 #include "p2Point.h"
+#include "mdInput.h"
 
 struct MapData
 {
@@ -38,7 +39,7 @@ public:
 
 private:
 
-	bool loadMap();
+	bool loadMap(int mapIndex);
 	bool loadMapPropierties(pugi::xml_node& node);
 	bool unloadMap();
 
