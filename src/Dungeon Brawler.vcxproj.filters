@@ -63,6 +63,9 @@
     <ClCompile Include="mdTextures.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="mdCollision.cpp">
+	  <Filter>Modules</Filter>
+	</ClCompile>
     <ClCompile Include="mdEntities.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
