@@ -257,6 +257,16 @@ void Character::doAttack() {
 		if (current_animation->Finished())
 			current_state = IDLE;
 		break;
+	case CR_L:
+		updateAnimation(crouching_light);
+		if (current_animation->Finished())
+			current_state = CROUCHING;
+		break;
+	case CR_H: 
+		updateAnimation(crouching_heavy);
+		if (current_animation->Finished())
+			current_state = CROUCHING;
+		break;
 	case JM_L:
 	case JM_H:
 	case JM_S1:

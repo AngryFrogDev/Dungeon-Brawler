@@ -45,8 +45,6 @@ Warrior::Warrior(): Character() {
 	walk_back.loop = true;
 	walk_back.speed = 0.2;
 
-	crouch.PushBack({ 0			,158 * 19,195,158 });
-	crouch.PushBack({ 195		,158 * 19,195,158 });
 	crouch.PushBack({ 195 * 2	,158 * 19,195,158 });
 
 	crouch.loop = false;
@@ -89,6 +87,28 @@ Warrior::Warrior(): Character() {
 
 	jump.loop = false;
 	jump.speed = 0.2;
+
+	crouching_light.PushBack({ 0,158 * 20,195,158 });
+	crouching_light.PushBack({ 195,158 * 20,195,158 });
+	crouching_light.PushBack({ 195 * 2,158 * 20,195,158 });
+	crouching_light.PushBack({ 195 * 3,158 * 20,195,158 });
+	crouching_light.PushBack({ 195 * 4,158 * 20,195,158 });
+	crouching_light.PushBack({ 195 * 5,158 * 20,195,158 });
+	crouching_light.PushBack({ 195 * 6,158 * 20,195,158 });
+
+	crouching_light.loop = false;
+	crouching_light.speed = 0.2;
+
+	crouching_heavy.PushBack({ 0,158 * 8,195,158 });
+	crouching_heavy.PushBack({ 195,158 * 8,195,158 });
+	crouching_heavy.PushBack({ 195 * 2,158 * 8,195,158 });
+	crouching_heavy.PushBack({ 195 * 3,158 * 8,195,158 });
+	crouching_heavy.PushBack({ 195 * 4,158 * 8,195,158 });
+	crouching_heavy.PushBack({ 195 * 5,158 * 8,195,158 });
+	crouching_heavy.PushBack({ 195 * 6,158 * 8 ,195,158 });
+
+	crouching_heavy.loop = false;
+	crouching_heavy.speed = 0.2;
 	//PROVISIONAL, should be read from xml
 	grounded = true;
 
