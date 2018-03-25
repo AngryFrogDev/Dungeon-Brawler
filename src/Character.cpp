@@ -164,6 +164,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		break;
 
 	case JUMPING:
+		updateAnimation(jump);
 		if (grounded)
 			current_state = CHAR_STATE::IDLE;
 		else if (hit)
@@ -249,7 +250,7 @@ void Character::doAttack() {
 			current_state = IDLE;
 		break;
 	case ST_H:
-		updateAnimation(heavy_attack);
+ 		updateAnimation(heavy_attack);
 		if (current_animation->Finished())
 			current_state = IDLE;
 		break;

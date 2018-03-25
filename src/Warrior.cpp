@@ -63,6 +63,32 @@ Warrior::Warrior(): Character() {
 	light_attack.speed = 0.2;
 
 
+	heavy_attack.PushBack({ 0,158 * 12,195, 158 });
+	heavy_attack.PushBack({ 195,158 * 12,195, 158 });
+	heavy_attack.PushBack({ 195 * 2,158 * 12,195, 158 });
+	heavy_attack.PushBack({ 195 * 3,158 * 12,195, 158 });
+	heavy_attack.PushBack({ 195 * 4,158 * 12,195, 158 });
+	heavy_attack.PushBack({ 195 * 5,158 * 12,195, 158 });
+	heavy_attack.PushBack({ 195 * 6,158 * 12,195, 158 });
+	heavy_attack.PushBack({ 195 * 7,158 * 12,195, 158 });
+	heavy_attack.PushBack({ 195 * 8,158 * 12,195, 158 });
+	heavy_attack.PushBack({ 195 * 9,158 * 12,195, 158 });
+
+	heavy_attack.loop = false;
+	heavy_attack.speed = 0.2;
+	
+	jump.PushBack({ 0, 158 * 2, 195, 158 });
+	jump.PushBack({ 195, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 2, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 3, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 4, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 5, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 6, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 7, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 8, 158 * 2, 195, 158 });
+
+	jump.loop = false;
+	jump.speed = 0.2;
 	//PROVISIONAL, should be read from xml
 	grounded = true;
 

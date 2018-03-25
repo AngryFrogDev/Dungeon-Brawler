@@ -104,7 +104,7 @@ protected:
 	bool hit = false;
 
 	// Entity collider
-	//Collider* hurtbox;								 
+	//collider* hurtbox;								 
 	
 
 	//input_values assigned_inputs;
@@ -115,7 +115,7 @@ protected:
 	CHAR_ATT_TYPE attack_doing;
 
 	Animation* current_animation;
-	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack;
+	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump;
 
 	Player* owner;
 
