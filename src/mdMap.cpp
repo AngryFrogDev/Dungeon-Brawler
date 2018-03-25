@@ -58,6 +58,8 @@ bool mdMap::loadMap() {
 	bool ret = true;
 	pugi::xml_node map = map_file.child("map");
 
+	loadMapPropierties(map);
+
 	if (map == NULL) {
 		LOG("Error parsing map xml file: Cannot find 'map' tag.");
 		ret = false;
