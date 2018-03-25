@@ -30,6 +30,7 @@ public:
 	Widgets* createBar(bar_types type, std::pair<int, int> pos, Module* callback = nullptr);
 	bool destroyWidget(Widgets* widget);
 
+	void manageFocus();
 	SDL_Texture* getAtlas() const;
 	void draw();
 	void debugUi();
@@ -38,6 +39,7 @@ public:
 	std::list<Widgets*> ui_elements;
 	SDL_Texture* atlas;
 	std::string atlas_file_name;
+	Widgets* focused_elem = nullptr;
 
 private:
 	bool debug = false;

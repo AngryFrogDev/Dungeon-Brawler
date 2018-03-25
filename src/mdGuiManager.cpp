@@ -16,6 +16,7 @@ mdGuiManager::mdGuiManager() : Module() {
 mdGuiManager::~mdGuiManager() {}
 
 bool mdGuiManager::awake(const pugi::xml_node& md_config) {
+
 	LOG("Loading GUI atlas");
 	bool ret = true;
 
@@ -26,10 +27,12 @@ bool mdGuiManager::awake(const pugi::xml_node& md_config) {
 }
 
 bool mdGuiManager::preUpdate() {
+
 	bool ret = true;
 
+	manageFocus();
+	
 	Widgets* object = nullptr;
-
 	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
 	for (ui_iterator; ui_iterator != ui_elements.end() && ret; ui_iterator++) {
 		object = *ui_iterator;
@@ -40,6 +43,7 @@ bool mdGuiManager::preUpdate() {
 }
 
 bool mdGuiManager::update() {
+
 	bool ret = true;
 
 	Widgets* object = nullptr;
@@ -55,6 +59,7 @@ bool mdGuiManager::update() {
 }
 
 bool mdGuiManager::cleanUp() {
+
 	bool ret = true;
 	App->textures->unload(atlas);
 
@@ -72,6 +77,7 @@ bool mdGuiManager::cleanUp() {
 }
 
 Widgets* mdGuiManager::createButton(button_types type, std::pair<int, int> pos, Module * callback) {
+
 	Widgets* ret = nullptr;
 
 	if (type != 0)
@@ -81,6 +87,7 @@ Widgets* mdGuiManager::createButton(button_types type, std::pair<int, int> pos, 
 }
 
 Widgets* mdGuiManager::createLabel(std::pair<int, int> pos, Module * callback) {
+
 	Widgets* ret = nullptr;
 
 	ret = new Labels(pos, callback);
@@ -90,6 +97,7 @@ Widgets* mdGuiManager::createLabel(std::pair<int, int> pos, Module * callback) {
 }
 
 Widgets* mdGuiManager::createBar(bar_types type, std::pair<int, int> pos, Module * callback) {
+
 	Widgets* ret = nullptr;
 
 	if (type != 0)
@@ -99,6 +107,7 @@ Widgets* mdGuiManager::createBar(bar_types type, std::pair<int, int> pos, Module
 }
 
 bool mdGuiManager::destroyWidget(Widgets* widget) {
+
 	bool ret = true;
 
 	if (widget == nullptr)
@@ -120,11 +129,55 @@ bool mdGuiManager::destroyWidget(Widgets* widget) {
 	return ret;
 }
 
+void mdGuiManager::manageFocus() {
+
+	//Temporary done in keyboard
+	if (App->input.getKey(SDL_SCANCODE_UP) == KEY_DOWN)
+	{
+		if (focused_elem != *ui_elements.begin())//Case player wants to go up when not at the first button
+		{
+			std::list<Widgets*>::iterator temp_elem = ui_elements.begin();
+			for (temp_elem; temp_elem != ui_elements.end(); temp_elem++)
+			{
+				if (*temp_elem == focused_elem)//Iterate until find the currently focused element
+				{
+					temp_elem--;//Move the iterator to the previous ui element
+					focused_elem = *temp_elem;//Assign its value to the focused element
+					break;
+				}
+			}
+		}
+		else 
+			focused_elem = *ui_elements.end();
+	}
+
+	if (App->input.getKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+	{
+		if (focused_elem != *ui_elements.end())//Case player wants to go down when not at the last button
+		{
+			std::list<Widgets*>::iterator temp_elem = ui_elements.begin();
+			for (temp_elem; temp_elem != ui_elements.end(); temp_elem++)
+			{
+				if (*temp_elem == focused_elem)
+				{
+					temp_elem++;
+					focused_elem = *temp_elem;
+					break;
+				}
+			}
+		}
+		else
+			focused_elem = *ui_elements.begin();
+	}
+}
+
 SDL_Texture * mdGuiManager::getAtlas() const {
+
 	return atlas;
 }
 
 void mdGuiManager::draw() {
+
 	Widgets* object = nullptr;
 
 	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();

@@ -12,6 +12,8 @@ public:
 	Buttons(button_types type, std::pair<int, int> pos, Module* callback);
 	virtual ~Buttons();
 
+	bool preUpdate();
+
 	void draw();
 	void getSection(SDL_Rect idle_sec, SDL_Rect highl_sec, SDL_Rect clicked_sec, SDL_Rect disabled_sec);
 	void setButtonType(button_types type);

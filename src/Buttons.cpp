@@ -6,12 +6,27 @@
 
 
 Buttons::Buttons(button_types type, std::pair<int, int> pos, Module* callback) : Widgets(ui_elem_type::BUTTON, pos, callback) {
+	
 	current_rect = &idle_rect;
 	//click_sfx = App->audio->loadSFX(/*Path*/);
 }
 
-
 Buttons::~Buttons() {
+}
+
+bool Buttons::preUpdate()
+{
+	bool ret = true;
+
+	if (!enabled)
+	{
+		current_rect = &disabled_rect;
+		return ret;
+	}
+	
+	world_area = { position.first, position.second, current_rect->w, current_rect->h };
+
+	return ret;
 }
 
 void Buttons::draw() {

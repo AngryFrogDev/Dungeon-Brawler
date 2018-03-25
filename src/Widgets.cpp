@@ -10,5 +10,4 @@ Widgets::Widgets(ui_elem_type type, std::pair<int, int> pos, Module* callback) :
 	world_area.y = pos.second;
 }
 
-
 Widgets::~Widgets() {}
