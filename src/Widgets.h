@@ -41,8 +41,7 @@ public:
 
 	virtual bool preUpdate() { return true; };
 	virtual bool update() { return true; };
-	virtual bool cleanUp() { return true; };
-
+	
 	virtual void draw() { return; };
 
 public:

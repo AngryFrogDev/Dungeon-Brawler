@@ -28,9 +28,11 @@ bool mdGuiManager::awake(const pugi::xml_node& md_config) {
 bool mdGuiManager::preUpdate() {
 	bool ret = true;
 
+	Widgets* object = nullptr;
+
 	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
 	for (ui_iterator; ui_iterator != ui_elements.end() && ret; ui_iterator++) {
-		Widgets* object = *ui_iterator;
+		object = *ui_iterator;
 		ret = object->preUpdate();
 	}
 
@@ -40,9 +42,11 @@ bool mdGuiManager::preUpdate() {
 bool mdGuiManager::update() {
 	bool ret = true;
 
+	Widgets* object = nullptr;
+
 	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
 	for (ui_iterator; ui_iterator != ui_elements.end() && ret; ui_iterator++) {
-		Widgets* object = *ui_iterator;
+		object = *ui_iterator;
 		ret = object->update();
 	}
 	
@@ -51,7 +55,20 @@ bool mdGuiManager::update() {
 }
 
 bool mdGuiManager::cleanUp() {
-	return true;
+	bool ret = true;
+	App->textures->unload(atlas);
+
+	Widgets* object = nullptr;
+
+	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
+	for (ui_iterator; ui_iterator != ui_elements.end() && ret; ui_iterator++) {
+		object = *ui_iterator;
+		ret = destroyWidget(object);
+	}
+
+	ui_elements.clear();
+
+	return ret;
 }
 
 Widgets* mdGuiManager::createButton(button_types type, std::pair<int, int> pos, Module * callback) {
@@ -81,8 +98,26 @@ Widgets* mdGuiManager::createBar(bar_types type, std::pair<int, int> pos, Module
 	return ret;
 }
 
-bool mdGuiManager::destroyWidget(Widgets * widget) {
-	return true;
+bool mdGuiManager::destroyWidget(Widgets* widget) {
+	bool ret = true;
+
+	if (widget == nullptr)
+		ret = false;
+
+	Widgets* object = nullptr;
+
+	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
+	for (ui_iterator; ui_iterator != ui_elements.end() && ret; ui_iterator++) {
+		object = *ui_iterator;
+		
+		if (object == widget)
+		{
+			ui_elements.remove(object);
+			RELEASE(object);
+		}
+	}
+
+	return ret;
 }
 
 SDL_Texture * mdGuiManager::getAtlas() const {
@@ -90,10 +125,11 @@ SDL_Texture * mdGuiManager::getAtlas() const {
 }
 
 void mdGuiManager::draw() {
+	Widgets* object = nullptr;
 
 	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
 	for (ui_iterator; ui_iterator != ui_elements.end(); ui_iterator++) {
-		Widgets* object = *ui_iterator;
+		object = *ui_iterator;
 		object->draw();
 	}
 }
@@ -107,11 +143,13 @@ void mdGuiManager::debugUi() {
 	if (debug == false)
 		return;
 
+	Widgets* object = nullptr;
 	uint alpha = 80;
+
 	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
 	for (ui_iterator; ui_iterator != ui_elements.end(); ui_iterator++)	{
 
-		Widgets* object = *ui_iterator;
+		object = *ui_iterator;
 		switch (object->type)
 		{
 		case BUTTON: // red
