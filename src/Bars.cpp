@@ -3,7 +3,7 @@
 #include "Bars.h"
 
 
-Bars::Bars(std::pair<int, int> pos, Module* callback) : Widgets(ui_elem_type::LABEL, pos, callback) {
+Bars::Bars(bar_types type, std::pair<int, int> pos, Module* callback) : Widgets(ui_elem_type::BAR, pos, callback) {
 }
 
 

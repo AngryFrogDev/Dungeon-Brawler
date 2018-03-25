@@ -8,6 +8,7 @@
 #include "Labels.h"
 #include "Bars.h"
 
+
 mdGuiManager::mdGuiManager() : Module() {
 	name = "gui";
 }
@@ -18,6 +19,7 @@ bool mdGuiManager::awake(const pugi::xml_node& md_config) {
 	LOG("Loading GUI atlas");
 	bool ret = true;
 
+	//atlas = App->textures->load();
 	atlas_file_name = md_config.child("atlas").attribute("file").as_string("");
 
 	return ret;
@@ -52,23 +54,29 @@ bool mdGuiManager::cleanUp() {
 	return true;
 }
 
-Widgets * mdGuiManager::createWidget(ui_elem_type type, uint x, uint y, Module * callback) {
+Widgets* mdGuiManager::createButton(button_types type, std::pair<int, int> pos, Module * callback) {
 	Widgets* ret = nullptr;
 
-	//Temporary position variable that is passed to the constructors of the elements
-	std::pair<int, int> temp_pos;
-	
-	switch (type)	{
-	case ui_elem_type::BUTTON:
-		ret = new Buttons(temp_pos, callback); break;
-	case ui_elem_type::LABEL:
-		ret = new Labels(temp_pos, callback); break;
-	case ui_elem_type::BAR:
-		ret = new Bars(temp_pos, callback); break;
-	}
+	if (type != 0)
+		ret = new Buttons(type, pos, callback), ui_elements.push_back(ret);
+		
+	return ret;
+}
 
-	if (ret != nullptr)
-		ui_elements.push_back(ret);
+Widgets* mdGuiManager::createLabel(std::pair<int, int> pos, Module * callback) {
+	Widgets* ret = nullptr;
+
+	ret = new Labels(pos, callback);
+	ui_elements.push_back(ret);
+
+	return ret;
+}
+
+Widgets* mdGuiManager::createBar(bar_types type, std::pair<int, int> pos, Module * callback) {
+	Widgets* ret = nullptr;
+
+	if (type != 0)
+		ret = new Bars(type, pos, callback), ui_elements.push_back(ret);
 
 	return ret;
 }

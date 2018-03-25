@@ -5,7 +5,7 @@
 
 
 
-Buttons::Buttons(std::pair<int, int> pos, Module* callback) : Widgets(ui_elem_type::BUTTON, pos, callback) {
+Buttons::Buttons(button_types type, std::pair<int, int> pos, Module* callback) : Widgets(ui_elem_type::BUTTON, pos, callback) {
 	current_rect = &idle_rect;
 	//click_sfx = App->audio->loadSFX(/*Path*/);
 }

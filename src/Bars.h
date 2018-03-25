@@ -5,17 +5,9 @@
 #include "mdGuiManager.h"
 #include "SDL/include/SDL.h"
 
-
-enum bar_types {
-	NO_BAR = 0,
-	HEALTH_BAR,
-	SUPER_BAR,
-	SWAP_BAR,
-};
-
 class Bars : public Widgets {
 public:
-	Bars(std::pair<int, int> pos, Module* callback);
+	Bars(bar_types type, std::pair<int, int> pos, Module* callback);
 	~Bars();
 	void draw();
 	void setType(bar_types type);

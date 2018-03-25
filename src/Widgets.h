@@ -13,6 +13,26 @@ enum ui_elem_type {
 	BAR,
 };
 
+//Review button types
+enum button_types {
+	NO_BUTTON = 0,
+	NEW_GAME,
+	SETTINGS,
+	CREDITS,
+	EXIT,
+	MUSIC_VOL_UP,
+	MUSIC_VOL_DOWN,
+	SOUND_VOL_UP,
+	SOUND_VOL_DOWN,
+	BACK,
+};
+
+enum bar_types {
+	NO_BAR = 0,
+	HEALTH_BAR,
+	SUPER_BAR,
+	SWAP_BAR,
+};
 
 class Widgets {
 public:

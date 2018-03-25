@@ -6,23 +6,10 @@
 
 #include "SDL/include/SDL.h"
 
-//Review button types
-enum button_types {
-	NO_BUTTON = 0,
-	NEW_GAME,
-	SETTINGS,
-	CREDITS,
-	EXIT,
-	MUSIC_VOL_UP,
-	MUSIC_VOL_DOWN,
-	SOUND_VOL_UP,
-	SOUND_VOL_DOWN,
-	BACK,
-};
 
 class Buttons : public Widgets {
 public:
-	Buttons(std::pair<int, int> pos, Module* callback);
+	Buttons(button_types type, std::pair<int, int> pos, Module* callback);
 	virtual ~Buttons();
 
 	void draw();

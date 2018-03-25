@@ -25,7 +25,9 @@ public:
 	bool update();
 	bool cleanUp();
 
-	Widgets* createWidget(ui_elem_type type, uint x, uint y, Module* callback = nullptr);
+	Widgets* createButton(button_types type, std::pair<int, int> pos, Module* callback = nullptr);
+	Widgets* createLabel(std::pair<int, int> pos, Module* callback = nullptr);
+	Widgets* createBar(bar_types type, std::pair<int, int> pos, Module* callback = nullptr);
 	bool destroyWidget(Widgets* widget);
 
 	SDL_Texture* getAtlas() const;
