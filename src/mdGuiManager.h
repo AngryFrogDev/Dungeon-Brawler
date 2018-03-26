@@ -11,8 +11,10 @@
 //Some events may be missing
 enum controller_events {
 	NO_EVENT = 0,
+	IDLE,
+	FOCUSED,
 	CLICK,
-	RELEASE,
+	
 };
 
 class mdGuiManager : public Module {
@@ -22,7 +24,7 @@ public:
 
 	bool awake(const pugi::xml_node&);
 	bool preUpdate();
-	bool update();
+	bool update(float dt);
 	bool cleanUp();
 
 	Widgets* createButton(button_types type, std::pair<int, int> pos, Module* callback = nullptr);
@@ -43,6 +45,7 @@ public:
 
 private:
 	bool debug = false;
+	bool temp = false;
 
 };
 

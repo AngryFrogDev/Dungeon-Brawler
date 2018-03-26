@@ -40,7 +40,7 @@ public:
 	virtual ~Widgets();
 
 	virtual bool preUpdate() { return true; };
-	virtual bool update() { return true; };
+	virtual bool update(float dt) { return true; };
 	
 	virtual void draw() { return; };
 

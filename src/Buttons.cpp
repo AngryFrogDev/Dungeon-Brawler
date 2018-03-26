@@ -2,10 +2,38 @@
 #include "Buttons.h"
 #include "mdAudio.h"
 #include "mdRender.h"
+#include "mdInput.h"
 
 
 
 Buttons::Buttons(button_types type, std::pair<int, int> pos, Module* callback) : Widgets(ui_elem_type::BUTTON, pos, callback) {
+	
+	switch (type)
+	{
+	case NO_BUTTON:
+		break;
+	case NEW_GAME:
+		getSection({ 3,7,288,96 }, { 3,103,288,96 }, { 3, 199, 288, 96 }, { 0,0,0,0 });
+		break;
+	case SETTINGS:
+		break;
+	case CREDITS:
+		break;
+	case EXIT:
+		break;
+	case MUSIC_VOL_UP:
+		break;
+	case MUSIC_VOL_DOWN:
+		break;
+	case SOUND_VOL_UP:
+		break;
+	case SOUND_VOL_DOWN:
+		break;
+	case BACK:
+		break;
+	default:
+		break;
+	}
 	
 	current_rect = &idle_rect;
 	//click_sfx = App->audio->loadSFX(/*Path*/);
@@ -25,6 +53,20 @@ bool Buttons::preUpdate()
 	}
 	
 	world_area = { position.first, position.second, current_rect->w, current_rect->h };
+
+	if (App->gui->focused_elem == this)
+		hovering = true;
+	else
+		changeVisualState(IDLE);
+					
+	if (hovering)
+	{
+		changeVisualState(FOCUSED);
+		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+			changeVisualState(CLICK);
+		hovering = false;
+	}
+	
 
 	return ret;
 }
@@ -73,7 +115,9 @@ void Buttons::changeVisualState(controller_events event) {
 	switch (event) {
 	case CLICK:
 		current_rect = &click_rect; break;
-	case RELEASE:
+	case FOCUSED:
 		current_rect = &highl_rect; break;
+	case IDLE:
+		current_rect = &idle_rect; break;
 	}
 }

@@ -20,7 +20,8 @@ bool mdGuiManager::awake(const pugi::xml_node& md_config) {
 	LOG("Loading GUI atlas");
 	bool ret = true;
 
-	//atlas = App->textures->load();
+	
+	atlas = App->textures->load("atlas.png");
 	atlas_file_name = md_config.child("atlas").attribute("file").as_string("");
 
 	return ret;
@@ -42,17 +43,33 @@ bool mdGuiManager::preUpdate() {
 	return ret;
 }
 
-bool mdGuiManager::update() {
+bool mdGuiManager::update(float dt) {
 
 	bool ret = true;
 
 	Widgets* object = nullptr;
 
+	
+	//Temporary testing-> TO BE REMOVED BEFORE MERGING
+	if (App->input->getKey(SDL_SCANCODE_1) == KEY_DOWN)
+	{
+		createButton(NEW_GAME, { 0,0 }, this);
+		createButton(NEW_GAME, { 0,150 }, this);
+		temp = true;
+	}
+
+	//Temporary
+	if (temp)
+		focused_elem = *ui_elements.begin(), temp = false;
+
 	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
 	for (ui_iterator; ui_iterator != ui_elements.end() && ret; ui_iterator++) {
 		object = *ui_iterator;
-		ret = object->update();
+		ret = object->update(dt);
 	}
+	
+	//Temporary testing-> TO BE REMOVED BEFORE MERGING
+	draw();
 	
 	debugUi();
 	return true;
@@ -65,8 +82,8 @@ bool mdGuiManager::cleanUp() {
 
 	Widgets* object = nullptr;
 
-	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
-	for (ui_iterator; ui_iterator != ui_elements.end() && ret; ui_iterator++) {
+	std::list<Widgets*>::reverse_iterator ui_iterator = ui_elements.rbegin();
+	for (ui_iterator; ui_iterator != ui_elements.rend(); ++ui_iterator) {
 		object = *ui_iterator;
 		ret = destroyWidget(object);
 	}
@@ -112,27 +129,16 @@ bool mdGuiManager::destroyWidget(Widgets* widget) {
 
 	if (widget == nullptr)
 		ret = false;
-
-	Widgets* object = nullptr;
-
-	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
-	for (ui_iterator; ui_iterator != ui_elements.end() && ret; ui_iterator++) {
-		object = *ui_iterator;
-		
-		if (object == widget)
-		{
-			ui_elements.remove(object);
-			RELEASE(object);
-		}
-	}
-
+	else
+		RELEASE(widget);
+	
 	return ret;
 }
 
 void mdGuiManager::manageFocus() {
 
 	//Temporary done in keyboard
-	if (App->input.getKey(SDL_SCANCODE_UP) == KEY_DOWN)
+	if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN)
 	{
 		if (focused_elem != *ui_elements.begin())//Case player wants to go up when not at the first button
 		{
@@ -148,12 +154,12 @@ void mdGuiManager::manageFocus() {
 			}
 		}
 		else 
-			focused_elem = *ui_elements.end();
+			focused_elem = *ui_elements.rbegin();
 	}
 
-	if (App->input.getKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+	if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 	{
-		if (focused_elem != *ui_elements.end())//Case player wants to go down when not at the last button
+		if (focused_elem != *ui_elements.rbegin())//Case player wants to go down when not at the last button
 		{
 			std::list<Widgets*>::iterator temp_elem = ui_elements.begin();
 			for (temp_elem; temp_elem != ui_elements.end(); temp_elem++)
@@ -178,7 +184,7 @@ SDL_Texture * mdGuiManager::getAtlas() const {
 
 void mdGuiManager::draw() {
 
-	Widgets* object = nullptr;
+		Widgets* object = nullptr;
 
 	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
 	for (ui_iterator; ui_iterator != ui_elements.end(); ui_iterator++) {
