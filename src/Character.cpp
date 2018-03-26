@@ -244,7 +244,7 @@ void Character::setIfGrounded() {
 }
 
 void Character::draw(SDL_Texture* graphic)  const{
-	App->render->blit(graphic, position.x, position.y, &current_animation->GetCurrentFrame(),3);
+	App->render->blit(graphic, position.x, position.y, &current_animation->GetCurrentFrame(),3, fliped);
 }
 
 void Character::doAttack() {

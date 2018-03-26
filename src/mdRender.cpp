@@ -85,7 +85,7 @@ void mdRender::resetViewPort() {
 }
 
 // Blit to screen
-bool mdRender::blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,double scale, float speed, double angle, int pivot_x, int pivot_y) const {
+bool mdRender::blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,double scale,bool flip, float speed, double angle, int pivot_x, int pivot_y) const {
 	//TODO: Add option to blit at a different scale
 	bool ret = true;
 
@@ -112,7 +112,13 @@ bool mdRender::blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 		p = &pivot;
 	}
 
-	if (SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, SDL_FLIP_NONE) != 0) {
+	SDL_RendererFlip flip_flag;
+	if (flip)
+		flip_flag = SDL_FLIP_HORIZONTAL;
+	else
+		flip_flag = SDL_FLIP_NONE;
+
+	if (SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, flip_flag) != 0) {
 		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
 		ret = false;
 	}

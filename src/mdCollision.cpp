@@ -113,14 +113,13 @@ bool mdCollision::cleanUp()
 	for (std::list<collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it) {
 		collider* c = *it;
 		delete c;
-
 	}
 
 	colliders.clear();
 	return true;
 }
 
-void mdCollision::onCollision(collider*c1, collider* c2) 	{
+void mdCollision::onCollision(collider*c1, collider* c2) {
 
 	LOG("COLLISION!");
 }

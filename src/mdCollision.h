@@ -59,7 +59,7 @@ public:
 	bool preUpdate();
 	bool update(float dt);
 	bool cleanUp();
-	void onCollision(collider*, collider*);
+	void onCollision(collider*, collider*); //Just for the test
 
 	collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type,int life, Module* callback = nullptr, Character* character = nullptr);
 	
