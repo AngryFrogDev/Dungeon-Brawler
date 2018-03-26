@@ -96,7 +96,7 @@ protected:
 	int walk_speed;	
 
 	bool grounded;
-	int jump_power;
+	iPoint jump_power;
 
 	int lane = 1; //Provisional 1 = bottom  2 = top
 

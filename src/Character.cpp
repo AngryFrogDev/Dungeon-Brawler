@@ -33,7 +33,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else if (inputs[LEFT] && !fliped || inputs[RIGHT] && fliped)
 			current_state = CHAR_STATE::WALKING_BACK;
 		else if (inputs[UP]) {
-			velocity.y -= jump_power;
+			velocity.y -= jump_power.y;
 			grounded = false;
 			current_state = CHAR_STATE::JUMPING;
 		}
@@ -64,7 +64,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else if (!fliped && !inputs[LEFT] || fliped && !inputs[RIGHT])
 			current_state = CHAR_STATE::IDLE;
 		else if (inputs[UP]) {
-			velocity.y -= jump_power;
+			velocity -= jump_power;
 			grounded = false;
 			current_state = CHAR_STATE::JUMPING;
 		}
@@ -101,7 +101,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else if (!fliped && !inputs[RIGHT] || fliped && !inputs[LEFT])
 			current_state = CHAR_STATE::IDLE;
 		else if (inputs[UP]) {
-			velocity.y -= jump_power;
+			velocity.y -= jump_power.y;
+			velocity.x += jump_power.x;
 			grounded = false;
 			current_state = CHAR_STATE::JUMPING;
 		}
@@ -141,7 +142,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else if (inputs[SWITCH])
 			current_state = CHAR_STATE::SWAPPING;
 		else if (inputs[UP]) {
-			velocity.y -= jump_power;
+			velocity.y -= jump_power.y;
 			grounded = false;
 			current_state = CHAR_STATE::JUMPING;
 		}
@@ -222,12 +223,15 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 void Character::applyGravity() {
 
 	velocity.y += gravity;
+	
 	if (velocity.y > 0) {
 		if (position.y < bottom_lane)
 			position.y += velocity.y;
+			position.x += velocity.x;
 	}
 	else {
 		position.y += velocity.y;
+		position.x += velocity.x;
 	}
 }
 
@@ -238,6 +242,7 @@ void Character::setIfGrounded() {
 	{ 
 		grounded = true;
 		velocity.y = 0;
+		velocity.x = 0;
 	}
 }
 

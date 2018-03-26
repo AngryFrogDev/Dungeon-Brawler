@@ -83,7 +83,7 @@ Warrior::Warrior(): Character() {
 	crouching_light.PushBack({ 195 * 6,158 * 20,195,158 });
 
 	crouching_light.loop = false;
-	crouching_light.speed = 0.2;
+	crouching_light.speed = 0.5;
 
 	crouching_heavy.PushBack({ 0,158 * 8,195,158 });
 	crouching_heavy.PushBack({ 195,158 * 8,195,158 });
@@ -128,7 +128,8 @@ Warrior::Warrior(): Character() {
 	grounded = true;
 
 
-	jump_power = 25.0f;
+	jump_power.y = 25;
+	jump_power.x = 5;
 
 }
 
