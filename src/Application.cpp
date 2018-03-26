@@ -13,6 +13,7 @@
 #include "mdCollision.h"
 #include "mdEntities.h"
 #include "mdAudio.h"
+#include "mdMap.h"
 
 
 Application::Application(int argc, char* args[]) {
@@ -24,6 +25,7 @@ Application::Application(int argc, char* args[]) {
 	collision = new mdCollision;
 	entities = new mdEntities;
 	audio = new mdAudio;
+	map = new mdMap;
 
 	addModule(filesystem);
 	addModule(window);
@@ -32,6 +34,7 @@ Application::Application(int argc, char* args[]) {
 	addModule(render);
 	addModule(collision);
 	addModule(audio);
+	addModule(map);
 	addModule(entities);
 }
 

@@ -131,6 +131,7 @@
     <ClCompile Include="mdAudio.cpp" />
     <ClCompile Include="mdFilesystem.cpp" />
     <ClCompile Include="mdInput.cpp" />
+    <ClCompile Include="mdMap.cpp" />
     <ClCompile Include="mdRender.cpp" />
     <ClCompile Include="mdTextures.cpp" />
     <ClCompile Include="mdWindow.cpp" />
@@ -145,11 +146,13 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="p2Point.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="mdEntities.h" />
     <ClInclude Include="mdAudio.h" />
     <ClInclude Include="mdFilesystem.h" />
     <ClInclude Include="mdInput.h" />
+    <ClInclude Include="mdMap.h" />
     <ClInclude Include="mdRender.h" />
     <ClInclude Include="mdTextures.h" />
     <ClInclude Include="mdWindow.h" />

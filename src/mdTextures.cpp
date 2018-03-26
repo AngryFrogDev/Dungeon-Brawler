@@ -97,7 +97,6 @@ bool mdTextures::unload(SDL_Texture* texture) {
 	for (std::list<SDL_Texture*>::iterator it = textures_list.begin(); it != textures_list.end(); it++) {
 		if (texture == (*it)) {
 			SDL_DestroyTexture((*it));
-			RELEASE(*it);
 			textures_list.erase(it);
 			return true;
 		}

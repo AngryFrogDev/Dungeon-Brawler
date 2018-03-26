@@ -19,6 +19,7 @@ class mdCollision;
 
 class mdEntities;
 class mdAudio;
+class mdMap;
 
 
 class Application
@@ -69,12 +70,10 @@ public:
 	mdRender*		render;
 	mdInput*		input;
 	mdTextures*		textures;
-
 	mdCollision*    collision;
-
 	mdEntities*     entities;
 	mdAudio*		audio;
-
+	mdMap*			map;
 };
 
 extern Application* App;

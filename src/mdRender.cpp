@@ -60,6 +60,7 @@ bool mdRender::preUpdate() {
 
 bool mdRender::postUpdate() {
 	//BROFILER_CATEGORY("Render PostUpdate", Profiler::Color::Red);
+	drawBlit(blitQueue);
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
 	SDL_RenderPresent(renderer);
 	return true;
@@ -84,37 +85,56 @@ void mdRender::resetViewPort() {
 	SDL_RenderSetViewport(renderer, &viewport);
 }
 
-// Blit to screen
-bool mdRender::blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,double scale, float speed, double angle, int pivot_x, int pivot_y) const {
-	//TODO: Add option to blit at a different scale
+// Add to blit queue according to priority
+bool mdRender::blit(int priority, SDL_Texture* texture, int x, int y, const SDL_Rect* section, double scale, float speed, double angle, int pivot_x, int pivot_y) {
 	bool ret = true;
 
-	SDL_Rect rect;
-	rect.x = (int)(camera.x * speed) + x;
-	rect.y = (int)(camera.y * speed) + y;
+	objectToPrint* sprite = new objectToPrint(priority, texture, x, y, section, scale, speed, angle, pivot_x, pivot_y);
+	blitQueue.push(sprite);
 
-	if (section != NULL) {
-		rect.w = section->w;
-		rect.h = section->h;
-	}
-	else 
-		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
+	return ret;
+}
 
-	rect.w *= scale;
-	rect.h *= scale;
+// Blit to screen
+bool mdRender::drawBlit(priority_queue <objectToPrint*, vector<objectToPrint*>, orderCrit>& queue) const {
 
-	SDL_Point* p = NULL;
-	SDL_Point pivot;
+	bool ret = true;
 
-	if (pivot_x != INT_MAX && pivot_y != INT_MAX) {
-		pivot.x = pivot_x;
-		pivot.y = pivot_y;
-		p = &pivot;
-	}
 
-	if (SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, SDL_FLIP_NONE) != 0) {
-		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
-		ret = false;
+	while (queue.empty() == false) {
+		objectToPrint* first = queue.top();
+
+		SDL_Rect rect;
+		rect.x = (int)(camera.x * first->speed) + first->x;
+		rect.y = (int)(camera.y * first->speed) + first->y;
+
+		if (first->section != NULL) {
+			rect.w = first->section->w;
+			rect.h = first->section->h;
+		}
+		else
+			SDL_QueryTexture(first->texture, NULL, NULL, &rect.w, &rect.h);
+
+		rect.w *= first->scale;
+		rect.h *= first->scale;
+
+		SDL_Point* p = NULL;
+		SDL_Point pivot;
+
+		if (first->pivot_x != INT_MAX && first->pivot_y != INT_MAX) {
+			pivot.x = first->pivot_x;
+			pivot.y = first->pivot_y;
+			p = &pivot;
+		}
+
+		if (SDL_RenderCopyEx(renderer, first->texture, first->section, &rect, first->angle, p, SDL_FLIP_NONE) != 0) {
+			LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
+			ret = false;
+		}
+
+		RELEASE(first);
+
+		queue.pop();
 	}
 
 	return ret;
