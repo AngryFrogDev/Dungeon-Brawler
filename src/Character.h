@@ -62,6 +62,16 @@ enum CHARACTER_INPUTS {
 	SWITCH,
 	MAX_INPUTS
 };
+struct basic_attack_deff {
+	int damage;
+	int histstun; //in miliseconds
+	int blockstun; //in miliseconds
+	int pushhit; //in pixels
+	int pushblock; //in pixels
+	SDL_Rect hitbox;
+	iPoint pos_rel_char;
+	int active_time; //in miliseconds
+};
 
 class Player;
 
@@ -105,11 +115,6 @@ protected:
 
 	// Entity collider
 	//collider* hurtbox;								 
-	
-
-	//input_values assigned_inputs;
-	//active_inputs inputs_pressed;
-	
 
 	CHAR_STATE current_state;
 	CHAR_ATT_TYPE attack_doing;
@@ -117,6 +122,9 @@ protected:
 	Animation* current_animation;
 	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy;
 
+
+	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h;
+	bool instanciated_hitbox;
 	Player* owner;
 
 

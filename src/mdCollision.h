@@ -8,6 +8,8 @@
 #include "SDL/include/SDL.h"
 #include "SDL_image/include/SDL_image.h"
 #pragma comment( lib, "SDL_image/libx86/SDL2_image.lib" )
+
+class Character;
 enum COLLIDER_TYPE
 {
 	COLLIDER_NONE = 0,
@@ -22,10 +24,14 @@ struct collider
 	bool to_delete = false;
 	COLLIDER_TYPE type;
 	Module* callback = nullptr;
-	//Character* character;      
+	Character* character;      
+	int life; //In miliseconds
+	int born; //In miliseconds 
 
-	collider(SDL_Rect rectangle, COLLIDER_TYPE type, Module* callback = nullptr) : rect(rectangle), type(type), callback(callback)
-	{}
+	collider(SDL_Rect rectangle, COLLIDER_TYPE type, int life, Module* callback = nullptr) : rect(rectangle), type(type), life(life), callback(callback)
+	{
+		born = SDL_GetTicks();
+	}
 
 	void SetPos(int x, int y)
 	{
@@ -54,14 +60,10 @@ public:
 	bool cleanUp();
 	void onCollision(collider*, collider*);
 
-	collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, Module* callback = nullptr);
+	collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type,int life, Module* callback = nullptr);
 	
 	void DebugDraw();
 
-
-	// PROVISIONAL: Test
-	collider* collider_one;
-	collider* collider_two;
 
 private:
 

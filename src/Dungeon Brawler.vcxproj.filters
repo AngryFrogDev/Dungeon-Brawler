@@ -64,8 +64,8 @@
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="mdCollision.cpp">
-	  <Filter>Modules</Filter>
-	</ClCompile>
+      <Filter>Modules</Filter>
+    </ClCompile>
     <ClCompile Include="mdEntities.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -141,6 +141,9 @@
       <Filter>Entities\Characters</Filter>
     </ClInclude>
     <ClInclude Include="mdAudio.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdCollision.h">
       <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>

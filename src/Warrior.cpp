@@ -5,6 +5,8 @@ Warrior::Warrior(): Character() {
 	walk_speed = 4;
 
 	//PROVISIONAL: Animations should be loaded from the xml
+
+	//Animations
 	idle.PushBack({ 0,0,195,158 });
 	idle.PushBack({ 195,0,195,158 });
 	idle.PushBack({ 195 * 2,0,195,158 });
@@ -48,7 +50,7 @@ Warrior::Warrior(): Character() {
 	light_attack.PushBack({ 0,158 * 13,195, 158 });
 	light_attack.PushBack({ 195,158 * 13,195, 158 });
 	light_attack.PushBack({ 195 * 2,158 * 13,195, 158 });
-	light_attack.PushBack({ 195 * 3,158 * 13,195, 158 });
+	light_attack.PushBack({ 195 * 3,158 * 13,195, 158 }, ACTIVE);
 	light_attack.PushBack({ 195 * 4,158 * 13,195, 158 });
 	light_attack.PushBack({ 195 * 5,158 * 13,195, 158 });
 
@@ -124,10 +126,16 @@ Warrior::Warrior(): Character() {
 	jumping_heavy.loop = false;
 	jumping_heavy.speed = 0.2;
 
-	//PROVISIONAL, should be read from xml
+	// Basic attack definitions
+
+	st_l.pos_rel_char = { 450,260 }; 
+	st_l.hitbox = { 0,0,100,20 };
+	st_l.active_time = 100;
+	
+
+	// Other variable initialization
 	grounded = true;
-
-
+	instanciated_hitbox = false;
 	jump_power.y = 25;
 	jump_power.x = 5;
 

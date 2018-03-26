@@ -2,6 +2,7 @@
 #include "ProjDefs.h"
 #include "DebLog.h"
 #include "Player.h"
+#include "mdCollision.h"
 
 Character::Character() {
 
@@ -254,8 +255,15 @@ void Character::doAttack() {
 	switch (attack_doing) {
 	case ST_L:
 		updateAnimation(light_attack);
-		if (current_animation->Finished())
+		if (current_animation->Finished()) 			{
 			current_state = IDLE;
+			instanciated_hitbox = false;
+		}
+		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+			SDL_Rect collider = { position.x + st_l.pos_rel_char.x, position.y + st_l.pos_rel_char.y,st_l.hitbox.w, st_l.hitbox.h }; //This "position" should be the center of the character
+			App->collision->AddCollider(collider,COLLIDER_NONE, st_l.active_time,App->entities);
+			instanciated_hitbox = true;
+		}
 		break;
 	case ST_H:
  		updateAnimation(heavy_attack);
@@ -276,14 +284,14 @@ void Character::doAttack() {
 		updateAnimation(jumping_light);
 		if (grounded)
 			current_state = IDLE; //Maybe should be "RECOVERY"
-		applyGravity();		//Do not reverse order! Nasty things will happen
+		applyGravity();		
 		setIfGrounded();
 		break;
 	case JM_H:
 		updateAnimation(jumping_heavy);
 		if (grounded)
 			current_state = IDLE; //Maybe should be "RECOVERY"
-		applyGravity();		//Do not reverse order! Nasty things will happen
+		applyGravity();		
 		setIfGrounded();
 		break;
 	case JM_S1:
