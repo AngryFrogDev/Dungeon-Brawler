@@ -18,7 +18,7 @@ public:
 	// Function to assign a controller to the player								 
 	void assignController(Controller* controller);
 	// Function so assign a certain character to the player -> character_type: enum with all the character types			     
-	void assignCharacter(CHAR_TYPE type); 
+	void assignCharacter(CHAR_TYPE type, bool fliped); 
 	
 	void assignControlScheme(const controller_scheme& new_scheme);
 

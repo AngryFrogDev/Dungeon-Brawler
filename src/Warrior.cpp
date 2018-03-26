@@ -1,7 +1,7 @@
 #include "Warrior.h"
 #include "mdCollision.h"
 
-Warrior::Warrior(): Character() {
+Warrior::Warrior(bool _fliped): Character() {
 	type = CHAR_TYPE::WARRIOR;
 	walk_speed = 4;
 
@@ -161,7 +161,7 @@ Warrior::Warrior(): Character() {
 	velocity.y = 0;
 	velocity.x = 0;
 	current_state = CHAR_STATE::IDLE;
-	fliped = false;
+	fliped = _fliped;  //Should be in the constructor
 	position.x = 300;
 	position.y = bottom_lane;
 	hurtbox = App->collision->AddCollider({ position.x + 220, position.y + 150, 100, 200 }, HURTBOX, -1,(Module*)App->entities,(Character*)this);

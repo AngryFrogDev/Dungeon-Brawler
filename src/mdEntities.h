@@ -26,7 +26,7 @@ public:
 	bool cleanUp();
 
 	// Creates a character and assigns it to a player
-	void createCharacter(int player, CHAR_TYPE type);
+	void createCharacter(int player, CHAR_TYPE type, bool fliped);
 	// Destroys all the players
 	void destroyCharacters();
 

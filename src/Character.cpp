@@ -58,7 +58,11 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else if (!fliped && !inputs[LEFT] || fliped && !inputs[RIGHT])
 			current_state = CHAR_STATE::IDLE;
 		else if (inputs[UP]) {
-			velocity -= jump_power;
+			velocity.y -= jump_power.y;
+			if (!fliped)
+				velocity.x -= jump_power.x;
+			else
+				velocity.x += jump_power.x;
 			grounded = false;
 			current_state = CHAR_STATE::JUMPING;
 		}
@@ -96,7 +100,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_state = CHAR_STATE::IDLE;
 		else if (inputs[UP]) {
 			velocity.y -= jump_power.y;
-			velocity.x += jump_power.x;
+			if (fliped)
+				velocity.x -= jump_power.x;
+			else
+				velocity.x += jump_power.x;
 			grounded = false;
 			current_state = CHAR_STATE::JUMPING;
 		}
