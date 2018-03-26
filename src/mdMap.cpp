@@ -4,6 +4,7 @@
 #include "mdTextures.h"
 #include "mdMap.h"
 #include <math.h>
+#include "Brofiler/Brofiler.h"
 
 mdMap::mdMap() : Module(), map_loaded(false) {
 	name = "map";
@@ -70,6 +71,7 @@ bool mdMap::cleanUp() {
 
 // Load map general properties
 bool mdMap::loadMap(int mapIndex) {
+	BROFILER_CATEGORY("Loading Map", 0xFFEE82EE);
 	bool ret = true;
 	pugi::xml_node map = map_file.child("map");
 
@@ -99,6 +101,7 @@ bool mdMap::loadMap(int mapIndex) {
 }
 
 bool mdMap::unloadMap() {
+	BROFILER_CATEGORY("Unloading Map", 0xFF9ACD32);
 	bool ret = true;
 	App->textures->unload(data.map_image);
 	App->textures->unload(data.background_image);

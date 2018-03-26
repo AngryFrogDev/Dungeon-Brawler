@@ -3,6 +3,7 @@
 #include "PerfTimer.h"
 #include "Timer.h"
 #include "DebLog.h"
+#include "Brofiler/Brofiler.h"
 
 //Modules
 #include "mdWindow.h"
@@ -14,7 +15,6 @@
 #include "mdEntities.h"
 #include "mdAudio.h"
 #include "mdMap.h"
-
 
 Application::Application(int argc, char* args[]) {
 	filesystem = new mdFilesystem;
@@ -46,6 +46,7 @@ Application::~Application() {
 }
 
 bool Application::awake() {
+	BROFILER_CATEGORY("Awake", 0xFF00FFFF);
 	bool ret = true;
 
 	pugi::xml_document config_file;
@@ -73,13 +74,13 @@ bool Application::update() {
 	++frame_count;
 	float dt = frame_time.readSec();
 	frame_time.start();
-
+	BROFILER_CATEGORY("Preupdates", 0xFFF0E68C);
 	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 		ret = (*it)->isActive() ? ret = (*it)->preUpdate() : true;
-
+	BROFILER_CATEGORY("Updates", 0xFF008000);
 	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 		ret = (*it)->isActive() ? ret = (*it)->update(dt) : true;
-
+	BROFILER_CATEGORY("Postupdates", 0xFFADD8E6);
 	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
 		ret = (*it)->isActive() ? ret = (*it)->postUpdate() : true;
 
@@ -89,6 +90,7 @@ bool Application::update() {
 }
 
 bool Application::finishUpdate() {
+	BROFILER_CATEGORY("Finish Update", 0xFFADFF2F);
 	bool ret = true;
 
 	if (last_sec_frame_time.read() > 1000) {
