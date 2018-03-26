@@ -18,6 +18,9 @@
         <fonts>
 	</fonts>
 	<gui>
+		<idle x="0" y="0" width="228" height="63"/>
+		<focused x="0" y="150" width="228" height="63"/>
+		<bar x="0" y="224" width="228" height="63"/>		
 	</gui>
 	<input>
 		<buffer window="1000"/>
