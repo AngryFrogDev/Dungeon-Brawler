@@ -17,10 +17,10 @@ Player::~Player(){
 
 void Player::update(SDL_Texture* graphics)
 {
-	bool player_inputs[MAX_INPUTS];
+	bool player_inputs[MAX_INPUTS] = { false };
 	if (controller != nullptr) {
 		for (int i = 0; i < MAX_INPUTS; i++)
-			player_inputs[i] = controller->isPressed(scheme.scheme[i]);
+				player_inputs[i] = controller->isPressed(scheme.scheme[i]);
 	}
 	if (curr_character != nullptr) {
 		curr_character->update(player_inputs);

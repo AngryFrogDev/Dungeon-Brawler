@@ -64,13 +64,14 @@ enum CHARACTER_INPUTS {
 };
 struct basic_attack_deff {
 	int damage;
-	int histstun; //in miliseconds
+	int hitstun; //in miliseconds
 	int blockstun; //in miliseconds
 	int pushhit; //in pixels
 	int pushblock; //in pixels
 	SDL_Rect hitbox;
 	iPoint pos_rel_char;
 	int active_time; //in miliseconds
+	CHAR_ATT_TYPE type;
 };
 
 class Player;
@@ -82,7 +83,7 @@ public:
 						
 	virtual void update(const bool (&inputs)[MAX_INPUTS]);		
 
-	virtual void onCollision(collider* c1, collider* c2); // The first one is the collider belonging to this character
+	void onCollision(collider* c1, collider* c2); // The first one is the collider belonging to this character
 
 	void applyGravity();
 
@@ -93,6 +94,7 @@ public:
 	//Execute attack, rewritable for every type of character
 	virtual void doAttack();		
 	void instanciateHitbox(CHAR_ATT_TYPE type);
+	basic_attack_deff getCurrentAttackData();
 
 protected:
 	void updateAnimation(Animation& new_animation);
@@ -108,10 +110,11 @@ protected:
 	int walk_speed;	
 
 	bool grounded;
-	iPoint jump_power;
-
+	
 	bool fliped;
+
 	bool hit = false;
+	int moment_hit; //Maybe current_stun and moment_hit should be a timer instead
 
 	// Entity collider
 	collider* hurtbox;	
@@ -119,9 +122,10 @@ protected:
 
 	CHAR_STATE current_state;
 	CHAR_ATT_TYPE attack_doing;
+	basic_attack_deff attack_recieving;
 
 	Animation* current_animation;
-	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy;
+	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_hit;
 
 
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h;
@@ -130,8 +134,10 @@ protected:
 
 
 	//PROVISIONAL should be read from xml
+	iPoint jump_power;
 	float gravity = 1;
 	int bottom_lane = 300;
+
 
 public:
 	int lane = 1; //Provisional 1 = bottom  2 = top

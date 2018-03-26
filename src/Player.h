@@ -23,13 +23,15 @@ public:
 	void assignControlScheme(const controller_scheme& new_scheme);
 
 	Controller* getController() const;
-
 private:
 	// Number of the controller being used by the player
 	Controller* controller;
 	// Instance of the current character being used -> Character: Base class for the characters							
 	Character* curr_character;
 	controller_scheme scheme;
+
+	
+	
 };
 
 #endif //__PLAYER__

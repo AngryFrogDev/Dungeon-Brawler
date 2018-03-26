@@ -109,8 +109,6 @@ Warrior::Warrior(bool _fliped): Character() {
 	jump.PushBack({ 195 * 7, 158 * 2, 195, 158 });
 	jump.PushBack({ 195 * 8, 158 * 2, 195, 158 });
 
-	
-
 	jump.loop = false;
 	jump.speed = 0.2;
 
@@ -127,31 +125,43 @@ Warrior::Warrior(bool _fliped): Character() {
 	jumping_heavy.loop = false;
 	jumping_heavy.speed = 0.2;
 
+	standing_hit.PushBack({ 0, 158 * 14, 195, 158 });
+	standing_hit.PushBack({ 195, 158 * 14, 195, 158 });
+
+	standing_hit.loop = true;
+	standing_hit.speed = 0.2;
+
 	// Basic attack definitions
 
 	st_l.pos_rel_char = { 450,260 }; 
 	st_l.hitbox = { 0,0,100,20 };
 	st_l.active_time = 100;
+	st_l.hitstun = 300;
 	
 	st_h.pos_rel_char = { 430,240 };
 	st_h.hitbox = { 0,0,150, 50 };
 	st_h.active_time = 200;
+	st_h.hitstun = 500;
 
 	cr_l.pos_rel_char = { 390,280 };
 	cr_l.hitbox = { 0,0,70, 30 };
 	cr_l.active_time = 70;
+	cr_l.hitstun = 200;
 
 	cr_h.pos_rel_char = { 390,300 };
 	cr_h.hitbox = { 0,0,180, 50 };
 	cr_h.active_time = 200;
+	cr_h.hitstun = 500;
 
 	jm_l.pos_rel_char = { 370,280 };
 	jm_l.hitbox = { 0,0,140,20 };
 	jm_l.active_time = -1;
+	jm_l.hitstun = 200;
 
 	jm_h.pos_rel_char = { 270,280 };
 	jm_h.hitbox = { 0,0,120,100 };
 	jm_h.active_time = -1;
+	jm_h.hitstun = 500;
 
 	// Other variable initialization
 	grounded = true;

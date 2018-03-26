@@ -18,8 +18,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	switch (current_state) {
 	case IDLE:
 		updateAnimation(idle);
-		if (hit)
+		if (hit) { 
 			current_state = CHAR_STATE::HIT;
+			hit = false;
+		}
 		else if (inputs[SWITCH])
 			current_state = CHAR_STATE::SWAPPING;
 		else if (inputs[RIGHT] && !fliped || inputs[LEFT] && fliped)
@@ -204,8 +206,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		break;
 
 	case HIT:
-		//TODO: Define hit
-		current_state = CHAR_STATE::IDLE;
+		updateAnimation(standing_hit);
+		if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) { 
+			current_state = CHAR_STATE::IDLE;
+		}
 		break;
 
 	case JUGGLE:
@@ -221,6 +225,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	// Hurtbox allways next to the player
 	hurtbox->SetPos(position.x + 220, position.y + 150);
+	//PROVISIONAL: Crazy provisional
+	
 
 }
 
@@ -386,4 +392,31 @@ void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
 
 void Character::onCollision(collider* c1, collider* c2) {
 
+	if (c1->type == HURTBOX && c2->type == HITBOX) 	{
+		attack_recieving = c2->character->getCurrentAttackData();
+		hit = true;
+		moment_hit = SDL_GetTicks();
+	}
+}
+basic_attack_deff Character::getCurrentAttackData() {
+	switch (attack_doing) {
+		case ST_L:
+			return st_l;
+			break;
+		case ST_H:
+			return st_h;
+			break;
+		case CR_L:
+			return cr_l;
+			break;
+		case CR_H:
+			return cr_h;
+			break;
+		case JM_L:
+			return jm_l;
+			break;
+		case JM_H:
+			return jm_h;
+			break;
+	}
 }
