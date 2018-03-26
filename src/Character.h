@@ -89,7 +89,8 @@ public:
 	void draw(SDL_Texture* graphic) const;
 
 	//Execute attack, rewritable for every type of character
-	virtual void doAttack();					 
+	virtual void doAttack();		
+	void instanciateHitbox(CHAR_ATT_TYPE type);
 	//void onCollision(Collider* collider);
 
 protected:
@@ -114,7 +115,8 @@ protected:
 	bool hit = false;
 
 	// Entity collider
-	//collider* hurtbox;								 
+	collider* hurtbox;	
+	collider* hitbox; //It should be an array, as character can have multiple active hitboxes
 
 	CHAR_STATE current_state;
 	CHAR_ATT_TYPE attack_doing;

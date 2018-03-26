@@ -260,38 +260,73 @@ void Character::doAttack() {
 			instanciated_hitbox = false;
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-			SDL_Rect collider = { position.x + st_l.pos_rel_char.x, position.y + st_l.pos_rel_char.y,st_l.hitbox.w, st_l.hitbox.h }; //This "position" should be the center of the character
-			App->collision->AddCollider(collider,COLLIDER_NONE, st_l.active_time,App->entities);
-			instanciated_hitbox = true;
+			instanciateHitbox(ST_L);
 		}
 		break;
 	case ST_H:
  		updateAnimation(heavy_attack);
-		if (current_animation->Finished())
+		if (current_animation->Finished()) {
 			current_state = IDLE;
+			instanciated_hitbox = false;
+		}
+		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+			instanciateHitbox(ST_H);
+		}
 		break;
 	case CR_L:
 		updateAnimation(crouching_light);
-		if (current_animation->Finished())
+		if (current_animation->Finished()) {
 			current_state = CROUCHING;
+			instanciated_hitbox = false;
+		}
+		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+			instanciateHitbox(CR_L);
+		}
 		break;
 	case CR_H: 
 		updateAnimation(crouching_heavy);
-		if (current_animation->Finished())
+		if (current_animation->Finished()) {
 			current_state = CROUCHING;
+			instanciated_hitbox = false;
+		}
+		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+			instanciateHitbox(CR_H);
+		}
 		break;
 	case JM_L:
 		updateAnimation(jumping_light);
-		if (grounded)
+		if (grounded) {
 			current_state = IDLE; //Maybe should be "RECOVERY"
+			instanciated_hitbox = false;
+			if(hitbox != nullptr) // Just for safety
+			hitbox->to_delete = true;
+		}	
+		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+			instanciateHitbox(JM_L);
+		}
+		// Set the hitbox to follow the player
+		if (hitbox != nullptr) 			{
+			hitbox->SetPos(position.x + jm_l.pos_rel_char.x, position.y + jm_l.pos_rel_char.y);
+		}
 		applyGravity();		
 		setIfGrounded();
 		break;
 	case JM_H:
 		updateAnimation(jumping_heavy);
-		if (grounded)
+		if (grounded) {
 			current_state = IDLE; //Maybe should be "RECOVERY"
-		applyGravity();		
+			instanciated_hitbox = false;
+			if (hitbox != nullptr) // Just for safety
+				hitbox->to_delete = true;
+		}
+		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+			instanciateHitbox(JM_H);
+		}
+		// Set the hitbox to follow the player
+		if (hitbox != nullptr) {
+			hitbox->SetPos(position.x + jm_h.pos_rel_char.x, position.y + jm_h.pos_rel_char.y);
+		}
+		applyGravity();
 		setIfGrounded();
 		break;
 	case JM_S1:
@@ -309,4 +344,37 @@ void Character::updateAnimation(Animation & new_animation) {
 		new_animation.Reset();
 		current_animation = &new_animation;
 	}
+}
+
+void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
+	SDL_Rect collider;
+	int life;
+	switch (type) 		{
+		case ST_L:
+			collider = { position.x + st_l.pos_rel_char.x, position.y + st_l.pos_rel_char.y,st_l.hitbox.w, st_l.hitbox.h };
+			life = st_l.active_time;
+			break;
+		case ST_H:
+			collider = { position.x + st_h.pos_rel_char.x, position.y + st_h.pos_rel_char.y,st_h.hitbox.w, st_h.hitbox.h };
+			life = st_h.active_time;
+			break;
+		case CR_L:
+			collider = { position.x + cr_l.pos_rel_char.x, position.y + cr_l.pos_rel_char.y,cr_l.hitbox.w, cr_l.hitbox.h };
+			life = cr_l.active_time;
+			break;
+		case CR_H:
+			collider = { position.x + cr_h.pos_rel_char.x, position.y + cr_h.pos_rel_char.y,cr_h.hitbox.w, cr_h.hitbox.h };
+			life = cr_h.active_time;
+			break;
+		case JM_L:
+			collider = { position.x + jm_l.pos_rel_char.x, position.y + jm_l.pos_rel_char.y,jm_l.hitbox.w, jm_l.hitbox.h };
+			life = jm_l.active_time;
+			break;
+		case JM_H:
+			collider = { position.x + jm_h.pos_rel_char.x, position.y + jm_h.pos_rel_char.y,jm_h.hitbox.w, jm_h.hitbox.h };
+			life = jm_h.active_time;
+			break;
+	}
+	hitbox = App->collision->AddCollider(collider, COLLIDER_NONE,life ,App->entities);
+	instanciated_hitbox = true;
 }

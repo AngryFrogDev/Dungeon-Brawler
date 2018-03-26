@@ -25,7 +25,7 @@ struct collider
 	COLLIDER_TYPE type;
 	Module* callback = nullptr;
 	Character* character;      
-	int life; //In miliseconds
+	int life; //In miliseconds (set -1 so the collider is not erased by time)
 	int born; //In miliseconds 
 
 	collider(SDL_Rect rectangle, COLLIDER_TYPE type, int life, Module* callback = nullptr) : rect(rectangle), type(type), life(life), callback(callback)
