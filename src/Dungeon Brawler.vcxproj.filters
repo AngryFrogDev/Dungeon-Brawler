@@ -64,8 +64,8 @@
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="mdCollision.cpp">
-	  <Filter>Modules</Filter>
-	</ClCompile>
+      <Filter>Modules</Filter>
+    </ClCompile>
     <ClCompile Include="mdEntities.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -152,5 +152,7 @@
     <ClInclude Include="p2Point.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="mdCollision.h" />
+    <ClInclude Include="p2Point.h" />
   </ItemGroup>
 </Project>

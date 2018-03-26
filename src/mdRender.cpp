@@ -3,6 +3,8 @@
 #include "mdWindow.h"
 #include "mdRender.h"
 
+#include "Brofiler/Brofiler.h"
+
 mdRender::mdRender() : Module() {
 	name = "renderer";
 	background.r = 0;
@@ -62,7 +64,9 @@ bool mdRender::postUpdate() {
 	//BROFILER_CATEGORY("Render PostUpdate", Profiler::Color::Red);
 	drawBlit(blitQueue);
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
+	BROFILER_CATEGORY("Swapping Buffers", 0xFFFF0000);
 	SDL_RenderPresent(renderer);
+
 	return true;
 }
 
