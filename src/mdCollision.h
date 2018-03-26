@@ -13,34 +13,35 @@ class Character;
 enum COLLIDER_TYPE
 {
 	COLLIDER_NONE = 0,
-	COLLIDER_ATTACK,
-	COLLIDER_DEFFENSE,
-	COLLIDER_MAX
+	HURTBOX,
+	HITBOX
 };
 
 struct collider
 {
+
+	// Collider properties
 	SDL_Rect rect;
-	bool to_delete = false;
 	COLLIDER_TYPE type;
+	int life; //In miliseconds (set -1 so the collider is not erased by time)
+	//Callbacks
 	Module* callback = nullptr;
 	Character* character;      
-	int life; //In miliseconds (set -1 so the collider is not erased by time)
+	// Collider state
 	int born; //In miliseconds 
+	bool to_delete = false;
 
-	collider(SDL_Rect rectangle, COLLIDER_TYPE type, int life, Module* callback = nullptr) : rect(rectangle), type(type), life(life), callback(callback)
-	{
+	collider(SDL_Rect rectangle, COLLIDER_TYPE type, int life, Module* callback, Character* character) : 
+		rect(rectangle), type(type), life(life), callback(callback), character(character) {
 		born = SDL_GetTicks();
 	}
 
-	void SetPos(int x, int y)
-	{
+	void SetPos(int x, int y) {
  		rect.x = x;
 		rect.y = y;
 	}
 
-	void SetSize(int w, int h)
-	{
+	void SetSize(int w, int h) {
 		rect.w = w;
 		rect.h = h;
 	}
@@ -60,7 +61,7 @@ public:
 	bool cleanUp();
 	void onCollision(collider*, collider*);
 
-	collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type,int life, Module* callback = nullptr);
+	collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type,int life, Module* callback = nullptr, Character* character = nullptr);
 	
 	void DebugDraw();
 

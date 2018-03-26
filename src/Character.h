@@ -82,6 +82,8 @@ public:
 						
 	virtual void update(const bool (&inputs)[MAX_INPUTS]);		
 
+	virtual void onCollision(collider* c1, collider* c2); // The first one is the collider belonging to this character
+
 	void applyGravity();
 
 	void setIfGrounded();
@@ -91,7 +93,6 @@ public:
 	//Execute attack, rewritable for every type of character
 	virtual void doAttack();		
 	void instanciateHitbox(CHAR_ATT_TYPE type);
-	//void onCollision(Collider* collider);
 
 protected:
 	void updateAnimation(Animation& new_animation);
@@ -109,14 +110,12 @@ protected:
 	bool grounded;
 	iPoint jump_power;
 
-	int lane = 1; //Provisional 1 = bottom  2 = top
-
 	bool fliped;
 	bool hit = false;
 
 	// Entity collider
 	collider* hurtbox;	
-	collider* hitbox; //It should be an array, as character can have multiple active hitboxes
+	collider* hitbox; //It should be a list, as a character can have multiple active hitboxes
 
 	CHAR_STATE current_state;
 	CHAR_ATT_TYPE attack_doing;
@@ -133,6 +132,10 @@ protected:
 	//PROVISIONAL should be read from xml
 	float gravity = 1;
 	int bottom_lane = 300;
+
+public:
+	int lane = 1; //Provisional 1 = bottom  2 = top
+
 };
 
 #endif //__CHARACTER__

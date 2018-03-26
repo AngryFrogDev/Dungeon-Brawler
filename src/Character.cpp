@@ -6,14 +6,7 @@
 
 Character::Character() {
 
-	velocity.y = 0;
-	velocity.x = 0;
 
-	current_state = CHAR_STATE::IDLE;
-	fliped = false;
-	//PROVISIONAL: This should be a parameter in the constructor
-	position.x = 300;
-	position.y = bottom_lane;
 }
 
 
@@ -219,6 +212,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		break;
 	}
 
+	// Hurtbox allways next to the player
+	hurtbox->SetPos(position.x + 220, position.y + 150);
+
 }
 
 void Character::applyGravity() {
@@ -303,13 +299,15 @@ void Character::doAttack() {
 		}	
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 			instanciateHitbox(JM_L);
-		}
+		}	
+		applyGravity();		
+		setIfGrounded();
 		// Set the hitbox to follow the player
 		if (hitbox != nullptr) 			{
 			hitbox->SetPos(position.x + jm_l.pos_rel_char.x, position.y + jm_l.pos_rel_char.y);
 		}
-		applyGravity();		
-		setIfGrounded();
+
+
 		break;
 	case JM_H:
 		updateAnimation(jumping_heavy);
@@ -322,12 +320,12 @@ void Character::doAttack() {
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 			instanciateHitbox(JM_H);
 		}
+		applyGravity();
+		setIfGrounded();
 		// Set the hitbox to follow the player
 		if (hitbox != nullptr) {
 			hitbox->SetPos(position.x + jm_h.pos_rel_char.x, position.y + jm_h.pos_rel_char.y);
 		}
-		applyGravity();
-		setIfGrounded();
 		break;
 	case JM_S1:
 	case JM_S2:
@@ -375,6 +373,10 @@ void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
 			life = jm_h.active_time;
 			break;
 	}
-	hitbox = App->collision->AddCollider(collider, COLLIDER_NONE,life ,App->entities);
+	hitbox = App->collision->AddCollider(collider, HITBOX,life ,App->entities, this);
 	instanciated_hitbox = true;
+}
+
+void Character::onCollision(collider* c1, collider* c2) {
+
 }

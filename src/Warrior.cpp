@@ -1,4 +1,5 @@
 #include "Warrior.h"
+#include "mdCollision.h"
 
 Warrior::Warrior(): Character() {
 	type = CHAR_TYPE::WARRIOR;
@@ -157,6 +158,13 @@ Warrior::Warrior(): Character() {
 	instanciated_hitbox = false;
 	jump_power.y = 25;
 	jump_power.x = 5;
+	velocity.y = 0;
+	velocity.x = 0;
+	current_state = CHAR_STATE::IDLE;
+	fliped = false;
+	position.x = 300;
+	position.y = bottom_lane;
+	hurtbox = App->collision->AddCollider({ position.x + 220, position.y + 150, 100, 200 }, HURTBOX, -1,(Module*)App->entities,(Character*)this);
 
 }
 

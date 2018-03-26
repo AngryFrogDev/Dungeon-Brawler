@@ -53,11 +53,12 @@ bool mdCollision::update(float dt)
 			c2 = *it2;
 
 			if (c1->checkCollision(c2->rect) == true) {
+				//Character check
+				if (c1->character != c2->character && c1->character->lane == c2->character->lane) {
+					c1->character->onCollision(c1,c2);
+					c2->character->onCollision(c2, c1);
+				}
 
-				//if (true) //If c1->character != c2->character && c1->character->lane == c2->character->lane
-				//	c1->callback->onCollision(c1, c2);
-				//if (true)
-				//	c2->callback->onCollision(c2, c1);
 			}
 		}
 	}	
@@ -94,6 +95,12 @@ void mdCollision::DebugDraw()
 			case COLLIDER_NONE: // white
 				App->render->drawQuad(c->rect, 255, 255, 255, alpha,true);
 				break;
+			case HITBOX:
+				App->render->drawQuad(c->rect, 255, 0, 0, alpha, true);
+				break;
+			case HURTBOX:
+				App->render->drawQuad(c->rect, 0, 0, 255, alpha, true);
+				break;
 		}
 	}
 }
@@ -119,9 +126,9 @@ void mdCollision::onCollision(collider*c1, collider* c2) 	{
 }
 
 
-collider* mdCollision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type,int life, Module* callback)
+collider* mdCollision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type,int life, Module* callback, Character* character)
 {
-	collider* ret = new collider(rect, type, life, callback);
+	collider* ret = new collider(rect, type, life, callback,character);
 
 	colliders.push_back(ret);
 
