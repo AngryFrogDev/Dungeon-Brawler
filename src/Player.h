@@ -24,6 +24,10 @@ public:
 
 	void assignKeyboardScheme(const keyboard_scheme& new_scheme);
 
+	int getLane();
+	iPoint getPos();
+	void setFlip(bool flip);
+
 	Controller* getController() const;
 private:
 	// Number of the controller being used by the player

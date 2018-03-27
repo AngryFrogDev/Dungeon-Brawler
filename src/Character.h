@@ -83,7 +83,8 @@ public:
 						
 	virtual void update(const bool (&inputs)[MAX_INPUTS]);		
 
-	void onCollision(collider* c1, collider* c2); // The first one is the collider belonging to this character
+    // The first one is the collider belonging to this character
+	void onCollision(collider* c1, collider* c2);
 
 	void applyGravity();
 
@@ -91,14 +92,19 @@ public:
 
 	void draw(SDL_Texture* graphic) const;
 
+
+	basic_attack_deff getCurrentAttackData();
+	iPoint getPos();
+	void setFlip(bool flip);
+
+protected:	
 	//Execute attack, rewritable for every type of character
 	virtual void doAttack();		
 	void instanciateHitbox(CHAR_ATT_TYPE type);
-	basic_attack_deff getCurrentAttackData();
 
-protected:
 	void updateAnimation(Animation& new_animation);
-	int calculateDrawPosition(int offset, int size, bool x); // Uses player's logic position, flip, offset and width to calculate the position to draw a collider
+	// Uses player's logic position, flip, offset and width to calculate the position to draw a collider
+	int calculateDrawPosition(int offset, int size, bool x);
 
 
 protected:

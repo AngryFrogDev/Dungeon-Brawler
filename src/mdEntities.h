@@ -37,7 +37,7 @@ public:
 	void createCharacter(int player,int x_pos, CHAR_TYPE type, bool fliped);
 	// Destroys all the players
 	void destroyCharacters();
-
+	void automaticFlip();
 public:
 	std::list<controller_scheme> controller_schemes;
 	std::list<keyboard_scheme>	 keyboard_schemes;

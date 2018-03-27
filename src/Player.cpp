@@ -76,3 +76,13 @@ void Player::assignKeyboardScheme(const keyboard_scheme& new_scheme) {
 Controller * Player::getController() const {
 	return controller;
 }
+
+int Player::getLane() {
+	return curr_character->lane;
+}
+iPoint Player::getPos() {
+	return curr_character->getPos();
+}
+void Player::setFlip(bool flip) {
+	curr_character->setFlip(flip);
+}

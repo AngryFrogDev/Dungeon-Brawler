@@ -455,3 +455,10 @@ int Character::calculateDrawPosition(int offset, int size, bool x) 	{
 	else
 		return logic_position.y + offset - size/2;
 }
+
+iPoint Character::getPos() 	{
+	return logic_position;
+}
+void Character::setFlip(bool flip) {
+	fliped = flip;
+}
