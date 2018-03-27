@@ -394,6 +394,7 @@ void Character::onCollision(collider* c1, collider* c2) {
 
 	if (c1->type == HURTBOX && c2->type == HITBOX) 	{
 		attack_recieving = c2->character->getCurrentAttackData();
+		c2->to_delete = true;
 		hit = true;
 		moment_hit = SDL_GetTicks();
 	}
