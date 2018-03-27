@@ -1,0 +1,11 @@
+<!-- Complementary file which every UI element in each Scene -->
+
+<ui_elements>
+	<buttons>
+		<new_game>
+      <idle x="0" y="0" w="228" h="63"/>
+      <highl x="0" y="150" w="228" h="63"/>
+      <click x="0" y="75" w="228" h="63"/>
+		</new_game>
+	</buttons>
+</ui_elements>

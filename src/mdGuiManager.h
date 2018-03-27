@@ -8,6 +8,8 @@
 
 #include "SDL/include/SDL.h"
 
+struct Buttons;
+
 //Some events may be missing
 enum controller_events {
 	NO_EVENT = 0,
@@ -26,6 +28,7 @@ public:
 	bool preUpdate();
 	bool update(float dt);
 	bool cleanUp();
+	bool OnEvent(Buttons* button); //Testing purposes
 
 	Widgets* createButton(button_types type, std::pair<int, int> pos, Module* callback = nullptr);
 	Widgets* createLabel(std::pair<int, int> pos, Module* callback = nullptr);

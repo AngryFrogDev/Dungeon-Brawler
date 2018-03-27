@@ -16,11 +16,10 @@ public:
 
 	void draw();
 	void getSection(SDL_Rect idle_sec, SDL_Rect highl_sec, SDL_Rect clicked_sec, SDL_Rect disabled_sec);
-	void setButtonType(button_types type);
-	void setArea(uint w, uint h);
-
+	
 private:
 	void changeVisualState(controller_events event);
+	void loadButtonsFromAtlas();
 
 public:
 	button_types button_type;

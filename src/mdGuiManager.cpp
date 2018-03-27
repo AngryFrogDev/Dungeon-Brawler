@@ -19,10 +19,9 @@ bool mdGuiManager::awake(const pugi::xml_node& md_config) {
 
 	LOG("Loading GUI atlas");
 	bool ret = true;
-
-	
-	atlas = App->textures->load("atlas.png");
+		
 	atlas_file_name = md_config.child("atlas").attribute("file").as_string("");
+	atlas = App->textures->load(atlas_file_name.data());
 
 	return ret;
 }
@@ -54,7 +53,7 @@ bool mdGuiManager::update(float dt) {
 	if (App->input->getKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		createButton(NEW_GAME, { 0,0 }, this);
-		createButton(NEW_GAME, { 0,150 }, this);
+		createButton(SETTINGS, { 0,150 }, this);
 		temp = true;
 	}
 
@@ -89,6 +88,23 @@ bool mdGuiManager::cleanUp() {
 	}
 
 	ui_elements.clear();
+
+	return ret;
+}
+
+bool mdGuiManager::OnEvent(Buttons* button) {
+
+	bool ret = true;
+
+	switch (button->button_type)
+	{
+	default:
+		break;
+	case NEW_GAME:
+		App->render->blit(atlas, 400, 0); break;
+	case SETTINGS:
+		App->render->blit(atlas, 0, 400); break;
+	}
 
 	return ret;
 }

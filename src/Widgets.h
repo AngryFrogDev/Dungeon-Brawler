@@ -51,5 +51,7 @@ public:
 
 protected:
 	Module* callback = nullptr;
+	pugi::xml_document ui_config_file;
+	pugi::xml_node ui_config;
 };
 #endif

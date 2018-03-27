@@ -8,35 +8,11 @@
 
 Buttons::Buttons(button_types type, std::pair<int, int> pos, Module* callback) : Widgets(ui_elem_type::BUTTON, pos, callback) {
 	
-	switch (type)
-	{
-	case NO_BUTTON:
-		break;
-	case NEW_GAME:
-		getSection({ 3,7,288,96 }, { 3,103,288,96 }, { 3, 199, 288, 96 }, { 0,0,0,0 });
-		break;
-	case SETTINGS:
-		break;
-	case CREDITS:
-		break;
-	case EXIT:
-		break;
-	case MUSIC_VOL_UP:
-		break;
-	case MUSIC_VOL_DOWN:
-		break;
-	case SOUND_VOL_UP:
-		break;
-	case SOUND_VOL_DOWN:
-		break;
-	case BACK:
-		break;
-	default:
-		break;
-	}
-	
+	button_type = type;
 	current_rect = &idle_rect;
 	//click_sfx = App->audio->loadSFX(/*Path*/);
+
+	loadButtonsFromAtlas();
 }
 
 Buttons::~Buttons() {
@@ -63,7 +39,7 @@ bool Buttons::preUpdate()
 	{
 		changeVisualState(FOCUSED);
 		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-			changeVisualState(CLICK);
+			changeVisualState(CLICK), ret = App->gui->OnEvent(this); //Testing
 		hovering = false;
 	}
 	
@@ -102,14 +78,6 @@ void Buttons::getSection(SDL_Rect idle_sec, SDL_Rect high_sec, SDL_Rect clicked_
 	}
 }
 
-void Buttons::setButtonType(button_types type) {
-	button_type = type;
-}
-
-void Buttons::setArea(uint w, uint h) {
-	world_area.w = w;
-	world_area.h = h;
-}
 
 void Buttons::changeVisualState(controller_events event) {
 	switch (event) {
@@ -119,5 +87,38 @@ void Buttons::changeVisualState(controller_events event) {
 		current_rect = &highl_rect; break;
 	case IDLE:
 		current_rect = &idle_rect; break;
+	}
+}
+
+void Buttons::loadButtonsFromAtlas() {
+
+	pugi::xml_node button = ui_config.child("button"); //Still not implemented because functions to load config files are missing
+
+	switch (button_type)
+	{
+	case NO_BUTTON:
+		break;
+	case NEW_GAME:
+		getSection({ 3,7,288,96 }, { 3,103,288,96 }, { 3, 199, 288, 96 }, { 0,0,0,0 }); //Read from XML
+		break;
+	case SETTINGS:
+		getSection({ 3,7,288,96 }, { 3,103,288,96 }, { 3, 199, 288, 96 }, { 0,0,0,0 }); //Read from XML
+		break;
+	case CREDITS:
+		break;
+	case EXIT:
+		break;
+	case MUSIC_VOL_UP:
+		break;
+	case MUSIC_VOL_DOWN:
+		break;
+	case SOUND_VOL_UP:
+		break;
+	case SOUND_VOL_DOWN:
+		break;
+	case BACK:
+		break;
+	default:
+		break;
 	}
 }
