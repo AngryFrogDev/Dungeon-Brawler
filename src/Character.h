@@ -98,12 +98,16 @@ public:
 
 protected:
 	void updateAnimation(Animation& new_animation);
+	int calculateOffset(int offset, int size, bool x); // Uses player's logic position, flip, offset and width to calculate the position to draw a collider
+
 
 protected:
 	CHAR_TYPE type;
 
 	iPoint logic_position;
 	iPoint draw_position;
+	iPoint draw_size;
+	float scale;
 	iPoint velocity;
 
 	int current_life; 								
@@ -119,6 +123,7 @@ protected:
 
 	// Entity collider
 	collider* hurtbox;	
+	iPoint standing_hurtbox_size;
 	collider* hitbox; //It should be a list, as a character can have multiple active hitboxes
 
 	CHAR_STATE current_state;

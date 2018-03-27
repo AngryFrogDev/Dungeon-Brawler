@@ -133,32 +133,32 @@ Warrior::Warrior(bool _fliped): Character() {
 
 	// Basic attack definitions
 
-	st_l.pos_rel_char = { 450,260 }; 
+	st_l.pos_rel_char = {207,13}; 
 	st_l.hitbox = { 0,0,100,20 };
 	st_l.active_time = 100;
 	st_l.hitstun = 300;
 	
-	st_h.pos_rel_char = { 430,240 };
+	st_h.pos_rel_char = { 210,-22 };
 	st_h.hitbox = { 0,0,150, 50 };
 	st_h.active_time = 200;
 	st_h.hitstun = 500;
 
-	cr_l.pos_rel_char = { 390,280 };
+	cr_l.pos_rel_char = { 142,28 };
 	cr_l.hitbox = { 0,0,70, 30 };
 	cr_l.active_time = 70;
 	cr_l.hitstun = 200;
 
-	cr_h.pos_rel_char = { 390,300 };
+	cr_h.pos_rel_char = { 187,38 };
 	cr_h.hitbox = { 0,0,180, 50 };
 	cr_h.active_time = 200;
 	cr_h.hitstun = 500;
 
-	jm_l.pos_rel_char = { 370,280 };
+	jm_l.pos_rel_char = { 147,33 };
 	jm_l.hitbox = { 0,0,140,20 };
 	jm_l.active_time = -1;
 	jm_l.hitstun = 200;
 
-	jm_h.pos_rel_char = { 270,280 };
+	jm_h.pos_rel_char = { 42,-60 };
 	jm_h.hitbox = { 0,0,120,100 };
 	jm_h.active_time = -1;
 	jm_h.hitstun = 500;
@@ -166,18 +166,29 @@ Warrior::Warrior(bool _fliped): Character() {
 	// Other variable initialization
 	grounded = true;
 	instanciated_hitbox = false;
+
 	jump_power.y = 25;
 	jump_power.x = 5;
+
 	velocity.y = 0;
 	velocity.x = 0;
+
 	current_state = CHAR_STATE::IDLE;
 	fliped = _fliped;  
 	gravity = 1;
 	bottom_lane = 500;
+
 	logic_position.x = 300;
 	logic_position.y = 500;
 
-	hurtbox = App->collision->AddCollider({ logic_position.x - 50, logic_position.y - 100, 100, 200 }, HURTBOX, -1,(Module*)App->entities,(Character*)this);
+	standing_hurtbox_size.x = 100;
+	standing_hurtbox_size.y = 200;
+
+	draw_size.x = 195;
+	draw_size.y = 158;
+
+	scale = 3;
+	hurtbox = App->collision->AddCollider({ logic_position.x - standing_hurtbox_size.x/2, logic_position.y - standing_hurtbox_size.y/2, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1,(Module*)App->entities,(Character*)this);
 
 }
 

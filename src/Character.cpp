@@ -17,13 +17,12 @@ Character::~Character() {
 void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	// Calculate draw position out of logic position
-	draw_position.x = logic_position.x - 97 * 3; // "97" is character drawing width/2 and "3" is scale
-	draw_position.y = logic_position.y - 79 * 3; // "79" is character drawing height/2 and "3" is scale
+	draw_position.x = logic_position.x - draw_size.x/2 * scale; 
+	draw_position.y = logic_position.y - draw_size.y/2 * scale; 
 	// Hurtbox allways next to the player
 	iPoint hurtbox_drawing_position;
 	hurtbox_drawing_position.x = logic_position.x - hurtbox->rect.w / 2;
 	hurtbox_drawing_position.y = logic_position.y - hurtbox->rect.h / 2;
-
 	hurtbox->SetPos(hurtbox_drawing_position.x , hurtbox_drawing_position.y);
 
 	switch (current_state) {
@@ -265,7 +264,7 @@ void Character::setIfGrounded() {
 }
 
 void Character::draw(SDL_Texture* graphic)  const{
-	App->render->blit(graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),3, fliped);
+	App->render->blit(graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped);
 }
 
 void Character::doAttack() {
@@ -321,12 +320,13 @@ void Character::doAttack() {
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 			instanciateHitbox(JM_L);
 		}	
-		applyGravity();		
-		setIfGrounded();
 		// Set the hitbox to follow the player
 		if (hitbox != nullptr) 			{
-			hitbox->SetPos(draw_position.x + jm_l.pos_rel_char.x, draw_position.y + jm_l.pos_rel_char.y);
+			hitbox->SetPos(calculateOffset(jm_l.pos_rel_char.x, jm_l.hitbox.w, true), calculateOffset(jm_l.pos_rel_char.y, jm_l.hitbox.h, false));
 		}
+		applyGravity();		
+		setIfGrounded();
+	
 
 
 		break;
@@ -340,13 +340,14 @@ void Character::doAttack() {
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 			instanciateHitbox(JM_H);
+		}	
+		// Set the hitbox to follow the player
+		if (hitbox != nullptr) {
+			hitbox->SetPos(calculateOffset(jm_h.pos_rel_char.x, jm_h.hitbox.w, true), calculateOffset(jm_h.pos_rel_char.y, jm_h.hitbox.h, false));
 		}
 		applyGravity();
 		setIfGrounded();
-		// Set the hitbox to follow the player
-		if (hitbox != nullptr) {
-			hitbox->SetPos(draw_position.x + jm_h.pos_rel_char.x, draw_position.y + jm_h.pos_rel_char.y);
-		}
+	
 		break;
 	case JM_S1:
 	case JM_S2:
@@ -370,27 +371,27 @@ void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
 	int life;
 	switch (type) 		{
 		case ST_L:
-			collider = { draw_position.x + st_l.pos_rel_char.x, draw_position.y + st_l.pos_rel_char.y,st_l.hitbox.w, st_l.hitbox.h };
+			collider = {calculateOffset(st_l.pos_rel_char.x,st_l.hitbox.w, true), calculateOffset(st_l.pos_rel_char.y,st_l.hitbox.h, false),st_l.hitbox.w, st_l.hitbox.h };
 			life = st_l.active_time;
 			break;
 		case ST_H:
-			collider = { draw_position.x + st_h.pos_rel_char.x, draw_position.y + st_h.pos_rel_char.y,st_h.hitbox.w, st_h.hitbox.h };
+			collider = { calculateOffset(st_h.pos_rel_char.x,st_h.hitbox.w, true), calculateOffset(st_h.pos_rel_char.y,st_h.hitbox.h, false),st_h.hitbox.w, st_h.hitbox.h };
 			life = st_h.active_time;
 			break;
 		case CR_L:
-			collider = { draw_position.x + cr_l.pos_rel_char.x, draw_position.y + cr_l.pos_rel_char.y,cr_l.hitbox.w, cr_l.hitbox.h };
+			collider = { calculateOffset(cr_l.pos_rel_char.x,cr_l.hitbox.w, true), calculateOffset(cr_l.pos_rel_char.y,cr_l.hitbox.h, false),cr_l.hitbox.w, cr_l.hitbox.h };
 			life = cr_l.active_time;
 			break;
 		case CR_H:
-			collider = { draw_position.x + cr_h.pos_rel_char.x, draw_position.y + cr_h.pos_rel_char.y,cr_h.hitbox.w, cr_h.hitbox.h };
+			collider = { calculateOffset(cr_h.pos_rel_char.x,cr_h.hitbox.w, true), calculateOffset(cr_h.pos_rel_char.y,cr_h.hitbox.h, false),cr_h.hitbox.w, cr_h.hitbox.h };
 			life = cr_h.active_time;
 			break;
 		case JM_L:
-			collider = { draw_position.x + jm_l.pos_rel_char.x, draw_position.y + jm_l.pos_rel_char.y,jm_l.hitbox.w, jm_l.hitbox.h };
+			collider = { calculateOffset(jm_l.pos_rel_char.x,jm_l.hitbox.w, true), calculateOffset(jm_l.pos_rel_char.y,jm_l.hitbox.h, false),jm_l.hitbox.w, jm_l.hitbox.h };
 			life = jm_l.active_time;
 			break;
 		case JM_H:
-			collider = { draw_position.x + jm_h.pos_rel_char.x, draw_position.y + jm_h.pos_rel_char.y,jm_h.hitbox.w, jm_h.hitbox.h };
+			collider = { calculateOffset(jm_h.pos_rel_char.x,jm_h.hitbox.w, true), calculateOffset(jm_h.pos_rel_char.y,jm_h.hitbox.h, false),jm_h.hitbox.w, jm_h.hitbox.h };
 			life = jm_h.active_time;
 			break;
 	}
@@ -428,4 +429,15 @@ basic_attack_deff Character::getCurrentAttackData() {
 			return jm_h;
 			break;
 	}
+}
+
+int Character::calculateOffset(int offset, int size, bool x) 	{
+	if (x) {
+		if (!fliped)
+			return logic_position.x + offset - size / 2;
+		else
+			return logic_position.x - offset - size / 2;
+	}
+	else
+		return logic_position.y + offset + size;
 }
