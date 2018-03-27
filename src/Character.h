@@ -42,8 +42,8 @@ enum CHAR_STATE {
 	ATTACKING,
 	SWAPPING,
 
-	BLOCKING,
-	HIT,
+	BLOCKING, // STAND_BLOCK/CROUCH_BLOCK
+	HIT,      // STAND_HIT/CROUCH_HIT
 	JUGGLE,
 	KNOCKDOWN
 };
@@ -66,7 +66,7 @@ struct basic_attack_deff {
 	int damage;
 	int hitstun; //in miliseconds
 	int blockstun; //in miliseconds
-	int pushhit; //in pixels
+	int pushhit; //in pixels every second
 	int pushblock; //in pixels
 	SDL_Rect hitbox;
 	iPoint pos_rel_char;
@@ -115,10 +115,11 @@ protected:
 	int walk_speed;	
 
 	bool grounded;
-	
 	bool fliped;
-
+	bool damage_taken;        //If when hit some damage is taken, it shouldn't be taken again
+	bool instanciated_hitbox; //If the hitbox of the attack has been already instanciated, it should,'t be instanciated again
 	bool hit = false;
+
 	int moment_hit; //Maybe current_stun and moment_hit should be a timer instead
 
 	// Entity collider
@@ -135,7 +136,7 @@ protected:
 
 
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h;
-	bool instanciated_hitbox;
+	
 	Player* owner;
 
 

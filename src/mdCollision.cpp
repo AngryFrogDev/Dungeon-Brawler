@@ -81,7 +81,7 @@ bool mdCollision::update(float dt)
 
 void mdCollision::DebugDraw()
 {
-	if ((App->input->getKey(SDL_SCANCODE_F1) == KEY_DOWN))
+	if ((App->input->getKey(SDL_SCANCODE_F1) == KEY_REPEAT))
 		debug = !debug;
 
 	if (debug == false)

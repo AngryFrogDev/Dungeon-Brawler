@@ -22,13 +22,16 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	// Hurtbox allways next to the player
 	hurtbox->SetPos(calculateDrawPosition(0,hurtbox->rect.w,true), calculateDrawPosition(0, hurtbox->rect.h, false));
 
+	//PROVISIONAL: Crazy provisional
+	if (current_life <= 0) {
+		current_state = CHAR_STATE::KNOCKDOWN;
+	}
 
 	switch (current_state) {
 	case IDLE:
 		updateAnimation(idle);
 		if (hit) { 
 			current_state = CHAR_STATE::HIT;
-			hit = false;
 		}
 		else if (inputs[SWITCH])
 			current_state = CHAR_STATE::SWAPPING;
@@ -215,9 +218,17 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	case HIT:
 		updateAnimation(standing_hit);
-		if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) { 
+		if (hit) { 
+			current_life -= attack_recieving.damage;
+			hit = false;
+		}
+		else if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) { 
 			current_state = CHAR_STATE::IDLE;
 		}
+		if (!fliped)
+			logic_position.x -= attack_recieving.pushhit;
+		else
+			logic_position.x += attack_recieving.pushhit;
 		break;
 
 	case JUGGLE:
@@ -227,6 +238,11 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	case KNOCKDOWN:
 		//TODO: Define knockdown
+		//PROVISIONAL: Crazy provisional
+		App->render->drawQuad({ 0,0,100,100 }, 255, 255, 255, 255, true);
+		break;
+	case SWAPPING:
+		//TODO: Define swapping
 		current_state = CHAR_STATE::IDLE;
 		break;
 	}

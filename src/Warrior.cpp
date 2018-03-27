@@ -2,8 +2,6 @@
 #include "mdCollision.h"
 
 Warrior::Warrior(int x_pos, bool _fliped): Character() {
-	type = CHAR_TYPE::WARRIOR;
-	walk_speed = 4;
 
 	//PROVISIONAL: Animations should be loaded from the xml
 
@@ -137,35 +135,53 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	st_l.hitbox = { 0,0,100,20 };
 	st_l.active_time = 100;
 	st_l.hitstun = 300;
+	st_l.pushhit = 3;         
+	st_l.damage = 5;
 	
 	st_h.pos_rel_char = { 210,20 };
 	st_h.hitbox = { 0,0,150, 50 };
 	st_h.active_time = 200;
 	st_h.hitstun = 500;
+	st_h.pushhit = 5;
+	st_h.damage = 15;
 
 	cr_l.pos_rel_char = { 110,50 };
 	cr_l.hitbox = { 0,0,70, 30 };
 	cr_l.active_time = 70;
 	cr_l.hitstun = 200;
+	cr_l.pushhit = 2;
+	cr_l.damage = 3;
 
 	cr_h.pos_rel_char = { 190,80 };
 	cr_h.hitbox = { 0,0,180, 50 };
 	cr_h.active_time = 200;
 	cr_h.hitstun = 500;
+	cr_h.pushhit = 6; //Should be -1 to indicate knockdown
+	cr_h.damage = 15;
 
 	jm_l.pos_rel_char = { 150,70 };
 	jm_l.hitbox = { 0,0,140,20 };
 	jm_l.active_time = -1;
 	jm_l.hitstun = 200;
+	jm_l.pushhit = 1;
+	jm_l.damage = 6;
 
 	jm_h.pos_rel_char = { 42,80 };
 	jm_h.hitbox = { 0,0,120,100 };
 	jm_h.active_time = -1;
 	jm_h.hitstun = 500;
+	jm_h.pushhit = 1;
+	jm_h.damage = 10;
 
 	// Other variable initialization
 	grounded = true;
 	instanciated_hitbox = false;
+	hit = false;
+	damage_taken = false;
+	fliped = _fliped;  
+	
+	max_life = 100;
+	current_life = max_life;
 
 	jump_power.y = 25;
 	jump_power.x = 5;
@@ -174,7 +190,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	velocity.x = 0;
 
 	current_state = CHAR_STATE::IDLE;
-	fliped = _fliped;  
+	
 	gravity = 1;
 	bottom_lane = 500;
 
@@ -186,6 +202,9 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 
 	draw_size.x = 195;
 	draw_size.y = 158;
+
+	type = CHAR_TYPE::WARRIOR;
+	walk_speed = 4;
 
 	scale = 3;
 	hurtbox = App->collision->AddCollider({ logic_position.x - standing_hurtbox_size.x/2, logic_position.y - standing_hurtbox_size.y/2, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1,(Module*)App->entities,(Character*)this);
