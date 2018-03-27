@@ -102,7 +102,8 @@ protected:
 protected:
 	CHAR_TYPE type;
 
-	iPoint position;
+	iPoint logic_position;
+	iPoint draw_position;
 	iPoint velocity;
 
 	int current_life; 								
@@ -135,8 +136,8 @@ protected:
 
 	//PROVISIONAL should be read from xml
 	iPoint jump_power;
-	float gravity = 1;
-	int bottom_lane = 300;
+	float gravity;
+	int bottom_lane;
 
 
 public:

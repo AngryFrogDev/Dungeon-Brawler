@@ -6,7 +6,7 @@
 
 Character::Character() {
 
-
+	SDL_SCANCODE_C;
 }
 
 
@@ -15,6 +15,17 @@ Character::~Character() {
 }
 
 void Character::update(const bool(&inputs)[MAX_INPUTS]) {
+
+	// Calculate draw position out of logic position
+	draw_position.x = logic_position.x - 97 * 3; // "97" is character drawing width/2 and "3" is scale
+	draw_position.y = logic_position.y - 79 * 3; // "79" is character drawing height/2 and "3" is scale
+	// Hurtbox allways next to the player
+	iPoint hurtbox_drawing_position;
+	hurtbox_drawing_position.x = logic_position.x - hurtbox->rect.w / 2;
+	hurtbox_drawing_position.y = logic_position.y - hurtbox->rect.h / 2;
+
+	hurtbox->SetPos(hurtbox_drawing_position.x , hurtbox_drawing_position.y);
+
 	switch (current_state) {
 	case IDLE:
 		updateAnimation(idle);
@@ -88,9 +99,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 
 		if (fliped)
-			position.x += walk_speed;
+			logic_position.x += walk_speed;
 		else
-			position.x -= walk_speed;
+			logic_position.x -= walk_speed;
 			
 		break;
 
@@ -129,9 +140,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 
 		if (fliped)
-			position.x -= walk_speed;
+			logic_position.x -= walk_speed;
 		else
-			position.x += walk_speed;
+			logic_position.x += walk_speed;
 		break;
 
 	case CROUCHING:
@@ -223,10 +234,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		break;
 	}
 
-	// Hurtbox allways next to the player
-	hurtbox->SetPos(position.x + 220, position.y + 150);
-	//PROVISIONAL: Crazy provisional
-	
+
 
 }
 
@@ -235,20 +243,20 @@ void Character::applyGravity() {
 	velocity.y += gravity;
 	
 	if (velocity.y > 0) {
-		if (position.y < bottom_lane)
-			position.y += velocity.y;
-			position.x += velocity.x;
+		if (logic_position.y < bottom_lane)
+			logic_position.y += velocity.y;
+			logic_position.x += velocity.x;
 	}
 	else {
-		position.y += velocity.y;
-		position.x += velocity.x;
+		logic_position.y += velocity.y;
+		logic_position.x += velocity.x;
 	}
 }
 
 void Character::setIfGrounded() {
 	//will be updated
-	LOG("%d",position.y);
-	if (position.y >= bottom_lane)
+	LOG("%d",logic_position.y);
+	if (logic_position.y >= bottom_lane)
 	{ 
 		grounded = true;
 		velocity.y = 0;
@@ -257,7 +265,7 @@ void Character::setIfGrounded() {
 }
 
 void Character::draw(SDL_Texture* graphic)  const{
-	App->render->blit(graphic, position.x, position.y, &current_animation->GetCurrentFrame(),3, fliped);
+	App->render->blit(graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),3, fliped);
 }
 
 void Character::doAttack() {
@@ -317,7 +325,7 @@ void Character::doAttack() {
 		setIfGrounded();
 		// Set the hitbox to follow the player
 		if (hitbox != nullptr) 			{
-			hitbox->SetPos(position.x + jm_l.pos_rel_char.x, position.y + jm_l.pos_rel_char.y);
+			hitbox->SetPos(draw_position.x + jm_l.pos_rel_char.x, draw_position.y + jm_l.pos_rel_char.y);
 		}
 
 
@@ -337,7 +345,7 @@ void Character::doAttack() {
 		setIfGrounded();
 		// Set the hitbox to follow the player
 		if (hitbox != nullptr) {
-			hitbox->SetPos(position.x + jm_h.pos_rel_char.x, position.y + jm_h.pos_rel_char.y);
+			hitbox->SetPos(draw_position.x + jm_h.pos_rel_char.x, draw_position.y + jm_h.pos_rel_char.y);
 		}
 		break;
 	case JM_S1:
@@ -362,27 +370,27 @@ void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
 	int life;
 	switch (type) 		{
 		case ST_L:
-			collider = { position.x + st_l.pos_rel_char.x, position.y + st_l.pos_rel_char.y,st_l.hitbox.w, st_l.hitbox.h };
+			collider = { draw_position.x + st_l.pos_rel_char.x, draw_position.y + st_l.pos_rel_char.y,st_l.hitbox.w, st_l.hitbox.h };
 			life = st_l.active_time;
 			break;
 		case ST_H:
-			collider = { position.x + st_h.pos_rel_char.x, position.y + st_h.pos_rel_char.y,st_h.hitbox.w, st_h.hitbox.h };
+			collider = { draw_position.x + st_h.pos_rel_char.x, draw_position.y + st_h.pos_rel_char.y,st_h.hitbox.w, st_h.hitbox.h };
 			life = st_h.active_time;
 			break;
 		case CR_L:
-			collider = { position.x + cr_l.pos_rel_char.x, position.y + cr_l.pos_rel_char.y,cr_l.hitbox.w, cr_l.hitbox.h };
+			collider = { draw_position.x + cr_l.pos_rel_char.x, draw_position.y + cr_l.pos_rel_char.y,cr_l.hitbox.w, cr_l.hitbox.h };
 			life = cr_l.active_time;
 			break;
 		case CR_H:
-			collider = { position.x + cr_h.pos_rel_char.x, position.y + cr_h.pos_rel_char.y,cr_h.hitbox.w, cr_h.hitbox.h };
+			collider = { draw_position.x + cr_h.pos_rel_char.x, draw_position.y + cr_h.pos_rel_char.y,cr_h.hitbox.w, cr_h.hitbox.h };
 			life = cr_h.active_time;
 			break;
 		case JM_L:
-			collider = { position.x + jm_l.pos_rel_char.x, position.y + jm_l.pos_rel_char.y,jm_l.hitbox.w, jm_l.hitbox.h };
+			collider = { draw_position.x + jm_l.pos_rel_char.x, draw_position.y + jm_l.pos_rel_char.y,jm_l.hitbox.w, jm_l.hitbox.h };
 			life = jm_l.active_time;
 			break;
 		case JM_H:
-			collider = { position.x + jm_h.pos_rel_char.x, position.y + jm_h.pos_rel_char.y,jm_h.hitbox.w, jm_h.hitbox.h };
+			collider = { draw_position.x + jm_h.pos_rel_char.x, draw_position.y + jm_h.pos_rel_char.y,jm_h.hitbox.w, jm_h.hitbox.h };
 			life = jm_h.active_time;
 			break;
 	}

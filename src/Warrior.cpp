@@ -171,10 +171,13 @@ Warrior::Warrior(bool _fliped): Character() {
 	velocity.y = 0;
 	velocity.x = 0;
 	current_state = CHAR_STATE::IDLE;
-	fliped = _fliped;  //Should be in the constructor
-	position.x = 300;
-	position.y = bottom_lane;
-	hurtbox = App->collision->AddCollider({ position.x + 220, position.y + 150, 100, 200 }, HURTBOX, -1,(Module*)App->entities,(Character*)this);
+	fliped = _fliped;  
+	gravity = 1;
+	bottom_lane = 500;
+	logic_position.x = 300;
+	logic_position.y = 500;
+
+	hurtbox = App->collision->AddCollider({ logic_position.x - 50, logic_position.y - 100, 100, 200 }, HURTBOX, -1,(Module*)App->entities,(Character*)this);
 
 }
 

@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Character.h"
 #include "mdTextures.h"
+#define MAX_KEYS 300
 
 struct controller_scheme {
 	CONTROLLER_BUTTON scheme[CHARACTER_INPUTS::MAX_INPUTS];
@@ -11,6 +12,13 @@ struct controller_scheme {
 
 	controller_scheme() : name("") {}
 	controller_scheme(std::string name) : name(name){}
+};
+struct keyboard_scheme {
+	SDL_Scancode scheme[CHARACTER_INPUTS::MAX_INPUTS];
+	std::string name;
+
+	keyboard_scheme() : name("") {}
+	keyboard_scheme(std::string name) : name(name) {}
 };
 
 class Player;
@@ -31,7 +39,8 @@ public:
 	void destroyCharacters();
 
 public:
-	std::list<controller_scheme> schemes;
+	std::list<controller_scheme> controller_schemes;
+	std::list<keyboard_scheme>	 keyboard_schemes;
 
 private:
 
