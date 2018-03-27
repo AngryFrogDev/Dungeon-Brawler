@@ -1,7 +1,7 @@
 #include "Warrior.h"
 #include "mdCollision.h"
 
-Warrior::Warrior(bool _fliped): Character() {
+Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	type = CHAR_TYPE::WARRIOR;
 	walk_speed = 4;
 
@@ -178,7 +178,7 @@ Warrior::Warrior(bool _fliped): Character() {
 	gravity = 1;
 	bottom_lane = 500;
 
-	logic_position.x = 300;
+	logic_position.x = x_pos;
 	logic_position.y = 500;
 
 	standing_hurtbox_size.x = 100;

@@ -39,8 +39,8 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	//PROVISIONAL: Should be loaded from an xml
 	warrior_graphics = App->textures->load("Assets/warrior.png");
 
-	createCharacter(0, CHAR_TYPE::WARRIOR, false);
-	createCharacter(1, CHAR_TYPE::WARRIOR, true);
+	createCharacter(0,300, CHAR_TYPE::WARRIOR, false);
+	createCharacter(1,1000, CHAR_TYPE::WARRIOR, true);
 	players[0]->assignControlScheme(controller_schemes.front());
 	players[1]->assignKeyboardScheme(keyboard_schemes.front());
 
@@ -70,12 +70,12 @@ bool mdEntities::cleanUp() {
 	destroyCharacters();
 	return ret;
 }
-void mdEntities::createCharacter(int player, CHAR_TYPE type, bool fliped) {
+void mdEntities::createCharacter(int player,int x_pos, CHAR_TYPE type, bool fliped) {
 
 	if (players[player] == nullptr)
 		players[player] = new Player();
 
-	players[player]->assignCharacter(type,fliped);
+	players[player]->assignCharacter(x_pos,type,fliped);
 }
 
 void mdEntities::destroyCharacters() {
