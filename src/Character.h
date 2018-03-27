@@ -98,7 +98,7 @@ public:
 
 protected:
 	void updateAnimation(Animation& new_animation);
-	int calculateOffset(int offset, int size, bool x); // Uses player's logic position, flip, offset and width to calculate the position to draw a collider
+	int calculateDrawPosition(int offset, int size, bool x); // Uses player's logic position, flip, offset and width to calculate the position to draw a collider
 
 
 protected:

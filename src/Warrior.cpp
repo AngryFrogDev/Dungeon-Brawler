@@ -133,32 +133,32 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 
 	// Basic attack definitions
 
-	st_l.pos_rel_char = {207,13}; 
+	st_l.pos_rel_char = {210,35}; 
 	st_l.hitbox = { 0,0,100,20 };
 	st_l.active_time = 100;
 	st_l.hitstun = 300;
 	
-	st_h.pos_rel_char = { 210,-22 };
+	st_h.pos_rel_char = { 210,20 };
 	st_h.hitbox = { 0,0,150, 50 };
 	st_h.active_time = 200;
 	st_h.hitstun = 500;
 
-	cr_l.pos_rel_char = { 142,28 };
+	cr_l.pos_rel_char = { 110,50 };
 	cr_l.hitbox = { 0,0,70, 30 };
 	cr_l.active_time = 70;
 	cr_l.hitstun = 200;
 
-	cr_h.pos_rel_char = { 187,38 };
+	cr_h.pos_rel_char = { 190,80 };
 	cr_h.hitbox = { 0,0,180, 50 };
 	cr_h.active_time = 200;
 	cr_h.hitstun = 500;
 
-	jm_l.pos_rel_char = { 147,33 };
+	jm_l.pos_rel_char = { 150,70 };
 	jm_l.hitbox = { 0,0,140,20 };
 	jm_l.active_time = -1;
 	jm_l.hitstun = 200;
 
-	jm_h.pos_rel_char = { 42,-60 };
+	jm_h.pos_rel_char = { 42,80 };
 	jm_h.hitbox = { 0,0,120,100 };
 	jm_h.active_time = -1;
 	jm_h.hitstun = 500;
