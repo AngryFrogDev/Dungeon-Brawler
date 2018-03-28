@@ -106,6 +106,59 @@ bool mdInput::awake(const pugi::xml_node & md_config) {
 bool mdInput::preUpdate() {
 	bool ret = true;
 
+	SDL_Event event;
+	while (SDL_PollEvent(&event)) {
+		switch (event.type) {
+		case SDL_QUIT:
+			ret = false; //TODO : This should call a quit function
+			break;
+		case SDL_KEYDOWN:
+			keyboard[event.key.keysym.scancode] = KEY_DOWN;
+			break;
+		case SDL_KEYUP:
+			keyboard[event.key.keysym.scancode] = KEY_UP;
+			break;
+		case SDL_CONTROLLERDEVICEADDED:
+			if (SDL_IsGameController(event.cdevice.which)) {
+				int index = event.cdevice.which;
+				Controller* ctrl = new Controller(SDL_GameControllerOpen(index), SDL_HapticOpen(index));
+				if (ctrl != nullptr)
+					controllers.push_back(ctrl);
+			}
+			break;
+		case SDL_CONTROLLERDEVICEREMOVED:
+			for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
+				if ((*it)->getControllerID() == event.cdevice.which) {
+					RELEASE(*it);
+					it = controllers.erase(it);
+					break;
+				}
+			}
+			break;
+		case SDL_CONTROLLERBUTTONDOWN:
+			for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
+				if ((*it)->getControllerID() == event.cbutton.which) {
+					(*it)->addInput((CONTROLLER_BUTTON)event.cbutton.button, event.cbutton.timestamp);
+					break;
+				}
+			}
+			break;
+
+		case SDL_CONTROLLERBUTTONUP:
+			for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
+				if ((*it)->getControllerID() == event.cbutton.which) {
+					(*it)->buttons[event.cbutton.button] = KEY_UP;
+					break;
+				}
+			}
+			break;
+
+		case SDL_CONTROLLERAXISMOTION:
+			handleAxes(event);
+			break;
+		}
+	}
+
 	for (int i = 0; i < MAX_KEYS; ++i) {
 		if (keyboard[i] == KEY_UP)
 			keyboard[i] = KEY_IDLE;
@@ -120,59 +173,6 @@ bool mdInput::preUpdate() {
 				(*it)->buttons[i] = KEY_IDLE;
 			else if ((*it)->buttons[i] == KEY_DOWN)
 				(*it)->buttons[i] = KEY_REPEAT;
-		}
-	}
-
-	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
-			case SDL_QUIT:
-				ret = false; //TODO : This should call a quit function
-				break;
-			case SDL_KEYDOWN:
-				keyboard[event.key.keysym.scancode] = KEY_DOWN;
-				break;
-			case SDL_KEYUP:
-				keyboard[event.key.keysym.scancode] = KEY_UP;
-				break;
-			case SDL_CONTROLLERDEVICEADDED:
-				if (SDL_IsGameController(event.cdevice.which)) {
-					int index = event.cdevice.which;
-					Controller* ctrl = new Controller(SDL_GameControllerOpen(index), SDL_HapticOpen(index));
-					if (ctrl != nullptr)
-						controllers.push_back(ctrl);
-				}
-				break;
-			case SDL_CONTROLLERDEVICEREMOVED: 
-				for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
-					if ((*it)->getControllerID() == event.cdevice.which) {
-						RELEASE(*it);
-						it = controllers.erase(it);
-						break;
-					}
-				}
-				break;
-			case SDL_CONTROLLERBUTTONDOWN: 
-				for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
-					if ((*it)->getControllerID() == event.cbutton.which) {
-						(*it)->addInput((CONTROLLER_BUTTON)event.cbutton.button, event.cbutton.timestamp);
-						break;
-					}
-				}
-				break;
-
-			case SDL_CONTROLLERBUTTONUP:
-				for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
-					if ((*it)->getControllerID() == event.cbutton.which) {
-						(*it)->buttons[event.cbutton.button] = KEY_UP;
-						break;
-					}
-				}
-				break;
-
-			case SDL_CONTROLLERAXISMOTION:
-				handleAxes(event);
-				break;
 		}
 	}
 

@@ -3,12 +3,10 @@
 #include "mdRender.h"
 #include "mdCollision.h"
 #include "DebLog.h"
+#include "Character.h"
 
 mdCollision::mdCollision() {
 
-	collider_one = AddCollider({ 100,100,100,100 }, COLLIDER_NONE, this);
-		
-	collider_two = AddCollider({ 500,100,100,100 }, COLLIDER_NONE, this);
 
 }
 
@@ -18,15 +16,25 @@ mdCollision::~mdCollision(){
 
 bool mdCollision::preUpdate()
 {
+	std::list<collider*> colliders_to_delete;
 	// Remove all colliders scheduled for deletion
+
+	//Iterate list looking for the colliders
 	for (std::list<collider*>::iterator it = colliders.begin(); it != colliders.end();++it) {
 		collider* c = *it;
-
 		if (c->to_delete) {
-			colliders.remove(c);
-			delete c;
+			colliders_to_delete.push_back(c);
 		}
 	}
+
+	// Remove the colliders
+	for (std::list<collider*>::iterator it = colliders_to_delete.begin(); it != colliders_to_delete.end(); ++it) {
+		collider* c = *it;
+		colliders.remove(c);
+		delete c;
+	}
+
+	colliders_to_delete.clear();
 
 	return true;
 }
@@ -36,7 +44,7 @@ bool mdCollision::update(float dt)
 	collider* c1;
 	collider* c2;
 
-
+	// Check collision
 	for (std::list<collider*>::iterator it1 = colliders.begin(); it1 != colliders.end(); ++it1) {
 		auto tmp = it1;
 		tmp++;
@@ -45,17 +53,22 @@ bool mdCollision::update(float dt)
 			c2 = *it2;
 
 			if (c1->checkCollision(c2->rect) == true) {
+				//Character check
+				if (c1->character != c2->character && c1->character->lane == c2->character->lane) {
+					c1->character->onCollision(c1,c2);
+					c2->character->onCollision(c2, c1);
+				}
 
-				if (true) //If c1->character != c2->character && c1->character->lane == c2->character->lane
-					c1->callback->onCollision(c1, c2);
-				if (true)
-					c2->callback->onCollision(c2, c1);
 			}
 		}
 	}	
-	// PROVISIONAL: Test
-	if (App->input->getKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
-		collider_one->rect.x+= 5;
+
+	// Check life
+	for (std::list<collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it) {
+		collider* c = *it;
+		if (c->life != -1 && SDL_GetTicks() - c->born > c->life)/*PROVISIONAL: Maybe it should use a timer*/ {
+			c->to_delete = true;
+		}
 	}
 
 	DebugDraw();
@@ -68,7 +81,7 @@ bool mdCollision::update(float dt)
 
 void mdCollision::DebugDraw()
 {
-	if ((App->input->getKey(SDL_SCANCODE_F1) == KEY_DOWN))
+	if ((App->input->getKey(SDL_SCANCODE_F1) == KEY_REPEAT))
 		debug = !debug;
 
 	if (debug == false)
@@ -82,6 +95,12 @@ void mdCollision::DebugDraw()
 			case COLLIDER_NONE: // white
 				App->render->drawQuad(c->rect, 255, 255, 255, alpha,true);
 				break;
+			case HITBOX:
+				App->render->drawQuad(c->rect, 255, 0, 0, alpha, true);
+				break;
+			case HURTBOX:
+				App->render->drawQuad(c->rect, 0, 0, 255, alpha, true);
+				break;
 		}
 	}
 }
@@ -94,22 +113,21 @@ bool mdCollision::cleanUp()
 	for (std::list<collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it) {
 		collider* c = *it;
 		delete c;
-
 	}
 
 	colliders.clear();
 	return true;
 }
 
-void mdCollision::onCollision(collider*c1, collider* c2) 	{
+void mdCollision::onCollision(collider*c1, collider* c2) {
 
 	LOG("COLLISION!");
 }
 
 
-collider* mdCollision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, Module* callback)
+collider* mdCollision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type,int life, Module* callback, Character* character)
 {
-	collider* ret = new collider(rect, type, callback);
+	collider* ret = new collider(rect, type, life, callback,character);
 
 	colliders.push_back(ret);
 

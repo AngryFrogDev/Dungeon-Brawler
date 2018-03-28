@@ -8,33 +8,40 @@
 #include "SDL/include/SDL.h"
 #include "SDL_image/include/SDL_image.h"
 #pragma comment( lib, "SDL_image/libx86/SDL2_image.lib" )
+
+class Character;
 enum COLLIDER_TYPE
 {
 	COLLIDER_NONE = 0,
-	COLLIDER_ATTACK,
-	COLLIDER_DEFFENSE,
-	COLLIDER_MAX
+	HURTBOX,
+	HITBOX
 };
 
 struct collider
 {
+
+	// Collider properties
 	SDL_Rect rect;
-	bool to_delete = false;
 	COLLIDER_TYPE type;
+	int life; //In miliseconds (set -1 so the collider is not erased by time)
+	//Callbacks
 	Module* callback = nullptr;
-	//Character* character;      
+	Character* character;      
+	// Collider state
+	int born; //In miliseconds 
+	bool to_delete = false;
 
-	collider(SDL_Rect rectangle, COLLIDER_TYPE type, Module* callback = nullptr) : rect(rectangle), type(type), callback(callback)
-	{}
+	collider(SDL_Rect rectangle, COLLIDER_TYPE type, int life, Module* callback, Character* character) : 
+		rect(rectangle), type(type), life(life), callback(callback), character(character) {
+		born = SDL_GetTicks();
+	}
 
-	void SetPos(int x, int y)
-	{
+	void SetPos(int x, int y) {
  		rect.x = x;
 		rect.y = y;
 	}
 
-	void SetSize(int w, int h)
-	{
+	void SetSize(int w, int h) {
 		rect.w = w;
 		rect.h = h;
 	}
@@ -52,16 +59,12 @@ public:
 	bool preUpdate();
 	bool update(float dt);
 	bool cleanUp();
-	void onCollision(collider*, collider*);
+	void onCollision(collider*, collider*); //Just for the test
 
-	collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, Module* callback = nullptr);
+	collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type,int life, Module* callback = nullptr, Character* character = nullptr);
 	
 	void DebugDraw();
 
-
-	// PROVISIONAL: Test
-	collider* collider_one;
-	collider* collider_two;
 
 private:
 

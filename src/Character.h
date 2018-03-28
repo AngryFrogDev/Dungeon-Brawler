@@ -42,8 +42,8 @@ enum CHAR_STATE {
 	ATTACKING,
 	SWAPPING,
 
-	BLOCKING,
-	HIT,
+	BLOCKING, // STAND_BLOCK/CROUCH_BLOCK
+	HIT,      // STAND_HIT/CROUCH_HIT
 	JUGGLE,
 	KNOCKDOWN
 };
@@ -62,6 +62,17 @@ enum CHARACTER_INPUTS {
 	SWITCH,
 	MAX_INPUTS
 };
+struct basic_attack_deff {
+	int damage;
+	int hitstun; //in miliseconds
+	int blockstun; //in miliseconds
+	int pushhit; //in pixels every second
+	int pushblock; //in pixels
+	SDL_Rect hitbox;
+	iPoint pos_rel_char;
+	int active_time; //in miliseconds
+	CHAR_ATT_TYPE type;
+};
 
 class Player;
 
@@ -72,23 +83,37 @@ public:
 						
 	virtual void update(const bool (&inputs)[MAX_INPUTS]);		
 
+    // The first one is the collider belonging to this character
+	void onCollision(collider* c1, collider* c2);
+
 	void applyGravity();
 
 	void setIfGrounded();
 
 	void draw(SDL_Texture* graphic) const;
 
-	//Execute attack, rewritable for every type of character
-	virtual void doAttack();					 
-	//void onCollision(Collider* collider);
 
-protected:
+	basic_attack_deff getCurrentAttackData();
+	iPoint getPos();
+	void setFlip(bool flip);
+
+protected:	
+	//Execute attack, rewritable for every type of character
+	virtual void doAttack();		
+	void instanciateHitbox(CHAR_ATT_TYPE type);
+
 	void updateAnimation(Animation& new_animation);
+	// Uses player's logic position, flip, offset and width to calculate the position to draw a collider
+	int calculateDrawPosition(int offset, int size, bool x);
+
 
 protected:
 	CHAR_TYPE type;
 
-	iPoint position;
+	iPoint logic_position;
+	iPoint draw_position;
+	iPoint draw_size;
+	float scale;
 	iPoint velocity;
 
 	int current_life; 								
@@ -96,33 +121,40 @@ protected:
 	int walk_speed;	
 
 	bool grounded;
-	float jump_power;
-
-	int lane = 1; //Provisional 1 = bottom  2 = top
-
 	bool fliped;
+	bool damage_taken;        //If when hit some damage is taken, it shouldn't be taken again
+	bool instanciated_hitbox; //If the hitbox of the attack has been already instanciated, it should,'t be instanciated again
 	bool hit = false;
 
-	// Entity collider
-	//Collider* hurtbox;								 
-	
+	int moment_hit; //Maybe current_stun and moment_hit should be a timer instead
 
-	//input_values assigned_inputs;
-	//active_inputs inputs_pressed;
-	
+	// Entity collider
+	collider* hurtbox;	
+	iPoint standing_hurtbox_size;
+	collider* hitbox; //It should be a list, as a character can have multiple active hitboxes
 
 	CHAR_STATE current_state;
 	CHAR_ATT_TYPE attack_doing;
+	basic_attack_deff attack_recieving;
 
 	Animation* current_animation;
-	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack;
+	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_hit;
 
+
+	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h;
+	
 	Player* owner;
 
 
 	//PROVISIONAL should be read from xml
-	float gravity = 1;
-	float bottom_lane = 300;
+	iPoint jump_power;
+	float gravity;
+	int bottom_lane;
+
+
+public:
+	int lane = 1; //Provisional 1 = bottom  2 = top
+
 };
 
 #endif //__CHARACTER__

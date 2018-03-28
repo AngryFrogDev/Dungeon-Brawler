@@ -17,19 +17,30 @@ public:
 	void update(SDL_Texture* graphics);
 	// Function to assign a controller to the player								 
 	void assignController(Controller* controller);
-	// Function so assign a certain character to the player -> character_type: enum with all the character types			     
-	void assignCharacter(CHAR_TYPE type); 
+	// Function so assign a certain character to the player		     
+	void assignCharacter(int x_pos, CHAR_TYPE type, bool fliped); 
 	
 	void assignControlScheme(const controller_scheme& new_scheme);
 
-	Controller* getController() const;
+	void assignKeyboardScheme(const keyboard_scheme& new_scheme);
 
+	int getLane();
+	iPoint getPos();
+	void setFlip(bool flip);
+
+	Controller* getController() const;
 private:
 	// Number of the controller being used by the player
 	Controller* controller;
 	// Instance of the current character being used -> Character: Base class for the characters							
 	Character* curr_character;
-	controller_scheme scheme;
+	controller_scheme player_controller_scheme;
+	keyboard_scheme   player_keyboard_scheme;
+
+
+
+	
+	
 };
 
 #endif //__PLAYER__

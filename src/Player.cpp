@@ -17,11 +17,16 @@ Player::~Player(){
 
 void Player::update(SDL_Texture* graphics)
 {
-	bool player_inputs[MAX_INPUTS];
+	bool player_inputs[MAX_INPUTS] = { false };
 	if (controller != nullptr) {
 		for (int i = 0; i < MAX_INPUTS; i++)
-			player_inputs[i] = controller->isPressed(scheme.scheme[i]);
+				player_inputs[i] = controller->isPressed(player_controller_scheme.scheme[i]);
 	}
+	else {
+		for (int i = 0; i < MAX_INPUTS; i++)
+			player_inputs[i] = App->input->getKey(player_keyboard_scheme.scheme[i]) == KEY_REPEAT;
+	}
+
 	if (curr_character != nullptr) {
 		curr_character->update(player_inputs);
 		curr_character->draw(graphics);
@@ -32,13 +37,13 @@ void Player::assignController(Controller* controller) {
 	Player::controller = controller;
 }
 
-void Player::assignCharacter(CHAR_TYPE type) {
+void Player::assignCharacter(int x_pos, CHAR_TYPE type, bool fliped) {
 
 	switch(type)
 	{
 		case WARRIOR:
 		{
-			curr_character = new Warrior();
+			curr_character = new Warrior(x_pos, fliped);
 			break;
 		}
 		//case MAGE:
@@ -60,9 +65,24 @@ void Player::assignCharacter(CHAR_TYPE type) {
 }
 
 void Player::assignControlScheme(const controller_scheme& new_scheme) {
-	scheme = new_scheme;
+	player_controller_scheme = new_scheme;
 }
+
+void Player::assignKeyboardScheme(const keyboard_scheme& new_scheme) {
+	player_keyboard_scheme = new_scheme;
+}
+
 
 Controller * Player::getController() const {
 	return controller;
+}
+
+int Player::getLane() {
+	return curr_character->lane;
+}
+iPoint Player::getPos() {
+	return curr_character->getPos();
+}
+void Player::setFlip(bool flip) {
+	curr_character->setFlip(flip);
 }

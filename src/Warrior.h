@@ -4,7 +4,7 @@
 
 class Warrior : public Character {
 public:
-	Warrior();
+	Warrior(int x_pos, bool _fliped);
 	~Warrior();
 };
 

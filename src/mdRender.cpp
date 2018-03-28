@@ -100,8 +100,13 @@ bool mdRender::blit(int priority, SDL_Texture* texture, int x, int y, const SDL_
 }
 
 // Blit to screen
+<<<<<<< HEAD
 bool mdRender::drawBlit(priority_queue <objectToPrint*, vector<objectToPrint*>, orderCrit>& queue) const {
 
+=======
+bool mdRender::blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,double scale,bool flip, float speed, double angle, int pivot_x, int pivot_y) const {
+	//TODO: Add option to blit at a different scale
+>>>>>>> Warrior-attacks-colliders
 	bool ret = true;
 
 
@@ -122,6 +127,7 @@ bool mdRender::drawBlit(priority_queue <objectToPrint*, vector<objectToPrint*>, 
 		rect.w *= first->scale;
 		rect.h *= first->scale;
 
+<<<<<<< HEAD
 		SDL_Point* p = NULL;
 		SDL_Point pivot;
 
@@ -139,6 +145,17 @@ bool mdRender::drawBlit(priority_queue <objectToPrint*, vector<objectToPrint*>, 
 		RELEASE(first);
 
 		queue.pop();
+=======
+	SDL_RendererFlip flip_flag;
+	if (flip)
+		flip_flag = SDL_FLIP_HORIZONTAL;
+	else
+		flip_flag = SDL_FLIP_NONE;
+
+	if (SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, flip_flag) != 0) {
+		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
+		ret = false;
+>>>>>>> Warrior-attacks-colliders
 	}
 
 	return ret;
