@@ -193,6 +193,8 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	
 	gravity = 1;
 	bottom_lane = 500;
+	upper_lane = 100;
+	lane = 1;
 
 	logic_position.x = x_pos;
 	logic_position.y = 500;

@@ -101,6 +101,7 @@ protected:
 	//Execute attack, rewritable for every type of character
 	virtual void doAttack();		
 	void instanciateHitbox(CHAR_ATT_TYPE type);
+	void manageGroundPosition();
 
 	void updateAnimation(Animation& new_animation);
 	// Uses player's logic position, flip, offset and width to calculate the position to draw a collider
@@ -145,15 +146,17 @@ protected:
 	
 	Player* owner;
 
-
 	//PROVISIONAL should be read from xml
+
 	iPoint jump_power;
 	float gravity;
+	int ground_position;
 	int bottom_lane;
+	int upper_lane;
 
 
 public:
-	int lane = 1; //Provisional 1 = bottom  2 = top
+	int lane; // 1 = bottom  2 = top
 
 };
 

@@ -435,6 +435,13 @@ void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
 	instanciated_hitbox = true;
 }
 
+void Character::manageGroundPosition() {
+	if (lane == 1)
+		ground_position = bottom_lane;
+	if (lane == 2)
+		ground_position = upper_lane;
+}
+
 void Character::onCollision(collider* c1, collider* c2) {
 
 	if (c1->type == HURTBOX && c2->type == HITBOX) 	{
