@@ -297,9 +297,6 @@ void Character::setIfGrounded() {
 }
 
 void Character::draw(SDL_Texture* graphic)  const{
-//<<<<<<< HEAD
-//	App->render->blit(3, graphic, position.x, position.y, &current_animation->GetCurrentFrame(),3);
-//=======
 	App->render->blit(3,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped);
 }
 
@@ -442,6 +439,12 @@ void Character::onCollision(collider* c1, collider* c2) {
 		c2->to_delete = true;
 		hit = true;
 		moment_hit = SDL_GetTicks();
+	}
+	else if (c1->type == HURTBOX && c2->type == HURTBOX) 		{
+		if (!fliped)
+			logic_position.x -= walk_speed;
+		else
+			logic_position.x += walk_speed;
 	}
 }
 basic_attack_deff Character::getCurrentAttackData() {
