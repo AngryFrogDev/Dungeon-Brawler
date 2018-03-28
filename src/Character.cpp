@@ -15,17 +15,7 @@ Character::~Character() {
 
 void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
-	// Calculate draw position out of logic position
-	draw_position.x = calculateDrawPosition(0, draw_size.x* scale, true);
-	draw_position.y = calculateDrawPosition(0, draw_size.y * scale, false);
-	// Hurtbox allways next to the player
-	int offset;
-	if (crouching_hurtbox)
-		offset = crouching_hurtbox_offset;
-	else
-		offset = 0;
 
-	hurtbox->SetPos(calculateDrawPosition(0,hurtbox->rect.w,true), calculateDrawPosition(offset, hurtbox->rect.h, false));
 
 	//PROVISIONAL: Crazy provisional
 	if (current_life <= 0) {
@@ -214,8 +204,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	case JUMPING:
 		// Input independent actions
 		updateAnimation(jump);
-		applyGravity();
-		setIfGrounded();
 		// Input dependent actions
 		if (grounded)
 			current_state = CHAR_STATE::IDLE;
@@ -285,7 +273,23 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		break;
 	}
 
+	// Calculate draw position out of logic position
+	draw_position.x = calculateDrawPosition(0, draw_size.x* scale, true);
+	draw_position.y = calculateDrawPosition(0, draw_size.y * scale, false);
 
+	// Hurtbox allways next to the player
+	int offset;
+	if (crouching_hurtbox)
+		offset = crouching_hurtbox_offset;
+	else
+		offset = 0;
+
+	hurtbox->SetPos(calculateDrawPosition(0, hurtbox->rect.w, true), calculateDrawPosition(offset, hurtbox->rect.h, false));
+
+	if (!grounded) 		{
+		applyGravity();
+		setIfGrounded();
+	}
 
 }
 
@@ -376,11 +380,6 @@ void Character::doAttack() {
 		if (hitbox != nullptr) 			{
 			hitbox->SetPos(calculateDrawPosition(jm_l.pos_rel_char.x, jm_l.hitbox.w, true), calculateDrawPosition(jm_l.pos_rel_char.y, jm_l.hitbox.h, false));
 		}
-		applyGravity();		
-		setIfGrounded();
-	
-
-
 		break;
 	case JM_H:
 		updateAnimation(jumping_heavy);
@@ -397,9 +396,6 @@ void Character::doAttack() {
 		if (hitbox != nullptr) {
 			hitbox->SetPos(calculateDrawPosition(jm_h.pos_rel_char.x, jm_h.hitbox.w, true), calculateDrawPosition(jm_h.pos_rel_char.y, jm_h.hitbox.h, false));
 		}
-		applyGravity();
-		setIfGrounded();
-	
 		break;
 	case JM_S1:
 	case JM_S2:
