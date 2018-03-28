@@ -177,7 +177,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	grounded = true;
 	instanciated_hitbox = false;
 	hit = false;
-	damage_taken = false;
+	crouching_hurtbox = false;
 	fliped = _fliped;  
 	
 	max_life = 100;
@@ -199,6 +199,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 
 	standing_hurtbox_size.x = 100;
 	standing_hurtbox_size.y = 200;
+	crouching_hurtbox_offset = 40;
 
 	draw_size.x = 195;
 	draw_size.y = 158;

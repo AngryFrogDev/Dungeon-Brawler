@@ -122,9 +122,9 @@ protected:
 
 	bool grounded;
 	bool fliped;
-	bool damage_taken;        //If when hit some damage is taken, it shouldn't be taken again
 	bool instanciated_hitbox; //If the hitbox of the attack has been already instanciated, it should,'t be instanciated again
-	bool hit = false;
+	bool crouching_hurtbox;
+	bool hit;
 
 	int moment_hit; //Maybe current_stun and moment_hit should be a timer instead
 
@@ -150,6 +150,7 @@ protected:
 	iPoint jump_power;
 	float gravity;
 	int bottom_lane;
+	int crouching_hurtbox_offset;
 
 
 public:

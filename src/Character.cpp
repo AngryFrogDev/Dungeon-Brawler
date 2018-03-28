@@ -19,7 +19,13 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	draw_position.x = calculateDrawPosition(0, draw_size.x* scale, true);
 	draw_position.y = calculateDrawPosition(0, draw_size.y * scale, false);
 	// Hurtbox allways next to the player
-	hurtbox->SetPos(calculateDrawPosition(0,hurtbox->rect.w,true), calculateDrawPosition(0, hurtbox->rect.h, false));
+	int offset;
+	if (crouching_hurtbox)
+		offset = crouching_hurtbox_offset;
+	else
+		offset = 0;
+
+	hurtbox->SetPos(calculateDrawPosition(0,hurtbox->rect.w,true), calculateDrawPosition(offset, hurtbox->rect.h, false));
 
 	//PROVISIONAL: Crazy provisional
 	if (current_life <= 0) {
@@ -64,7 +70,13 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		break;
 
 	case WALKING_BACK:
+		// Input independent actions
 		updateAnimation(walk_back);
+		if (fliped)
+			logic_position.x += walk_speed;
+		else
+			logic_position.x -= walk_speed;
+		// Input dependent actions
 		if (hit)
 			current_state = CHAR_STATE::BLOCKING;
 		else if (!fliped && !inputs[LEFT] || fliped && !inputs[RIGHT])
@@ -96,13 +108,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_S2;
 		}		
-		
-		if (fliped)
-			logic_position.x += walk_speed;
-		else
-			logic_position.x -= walk_speed;
 
-//<<<<<<< HEAD
 //		if (fliped && position.x >= 600) { // The position limit should be a variable
 //			position.x += walk_speed;
 //			App->render->camera.x -= walk_speed; // Camera should NOT be managed here
@@ -111,11 +117,16 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 //			position.x -= walk_speed;
 //			App->render->camera.x += walk_speed; // Camera should NOT be managed here
 //		}
-//=======
 		break;
 
 	case WALKING_FORWARD:
+		// Input independent actions
 		updateAnimation(walk_forward);
+		if (fliped)
+			logic_position.x -= walk_speed;
+		else
+			logic_position.x += walk_speed;
+		// Input dependent actions
 		if (hit)
 			current_state = CHAR_STATE::HIT;
 		else if (!fliped && !inputs[RIGHT] || fliped && !inputs[LEFT])
@@ -147,12 +158,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_S2;
 		}
-		if (fliped)
-			logic_position.x -= walk_speed;
-		else
-			logic_position.x += walk_speed;
 
-//<<<<<<< HEAD
 //		if (fliped && position.x <= 2500) { // The position limit should be a variable
 //			position.x -= walk_speed;
 //			App->render->camera.x += walk_speed; // Camera should NOT be managed here
@@ -161,17 +167,25 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 //			position.x += walk_speed;
 //			App->render->camera.x -= walk_speed; // Camera should NOT be managed here
 //		}
-//=======
 		break;
 
 	case CROUCHING:
+		// Input independent anctions
 		updateAnimation(crouch);
+		if (!crouching_hurtbox) {
+			hurtbox->rect.h /= 2;
+			crouching_hurtbox = true;
+		}
+		// Input dependent actions
 		if (hit && inputs[LEFT] && !fliped || hit && inputs[RIGHT] && fliped)
 			current_state = CHAR_STATE::BLOCKING;
 		else if (hit)
 			current_state = CHAR_STATE::HIT;
-		else if (!inputs[DOWN])
+		else if (!inputs[DOWN]){ 
 			current_state = CHAR_STATE::IDLE;
+			hurtbox->rect.h = standing_hurtbox_size.y;
+			crouching_hurtbox = false;
+		}
 		else if (inputs[SWITCH])
 			current_state = CHAR_STATE::SWAPPING;
 		else if (inputs[UP]) {
@@ -198,7 +212,11 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		break;
 
 	case JUMPING:
+		// Input independent actions
 		updateAnimation(jump);
+		applyGravity();
+		setIfGrounded();
+		// Input dependent actions
 		if (grounded)
 			current_state = CHAR_STATE::IDLE;
 		else if (hit)
@@ -219,9 +237,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::JM_S2;
 		}
-
-		applyGravity();		//Do not reverse order! Nasty things will happen
-		setIfGrounded();
 		break;
 
 	case ATTACKING:
@@ -236,7 +251,14 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		break;
 
 	case HIT:
+		//Input independent actions
+		// Continuous
+		if (!fliped)
+			logic_position.x -= attack_recieving.pushhit;
+		else
+			logic_position.x += attack_recieving.pushhit;
 		updateAnimation(standing_hit);
+		// One tick
 		if (hit) { 
 			current_life -= attack_recieving.damage;
 			hit = false;
@@ -244,10 +266,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) { 
 			current_state = CHAR_STATE::IDLE;
 		}
-		if (!fliped)
-			logic_position.x -= attack_recieving.pushhit;
-		else
-			logic_position.x += attack_recieving.pushhit;
+
 		break;
 
 	case JUGGLE:
