@@ -172,6 +172,8 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	jm_l.pushhit = 1;
 	jm_l.damage = 6;
 	jm_l.knockdown = false;
+	jm_l.juggle_speed.x = 5;
+	jm_l.juggle_speed.y = 20;
 
 	jm_h.pos_rel_char = { 42,80 };
 	jm_h.hitbox = { 0,0,120,100 };

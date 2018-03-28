@@ -28,16 +28,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		if (hit) { 
 			if (!attack_recieving.knockdown)
 				current_state = CHAR_STATE::HIT;
-			else {
-				if (!fliped)
-					velocity.x -= attack_recieving.juggle_speed.x;
-				else
-					velocity.x += attack_recieving.juggle_speed.x;
-
-				velocity.y -= attack_recieving.juggle_speed.y;
-				grounded = false;
+			else 
 				current_state = CHAR_STATE::JUGGLE;
-			}
 		}
 		else if (inputs[SWITCH])
 			current_state = CHAR_STATE::SWAPPING;
@@ -272,11 +264,19 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		// TODO: Put a juggle animation
 		updateAnimation(standing_hit); 
 		if (hit) {
+			if (!fliped)
+				velocity.x -= attack_recieving.juggle_speed.x;
+			else
+				velocity.x += attack_recieving.juggle_speed.x;
+
+			velocity.y -= attack_recieving.juggle_speed.y;
+			
 			current_life -= attack_recieving.damage;
 			hit = false;
+			grounded = false;
 		}
 		if (grounded)
-			current_state = CHAR_STATE::IDLE;
+			current_state = CHAR_STATE::IDLE; // Should be Knockdown, but it is not implemented yet
 		break;
 
 	case KNOCKDOWN:
