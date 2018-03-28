@@ -156,5 +156,6 @@
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="p2Point.h" />
+    <ClInclude Include="p2Point.h" />
   </ItemGroup>
 </Project>
