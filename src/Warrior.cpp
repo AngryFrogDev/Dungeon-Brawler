@@ -174,7 +174,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	jm_h.damage = 10;
 
 	// Other variable initialization
-	grounded = true;
+	grounded = false;
 	instanciated_hitbox = false;
 	hit = false;
 	damage_taken = false;
@@ -189,7 +189,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	velocity.y = 0;
 	velocity.x = 0;
 
-	current_state = CHAR_STATE::IDLE;
+	current_state = CHAR_STATE::JUMPING;
 	
 	gravity = 1;
 	bottom_lane = 500;
@@ -197,7 +197,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	lane = 1;
 
 	logic_position.x = x_pos;
-	logic_position.y = 500;
+	logic_position.y = 0;
 
 	standing_hurtbox_size.x = 100;
 	standing_hurtbox_size.y = 200;
