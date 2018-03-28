@@ -266,7 +266,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		break;
 	}
 
-
+	manageGroundPosition();
 
 }
 
@@ -275,7 +275,7 @@ void Character::applyGravity() {
 	velocity.y += gravity;
 	
 	if (velocity.y > 0) {
-		if (logic_position.y < bottom_lane)
+		if (logic_position.y < ground_position)
 			logic_position.y += velocity.y;
 			logic_position.x += velocity.x;
 	}
@@ -288,7 +288,7 @@ void Character::applyGravity() {
 void Character::setIfGrounded() {
 	//will be updated
 	LOG("%d",logic_position.y);
-	if (logic_position.y >= bottom_lane)
+	if (logic_position.y >= ground_position)
 	{ 
 		grounded = true;
 		velocity.y = 0;

@@ -89,26 +89,33 @@ void mdEntities::destroyCharacters() {
 }
 
 void mdEntities::automaticFlip() {
+
 	Player* lane1_players[2];
 	bool lane1_flip[2];
-	int counter = 0;
-	for (int i = 0; i < 4; i++) {
-		if (players[i] != nullptr && players[i]->getLane() == 1) {
-			lane1_players[counter] = players[i];
-			counter++;
+
+	int lanes = 2;
+
+	for (int curr_lane = 0; curr_lane > lanes; lanes++)
+	{
+
+		int counter = 0;
+		for (int i = 0; i < 4; i++) {
+			if (players[i] != nullptr && players[i]->getLane() == curr_lane) {
+				lane1_players[counter] = players[i];
+				counter++;
+			}
 		}
-	}
 
-	if (lane1_players[0]->getPos().x < lane1_players[1]->getPos().x) {
-		lane1_flip[0] = false; 
-		lane1_flip[1] = true;
-	}
-	else{
-		lane1_flip[0] = true; 
-		lane1_flip[1] = false;
-	}
+		if (lane1_players[0]->getPos().x < lane1_players[1]->getPos().x) {
+			lane1_flip[0] = false;
+			lane1_flip[1] = true;
+		}
+		else {
+			lane1_flip[0] = true;
+			lane1_flip[1] = false;
+		}
 
-	for (int i = 0; i < 2; i++)
-		lane1_players[i]->setFlip(lane1_flip[i]);
-
+		for (int i = 0; i < 2; i++)
+			lane1_players[i]->setFlip(lane1_flip[i]);
+	}
 }

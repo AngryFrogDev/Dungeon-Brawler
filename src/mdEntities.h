@@ -6,6 +6,7 @@
 #include "mdTextures.h"
 #define MAX_KEYS 300
 
+
 struct controller_scheme {
 	CONTROLLER_BUTTON scheme[CHARACTER_INPUTS::MAX_INPUTS];
 	std::string name;
