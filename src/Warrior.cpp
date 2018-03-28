@@ -137,6 +137,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	st_l.hitstun = 300;
 	st_l.pushhit = 3;         
 	st_l.damage = 5;
+	st_l.knockdown = false;
 	
 	st_h.pos_rel_char = { 210,20 };
 	st_h.hitbox = { 0,0,150, 50 };
@@ -144,6 +145,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	st_h.hitstun = 500;
 	st_h.pushhit = 5;
 	st_h.damage = 15;
+	st_h.knockdown = false;
 
 	cr_l.pos_rel_char = { 110,50 };
 	cr_l.hitbox = { 0,0,70, 30 };
@@ -151,6 +153,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	cr_l.hitstun = 200;
 	cr_l.pushhit = 2;
 	cr_l.damage = 3;
+	cr_l.knockdown = false;
 
 	cr_h.pos_rel_char = { 190,80 };
 	cr_h.hitbox = { 0,0,180, 50 };
@@ -158,6 +161,9 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	cr_h.hitstun = 500;
 	cr_h.pushhit = 6; //Should be -1 to indicate knockdown
 	cr_h.damage = 15;
+	cr_h.knockdown = true;
+	cr_h.juggle_speed.x = 5;
+	cr_h.juggle_speed.y = 20;
 
 	jm_l.pos_rel_char = { 150,70 };
 	jm_l.hitbox = { 0,0,140,20 };
@@ -165,6 +171,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	jm_l.hitstun = 200;
 	jm_l.pushhit = 1;
 	jm_l.damage = 6;
+	jm_l.knockdown = false;
 
 	jm_h.pos_rel_char = { 42,80 };
 	jm_h.hitbox = { 0,0,120,100 };
@@ -172,6 +179,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	jm_h.hitstun = 500;
 	jm_h.pushhit = 1;
 	jm_h.damage = 10;
+	jm_h.knockdown = false;
 
 	// Other variable initialization
 	grounded = true;

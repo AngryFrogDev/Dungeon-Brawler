@@ -72,6 +72,8 @@ struct basic_attack_deff {
 	iPoint pos_rel_char;
 	int active_time; //in miliseconds
 	CHAR_ATT_TYPE type;
+	bool knockdown; //if the attack causes a knockdown or not
+	iPoint juggle_speed;
 };
 
 class Player;

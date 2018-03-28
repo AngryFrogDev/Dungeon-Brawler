@@ -26,7 +26,18 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	case IDLE:
 		updateAnimation(idle);
 		if (hit) { 
-			current_state = CHAR_STATE::HIT;
+			if (!attack_recieving.knockdown)
+				current_state = CHAR_STATE::HIT;
+			else {
+				if (!fliped)
+					velocity.x -= attack_recieving.juggle_speed.x;
+				else
+					velocity.x += attack_recieving.juggle_speed.x;
+
+				velocity.y -= attack_recieving.juggle_speed.y;
+				grounded = false;
+				current_state = CHAR_STATE::JUGGLE;
+			}
 		}
 		else if (inputs[SWITCH])
 			current_state = CHAR_STATE::SWAPPING;
@@ -251,15 +262,21 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_life -= attack_recieving.damage;
 			hit = false;
 		}
-		else if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) { 
+		else if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) 
 			current_state = CHAR_STATE::IDLE;
-		}
+	
 
 		break;
 
 	case JUGGLE:
-		//TODO: Define juggle
-		current_state = CHAR_STATE::IDLE;
+		// TODO: Put a juggle animation
+		updateAnimation(standing_hit); 
+		if (hit) {
+			current_life -= attack_recieving.damage;
+			hit = false;
+		}
+		if (grounded)
+			current_state = CHAR_STATE::IDLE;
 		break;
 
 	case KNOCKDOWN:
@@ -293,6 +310,21 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 }
 
+void Character::onCollision(collider* c1, collider* c2) {
+
+	if (c1->type == HURTBOX && c2->type == HITBOX) {
+		attack_recieving = c2->character->getCurrentAttackData();
+		c2->to_delete = true;
+		hit = true;
+		moment_hit = SDL_GetTicks();
+	}
+	else if (c1->type == HURTBOX && c2->type == HURTBOX) {
+		if (!fliped)
+			logic_position.x -= walk_speed;
+		else
+			logic_position.x += walk_speed;
+	}
+}
 void Character::applyGravity() {
 
 	velocity.y += gravity;
@@ -445,22 +477,6 @@ void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
 	}
 	hitbox = App->collision->AddCollider(collider, HITBOX,life ,App->entities, this);
 	instanciated_hitbox = true;
-}
-
-void Character::onCollision(collider* c1, collider* c2) {
-
-	if (c1->type == HURTBOX && c2->type == HITBOX) 	{
-		attack_recieving = c2->character->getCurrentAttackData();
-		c2->to_delete = true;
-		hit = true;
-		moment_hit = SDL_GetTicks();
-	}
-	else if (c1->type == HURTBOX && c2->type == HURTBOX) 		{
-		if (!fliped)
-			logic_position.x -= walk_speed;
-		else
-			logic_position.x += walk_speed;
-	}
 }
 basic_attack_deff Character::getCurrentAttackData() {
 	switch (attack_doing) {
