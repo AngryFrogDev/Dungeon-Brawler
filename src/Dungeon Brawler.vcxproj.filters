@@ -146,19 +146,16 @@
     <ClInclude Include="mdAudio.h">
       <Filter>Modules</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="mdMap.h">
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="p2Point.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="mdCollision.h" />
-    <ClInclude Include="p2Point.h" />
-=======
     <ClInclude Include="mdCollision.h">
       <Filter>Modules</Filter>
     </ClInclude>
->>>>>>> Warrior-attacks-colliders
+    <ClInclude Include="p2Point.h" />
+    <ClInclude Include="p2Point.h" />
   </ItemGroup>
 </Project>

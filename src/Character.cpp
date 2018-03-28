@@ -6,18 +6,6 @@
 
 Character::Character() {
 
-<<<<<<< HEAD
-	velocity.y = 0;
-	velocity.x = 0;
-
-	current_state = CHAR_STATE::IDLE;
-	fliped = false;
-	//PROVISIONAL: This should be a parameter in the constructor
-	position.x = 700;
-	position.y = bottom_lane;
-=======
-	SDL_SCANCODE_C;
->>>>>>> Warrior-attacks-colliders
 }
 
 
@@ -107,24 +95,23 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else if (inputs[SPECIAL_2]) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_S2;
-		}
-
-<<<<<<< HEAD
-		if (fliped && position.x >= 600) { // The position limit should be a variable
-			position.x += walk_speed;
-			App->render->camera.x -= walk_speed; // Camera should NOT be managed here
-		}
-		else if (position.x >= 600) { // The position limit should be a variable
-			position.x -= walk_speed;
-			App->render->camera.x += walk_speed; // Camera should NOT be managed here
-		}
-=======
+		}		
+		
 		if (fliped)
 			logic_position.x += walk_speed;
 		else
 			logic_position.x -= walk_speed;
->>>>>>> Warrior-attacks-colliders
-			
+
+//<<<<<<< HEAD
+//		if (fliped && position.x >= 600) { // The position limit should be a variable
+//			position.x += walk_speed;
+//			App->render->camera.x -= walk_speed; // Camera should NOT be managed here
+//		}
+//		else if (position.x >= 600) { // The position limit should be a variable
+//			position.x -= walk_speed;
+//			App->render->camera.x += walk_speed; // Camera should NOT be managed here
+//		}
+//=======
 		break;
 
 	case WALKING_FORWARD:
@@ -160,22 +147,21 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_S2;
 		}
-
-<<<<<<< HEAD
-		if (fliped && position.x <= 2500) { // The position limit should be a variable
-			position.x -= walk_speed;
-			App->render->camera.x += walk_speed; // Camera should NOT be managed here
-		}
-		else if (position.x <= 2500) { // The position limit should be a variable)
-			position.x += walk_speed;
-			App->render->camera.x -= walk_speed; // Camera should NOT be managed here
-		}
-=======
 		if (fliped)
 			logic_position.x -= walk_speed;
 		else
 			logic_position.x += walk_speed;
->>>>>>> Warrior-attacks-colliders
+
+//<<<<<<< HEAD
+//		if (fliped && position.x <= 2500) { // The position limit should be a variable
+//			position.x -= walk_speed;
+//			App->render->camera.x += walk_speed; // Camera should NOT be managed here
+//		}
+//		else if (position.x <= 2500) { // The position limit should be a variable)
+//			position.x += walk_speed;
+//			App->render->camera.x -= walk_speed; // Camera should NOT be managed here
+//		}
+//=======
 		break;
 
 	case CROUCHING:
@@ -311,11 +297,10 @@ void Character::setIfGrounded() {
 }
 
 void Character::draw(SDL_Texture* graphic)  const{
-<<<<<<< HEAD
-	App->render->blit(3, graphic, position.x, position.y, &current_animation->GetCurrentFrame(),3);
-=======
-	App->render->blit(graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped);
->>>>>>> Warrior-attacks-colliders
+//<<<<<<< HEAD
+//	App->render->blit(3, graphic, position.x, position.y, &current_animation->GetCurrentFrame(),3);
+//=======
+	App->render->blit(3,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped);
 }
 
 void Character::doAttack() {

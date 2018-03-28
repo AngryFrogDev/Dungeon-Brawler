@@ -30,10 +30,10 @@ bool mdMap::awake(const pugi::xml_node& md_config) {
 void mdMap::draw() {
 	if (map_loaded) {
 		//Blit background
-		App->render->blit(1, data.background_image, 0, 0, (const SDL_Rect*)0, 4, 0.3);
+		App->render->blit(1, data.background_image, 0, 0, (const SDL_Rect*)0, 4,false,0.3);
 
 		//Blit map
-		App->render->blit(2, data.map_image, 0, 0, (const SDL_Rect*)0, 4);
+		App->render->blit(2, data.map_image, 0, 0, (const SDL_Rect*)0,4,false,0.2);
 	}
 }
 
@@ -41,19 +41,19 @@ bool mdMap::update(float dt) {
 	if (map_loaded)
 	draw();
 
-	if (App->input->getKey(SDL_SCANCODE_1) == KEY_DOWN) {
+	if (App->input->getKey(SDL_SCANCODE_1) == KEY_REPEAT) {
 		unloadMap();
 		loadMap(1);
 	}
-	else if (App->input->getKey(SDL_SCANCODE_2) == KEY_DOWN) {
+	else if (App->input->getKey(SDL_SCANCODE_2) == KEY_REPEAT) {
 		unloadMap();
 		loadMap(2);
 	}
-	else if (App->input->getKey(SDL_SCANCODE_3) == KEY_DOWN) {
+	else if (App->input->getKey(SDL_SCANCODE_3) == KEY_REPEAT) {
 		unloadMap();
 		loadMap(3);
 	}
-	else if (App->input->getKey(SDL_SCANCODE_4) == KEY_DOWN)
+	else if (App->input->getKey(SDL_SCANCODE_4) == KEY_REPEAT)
 		unloadMap();
 
 	return true;
