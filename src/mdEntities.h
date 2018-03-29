@@ -38,7 +38,8 @@ public:
 	void createCharacter(int player,int x_pos, CHAR_TYPE type, bool fliped, int lane);
 	// Destroys all the players
 	void destroyCharacters();
-	void automaticFlip();
+	//if it returns false something wrong happened
+	bool automaticFlip();
 public:
 	std::list<controller_scheme> controller_schemes;
 	std::list<keyboard_scheme>	 keyboard_schemes;

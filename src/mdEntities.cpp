@@ -41,6 +41,8 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 
 	createCharacter(0,300, CHAR_TYPE::WARRIOR, false, 1 );
 	createCharacter(1,1000, CHAR_TYPE::WARRIOR, true, 2 );
+	createCharacter(2, 1000, CHAR_TYPE::WARRIOR, true, 1);
+	createCharacter(3, 1000, CHAR_TYPE::WARRIOR, true, 2);
 	players[0]->assignControlScheme(controller_schemes.front());
 	players[1]->assignKeyboardScheme(keyboard_schemes.front());
 
@@ -88,10 +90,16 @@ void mdEntities::destroyCharacters() {
 	}
 }
 
-void mdEntities::automaticFlip() {
+bool mdEntities::automaticFlip() {
+	bool ret = true;
 
-	Player* lane1_players[2];
+	Player* players_on_curr_lane[2];
+	players_on_curr_lane[0] = nullptr;
+	players_on_curr_lane[1] = nullptr;
+
+
 	bool lane1_flip[2];
+
 
 	int lanes = 2;
 
@@ -102,21 +110,23 @@ void mdEntities::automaticFlip() {
 		for (int i = 0; i < 4; i++) {
 			if (players[i] == nullptr)
 				continue;
+			
+			int lane_of_player = players[i]->getLane();
 
+			if (lane_of_player == 0)
+				return false;
 
-			//If it breaks here, make sure character.lane != 0
-			if (players[i]->getLane() == curr_lane) {
-				
-				
-				lane1_players[counter] = players[i];
+			if (lane_of_player == curr_lane) {
+				players_on_curr_lane[counter] = players[i];
 				counter++;
 			}
 		}
 
-		if (lane1_players[1] == nullptr) //to ensure that there are two characters in a lane
-			continue;
+		if (players_on_curr_lane[1] == nullptr) { 
+			return false;
+		}
 
-		if (lane1_players[0]->getPos().x < lane1_players[1]->getPos().x) {
+		if (players_on_curr_lane[0]->getPos().x < players_on_curr_lane[1]->getPos().x) {
 			lane1_flip[0] = false;
 			lane1_flip[1] = true;
 		}
@@ -126,6 +136,8 @@ void mdEntities::automaticFlip() {
 		}
 
 		for (int i = 0; i < 2; i++)
-			lane1_players[i]->setFlip(lane1_flip[i]);
+			players_on_curr_lane[i]->setFlip(lane1_flip[i]);
 	}
+
+	return ret;
 }
