@@ -9,9 +9,10 @@ class Bars : public Widgets {
 public:
 	Bars(bar_types type, std::pair<int, int> pos, Module* callback);
 	~Bars();
+	bool preUpdate();
 	void draw();
-	void setType(bar_types type);
-	void getSection(SDL_Rect rect);
+	void getSection(SDL_Rect rect, uint gauge);
+	void updateBarGauge(uint new_gauge);
 
 public:
 	bar_types bar_type;
@@ -21,7 +22,7 @@ private:
 	uint max_gauge;
 	SDL_Texture* bar_tex;
 	SDL_Rect max_bar_rect;
-	SDL_Rect* current_bar_rect;
+	SDL_Rect current_bar_rect;
 
 };
 

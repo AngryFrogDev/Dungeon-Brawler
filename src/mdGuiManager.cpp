@@ -55,6 +55,7 @@ bool mdGuiManager::update(float dt) {
 		tempb = (Buttons*)createButton(NEW_GAME, { 0,0 }, this);
 		tempb1 = (Buttons*)createButton(SETTINGS, { 0,150 }, this);
 		tempb2 = (Buttons*)createButton(NEW_GAME, { 0,300 }, this);
+		temp_bar = (Bars*)createBar(HEALTH_BAR, { 0, 450 }, this);
 		templ = (Labels*)createLabel("Momonga", { 255,255,255,255 }, App->fonts->medium_size, { 300,300 }, this);
 		temp = true;
 	}
@@ -62,6 +63,7 @@ bool mdGuiManager::update(float dt) {
 	if (App->input->getKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
 		templ->changeContent("sama");
+		temp_bar->updateBarGauge(10);
 	}
 
 	if (App->input->getKey(SDL_SCANCODE_3) == KEY_DOWN)
@@ -155,8 +157,7 @@ Widgets* mdGuiManager::createButton(button_types type, std::pair<int, int> pos, 
 
 	Widgets* ret = nullptr;
 
-	if (type != 0)
-	{
+	if (type != 0) {
 		ret = new Buttons(type, pos, callback);
 		ui_elements.push_back(ret);
 		focus_elements.push_back(ret);
@@ -179,8 +180,11 @@ Widgets* mdGuiManager::createBar(bar_types type, std::pair<int, int> pos, Module
 
 	Widgets* ret = nullptr;
 
-	if (type != 0)
-		ret = new Bars(type, pos, callback), ui_elements.push_back(ret);
+	if (type != 0) {
+		ret = new Bars(type, pos, callback);
+		ui_elements.push_back(ret);
+	}
+
 
 	return ret;
 }

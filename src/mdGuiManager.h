@@ -10,6 +10,7 @@
 
 struct Buttons;
 struct Labels;
+struct Bars;
 struct _TTF_Font;
 
 //Some events may be missing
@@ -54,6 +55,7 @@ public:
 	Buttons* tempb = nullptr;
 	Buttons* tempb1 = nullptr;
 	Buttons* tempb2 = nullptr;
+	Bars* temp_bar = nullptr;
 
 private:
 	bool debug = false;

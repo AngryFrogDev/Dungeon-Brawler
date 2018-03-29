@@ -108,13 +108,17 @@ void Buttons::loadButtonsFromAtlas() {
 		break;
 	case EXIT:
 		break;
+	case TWO_PLAYERS: 
+		break;
+	case FOUR_PLAYERS:
+		break;
 	case MUSIC_VOL_UP:
 		break;
 	case MUSIC_VOL_DOWN:
 		break;
-	case SOUND_VOL_UP:
+	case SFX_VOL_UP:
 		break;
-	case SOUND_VOL_DOWN:
+	case SFX_VOL_DOWN:
 		break;
 	case BACK:
 		break;
