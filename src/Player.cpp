@@ -37,13 +37,13 @@ void Player::assignController(Controller* controller) {
 	Player::controller = controller;
 }
 
-void Player::assignCharacter(int x_pos, CHAR_TYPE type, bool fliped) {
+void Player::assignCharacter(int x_pos, CHAR_TYPE type, bool fliped, int lane) {
 
 	switch(type)
 	{
 		case WARRIOR:
 		{
-			curr_character = new Warrior(x_pos, fliped);
+			curr_character = new Warrior(x_pos, fliped, lane);
 			break;
 		}
 		//case MAGE:

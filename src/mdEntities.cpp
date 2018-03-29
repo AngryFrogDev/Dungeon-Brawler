@@ -39,8 +39,8 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	//PROVISIONAL: Should be loaded from an xml
 	warrior_graphics = App->textures->load("Assets/warrior.png");
 
-	createCharacter(0,300, CHAR_TYPE::WARRIOR, false);
-	createCharacter(1,1000, CHAR_TYPE::WARRIOR, true);
+	createCharacter(0,300, CHAR_TYPE::WARRIOR, false, 1 );
+	createCharacter(1,1000, CHAR_TYPE::WARRIOR, true, 2 );
 	players[0]->assignControlScheme(controller_schemes.front());
 	players[1]->assignKeyboardScheme(keyboard_schemes.front());
 
@@ -72,12 +72,12 @@ bool mdEntities::cleanUp() {
 	destroyCharacters();
 	return ret;
 }
-void mdEntities::createCharacter(int player,int x_pos, CHAR_TYPE type, bool fliped) {
+void mdEntities::createCharacter(int player,int x_pos, CHAR_TYPE type, bool fliped, int lane) {
 
 	if (players[player] == nullptr)
 		players[player] = new Player();
 
-	players[player]->assignCharacter(x_pos,type,fliped);
+	players[player]->assignCharacter(x_pos,type,fliped, lane);
 }
 
 void mdEntities::destroyCharacters() {
@@ -95,16 +95,26 @@ void mdEntities::automaticFlip() {
 
 	int lanes = 2;
 
-	for (int curr_lane = 0; curr_lane > lanes; lanes++)
+	for (int curr_lane = 1; curr_lane < lanes +1; curr_lane++)
 	{
 
 		int counter = 0;
 		for (int i = 0; i < 4; i++) {
-			if (players[i] != nullptr && players[i]->getLane() == curr_lane) {
+			if (players[i] == nullptr)
+				continue;
+
+
+			//If it breaks here, make sure character.lane != 0
+			if (players[i]->getLane() == curr_lane) {
+				
+				
 				lane1_players[counter] = players[i];
 				counter++;
 			}
 		}
+
+		if (lane1_players[1] == nullptr) //to ensure that there are two characters in a lane
+			continue;
 
 		if (lane1_players[0]->getPos().x < lane1_players[1]->getPos().x) {
 			lane1_flip[0] = false;

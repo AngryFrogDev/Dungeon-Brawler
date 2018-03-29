@@ -1,7 +1,9 @@
 #include "Warrior.h"
 #include "mdCollision.h"
 
-Warrior::Warrior(int x_pos, bool _fliped): Character() {
+Warrior::Warrior(int x_pos, bool _fliped, int lane): Character() {
+
+	this->lane = lane;
 
 	//PROVISIONAL: Animations should be loaded from the xml
 
@@ -194,7 +196,6 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	gravity = 1;
 	bottom_lane = 500;
 	upper_lane = 150;
-	lane = 2;
 
 	logic_position.x = x_pos;
 	logic_position.y = -1000;

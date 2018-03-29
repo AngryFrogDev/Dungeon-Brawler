@@ -35,7 +35,7 @@ public:
 	bool cleanUp();
 
 	// Creates a character and assigns it to a player
-	void createCharacter(int player,int x_pos, CHAR_TYPE type, bool fliped);
+	void createCharacter(int player,int x_pos, CHAR_TYPE type, bool fliped, int lane);
 	// Destroys all the players
 	void destroyCharacters();
 	void automaticFlip();
