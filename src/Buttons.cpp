@@ -30,7 +30,7 @@ bool Buttons::preUpdate()
 	
 	world_area = { position.first, position.second, current_rect->w, current_rect->h };
 
-	if (App->gui->focused_elem == this)
+	if (App->gui->focus == this)
 		hovering = true;
 	else
 		changeVisualState(IDLE);
@@ -99,10 +99,10 @@ void Buttons::loadButtonsFromAtlas() {
 	case NO_BUTTON:
 		break;
 	case NEW_GAME:
-		getSection({ 3,7,288,96 }, { 3,103,288,96 }, { 3, 199, 288, 96 }, { 0,0,0,0 }); //Read from XML
+		getSection({ 0,0,288,63 }, { 0,150,288,63 }, { 0, 75, 288, 63 }, { 0,0,0,0 }); //Read from XML
 		break;
 	case SETTINGS:
-		getSection({ 3,7,288,96 }, { 3,103,288,96 }, { 3, 199, 288, 96 }, { 0,0,0,0 }); //Read from XML
+		getSection({ 0,0,288,63 }, { 0,150,288,63 }, { 0, 75, 288, 63 }, { 0,0,0,0 }); //Read from XML
 		break;
 	case CREDITS:
 		break;

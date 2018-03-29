@@ -8,7 +8,7 @@
 
 class Labels : public Widgets {
 public:
-	Labels(std::pair<int, int> pos, Module* callback);
+	Labels(const char* content, const SDL_Color& color, _TTF_Font* font_size, std::pair<int, int> pos, Module* callback);
 	~Labels();
 
 	void draw();

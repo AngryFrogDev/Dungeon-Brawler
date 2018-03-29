@@ -9,6 +9,8 @@
 #include "SDL/include/SDL.h"
 
 struct Buttons;
+struct Labels;
+struct _TTF_Font;
 
 //Some events may be missing
 enum controller_events {
@@ -16,7 +18,6 @@ enum controller_events {
 	IDLE,
 	FOCUSED,
 	CLICK,
-	
 };
 
 class mdGuiManager : public Module {
@@ -27,11 +28,12 @@ public:
 	bool awake(const pugi::xml_node&);
 	bool preUpdate();
 	bool update(float dt);
+	bool postUpdate();
 	bool cleanUp();
 	bool OnEvent(Buttons* button); //Testing purposes
 
 	Widgets* createButton(button_types type, std::pair<int, int> pos, Module* callback = nullptr);
-	Widgets* createLabel(std::pair<int, int> pos, Module* callback = nullptr);
+	Widgets* createLabel(const char* content, const SDL_Color& color, _TTF_Font* font_size, std::pair<int, int> pos, Module* callback = nullptr);
 	Widgets* createBar(bar_types type, std::pair<int, int> pos, Module* callback = nullptr);
 	bool destroyWidget(Widgets* widget);
 
@@ -42,9 +44,16 @@ public:
 
 public:
 	std::list<Widgets*> ui_elements;
+	std::list<Widgets*> temp_list; //Temporary list to delete elements
+	std::list<Widgets*> focus_elements; //Button list to store elements to be affected by focus
 	SDL_Texture* atlas;
 	std::string atlas_file_name;
-	Widgets* focused_elem = nullptr;
+	Widgets* focus = nullptr;
+	//Temp
+	Labels* templ = nullptr;
+	Buttons* tempb = nullptr;
+	Buttons* tempb1 = nullptr;
+	Buttons* tempb2 = nullptr;
 
 private:
 	bool debug = false;

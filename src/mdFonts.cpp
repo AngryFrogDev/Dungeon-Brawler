@@ -25,7 +25,19 @@ bool mdFonts::awake(const pugi::xml_node& md_config) {
 
 	else
 	{
-		//Load font
+		const char* path = md_config.child("default").attribute("path").as_string();
+		int size;
+		//large size
+		size = md_config.child("large_font").attribute("size").as_int();
+		large_size = Load(path, size);
+
+		//medium size
+		size = md_config.child("medium_font").attribute("size").as_int();
+		medium_size = Load(path, size);
+
+		//small size
+		size = md_config.child("small_font").attribute("size").as_int();
+		small_size = Load(path, size);
 	}
 
 	return ret;
@@ -72,7 +84,7 @@ SDL_Texture * mdFonts::print(const char * text, SDL_Color color, _TTF_Font * fon
 	}
 	else
 	{
-		//ret = App->textures->loadSurface(surface);
+		ret = App->textures->loadSurface(surface);
 		SDL_FreeSurface(surface);
 	}
 	

@@ -48,6 +48,7 @@ public:
 	ui_elem_type type;
 	SDL_Rect world_area;
 	std::pair<int, int> position;
+	bool to_delete = false;
 
 protected:
 	Module* callback = nullptr;
