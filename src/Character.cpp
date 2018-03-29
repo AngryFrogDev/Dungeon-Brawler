@@ -32,8 +32,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		if (hit) { 
 			current_state = CHAR_STATE::HIT;
 		}
-		else if (inputs[SWITCH])
+		else if (inputs[SWITCH]) {
 			current_state = CHAR_STATE::SWAPPING;
+			swapRequested = true;						//Important!
+		}
 		else if (inputs[RIGHT] && !fliped || inputs[LEFT] && fliped)
 			current_state = CHAR_STATE::WALKING_FORWARD;
 		else if (inputs[LEFT] && !fliped || inputs[RIGHT] && fliped)
@@ -172,8 +174,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_state = CHAR_STATE::HIT;
 		else if (!inputs[DOWN])
 			current_state = CHAR_STATE::IDLE;
-		else if (inputs[SWITCH])
+		else if (inputs[SWITCH]) {
+			swapRequested = true;						//Important!
 			current_state = CHAR_STATE::SWAPPING;
+		}
 		else if (inputs[UP]) {
 			velocity.y -= jump_power.y;
 			grounded = false;
@@ -262,7 +266,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		break;
 	case SWAPPING:
 		//TODO: Define swapping
-		current_state = CHAR_STATE::IDLE;
+		manageSwap();
 		break;
 	}
 
@@ -303,10 +307,28 @@ void Character::draw(SDL_Texture* graphic)  const{
 	App->render->blit(3,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped);
 }
 
-bool Character::swap()
+bool Character::manageSwap()
 {
-	CHAR_STATE::SWAPPING;
-	velocity.y = -30;
+	velocity.y = -40;
+	applyGravity();
+
+	if (swapRequested) {
+		partner->getCurrCharacter()->current_state = SWAPPING;
+		swapRequested = false;
+	}
+
+	if (logic_position.y < -200) { //margin to make it go out of the screen
+		readyToSwap = true;
+		if (partner->getCurrCharacter()->readyToSwap) {
+			current_state = CHAR_STATE::JUMPING;
+			grounded = false;
+			if (lane == 1)
+				lane = 2;
+			else
+				lane = 1;
+		}
+	}
+		
 	return false;
 }
 

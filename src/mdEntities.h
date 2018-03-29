@@ -32,6 +32,7 @@ public:
 
 	bool awake(const pugi::xml_node& md_config);
 	bool preUpdate();
+	bool postUpdate() override;
 	bool cleanUp();
 
 

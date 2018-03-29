@@ -85,6 +85,8 @@ public:
 
 	Character* oponent = nullptr;
 
+	Player* partner = nullptr;
+
     // The first one is the collider belonging to this character
 	void onCollision(collider* c1, collider* c2);
 
@@ -94,7 +96,7 @@ public:
 
 	void draw(SDL_Texture* graphic) const;
 
-	bool swap();
+	bool manageSwap();
 
 	void manageOponent();
 
@@ -162,8 +164,10 @@ protected:
 
 
 public:
-	int lane; // 1 = bottom  2 = top
-
+	//Swap shit
+	int lane; // 1 = bottom  2 = top This is so fucking important
+	bool readyToSwap = false;
+	bool swapRequested = false;
 };
 
 #endif //__CHARACTER__

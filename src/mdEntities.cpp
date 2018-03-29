@@ -40,10 +40,17 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	//PROVISIONAL: Should be loaded from an xml
 	warrior_graphics = App->textures->load("Assets/warrior.png");
 
-	createPlayer(0,300, CHAR_TYPE::WARRIOR, false, 1 );
+	createPlayer(0,100, CHAR_TYPE::WARRIOR, false, 1 );
 	createPlayer(1,1000, CHAR_TYPE::WARRIOR, true, 2 );
-	createPlayer(2, 1000, CHAR_TYPE::WARRIOR, true, 1);
-	createPlayer(3, 1000, CHAR_TYPE::WARRIOR, true, 2);
+	createPlayer(2, 1200, CHAR_TYPE::WARRIOR, true, 1);
+	createPlayer(3, 300, CHAR_TYPE::WARRIOR, true, 2);
+
+	//Very dangerous hardcode to set the partners:
+	players[0]->getCurrCharacter()->partner = players[1];
+	players[1]->getCurrCharacter()->partner = players[0];
+	players[2]->getCurrCharacter()->partner = players[3];
+	players[3]->getCurrCharacter()->partner = players[2];
+
 	players[0]->assignControlScheme(controller_schemes.front());
 	players[1]->assignKeyboardScheme(keyboard_schemes.front());
 
@@ -65,9 +72,15 @@ bool mdEntities::preUpdate() {
 			players[i]->update(warrior_graphics); // PROVISIONAL: We should check the type of character of the player and pass the correct textures
 	}
 
-	automaticFlip();
+
 
 	return ret;
+}
+
+bool mdEntities::postUpdate()
+{
+	automaticFlip();
+	return true;
 }
 
 bool mdEntities::cleanUp() {
