@@ -303,6 +303,33 @@ void Character::draw(SDL_Texture* graphic)  const{
 	App->render->blit(3,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped);
 }
 
+bool Character::swap()
+{
+	CHAR_STATE::SWAPPING;
+	velocity.y = -30;
+	return false;
+}
+
+void Character::manageOponent()
+{
+	for (int i = 0; i < 4; i++) {
+		Player* curr_player = nullptr;
+
+		curr_player = App->entities->players[i];
+
+		if (curr_player == nullptr)
+			continue;
+
+		if (curr_player->getCurrCharacter() == this)
+			continue;
+
+		if (curr_player->getLane() == this->lane) {
+			oponent = curr_player->getCurrCharacter();
+		}
+
+	}
+}
+
 void Character::doAttack() {
 	switch (attack_doing) {
 	case ST_L:

@@ -81,7 +81,9 @@ public:
 	Character();
 	~Character();
 						
-	virtual void update(const bool (&inputs)[MAX_INPUTS]);		
+	virtual void update(const bool (&inputs)[MAX_INPUTS]);	
+
+	Character* oponent = nullptr;
 
     // The first one is the collider belonging to this character
 	void onCollision(collider* c1, collider* c2);
@@ -91,6 +93,10 @@ public:
 	void setIfGrounded();
 
 	void draw(SDL_Texture* graphic) const;
+
+	bool swap();
+
+	void manageOponent();
 
 
 	basic_attack_deff getCurrentAttackData();
@@ -130,15 +136,15 @@ protected:
 	int moment_hit; //Maybe current_stun and moment_hit should be a timer instead
 
 	// Entity collider
-	collider* hurtbox;	
+	collider* hurtbox = nullptr;	
 	iPoint standing_hurtbox_size;
-	collider* hitbox; //It should be a list, as a character can have multiple active hitboxes
+	collider* hitbox = nullptr; //It should be a list, as a character can have multiple active hitboxes
 
 	CHAR_STATE current_state;
 	CHAR_ATT_TYPE attack_doing;
 	basic_attack_deff attack_recieving;
 
-	Animation* current_animation;
+	Animation* current_animation = nullptr;
 	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_hit;
 
 

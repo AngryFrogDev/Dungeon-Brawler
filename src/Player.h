@@ -18,7 +18,7 @@ public:
 	// Function to assign a controller to the player								 
 	void assignController(Controller* controller);
 	// Function so assign a certain character to the player		     
-	void assignCharacter(int x_pos, CHAR_TYPE type, bool fliped, int lane); 
+	void createAndAssignCharacter(int x_pos, CHAR_TYPE type, bool fliped, int lane); 
 	
 	void assignControlScheme(const controller_scheme& new_scheme);
 
@@ -26,6 +26,9 @@ public:
 
 	int getLane();
 	iPoint getPos();
+
+	Character* getCurrCharacter();
+
 	void setFlip(bool flip);
 
 	Controller* getController() const;

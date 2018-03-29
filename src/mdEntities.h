@@ -34,8 +34,12 @@ public:
 	bool preUpdate();
 	bool cleanUp();
 
+
+	// Array that stores 4 players
+	Player* players[4]; //I made it public to make the partner system work
+
 	// Creates a character and assigns it to a player
-	void createCharacter(int player,int x_pos, CHAR_TYPE type, bool fliped, int lane);
+	void createPlayer(int player,int x_pos, CHAR_TYPE type, bool fliped, int lane);
 	// Destroys all the players
 	void destroyCharacters();
 	//if it returns false something wrong happened
@@ -46,8 +50,6 @@ public:
 
 private:
 
-	// Array that stores 4 players
-	Player* players[4];
 	//Graphics of the warrior
 	SDL_Texture* warrior_graphics;
 

@@ -16,6 +16,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	// Empty the array
 	for (int i = 0; i < 4; i++)
 		players[i] = nullptr;
+
 	//Load controller schemes
 	pugi::xml_node controller_schemes_node = md_config.child("schemes").child("controller_schemes");
 	for (pugi::xml_node_iterator it = controller_schemes_node.children().begin(); it != controller_schemes_node.children().end(); ++it) {
@@ -39,10 +40,10 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	//PROVISIONAL: Should be loaded from an xml
 	warrior_graphics = App->textures->load("Assets/warrior.png");
 
-	createCharacter(0,300, CHAR_TYPE::WARRIOR, false, 1 );
-	createCharacter(1,1000, CHAR_TYPE::WARRIOR, true, 2 );
-	createCharacter(2, 1000, CHAR_TYPE::WARRIOR, true, 1);
-	createCharacter(3, 1000, CHAR_TYPE::WARRIOR, true, 2);
+	createPlayer(0,300, CHAR_TYPE::WARRIOR, false, 1 );
+	createPlayer(1,1000, CHAR_TYPE::WARRIOR, true, 2 );
+	createPlayer(2, 1000, CHAR_TYPE::WARRIOR, true, 1);
+	createPlayer(3, 1000, CHAR_TYPE::WARRIOR, true, 2);
 	players[0]->assignControlScheme(controller_schemes.front());
 	players[1]->assignKeyboardScheme(keyboard_schemes.front());
 
@@ -74,12 +75,12 @@ bool mdEntities::cleanUp() {
 	destroyCharacters();
 	return ret;
 }
-void mdEntities::createCharacter(int player,int x_pos, CHAR_TYPE type, bool fliped, int lane) {
+void mdEntities::createPlayer(int player,int x_pos, CHAR_TYPE type, bool fliped, int lane) {
 
 	if (players[player] == nullptr)
 		players[player] = new Player();
 
-	players[player]->assignCharacter(x_pos,type,fliped, lane);
+	players[player]->createAndAssignCharacter(x_pos,type,fliped, lane);
 }
 
 void mdEntities::destroyCharacters() {
@@ -97,6 +98,7 @@ bool mdEntities::automaticFlip() {
 	players_on_curr_lane[0] = nullptr;
 	players_on_curr_lane[1] = nullptr;
 
+	//Whatch the fuck out with this method
 
 	bool lane1_flip[2];
 
