@@ -21,6 +21,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	if (current_life <= 0) {
 		current_state = CHAR_STATE::DEAD;
 	}
+	if (App->input->getKey(SDL_SCANCODE_F2) == KEY_REPEAT) {
+		current_life = max_life;
+		current_state = CHAR_STATE::IDLE;
+	}
 
 	switch (current_state) {
 	case IDLE:
