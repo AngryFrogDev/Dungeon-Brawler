@@ -153,6 +153,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	st_l.knockdown = false;
 	st_l.juggle_speed.x = 5;
 	st_l.juggle_speed.y = 5;
+	st_l.block_type = BLOCK_TYPE::MID;
 	
 	st_h.pos_rel_char = { 210,20 };
 	st_h.hitbox = { 0,0,150, 50 };
@@ -165,6 +166,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	st_h.knockdown = false;
 	st_h.juggle_speed.x = 10;
 	st_h.juggle_speed.y = 20;
+	st_h.block_type = BLOCK_TYPE::MID;
 
 	cr_l.pos_rel_char = { 110,50 };
 	cr_l.hitbox = { 0,0,70, 30 };
@@ -177,6 +179,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	cr_l.knockdown = false;
 	cr_l.juggle_speed.x = 0;
 	cr_l.juggle_speed.y = 0;
+	cr_l.block_type = BLOCK_TYPE::LOW;
 
 	cr_h.pos_rel_char = { 190,80 };
 	cr_h.hitbox = { 0,0,180, 50 };
@@ -189,6 +192,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	cr_h.knockdown = true;
 	cr_h.juggle_speed.x = 5;
 	cr_h.juggle_speed.y = 20;
+	cr_h.block_type = BLOCK_TYPE::LOW;
 
 	jm_l.pos_rel_char = { 150,70 };
 	jm_l.hitbox = { 0,0,140,20 };
@@ -201,6 +205,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	jm_l.knockdown = false;
 	jm_l.juggle_speed.x = 5;
 	jm_l.juggle_speed.y = 20;
+	jm_l.block_type = BLOCK_TYPE::OVERHEAD;
 
 	jm_h.pos_rel_char = { 42,80 };
 	jm_h.hitbox = { 0,0,120,100 };
@@ -213,6 +218,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	jm_h.knockdown = false;
 	jm_h.juggle_speed.x = 0;
 	jm_h.juggle_speed.y = 10;
+	jm_h.block_type = BLOCK_TYPE::OVERHEAD;
 
 	// Other variable initialization
 	grounded = true;

@@ -63,6 +63,12 @@ enum CHARACTER_INPUTS {
 	SWITCH,
 	MAX_INPUTS
 };
+
+enum BLOCK_TYPE {
+	MID,
+	OVERHEAD,
+	LOW
+};
 struct basic_attack_deff {
 	int damage;
 	int hitstun; //in miliseconds
@@ -75,6 +81,7 @@ struct basic_attack_deff {
 	CHAR_ATT_TYPE type;
 	bool knockdown; //if the attack causes a knockdown or not
 	iPoint juggle_speed;
+	BLOCK_TYPE block_type;
 };
 
 class Player;

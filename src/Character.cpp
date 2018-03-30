@@ -69,10 +69,19 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			logic_position.x += walk_speed;
 		else
 			logic_position.x -= walk_speed;
+		if (hit && attack_recieving.block_type){
+			if (attack_recieving.block_type != BLOCK_TYPE::LOW)
+				current_state = CHAR_STATE::STAND_BLOCKING;
+			else {
+				if (attack_recieving.knockdown)
+					current_state = CHAR_STATE::JUGGLE;
+				else
+					current_state = CHAR_STATE::HIT; // STANDING HIT?
+			}
+		}
 		// Input dependent actions
-		if (hit)
-			current_state = CHAR_STATE::STAND_BLOCKING;
-		else if (!fliped && !inputs[LEFT] || fliped && !inputs[RIGHT])
+
+		if (!fliped && !inputs[LEFT] || fliped && !inputs[RIGHT])
 			current_state = CHAR_STATE::IDLE;
 		else if (inputs[UP]) {
 			velocity.y -= jump_power.y;
@@ -169,12 +178,18 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			hurtbox->rect.h /= 2;
 			crouching_hurtbox = true;
 		}
+		if (hit && inputs[LEFT] && !fliped|| hit && inputs[RIGHT] && fliped) {
+			if(attack_recieving.block_type != BLOCK_TYPE::OVERHEAD)
+				current_state = CHAR_STATE::CROUCH_BLOCKING;
+			else{
+				if (attack_recieving.knockdown)
+					current_state = CHAR_STATE::JUGGLE;
+				else
+					current_state = CHAR_STATE::HIT; // CROUCHING HIT?
+			}
+		}	
 		// Input dependent actions
-		if (hit && inputs[LEFT] && !fliped || hit && inputs[RIGHT] && fliped)
-			current_state = CHAR_STATE::CROUCH_BLOCKING;
-		else if (hit)
-			current_state = CHAR_STATE::HIT;
-		else if (!inputs[DOWN]){ 
+		if (!inputs[DOWN]){ 
 			current_state = CHAR_STATE::IDLE;
 			hurtbox->rect.h = standing_hurtbox_size.y;
 			crouching_hurtbox = false;
@@ -249,6 +264,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
 			current_state = CHAR_STATE::IDLE;
 		break;
+
 	case CROUCH_BLOCKING:
 		//Input independent actions
 		// Continuous
