@@ -51,6 +51,9 @@ bool mdCollision::update(float dt)
 		for (std::list<collider*>::iterator it2 = tmp; it2 != colliders.end(); ++it2) {
 			c1 = *it1;
 			c2 = *it2;
+			
+			if (!c1->active || !c2->active)
+				continue;
 
 			if (c1->checkCollision(c2->rect) == true) {
 				//Character check
@@ -90,6 +93,8 @@ void mdCollision::DebugDraw()
 	Uint8 alpha = 80;
 	for (std::list<collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it) {
 		collider* c = *it;
+		if (!c->active)
+			continue;
 		switch (c->type)
 		{
 			case COLLIDER_NONE: // white

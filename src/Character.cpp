@@ -18,9 +18,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 
 	//PROVISIONAL: Crazy provisional
-	if (current_life <= 0) {
-		current_state = CHAR_STATE::KNOCKDOWN;
-	}
+	//if (current_life <= 0) {
+	//	current_state = CHAR_STATE::KNOCKDOWN;
+	//}
 
 	switch (current_state) {
 	case IDLE:
@@ -317,13 +317,17 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			grounded = false;
 		}
 		if (grounded)
-			current_state = CHAR_STATE::IDLE; // Should be Knockdown, but it is not implemented yet
+			current_state = CHAR_STATE::KNOCKDOWN; // Should be Knockdown, but it is not implemented yet
 		break;
 
 	case KNOCKDOWN:
-		//TODO: Define knockdown
-		//PROVISIONAL: Crazy provisional
-		App->render->drawQuad({ 0,0,100,100 }, 255, 255, 255, 255, true);
+		//Input independent actions
+		updateAnimation(knockdown);
+		hurtbox->active = false;
+		if (current_animation->Finished()){
+			current_state = IDLE;
+			hurtbox->active = true;
+		}
 		break;
 	case SWAPPING:
 		//TODO: Define swapping

@@ -148,7 +148,7 @@ protected:
 	basic_attack_deff attack_recieving;
 
 	Animation* current_animation;
-	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_hit, standing_block, crouching_block;
+	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_hit, standing_block, crouching_block, knockdown;
 
 
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h;

@@ -139,6 +139,17 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	crouching_block.loop = false;
 	crouching_block.speed = 0.2;
 
+	knockdown.PushBack({ 0      , 158 * 21, 195, 158 });
+	knockdown.PushBack({ 0      , 158 * 21, 195, 158 });
+	knockdown.PushBack({ 0      , 158 * 21, 195, 158 });
+	knockdown.PushBack({ 0      , 158 * 21, 195, 158 });
+	knockdown.PushBack({ 0      , 158 * 21, 195, 158 }); // It works for me
+	knockdown.PushBack({ 195    , 158 * 21, 195, 158 });
+	knockdown.PushBack({ 195 * 2, 158 * 21, 195, 158 });
+	knockdown.PushBack({ 195 * 3, 158 * 21, 195, 158 });
+
+	knockdown.loop = false;
+	knockdown.speed = 0.1;
 
 	// Basic attack definitions
 

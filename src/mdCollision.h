@@ -30,6 +30,7 @@ struct collider
 	// Collider state
 	int born; //In miliseconds 
 	bool to_delete = false;
+	bool active = true;
 
 	collider(SDL_Rect rectangle, COLLIDER_TYPE type, int life, Module* callback, Character* character) : 
 		rect(rectangle), type(type), life(life), callback(callback), character(character) {
