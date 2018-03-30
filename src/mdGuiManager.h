@@ -56,6 +56,7 @@ public:
 	Buttons* tempb1 = nullptr;
 	Buttons* tempb2 = nullptr;
 	Bars* temp_bar = nullptr;
+	Bars* temp_bar1 = nullptr;
 
 private:
 	bool debug = false;

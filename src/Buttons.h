@@ -22,17 +22,17 @@ private:
 	void loadButtonsFromAtlas();
 
 public:
-	button_types button_type;
 	bool being_clicked = false;
 	bool hovering = false;
+	button_types button_type = NO_BUTTON;
 
 private:
 	SDL_Rect click_rect;
 	SDL_Rect idle_rect;
 	SDL_Rect highl_rect;
 	SDL_Rect disabled_rect;
-	SDL_Rect* current_rect;
-
+	SDL_Rect* current_rect = nullptr;
+	
 	bool enabled = true;
 
 	uint click_sfx;

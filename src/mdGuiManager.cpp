@@ -56,6 +56,8 @@ bool mdGuiManager::update(float dt) {
 		tempb1 = (Buttons*)createButton(SETTINGS, { 0,150 }, this);
 		tempb2 = (Buttons*)createButton(NEW_GAME, { 0,300 }, this);
 		temp_bar = (Bars*)createBar(HEALTH_BAR, { 0, 450 }, this);
+		temp_bar1 = (Bars*)createBar(SWAP_BAR, { 0, 600 }, this);
+
 		templ = (Labels*)createLabel("Momonga", { 255,255,255,255 }, App->fonts->medium_size, { 300,300 }, this);
 		temp = true;
 	}
@@ -64,6 +66,7 @@ bool mdGuiManager::update(float dt) {
 	{
 		templ->changeContent("sama");
 		temp_bar->updateBarGauge(10);
+		temp_bar1->updateBarGauge(5);
 	}
 
 	if (App->input->getKey(SDL_SCANCODE_3) == KEY_DOWN)
@@ -72,6 +75,8 @@ bool mdGuiManager::update(float dt) {
 		tempb->to_delete = true;
 		tempb1->to_delete = true;
 		tempb2->to_delete = true;
+		temp_bar->to_delete = true;
+		temp_bar1->to_delete = true;
 		temp = true;
 	}
 	
@@ -185,7 +190,6 @@ Widgets* mdGuiManager::createBar(bar_types type, std::pair<int, int> pos, Module
 		ui_elements.push_back(ret);
 	}
 
-
 	return ret;
 }
 
@@ -290,7 +294,7 @@ void mdGuiManager::debugUi() {
 		case LABEL: // gren
 			App->render->drawQuad(object->world_area, 0, 255, 0, alpha); break;
 		case BAR: //blue
-			App->render->drawQuad(object->world_area, 0, 0, 255, alpha);
+			App->render->drawQuad(object->world_area, 0, 0, 255, alpha); break;
 		}
 	}
 }

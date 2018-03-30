@@ -25,7 +25,8 @@
 		<atlas file="gui/ui_placeholder.png"/>
 		<idle x="0" y="0" width="228" height="63"/>
 		<focused x="0" y="150" width="228" height="63"/>
-		<bar x="0" y="224" width="228" height="63"/>		
+		<bar x="0" y="75" width="228" height="63"/>	
+		<gauge x="0" y="298" width="228" height="63"/>	
 	</gui>
 	<input>
 		<buffer window="1000"/>

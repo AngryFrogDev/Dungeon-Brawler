@@ -11,18 +11,20 @@ public:
 	~Bars();
 	bool preUpdate();
 	void draw();
-	void getSection(SDL_Rect rect, uint gauge);
+	void getSection(SDL_Rect rect, SDL_Rect gauge);
 	void updateBarGauge(uint new_gauge);
 
-public:
-	bar_types bar_type;
-
 private:
-	uint current_gauge;
-	uint max_gauge;
-	SDL_Texture* bar_tex;
-	SDL_Rect max_bar_rect;
+	bar_types bar_type = NO_BAR;
+
+	SDL_Rect current_gauge_rect;
+	SDL_Rect max_gauge_rect;
 	SDL_Rect current_bar_rect;
+	SDL_Rect max_bar_rect;
+
+	SDL_Texture* bar_tex = nullptr;
+
+	int gauge_y_position;
 
 };
 
