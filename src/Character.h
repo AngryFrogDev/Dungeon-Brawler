@@ -46,7 +46,8 @@ enum CHAR_STATE {
 	CROUCH_BLOCKING,
 	HIT,      // STAND_HIT/CROUCH_HIT ?
 	JUGGLE,
-	KNOCKDOWN
+	KNOCKDOWN,
+	DEAD
 };
 
 enum CHARACTER_INPUTS {
@@ -148,7 +149,7 @@ protected:
 	basic_attack_deff attack_recieving;
 
 	Animation* current_animation;
-	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_hit, standing_block, crouching_block, knockdown;
+	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_hit, standing_block, crouching_block, knockdown, dead;
 
 
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h;

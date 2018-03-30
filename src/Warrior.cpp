@@ -151,6 +151,11 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	knockdown.loop = false;
 	knockdown.speed = 0.1;
 
+	dead.PushBack({ 0      , 158 * 21, 195, 158 });
+
+	dead.loop = true;
+	dead.speed = 0.1;
+
 	// Basic attack definitions
 
 	st_l.pos_rel_char = {110,35}; 

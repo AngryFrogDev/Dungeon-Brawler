@@ -18,9 +18,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 
 	//PROVISIONAL: Crazy provisional
-	//if (current_life <= 0) {
-	//	current_state = CHAR_STATE::KNOCKDOWN;
-	//}
+	if (current_life <= 0) {
+		current_state = CHAR_STATE::DEAD;
+	}
 
 	switch (current_state) {
 	case IDLE:
@@ -69,7 +69,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			logic_position.x += walk_speed;
 		else
 			logic_position.x -= walk_speed;
-		if (hit && attack_recieving.block_type){
+		if (hit){
 			if (attack_recieving.block_type != BLOCK_TYPE::LOW)
 				current_state = CHAR_STATE::STAND_BLOCKING;
 			else {
@@ -188,6 +188,13 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 					current_state = CHAR_STATE::HIT; // CROUCHING HIT?
 			}
 		}	
+		else if (hit) {
+			if (attack_recieving.knockdown)
+				current_state = CHAR_STATE::JUGGLE;
+			else
+				current_state = CHAR_STATE::HIT; // CROUCHING HIT?
+		}
+
 		// Input dependent actions
 		if (!inputs[DOWN]){ 
 			current_state = CHAR_STATE::IDLE;
@@ -279,7 +286,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			hit = false;
 		}
 		else if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
-			current_state = CHAR_STATE::IDLE;
+			current_state = CHAR_STATE::CROUCHING;
 		break;
 
 	case HIT:
@@ -292,8 +299,11 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		updateAnimation(standing_hit);
 		// One tick
 		if (hit) { 
+			if (attack_recieving.knockdown)
+				current_state = CHAR_STATE::JUGGLE;
+			else
+				hit = false;
 			current_life -= attack_recieving.damage;
-			hit = false;
 		}
 		else if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) 
 			current_state = CHAR_STATE::IDLE;
@@ -332,6 +342,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	case SWAPPING:
 		//TODO: Define swapping
 		current_state = CHAR_STATE::IDLE;
+		break;
+	case DEAD:
+		updateAnimation(dead);
+		App->render->drawQuad({ 0,0,100,100 }, 255, 255, 255, 255);
 		break;
 	}
 
