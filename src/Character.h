@@ -42,8 +42,9 @@ enum CHAR_STATE {
 	ATTACKING,
 	SWAPPING,
 
-	BLOCKING, // STAND_BLOCK/CROUCH_BLOCK
-	HIT,      // STAND_HIT/CROUCH_HIT
+	STAND_BLOCKING, 
+	CROUCH_BLOCKING,
+	HIT,      // STAND_HIT/CROUCH_HIT ?
 	JUGGLE,
 	KNOCKDOWN
 };
@@ -140,7 +141,7 @@ protected:
 	basic_attack_deff attack_recieving;
 
 	Animation* current_animation;
-	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_hit;
+	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_hit, standing_block, crouching_block;
 
 
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h;

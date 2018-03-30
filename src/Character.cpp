@@ -71,7 +71,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			logic_position.x -= walk_speed;
 		// Input dependent actions
 		if (hit)
-			current_state = CHAR_STATE::BLOCKING;
+			current_state = CHAR_STATE::STAND_BLOCKING;
 		else if (!fliped && !inputs[LEFT] || fliped && !inputs[RIGHT])
 			current_state = CHAR_STATE::IDLE;
 		else if (inputs[UP]) {
@@ -171,7 +171,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		// Input dependent actions
 		if (hit && inputs[LEFT] && !fliped || hit && inputs[RIGHT] && fliped)
-			current_state = CHAR_STATE::BLOCKING;
+			current_state = CHAR_STATE::CROUCH_BLOCKING;
 		else if (hit)
 			current_state = CHAR_STATE::HIT;
 		else if (!inputs[DOWN]){ 
@@ -234,10 +234,35 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		doAttack();
 		break;
 
-	case BLOCKING:
-		if (!hit)
-			current_state = CHAR_STATE::WALKING_BACK;
-		else if (!fliped && !inputs[LEFT] || fliped && !inputs[RIGHT])
+	case STAND_BLOCKING:
+		//Input independent actions
+		// Continuous
+		if (!fliped)
+			logic_position.x -= attack_recieving.pushblock;
+		else
+			logic_position.x += attack_recieving.pushblock;
+		updateAnimation(standing_block);
+		// One tick
+		if (hit) {
+			hit = false;
+		}
+		else if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
+			current_state = CHAR_STATE::IDLE;
+		break;
+	case CROUCH_BLOCKING:
+		//Input independent actions
+		// Continuous
+		if (!fliped)
+			logic_position.x -= attack_recieving.pushblock;
+		else
+			logic_position.x += attack_recieving.pushblock;
+
+		updateAnimation(crouching_block);
+		// One tick
+		if (hit) {
+			hit = false;
+		}
+		else if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
 			current_state = CHAR_STATE::IDLE;
 		break;
 

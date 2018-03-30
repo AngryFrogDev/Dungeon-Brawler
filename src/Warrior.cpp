@@ -129,37 +129,62 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	standing_hit.loop = true;
 	standing_hit.speed = 0.2;
 
+	standing_block.PushBack({ 0, 158 * 23, 195, 158 });
+
+	standing_block.loop = false;
+	standing_block.speed = 0.2;
+
+	crouching_block.PushBack({ 195, 158 * 23, 195, 158 });
+
+	crouching_block.loop = false;
+	crouching_block.speed = 0.2;
+
+
 	// Basic attack definitions
 
-	st_l.pos_rel_char = {210,35}; 
-	st_l.hitbox = { 0,0,100,20 };
+	st_l.pos_rel_char = {110,35}; 
+	st_l.hitbox = { 0,0,250,20 };
 	st_l.active_time = 100;
 	st_l.hitstun = 300;
-	st_l.pushhit = 3;         
+	st_l.blockstun = 100;
+	st_l.pushhit = 3;     
+	st_l.pushblock = 2;
 	st_l.damage = 5;
 	st_l.knockdown = false;
+	st_l.juggle_speed.x = 5;
+	st_l.juggle_speed.y = 5;
 	
 	st_h.pos_rel_char = { 210,20 };
 	st_h.hitbox = { 0,0,150, 50 };
 	st_h.active_time = 200;
 	st_h.hitstun = 500;
+	st_h.blockstun = 200;
 	st_h.pushhit = 5;
+	st_h.pushblock = 3;
 	st_h.damage = 15;
 	st_h.knockdown = false;
+	st_h.juggle_speed.x = 10;
+	st_h.juggle_speed.y = 20;
 
 	cr_l.pos_rel_char = { 110,50 };
 	cr_l.hitbox = { 0,0,70, 30 };
 	cr_l.active_time = 70;
 	cr_l.hitstun = 200;
+	cr_l.blockstun = 50;
 	cr_l.pushhit = 2;
+	cr_l.pushblock = 2;
 	cr_l.damage = 3;
 	cr_l.knockdown = false;
+	cr_l.juggle_speed.x = 0;
+	cr_l.juggle_speed.y = 0;
 
 	cr_h.pos_rel_char = { 190,80 };
 	cr_h.hitbox = { 0,0,180, 50 };
 	cr_h.active_time = 200;
 	cr_h.hitstun = 500;
-	cr_h.pushhit = 6; //Should be -1 to indicate knockdown
+	cr_h.blockstun = 200;
+	cr_h.pushhit = -1; // -1 means that is a knockdown attack
+	cr_h.pushblock = 2;
 	cr_h.damage = 15;
 	cr_h.knockdown = true;
 	cr_h.juggle_speed.x = 5;
@@ -169,7 +194,9 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	jm_l.hitbox = { 0,0,140,20 };
 	jm_l.active_time = -1;
 	jm_l.hitstun = 200;
+	jm_l.blockstun = 150;
 	jm_l.pushhit = 1;
+	jm_l.pushblock = 1;
 	jm_l.damage = 6;
 	jm_l.knockdown = false;
 	jm_l.juggle_speed.x = 5;
@@ -179,9 +206,13 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	jm_h.hitbox = { 0,0,120,100 };
 	jm_h.active_time = -1;
 	jm_h.hitstun = 500;
+	jm_h.blockstun = 450;
 	jm_h.pushhit = 1;
+	jm_h.pushblock = 1;
 	jm_h.damage = 10;
 	jm_h.knockdown = false;
+	jm_h.juggle_speed.x = 0;
+	jm_h.juggle_speed.y = 10;
 
 	// Other variable initialization
 	grounded = true;
