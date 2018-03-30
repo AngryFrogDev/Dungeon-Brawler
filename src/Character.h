@@ -122,57 +122,73 @@ protected:
 
 
 protected:
+
+	// Variables to assign from xml
 	CHAR_TYPE type;
 
+	float scale;
+
+	iPoint standing_hurtbox_size;
+	int crouching_hurtbox_offset;
+
+	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_hit, standing_block, crouching_block, knockdown, dead;
+
+	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h;
+
+	// In miliseconds
+	int invencibility_on_wakeup;
+
+	iPoint jump_power;
+	float gravity;
+
+	int bottom_lane;
+	
+
+
+
+	// Variables to modify in runtime
 	iPoint logic_position;
 	iPoint draw_position;
 	iPoint draw_size;
-	float scale;
+	
 	iPoint velocity;
 
-	int current_life; 								
-	int max_life;	
-	int walk_speed;	
+	bool crouching_hurtbox;
+
+	int current_life;		
+	int max_life;
+
+	int walk_speed;
 
 	bool grounded;
+
 	bool fliped;
-	bool instanciated_hitbox; //If the hitbox of the attack has been already instanciated, it should,'t be instanciated again
-	bool crouching_hurtbox;
+
+	//If the hitbox of the attack has been already instanciated, it should,'t be instanciated again
+	bool instanciated_hitbox; 
+	//It should be a list, as a character can have multiple active hitboxes
+	collider* hitbox; 
+
 	bool hit;
+	//Maybe current_stun and moment_hit should be a timer instead
+	int moment_hit; 
 
-	int moment_hit; //Maybe current_stun and moment_hit should be a timer instead
-
-	// Entity collider
 	collider* hurtbox;	
-	iPoint standing_hurtbox_size;
-	collider* hitbox; //It should be a list, as a character can have multiple active hitboxes
 
 	CHAR_STATE current_state;
 	CHAR_ATT_TYPE attack_doing;
 	basic_attack_deff attack_recieving;
 
 	Animation* current_animation;
-	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_hit, standing_block, crouching_block, knockdown, dead;
 
 	// Time to stop invencibility
-	int stop_invencibility; 
+	int stop_invencibility;
 	Timer invencible_timer;
-
-	// In miliseconds
-	int invencibility_on_wakeup;
-
-	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h;
 	
 	Player* owner;
 
-	iPoint jump_power;
-	float gravity;
-	int bottom_lane;
-	int crouching_hurtbox_offset;
-
-
 public:
-	int lane = 1; //Provisional 1 = bottom  2 = top
+	int lane = 1; // Provisional 1 = bottom  2 = top
 
 };
 
