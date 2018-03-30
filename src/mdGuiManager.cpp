@@ -128,7 +128,7 @@ bool mdGuiManager::cleanUp() {
 	std::list<Widgets*>::reverse_iterator ui_iterator = ui_elements.rbegin();
 	for (ui_iterator; ui_iterator != ui_elements.rend(); ++ui_iterator) {
 		object = *ui_iterator;
-		ret = destroyWidget(object);
+		RELEASE(object);
 	}
 
 	ui_elements.clear();
