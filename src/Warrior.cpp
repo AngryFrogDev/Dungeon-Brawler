@@ -264,6 +264,8 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	standing_hurtbox_size.y = 200;
 	crouching_hurtbox_offset = 40;
 
+	invencibility_on_wakeup = 30;
+
 	draw_size.x = 195;
 	draw_size.y = 158;
 

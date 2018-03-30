@@ -6,6 +6,7 @@
 #include "mdInput.h"
 #include "p2Point.h"
 #include "mdRender.h"
+#include "Timer.h"
 
 enum CHAR_TYPE {
 	DEF_CHAR,
@@ -109,11 +110,13 @@ public:
 	void setFlip(bool flip);
 
 protected:	
-	//Execute attack, rewritable for every type of character
+	// Execute attack, rewritable for every type of character
 	virtual void doAttack();		
 	void instanciateHitbox(CHAR_ATT_TYPE type);
-
 	void updateAnimation(Animation& new_animation);
+	// Variable in milliseconds
+	void makeInvencibleFor(int invencible_time); 
+	void updateInvecibility();
 	// Uses player's logic position, flip, offset and width to calculate the position to draw a collider
 	int calculateDrawPosition(int offset, int size, bool x);
 
@@ -151,13 +154,17 @@ protected:
 	Animation* current_animation;
 	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_hit, standing_block, crouching_block, knockdown, dead;
 
+	// Time to stop invencibility
+	int stop_invencibility; 
+	Timer invencible_timer;
+
+	// In miliseconds
+	int invencibility_on_wakeup;
 
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h;
 	
 	Player* owner;
 
-
-	//PROVISIONAL should be read from xml
 	iPoint jump_power;
 	float gravity;
 	int bottom_lane;

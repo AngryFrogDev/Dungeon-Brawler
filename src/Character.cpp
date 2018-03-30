@@ -335,6 +335,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		updateAnimation(knockdown);
 		hurtbox->active = false;
 		if (current_animation->Finished()){
+			makeInvencibleFor(invencibility_on_wakeup);
 			current_state = IDLE;
 			hurtbox->active = true;
 		}
@@ -348,6 +349,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		App->render->drawQuad({ 0,0,100,100 }, 255, 255, 255, 255);
 		break;
 	}
+
+	// State independent actions
+	updateInvecibility();
 
 	// Calculate draw position out of logic position
 	draw_position.x = calculateDrawPosition(0, draw_size.x* scale, true);
@@ -576,4 +580,19 @@ iPoint Character::getPos() 	{
 }
 void Character::setFlip(bool flip) {
 	fliped = flip;
+}
+void Character::updateInvecibility() {
+	if(invencible_timer.isActive())
+	{ 
+		if (invencible_timer.read() > stop_invencibility) {
+			hurtbox->active = true;
+			invencible_timer.stop();
+		}
+		else
+			hurtbox->active = false;
+	}
+}
+void Character::makeInvencibleFor(int time_invencible) {
+	invencible_timer.start();
+	stop_invencibility = time_invencible;
 }
