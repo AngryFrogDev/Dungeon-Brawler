@@ -314,5 +314,5 @@ Warrior::~Warrior() {
 
 void Warrior::standingSpecial2()	{
 
-	logic_position.x += 5;
+	logic_position.x += 15;
 }

@@ -510,6 +510,9 @@ void Character::doAttack() {
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
 			instanciateHitbox(ST_S2); 
+
+		if (hitbox)
+			hitbox->SetPos(calculateDrawPosition(st_s2.pos_rel_char.x, st_s2.hitbox.w, true), calculateDrawPosition(st_s2.pos_rel_char.y, st_s2.hitbox.h, false));
 		break;
 	case JM_S1:
 	case JM_S2:
