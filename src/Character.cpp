@@ -384,7 +384,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 void Character::onCollision(collider* c1, collider* c2) {
 
 	if (c1->type == HURTBOX && c2->type == HITBOX) {
-		attack_recieving = c2->character->getCurrentAttackData(); // PROVISIONAL: Attack data should be stored in the collider
+		attack_recieving = c2->character->getAttackData(c2->attack_type); // PROVISIONAL: Attack data should be stored in the collider
 		c2->to_delete = true;
 		hit = true;
 		moment_hit = SDL_GetTicks();
@@ -501,18 +501,13 @@ void Character::doAttack() {
 			hitbox->SetPos(calculateDrawPosition(jm_h.pos_rel_char.x, jm_h.hitbox.w, true), calculateDrawPosition(jm_h.pos_rel_char.y, jm_h.hitbox.h, false));
 		}
 		break;
+	case ST_S1:
+		updateAnimation(standing_special1);
+		standingSpecial1(); // PROVISIONAL: This should not be allowed if a knife is currently being thrown
+		break;
 	case ST_S2:
 		updateAnimation(standing_special2);
 		standingSpecial2();
-		if (current_animation->Finished()) {
-			current_state = IDLE;
-			instanciated_hitbox = false;
-		}
-		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
-			instanciateHitbox(ST_S2); 
-
-		if (hitbox)
-			hitbox->SetPos(calculateDrawPosition(st_s2.pos_rel_char.x, st_s2.hitbox.w, true), calculateDrawPosition(st_s2.pos_rel_char.y, st_s2.hitbox.h, false));
 		break;
 	case JM_S1:
 	case JM_S2:
@@ -563,11 +558,11 @@ void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
 			collider = { calculateDrawPosition(st_s2.pos_rel_char.x, st_s2.hitbox.w, true), calculateDrawPosition(st_s2.pos_rel_char.y, st_s2.hitbox.h, false), st_s2.hitbox.w, st_s2.hitbox.h };
 			life = st_s2.active_time;
 	}
-	hitbox = App->collision->AddCollider(collider, HITBOX,life ,App->entities, this);
+	hitbox = App->collision->AddCollider(collider, HITBOX,life ,type, App->entities, this);
 	instanciated_hitbox = true;
 }
-basic_attack_deff Character::getCurrentAttackData() {
-	switch (attack_doing) {
+basic_attack_deff Character::getAttackData(CHAR_ATT_TYPE attack_type) {
+	switch (attack_type) {
 		case ST_L:
 			return st_l;
 			break;
@@ -586,8 +581,15 @@ basic_attack_deff Character::getCurrentAttackData() {
 		case JM_H:
 			return jm_h;
 			break;
+		case ST_S1:
+			return st_s1;
+			break;
 		case ST_S2:
 			return st_s2;
+			break;
+		case NO_ATT:
+			LOG("FATAL ERROR");
+			//return void;
 			break;
 	}
 }

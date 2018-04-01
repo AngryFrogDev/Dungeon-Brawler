@@ -1,5 +1,6 @@
 #include "Warrior.h"
 #include "mdCollision.h"
+#include "mdProjectiles.h"
 
 Warrior::Warrior(int x_pos, bool _fliped): Character() {
 
@@ -156,6 +157,17 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	dead.loop = true;
 	dead.speed = 0.1;
 
+	standing_special1.PushBack({ 0		, 158 * 5, 195, 158 });
+	standing_special1.PushBack({ 195    , 158 * 5, 195, 158 });
+	standing_special1.PushBack({ 195 * 2, 158 * 5, 195, 158 });
+	standing_special1.PushBack({ 195 * 3, 158 * 5, 195, 158 });
+	standing_special1.PushBack({ 195 * 4, 158 * 5, 195, 158 });
+	standing_special1.PushBack({ 195 * 5, 158 * 5, 195, 158 });
+	standing_special1.PushBack({ 195 * 6, 158 * 5, 195, 158 }, ACTIVE);
+
+	standing_special1.loop = false;
+	standing_special1.speed = 0.2;
+
 	standing_special2.PushBack({ 0, 948, 195, 158 });
 	standing_special2.PushBack({ 195, 948, 195, 158 });
 	standing_special2.PushBack({ 390, 948, 195, 158 });
@@ -170,6 +182,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	standing_special2.PushBack({ 2145, 948, 195, 158 });
 	standing_special2.PushBack({ 0, 1106, 195, 158 });
 	standing_special2.PushBack({ 195, 1106, 195, 158 });
+
 	standing_special2.loop = false;
 	standing_special2.speed = 0.3;
 
@@ -253,6 +266,19 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	jm_h.juggle_speed.y = 10;
 	jm_h.block_type = BLOCK_TYPE::OVERHEAD;
 
+	st_s1.pos_rel_char = { 0, 0 };
+	st_s1.hitbox = { 0,0,130,30 };
+	st_s1.active_time = -1;
+	st_s1.hitstun = 200;
+	st_s1.blockstun = 150;
+	st_s1.pushhit = 2;
+	st_s1.pushblock = 2;
+	st_s1.damage = 10;
+	st_s1.knockdown = false;
+	st_s1.juggle_speed.x = 10;
+	st_s1.juggle_speed.y = 15;
+	st_s1.block_type = BLOCK_TYPE::MID;
+
 	st_s2.pos_rel_char = { 0, 0 };
 	st_s2.hitbox = { 0,0,420,100 };
 	st_s2.active_time = 100;
@@ -303,10 +329,14 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	walk_speed = 4;
 
 	scale = 3;
-	hurtbox = App->collision->AddCollider({ logic_position.x - standing_hurtbox_size.x/2, logic_position.y - standing_hurtbox_size.y/2, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1,(Module*)App->entities,(Character*)this);
+	hurtbox = App->collision->AddCollider({ logic_position.x - standing_hurtbox_size.x/2, logic_position.y - standing_hurtbox_size.y/2, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1,CHAR_ATT_TYPE::NO_ATT,(Module*)App->entities,(Character*)this);
 
 	// WARRIOR EXCLUSIVE VARS
 	spin_speed = 15;
+	projectile_duration = 2000;
+	projectile_speed = 20;
+	projectile_scale = 3;
+
 }
 
 
@@ -314,9 +344,39 @@ Warrior::~Warrior() {
 
 }
 
+void Warrior::standingSpecial1() 	{
+
+	if (current_animation->Finished()) {
+		current_state = IDLE;
+		instanciated_hitbox = false;
+	}
+	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+		collider* projectile_collider = App->collision->AddCollider({ logic_position.x, logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::HITBOX, projectile_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
+		iPoint speed;
+		if (!fliped)
+			speed.x = projectile_speed;
+		else
+			speed.x = -projectile_speed;
+
+			speed.y = 0;
+
+			App->projectiles->addProjectile(WARRIOR_KNIFE, { logic_position.x, logic_position.y }, speed, projectile_collider, projectile_duration, scale);
+			instanciated_hitbox = true;
+	}
+}
 void Warrior::standingSpecial2()	{
 	if(!fliped)
-		logic_position.x += spin_speed; // PROVISIONAL: Speed should be loaded from xml
+		logic_position.x += spin_speed; 
 	else
 		logic_position.x -= spin_speed;
+
+	if (current_animation->Finished()) {
+		current_state = IDLE;
+		instanciated_hitbox = false;
+	}
+	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
+		instanciateHitbox(ST_S2);
+
+	if (hitbox)
+		hitbox->SetPos(calculateDrawPosition(st_s2.pos_rel_char.x, st_s2.hitbox.w, true), calculateDrawPosition(st_s2.pos_rel_char.y, st_s2.hitbox.h, false));
 }

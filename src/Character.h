@@ -105,7 +105,7 @@ public:
 	void draw(SDL_Texture* graphic) const;
 
 
-	basic_attack_deff getCurrentAttackData();
+	basic_attack_deff getAttackData(CHAR_ATT_TYPE attack_type);
 	iPoint getPos();
 	void setFlip(bool flip);
 
@@ -119,7 +119,8 @@ protected:
 	void updateInvecibility();
 	// Uses player's logic position, flip, offset and width to calculate the position to draw a collider
 	int calculateDrawPosition(int offset, int size, bool x);
-	//Standing Special 2 function
+	//Special functions
+	virtual void standingSpecial1() { return; };
 	virtual void standingSpecial2() { return; };
 
 protected:

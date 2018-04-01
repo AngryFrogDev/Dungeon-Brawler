@@ -3,7 +3,6 @@
 #include "mdRender.h"
 #include "mdCollision.h"
 #include "DebLog.h"
-#include "Character.h"
 
 mdCollision::mdCollision() {
 
@@ -130,9 +129,9 @@ void mdCollision::onCollision(collider*c1, collider* c2) {
 }
 
 
-collider* mdCollision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type,int life, Module* callback, Character* character)
+collider* mdCollision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type,int life,CHAR_ATT_TYPE attack_type, Module* callback, Character* character)
 {
-	collider* ret = new collider(rect, type, life, callback,character);
+	collider* ret = new collider(rect, type, life,attack_type, callback,character);
 
 	colliders.push_back(ret);
 

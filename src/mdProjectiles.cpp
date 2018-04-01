@@ -21,8 +21,6 @@ bool mdProjectiles::awake(const pugi::xml_node& md_config) {
 
 	warrior_knife.speed = 0.2;
 	warrior_knife.loop = false;
-
-	addProjectile(WARRIOR_KNIFE, { 0,100 }, { 5,0 }, nullptr, 10000,3);
 	return true;
 }
 
