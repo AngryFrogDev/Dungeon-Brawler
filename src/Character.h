@@ -120,7 +120,7 @@ protected:
 	// Uses player's logic position, flip, offset and width to calculate the position to draw a collider
 	int calculateDrawPosition(int offset, int size, bool x);
 	//Standing Special 2 function
-	virtual void standingSpecial2();
+	virtual void standingSpecial2() { return; };
 
 protected:
 
@@ -134,7 +134,7 @@ protected:
 
 	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_special1, standing_special2, jumping_special1, jumping_special2, crouching_special1, crouching_special2, standing_hit, standing_block, crouching_block, knockdown, dead;
 
-	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h;
+	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2;
 
 	// In miliseconds
 	int invencibility_on_wakeup;

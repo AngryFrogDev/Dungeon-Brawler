@@ -503,6 +503,17 @@ void Character::doAttack() {
 		break;
 	case ST_S2:
 		updateAnimation(standing_special2);
+		standingSpecial2();
+		if (current_animation->Finished()) {
+			current_state = IDLE;
+			instanciated_hitbox = false;
+		}
+		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
+			instanciateHitbox(ST_S2); 
+
+		if (hitbox)
+			hitbox->SetPos(calculateDrawPosition(st_s2.pos_rel_char.x, st_s2.hitbox.w, true), calculateDrawPosition(st_s2.pos_rel_char.y, st_s2.hitbox.h, false));
+		break;
 	case JM_S1:
 	case JM_S2:
 		current_state = JUMPING;
@@ -548,6 +559,9 @@ void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
 			collider = { calculateDrawPosition(jm_h.pos_rel_char.x,jm_h.hitbox.w, true), calculateDrawPosition(jm_h.pos_rel_char.y,jm_h.hitbox.h, false),jm_h.hitbox.w, jm_h.hitbox.h };
 			life = jm_h.active_time;
 			break;
+		case ST_S2:
+			collider = { calculateDrawPosition(st_s2.pos_rel_char.x, st_s2.hitbox.w, true), calculateDrawPosition(st_s2.pos_rel_char.y, st_s2.hitbox.h, false), st_s2.hitbox.w, st_s2.hitbox.h };
+			life = st_s2.active_time;
 	}
 	hitbox = App->collision->AddCollider(collider, HITBOX,life ,App->entities, this);
 	instanciated_hitbox = true;
@@ -572,6 +586,9 @@ basic_attack_deff Character::getCurrentAttackData() {
 		case JM_H:
 			return jm_h;
 			break;
+		case ST_S2:
+			return st_s2;
+			break;
 	}
 }
 
@@ -584,10 +601,6 @@ int Character::calculateDrawPosition(int offset, int size, bool x) 	{
 	}
 	else
 		return logic_position.y + offset - size/2;
-}
-
-void Character::standingSpecial2()
-{
 }
 
 iPoint Character::getPos() 	{

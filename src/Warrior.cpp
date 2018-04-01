@@ -156,7 +156,23 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	dead.loop = true;
 	dead.speed = 0.1;
 
-	standing_special2.PushBack({});
+	standing_special2.PushBack({ 0, 948, 195, 158 });
+	standing_special2.PushBack({ 195, 948, 195, 158 });
+	standing_special2.PushBack({ 390, 948, 195, 158 });
+	standing_special2.PushBack({ 585, 948, 195, 158 }, ACTIVE);
+	standing_special2.PushBack({ 780, 948, 195, 158 });
+	standing_special2.PushBack({ 975, 948, 195, 158 });
+	standing_special2.PushBack({ 1170, 948, 195, 158 });
+	standing_special2.PushBack({ 1365, 948, 195, 158 });
+	standing_special2.PushBack({ 1560, 948, 195, 158 });
+	standing_special2.PushBack({ 1755, 948, 195, 158 });
+	standing_special2.PushBack({ 1950, 948, 195, 158 });
+	standing_special2.PushBack({ 2145, 948, 195, 158 });
+	standing_special2.PushBack({ 0, 1106, 195, 158 });
+	standing_special2.PushBack({ 195, 1106, 195, 158 });
+	standing_special2.loop = false;
+	standing_special2.speed = 0.3;
+
 	// Basic attack definitions
 
 	st_l.pos_rel_char = {110,35}; 
@@ -237,6 +253,19 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	jm_h.juggle_speed.y = 10;
 	jm_h.block_type = BLOCK_TYPE::OVERHEAD;
 
+	st_s2.pos_rel_char = { 0, 0 };
+	st_s2.hitbox = { 0,0,420,100 };
+	st_s2.active_time = 100;
+	st_s2.hitstun = 0;
+	st_s2.blockstun = 0;
+	st_s2.pushhit = 2;
+	st_s2.pushblock = 2;
+	st_s2.damage = 20;
+	st_s2.knockdown = true;
+	st_s2.juggle_speed.x = 3;
+	st_s2.juggle_speed.y = 3;
+	st_s2.block_type = BLOCK_TYPE::MID;
+
 	// Other variable initialization
 	grounded = true;
 	instanciated_hitbox = false;
@@ -281,4 +310,9 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 
 Warrior::~Warrior() {
 
+}
+
+void Warrior::standingSpecial2()	{
+
+	logic_position.x += 15;
 }
