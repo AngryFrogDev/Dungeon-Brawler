@@ -256,8 +256,8 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	st_s2.pos_rel_char = { 0, 0 };
 	st_s2.hitbox = { 0,0,420,100 };
 	st_s2.active_time = 100;
-	st_s2.hitstun = 0;
-	st_s2.blockstun = 0;
+	st_s2.hitstun = -1;
+	st_s2.blockstun = 300;
 	st_s2.pushhit = 2;
 	st_s2.pushblock = 2;
 	st_s2.damage = 20;
@@ -305,6 +305,8 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	scale = 3;
 	hurtbox = App->collision->AddCollider({ logic_position.x - standing_hurtbox_size.x/2, logic_position.y - standing_hurtbox_size.y/2, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1,(Module*)App->entities,(Character*)this);
 
+	// WARRIOR EXCLUSIVE VARS
+	spin_speed = 15;
 }
 
 
@@ -313,6 +315,8 @@ Warrior::~Warrior() {
 }
 
 void Warrior::standingSpecial2()	{
-
-	logic_position.x += 15;
+	if(!fliped)
+		logic_position.x += spin_speed; // PROVISIONAL: Speed should be loaded from xml
+	else
+		logic_position.x -= spin_speed;
 }

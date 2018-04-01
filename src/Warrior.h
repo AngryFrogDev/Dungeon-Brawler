@@ -7,6 +7,7 @@ public:
 	Warrior(int x_pos, bool _fliped);
 	~Warrior();
 
+	int spin_speed;
 	void standingSpecial2();
 };
 
