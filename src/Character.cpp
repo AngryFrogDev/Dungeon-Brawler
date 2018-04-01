@@ -503,12 +503,13 @@ void Character::doAttack() {
 		break;
 	case ST_S2:
 		updateAnimation(standing_special2);
+		standingSpecial2();
 		if (current_animation->Finished()) {
 			current_state = IDLE;
 			instanciated_hitbox = false;
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
-			instanciateHitbox(ST_S2);
+			instanciateHitbox(ST_S2); 
 		break;
 	case JM_S1:
 	case JM_S2:

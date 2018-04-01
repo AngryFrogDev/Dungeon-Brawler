@@ -253,8 +253,8 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	jm_h.juggle_speed.y = 10;
 	jm_h.block_type = BLOCK_TYPE::OVERHEAD;
 
-	st_s2.pos_rel_char = { 0, 20 };
-	st_s2.hitbox = { 0,0,400,70 };
+	st_s2.pos_rel_char = { 0, 0 };
+	st_s2.hitbox = { 0,0,420,100 };
 	st_s2.active_time = 100;
 	st_s2.hitstun = 0;
 	st_s2.blockstun = 0;
@@ -314,5 +314,5 @@ Warrior::~Warrior() {
 
 void Warrior::standingSpecial2()	{
 
-
+	logic_position.x += 5;
 }
