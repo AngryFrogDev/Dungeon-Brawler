@@ -15,8 +15,6 @@ Character::~Character() {
 
 void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
-
-
 	//PROVISIONAL: Crazy provisional
 	if (current_life <= 0) {
 		current_state = CHAR_STATE::DEAD;
@@ -258,6 +256,12 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	case ATTACKING:
 		doAttack();
+		if (hit) 			{
+			if (attack_recieving.knockdown)
+				current_state = CHAR_STATE::JUGGLE;
+			else
+				current_state = CHAR_STATE::HIT; // CROUCHING HIT?
+		}
 		break;
 
 	case STAND_BLOCKING:
@@ -307,7 +311,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 				current_state = CHAR_STATE::JUGGLE;
 			else
 				hit = false;
-			current_life -= attack_recieving.damage;
+				current_life -= attack_recieving.damage;
 		}
 		else if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) 
 			current_state = CHAR_STATE::IDLE;
