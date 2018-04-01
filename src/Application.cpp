@@ -15,6 +15,7 @@
 #include "mdEntities.h"
 #include "mdAudio.h"
 #include "mdMap.h"
+#include "mdProjectiles.h"
 
 Application::Application(int argc, char* args[]) {
 	filesystem = new mdFilesystem;
@@ -26,6 +27,7 @@ Application::Application(int argc, char* args[]) {
 	entities = new mdEntities;
 	audio = new mdAudio;
 	map = new mdMap;
+	projectiles = new mdProjectiles;
 
 	addModule(filesystem);
 	addModule(window);
@@ -36,6 +38,7 @@ Application::Application(int argc, char* args[]) {
 	addModule(audio);
 	addModule(map);
 	addModule(entities);
+	addModule(projectiles);
 }
 
 Application::~Application() {

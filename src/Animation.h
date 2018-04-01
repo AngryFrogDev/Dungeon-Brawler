@@ -33,7 +33,6 @@ public:
 	bool pingpong = false;
 	float speed = 1.0f;
 	fighting_frame frames[MAX_FRAMES];
-	int name;
 
 private:
 	float current_frame = 0.0f;

@@ -132,6 +132,7 @@
     <ClCompile Include="mdFilesystem.cpp" />
     <ClCompile Include="mdInput.cpp" />
     <ClCompile Include="mdMap.cpp" />
+    <ClCompile Include="mdProjectiles.cpp" />
     <ClCompile Include="mdRender.cpp" />
     <ClCompile Include="mdTextures.cpp" />
     <ClCompile Include="mdWindow.cpp" />
@@ -146,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="mdProjectiles.h" />
     <ClInclude Include="p2Point.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="mdEntities.h" />
