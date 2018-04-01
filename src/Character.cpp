@@ -497,6 +497,8 @@ void Character::doAttack() {
 			hitbox->SetPos(calculateDrawPosition(jm_h.pos_rel_char.x, jm_h.hitbox.w, true), calculateDrawPosition(jm_h.pos_rel_char.y, jm_h.hitbox.h, false));
 		}
 		break;
+	case ST_S2:
+		updateAnimation(standing_special2);
 	case JM_S1:
 	case JM_S2:
 		current_state = JUMPING;
@@ -578,6 +580,10 @@ int Character::calculateDrawPosition(int offset, int size, bool x) 	{
 	}
 	else
 		return logic_position.y + offset - size/2;
+}
+
+void Character::standingSpecial2()
+{
 }
 
 iPoint Character::getPos() 	{

@@ -156,6 +156,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	dead.loop = true;
 	dead.speed = 0.1;
 
+	standing_special2.PushBack({});
 	// Basic attack definitions
 
 	st_l.pos_rel_char = {110,35}; 
