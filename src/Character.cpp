@@ -384,8 +384,11 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 void Character::onCollision(collider* c1, collider* c2) {
 
 	if (c1->type == HURTBOX && c2->type == HITBOX) {
-		attack_recieving = c2->character->getAttackData(c2->attack_type); // PROVISIONAL: Attack data should be stored in the collider
+		attack_recieving = c2->character->getAttackData(c2->attack_type); 
 		c2->to_delete = true;
+		if (c2->character->hitbox == c2) { // PROVISIONAL: CRAZY PROVISIONAL
+			c2->character->hitbox = nullptr;
+		}
 		hit = true;
 		moment_hit = SDL_GetTicks();
 	}
@@ -474,8 +477,10 @@ void Character::doAttack() {
 		if (grounded) {
 			current_state = IDLE; //Maybe should be "RECOVERY"
 			instanciated_hitbox = false;
-			if(hitbox != nullptr) // Just for safety
-			hitbox->to_delete = true;
+			if(hitbox != nullptr){ // Just for safety
+				hitbox->to_delete = true;
+				hitbox = nullptr;
+			}
 		}	
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 			instanciateHitbox(JM_L);
@@ -483,6 +488,7 @@ void Character::doAttack() {
 		// Set the hitbox to follow the player
 		if (hitbox != nullptr) 			{
 			hitbox->SetPos(calculateDrawPosition(jm_l.pos_rel_char.x, jm_l.hitbox.w, true), calculateDrawPosition(jm_l.pos_rel_char.y, jm_l.hitbox.h, false));
+			App->render->drawCircle(0, 0, 300, 255, 0, 0, 255);
 		}
 		break;
 	case JM_H:
@@ -490,8 +496,10 @@ void Character::doAttack() {
 		if (grounded) {
 			current_state = IDLE; //Maybe should be "RECOVERY"
 			instanciated_hitbox = false;
-			if (hitbox != nullptr) // Just for safety
+			if (hitbox != nullptr){  // Just for safety
 				hitbox->to_delete = true;
+				hitbox = nullptr;
+			}
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 			instanciateHitbox(JM_H);

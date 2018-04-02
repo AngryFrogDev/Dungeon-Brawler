@@ -69,7 +69,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	heavy_attack.PushBack({ 195 * 9,158 * 12,195, 158 });
 
 	heavy_attack.loop = false;
-	heavy_attack.speed = 0.3;
+	heavy_attack.speed = 0.2;
 
 	crouch.PushBack({ 195 * 2	,158 * 19,195,158 });
 
@@ -281,7 +281,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 
 	st_s2.pos_rel_char = { 0, 0 };
 	st_s2.hitbox = { 0,0,420,100 };
-	st_s2.active_time = 100;
+	st_s2.active_time = -1;
 	st_s2.hitstun = -1;
 	st_s2.blockstun = 300;
 	st_s2.pushhit = 2;
@@ -367,10 +367,14 @@ void Warrior::standingSpecial2()	{
 	if (current_animation->Finished()) {
 		current_state = IDLE;
 		instanciated_hitbox = false;
+		if (hitbox != nullptr) 			{
+			hitbox->to_delete = true;
+			hitbox = nullptr;
+		}
 	}
 	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
 		instanciateHitbox(ST_S2);
 
-	if (hitbox)
+	if (hitbox != nullptr)
 		hitbox->SetPos(calculateDrawPosition(st_s2.pos_rel_char.x, st_s2.hitbox.w, true), calculateDrawPosition(st_s2.pos_rel_char.y, st_s2.hitbox.h, false));
 }

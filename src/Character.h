@@ -171,7 +171,7 @@ protected:
 	bool instanciated_hitbox; 
 	//If the projectile has already been thrown, no other projectile should be
 	bool projectile;
-	//It should be a list, as a character can have multiple active hitboxes
+	//PROVISIONAL: It should be a list, as a character can have multiple active hitboxes
 	collider* hitbox; 
 
 	bool hit;
