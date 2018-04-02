@@ -108,6 +108,7 @@ public:
 	basic_attack_deff getAttackData(CHAR_ATT_TYPE attack_type);
 	iPoint getPos();
 	void setFlip(bool flip);
+	void setProjectile(bool projectile);
 
 protected:	
 	// Execute attack, rewritable for every type of character
@@ -168,6 +169,8 @@ protected:
 
 	//If the hitbox of the attack has been already instanciated, it should,'t be instanciated again
 	bool instanciated_hitbox; 
+	//If the projectile has already been thrown, no other projectile should be
+	bool projectile;
 	//It should be a list, as a character can have multiple active hitboxes
 	collider* hitbox; 
 

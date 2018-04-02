@@ -17,20 +17,20 @@ enum PROJECTILE_TYPE {
 };
 
 struct projectile {
-	projectile(Animation animation, iPoint position,iPoint speed, collider* collider, int life, int scale): 
-		animation(animation), position(position),speed(speed), collider(collider), life(life), scale(scale){
+	projectile(Animation animation, iPoint position,iPoint speed, collider* collider, int life,bool fliped, int scale): 
+		animation(animation), position(position),speed(speed), collider(collider), life(life),fliped(fliped), scale(scale){
 		born = SDL_GetTicks();
 	}
 	void update();
 	void draw(SDL_Texture* graphics);
-
-	PROJECTILE_TYPE type;
+	
 	iPoint position;
 	iPoint speed;
 	collider* collider;
 	Animation animation;
 	int born; // in milliseconds
 	int life; // in milliseconds
+	bool fliped;
 	bool to_delete = false;
 	int scale;
 };
@@ -46,7 +46,7 @@ public:
 	bool update(float dt);
 	bool cleanUp();
 
-	projectile* addProjectile(PROJECTILE_TYPE type, iPoint position, iPoint speed, collider* collider, int life, int scale);
+	projectile* addProjectile(PROJECTILE_TYPE type, iPoint position, iPoint speed, collider* collider, int life,bool fliped, int scale);
 
 	SDL_Texture* graphics;
 	Animation warrior_knife;

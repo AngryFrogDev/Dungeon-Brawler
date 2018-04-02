@@ -54,7 +54,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_H;
 		}
-		else if (inputs[SPECIAL_1]) {
+		else if (inputs[SPECIAL_1] && !projectile) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_S1;
 		}
@@ -104,7 +104,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_H;
 		}
-		else if (inputs[SPECIAL_1]) {
+		else if (inputs[SPECIAL_1] && !projectile) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_S1;
 		}
@@ -154,7 +154,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_H;
 		}
-		else if (inputs[SPECIAL_1]) {
+		else if (inputs[SPECIAL_1] && !projectile) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_S1;
 		}
@@ -503,7 +503,7 @@ void Character::doAttack() {
 		break;
 	case ST_S1:
 		updateAnimation(standing_special1);
-		standingSpecial1(); // PROVISIONAL: This should not be allowed if a knife is currently being thrown
+		standingSpecial1(); 
 		break;
 	case ST_S2:
 		updateAnimation(standing_special2);
@@ -610,6 +610,9 @@ iPoint Character::getPos() 	{
 }
 void Character::setFlip(bool flip) {
 	fliped = flip;
+}
+void Character::setProjectile(bool _projectile) {
+	projectile = _projectile;
 }
 void Character::updateInvecibility() {
 	if(invencible_timer.isActive())

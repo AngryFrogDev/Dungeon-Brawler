@@ -166,7 +166,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	standing_special1.PushBack({ 195 * 6, 158 * 5, 195, 158 }, ACTIVE);
 
 	standing_special1.loop = false;
-	standing_special1.speed = 0.2;
+	standing_special1.speed = 0.1;
 
 	standing_special2.PushBack({ 0, 948, 195, 158 });
 	standing_special2.PushBack({ 195, 948, 195, 158 });
@@ -334,7 +334,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	// WARRIOR EXCLUSIVE VARS
 	spin_speed = 15;
 	projectile_duration = 2000;
-	projectile_speed = 20;
+	projectile_speed = 15;
 	projectile_scale = 3;
 
 }
@@ -345,24 +345,18 @@ Warrior::~Warrior() {
 }
 
 void Warrior::standingSpecial1() 	{
-
-	if (current_animation->Finished()) {
-		current_state = IDLE;
-		instanciated_hitbox = false;
-	}
-	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-		collider* projectile_collider = App->collision->AddCollider({ logic_position.x, logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::HITBOX, projectile_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
-		iPoint speed;
-		if (!fliped)
-			speed.x = projectile_speed;
-		else
-			speed.x = -projectile_speed;
-
+		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+			collider* projectile_collider = App->collision->AddCollider({ logic_position.x, logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::HITBOX, projectile_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
+			iPoint speed;
+			if (!fliped)
+				speed.x = projectile_speed;
+			else
+				speed.x = -projectile_speed;
 			speed.y = 0;
-
-			App->projectiles->addProjectile(WARRIOR_KNIFE, { logic_position.x, logic_position.y }, speed, projectile_collider, projectile_duration, scale);
-			instanciated_hitbox = true;
-	}
+			App->projectiles->addProjectile(WARRIOR_KNIFE, { logic_position.x, logic_position.y }, speed, projectile_collider, -1, fliped , scale);
+			current_state = IDLE;
+			projectile = true;
+		}
 }
 void Warrior::standingSpecial2()	{
 	if(!fliped)

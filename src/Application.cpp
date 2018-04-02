@@ -31,14 +31,15 @@ Application::Application(int argc, char* args[]) {
 
 	addModule(filesystem);
 	addModule(window);
+	addModule(render);
 	addModule(input);
 	addModule(textures);
-	addModule(render);
+	addModule(projectiles); // Allways check projectiles before collisions
 	addModule(collision);
 	addModule(audio);
 	addModule(map);
 	addModule(entities);
-	addModule(projectiles);
+
 }
 
 Application::~Application() {

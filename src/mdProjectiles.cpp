@@ -32,7 +32,7 @@ bool mdProjectiles::preUpdate() {
 	//Iterate list looking for the projectiles
 	for (std::list<projectile*>::iterator it = projectiles.begin(); it != projectiles.end(); ++it) {
 		projectile* p = *it;
-		if (p->to_delete) {
+		if (p->collider->to_delete) { // Projectiles are deleted with their colliders
 			projectiles_to_delete.push_back(p);
 		}
 	}
@@ -40,6 +40,7 @@ bool mdProjectiles::preUpdate() {
 	// Remove the projectiles
 	for (std::list<projectile*>::iterator it = projectiles_to_delete.begin(); it != projectiles_to_delete.end(); ++it) {
 		projectile* p = *it;
+		p->collider->character->setProjectile(false);
 		projectiles.remove(p);
 		delete p;
 	}
@@ -83,12 +84,12 @@ bool mdProjectiles::cleanUp() {
 	return true;
 }
 
-projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, iPoint speed,collider* collider, int life, int scale) {
+projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, iPoint speed,collider* collider,int life, bool fliped, int scale) {
 
 	projectile* new_projectile;
 	switch (type) {
 		case WARRIOR_KNIFE:
-			new_projectile = new projectile(warrior_knife,position, speed, collider, life, scale); //PROVISIONAL: Scale 
+			new_projectile = new projectile(warrior_knife,position, speed, collider,life, fliped, scale); 
 	}	
 
 	projectiles.push_back(new_projectile);
@@ -102,5 +103,5 @@ void projectile::update() {
 	}
 }
 void projectile::draw(SDL_Texture* graphics) {
-	App->render->blit(5, graphics, position.x, position.y, &animation.GetCurrentFrame(),scale); 
+	App->render->blit(3, graphics, position.x, position.y, &animation.GetCurrentFrame(),scale, fliped); 
 }
