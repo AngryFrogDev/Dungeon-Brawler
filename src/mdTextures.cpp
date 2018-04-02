@@ -70,7 +70,7 @@ SDL_Texture* const mdTextures::load(const char* path) {
 	return texture_loaded;
 }
 
-SDL_Texture* const mdTextures::loadSurface(SDL_Surface* surface)//Changed from original code, erase before merging
+SDL_Texture* const mdTextures::loadSurface(SDL_Surface* surface)
 {
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(App->render->renderer, surface);
 

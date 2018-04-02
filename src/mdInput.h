@@ -85,7 +85,6 @@ public:
 	bool preUpdate();
 	bool cleanUp();
 
-	//To be removed before merging
 	KEY_STATE getKey(int id) const
 	{
 		return keyboard[id];

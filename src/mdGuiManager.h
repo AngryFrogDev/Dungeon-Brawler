@@ -50,17 +50,10 @@ public:
 	SDL_Texture* atlas;
 	std::string atlas_file_name;
 	Widgets* focus = nullptr;
-	//Temp
-	Labels* templ = nullptr;
-	Buttons* tempb = nullptr;
-	Buttons* tempb1 = nullptr;
-	Buttons* tempb2 = nullptr;
-	Bars* temp_bar = nullptr;
-	Bars* temp_bar1 = nullptr;
 
 private:
 	bool debug = false;
-	bool temp = false;
+
 
 };
 

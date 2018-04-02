@@ -48,47 +48,11 @@ bool mdGuiManager::update(float dt) {
 
 	Widgets* object = nullptr;
 
-	
-	//Temporary testing-> TO BE REMOVED BEFORE MERGING
-	if (App->input->getKey(SDL_SCANCODE_1) == KEY_DOWN)
-	{
-		tempb = (Buttons*)createButton(NEW_GAME, { 0,0 }, this);
-		tempb1 = (Buttons*)createButton(SETTINGS, { 0,150 }, this);
-		tempb2 = (Buttons*)createButton(NEW_GAME, { 0,300 }, this);
-		temp_bar = (Bars*)createBar(HEALTH_BAR, { 0, 450 }, this);
-		temp_bar1 = (Bars*)createBar(SWAP_BAR, { 0, 600 }, this);
-
-		templ = (Labels*)createLabel("Momonga", { 255,255,255,255 }, App->fonts->medium_size, { 300,300 }, this);
-		temp = true;
-	}
-	//Temp
-	if (App->input->getKey(SDL_SCANCODE_2) == KEY_DOWN)
-	{
-		templ->changeContent("sama");
-		temp_bar->updateBarGauge(10);
-		temp_bar1->updateBarGauge(5);
-	}
-
-	if (App->input->getKey(SDL_SCANCODE_3) == KEY_DOWN)
-	{
-		templ->to_delete = true;
-		tempb->to_delete = true;
-		tempb1->to_delete = true;
-		tempb2->to_delete = true;
-		temp_bar->to_delete = true;
-		temp_bar1->to_delete = true;
-		temp = true;
-	}
-	
-
 	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
 	for (ui_iterator; ui_iterator != ui_elements.end() && ret; ui_iterator++) {
 		object = *ui_iterator;
 		ret = object->update(dt);
 	}
-	
-	//Temporary testing-> TO BE REMOVED BEFORE MERGING
-	draw();
 	
 	debugUi();
 	return true;
@@ -116,10 +80,7 @@ bool mdGuiManager::postUpdate() {
 	//Emptying temporary list
 	temp_list.clear();
 	
-	//Temporary
-	if (temp && ui_elements.size() != 0)
-		focus = *ui_elements.begin(), temp = false;
-	
+		
 	return ret;
 }
 
