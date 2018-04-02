@@ -488,7 +488,6 @@ void Character::doAttack() {
 		// Set the hitbox to follow the player
 		if (hitbox != nullptr) 			{
 			hitbox->SetPos(calculateDrawPosition(jm_l.pos_rel_char.x, jm_l.hitbox.w, true), calculateDrawPosition(jm_l.pos_rel_char.y, jm_l.hitbox.h, false));
-			App->render->drawCircle(0, 0, 300, 255, 0, 0, 255);
 		}
 		break;
 	case JM_H:
