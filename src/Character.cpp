@@ -426,7 +426,7 @@ void Character::setIfGrounded() {
 	if (logic_position.y >= ground_position)
 	{ 
 		grounded = true;
-		logic_position.y = bottom_lane;
+		logic_position.y = ground_position;
 		velocity.y = 0;
 		velocity.x = 0;
 	}
