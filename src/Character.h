@@ -168,6 +168,7 @@ public:
 	int lane; // 1 = bottom  2 = top This is so fucking important
 	bool readyToSwap = false;
 	bool swapRequested = false;
+	bool swapDone = false;
 };
 
 #endif //__CHARACTER__

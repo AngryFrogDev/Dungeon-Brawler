@@ -309,6 +309,7 @@ void Character::draw(SDL_Texture* graphic)  const{
 
 bool Character::manageSwap()
 {
+	swapDone = false;
 	velocity.y = -40;
 	applyGravity();
 
@@ -326,6 +327,12 @@ bool Character::manageSwap()
 				lane = 2;
 			else
 				lane = 1;
+
+			swapDone = true;
+
+			if (partner->getCurrCharacter()->swapDone)
+				readyToSwap = false;
+			partner->getCurrCharacter()->readyToSwap = false;
 		}
 	}
 		

@@ -79,6 +79,10 @@ bool mdEntities::preUpdate() {
 
 bool mdEntities::postUpdate()
 {
+	for (int i = 0; i < 4; i++) {
+		if (players[i]->getCurrCharacter()->readyToSwap == true) //no flip if characters are swapping
+			return true;
+	}
 	automaticFlip();
 	return true;
 }
@@ -150,8 +154,10 @@ bool mdEntities::automaticFlip() {
 			lane1_flip[1] = false;
 		}
 
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 2; i++) {
 			players_on_curr_lane[i]->setFlip(lane1_flip[i]);
+			players_on_curr_lane[i] = nullptr;
+		}
 	}
 
 	return ret;
