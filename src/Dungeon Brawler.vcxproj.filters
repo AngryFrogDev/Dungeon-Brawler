@@ -84,6 +84,9 @@
     <ClCompile Include="mdMap.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="mdProjectiles.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -158,5 +161,8 @@
     <ClInclude Include="p2Point.h" />
     <ClInclude Include="p2Point.h" />
     <ClInclude Include="p2Point.h" />
+    <ClInclude Include="mdProjectiles.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
