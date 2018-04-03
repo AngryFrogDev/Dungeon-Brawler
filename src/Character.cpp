@@ -202,11 +202,11 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		// Input dependent actions
 		if (!inputs[DOWN]) {
 			current_state = CHAR_STATE::IDLE;
+			hurtbox->rect.h = standing_hurtbox_size.y;
+			crouching_hurtbox = false;
 		}
 		else if (inputs[SWITCH]) {
 			swapRequested = true;						//Important!
-			hurtbox->rect.h = standing_hurtbox_size.y;
-			crouching_hurtbox = false;
 		}
 		else if (inputs[UP]) {
 			velocity.y -= jump_power.y;
