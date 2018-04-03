@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{4A02FCC9-A402-402A-A846-EE691FD9099C}</ProjectGuid>
     <RootNamespace>DungeonBrawler</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -124,12 +124,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Bars.cpp" />
+    <ClCompile Include="Buttons.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="DebLog.cpp" />
+    <ClCompile Include="Labels.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="mdEntities.cpp" />
     <ClCompile Include="mdAudio.cpp" />
     <ClCompile Include="mdFilesystem.cpp" />
+    <ClCompile Include="mdFonts.cpp" />
+    <ClCompile Include="mdGuiManager.cpp" />
     <ClCompile Include="mdInput.cpp" />
     <ClCompile Include="mdMap.cpp" />
     <ClCompile Include="mdProjectiles.cpp" />
@@ -142,24 +147,28 @@
     <ClCompile Include="ProjDefs.cpp" />
     <ClCompile Include="pugixml\pugixml.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Widgets.cpp" />
     <ClCompile Include="Warrior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Bars.h" />
+    <ClInclude Include="Buttons.h" />
+    <ClInclude Include="Labels.h" />
     <ClInclude Include="mdProjectiles.h" />
-    <ClInclude Include="p2Point.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="mdEntities.h" />
     <ClInclude Include="mdAudio.h" />
     <ClInclude Include="mdFilesystem.h" />
+    <ClInclude Include="mdFonts.h" />
+    <ClInclude Include="mdGuiManager.h" />
     <ClInclude Include="mdInput.h" />
     <ClInclude Include="mdMap.h" />
     <ClInclude Include="mdRender.h" />
     <ClInclude Include="mdTextures.h" />
     <ClInclude Include="mdWindow.h" />
     <ClInclude Include="mdCollision.h" />
-    <ClInclude Include="p2Point.h" />
     <ClInclude Include="PerfTimer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ProjDefs.h" />
@@ -168,6 +177,7 @@
     <ClInclude Include="pugixml\pugiconfig.hpp" />
     <ClInclude Include="pugixml\pugixml.hpp" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Widgets.h" />
     <ClInclude Include="Warrior.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

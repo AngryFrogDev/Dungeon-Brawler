@@ -15,6 +15,19 @@
 	</window>
 	<filesystem>
 	</filesystem>
+        <fonts>
+		<default path = "fonts/VCR_OSD_MONO_1.001.ttf"/>
+		<large_font size = "40"/>
+    		<medium_font size = "30"/>
+    		<small_font size = "15"/>
+	</fonts>
+	<gui>
+		<atlas file="gui/ui_placeholder.png"/>
+		<idle x="0" y="0" width="228" height="63"/>
+		<focused x="0" y="150" width="228" height="63"/>
+		<bar x="0" y="75" width="228" height="63"/>	
+		<gauge x="0" y="298" width="228" height="63"/>	
+	</gui>
 	<input>
 		<buffer window="2000"/>
 		<axis tolerance="0.2"/>

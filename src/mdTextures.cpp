@@ -71,15 +71,20 @@ SDL_Texture* const mdTextures::load(const char* path) {
 	return texture_loaded;
 }
 
-SDL_Surface * const mdTextures::loadSurface(const char * path) {
-	SDL_Surface* surface = nullptr;
+SDL_Texture* const mdTextures::loadSurface(SDL_Surface* surface)
+{
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(App->render->renderer, surface);
 
-	surface = IMG_Load(path);
+	if (texture == NULL)
+	{
+		LOG("Unable to create texture from surface! SDL Error: %s\n", SDL_GetError());
+	}
+	else
+	{
+		textures_list.push_back(texture);
+	}
 
-	if (surface == NULL)
-		LOG("mdTextures : Failed to load image \"%s\" IMG_Load: %s\n", path, IMG_GetError());
-
-	return surface;
+	return texture;
 }
 
 SDL_Texture * const mdTextures::surfaceToTexture(SDL_Surface * surface) const {

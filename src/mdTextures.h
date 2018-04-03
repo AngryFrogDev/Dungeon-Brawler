@@ -16,7 +16,7 @@ public:
 	bool cleanUp();
 
 	SDL_Texture* const load(const char* path);
-	SDL_Surface* const loadSurface(const char* path);
+	SDL_Texture* const loadSurface(SDL_Surface* surface);
 	SDL_Texture* const surfaceToTexture(SDL_Surface* surface) const;
 	bool unload(SDL_Texture* texture);
 	bool unloadSurface(SDL_Surface* surface);

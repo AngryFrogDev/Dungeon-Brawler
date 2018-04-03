@@ -14,6 +14,8 @@
 #include "mdCollision.h"
 #include "mdEntities.h"
 #include "mdAudio.h"
+#include "mdFonts.h"
+#include "mdGuiManager.h"
 #include "mdMap.h"
 #include "mdProjectiles.h"
 
@@ -26,8 +28,11 @@ Application::Application(int argc, char* args[]) {
 	collision = new mdCollision;
 	entities = new mdEntities;
 	audio = new mdAudio;
+	fonts = new mdFonts;
+	gui = new mdGuiManager;
 	map = new mdMap;
 	projectiles = new mdProjectiles;
+
 
 	addModule(filesystem);
 	addModule(window);
@@ -37,6 +42,8 @@ Application::Application(int argc, char* args[]) {
 	addModule(projectiles); // Allways check projectiles before collisions
 	addModule(collision);
 	addModule(audio);
+	addModule(fonts);
+	addModule(gui);
 	addModule(map);
 	addModule(entities);
 

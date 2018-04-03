@@ -89,6 +89,7 @@ public:
 	bool preUpdate();
 	bool cleanUp();
 
+
 	// Returns the state of the pressed key
 	KEY_STATE getKey(SDL_Scancode key) const;
 	KEY_STATE getControllerButton(int id, SDL_GameControllerButton button);

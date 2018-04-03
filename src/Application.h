@@ -19,8 +19,11 @@ class mdCollision;
 
 class mdEntities;
 class mdAudio;
+class mdFonts;
+class mdGuiManager;
 class mdMap;
 class mdProjectiles;
+
 
 
 class Application
@@ -74,8 +77,11 @@ public:
 	mdCollision*    collision;
 	mdEntities*     entities;
 	mdAudio*		audio;
+	mdFonts*		fonts;
+	mdGuiManager*	gui;
 	mdMap*			map;
 	mdProjectiles*  projectiles;
+
 };
 
 extern Application* App;

@@ -13,6 +13,10 @@
     <Filter Include="Utilities\PugiXML">
       <UniqueIdentifier>{f4b42e4d-470f-4ed4-991e-5e89c1870b31}</UniqueIdentifier>
     </Filter>
+<<<<<<< HEAD
+    <Filter Include="GUI">
+      <UniqueIdentifier>{336ef45f-5c99-4f92-9e84-a5722bf3e5bb}</UniqueIdentifier>
+=======
     <Filter Include="Entities">
       <UniqueIdentifier>{3db40ce5-4970-4393-9b25-fd42c9a18ba3}</UniqueIdentifier>
     </Filter>
@@ -24,6 +28,7 @@
     </Filter>
     <Filter Include="Entities\Player">
       <UniqueIdentifier>{b14fe0f2-f8df-4d41-b258-91a5b71ec428}</UniqueIdentifier>
+>>>>>>> develop
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -81,12 +86,33 @@
     <ClCompile Include="mdAudio.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="mdGuiManager.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="mdFonts.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Widgets.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Labels.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Buttons.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Bars.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+=======
     <ClCompile Include="mdMap.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="mdProjectiles.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+>>>>>>> develop
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -149,6 +175,26 @@
     <ClInclude Include="mdAudio.h">
       <Filter>Modules</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="mdGuiManager.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdFonts.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Widgets.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Labels.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Buttons.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Bars.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+=======
     <ClInclude Include="mdMap.h">
       <Filter>Modules</Filter>
     </ClInclude>
@@ -165,5 +211,6 @@
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="p2Point.h" />
+>>>>>>> develop
   </ItemGroup>
 </Project>
