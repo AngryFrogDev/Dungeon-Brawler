@@ -102,22 +102,6 @@ bool mdGuiManager::cleanUp() {
 	return ret;
 }
 
-bool mdGuiManager::OnEvent(Buttons* button) {
-
-	bool ret = true;
-
-	switch (button->button_type)
-	{
-	default:
-		break;
-	case NEW_GAME:
-		App->render->blit(atlas, 400, 0); break;
-	case SETTINGS:
-		App->render->blit(atlas, 0, 400); break;
-	}
-
-	return ret;
-}
 
 Widgets* mdGuiManager::createButton(button_types type, std::pair<int, int> pos, Module * callback) {
 
@@ -174,46 +158,50 @@ bool mdGuiManager::destroyWidget(Widgets* widget) {
 void mdGuiManager::manageFocus() {
 
 	Widgets* object = nullptr;
-	//Temporary done in keyboard
-	if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN || App->input->getKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+	if (focus)//Check if focus has been assigned -> Current scene is not ingame scene
 	{
-		if (focus != *focus_elements.begin())//Case player wants to go up when not at the first button
+		//Temporary done in keyboard
+		if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN || App->input->getKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 		{
-			std::list<Widgets*>::iterator temp_elem = focus_elements.begin();
-			for (temp_elem; temp_elem != focus_elements.end(); temp_elem++)
+			if (focus != *focus_elements.begin())//Case player wants to go up when not at the first button
 			{
-				object = *temp_elem;
-				if (object == focus)//Iterate until find the currently focused element
+				std::list<Widgets*>::iterator temp_elem = focus_elements.begin();
+				for (temp_elem; temp_elem != focus_elements.end(); temp_elem++)
 				{
-					temp_elem--;//Move the iterator to the previous ui element
-					focus = *temp_elem;//Assign its value to the focused element
-					break;
+					object = *temp_elem;
+					if (object == focus)//Iterate until find the currently focused element
+					{
+						temp_elem--;//Move the iterator to the previous ui element
+						focus = *temp_elem;//Assign its value to the focused element
+						break;
+					}
 				}
 			}
+			else
+				focus = *focus_elements.rbegin();
 		}
-		else 
-			focus = *focus_elements.rbegin();
-	}
 
-	if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN || App->input->getKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
-	{
-		if (focus != *focus_elements.rbegin())//Case player wants to go down when not at the last button
+		if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN || App->input->getKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 		{
-			std::list<Widgets*>::iterator temp_elem = focus_elements.begin();
-			for (temp_elem; temp_elem != focus_elements.end(); temp_elem++)
+			if (focus != *focus_elements.rbegin())//Case player wants to go down when not at the last button
 			{
-				object = *temp_elem;
-				if (object == focus)
+				std::list<Widgets*>::iterator temp_elem = focus_elements.begin();
+				for (temp_elem; temp_elem != focus_elements.end(); temp_elem++)
 				{
-					temp_elem++;
-					focus = *temp_elem;
-					break;
+					object = *temp_elem;
+					if (object == focus)
+					{
+						temp_elem++;
+						focus = *temp_elem;
+						break;
+					}
 				}
 			}
+			else
+				focus = *focus_elements.begin();
 		}
-		else
-			focus = *focus_elements.begin();
 	}
+	
 }
 
 SDL_Texture * mdGuiManager::getAtlas() const {

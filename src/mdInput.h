@@ -3,7 +3,6 @@
 
 #include "Module.h"
 #include "ProjDefs.h"
-#include <deque>
 #include <list>
 
 #include "SDL/include/SDL.h"
@@ -18,7 +17,7 @@ enum KEY_STATE {
 };
 
 enum CONTROLLER_BUTTON {
-	BUTTON_INVALID = 0,
+	BUTTON_INVALID = -1,
 	BUTTON_A,
 	BUTTON_B,
 	BUTTON_X,
@@ -52,7 +51,8 @@ public:
 	Controller(SDL_GameController* controller, SDL_Haptic* controller_haptic);
 	virtual ~Controller();
 
-	const std::deque<CONTROLLER_BUTTON>& getInputs() const;
+	bool isPressed(CONTROLLER_BUTTON button) const;
+	const std::list<CONTROLLER_BUTTON> getInputs() const;
 	//Will add an input to the buffer, if no timestamp provided the current time will be used
 	void addInput(CONTROLLER_BUTTON input, uint timestamp = NULL);
 	//Pops oldest input
@@ -64,16 +64,20 @@ public:
 	uint getControllerID() const;
 	
 public:
-	KEY_STATE buttons[SDL_CONTROLLER_BUTTON_MAX];
+	KEY_STATE buttons[CONTROLLER_BUTTON::BUTTON_MAX];
 	float axes[SDL_CONTROLLER_AXIS_MAX];
 
 private:
 	uint id;
 	SDL_GameController* controller;
 	SDL_Haptic* controller_haptic;
+	struct input_record {
+		CONTROLLER_BUTTON input;
+		uint timestamp;
+	};
 
-	std::deque<CONTROLLER_BUTTON> input_buffer;
-	std::deque<uint> input_times;
+	std::list<input_record> input_buffer;
+	//std::list<int> input_times;
 };
 
 class mdInput : public Module {
@@ -85,10 +89,14 @@ public:
 	bool preUpdate();
 	bool cleanUp();
 
-	KEY_STATE getKey(int id) const
-	{
-		return keyboard[id];
-	}
+
+	// Returns the state of the pressed key
+	KEY_STATE getKey(SDL_Scancode key) const;
+	KEY_STATE getControllerButton(int id, SDL_GameControllerButton button);
+
+	//Returns controllers that pressed button, if invalid button will return first controller.
+	std::list<Controller*> getController(SDL_GameControllerButton button = SDL_CONTROLLER_BUTTON_INVALID);
+
 
 private:
 	void handleAxes(const SDL_Event& event);

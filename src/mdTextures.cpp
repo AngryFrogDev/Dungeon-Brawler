@@ -38,6 +38,7 @@ bool mdTextures::cleanUp() {
 
 	for (std::list<SDL_Texture*>::iterator it = textures_list.begin(); it != textures_list.end(); it++) {
 		SDL_DestroyTexture(*it);
+		*it = nullptr;
 	}
 
 	textures_list.clear();

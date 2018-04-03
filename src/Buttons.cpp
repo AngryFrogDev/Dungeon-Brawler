@@ -33,13 +33,13 @@ bool Buttons::preUpdate()
 	if (App->gui->focus == this)
 		hovering = true;
 	else
-		changeVisualState(IDLE);
+		changeVisualState(STILL);
 					
 	if (hovering)
 	{
 		changeVisualState(FOCUSED);
 		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-			changeVisualState(CLICK), ret = App->gui->OnEvent(this); //Testing
+			changeVisualState(CLICK);//Should call the onEvent function for each scene
 		hovering = false;
 	}
 	
@@ -48,7 +48,7 @@ bool Buttons::preUpdate()
 }
 
 void Buttons::draw() {
-	App->render->blit(App->gui->getAtlas(), position.first, position.second, current_rect);
+	App->render->blit(3, App->gui->getAtlas(), position.first, position.second, current_rect);
 }
 
 void Buttons::getSection(SDL_Rect idle_sec, SDL_Rect high_sec, SDL_Rect clicked_sec, SDL_Rect disabled_sec) {
@@ -85,7 +85,7 @@ void Buttons::changeVisualState(controller_events event) {
 		current_rect = &click_rect; break;
 	case FOCUSED:
 		current_rect = &highl_rect; break;
-	case IDLE:
+	case STILL:
 		current_rect = &idle_rect; break;
 	}
 }

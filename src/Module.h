@@ -4,6 +4,8 @@
 #include <string>
 #include "pugixml\pugixml.hpp"
 
+struct collider;
+
 class Module
 {
 public:
@@ -50,6 +52,10 @@ public:
 
 	virtual bool save() const {
 		return true;
+	}
+
+	virtual void onCollision(collider*, collider*) {
+
 	}
 
 	bool isActive() const {

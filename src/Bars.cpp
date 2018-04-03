@@ -24,8 +24,8 @@ bool Bars::preUpdate() {
 }
 
 void Bars::draw(){
-	App->render->blit(App->gui->getAtlas(), position.first, position.second, &current_bar_rect);
-	App->render->blit(App->gui->getAtlas(), position.first, gauge_y_position, &current_gauge_rect);
+	App->render->blit(3, App->gui->getAtlas(), position.first, position.second, &current_bar_rect);
+	App->render->blit(3, App->gui->getAtlas(), position.first, gauge_y_position, &current_gauge_rect);
 
 }
 

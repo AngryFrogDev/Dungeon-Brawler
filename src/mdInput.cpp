@@ -19,30 +19,40 @@ Controller::~Controller() {
 		SDL_HapticRumbleStop(controller_haptic);
 	SDL_HapticClose(controller_haptic);
 	SDL_GameControllerClose(controller);
+	input_buffer.clear();
 }
 
-const std::deque<CONTROLLER_BUTTON>& Controller::getInputs() const {
-	return input_buffer;
+bool Controller::isPressed(CONTROLLER_BUTTON button) const {
+	return buttons[button] == KEY_DOWN || buttons[button] == KEY_REPEAT;
+}
+
+const std::list<CONTROLLER_BUTTON> Controller::getInputs() const {
+	std::list<CONTROLLER_BUTTON> ret;
+
+	for (std::list<input_record>::const_iterator it = input_buffer.begin(); it != input_buffer.end(); ++it)
+		ret.push_back((*it).input);
+
+	return ret;
 }
 
 void Controller::addInput(CONTROLLER_BUTTON input, uint timestamp) {
-	input_buffer.push_back(input);
+	buttons[input] = KEY_DOWN;
+	input_record new_input;
+	new_input.input = input;
 	if (timestamp == NULL)
 		timestamp = SDL_GetTicks();
-	input_times.push_back(timestamp);
+	new_input.timestamp = timestamp;
+	input_buffer.push_back(new_input);
 }
 
 void Controller::popInput() {
-	if (!input_times.empty()) {
+	if (!input_buffer.empty()) 
 		input_buffer.pop_front();
-		input_times.pop_front();
-	}
 }
 
 void Controller::pruneInput(uint milliseconds) {
-	while (!input_times.empty() && input_times[0] + milliseconds <= SDL_GetTicks()) {
-		input_buffer.pop_front();
-		input_times.pop_front();
+	while (!input_buffer.empty() && input_buffer.front().timestamp + milliseconds <= SDL_GetTicks()) {
+		popInput();
 	}
 }
 
@@ -96,71 +106,78 @@ bool mdInput::awake(const pugi::xml_node & md_config) {
 bool mdInput::preUpdate() {
 	bool ret = true;
 
+	SDL_Event event;
+
+	const Uint8* keys = SDL_GetKeyboardState(NULL);
+
 	for (int i = 0; i < MAX_KEYS; ++i) {
-		if (keyboard[i] == KEY_UP)
-			keyboard[i] = KEY_IDLE;
-		else if (keyboard[i] == KEY_DOWN)
-			keyboard[i] = KEY_REPEAT;
+		if (keys[i] == 1) {
+			if (keyboard[i] == KEY_IDLE)
+				keyboard[i] = KEY_DOWN;
+			else
+				keyboard[i] = KEY_REPEAT;
+		}
+		else {
+			if (keyboard[i] == KEY_REPEAT || keyboard[i] == KEY_DOWN)
+				keyboard[i] = KEY_UP;
+			else
+				keyboard[i] = KEY_IDLE;
+		}
 	}
+
+	while (SDL_PollEvent(&event)) {
+		switch (event.type) {
+		case SDL_QUIT:
+			ret = false; //TODO : This should call a quit function
+			break;
+		case SDL_CONTROLLERDEVICEADDED:
+			if (SDL_IsGameController(event.cdevice.which)) {
+				int index = event.cdevice.which;
+				Controller* ctrl = new Controller(SDL_GameControllerOpen(index), SDL_HapticOpen(index));
+				if (ctrl != nullptr)
+					controllers.push_back(ctrl);
+			}
+			break;
+		case SDL_CONTROLLERDEVICEREMOVED:
+			for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
+				if ((*it)->getControllerID() == event.cdevice.which) {
+					RELEASE(*it);
+					it = controllers.erase(it);
+					break;
+				}
+			}
+			break;
+		case SDL_CONTROLLERBUTTONDOWN:
+			for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
+				if ((*it)->getControllerID() == event.cbutton.which) {
+					(*it)->addInput((CONTROLLER_BUTTON)event.cbutton.button, event.cbutton.timestamp);
+					break;
+				}
+			}
+			break;
+
+		case SDL_CONTROLLERBUTTONUP:
+			for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
+				if ((*it)->getControllerID() == event.cbutton.which) {
+					(*it)->buttons[event.cbutton.button] = KEY_UP;
+					break;
+				}
+			}
+			break;
+
+		case SDL_CONTROLLERAXISMOTION:
+			handleAxes(event);
+			break;
+		}
+	}
+
 	for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
 		(*it)->pruneInput(controller_buffer_timeout);
-		for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; ++i) {
+		for (int i = 0; i < BUTTON_MAX; ++i) {
 			if ((*it)->buttons[i] == KEY_UP)
 				(*it)->buttons[i] = KEY_IDLE;
 			else if ((*it)->buttons[i] == KEY_DOWN)
 				(*it)->buttons[i] = KEY_REPEAT;
-		}
-	}
-
-	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
-			case SDL_QUIT:
-				ret = false; //TODO : This should call a quit function
-				break;
-			case SDL_KEYDOWN:
-				keyboard[event.key.keysym.scancode] = KEY_DOWN;
-				break;
-			case SDL_KEYUP:
-				keyboard[event.key.keysym.scancode] = KEY_UP;
-				break;
-			case SDL_CONTROLLERDEVICEADDED:
-				if (SDL_IsGameController(event.cdevice.which)) {
-					int index = event.cdevice.which;
-					Controller* ctrl = new Controller(SDL_GameControllerOpen(index), SDL_HapticOpen(index));
-					if (ctrl != nullptr)
-						controllers.push_back(ctrl);
-				}
-				break;
-			case SDL_CONTROLLERDEVICEREMOVED: 
-				for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
-					if ((*it)->getControllerID() == event.cdevice.which) {
-						RELEASE(*it);
-						it = controllers.erase(it);
-						break;
-					}
-				}
-				break;
-			case SDL_CONTROLLERBUTTONDOWN: 
-				for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
-					if ((*it)->getControllerID() == event.cbutton.which) {
-						(*it)->addInput((CONTROLLER_BUTTON)event.cbutton.button, event.cbutton.timestamp);
-						(*it)->buttons[event.cbutton.button] = KEY_DOWN;
-						break;
-					}
-				break;
-			}
-			case SDL_CONTROLLERBUTTONUP:
-				for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
-					if ((*it)->getControllerID() == event.cbutton.which) {
-						(*it)->buttons[event.cbutton.button] = KEY_UP;
-						break;
-					}
-				break;
-			}
-			case SDL_CONTROLLERAXISMOTION:
-				handleAxes(event);
-				break;
 		}
 	}
 
@@ -193,50 +210,70 @@ void mdInput::handleAxes(const SDL_Event & event) {
 			switch (event.caxis.axis) {
 			case SDL_CONTROLLER_AXIS_LEFTX:
 				if (axis_value < prior_value) {
-					if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
+					if (prior_value >= axis_tolerance && axis_value < axis_tolerance)
+						(*it)->buttons[AXIS_LEFTX_POSITIVE] = KEY_UP;
+					else if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
 						(*it)->addInput(AXIS_LEFTX_NEGATIVE, event.caxis.timestamp);
 				}
 				else {
-					if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
+					if (prior_value <= -axis_tolerance && axis_value > axis_tolerance)
+						(*it)->buttons[AXIS_LEFTX_NEGATIVE] = KEY_UP;
+					else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
 						(*it)->addInput(AXIS_LEFTX_POSITIVE, event.caxis.timestamp);
 				}
 				break;
 			case SDL_CONTROLLER_AXIS_LEFTY:
 				if (axis_value < prior_value) {
-					if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
+					if (prior_value >= axis_tolerance && axis_value < axis_tolerance)
+						(*it)->buttons[AXIS_LEFTY_POSITIVE] = KEY_UP;
+					else if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
 						(*it)->addInput(AXIS_LEFTY_NEGATIVE, event.caxis.timestamp);
 				}
 				else {
-					if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
+					if (prior_value <= -axis_tolerance && axis_value > axis_tolerance)
+						(*it)->buttons[AXIS_LEFTY_NEGATIVE] = KEY_UP;
+					else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
 						(*it)->addInput(AXIS_LEFTY_POSITIVE, event.caxis.timestamp);
 				}
 				break;
 			case SDL_CONTROLLER_AXIS_RIGHTX:
 				if (axis_value < prior_value) {
-					if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
+					if (prior_value >= axis_tolerance && axis_value < axis_tolerance)
+						(*it)->buttons[AXIS_RIGHTX_POSITIVE] = KEY_UP;
+					else if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
 						(*it)->addInput(AXIS_RIGHTX_NEGATIVE, event.caxis.timestamp);
 				}
 				else {
-					if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
+					if (prior_value <= -axis_tolerance && axis_value > axis_tolerance)
+						(*it)->buttons[AXIS_RIGHTX_NEGATIVE] = KEY_UP;
+					else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
 						(*it)->addInput(AXIS_RIGHTX_POSITIVE, event.caxis.timestamp);
 				}
 				break;
 			case SDL_CONTROLLER_AXIS_RIGHTY:
 				if (axis_value < prior_value) {
-					if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
+					if (prior_value <= -axis_tolerance && axis_value > axis_tolerance)
+						(*it)->buttons[AXIS_RIGHTY_POSITIVE] = KEY_UP;
+					else if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
 						(*it)->addInput(AXIS_RIGHTY_NEGATIVE, event.caxis.timestamp);
 				}
 				else {
-					if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
+					if (prior_value <= -axis_tolerance && axis_value > axis_tolerance)
+						(*it)->buttons[AXIS_RIGHTY_NEGATIVE] = KEY_UP;
+					else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
 						(*it)->addInput(AXIS_RIGHTY_POSITIVE, event.caxis.timestamp);
 				}
 				break;
 			case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
-				if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
+				if (prior_value >= axis_tolerance && axis_value < axis_tolerance)
+					(*it)->buttons[AXIS_TRIGGERLEFT] = KEY_UP;
+				else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
 					(*it)->addInput(AXIS_TRIGGERLEFT, event.caxis.timestamp);
 				break;
 			case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
-				if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
+				if (prior_value >= axis_tolerance && axis_value < axis_tolerance)
+					(*it)->buttons[AXIS_TRIGGERRIGHT] = KEY_UP;
+				else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
 					(*it)->addInput(AXIS_TRIGGERRIGHT, event.caxis.timestamp);
 				break;
 			}
@@ -245,4 +282,32 @@ void mdInput::handleAxes(const SDL_Event & event) {
 	}
 }
 
+
+KEY_STATE mdInput::getKey(SDL_Scancode key) const{
+	return keyboard[key];
+}
+
+KEY_STATE mdInput::getControllerButton(int id, SDL_GameControllerButton button) {
+	KEY_STATE ret = KEY_NULL;
+	for ( std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
+		if ((*it)->getControllerID() == id) {
+			ret = (*it)->buttons[button];
+			break;
+		}
+	}
+
+	return ret;
+}
+
+std::list<Controller*> mdInput::getController(SDL_GameControllerButton button){
+	std::list<Controller*> ret;
+	if (button == SDL_CONTROLLER_BUTTON_INVALID)
+		ret = controllers;
+	else {
+		for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it)
+			if ((*it)->buttons[button]) ret.push_back(*it);
+	}
+
+	return ret;
+}
 
