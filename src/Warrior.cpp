@@ -370,14 +370,15 @@ void Warrior::standingSpecial2()	{
 	if (current_animation->Finished()) {
 		current_state = IDLE;
 		instanciated_hitbox = false;
-		if (hitbox != nullptr) 			{
-			hitbox->to_delete = true;
-			hitbox = nullptr;
+		collider* hitbox = getCurrentAttackHitbox();
+		if (hitbox != nullptr) { // Just for safety
+			deleteAttackHitbox(JM_L);
 		}
 	}
 	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
 		instanciateHitbox(ST_S2);
 
+	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
 		hitbox->SetPos(calculateDrawPosition(st_s2.pos_rel_char.x, st_s2.hitbox.w, true), calculateDrawPosition(st_s2.pos_rel_char.y, st_s2.hitbox.h, false));
 }

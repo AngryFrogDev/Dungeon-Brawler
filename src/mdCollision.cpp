@@ -66,12 +66,12 @@ bool mdCollision::update(float dt)
 	}	
 
 	// Check life
-	for (std::list<collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it) {
-		collider* c = *it;
-		if (c->life != -1 && SDL_GetTicks() - c->born > c->life)/*PROVISIONAL: Maybe it should use a timer*/ {
-			c->to_delete = true;
-		}
-	}
+	//for (std::list<collider*>::iterator it = colliders.begin(); it != colliders.end(); ++it) {
+	//	collider* c = *it;
+	//	if (c->life != -1 && SDL_GetTicks() - c->born > c->life)/*PROVISIONAL: Maybe it should use a timer*/ {
+	//		c->to_delete = true;
+	//	}
+	//}
 
 	DebugDraw();
 	return true;

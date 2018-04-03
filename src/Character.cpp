@@ -259,7 +259,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	case ATTACKING:
 		doAttack();
-		if (hit) 			{
+		if (hit) {
+			instanciated_hitbox = false;
 			if (attack_recieving.knockdown)
 				current_state = CHAR_STATE::JUGGLE;
 			else
@@ -383,7 +384,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		applyGravity();
 		setIfGrounded();
 	}
-
+	// Delete out of life colliders
+	deleteDeadHitboxes();
 
 }
 
@@ -391,18 +393,20 @@ void Character::onCollision(collider* c1, collider* c2) {
 
 	if (c1->type == HURTBOX && c2->type == HITBOX) {
 		attack_recieving = c2->character->getAttackData(c2->attack_type); 
-		c2->to_delete = true;
-		if (c2->character->hitbox == c2) { // PROVISIONAL: CRAZY PROVISIONAL
-			c2->character->hitbox = nullptr;
-		}
 		hit = true;
 		moment_hit = SDL_GetTicks();
+		deleteAllHitboxes(); // When you get hit all your current hitboxes are deleted
 	}
 	else if (c1->type == HURTBOX && c2->type == HURTBOX) {
 		if (!fliped)
 			logic_position.x -= walk_speed;
 		else
 			logic_position.x += walk_speed;
+	}
+	else if (c1->type == HITBOX && c2->type == HURTBOX) {
+		// Allways delete hitboxes on collision
+		deleteAttackHitbox(c1->attack_type);
+		instanciated_hitbox = false;
 	}
 }
 void Character::applyGravity() {
@@ -538,17 +542,20 @@ void Character::doAttack() {
 		if (grounded) {
 			current_state = IDLE; //Maybe should be "RECOVERY"
 			instanciated_hitbox = false;
+			collider* hitbox = getCurrentAttackHitbox();
 			if(hitbox != nullptr){ // Just for safety
-				hitbox->to_delete = true;
-				hitbox = nullptr;
+				deleteAttackHitbox(JM_L);
 			}
 		}	
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 			instanciateHitbox(JM_L);
 		}	
-		// Set the hitbox to follow the player
-		if (hitbox != nullptr) 			{
-			hitbox->SetPos(calculateDrawPosition(jm_l.pos_rel_char.x, jm_l.hitbox.w, true), calculateDrawPosition(jm_l.pos_rel_char.y, jm_l.hitbox.h, false));
+		{
+			collider* hitbox = getCurrentAttackHitbox();
+			// Set the hitbox to follow the player
+			if (hitbox != nullptr) 			{
+				hitbox->SetPos(calculateDrawPosition(jm_l.pos_rel_char.x, jm_l.hitbox.w, true), calculateDrawPosition(jm_l.pos_rel_char.y, jm_l.hitbox.h, false));
+			}
 		}
 		break;
 	case JM_H:
@@ -556,17 +563,20 @@ void Character::doAttack() {
 		if (grounded) {
 			current_state = IDLE; //Maybe should be "RECOVERY"
 			instanciated_hitbox = false;
+			collider* hitbox = getCurrentAttackHitbox();
 			if (hitbox != nullptr){  // Just for safety
-				hitbox->to_delete = true;
-				hitbox = nullptr;
+				deleteAttackHitbox(JM_H);
 			}
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 			instanciateHitbox(JM_H);
 		}	
-		// Set the hitbox to follow the player
-		if (hitbox != nullptr) {
-			hitbox->SetPos(calculateDrawPosition(jm_h.pos_rel_char.x, jm_h.hitbox.w, true), calculateDrawPosition(jm_h.pos_rel_char.y, jm_h.hitbox.h, false));
+		{
+			// Set the hitbox to follow the player
+			collider* hitbox = getCurrentAttackHitbox();
+			if (hitbox != nullptr) {
+				hitbox->SetPos(calculateDrawPosition(jm_h.pos_rel_char.x, jm_h.hitbox.w, true), calculateDrawPosition(jm_h.pos_rel_char.y, jm_h.hitbox.h, false));
+			}
 		}
 		break;
 	case ST_S1:
@@ -626,7 +636,7 @@ void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
 			collider = { calculateDrawPosition(st_s2.pos_rel_char.x, st_s2.hitbox.w, true), calculateDrawPosition(st_s2.pos_rel_char.y, st_s2.hitbox.h, false), st_s2.hitbox.w, st_s2.hitbox.h };
 			life = st_s2.active_time;
 	}
-	hitbox = App->collision->AddCollider(collider, HITBOX,life ,type, App->entities, this);
+	hitboxes.push_back(App->collision->AddCollider(collider, HITBOX,life ,type, App->entities, this));
 	instanciated_hitbox = true;
 }
 
@@ -707,4 +717,74 @@ void Character::updateInvecibility() {
 void Character::makeInvencibleFor(int time_invencible) {
 	invencible_timer.start();
 	stop_invencibility = time_invencible;
+}
+
+void Character::deleteDeadHitboxes() 	{
+	// Compute what hitboxes need to be deleted
+
+	std::list<collider*> hitboxes_to_delete;
+
+	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
+		collider* c = *it;
+		if (c->life != -1 && SDL_GetTicks() - c->born > c->life)/*PROVISIONAL: Maybe it should use a timer*/ {
+			c->to_delete = true;
+			hitboxes_to_delete.push_back(c);
+		}
+	}
+
+	// Remove the colliders
+	for (std::list<collider*>::iterator it = hitboxes_to_delete.begin(); it != hitboxes_to_delete.end(); ++it) {
+		collider* c = *it;
+		hitboxes.remove(c);
+	}
+
+	hitboxes_to_delete.clear();
+}
+
+collider* Character::getCurrentAttackHitbox() 	{
+	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
+		collider* c = *it;
+		if (c->attack_type == attack_doing){
+			return c;
+		}
+	}
+	return nullptr;
+}
+void Character::deleteAttackHitbox(CHAR_ATT_TYPE type) 	{
+	// Compute what hitboxes need to be deleted
+
+	std::list<collider*> hitboxes_to_delete;
+
+	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
+		collider* c = *it;
+		if (c->attack_type == type) {
+			c->to_delete = true;
+			hitboxes_to_delete.push_back(c);
+		}
+	}
+	// Remove the colliders
+	for (std::list<collider*>::iterator it = hitboxes_to_delete.begin(); it != hitboxes_to_delete.end(); ++it) {
+		collider* c = *it;
+		hitboxes.remove(c);
+	}
+
+	hitboxes_to_delete.clear();
+}
+void Character::deleteAllHitboxes() {
+	// Compute what hitboxes need to be deleted
+
+	std::list<collider*> hitboxes_to_delete;
+
+	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
+		collider* c = *it;
+		c->to_delete = true;
+		hitboxes_to_delete.push_back(c);
+	}
+	// Remove the colliders
+	for (std::list<collider*>::iterator it = hitboxes_to_delete.begin(); it != hitboxes_to_delete.end(); ++it) {
+		collider* c = *it;
+		hitboxes.remove(c);
+	}
+
+	hitboxes_to_delete.clear();
 }

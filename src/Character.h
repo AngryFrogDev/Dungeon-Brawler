@@ -121,13 +121,20 @@ public:
 protected:	
 	// Execute attack, rewritable for every type of character
 	virtual void doAttack();		
+	// Hitbox related functions
 	void instanciateHitbox(CHAR_ATT_TYPE type);
+	void deleteDeadHitboxes();
+	collider* getCurrentAttackHitbox(); // Returns nullptr if no hitbox was found
+	void deleteAttackHitbox(CHAR_ATT_TYPE type);
+	void deleteAllHitboxes();
 
+	// Swap related functions
 	void manageGroundPosition();
 
 	void updateAnimation(Animation& new_animation);
-	// Variable in milliseconds
-	void makeInvencibleFor(int invencible_time); 
+	
+	// Invencivility management
+	void makeInvencibleFor(int invencible_time); // Variable in milliseconds
 	void updateInvecibility();
 	// Uses player's logic position, flip, offset and width to calculate the position to draw a collider
 	int calculateDrawPosition(int offset, int size, bool x);
@@ -148,6 +155,13 @@ protected:
 
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2;
 
+	iPoint jump_power;
+	float gravity;
+	int ground_position;
+	int bottom_lane;
+	int upper_lane;
+
+	Player* owner;
 	// In miliseconds
 	int invencibility_on_wakeup;
 
@@ -187,7 +201,7 @@ protected:
 	// Entity collider
 	collider* hurtbox = nullptr;	
 	iPoint standing_hurtbox_size;
-	collider* hitbox = nullptr; //It should be a list, as a character can have multiple active hitboxes
+	std::list<collider*> hitboxes; //It should be a list, as a character can have multiple active hitboxes
 
 
 	CHAR_STATE current_state;
@@ -197,27 +211,13 @@ protected:
 
 	Animation* current_animation = nullptr;
 
-
-
 	// Time to stop invencibility
 	int stop_invencibility;
 	Timer invencible_timer;
 	
-	Player* owner;
-
-
-	//PROVISIONAL should be read from xml
-
-	iPoint jump_power;
-	float gravity;
-	int ground_position;
-	int bottom_lane;
-	int upper_lane;
-
-
 public:
-	//Swap shit
-	int lane; // 1 = bottom  2 = top This is so fucking important
+	//Swap variables
+	int lane; // 1 = bottom  2 = top This is important
 	bool readyToSwap = false;
 	bool swapRequested = false;
 	bool swapDone = false;

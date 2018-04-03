@@ -41,11 +41,11 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	warrior_graphics = App->textures->load("Assets/warrior.png");
 
 	createPlayer(0,100, CHAR_TYPE::WARRIOR, false, 1 );
-	createPlayer(1,1000, CHAR_TYPE::WARRIOR, true, 1 ); //play with the lane (last argument) for 2v2
+	createPlayer(1,1000, CHAR_TYPE::WARRIOR, true, 1); //play with the lane (last argument) for 2v2
 	//createPlayer(2, 1200, CHAR_TYPE::WARRIOR, true, 1);
 	//createPlayer(3, 300, CHAR_TYPE::WARRIOR, true, 2);
 
-	//Very dangerous hardcode to set the partners: 
+	// PROVISIONAL: Very dangerous hardcode to set the partners: 
 
 	//players[0]->getCurrCharacter()->partner = players[1];
 	//players[1]->getCurrCharacter()->partner = players[0];
