@@ -14,24 +14,24 @@ mdSceneManager::~mdSceneManager()
 
 bool mdSceneManager::awake(const pugi::xml_node & md_config)
 {
-	std::list<CharacterInfo> characters_in_scene_1;
-	CharacterInfo player1;
+	//HARDCODE
+	Scene TestScene();
 
-	player1.postion = { 0,100 };
+	player1.x_pos = 100;
+	player1.type = CHAR_TYPE::WARRIOR;
+	player1.player = 0;
+	player1.flipped = false;
+	Test_Scene.characters.push_back(player1);
 
-	//App->entities->createPlayer(1,1000, CHAR_TYPE::WARRIOR, true, 1 ); //play with the lane (last argument) for 2v2
-	//createPlayer(2, 1200, CHAR_TYPE::WARRIOR, true, 1);
-	//createPlayer(3, 300, CHAR_TYPE::WARRIOR, true, 2);
+	player2.x_pos = 1000;
+	player2.type = CHAR_TYPE::WARRIOR;
+	player2.player = 1;
+	player2.flipped = true;
+	Test_Scene.characters.push_back(player2);
 
-	//Very dangerous hardcode to set the partners: 
 
-	//players[0]->getCurrCharacter()->partner = players[1];
-	//players[1]->getCurrCharacter()->partner = players[0];
-	//players[2]->getCurrCharacter()->partner = players[3];
-	//players[3]->getCurrCharacter()->partner = players[2];
-	
+	current_scene = &Test_Scene;
 
-	//Hardcode
 
 
 	return true;
@@ -39,7 +39,36 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)
 
 bool mdSceneManager::start()
 {
+	if (current_scene == nullptr)
+		return false;
 
-	App->entities->createPlayer(3, 100, CHAR_TYPE::WARRIOR, false, 2);
+	CreateCharacters();
+	App->entities->assignControls();
+
+
+	//Very dangerous hardcode to set the partners: 
+
+	//players[0]->getCurrCharacter()->partner = players[1];
+	//players[1]->getCurrCharacter()->partner = players[0];
+	//players[2]->getCurrCharacter()->partner = players[3];
+	//players[3]->getCurrCharacter()->partner = players[2];
+
 	return true;
+}
+
+bool mdSceneManager::CreateCharacters()
+{	
+	if (current_scene->characters.empty())
+		return false;
+
+	for (auto it = current_scene->characters.begin(); it != current_scene->characters.end(); it++) {
+		CharacterInfo curr_character_info = *it;
+		App->entities->createPlayer(curr_character_info.player, curr_character_info.x_pos, curr_character_info.type, curr_character_info.flipped, 1);
+	}
+
+	return true;
+}
+
+Scene::Scene()
+{
 }

@@ -4,10 +4,13 @@
 #include <list>
 #include "SDL\include\SDL.h"
 #include "p2Point.h"
+#include "Character.h"
 
 struct CharacterInfo {
-
-	iPoint postion;
+	int player;
+	int x_pos;
+	CHAR_TYPE type;
+	bool flipped;
 };
 
 struct UIElement {
@@ -15,7 +18,8 @@ struct UIElement {
 };
 
 struct Scene {
-	std::list<CharacterInfo> characters;
+	Scene();
+	std::list<CharacterInfo> characters; //to create scenes with 2 or 4 characters
 	std::list<UIElement> ui_elements;
 };
 
@@ -29,9 +33,19 @@ public:
 	bool awake(const pugi::xml_node& md_config) override;
 	bool start() override;
 
+private:
+	bool CreateCharacters();
+
 public:
 	std::list<Scene> scenes;
-	Scene* current_scene;
+	Scene* current_scene = nullptr;
+
+private:
+	//HARDCODE
+
+	Scene Test_Scene;
+	CharacterInfo player1;
+	CharacterInfo player2;
 
 };
 

@@ -36,13 +36,17 @@ public:
 	bool cleanUp();
 
 
-	// Array that stores 4 players
+
 	Player* players[4]; //I made it public to make the partner system work
 
 	// Creates a character and assigns it to a player
 	void createPlayer(int player,int x_pos, CHAR_TYPE type, bool fliped, int lane);
-	// Destroys all the players
+
 	void destroyCharacters();
+
+	void assignControls();
+
+
 	//if it returns false something wrong happened
 	bool automaticFlip();
 public:
