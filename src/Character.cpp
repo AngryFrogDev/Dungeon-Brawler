@@ -406,6 +406,7 @@ void Character::onCollision(collider* c1, collider* c2) {
 	else if (c1->type == HITBOX && c2->type == HURTBOX) {
 		// Allways delete hitboxes on collision
 		deleteAttackHitbox(c1->attack_type);
+		c1->to_delete = true; // PROVISIONAL: This is just in case it is a projectile, put projectile management overall is now bad, projectiles should have a special hitbox
 		instanciated_hitbox = false;
 	}
 }
