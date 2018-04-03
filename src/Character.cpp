@@ -15,22 +15,23 @@ Character::~Character() {
 
 void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
-	// Calculate draw position out of logic position
-	draw_position.x = calculateDrawPosition(0, draw_size.x* scale, true);
-	draw_position.y = calculateDrawPosition(0, draw_size.y * scale, false);
-	// Hurtbox allways next to the player
-	hurtbox->SetPos(calculateDrawPosition(0,hurtbox->rect.w,true), calculateDrawPosition(0, hurtbox->rect.h, false));
-
 	//PROVISIONAL: Crazy provisional
 	if (current_life <= 0) {
-		current_state = CHAR_STATE::KNOCKDOWN;
+		current_state = CHAR_STATE::DEAD;
+	}
+	if (App->input->getKey(SDL_SCANCODE_F2) == KEY_REPEAT) {
+		current_life = max_life;
+		current_state = CHAR_STATE::IDLE;
 	}
 
 	switch (current_state) {
 	case IDLE:
 		updateAnimation(idle);
 		if (hit) { 
-			current_state = CHAR_STATE::HIT;
+			if (!attack_recieving.knockdown)
+				current_state = CHAR_STATE::HIT;
+			else 
+				current_state = CHAR_STATE::JUGGLE;
 		}
 		else if (inputs[SWITCH])
 			current_state = CHAR_STATE::SWAPPING;
@@ -53,7 +54,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_H;
 		}
-		else if (inputs[SPECIAL_1]) {
+		else if (inputs[SPECIAL_1] && !projectile) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_S1;
 		}
@@ -64,10 +65,25 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		break;
 
 	case WALKING_BACK:
+		// Input independent actions
 		updateAnimation(walk_back);
-		if (hit)
-			current_state = CHAR_STATE::BLOCKING;
-		else if (!fliped && !inputs[LEFT] || fliped && !inputs[RIGHT])
+		if (fliped)
+			logic_position.x += walk_speed;
+		else
+			logic_position.x -= walk_speed;
+		if (hit){
+			if (attack_recieving.block_type != BLOCK_TYPE::LOW)
+				current_state = CHAR_STATE::STAND_BLOCKING;
+			else {
+				if (attack_recieving.knockdown)
+					current_state = CHAR_STATE::JUGGLE;
+				else
+					current_state = CHAR_STATE::HIT; // STANDING HIT?
+			}
+		}
+		// Input dependent actions
+
+		if (!fliped && !inputs[LEFT] || fliped && !inputs[RIGHT])
 			current_state = CHAR_STATE::IDLE;
 		else if (inputs[UP]) {
 			velocity.y -= jump_power.y;
@@ -88,7 +104,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_H;
 		}
-		else if (inputs[SPECIAL_1]) {
+		else if (inputs[SPECIAL_1] && !projectile) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_S1;
 		}
@@ -96,13 +112,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_S2;
 		}		
-		
-		if (fliped)
-			logic_position.x += walk_speed;
-		else
-			logic_position.x -= walk_speed;
 
-//<<<<<<< HEAD
 //		if (fliped && position.x >= 600) { // The position limit should be a variable
 //			position.x += walk_speed;
 //			App->render->camera.x -= walk_speed; // Camera should NOT be managed here
@@ -111,11 +121,16 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 //			position.x -= walk_speed;
 //			App->render->camera.x += walk_speed; // Camera should NOT be managed here
 //		}
-//=======
 		break;
 
 	case WALKING_FORWARD:
+		// Input independent actions
 		updateAnimation(walk_forward);
+		if (fliped)
+			logic_position.x -= walk_speed;
+		else
+			logic_position.x += walk_speed;
+		// Input dependent actions
 		if (hit)
 			current_state = CHAR_STATE::HIT;
 		else if (!fliped && !inputs[RIGHT] || fliped && !inputs[LEFT])
@@ -139,7 +154,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_H;
 		}
-		else if (inputs[SPECIAL_1]) {
+		else if (inputs[SPECIAL_1] && !projectile) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_S1;
 		}
@@ -147,12 +162,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_S2;
 		}
-		if (fliped)
-			logic_position.x -= walk_speed;
-		else
-			logic_position.x += walk_speed;
 
-//<<<<<<< HEAD
 //		if (fliped && position.x <= 2500) { // The position limit should be a variable
 //			position.x -= walk_speed;
 //			App->render->camera.x += walk_speed; // Camera should NOT be managed here
@@ -161,17 +171,38 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 //			position.x += walk_speed;
 //			App->render->camera.x -= walk_speed; // Camera should NOT be managed here
 //		}
-//=======
 		break;
 
 	case CROUCHING:
+		// Input independent anctions
 		updateAnimation(crouch);
-		if (hit && inputs[LEFT] && !fliped || hit && inputs[RIGHT] && fliped)
-			current_state = CHAR_STATE::BLOCKING;
-		else if (hit)
-			current_state = CHAR_STATE::HIT;
-		else if (!inputs[DOWN])
+		if (!crouching_hurtbox) {
+			hurtbox->rect.h /= 2;
+			crouching_hurtbox = true;
+		}
+		if (hit && inputs[LEFT] && !fliped|| hit && inputs[RIGHT] && fliped) {
+			if(attack_recieving.block_type != BLOCK_TYPE::OVERHEAD)
+				current_state = CHAR_STATE::CROUCH_BLOCKING;
+			else{
+				if (attack_recieving.knockdown)
+					current_state = CHAR_STATE::JUGGLE;
+				else
+					current_state = CHAR_STATE::HIT; // CROUCHING HIT?
+			}
+		}	
+		else if (hit) {
+			if (attack_recieving.knockdown)
+				current_state = CHAR_STATE::JUGGLE;
+			else
+				current_state = CHAR_STATE::HIT; // CROUCHING HIT?
+		}
+
+		// Input dependent actions
+		if (!inputs[DOWN]){ 
 			current_state = CHAR_STATE::IDLE;
+			hurtbox->rect.h = standing_hurtbox_size.y;
+			crouching_hurtbox = false;
+		}
 		else if (inputs[SWITCH])
 			current_state = CHAR_STATE::SWAPPING;
 		else if (inputs[UP]) {
@@ -198,7 +229,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		break;
 
 	case JUMPING:
+		// Input independent actions
 		updateAnimation(jump);
+		// Input dependent actions
 		if (grounded)
 			current_state = CHAR_STATE::IDLE;
 		else if (hit)
@@ -219,57 +252,153 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::JM_S2;
 		}
-
-		applyGravity();		//Do not reverse order! Nasty things will happen
-		setIfGrounded();
 		break;
 
 	case ATTACKING:
 		doAttack();
+		if (hit) 			{
+			if (attack_recieving.knockdown)
+				current_state = CHAR_STATE::JUGGLE;
+			else
+				current_state = CHAR_STATE::HIT; // CROUCHING HIT?
+		}
 		break;
 
-	case BLOCKING:
-		if (!hit)
-			current_state = CHAR_STATE::WALKING_BACK;
-		else if (!fliped && !inputs[LEFT] || fliped && !inputs[RIGHT])
+	case STAND_BLOCKING:
+		//Input independent actions
+		// Continuous
+		if (!fliped)
+			logic_position.x -= attack_recieving.pushblock;
+		else
+			logic_position.x += attack_recieving.pushblock;
+		updateAnimation(standing_block);
+		// One tick
+		if (hit) {
+			hit = false;
+		}
+		else if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
 			current_state = CHAR_STATE::IDLE;
+		break;
+
+	case CROUCH_BLOCKING:
+		//Input independent actions
+		// Continuous
+		if (!fliped)
+			logic_position.x -= attack_recieving.pushblock;
+		else
+			logic_position.x += attack_recieving.pushblock;
+
+		updateAnimation(crouching_block);
+		// One tick
+		if (hit) {
+			hit = false;
+		}
+		else if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
+			current_state = CHAR_STATE::CROUCHING;
 		break;
 
 	case HIT:
-		updateAnimation(standing_hit);
-		if (hit) { 
-			current_life -= attack_recieving.damage;
-			hit = false;
-		}
-		else if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) { 
-			current_state = CHAR_STATE::IDLE;
-		}
+		//Input independent actions
+		// Continuous
 		if (!fliped)
 			logic_position.x -= attack_recieving.pushhit;
 		else
 			logic_position.x += attack_recieving.pushhit;
+		updateAnimation(standing_hit);
+		// One tick
+		if (hit) { 
+			if (attack_recieving.knockdown)
+				current_state = CHAR_STATE::JUGGLE;
+			else
+				hit = false;
+				current_life -= attack_recieving.damage;
+		}
+		else if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) 
+			current_state = CHAR_STATE::IDLE;
+	
+
 		break;
 
 	case JUGGLE:
-		//TODO: Define juggle
-		current_state = CHAR_STATE::IDLE;
+		// TODO: Put a juggle animation
+		updateAnimation(standing_hit); 
+		if (hit) {
+			if (!fliped)
+				velocity.x -= attack_recieving.juggle_speed.x;
+			else
+				velocity.x += attack_recieving.juggle_speed.x;
+
+			velocity.y -= attack_recieving.juggle_speed.y;
+			
+			current_life -= attack_recieving.damage;
+			hit = false;
+			grounded = false;
+		}
+		if (grounded)
+			current_state = CHAR_STATE::KNOCKDOWN; // Should be Knockdown, but it is not implemented yet
 		break;
 
 	case KNOCKDOWN:
-		//TODO: Define knockdown
-		//PROVISIONAL: Crazy provisional
-		App->render->drawQuad({ 0,0,100,100 }, 255, 255, 255, 255, true);
+		//Input independent actions
+		updateAnimation(knockdown);
+		hurtbox->active = false;
+		if (current_animation->Finished()){
+			makeInvencibleFor(invencibility_on_wakeup);
+			current_state = IDLE;
+			hurtbox->active = true;
+		}
 		break;
 	case SWAPPING:
 		//TODO: Define swapping
 		current_state = CHAR_STATE::IDLE;
 		break;
+	case DEAD:
+		updateAnimation(dead);
+		App->render->drawQuad({ 0,0,100,100 }, 255, 255, 255, 255);
+		break;
 	}
 
+	// State independent actions
+	updateInvecibility();
 
+	// Calculate draw position out of logic position
+	draw_position.x = calculateDrawPosition(0, draw_size.x* scale, true);
+	draw_position.y = calculateDrawPosition(0, draw_size.y * scale, false);
+
+	// Hurtbox allways next to the player
+	int offset;
+	if (crouching_hurtbox)
+		offset = crouching_hurtbox_offset;
+	else
+		offset = 0;
+
+	hurtbox->SetPos(calculateDrawPosition(0, hurtbox->rect.w, true), calculateDrawPosition(offset, hurtbox->rect.h, false));
+
+	if (!grounded) 		{
+		applyGravity();
+		setIfGrounded();
+	}
 
 }
 
+void Character::onCollision(collider* c1, collider* c2) {
+
+	if (c1->type == HURTBOX && c2->type == HITBOX) {
+		attack_recieving = c2->character->getAttackData(c2->attack_type); 
+		c2->to_delete = true;
+		if (c2->character->hitbox == c2) { // PROVISIONAL: CRAZY PROVISIONAL
+			c2->character->hitbox = nullptr;
+		}
+		hit = true;
+		moment_hit = SDL_GetTicks();
+	}
+	else if (c1->type == HURTBOX && c2->type == HURTBOX) {
+		if (!fliped)
+			logic_position.x -= walk_speed;
+		else
+			logic_position.x += walk_speed;
+	}
+}
 void Character::applyGravity() {
 
 	velocity.y += gravity;
@@ -291,15 +420,13 @@ void Character::setIfGrounded() {
 	if (logic_position.y >= bottom_lane)
 	{ 
 		grounded = true;
+		logic_position.y = bottom_lane;
 		velocity.y = 0;
 		velocity.x = 0;
 	}
 }
 
 void Character::draw(SDL_Texture* graphic)  const{
-//<<<<<<< HEAD
-//	App->render->blit(3, graphic, position.x, position.y, &current_animation->GetCurrentFrame(),3);
-//=======
 	App->render->blit(3,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped);
 }
 
@@ -350,8 +477,10 @@ void Character::doAttack() {
 		if (grounded) {
 			current_state = IDLE; //Maybe should be "RECOVERY"
 			instanciated_hitbox = false;
-			if(hitbox != nullptr) // Just for safety
-			hitbox->to_delete = true;
+			if(hitbox != nullptr){ // Just for safety
+				hitbox->to_delete = true;
+				hitbox = nullptr;
+			}
 		}	
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 			instanciateHitbox(JM_L);
@@ -360,19 +489,16 @@ void Character::doAttack() {
 		if (hitbox != nullptr) 			{
 			hitbox->SetPos(calculateDrawPosition(jm_l.pos_rel_char.x, jm_l.hitbox.w, true), calculateDrawPosition(jm_l.pos_rel_char.y, jm_l.hitbox.h, false));
 		}
-		applyGravity();		
-		setIfGrounded();
-	
-
-
 		break;
 	case JM_H:
 		updateAnimation(jumping_heavy);
 		if (grounded) {
 			current_state = IDLE; //Maybe should be "RECOVERY"
 			instanciated_hitbox = false;
-			if (hitbox != nullptr) // Just for safety
+			if (hitbox != nullptr){  // Just for safety
 				hitbox->to_delete = true;
+				hitbox = nullptr;
+			}
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 			instanciateHitbox(JM_H);
@@ -381,9 +507,14 @@ void Character::doAttack() {
 		if (hitbox != nullptr) {
 			hitbox->SetPos(calculateDrawPosition(jm_h.pos_rel_char.x, jm_h.hitbox.w, true), calculateDrawPosition(jm_h.pos_rel_char.y, jm_h.hitbox.h, false));
 		}
-		applyGravity();
-		setIfGrounded();
-	
+		break;
+	case ST_S1:
+		updateAnimation(standing_special1);
+		standingSpecial1(); 
+		break;
+	case ST_S2:
+		updateAnimation(standing_special2);
+		standingSpecial2();
 		break;
 	case JM_S1:
 	case JM_S2:
@@ -430,22 +561,15 @@ void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
 			collider = { calculateDrawPosition(jm_h.pos_rel_char.x,jm_h.hitbox.w, true), calculateDrawPosition(jm_h.pos_rel_char.y,jm_h.hitbox.h, false),jm_h.hitbox.w, jm_h.hitbox.h };
 			life = jm_h.active_time;
 			break;
+		case ST_S2:
+			collider = { calculateDrawPosition(st_s2.pos_rel_char.x, st_s2.hitbox.w, true), calculateDrawPosition(st_s2.pos_rel_char.y, st_s2.hitbox.h, false), st_s2.hitbox.w, st_s2.hitbox.h };
+			life = st_s2.active_time;
 	}
-	hitbox = App->collision->AddCollider(collider, HITBOX,life ,App->entities, this);
+	hitbox = App->collision->AddCollider(collider, HITBOX,life ,type, App->entities, this);
 	instanciated_hitbox = true;
 }
-
-void Character::onCollision(collider* c1, collider* c2) {
-
-	if (c1->type == HURTBOX && c2->type == HITBOX) 	{
-		attack_recieving = c2->character->getCurrentAttackData();
-		c2->to_delete = true;
-		hit = true;
-		moment_hit = SDL_GetTicks();
-	}
-}
-basic_attack_deff Character::getCurrentAttackData() {
-	switch (attack_doing) {
+basic_attack_deff Character::getAttackData(CHAR_ATT_TYPE attack_type) {
+	switch (attack_type) {
 		case ST_L:
 			return st_l;
 			break;
@@ -463,6 +587,16 @@ basic_attack_deff Character::getCurrentAttackData() {
 			break;
 		case JM_H:
 			return jm_h;
+			break;
+		case ST_S1:
+			return st_s1;
+			break;
+		case ST_S2:
+			return st_s2;
+			break;
+		case NO_ATT:
+			LOG("FATAL ERROR");
+			//return void;
 			break;
 	}
 }
@@ -483,4 +617,22 @@ iPoint Character::getPos() 	{
 }
 void Character::setFlip(bool flip) {
 	fliped = flip;
+}
+void Character::setProjectile(bool _projectile) {
+	projectile = _projectile;
+}
+void Character::updateInvecibility() {
+	if(invencible_timer.isActive())
+	{ 
+		if (invencible_timer.read() > stop_invencibility) {
+			hurtbox->active = true;
+			invencible_timer.stop();
+		}
+		else
+			hurtbox->active = false;
+	}
+}
+void Character::makeInvencibleFor(int time_invencible) {
+	invencible_timer.start();
+	stop_invencibility = time_invencible;
 }

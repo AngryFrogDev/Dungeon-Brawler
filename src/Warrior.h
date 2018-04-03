@@ -6,6 +6,15 @@ class Warrior : public Character {
 public:
 	Warrior(int x_pos, bool _fliped);
 	~Warrior();
+
+	int spin_speed;
+	int projectile_speed;
+	int projectile_duration; // in milliseconds
+	int projectile_scale;
+
+	void standingSpecial1();
+	void standingSpecial2();
+
 };
 
 #endif __WARRIOR__

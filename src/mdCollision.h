@@ -4,6 +4,7 @@
 #define MAX_COLLIDERS 10000
 
 #include "Module.h"
+#include "Character.h"
 
 #include "SDL/include/SDL.h"
 #include "SDL_image/include/SDL_image.h"
@@ -23,16 +24,18 @@ struct collider
 	// Collider properties
 	SDL_Rect rect;
 	COLLIDER_TYPE type;
+	CHAR_ATT_TYPE attack_type;
 	int life; //In miliseconds (set -1 so the collider is not erased by time)
 	//Callbacks
-	Module* callback = nullptr;
+	Module* callback = nullptr; //Useless for now
 	Character* character;      
 	// Collider state
 	int born; //In miliseconds 
 	bool to_delete = false;
+	bool active = true;
 
-	collider(SDL_Rect rectangle, COLLIDER_TYPE type, int life, Module* callback, Character* character) : 
-		rect(rectangle), type(type), life(life), callback(callback), character(character) {
+	collider(SDL_Rect rectangle, COLLIDER_TYPE type, int life,CHAR_ATT_TYPE attack_type, Module* callback, Character* character) :
+		rect(rectangle), type(type), life(life), attack_type(attack_type), callback(callback), character(character) {
 		born = SDL_GetTicks();
 	}
 
@@ -61,7 +64,7 @@ public:
 	bool cleanUp();
 	void onCollision(collider*, collider*); //Just for the test
 
-	collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type,int life, Module* callback = nullptr, Character* character = nullptr);
+	collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, int life, CHAR_ATT_TYPE attack_type, Module* callback = nullptr, Character* character = nullptr);
 	
 	void DebugDraw();
 

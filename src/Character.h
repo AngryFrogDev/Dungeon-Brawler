@@ -6,6 +6,7 @@
 #include "mdInput.h"
 #include "p2Point.h"
 #include "mdRender.h"
+#include "Timer.h"
 
 enum CHAR_TYPE {
 	DEF_CHAR,
@@ -42,10 +43,12 @@ enum CHAR_STATE {
 	ATTACKING,
 	SWAPPING,
 
-	BLOCKING, // STAND_BLOCK/CROUCH_BLOCK
-	HIT,      // STAND_HIT/CROUCH_HIT
+	STAND_BLOCKING, 
+	CROUCH_BLOCKING,
+	HIT,      // STAND_HIT/CROUCH_HIT ?
 	JUGGLE,
-	KNOCKDOWN
+	KNOCKDOWN,
+	DEAD
 };
 
 enum CHARACTER_INPUTS {
@@ -62,6 +65,12 @@ enum CHARACTER_INPUTS {
 	SWITCH,
 	MAX_INPUTS
 };
+
+enum BLOCK_TYPE {
+	MID,
+	OVERHEAD,
+	LOW
+};
 struct basic_attack_deff {
 	int damage;
 	int hitstun; //in miliseconds
@@ -72,6 +81,9 @@ struct basic_attack_deff {
 	iPoint pos_rel_char;
 	int active_time; //in miliseconds
 	CHAR_ATT_TYPE type;
+	bool knockdown; //if the attack causes a knockdown or not
+	iPoint juggle_speed;
+	BLOCK_TYPE block_type;
 };
 
 class Player;
@@ -93,67 +105,95 @@ public:
 	void draw(SDL_Texture* graphic) const;
 
 
-	basic_attack_deff getCurrentAttackData();
+	basic_attack_deff getAttackData(CHAR_ATT_TYPE attack_type);
 	iPoint getPos();
 	void setFlip(bool flip);
+	void setProjectile(bool projectile);
 
 protected:	
-	//Execute attack, rewritable for every type of character
+	// Execute attack, rewritable for every type of character
 	virtual void doAttack();		
 	void instanciateHitbox(CHAR_ATT_TYPE type);
-
 	void updateAnimation(Animation& new_animation);
+	// Variable in milliseconds
+	void makeInvencibleFor(int invencible_time); 
+	void updateInvecibility();
 	// Uses player's logic position, flip, offset and width to calculate the position to draw a collider
 	int calculateDrawPosition(int offset, int size, bool x);
-
+	//Special functions
+	virtual void standingSpecial1() { return; };
+	virtual void standingSpecial2() { return; };
 
 protected:
+
+	// Variables to assign from xml
 	CHAR_TYPE type;
 
+	float scale;
+
+	iPoint standing_hurtbox_size;
+	int crouching_hurtbox_offset;
+
+	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_special1, standing_special2, jumping_special1, jumping_special2, crouching_special1, crouching_special2, standing_hit, standing_block, crouching_block, knockdown, dead;
+
+	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2;
+
+	// In miliseconds
+	int invencibility_on_wakeup;
+
+	iPoint jump_power;
+	float gravity;
+
+	int bottom_lane;
+	
+
+
+
+	// Variables to modify in runtime
 	iPoint logic_position;
 	iPoint draw_position;
 	iPoint draw_size;
-	float scale;
+	
 	iPoint velocity;
 
-	int current_life; 								
-	int max_life;	
-	int walk_speed;	
+	bool crouching_hurtbox;
+
+	int current_life;		
+	int max_life;
+
+	int walk_speed;
 
 	bool grounded;
+
 	bool fliped;
-	bool damage_taken;        //If when hit some damage is taken, it shouldn't be taken again
-	bool instanciated_hitbox; //If the hitbox of the attack has been already instanciated, it should,'t be instanciated again
-	bool hit = false;
 
-	int moment_hit; //Maybe current_stun and moment_hit should be a timer instead
+	//If the hitbox of the attack has been already instanciated, it should,'t be instanciated again
+	bool instanciated_hitbox; 
+	//If the projectile has already been thrown, no other projectile should be
+	bool projectile;
+	//PROVISIONAL: It should be a list, as a character can have multiple active hitboxes
+	collider* hitbox; 
 
-	// Entity collider
+	bool hit;
+	//Maybe current_stun and moment_hit should be a timer instead
+	int moment_hit; 
+
 	collider* hurtbox;	
-	iPoint standing_hurtbox_size;
-	collider* hitbox; //It should be a list, as a character can have multiple active hitboxes
 
 	CHAR_STATE current_state;
 	CHAR_ATT_TYPE attack_doing;
 	basic_attack_deff attack_recieving;
 
 	Animation* current_animation;
-	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_hit;
 
-
-	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h;
+	// Time to stop invencibility
+	int stop_invencibility;
+	Timer invencible_timer;
 	
 	Player* owner;
 
-
-	//PROVISIONAL should be read from xml
-	iPoint jump_power;
-	float gravity;
-	int bottom_lane;
-
-
 public:
-	int lane = 1; //Provisional 1 = bottom  2 = top
+	int lane = 1; // Provisional 1 = bottom  2 = top
 
 };
 

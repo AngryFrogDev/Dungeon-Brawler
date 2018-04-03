@@ -20,6 +20,7 @@ class mdCollision;
 class mdEntities;
 class mdAudio;
 class mdMap;
+class mdProjectiles;
 
 
 class Application
@@ -74,6 +75,7 @@ public:
 	mdEntities*     entities;
 	mdAudio*		audio;
 	mdMap*			map;
+	mdProjectiles*  projectiles;
 };
 
 extern Application* App;
