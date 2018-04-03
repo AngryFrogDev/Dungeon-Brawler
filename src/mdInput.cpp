@@ -107,16 +107,28 @@ bool mdInput::preUpdate() {
 	bool ret = true;
 
 	SDL_Event event;
+
+	const Uint8* keys = SDL_GetKeyboardState(NULL);
+
+	for (int i = 0; i < MAX_KEYS; ++i) {
+		if (keys[i] == 1) {
+			if (keyboard[i] == KEY_IDLE)
+				keyboard[i] = KEY_DOWN;
+			else
+				keyboard[i] = KEY_REPEAT;
+		}
+		else {
+			if (keyboard[i] == KEY_REPEAT || keyboard[i] == KEY_DOWN)
+				keyboard[i] = KEY_UP;
+			else
+				keyboard[i] = KEY_IDLE;
+		}
+	}
+
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		case SDL_QUIT:
 			ret = false; //TODO : This should call a quit function
-			break;
-		case SDL_KEYDOWN:
-			keyboard[event.key.keysym.scancode] = KEY_DOWN;
-			break;
-		case SDL_KEYUP:
-			keyboard[event.key.keysym.scancode] = KEY_UP;
 			break;
 		case SDL_CONTROLLERDEVICEADDED:
 			if (SDL_IsGameController(event.cdevice.which)) {
@@ -157,13 +169,6 @@ bool mdInput::preUpdate() {
 			handleAxes(event);
 			break;
 		}
-	}
-
-	for (int i = 0; i < MAX_KEYS; ++i) {
-		if (keyboard[i] == KEY_UP)
-			keyboard[i] = KEY_IDLE;
-		else if (keyboard[i] == KEY_DOWN)
-			keyboard[i] = KEY_REPEAT;
 	}
 
 	for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {

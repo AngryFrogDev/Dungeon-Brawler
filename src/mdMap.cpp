@@ -41,19 +41,19 @@ bool mdMap::update(float dt) {
 	if (map_loaded)
 	draw();
 
-	if (App->input->getKey(SDL_SCANCODE_1) == KEY_REPEAT) {
+	if (App->input->getKey(SDL_SCANCODE_1) == KEY_DOWN) {
 		unloadMap();
 		loadMap(1);
 	}
-	else if (App->input->getKey(SDL_SCANCODE_2) == KEY_REPEAT) {
+	else if (App->input->getKey(SDL_SCANCODE_2) == KEY_DOWN) {
 		unloadMap();
 		loadMap(2);
 	}
-	else if (App->input->getKey(SDL_SCANCODE_3) == KEY_REPEAT) {
+	else if (App->input->getKey(SDL_SCANCODE_3) == KEY_DOWN) {
 		unloadMap();
 		loadMap(3);
 	}
-	else if (App->input->getKey(SDL_SCANCODE_4) == KEY_REPEAT)
+	else if (App->input->getKey(SDL_SCANCODE_4) == KEY_DOWN)
 		unloadMap();
 
 	return true;
