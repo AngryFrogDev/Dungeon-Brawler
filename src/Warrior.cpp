@@ -2,7 +2,9 @@
 #include "mdCollision.h"
 #include "mdProjectiles.h"
 
-Warrior::Warrior(int x_pos, bool _fliped): Character() {
+Warrior::Warrior(int x_pos, bool _fliped, int lane): Character() {
+
+	this->lane = lane;
 
 	//PROVISIONAL: Animations should be loaded from the xml
 
@@ -293,7 +295,7 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	st_s2.block_type = BLOCK_TYPE::MID;
 
 	// Other variable initialization
-	grounded = true;
+	grounded = false;
 	instanciated_hitbox = false;
 	hit = false;
 	crouching_hurtbox = false;
@@ -308,13 +310,14 @@ Warrior::Warrior(int x_pos, bool _fliped): Character() {
 	velocity.y = 0;
 	velocity.x = 0;
 
-	current_state = CHAR_STATE::IDLE;
+	current_state = CHAR_STATE::JUMPING;
 	
 	gravity = 1;
 	bottom_lane = 500;
+	upper_lane = 150;
 
 	logic_position.x = x_pos;
-	logic_position.y = 500;
+	logic_position.y = -1000;
 
 	standing_hurtbox_size.x = 100;
 	standing_hurtbox_size.y = 200;

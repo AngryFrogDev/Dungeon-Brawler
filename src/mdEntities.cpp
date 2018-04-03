@@ -16,6 +16,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	// Empty the array
 	for (int i = 0; i < 4; i++)
 		players[i] = nullptr;
+
 	//Load controller schemes
 	pugi::xml_node controller_schemes_node = md_config.child("schemes").child("controller_schemes");
 	for (pugi::xml_node_iterator it = controller_schemes_node.children().begin(); it != controller_schemes_node.children().end(); ++it) {
@@ -39,8 +40,18 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	//PROVISIONAL: Should be loaded from an xml
 	warrior_graphics = App->textures->load("Assets/warrior.png");
 
-	createCharacter(0,300, CHAR_TYPE::WARRIOR, false);
-	createCharacter(1,1000, CHAR_TYPE::WARRIOR, true);
+	createPlayer(0,100, CHAR_TYPE::WARRIOR, false, 1 );
+	createPlayer(1,1000, CHAR_TYPE::WARRIOR, true, 1 ); //play with the lane (last argument) for 2v2
+	//createPlayer(2, 1200, CHAR_TYPE::WARRIOR, true, 1);
+	//createPlayer(3, 300, CHAR_TYPE::WARRIOR, true, 2);
+
+	//Very dangerous hardcode to set the partners: 
+
+	//players[0]->getCurrCharacter()->partner = players[1];
+	//players[1]->getCurrCharacter()->partner = players[0];
+	//players[2]->getCurrCharacter()->partner = players[3];
+	//players[3]->getCurrCharacter()->partner = players[2];
+
 	players[0]->assignControlScheme(controller_schemes.front());
 	players[1]->assignKeyboardScheme(keyboard_schemes.front());
 
@@ -62,9 +73,21 @@ bool mdEntities::preUpdate() {
 			players[i]->update(warrior_graphics); // PROVISIONAL: We should check the type of character of the player and pass the correct textures
 	}
 
-	automaticFlip();
+
 
 	return ret;
+}
+
+bool mdEntities::postUpdate()
+{
+	for (int i = 0; i < 4; i++) {
+		if (players[i] == nullptr)
+			continue;
+		if (players[i]->getCurrCharacter()->readyToSwap == true) //no flip if characters are swapping
+			return true;
+	}
+	automaticFlip();
+	return true;
 }
 
 bool mdEntities::cleanUp() {
@@ -72,12 +95,12 @@ bool mdEntities::cleanUp() {
 	destroyCharacters();
 	return ret;
 }
-void mdEntities::createCharacter(int player,int x_pos, CHAR_TYPE type, bool fliped) {
+void mdEntities::createPlayer(int player,int x_pos, CHAR_TYPE type, bool fliped, int lane) {
 
 	if (players[player] == nullptr)
 		players[player] = new Player();
 
-	players[player]->assignCharacter(x_pos,type,fliped);
+	players[player]->createAndAssignCharacter(x_pos,type,fliped, lane);
 }
 
 void mdEntities::destroyCharacters() {
@@ -88,27 +111,57 @@ void mdEntities::destroyCharacters() {
 	}
 }
 
-void mdEntities::automaticFlip() {
-	Player* lane1_players[2];
+bool mdEntities::automaticFlip() {
+	bool ret = true;
+
+	Player* players_on_curr_lane[2];
+	players_on_curr_lane[0] = nullptr;
+	players_on_curr_lane[1] = nullptr;
+
+	//Whatch the fuck out with this method
+
 	bool lane1_flip[2];
-	int counter = 0;
-	for (int i = 0; i < 4; i++) {
-		if (players[i] != nullptr && players[i]->getLane() == 1) {
-			lane1_players[counter] = players[i];
-			counter++;
+
+
+	int lanes = 2;
+
+	for (int curr_lane = 1; curr_lane < lanes +1; curr_lane++)
+	{
+
+		int counter = 0;
+		for (int i = 0; i < 4; i++) {
+			if (players[i] == nullptr)
+				continue;
+			
+			int lane_of_player = players[i]->getLane();
+
+			if (lane_of_player == 0)
+				return false;
+
+			if (lane_of_player == curr_lane) {
+				players_on_curr_lane[counter] = players[i];
+				counter++;
+			}
+		}
+
+		if (players_on_curr_lane[1] == nullptr) { 
+			return false;
+		}
+
+		if (players_on_curr_lane[0]->getPos().x < players_on_curr_lane[1]->getPos().x) {
+			lane1_flip[0] = false;
+			lane1_flip[1] = true;
+		}
+		else {
+			lane1_flip[0] = true;
+			lane1_flip[1] = false;
+		}
+
+		for (int i = 0; i < 2; i++) {
+			players_on_curr_lane[i]->setFlip(lane1_flip[i]);
+			players_on_curr_lane[i] = nullptr;
 		}
 	}
 
-	if (lane1_players[0]->getPos().x < lane1_players[1]->getPos().x) {
-		lane1_flip[0] = false; 
-		lane1_flip[1] = true;
-	}
-	else{
-		lane1_flip[0] = true; 
-		lane1_flip[1] = false;
-	}
-
-	for (int i = 0; i < 2; i++)
-		lane1_players[i]->setFlip(lane1_flip[i]);
-
+	return ret;
 }

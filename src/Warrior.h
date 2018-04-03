@@ -4,7 +4,7 @@
 
 class Warrior : public Character {
 public:
-	Warrior(int x_pos, bool _fliped);
+	Warrior(int x_pos, bool _fliped, int lane);
 	~Warrior();
 
 	int spin_speed;

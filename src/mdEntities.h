@@ -6,6 +6,7 @@
 #include "mdTextures.h"
 #define MAX_KEYS 300
 
+
 struct controller_scheme {
 	CONTROLLER_BUTTON scheme[CHARACTER_INPUTS::MAX_INPUTS];
 	std::string name;
@@ -31,21 +32,25 @@ public:
 
 	bool awake(const pugi::xml_node& md_config);
 	bool preUpdate();
+	bool postUpdate() override;
 	bool cleanUp();
 
+
+	// Array that stores 4 players
+	Player* players[4]; //I made it public to make the partner system work
+
 	// Creates a character and assigns it to a player
-	void createCharacter(int player,int x_pos, CHAR_TYPE type, bool fliped);
+	void createPlayer(int player,int x_pos, CHAR_TYPE type, bool fliped, int lane);
 	// Destroys all the players
 	void destroyCharacters();
-	void automaticFlip();
+	//if it returns false something wrong happened
+	bool automaticFlip();
 public:
 	std::list<controller_scheme> controller_schemes;
 	std::list<keyboard_scheme>	 keyboard_schemes;
 
 private:
 
-	// Array that stores 4 players
-	Player* players[4];
 	//Graphics of the warrior
 	SDL_Texture* warrior_graphics;
 

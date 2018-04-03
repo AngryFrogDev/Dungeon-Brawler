@@ -33,8 +33,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			else 
 				current_state = CHAR_STATE::JUGGLE;
 		}
-		else if (inputs[SWITCH])
+		else if (inputs[SWITCH]) {
 			current_state = CHAR_STATE::SWAPPING;
+			swapRequested = true;						//Important!
+		}
 		else if (inputs[RIGHT] && !fliped || inputs[LEFT] && fliped)
 			current_state = CHAR_STATE::WALKING_FORWARD;
 		else if (inputs[LEFT] && !fliped || inputs[RIGHT] && fliped)
@@ -198,13 +200,14 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 
 		// Input dependent actions
-		if (!inputs[DOWN]){ 
+		if (!inputs[DOWN]) {
 			current_state = CHAR_STATE::IDLE;
+		}
+		else if (inputs[SWITCH]) {
+			swapRequested = true;						//Important!
 			hurtbox->rect.h = standing_hurtbox_size.y;
 			crouching_hurtbox = false;
 		}
-		else if (inputs[SWITCH])
-			current_state = CHAR_STATE::SWAPPING;
 		else if (inputs[UP]) {
 			velocity.y -= jump_power.y;
 			grounded = false;
@@ -350,13 +353,15 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		break;
 	case SWAPPING:
 		//TODO: Define swapping
-		current_state = CHAR_STATE::IDLE;
+		manageSwap();
 		break;
 	case DEAD:
 		updateAnimation(dead);
 		App->render->drawQuad({ 0,0,100,100 }, 255, 255, 255, 255);
 		break;
 	}
+
+	manageGroundPosition();
 
 	// State independent actions
 	updateInvecibility();
@@ -378,6 +383,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		applyGravity();
 		setIfGrounded();
 	}
+
 
 }
 
@@ -404,7 +410,7 @@ void Character::applyGravity() {
 	velocity.y += gravity;
 	
 	if (velocity.y > 0) {
-		if (logic_position.y < bottom_lane)
+		if (logic_position.y < ground_position)
 			logic_position.y += velocity.y;
 			logic_position.x += velocity.x;
 	}
@@ -417,7 +423,7 @@ void Character::applyGravity() {
 void Character::setIfGrounded() {
 	//will be updated
 	LOG("%d",logic_position.y);
-	if (logic_position.y >= bottom_lane)
+	if (logic_position.y >= ground_position)
 	{ 
 		grounded = true;
 		logic_position.y = bottom_lane;
@@ -428,6 +434,61 @@ void Character::setIfGrounded() {
 
 void Character::draw(SDL_Texture* graphic)  const{
 	App->render->blit(3,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped);
+}
+
+bool Character::manageSwap()
+{
+	if (partner == nullptr)
+		return false;
+
+	swapDone = false;
+	velocity.y = -40;
+	applyGravity();
+
+	if (swapRequested) {
+		partner->getCurrCharacter()->current_state = SWAPPING;
+		swapRequested = false;
+	}
+
+	if (logic_position.y < -200) { //margin to make it go out of the screen
+		readyToSwap = true;
+		if (partner->getCurrCharacter()->readyToSwap) {
+			current_state = CHAR_STATE::JUMPING;
+			grounded = false;
+			if (lane == 1)
+				lane = 2;
+			else
+				lane = 1;
+
+			swapDone = true;
+
+			if (partner->getCurrCharacter()->swapDone)
+				readyToSwap = false;
+			partner->getCurrCharacter()->readyToSwap = false;
+		}
+	}
+		
+	return true;
+}
+
+void Character::manageOponent()
+{
+	for (int i = 0; i < 4; i++) {
+		Player* curr_player = nullptr;
+
+		curr_player = App->entities->players[i];
+
+		if (curr_player == nullptr)
+			continue;
+
+		if (curr_player->getCurrCharacter() == this)
+			continue;
+
+		if (curr_player->getLane() == this->lane) {
+			oponent = curr_player->getCurrCharacter();
+		}
+
+	}
 }
 
 void Character::doAttack() {
@@ -568,6 +629,17 @@ void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
 	hitbox = App->collision->AddCollider(collider, HITBOX,life ,type, App->entities, this);
 	instanciated_hitbox = true;
 }
+
+
+void Character::manageGroundPosition() {
+	if (lane == 1)
+		ground_position = bottom_lane;
+	if (lane == 2)
+		ground_position = upper_lane;
+}
+
+
+
 basic_attack_deff Character::getAttackData(CHAR_ATT_TYPE attack_type) {
 	switch (attack_type) {
 		case ST_L:

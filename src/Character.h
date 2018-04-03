@@ -93,7 +93,11 @@ public:
 	Character();
 	~Character();
 						
-	virtual void update(const bool (&inputs)[MAX_INPUTS]);		
+	virtual void update(const bool (&inputs)[MAX_INPUTS]);	
+
+	Character* oponent = nullptr;
+
+	Player* partner = nullptr;
 
     // The first one is the collider belonging to this character
 	void onCollision(collider* c1, collider* c2);
@@ -103,6 +107,10 @@ public:
 	void setIfGrounded();
 
 	void draw(SDL_Texture* graphic) const;
+
+	bool manageSwap();
+
+	void manageOponent();
 
 
 	basic_attack_deff getAttackData(CHAR_ATT_TYPE attack_type);
@@ -114,6 +122,9 @@ protected:
 	// Execute attack, rewritable for every type of character
 	virtual void doAttack();		
 	void instanciateHitbox(CHAR_ATT_TYPE type);
+
+	void manageGroundPosition();
+
 	void updateAnimation(Animation& new_animation);
 	// Variable in milliseconds
 	void makeInvencibleFor(int invencible_time); 
@@ -131,7 +142,6 @@ protected:
 
 	float scale;
 
-	iPoint standing_hurtbox_size;
 	int crouching_hurtbox_offset;
 
 	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_special1, standing_special2, jumping_special1, jumping_special2, crouching_special1, crouching_special2, standing_hit, standing_block, crouching_block, knockdown, dead;
@@ -141,10 +151,6 @@ protected:
 	// In miliseconds
 	int invencibility_on_wakeup;
 
-	iPoint jump_power;
-	float gravity;
-
-	int bottom_lane;
 	
 
 
@@ -171,20 +177,27 @@ protected:
 	bool instanciated_hitbox; 
 	//If the projectile has already been thrown, no other projectile should be
 	bool projectile;
-	//PROVISIONAL: It should be a list, as a character can have multiple active hitboxes
-	collider* hitbox; 
+
 
 	bool hit;
 	//Maybe current_stun and moment_hit should be a timer instead
 	int moment_hit; 
 
-	collider* hurtbox;	
+
+	// Entity collider
+	collider* hurtbox = nullptr;	
+	iPoint standing_hurtbox_size;
+	collider* hitbox = nullptr; //It should be a list, as a character can have multiple active hitboxes
+
 
 	CHAR_STATE current_state;
 	CHAR_ATT_TYPE attack_doing;
 	basic_attack_deff attack_recieving;
 
-	Animation* current_animation;
+
+	Animation* current_animation = nullptr;
+
+
 
 	// Time to stop invencibility
 	int stop_invencibility;
@@ -192,8 +205,22 @@ protected:
 	
 	Player* owner;
 
+
+	//PROVISIONAL should be read from xml
+
+	iPoint jump_power;
+	float gravity;
+	int ground_position;
+	int bottom_lane;
+	int upper_lane;
+
+
 public:
-	int lane = 1; // Provisional 1 = bottom  2 = top
+	//Swap shit
+	int lane; // 1 = bottom  2 = top This is so fucking important
+	bool readyToSwap = false;
+	bool swapRequested = false;
+	bool swapDone = false;
 
 };
 
