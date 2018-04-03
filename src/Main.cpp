@@ -14,6 +14,7 @@
 enum MainState {
 	CREATE = 0,
 	AWAKE,
+	START,
 	LOOP,
 	CLEAN,
 	FAIL,
@@ -48,9 +49,21 @@ int main(int argc, char* args[]) {
 		case AWAKE:
 			LOG("AWAKE PHASE ===============================");
 			if (App->awake() == true)
-				state = LOOP;
+				state = START;
 			else {
 				LOG("ERROR: Awake failed");
+				state = FAIL;
+			}
+
+			break;
+
+			//Start all modules
+		case START:
+			LOG("Start PHASE ===============================");
+			if (App->start() == true)
+				state = LOOP;
+			else {
+				LOG("ERROR: Start failed");
 				state = FAIL;
 			}
 

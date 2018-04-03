@@ -139,6 +139,7 @@
     <ClCompile Include="mdMap.cpp" />
     <ClCompile Include="mdProjectiles.cpp" />
     <ClCompile Include="mdRender.cpp" />
+    <ClCompile Include="mdSceneManager.cpp" />
     <ClCompile Include="mdTextures.cpp" />
     <ClCompile Include="mdWindow.cpp" />
     <ClCompile Include="mdCollision.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="mdInput.h" />
     <ClInclude Include="mdMap.h" />
     <ClInclude Include="mdRender.h" />
+    <ClInclude Include="mdSceneManager.h" />
     <ClInclude Include="mdTextures.h" />
     <ClInclude Include="mdWindow.h" />
     <ClInclude Include="mdCollision.h" />

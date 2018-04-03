@@ -18,6 +18,7 @@
 #include "mdGuiManager.h"
 #include "mdMap.h"
 #include "mdProjectiles.h"
+#include "mdSceneManager.h"
 
 Application::Application(int argc, char* args[]) {
 	filesystem = new mdFilesystem;
@@ -32,6 +33,7 @@ Application::Application(int argc, char* args[]) {
 	gui = new mdGuiManager;
 	map = new mdMap;
 	projectiles = new mdProjectiles;
+	scene_manager = new mdSceneManager;
 
 
 	addModule(filesystem);
@@ -46,6 +48,7 @@ Application::Application(int argc, char* args[]) {
 	addModule(gui);
 	addModule(map);
 	addModule(entities);
+	addModule(scene_manager);
 
 }
 
@@ -76,6 +79,18 @@ bool Application::awake() {
 			ret = (*it)->awake(config.child((*it)->name.c_str()));
 	}
 	startup_time.start();
+
+	return ret;
+}
+
+
+bool Application::start() {
+	BROFILER_CATEGORY("Start", 0xFF00FFFF);
+	bool ret = true;
+
+	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end(); ++it)
+		ret = (*it)->start();
+
 
 	return ret;
 }

@@ -27,6 +27,11 @@ public:
 	}
 
 	// Called each loop iteration
+	virtual bool start() {
+		return true;
+	}
+
+	// Called each loop iteration
 	virtual bool preUpdate() {
 		return true;
 	}

@@ -23,7 +23,7 @@ class mdFonts;
 class mdGuiManager;
 class mdMap;
 class mdProjectiles;
-
+class mdSceneManager;
 
 
 class Application
@@ -38,6 +38,8 @@ public:
 
 	// Called before render is available
 	bool awake();
+
+	bool start();
 
 	// Called each loop iteration
 	bool update();
@@ -81,6 +83,7 @@ public:
 	mdGuiManager*	gui;
 	mdMap*			map;
 	mdProjectiles*  projectiles;
+	mdSceneManager*	scene_manager;
 
 };
 

@@ -108,6 +108,7 @@
     <ClCompile Include="mdProjectiles.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="mdSceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -161,9 +162,6 @@
     <ClInclude Include="Animation.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="p2Point.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>Entities\Characters</Filter>
     </ClInclude>
@@ -200,5 +198,6 @@
     <ClInclude Include="mdProjectiles.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="mdSceneManager.h" />
   </ItemGroup>
 </Project>
