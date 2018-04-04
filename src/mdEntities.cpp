@@ -48,6 +48,8 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 bool mdEntities::preUpdate() {
 	bool ret = true;
 
+	if (players[0] == nullptr) //It crashed if there were no playres
+		return true;
 
 	if (players[0]->getController() == nullptr) {
 		std::list<Controller*> controllers = App->input->getController();
@@ -101,8 +103,21 @@ void mdEntities::destroyCharacters() {
 void mdEntities::assignControls()
 {
 	//HARDCODE
+
+	if (players[0] != nullptr)
 	players[0]->assignControlScheme(controller_schemes.front());
+
+	if (players[1] != nullptr)
 	players[1]->assignKeyboardScheme(keyboard_schemes.front());
+}
+
+void mdEntities::assignPartners()
+{
+	//Very dangerous hardcode to set the partners: 
+	players[0]->getCurrCharacter()->partner = players[1];
+	players[1]->getCurrCharacter()->partner = players[0];
+	players[2]->getCurrCharacter()->partner = players[3];
+	players[3]->getCurrCharacter()->partner = players[2];
 }
 
 bool mdEntities::automaticFlip() {

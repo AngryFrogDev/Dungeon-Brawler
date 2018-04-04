@@ -45,6 +45,7 @@ public:
 	void destroyCharacters();
 
 	void assignControls();
+	void assignPartners();
 
 
 	//if it returns false something wrong happened
