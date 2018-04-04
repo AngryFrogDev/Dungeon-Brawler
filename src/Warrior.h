@@ -14,6 +14,7 @@ public:
 
 	void standingSpecial1();
 	void standingSpecial2();
+	void crouchingSpecial2();
 
 };
 

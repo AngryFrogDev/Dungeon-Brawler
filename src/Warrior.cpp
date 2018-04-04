@@ -2,7 +2,7 @@
 #include "mdCollision.h"
 #include "mdProjectiles.h"
 
-Warrior::Warrior(int x_pos, bool _fliped, int lane): Character() {
+Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 
 	this->lane = lane;
 
@@ -19,16 +19,16 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane): Character() {
 
 	walk_forward.PushBack({ 0,158,195,158 });
 	walk_forward.PushBack({ 195,158,195,158 });
-	walk_forward.PushBack({ 195*2,158,195,158 });
-	walk_forward.PushBack({ 195*3,158,195,158 });
-	walk_forward.PushBack({ 195*4,158,195,158 });
-	walk_forward.PushBack({ 195*5,158,195,158 });
-	walk_forward.PushBack({ 195*6,158,195,158 });
-	walk_forward.PushBack({ 195*7,158,195,158 });
-	walk_forward.PushBack({ 195*8,158,195,158 });
-	walk_forward.PushBack({ 195*9,158,195,158 });
-	walk_forward.PushBack({ 195*10,158,195,158 });
-	walk_forward.PushBack({ 195*11,158,195,158 });
+	walk_forward.PushBack({ 195 * 2,158,195,158 });
+	walk_forward.PushBack({ 195 * 3,158,195,158 });
+	walk_forward.PushBack({ 195 * 4,158,195,158 });
+	walk_forward.PushBack({ 195 * 5,158,195,158 });
+	walk_forward.PushBack({ 195 * 6,158,195,158 });
+	walk_forward.PushBack({ 195 * 7,158,195,158 });
+	walk_forward.PushBack({ 195 * 8,158,195,158 });
+	walk_forward.PushBack({ 195 * 9,158,195,158 });
+	walk_forward.PushBack({ 195 * 10,158,195,158 });
+	walk_forward.PushBack({ 195 * 11,158,195,158 });
 
 	walk_forward.loop = true;
 	walk_forward.speed = 0.2;
@@ -57,7 +57,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane): Character() {
 	light_attack.PushBack({ 195 * 5,158 * 13,195, 158 });
 
 	light_attack.loop = false;
-	light_attack.speed = 0.3;
+	light_attack.speed = 0.2;
 
 	heavy_attack.PushBack({ 0,158 * 12,195, 158 });
 	heavy_attack.PushBack({ 195,158 * 12,195, 158 });
@@ -87,7 +87,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane): Character() {
 	crouching_light.PushBack({ 195 * 6,158 * 20,195,158 });
 
 	crouching_light.loop = false;
-	crouching_light.speed = 0.5;
+	crouching_light.speed = 0.2;
 
 	crouching_heavy.PushBack({ 0,158 * 8,195,158 });
 	crouching_heavy.PushBack({ 195,158 * 8,195,158 });
@@ -99,7 +99,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane): Character() {
 
 	crouching_heavy.loop = false;
 	crouching_heavy.speed = 0.2;
-	
+
 	jump.PushBack({ 0, 158 * 2, 195, 158 });
 	jump.PushBack({ 195, 158 * 2, 195, 158 });
 	jump.PushBack({ 195 * 2, 158 * 2, 195, 158 });
@@ -171,6 +171,8 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane): Character() {
 	standing_special1.speed = 0.1;
 
 	standing_special2.PushBack({ 0, 948, 195, 158 });
+	standing_special2.PushBack({ 0, 948, 195, 158 });
+	standing_special2.PushBack({ 0, 948, 195, 158 });
 	standing_special2.PushBack({ 195, 948, 195, 158 });
 	standing_special2.PushBack({ 390, 948, 195, 158 });
 	standing_special2.PushBack({ 585, 948, 195, 158 }, ACTIVE);
@@ -187,6 +189,23 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane): Character() {
 
 	standing_special2.loop = false;
 	standing_special2.speed = 0.3;
+
+	crouching_special2.PushBack({ 0, 632, 195, 158 });
+	crouching_special2.PushBack({ 195, 632, 195, 158 });
+	crouching_special2.PushBack({ 390, 632, 195, 158 });
+	crouching_special2.PushBack({ 585, 632, 195, 158 }, ACTIVE);
+	crouching_special2.PushBack({ 780, 632, 195, 158 });
+	crouching_special2.PushBack({ 975, 632, 195, 158 });
+	crouching_special2.PushBack({ 1170, 632, 195, 158 });
+	crouching_special2.PushBack({ 1365, 632, 195, 158 });
+	crouching_special2.PushBack({ 1560, 632, 195, 158 });
+	crouching_special2.PushBack({ 1755, 632, 195, 158 });
+	crouching_special2.PushBack({ 1755, 632, 195, 158 });
+	crouching_special2.PushBack({ 1950, 632, 195, 158 });
+	crouching_special2.PushBack({ 1950, 632, 195, 158 });
+	
+	crouching_special2.loop = false;
+	crouching_special2.speed = 0.15;
 
 	// Basic attack definitions
 
@@ -294,6 +313,19 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane): Character() {
 	st_s2.juggle_speed.y = 3;
 	st_s2.block_type = BLOCK_TYPE::MID;
 
+	cr_s2.pos_rel_char = { 100,0 };
+	cr_s2.hitbox = { 0,0,100,300 };
+	cr_s2.active_time = -1;
+	cr_s2.hitstun = -1;
+	cr_s2.blockstun = 300;
+	cr_s2.pushhit = 20;
+	cr_s2.pushblock = 2;
+	cr_s2.damage = 17;
+	cr_s2.knockdown = true;
+	cr_s2.juggle_speed.x = 5;
+	cr_s2.juggle_speed.y = 5;
+	cr_s2.block_type = BLOCK_TYPE::MID;
+
 	// Other variable initialization
 	grounded = false;
 	instanciated_hitbox = false;
@@ -381,4 +413,29 @@ void Warrior::standingSpecial2()	{
 	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
 		hitbox->SetPos(calculateDrawPosition(st_s2.pos_rel_char.x, st_s2.hitbox.w, true), calculateDrawPosition(st_s2.pos_rel_char.y, st_s2.hitbox.h, false));
+}
+
+void Warrior::crouchingSpecial2()	{
+
+	if (grounded)
+		velocity.y -= jump_power.y/1.25,	grounded = false;
+	
+	if (velocity.y >= 0)
+		velocity.y = 0, current_state = JUMPING;
+
+	if (current_animation->Finished()) {
+		current_state = IDLE;
+		instanciated_hitbox = false;
+		collider* hitbox = getCurrentAttackHitbox();
+		if (hitbox != nullptr) { // Just for safety
+			deleteAttackHitbox(JM_L);
+		}
+	}
+	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
+		instanciateHitbox(CR_S2);
+
+	collider* hitbox = getCurrentAttackHitbox();
+	if (hitbox != nullptr)
+		hitbox->SetPos(calculateDrawPosition(cr_s2.pos_rel_char.x, cr_s2.hitbox.w, true), calculateDrawPosition(cr_s2.pos_rel_char.y, cr_s2.hitbox.h, false));
+
 }

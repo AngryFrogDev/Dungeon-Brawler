@@ -588,6 +588,10 @@ void Character::doAttack() {
 		updateAnimation(standing_special2);
 		standingSpecial2();
 		break;
+	case CR_S2:
+		updateAnimation(crouching_special2);
+		crouchingSpecial2();
+		break;
 	case JM_S1:
 	case JM_S2:
 		current_state = JUMPING;
@@ -636,6 +640,10 @@ void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
 		case ST_S2:
 			collider = { calculateDrawPosition(st_s2.pos_rel_char.x, st_s2.hitbox.w, true), calculateDrawPosition(st_s2.pos_rel_char.y, st_s2.hitbox.h, false), st_s2.hitbox.w, st_s2.hitbox.h };
 			life = st_s2.active_time;
+			break;
+		case CR_S2:
+			collider = { calculateDrawPosition(cr_s2.pos_rel_char.x, cr_s2.hitbox.w, true), calculateDrawPosition(cr_s2.pos_rel_char.y, cr_s2.hitbox.h, false), cr_s2.hitbox.w, cr_s2.hitbox.h };
+			life = cr_s2.active_time;
 	}
 	hitboxes.push_back(App->collision->AddCollider(collider, HITBOX,life ,type, App->entities, this));
 	instanciated_hitbox = true;
@@ -676,6 +684,9 @@ basic_attack_deff Character::getAttackData(CHAR_ATT_TYPE attack_type) {
 			break;
 		case ST_S2:
 			return st_s2;
+			break;
+		case CR_S2:
+			return cr_s2;
 			break;
 		case NO_ATT:
 			LOG("FATAL ERROR");
