@@ -358,6 +358,20 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		//TODO: Define swapping
 		manageSwap();
 		break;
+	case RECOVERY:
+		updateAnimation(idle);
+		if (recovery_timer.read() > current_recovery) {
+			current_state = CHAR_STATE::IDLE;
+		}
+		// One tick
+		if (hit) {
+			if (attack_recieving.knockdown)
+				current_state = CHAR_STATE::JUGGLE;
+			else
+				hit = false;
+			current_life -= attack_recieving.damage;
+		}
+		break;
 	case DEAD:
 		updateAnimation(dead);
 		App->render->drawQuad({ 0,0,100,100 }, 255, 255, 255, 255);
@@ -512,7 +526,7 @@ void Character::doAttack() {
 	case ST_H:
  		updateAnimation(heavy_attack);
 		if (current_animation->Finished()) {
-			current_state = IDLE;
+			askRecovery(st_h.recovery);
 			instanciated_hitbox = false;
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
@@ -807,4 +821,10 @@ CHAR_ATT_TYPE Character::getAttackDoing() 	{
 }
 CHAR_STATE Character::getCurrentState() {
 	return current_state;
+}
+
+void Character::askRecovery(int recovery) 	{
+	current_state = RECOVERY;
+	recovery_timer.start();
+	current_recovery = recovery;
 }

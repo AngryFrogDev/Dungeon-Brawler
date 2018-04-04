@@ -140,6 +140,8 @@ protected:
 	// Invencivility management
 	void makeInvencibleFor(int invencible_time); // Variable in milliseconds
 	void updateInvecibility();
+	// Recovery management
+	void askRecovery(int recovery);
 	// Uses player's logic position, flip, offset and width to calculate the position to draw a collider
 	int calculateDrawPosition(int offset, int size, bool x);
 	//Special functions
@@ -217,7 +219,8 @@ protected:
 	int stop_invencibility;
 	Timer invencible_timer;
 
-	Timer recovery;
+	int current_recovery; // In milliseconds
+	Timer recovery_timer;
 	
 public:
 	//Swap variables

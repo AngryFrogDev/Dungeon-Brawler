@@ -234,6 +234,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	st_h.juggle_speed.x = 10;
 	st_h.juggle_speed.y = 20;
 	st_h.block_type = BLOCK_TYPE::MID;
+	st_h.recovery = 200;
 
 	cr_l.pos_rel_char = { 110,50 };
 	cr_l.hitbox = { 0,0,70, 30 };
@@ -299,6 +300,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	st_s1.juggle_speed.x = 10;
 	st_s1.juggle_speed.y = 15;
 	st_s1.block_type = BLOCK_TYPE::MID;
+	st_s1.recovery = 300;
 
 	st_s2.pos_rel_char = { 0, 0 };
 	st_s2.hitbox = { 0,0,420,100 };
@@ -312,6 +314,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	st_s2.juggle_speed.x = 3;
 	st_s2.juggle_speed.y = 3;
 	st_s2.block_type = BLOCK_TYPE::MID;
+	st_s2.recovery = 500;
 
 	cr_s2.pos_rel_char = { 130,0 };
 	cr_s2.hitbox = { 0,0,140,300 };
@@ -390,7 +393,7 @@ void Warrior::standingSpecial1() 	{
 				speed.x = -projectile_speed;
 			speed.y = 0;
 			App->projectiles->addProjectile(WARRIOR_KNIFE, { logic_position.x, logic_position.y }, speed, projectile_collider, -1, fliped , scale);
-			current_state = IDLE;
+			askRecovery(st_s1.recovery);
 			projectile = true;
 		}
 }
@@ -401,7 +404,7 @@ void Warrior::standingSpecial2()	{
 		logic_position.x -= spin_speed;
 
 	if (current_animation->Finished()) {
-		current_state = IDLE;
+		askRecovery(st_s2.recovery);
 		instanciated_hitbox = false;
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr) { // Just for safety
