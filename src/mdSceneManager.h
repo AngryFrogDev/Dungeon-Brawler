@@ -7,6 +7,7 @@
 #include "Character.h"
 class Bars;
 class Buttons;
+
 enum ui_elem_type;
 enum button_types;
 enum bar_types;
@@ -20,13 +21,20 @@ struct CharacterInfo {
 	bool flipped;
 };
 
+struct LabelInfo {
+	string text;
+	SDL_Color color;
+};
+
 struct WidgetInfo {
 	iPoint pos;
 	ui_elem_type type;
 	button_types button_type; //in xml, leave empty if item is not a button
-	bar_types bar_type; //in xml, leave empty if item is not a button
-
+	bar_types bar_type; //in xml, leave empty if item is not a bar
+	LabelInfo label_info;  //in xml, leave empty if item is not a label
 };
+
+
 
 struct Scene {
 	scene_type type; 
@@ -55,9 +63,12 @@ public:
 
 private:
 	//HARDCODE
+	///When reading this from an XML, names should not be necesary
 
 	Scene one_vs_one;
 	Scene two_vs_two;
+	Scene main_menu;
+
 	CharacterInfo player1;
 	CharacterInfo player2;
 
@@ -65,6 +76,8 @@ private:
 	CharacterInfo player4;
 
 	WidgetInfo left_health_bar;
+	WidgetInfo random_button;
+	WidgetInfo random_label;
 };
 
 #endif

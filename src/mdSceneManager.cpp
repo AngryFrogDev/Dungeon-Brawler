@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "mdEntities.h"
 #include "mdGuiManager.h"
+#include "mdFonts.h"
 
 
 mdSceneManager::mdSceneManager()
@@ -33,7 +34,7 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)
 	player2.flipped = true;
 	one_vs_one.characters.push_back(player2);
 
-	///UI elemets
+	///UI 
 	left_health_bar.pos = { 100,10 };
 	left_health_bar.type = BAR;
 	left_health_bar.bar_type = HEALTH_BAR;
@@ -42,6 +43,7 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)
 	//Two vs Two
 	two_vs_two.type = TWO_VS_TWO;
 
+	///Characters
 	two_vs_two.characters.push_back(player1); //Perfectly reusable
 
 	two_vs_two.characters.push_back(player2); //Perfectly reusable
@@ -58,8 +60,25 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)
 	player4.flipped = true;
 	two_vs_two.characters.push_back(player4);
 
+	//Main menu
+	main_menu.type = MAIN_MENU;
 
-	current_scene = &two_vs_two;
+	///UI
+	random_button.type = BUTTON;
+	random_button.pos = { 400,100 };
+	random_button.button_type = NEW_GAME;
+	main_menu.ui_elements.push_back(random_button);
+
+	random_label.label_info.color = { 100,100,100,100 };
+	random_label.label_info.text = "PENE";
+
+	random_label.type = LABEL;
+	random_label.pos = { 400,0 };
+
+	main_menu.ui_elements.push_back(random_label);
+
+
+	current_scene = &main_menu;
 
 	return true;
 }
@@ -67,6 +86,7 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)
 bool mdSceneManager::start()
 {
 	bool ret = true;
+
 	if (current_scene == nullptr)
 		return false;
 
@@ -74,8 +94,7 @@ bool mdSceneManager::start()
 
 	CreateWidgets();
 
-	//(Bars*)App->gui->createBar(bar_types::HEALTH_BAR, { 0,0 }, this);
-	(Buttons*)App->gui->createButton(NEW_GAME, { 100,100 }, this);
+	//(Buttons*)App->gui->createButton(NEW_GAME, { 100,100 }, this);
 
 	App->entities->assignControls();
 
@@ -135,7 +154,14 @@ bool mdSceneManager::CreateWidgets()
 		case BAR:
 			App->gui->createBar(curr_widget_info.bar_type, { curr_widget_info.pos.x,curr_widget_info.pos.y }, this);
 			break;
+		case BUTTON:
+			App->gui->createButton(curr_widget_info.button_type, { curr_widget_info.pos.x,curr_widget_info.pos.y }, this);
+			break;
+		case LABEL:
+			App->gui->createLabel(random_label.label_info.text.c_str(), random_label.label_info.color,*(App->fonts->fonts.begin()),{ curr_widget_info.pos.x,curr_widget_info.pos.y }, this);
+			break;
 		default:
+			//It should never go here
 			break;
 		}
 	}
