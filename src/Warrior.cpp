@@ -164,8 +164,8 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	standing_special1.PushBack({ 195 * 2, 158 * 5, 195, 158 });
 	standing_special1.PushBack({ 195 * 3, 158 * 5, 195, 158 });
 	standing_special1.PushBack({ 195 * 4, 158 * 5, 195, 158 });
-	standing_special1.PushBack({ 195 * 5, 158 * 5, 195, 158 });
-	standing_special1.PushBack({ 195 * 6, 158 * 5, 195, 158 }, ACTIVE);
+	standing_special1.PushBack({ 195 * 5, 158 * 5, 195, 158 }, ACTIVE);
+	standing_special1.PushBack({ 195 * 6, 158 * 5, 195, 158 });
 
 	standing_special1.loop = false;
 	standing_special1.speed = 0.1;
@@ -313,8 +313,8 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	st_s2.juggle_speed.y = 3;
 	st_s2.block_type = BLOCK_TYPE::MID;
 
-	cr_s2.pos_rel_char = { 100,0 };
-	cr_s2.hitbox = { 0,0,100,300 };
+	cr_s2.pos_rel_char = { 130,0 };
+	cr_s2.hitbox = { 0,0,140,300 };
 	cr_s2.active_time = -1;
 	cr_s2.hitstun = -1;
 	cr_s2.blockstun = 300;
@@ -371,6 +371,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	projectile_duration = 2000;
 	projectile_speed = 15;
 	projectile_scale = 3;
+	swordyuken_invencivility = 300;
 
 }
 
@@ -417,20 +418,24 @@ void Warrior::standingSpecial2()	{
 
 void Warrior::crouchingSpecial2()	{
 
-	if (grounded)
-		velocity.y -= jump_power.y/1.25,	grounded = false;
+	if (grounded) { 
+		velocity.y -= jump_power.y / 1.25;
+		grounded = false;
+		makeInvencibleFor(swordyuken_invencivility);
+	}
 	
-	if (velocity.y >= 0)
-		velocity.y = 0, current_state = JUMPING;
-
-	if (current_animation->Finished()) {
-		current_state = IDLE;
+	if (velocity.y >= 0) { 
+		velocity.y = 0;
+		current_state = JUMPING;
+		crouching_hurtbox = false;
+		hurtbox->rect.h = standing_hurtbox_size.y;
 		instanciated_hitbox = false;
 		collider* hitbox = getCurrentAttackHitbox();
-		if (hitbox != nullptr) { // Just for safety
-			deleteAttackHitbox(JM_L);
+		if (hitbox != nullptr) {
+			deleteAttackHitbox(CR_S2);
 		}
 	}
+
 	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
 		instanciateHitbox(CR_S2);
 
