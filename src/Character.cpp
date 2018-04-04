@@ -189,14 +189,14 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 				if (attack_recieving.knockdown)
 					current_state = CHAR_STATE::JUGGLE;
 				else
-					current_state = CHAR_STATE::HIT; // CROUCHING HIT?
+					current_state = CHAR_STATE::HIT;
 			}
 		}	
 		else if (hit) {
 			if (attack_recieving.knockdown)
 				current_state = CHAR_STATE::JUGGLE;
 			else
-				current_state = CHAR_STATE::HIT; // CROUCHING HIT?
+				current_state = CHAR_STATE::HIT;
 		}
 
 		// Input dependent actions
@@ -264,7 +264,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			if (attack_recieving.knockdown)
 				current_state = CHAR_STATE::JUGGLE;
 			else
-				current_state = CHAR_STATE::HIT; // CROUCHING HIT?
+				current_state = CHAR_STATE::HIT; 
 		}
 		break;
 
@@ -339,7 +339,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			grounded = false;
 		}
 		if (grounded)
-			current_state = CHAR_STATE::KNOCKDOWN; // Should be Knockdown, but it is not implemented yet
+			current_state = CHAR_STATE::KNOCKDOWN; 
 		break;
 
 	case KNOCKDOWN:
@@ -407,7 +407,6 @@ void Character::onCollision(collider* c1, collider* c2) {
 		// Allways delete hitboxes on collision
 		deleteAttackHitbox(c1->attack_type);
 		c1->to_delete = true; // PROVISIONAL: This is just in case it is a projectile, put projectile management overall is now bad, projectiles should have a special hitbox
-		instanciated_hitbox = false;
 	}
 }
 void Character::applyGravity() {
