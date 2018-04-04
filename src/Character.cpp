@@ -799,3 +799,10 @@ void Character::deleteAllHitboxes() {
 
 	hitboxes_to_delete.clear();
 }
+
+CHAR_ATT_TYPE Character::getAttackDoing() 	{
+	return attack_doing;
+}
+CHAR_STATE Character::getCurrentState() {
+	return current_state;
+}

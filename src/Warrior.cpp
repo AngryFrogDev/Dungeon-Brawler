@@ -367,7 +367,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	hurtbox = App->collision->AddCollider({ logic_position.x - standing_hurtbox_size.x/2, logic_position.y - standing_hurtbox_size.y/2, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1,CHAR_ATT_TYPE::NO_ATT,(Module*)App->entities,(Character*)this);
 
 	// WARRIOR EXCLUSIVE VARS
-	spin_speed = 15;
+	spin_speed = 6;
 	projectile_duration = 2000;
 	projectile_speed = 15;
 	projectile_scale = 3;
@@ -405,7 +405,7 @@ void Warrior::standingSpecial2()	{
 		instanciated_hitbox = false;
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr) { // Just for safety
-			deleteAttackHitbox(JM_L);
+			deleteAttackHitbox(ST_S2);
 		}
 	}
 	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)

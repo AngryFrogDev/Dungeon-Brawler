@@ -86,7 +86,10 @@ bool mdEntities::postUpdate()
 		if (players[i]->getCurrCharacter()->readyToSwap == true) //no flip if characters are swapping
 			return true;
 	}
-	automaticFlip();
+
+	if(allowFlip())
+		automaticFlip();
+
 	return true;
 }
 
@@ -164,4 +167,19 @@ bool mdEntities::automaticFlip() {
 	}
 
 	return ret;
+}
+
+bool mdEntities::allowFlip() 	{
+
+	// PROVISIONAL: Every character should have specified with which states flip should not be executed
+	bool do_flip = true;
+	for (int i = 0; i < 4; i++) {
+		if (players[i] == nullptr)
+			continue;
+		Character* character = players[i]->getCurrCharacter();
+		if (character->getCurrentState() == ATTACKING && character->getAttackDoing() == ST_S2)
+			do_flip = false;
+	}
+
+	return do_flip;
 }

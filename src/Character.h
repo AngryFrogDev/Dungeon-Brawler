@@ -115,6 +115,8 @@ public:
 
 	basic_attack_deff getAttackData(CHAR_ATT_TYPE attack_type);
 	iPoint getPos();
+	CHAR_ATT_TYPE getAttackDoing();
+	CHAR_STATE getCurrentState();
 	void setFlip(bool flip);
 	void setProjectile(bool projectile);
 
@@ -165,10 +167,6 @@ protected:
 	Player* owner;
 	// In miliseconds
 	int invencibility_on_wakeup;
-
-	
-
-
 
 	// Variables to modify in runtime
 	iPoint logic_position;
