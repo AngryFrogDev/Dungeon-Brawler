@@ -318,7 +318,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	cr_s2.active_time = -1;
 	cr_s2.hitstun = -1;
 	cr_s2.blockstun = 300;
-	cr_s2.pushhit = 20;
+	cr_s2.pushhit = -1;
 	cr_s2.pushblock = 2;
 	cr_s2.damage = 17;
 	cr_s2.knockdown = true;
