@@ -87,7 +87,7 @@ bool mdEntities::postUpdate()
 			return true;
 	}
 
-	if(allowFlip())
+	if(allowFlip()) // PROVISIONAL: Kind of useless now, but it can be useful in the future
 		automaticFlip();
 
 	return true;

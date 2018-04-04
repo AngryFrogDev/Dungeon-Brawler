@@ -15,7 +15,8 @@ enum COLLIDER_TYPE
 {
 	COLLIDER_NONE = 0,
 	HURTBOX,
-	HITBOX
+	HITBOX,
+	PUSHBOX
 };
 
 struct collider

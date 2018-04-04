@@ -8,7 +8,6 @@ enum fighting_state {
 
 	STARTUP,
 	ACTIVE,
-	RECOVERY
 };
 struct fighting_frame {
 

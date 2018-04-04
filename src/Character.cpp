@@ -18,10 +18,12 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	//PROVISIONAL: Crazy provisional
 	if (current_life <= 0) {
 		current_state = CHAR_STATE::DEAD;
+		hurtbox->active = false;
 	}
 	if (App->input->getKey(SDL_SCANCODE_F2) == KEY_DOWN) {
 		current_life = max_life;
 		current_state = CHAR_STATE::IDLE;
+		hurtbox->active = true;
 	}
 
 	switch (current_state) {
@@ -371,7 +373,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	draw_position.x = calculateDrawPosition(0, draw_size.x* scale, true);
 	draw_position.y = calculateDrawPosition(0, draw_size.y * scale, false);
 
-	// Hurtbox allways next to the player
+	// Hurtbox and pushbox allways next to the player
 	int offset;
 	if (crouching_hurtbox)
 		offset = crouching_hurtbox_offset;
@@ -379,7 +381,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		offset = 0;
 
 	hurtbox->SetPos(calculateDrawPosition(0, hurtbox->rect.w, true), calculateDrawPosition(offset, hurtbox->rect.h, false));
-
+	pushbox->SetPos(calculateDrawPosition(0, pushbox->rect.w, true), calculateDrawPosition(crouching_hurtbox_offset, pushbox->rect.h, false));
 	if (!grounded) 		{
 		applyGravity();
 		setIfGrounded();
@@ -397,7 +399,7 @@ void Character::onCollision(collider* c1, collider* c2) {
 		moment_hit = SDL_GetTicks();
 		deleteAllHitboxes(); // When you get hit all your current hitboxes are deleted
 	}
-	else if (c1->type == HURTBOX && c2->type == HURTBOX) {
+	else if (c1->type == PUSHBOX && c2->type == PUSHBOX) {
 		if (!fliped)
 			logic_position.x -= walk_speed;
 		else

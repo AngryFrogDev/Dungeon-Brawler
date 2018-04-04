@@ -105,6 +105,8 @@ void mdCollision::DebugDraw()
 			case HURTBOX:
 				App->render->drawQuad(c->rect, 0, 0, 255, alpha, true);
 				break;
+			case PUSHBOX:
+				App->render->drawQuad(c->rect, 255, 127, 80, alpha, true);
 		}
 	}
 }

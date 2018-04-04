@@ -42,6 +42,7 @@ enum CHAR_STATE {
 	JUMPING,
 	ATTACKING,
 	SWAPPING,
+	RECOVERY,
 
 	STAND_BLOCKING, 
 	CROUCH_BLOCKING,
@@ -84,6 +85,7 @@ struct basic_attack_deff {
 	bool knockdown; //if the attack causes a knockdown or not
 	iPoint juggle_speed;
 	BLOCK_TYPE block_type;
+	int recovery; //in milliseconds
 };
 
 class Player;
@@ -199,6 +201,7 @@ protected:
 
 	// Entity collider
 	collider* hurtbox = nullptr;	
+	collider* pushbox = nullptr;
 	iPoint standing_hurtbox_size;
 	std::list<collider*> hitboxes; //It should be a list, as a character can have multiple active hitboxes
 
@@ -213,6 +216,8 @@ protected:
 	// Time to stop invencibility
 	int stop_invencibility;
 	Timer invencible_timer;
+
+	Timer recovery;
 	
 public:
 	//Swap variables

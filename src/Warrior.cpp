@@ -364,8 +364,8 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	walk_speed = 4;
 
 	scale = 3;
-	hurtbox = App->collision->AddCollider({ logic_position.x - standing_hurtbox_size.x/2, logic_position.y - standing_hurtbox_size.y/2, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1,CHAR_ATT_TYPE::NO_ATT,(Module*)App->entities,(Character*)this);
-
+	hurtbox = App->collision->AddCollider({0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
+	pushbox = App->collision->AddCollider({0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y/2 }, PUSHBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
 	// WARRIOR EXCLUSIVE VARS
 	spin_speed = 6;
 	projectile_duration = 2000;
