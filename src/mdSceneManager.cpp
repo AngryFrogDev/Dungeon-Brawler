@@ -1,6 +1,7 @@
 #include "mdSceneManager.h"
 #include "Application.h"
 #include "mdEntities.h"
+#include "mdGuiManager.h"
 
 
 mdSceneManager::mdSceneManager()
@@ -43,7 +44,13 @@ bool mdSceneManager::start()
 		return false;
 
 	CreateCharacters();
+
+	test_bar = (Bars*)App->gui->createBar(bar_types::HEALTH_BAR, { 0,0 }, this);
+	button = (Buttons*)App->gui->createButton(NEW_GAME, { 100,100 }, this);
+
 	App->entities->assignControls();
+
+
 
 
 	//Very dangerous hardcode to set the partners: 
@@ -53,6 +60,12 @@ bool mdSceneManager::start()
 	//players[2]->getCurrCharacter()->partner = players[3];
 	//players[3]->getCurrCharacter()->partner = players[2];
 
+	return true;
+}
+
+bool mdSceneManager::update(float dt)
+{
+	App->gui->draw();
 	return true;
 }
 
@@ -69,6 +82,3 @@ bool mdSceneManager::CreateCharacters()
 	return true;
 }
 
-Scene::Scene()
-{
-}
