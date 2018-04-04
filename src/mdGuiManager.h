@@ -31,6 +31,7 @@ public:
 	bool update(float dt);
 	bool postUpdate();
 	bool cleanUp();
+	bool cleanUI();
 	
 	Widgets* createButton(button_types type, std::pair<int, int> pos, Module* callback = nullptr);
 	Widgets* createLabel(const char* content, const SDL_Color& color, _TTF_Font* font_size, std::pair<int, int> pos, Module* callback = nullptr);

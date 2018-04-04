@@ -3,6 +3,7 @@
 #include "mdEntities.h"
 #include "mdGuiManager.h"
 #include "mdFonts.h"
+#include "mdInput.h"
 
 
 mdSceneManager::mdSceneManager()
@@ -69,16 +70,14 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)
 	random_button.button_type = NEW_GAME;
 	main_menu.ui_elements.push_back(random_button);
 
-	random_label.label_info.color = { 100,100,100,100 };
-	random_label.label_info.text = "PENE";
-
 	random_label.type = LABEL;
 	random_label.pos = { 400,0 };
-
+	random_label.label_info.color = { 100,100,100,100 };
+	random_label.label_info.text = "PENE";
 	main_menu.ui_elements.push_back(random_label);
 
 
-	current_scene = &main_menu;
+	current_scene = &one_vs_one;
 
 	return true;
 }
@@ -94,9 +93,7 @@ bool mdSceneManager::start()
 
 	CreateWidgets();
 
-	//(Buttons*)App->gui->createButton(NEW_GAME, { 100,100 }, this);
 
-	App->entities->assignControls();
 
 	return true;
 }
@@ -104,7 +101,26 @@ bool mdSceneManager::start()
 bool mdSceneManager::update(float dt)
 {
 	App->gui->draw();
+
+
+	if (App->input->getKey(SDL_SCANCODE_M) == KEY_REPEAT) //"M" from menu :-)
+	{
+		changeScene(main_menu); //To test the code
+	}
+
+
 	return true;
+}
+
+void mdSceneManager::changeScene(Scene scene_to_load)
+{
+	App->gui->cleanUI();
+	App->entities->cleanUp();
+
+	current_scene = &scene_to_load;
+
+	CreateCharacters();
+	CreateWidgets();
 }
 
 bool mdSceneManager::CreateCharacters()
@@ -137,6 +153,9 @@ bool mdSceneManager::CreateCharacters()
 		//Very dangerous hardcode to set the partners: 
 		App->entities->assignPartners();
 	}
+
+	//This will need to change
+	App->entities->assignControls();
 
 	return true;
 }

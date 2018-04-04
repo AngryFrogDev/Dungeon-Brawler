@@ -102,6 +102,20 @@ bool mdGuiManager::cleanUp() {
 	return ret;
 }
 
+bool mdGuiManager::cleanUI()
+{
+	Widgets* object = nullptr;
+
+	std::list<Widgets*>::reverse_iterator ui_iterator = ui_elements.rbegin();
+	for (ui_iterator; ui_iterator != ui_elements.rend(); ++ui_iterator) {
+		object = *ui_iterator;
+		RELEASE(object);
+	}
+
+	ui_elements.clear();
+	return true;
+}
+
 
 Widgets* mdGuiManager::createButton(button_types type, std::pair<int, int> pos, Module * callback) {
 

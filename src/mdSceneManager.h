@@ -53,9 +53,12 @@ public:
 	bool start() override;
 	bool update(float dt) override;
 
+	void changeScene(Scene scene_to_load);
+
 private:
 	bool CreateCharacters();
 	bool CreateWidgets();
+
 
 public:
 	std::list<Scene> scenes;
