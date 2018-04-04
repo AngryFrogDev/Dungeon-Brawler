@@ -168,7 +168,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	standing_special1.PushBack({ 195 * 6, 158 * 5, 195, 158 }, ACTIVE);
 
 	standing_special1.loop = false;
-	standing_special1.speed = 0.1;
+	standing_special1.speed = 0.2;
 
 	standing_special2.PushBack({ 0, 948, 195, 158 });
 	standing_special2.PushBack({ 0, 948, 195, 158 });
