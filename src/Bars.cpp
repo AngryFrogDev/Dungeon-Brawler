@@ -2,13 +2,13 @@
 #include "mdRender.h"
 #include "Widgets.h"
 #include "Bars.h"
+#include "DebLog.h"
 
 
 Bars::Bars(bar_types type, std::pair<int, int> pos, Module* callback) : Widgets(ui_elem_type::BAR, pos, callback) {
 	
 	bar_type = type;
 	
-	getSection({ 0, 75, 228, 63 }, { 0, 298, 228, 63 });
 }
 
 Bars::~Bars(){
@@ -61,4 +61,20 @@ void Bars::updateBarGauge(uint new_gauge) {
 	}
 	else
 		current_gauge_rect.w -= new_gauge;
+}
+
+void Bars::loadGuiFromAtlas()	{
+
+	switch (bar_type)
+	{
+	case HEALTH_BAR:
+		break;
+	case SUPER_BAR:
+		break;
+	case SWAP_BAR:
+		break;
+	case NO_BAR:
+		LOG("Non valid Bar type");
+		break;
+	}
 }

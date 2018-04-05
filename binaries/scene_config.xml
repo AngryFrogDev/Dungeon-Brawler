@@ -1,0 +1,46 @@
+<!-- Complementary file with every UI element in each Scene -->
+
+<config>
+	<main_menu>
+		<buttons>
+		</buttons>
+		<labels>
+		</labels>
+		<textures>
+		</textures>
+	</main_menu>
+	<char_sel>
+		<buttons>
+		</buttons>
+		<labels>
+		</labels>
+		<textures>
+		</textures>
+	</char_sel>
+	<obj_sel>
+		<buttons>
+		</buttons>
+		<labels>
+		</labels>
+		<textures>
+		</textures>
+	</obj_sel>
+	<combat>
+		<one_vs_one>
+			<labels>
+			</labels>
+			<bars>
+			</bars>
+			<textures>
+			</textures>
+		</one_vs_one>
+		<two_vs_two>
+			<labels>
+			</labels>
+			<bars>
+			</bars>
+			<textures>
+			</textures>
+		</two_vs_two>
+	</combat>
+</config>

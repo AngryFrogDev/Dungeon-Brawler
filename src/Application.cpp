@@ -67,7 +67,7 @@ bool Application::awake() {
 	pugi::xml_node config;
 	
 
-	loadConfig(config_file, config);
+	config = loadConfig("config.xml", config_file);
 
 	if (config.empty()) {
 		ret = false;
@@ -153,15 +153,20 @@ void Application::addModule(Module * module)
 	modules.push_back(module);
 }
 
-void Application::loadConfig(pugi::xml_document& config_file, pugi::xml_node& config_node) {
+pugi::xml_node Application::loadConfig(const char* file_name, pugi::xml_document& config_file) {
+	pugi::xml_node config_node;
 	char* buffer;
-	int size = filesystem->load("config.xml", &buffer);
+	int size = filesystem->load(file_name, &buffer);
 	pugi::xml_parse_result result = config_file.load_buffer(buffer, size);
 	if (size != 0)
 		RELEASE(buffer);
 
 	if (result == NULL)
-		LOG("Application : Could not load config.xml - %s", result.description());
+		LOG("Application : Could not load file - %s", result.description());
 	else
 		config_node = config_file.child("config");
+
+	return config_node;
 }
+
+

@@ -16,12 +16,11 @@ enum ui_elem_type {
 //Review button types
 enum button_types {
 	NO_BUTTON = 0,
-	NEW_GAME,
+	ONE_V_ONE,
+	TWO_V_TWO,
 	SETTINGS,
 	CREDITS,
 	EXIT,
-	TWO_PLAYERS,
-	FOUR_PLAYERS,
 	MUSIC_VOL_UP,
 	MUSIC_VOL_DOWN,
 	SFX_VOL_UP,
@@ -45,6 +44,8 @@ public:
 	virtual bool update(float dt) { return true; };
 	
 	virtual void draw() { return; };
+	virtual	void loadGuiFromAtlas() { return; };
+
 
 public:
 	ui_elem_type type;
@@ -54,7 +55,5 @@ public:
 
 protected:
 	Module* callback = nullptr;
-	pugi::xml_document ui_config_file;
-	pugi::xml_node ui_config;
 };
 #endif

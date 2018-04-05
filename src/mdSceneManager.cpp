@@ -4,6 +4,7 @@
 #include "mdGuiManager.h"
 #include "mdFonts.h"
 #include "mdInput.h"
+#include "mdCollision.h"
 
 
 mdSceneManager::mdSceneManager()
@@ -67,7 +68,7 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)
 	///UI
 	random_button.type = BUTTON;
 	random_button.pos = { 400,100 };
-	random_button.button_type = NEW_GAME;
+	random_button.button_type = ONE_V_ONE;
 	main_menu.ui_elements.push_back(random_button);
 
 	random_label.type = LABEL;
@@ -92,8 +93,7 @@ bool mdSceneManager::start()
 	CreateCharacters();
 
 	CreateWidgets();
-
-
+	
 
 	return true;
 }
@@ -107,7 +107,7 @@ bool mdSceneManager::update(float dt)
 	{
 		changeScene(main_menu); //To test the code
 	}
-
+	
 
 	return true;
 }
@@ -115,12 +115,16 @@ bool mdSceneManager::update(float dt)
 void mdSceneManager::changeScene(Scene scene_to_load)
 {
 	App->gui->cleanUI();
+	App->collision->cleanUp();
 	App->entities->cleanUp();
 
 	current_scene = &scene_to_load;
 
 	CreateCharacters();
 	CreateWidgets();
+}
+
+void mdSceneManager::onEvent(Buttons* button)	{
 }
 
 bool mdSceneManager::CreateCharacters()

@@ -19,7 +19,7 @@ public:
 	
 private:
 	void changeVisualState(controller_events event);
-	void loadButtonsFromAtlas();
+	void loadGuiFromAtlas();
 
 public:
 	bool being_clicked = false;
@@ -28,7 +28,7 @@ public:
 
 private:
 	SDL_Rect click_rect;
-	SDL_Rect idle_rect;
+	SDL_Rect still_rect;
 	SDL_Rect highl_rect;
 	SDL_Rect disabled_rect;
 	SDL_Rect* current_rect = nullptr;
@@ -36,5 +36,10 @@ private:
 	bool enabled = true;
 
 	uint click_sfx;
+
+	//Nodes
+	pugi::xml_document config_doc;
+	pugi::xml_node config;
+	pugi::xml_node data;
 };
 #endif

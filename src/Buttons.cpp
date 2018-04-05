@@ -3,16 +3,20 @@
 #include "mdAudio.h"
 #include "mdRender.h"
 #include "mdInput.h"
+#include "mdSceneManager.h"
+#include "DebLog.h"
 
 
 
 Buttons::Buttons(button_types type, std::pair<int, int> pos, Module* callback) : Widgets(ui_elem_type::BUTTON, pos, callback) {
 	
 	button_type = type;
-	current_rect = &idle_rect;
 	//click_sfx = App->audio->loadSFX(/*Path*/);
+	config = App->loadConfig("config.xml", config_doc);
+	data = config.child("gui").child("button_section");
 
-	loadButtonsFromAtlas();
+	loadGuiFromAtlas();
+	current_rect = &still_rect;
 }
 
 Buttons::~Buttons() {
@@ -39,7 +43,7 @@ bool Buttons::preUpdate()
 	{
 		changeVisualState(FOCUSED);
 		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-			changeVisualState(CLICK);//Should call the onEvent function for each scene
+			changeVisualState(CLICK); App->scene_manager->onEvent(this);
 		hovering = false;
 	}
 	
@@ -52,10 +56,10 @@ void Buttons::draw() {
 }
 
 void Buttons::getSection(SDL_Rect idle_sec, SDL_Rect high_sec, SDL_Rect clicked_sec, SDL_Rect disabled_sec) {
-	idle_rect.x = idle_sec.x;
-	idle_rect.y = idle_sec.y;
-	idle_rect.w = idle_sec.w;
-	idle_rect.h = idle_sec.h;
+	still_rect.x = idle_sec.x;
+	still_rect.y = idle_sec.y;
+	still_rect.w = idle_sec.w;
+	still_rect.h = idle_sec.h;
 
 	highl_rect.x = high_sec.x;
 	highl_rect.y = high_sec.y;
@@ -86,31 +90,45 @@ void Buttons::changeVisualState(controller_events event) {
 	case FOCUSED:
 		current_rect = &highl_rect; break;
 	case STILL:
-		current_rect = &idle_rect; break;
+		current_rect = &still_rect; break;
 	}
 }
 
-void Buttons::loadButtonsFromAtlas() {
-
-	pugi::xml_node button = ui_config.child("button"); //Still not implemented because functions to load config files are missing
-
+void Buttons::loadGuiFromAtlas() {
+	//The moment we have buttons visually different, there should be another node to differentiate them 
+	pugi::xml_node still = data.child("still");
+	pugi::xml_node focused = data.child("focused");
+	pugi::xml_node clicked = data.child("clicked");
+		
 	switch (button_type)
 	{
 	case NO_BUTTON:
+		LOG("Non valid Button type");
 		break;
-	case NEW_GAME:
-		getSection({ 0,0,288,63 }, { 0,150,288,63 }, { 0, 75, 288, 63 }, { 0,0,0,0 }); //Read from XML
+	case ONE_V_ONE:
+		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
+		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
+		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
+		break;
+	case TWO_V_TWO:
+		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
+		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
+		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
 		break;
 	case SETTINGS:
-		getSection({ 0,0,288,63 }, { 0,150,288,63 }, { 0, 75, 288, 63 }, { 0,0,0,0 }); //Read from XML
+		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
+		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
+		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
 		break;
 	case CREDITS:
+		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
+		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
+		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
 		break;
 	case EXIT:
-		break;
-	case TWO_PLAYERS: 
-		break;
-	case FOUR_PLAYERS:
+		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
+		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
+		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
 		break;
 	case MUSIC_VOL_UP:
 		break;

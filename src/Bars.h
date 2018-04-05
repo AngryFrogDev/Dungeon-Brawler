@@ -13,6 +13,7 @@ public:
 	void draw();
 	void getSection(SDL_Rect rect, SDL_Rect gauge);
 	void updateBarGauge(uint new_gauge);
+	void loadGuiFromAtlas();
 
 private:
 	bar_types bar_type = NO_BAR;

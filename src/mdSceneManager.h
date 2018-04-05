@@ -54,6 +54,7 @@ public:
 	bool update(float dt) override;
 
 	void changeScene(Scene scene_to_load);
+	void onEvent(Buttons* button);
 
 private:
 	bool CreateCharacters();

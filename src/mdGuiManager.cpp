@@ -33,7 +33,7 @@ bool mdGuiManager::preUpdate() {
 	manageFocus();
 
 	Widgets* object = nullptr;
-	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();//Now we iterate the temporary list 
+	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
 	for (ui_iterator; ui_iterator != ui_elements.end() && ret; ui_iterator++) {
 		object = *ui_iterator;
 		ret = object->preUpdate();
