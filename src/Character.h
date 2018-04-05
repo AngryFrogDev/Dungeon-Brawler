@@ -138,6 +138,9 @@ protected:
 	void manageGroundPosition();
 
 	void updateAnimation(Animation& new_animation);
+	void updateState(CHAR_STATE state, CHAR_ATT_TYPE attack);
+	void playCurrentSFX();
+	void setCrouchingHurtbox(bool crouch);
 	
 	// Invencivility management
 	void makeInvencibleFor(int invencible_time); // Variable in milliseconds
@@ -210,6 +213,7 @@ protected:
 
 	//If the hitbox of the attack has been already instanciated, it should,'t be instanciated again
 	bool instanciated_hitbox; 
+	bool state_first_tick;
 	//If the projectile has already been thrown, no other projectile should be
 	bool projectile;
 

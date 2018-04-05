@@ -251,6 +251,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	st_l.juggle_speed.x = 5;
 	st_l.juggle_speed.y = 5;
 	st_l.block_type = BLOCK_TYPE::MID;
+	st_l.type = ST_L;
 	
 	st_h.pos_rel_char = { 210,20 };
 	st_h.hitbox = { 0,0,150, 50 };
@@ -265,6 +266,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	st_h.juggle_speed.y = 20;
 	st_h.block_type = BLOCK_TYPE::MID;
 	st_h.recovery = 0;
+	st_h.type = ST_H;
 
 	cr_l.pos_rel_char = { 110,50 };
 	cr_l.hitbox = { 0,0,70, 30 };
@@ -278,6 +280,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	cr_l.juggle_speed.x = 0;
 	cr_l.juggle_speed.y = 0;
 	cr_l.block_type = BLOCK_TYPE::LOW;
+	cr_l.type = CR_L;
 
 	cr_h.pos_rel_char = { 190,80 };
 	cr_h.hitbox = { 0,0,180, 50 };
@@ -291,6 +294,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	cr_h.juggle_speed.x = 5;
 	cr_h.juggle_speed.y = 20;
 	cr_h.block_type = BLOCK_TYPE::LOW;
+	cr_h.type = CR_H;
 
 	jm_l.pos_rel_char = { 150,70 };
 	jm_l.hitbox = { 0,0,140,20 };
@@ -304,6 +308,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	jm_l.juggle_speed.x = 5;
 	jm_l.juggle_speed.y = 20;
 	jm_l.block_type = BLOCK_TYPE::OVERHEAD;
+	jm_l.type = JM_L;
 
 	jm_h.pos_rel_char = { 42,80 };
 	jm_h.hitbox = { 0,0,120,100 };
@@ -317,6 +322,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	jm_h.juggle_speed.x = 0;
 	jm_h.juggle_speed.y = 10;
 	jm_h.block_type = BLOCK_TYPE::OVERHEAD;
+	jm_h.type = JM_H;
 
 	st_s1.pos_rel_char = { 0, 0 };
 	st_s1.hitbox = { 0,0,130,30 };
@@ -331,6 +337,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	st_s1.juggle_speed.y = 15;
 	st_s1.block_type = BLOCK_TYPE::MID;
 	st_s1.recovery = 300;
+	st_s1.type = ST_S1;
 
 	st_s2.pos_rel_char = { 0, 0 };
 	st_s2.hitbox = { 0,0,420,100 };
@@ -345,6 +352,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	st_s2.juggle_speed.y = 3;
 	st_s2.block_type = BLOCK_TYPE::MID;
 	st_s2.recovery = 500;
+	st_s2.type = ST_S2;
 
 	cr_s1.pos_rel_char = { 100,50 };
 	cr_s1.hitbox = { 0,0,100,150 };
@@ -359,6 +367,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	cr_s1.juggle_speed.y = 25;
 	cr_s1.block_type = BLOCK_TYPE::MID;
 	cr_s1.recovery = 150;
+	cr_s1.type = CR_S1;
 
 	cr_s2.pos_rel_char = { 130,0 };
 	cr_s2.hitbox = { 0,0,140,300 };
@@ -372,6 +381,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	cr_s2.juggle_speed.x = 5;
 	cr_s2.juggle_speed.y = 5;
 	cr_s2.block_type = BLOCK_TYPE::MID;
+	cr_s2.type = CR_S2;
 
 	jm_s1.pos_rel_char = { 110,50 };
 	jm_s1.hitbox = { 0,0,70, 30 };
@@ -386,6 +396,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	jm_s1.juggle_speed.y = 0;
 	jm_s1.block_type = BLOCK_TYPE::OVERHEAD;
 	jm_s1.recovery = 500;
+	jm_s1.type = JM_S1;
 
 	jm_s2.pos_rel_char = { 110,50 };
 	jm_s2.hitbox = { 0,0,70, 30 };
@@ -400,6 +411,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	jm_s2.juggle_speed.y = 0;
 	jm_s2.block_type = BLOCK_TYPE::OVERHEAD;
 	jm_s2.recovery = 500;
+	jm_s2.type = JM_S2;
 
 	// Other variable initialization
 	grounded = false;
@@ -438,6 +450,8 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	type = CHAR_TYPE::WARRIOR;
 	walk_speed = 4;
 
+	state_first_tick = false;
+
 	scale = 3;
 	hurtbox = App->collision->AddCollider({0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
 	pushbox = App->collision->AddCollider({0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y/2 }, PUSHBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
@@ -449,12 +463,13 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	projectile_scale = 3;
 	swordyuken_invencivility = 300;
 
+	// PROVISIONAL: This should belong to entities, if not fx are loaded twice
 	s_jump = App->audio->loadSFX("SFX/jump.wav");
-	//s_light_sword_block = App->audio->loadSFX("SFX/light_sword_block.wav");
-	//s_heavy_sword_block = App->audio->loadSFX("SFX/heavy_sword_block.wav");
+	s_light_sword_block = App->audio->loadSFX("SFX/light_sword_block.wav");
+	s_heavy_sword_block = App->audio->loadSFX("SFX/heavy_sword_block.wav");
 	s_light_sword_whiff = App->audio->loadSFX("SFX/light_sword_whiff.wav");
 	s_heavy_sword_whiff = App->audio->loadSFX("SFX/heavy_sword_whiff.wav");
-	//s_light_sword_impact = App->audio->loadSFX("SFX/light_sword_impact.wav");
+	s_light_sword_impact = App->audio->loadSFX("SFX/light_sword_impact.wav");
 	s_heavy_sword_impact = App->audio->loadSFX("SFX/heavy_sword_impact.wav");
 	s_standing_special_2 = App->audio->loadSFX("SFX/standing_special_2.wav");
 	s_man_death = App->audio->loadSFX("SFX/man_death.wav");
