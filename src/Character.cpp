@@ -3,6 +3,7 @@
 #include "DebLog.h"
 #include "Player.h"
 #include "mdCollision.h"
+#include "mdAudio.h"
 
 Character::Character() {
 
@@ -30,6 +31,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	case IDLE:
 		updateAnimation(idle);
 		if (hit) { 
+			App->audio->playSFX(s_heavy_sword_impact);
 			if (!attack_recieving.knockdown)
 				current_state = CHAR_STATE::HIT;
 			else 
@@ -44,6 +46,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else if (inputs[LEFT] && !fliped || inputs[RIGHT] && fliped)
 			current_state = CHAR_STATE::WALKING_BACK;
 		else if (inputs[UP]) {
+			App->audio->playSFX(s_jump);
 			velocity.y -= jump_power.y;
 			grounded = false;
 			current_state = CHAR_STATE::JUMPING;
@@ -51,10 +54,12 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else if (inputs[DOWN])
 			current_state = CHAR_STATE::CROUCHING;
 		else if (inputs[LIGHT_ATTACK]) {
+			App->audio->playSFX(s_light_sword_whiff);
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_L;
 		}
 		else if (inputs[HEAVY_ATTACK]) {
+			App->audio->playSFX(s_heavy_sword_whiff);
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_H;
 		}
@@ -63,6 +68,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			attack_doing = CHAR_ATT_TYPE::ST_S1;
 		}
 		else if (inputs[SPECIAL_2]) {
+			App->audio->playSFX(s_standing_special_2);
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_S2;
 		}
@@ -90,6 +96,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		if (!fliped && !inputs[LEFT] || fliped && !inputs[RIGHT])
 			current_state = CHAR_STATE::IDLE;
 		else if (inputs[UP]) {
+			App->audio->playSFX(s_jump);
 			velocity.y -= jump_power.y;
 			if (!fliped)
 				velocity.x -= jump_power.x;
@@ -101,10 +108,12 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else if (inputs[DOWN])
 			current_state = CHAR_STATE::CROUCHING;
 		else if (inputs[LIGHT_ATTACK]) {
+			App->audio->playSFX(s_light_sword_whiff);
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_L;
 		}
 		else if (inputs[HEAVY_ATTACK]) {
+			App->audio->playSFX(s_heavy_sword_whiff);
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_H;
 		}
@@ -113,6 +122,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			attack_doing = CHAR_ATT_TYPE::ST_S1;
 		}
 		else if (inputs[SPECIAL_2]) {
+			App->audio->playSFX(s_standing_special_2);
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_S2;
 		}		
@@ -135,11 +145,14 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else
 			logic_position.x += walk_speed;
 		// Input dependent actions
-		if (hit)
+		if (hit){
+			App->audio->playSFX(s_heavy_sword_impact);
 			current_state = CHAR_STATE::HIT;
+		}
 		else if (!fliped && !inputs[RIGHT] || fliped && !inputs[LEFT])
 			current_state = CHAR_STATE::IDLE;
 		else if (inputs[UP]) {
+			App->audio->playSFX(s_jump);
 			velocity.y -= jump_power.y;
 			if (fliped)
 				velocity.x -= jump_power.x;
@@ -151,10 +164,12 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else if (inputs[DOWN])
 			current_state = CHAR_STATE::CROUCHING;
 		else if (inputs[LIGHT_ATTACK]) {
+			App->audio->playSFX(s_light_sword_whiff);
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_L;
 		}
 		else if (inputs[HEAVY_ATTACK]) {
+			App->audio->playSFX(s_heavy_sword_whiff);
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_H;
 		}
@@ -163,6 +178,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			attack_doing = CHAR_ATT_TYPE::ST_S1;
 		}
 		else if (inputs[SPECIAL_2]) {
+			App->audio->playSFX(s_standing_special_2);
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::ST_S2;
 		}
@@ -195,6 +211,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			}
 		}	
 		else if (hit) {
+			App->audio->playSFX(s_heavy_sword_impact);
 			if (attack_recieving.knockdown)
 				current_state = CHAR_STATE::JUGGLE;
 			else
@@ -211,15 +228,18 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			swapRequested = true;						//Important!
 		}
 		else if (inputs[UP]) {
+			App->audio->playSFX(s_jump);
 			velocity.y -= jump_power.y;
 			grounded = false;
 			current_state = CHAR_STATE::JUMPING;
 		}
 		else if (inputs[LIGHT_ATTACK]) {
+			App->audio->playSFX(s_light_sword_whiff);
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::CR_L;
 		}
 		else if (inputs[HEAVY_ATTACK]) {
+			App->audio->playSFX(s_heavy_sword_whiff);
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::CR_H;
 		}
@@ -228,6 +248,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			attack_doing = CHAR_ATT_TYPE::CR_S1;
 		}
 		else if (inputs[SPECIAL_2]) {
+			App->audio->playSFX(s_standing_special_2);
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::CR_S2;
 		}
@@ -239,13 +260,17 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		// Input dependent actions
 		if (grounded)
 			current_state = CHAR_STATE::IDLE;
-		else if (hit)
+		else if (hit){
+			App->audio->playSFX(s_heavy_sword_impact);
 			current_state = CHAR_STATE::JUGGLE;
+		}
 		else if (inputs[LIGHT_ATTACK]) {
+			App->audio->playSFX(s_light_sword_whiff);
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::JM_L;
 		}
 		else if (inputs[HEAVY_ATTACK]) {
+			App->audio->playSFX(s_heavy_sword_whiff);
 			current_state = CHAR_STATE::ATTACKING;
 			attack_doing = CHAR_ATT_TYPE::JM_H;
 		}
@@ -262,6 +287,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	case ATTACKING:
 		doAttack();
 		if (hit) {
+			App->audio->playSFX(s_heavy_sword_impact);
 			instanciated_hitbox = false;
 			if (attack_recieving.knockdown)
 				current_state = CHAR_STATE::JUGGLE;
@@ -313,6 +339,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		updateAnimation(standing_hit);
 		// One tick
 		if (hit) { 
+			App->audio->playSFX(s_heavy_sword_impact);
 			if (attack_recieving.knockdown)
 				current_state = CHAR_STATE::JUGGLE;
 			else
@@ -329,6 +356,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		// TODO: Put a juggle animation
 		updateAnimation(standing_hit); 
 		if (hit) {
+			App->audio->playSFX(s_heavy_sword_impact);
 			if (!fliped)
 				velocity.x -= attack_recieving.juggle_speed.x;
 			else
