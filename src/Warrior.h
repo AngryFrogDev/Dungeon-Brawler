@@ -11,6 +11,8 @@ public:
 	void standingSpecial2();
 	void crouchingSpecial1();
 	void crouchingSpecial2();
+	void jumpingSpecial1();
+	void jumpingSpecial2();
 
 private:
 

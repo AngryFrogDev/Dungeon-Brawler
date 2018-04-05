@@ -31,6 +31,7 @@ public:
 	bool loop = true;
 	bool pingpong = false;
 	float speed = 1.0f;
+	float angle = 0;
 	fighting_frame frames[MAX_FRAMES];
 
 private:

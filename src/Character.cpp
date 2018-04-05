@@ -481,7 +481,7 @@ void Character::setIfGrounded() {
 }
 
 void Character::draw(SDL_Texture* graphic)  const{
-	App->render->blit(3,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped);
+	App->render->blit(3,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped, 1.0f, current_animation->angle);
 }
 
 bool Character::manageSwap()
@@ -640,8 +640,11 @@ void Character::doAttack() {
 		crouchingSpecial2();
 		break;
 	case JM_S1:
+		updateAnimation(jumping_special1);
+		jumpingSpecial1();
 	case JM_S2:
-		current_state = JUMPING;
+		updateAnimation(jumping_special2);
+		jumpingSpecial2();
 		break;
 	default:
 		current_state = IDLE;
@@ -695,6 +698,14 @@ void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
 		case CR_S2:
 			collider = { calculateDrawPosition(cr_s2.pos_rel_char.x, cr_s2.hitbox.w, true), calculateDrawPosition(cr_s2.pos_rel_char.y, cr_s2.hitbox.h, false), cr_s2.hitbox.w, cr_s2.hitbox.h };
 			life = cr_s2.active_time;
+			break;
+		case JM_S1:
+			collider = { calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false), jm_s1.hitbox.w, jm_s1.hitbox.h };
+			life = jm_s1.active_time;
+			break;
+		case JM_S2:
+			collider = { calculateDrawPosition(jm_s2.pos_rel_char.x, jm_s2.hitbox.w, true), calculateDrawPosition(jm_s2.pos_rel_char.y, jm_s2.hitbox.h, false), jm_s2.hitbox.w, jm_s2.hitbox.h };
+			life = jm_s2.active_time;
 	}
 	hitboxes.push_back(App->collision->AddCollider(collider, HITBOX,life ,type, App->entities, this));
 	instanciated_hitbox = true;
@@ -741,6 +752,12 @@ basic_attack_deff Character::getAttackData(CHAR_ATT_TYPE attack_type) {
 			break;
 		case CR_S2:
 			return cr_s2;
+			break;
+		case JM_S1:
+			return jm_s1;
+			break;
+		case JM_S2:
+			return jm_s2;
 			break;
 		case NO_ATT:
 			LOG("FATAL ERROR");

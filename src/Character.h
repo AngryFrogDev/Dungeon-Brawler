@@ -151,6 +151,8 @@ protected:
 	virtual void standingSpecial2() { return; };
 	virtual void crouchingSpecial1() { return; };
 	virtual void crouchingSpecial2() { return; };
+	virtual void jumpingSpecial1() { return; };
+	virtual void jumpingSpecial2() { return; };
 
 protected:
 
