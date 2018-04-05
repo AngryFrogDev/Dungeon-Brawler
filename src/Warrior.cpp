@@ -227,14 +227,14 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	jumping_special1.PushBack({ 195, 3476, 195, 158 });
 
 	jumping_special1.loop = false;
-	jumping_special1.speed = 0.5;
+	jumping_special1.speed = 0.3;
 	jumping_special1.angle = -45;
 
 	jumping_special2.PushBack({ 0, 3476, 195, 158 });
 	jumping_special2.PushBack({ 195, 3476, 195, 158 });
 
 	jumping_special2.loop = false;
-	jumping_special2.speed = 0.25;
+	jumping_special2.speed = 0.3;
 	jumping_special2.angle = -30;
 
 	// Basic attack definitions
@@ -373,9 +373,9 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	cr_s2.juggle_speed.y = 5;
 	cr_s2.block_type = BLOCK_TYPE::MID;
 
-	jm_s1.pos_rel_char = { 0,300 };
-	jm_s1.hitbox = { 0,0,100,100 };
-	jm_s1.active_time = -1;
+	jm_s1.pos_rel_char = { 110,50 };
+	jm_s1.hitbox = { 0,0,70, 30 };
+	jm_s1.active_time = 5000;
 	jm_s1.hitstun = 500;
 	jm_s1.blockstun = 450;
 	jm_s1.pushhit = 1;
@@ -383,12 +383,13 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	jm_s1.damage = 10;
 	jm_s1.knockdown = false;
 	jm_s1.juggle_speed.x = 0;
-	jm_s1.juggle_speed.y = 10;
+	jm_s1.juggle_speed.y = 0;
 	jm_s1.block_type = BLOCK_TYPE::OVERHEAD;
+	jm_s1.recovery = 500;
 
-	jm_s2.pos_rel_char = { 0,300 };
-	jm_s2.hitbox = { 0,0,100,100 };
-	jm_s2.active_time = -1;
+	jm_s2.pos_rel_char = { 110,50 };
+	jm_s2.hitbox = { 0,0,70, 30 };
+	jm_s2.active_time = 5000;
 	jm_s2.hitstun = 500;
 	jm_s2.blockstun = 450;
 	jm_s2.pushhit = 1;
@@ -396,8 +397,9 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	jm_s2.damage = 10;
 	jm_s2.knockdown = false;
 	jm_s2.juggle_speed.x = 0;
-	jm_s2.juggle_speed.y = 10;
+	jm_s2.juggle_speed.y = 0;
 	jm_s2.block_type = BLOCK_TYPE::OVERHEAD;
+	jm_s2.recovery = 500;
 
 	// Other variable initialization
 	grounded = false;
@@ -557,11 +559,11 @@ void Warrior::crouchingSpecial2()	{
 void Warrior::jumpingSpecial1() {
 	if (logic_position.y < ground_position) {
 		if (!fliped)
-			logic_position.x += spin_speed * 3; // Provisional
+			logic_position.x += spin_speed; // Provisional
 		else
-			logic_position.x -= spin_speed * 3; // Provisional
+			logic_position.x -= spin_speed; // Provisional
 
-		logic_position.y += jump_power.y * 1.2; // Provisional
+		logic_position.y += jump_power.y; // Provisional
 	}
 
 	if (logic_position.y >= ground_position) {
@@ -588,7 +590,7 @@ void Warrior::jumpingSpecial2() {
 		else
 			logic_position.x -= spin_speed; // Provisional
 
-		logic_position.y += jump_power.y * 1.2; // Provisional
+		logic_position.y += jump_power.y; // Provisional
 	}
 
 	if (logic_position.y >= ground_position) {
@@ -605,5 +607,5 @@ void Warrior::jumpingSpecial2() {
 
 	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
-		hitbox->SetPos(calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false));
+		hitbox->SetPos(calculateDrawPosition(jm_s2.pos_rel_char.x, jm_s2.hitbox.w, true), calculateDrawPosition(jm_s2.pos_rel_char.y, jm_s2.hitbox.h, false));
 }

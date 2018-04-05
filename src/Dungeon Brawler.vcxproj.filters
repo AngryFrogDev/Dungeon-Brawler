@@ -161,9 +161,6 @@
     <ClInclude Include="Animation.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="p2Point.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>Entities\Characters</Filter>
     </ClInclude>
