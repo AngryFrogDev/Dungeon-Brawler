@@ -436,6 +436,8 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	type = CHAR_TYPE::WARRIOR;
 	walk_speed = 4;
 
+	state_first_tick = false;
+
 	scale = 3;
 	hurtbox = App->collision->AddCollider({0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
 	pushbox = App->collision->AddCollider({0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y/2 }, PUSHBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
@@ -447,12 +449,13 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	projectile_scale = 3;
 	swordyuken_invencivility = 300;
 
+	// PROVISIONAL: This should belong to entities, if not fx are loaded twice
 	s_jump = App->audio->loadSFX("SFX/jump.wav");
-	//s_light_sword_block = App->audio->loadSFX("SFX/light_sword_block.wav");
-	//s_heavy_sword_block = App->audio->loadSFX("SFX/heavy_sword_block.wav");
+	s_light_sword_block = App->audio->loadSFX("SFX/light_sword_block.wav");
+	s_heavy_sword_block = App->audio->loadSFX("SFX/heavy_sword_block.wav");
 	s_light_sword_whiff = App->audio->loadSFX("SFX/light_sword_whiff.wav");
 	s_heavy_sword_whiff = App->audio->loadSFX("SFX/heavy_sword_whiff.wav");
-	//s_light_sword_impact = App->audio->loadSFX("SFX/light_sword_impact.wav");
+	s_light_sword_impact = App->audio->loadSFX("SFX/light_sword_impact.wav");
 	s_heavy_sword_impact = App->audio->loadSFX("SFX/heavy_sword_impact.wav");
 	s_standing_special_2 = App->audio->loadSFX("SFX/standing_special_2.wav");
 	s_man_death = App->audio->loadSFX("SFX/man_death.wav");
