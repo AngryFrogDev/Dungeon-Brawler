@@ -8,6 +8,8 @@
 #include "mdRender.h"
 #include "Timer.h"
 
+
+class Mix_Chunk;
 enum CHAR_TYPE {
 	DEF_CHAR,
 	WARRIOR,
@@ -171,6 +173,19 @@ protected:
 	Player* owner;
 	// In miliseconds
 	int invencibility_on_wakeup;
+
+	// Sound effects
+	Mix_Chunk* s_jump;
+	Mix_Chunk* s_light_sword_block;
+	Mix_Chunk* s_heavy_sword_block;
+	Mix_Chunk* s_light_sword_whiff;
+	Mix_Chunk* s_heavy_sword_whiff;
+	Mix_Chunk* s_light_sword_impact;
+	Mix_Chunk* s_heavy_sword_impact;
+	Mix_Chunk* s_standing_special_2;
+	Mix_Chunk* s_man_death;
+
+
 
 	// Variables to modify in runtime
 	iPoint logic_position;

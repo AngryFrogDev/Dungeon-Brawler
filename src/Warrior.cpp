@@ -1,6 +1,7 @@
 #include "Warrior.h"
 #include "mdCollision.h"
 #include "mdProjectiles.h"
+#include "mdAudio.h"
 
 Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 
@@ -234,7 +235,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	st_h.juggle_speed.x = 10;
 	st_h.juggle_speed.y = 20;
 	st_h.block_type = BLOCK_TYPE::MID;
-	st_h.recovery = 200;
+	st_h.recovery = 0;
 
 	cr_l.pos_rel_char = { 110,50 };
 	cr_l.hitbox = { 0,0,70, 30 };
@@ -369,12 +370,24 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	scale = 3;
 	hurtbox = App->collision->AddCollider({0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
 	pushbox = App->collision->AddCollider({0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y/2 }, PUSHBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
+
 	// WARRIOR EXCLUSIVE VARS
 	spin_speed = 6;
 	projectile_duration = 2000;
 	projectile_speed = 15;
 	projectile_scale = 3;
 	swordyuken_invencivility = 300;
+
+	s_jump = App->audio->loadSFX("SFX/jump.wav");
+	//s_light_sword_block = App->audio->loadSFX("SFX/light_sword_block.wav");
+	//s_heavy_sword_block = App->audio->loadSFX("SFX/heavy_sword_block.wav");
+	s_light_sword_whiff = App->audio->loadSFX("SFX/light_sword_whiff.wav");
+	s_heavy_sword_whiff = App->audio->loadSFX("SFX/heavy_sword_whiff.wav");
+	//s_light_sword_impact = App->audio->loadSFX("SFX/light_sword_impact.wav");
+	s_heavy_sword_impact = App->audio->loadSFX("SFX/heavy_sword_impact.wav");
+	s_standing_special_2 = App->audio->loadSFX("SFX/standing_special_2.wav");
+	s_man_death = App->audio->loadSFX("SFX/man_death.wav");
+
 
 }
 
@@ -422,7 +435,7 @@ void Warrior::standingSpecial2()	{
 void Warrior::crouchingSpecial2()	{
 
 	if (grounded) { 
-		velocity.y -= jump_power.y / 1.25;
+		velocity.y -= jump_power.y / 1.25; //PROVISAL: This should be a variable
 		grounded = false;
 		makeInvencibleFor(swordyuken_invencivility);
 	}
