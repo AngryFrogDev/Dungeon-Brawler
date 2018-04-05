@@ -18,7 +18,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	//PROVISIONAL: Crazy provisional
 	if (current_life <= 0) {
-		current_state = CHAR_STATE::DEAD;
+		updateState(DEAD, NO_ATT);
 		hurtbox->active = false;
 	}
 	if (App->input->getKey(SDL_SCANCODE_F2) == KEY_DOWN) {
@@ -31,13 +31,12 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	case IDLE:
 		//Input independent actions
 		//One tick
-		updateAnimation(idle);
-		if (hit) { 
-			if (!attack_recieving.knockdown)
-				updateState(HIT, NO_ATT);
-			else 
-				updateState(JUGGLE, NO_ATT);
+		if (!state_first_tick) {
+			updateAnimation(idle);
+			state_first_tick = true;
 		}
+		if (hit) 
+			updateState(HIT, NO_ATT);
 		// Input dependent
 		else if (inputs[SWITCH]) {
 			updateState(SWAPPING, NO_ATT);				// Is this necessary?
@@ -67,19 +66,22 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	case WALKING_BACK:
 		// Input independent actions
+		//One tick
+		if (!state_first_tick) {
+			updateAnimation(walk_back);
+			state_first_tick = true;
+		}
+		if (hit) {
+			if (attack_recieving.block_type != BLOCK_TYPE::LOW)
+				updateState(STAND_BLOCKING, NO_ATT);
+			else
+				updateState(HIT, NO_ATT);
+		}
 		//Continuous
 		if (fliped)
 			logic_position.x += walk_speed;
 		else
 			logic_position.x -= walk_speed;
-		//One tick
-		updateAnimation(walk_back);
-		if (hit){
-			if (attack_recieving.block_type != BLOCK_TYPE::LOW)
-				updateState(STAND_BLOCKING, NO_ATT);
-			else 
-				updateState(HIT, NO_ATT);
-		}
 		// Input dependent actions
 		if (!fliped && !inputs[LEFT] || fliped && !inputs[RIGHT])
 			updateState(IDLE, NO_ATT);
@@ -106,15 +108,18 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	case WALKING_FORWARD:
 		// Input independent actions
+		//One tick
+		if (!state_first_tick) {
+			updateAnimation(walk_forward);
+			state_first_tick = true;
+		}
+		if (hit)
+			updateState(HIT, NO_ATT);
 		// Continuous
 		if (fliped)
 			logic_position.x -= walk_speed;
 		else
 			logic_position.x += walk_speed;
-		//One tick
-		updateAnimation(walk_forward);
-		if (hit)
-			updateState(HIT, NO_ATT);
 		// Input dependent actions
 		if (!fliped && !inputs[RIGHT] || fliped && !inputs[LEFT])
 			updateState(IDLE, NO_ATT);
@@ -142,7 +147,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	case CROUCHING:
 		// Input independent anctions
 		//OneTick
-		updateAnimation(crouch);
+		if (!state_first_tick) {
+			updateAnimation(crouch);
+			state_first_tick = true;
+		}
 		if (!crouching_hurtbox) {
 			setCrouchingHurtbox(true);
 		}
@@ -187,6 +195,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		// Input independent actions
 		if (!state_first_tick) {
 			updateAnimation(jump);
+			playCurrentSFX();
 			state_first_tick = true;
 		}
 		// Input dependent actions
@@ -206,6 +215,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	case ATTACKING:
 		//One Tick
+		if (!state_first_tick) {
+			playCurrentSFX();
+			state_first_tick = true;
+		}
 		if (hit) {
 			instanciated_hitbox = false;
 			updateState(HIT, NO_ATT);
@@ -216,63 +229,78 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	case STAND_BLOCKING:
 		//Input independent actions
+		// One tick
+		if (!state_first_tick) {
+			playCurrentSFX();
+			state_first_tick = true;
+		}
+		if (hit) {
+			hit = false;
+		}
+		if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
+			updateState(IDLE, NO_ATT);
 		// Continuous
 		if (!fliped)
 			logic_position.x -= attack_recieving.pushblock;
 		else
 			logic_position.x += attack_recieving.pushblock;
 		updateAnimation(standing_block);
-		// One tick
-		if (hit) {
-			hit = false;
-		}
-		else if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
-			updateState(IDLE, NO_ATT);
 		break;
 
 	case CROUCH_BLOCKING:
 		//Input independent actions
+		// One tick
+		if (!state_first_tick) {
+			playCurrentSFX();
+			updateAnimation(crouching_block);
+			state_first_tick = true;
+		}
+		if (hit) {
+			hit = false;
+		}
+		if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
+			updateState(CROUCHING, NO_ATT);
 		// Continuous
 		if (!fliped)
 			logic_position.x -= attack_recieving.pushblock;
 		else
 			logic_position.x += attack_recieving.pushblock;
 
-		updateAnimation(crouching_block);
-		// One tick
-		if (hit) {
-			hit = false;
-		}
-		else if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
-			updateState(CROUCHING, NO_ATT);
+
 		break;
 
 	case HIT:
 		//Input independent actions
+		// One tick
+		if (!state_first_tick) {
+			updateAnimation(standing_hit);
+			state_first_tick = true;
+		}
+		if (hit) { 
+			playCurrentSFX();
+			if (attack_recieving.knockdown)
+				updateState(JUGGLE, NO_ATT);
+			else
+				hit = false;
+			current_life -= attack_recieving.damage;
+		}
+		else if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) 
+			updateState(IDLE, NO_ATT);
 		// Continuous
 		if (!fliped)
 			logic_position.x -= attack_recieving.pushhit;
 		else
 			logic_position.x += attack_recieving.pushhit;
-		updateAnimation(standing_hit);
-		// One tick
-		if (hit) { 
-			if (attack_recieving.knockdown)
-				updateState(JUGGLE, NO_ATT);
-			else
-				hit = false;
-				current_life -= attack_recieving.damage;
-		}
-		else if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) 
-			updateState(IDLE, NO_ATT);
 	
-
 		break;
 
 	case JUGGLE:
-		// TODO: Put a juggle animation
-		updateAnimation(standing_hit); 
+		if (!state_first_tick) {
+			updateAnimation(standing_hit);
+			state_first_tick = true;
+		}
 		if (hit) {
+			playCurrentSFX();
 			if (!fliped)
 				velocity.x -= attack_recieving.juggle_speed.x;
 			else
@@ -290,7 +318,11 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	case KNOCKDOWN:
 		//Input independent actions
-		updateAnimation(knockdown);
+		if (!state_first_tick) {
+			//playCurrentSFX(); Maybe knockdown should play something?
+			updateAnimation(knockdown);
+			state_first_tick = true;
+		}
 		hurtbox->active = false;
 		if (current_animation->Finished()){
 			makeInvencibleFor(invencibility_on_wakeup);
@@ -304,14 +336,20 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		break;
 	case RECOVERY:
 		// One tick
-		updateAnimation(idle);
+		if (!state_first_tick) {
+			updateAnimation(idle);
+			state_first_tick = true;
+		}
 		if (hit) 
 			updateState(HIT, NO_ATT);
 		if (recovery_timer.read() > current_recovery)
 			updateState(IDLE, NO_ATT);
 		break;
 	case DEAD:
-		updateAnimation(dead);
+		if (!state_first_tick) {
+			updateAnimation(dead);
+			state_first_tick = true;
+		}
 		App->render->drawQuad({ 0,0,100,100 }, 255, 255, 255, 255);
 		break;
 	}
@@ -790,6 +828,7 @@ CHAR_STATE Character::getCurrentState() {
 
 void Character::askRecovery(int recovery) 	{
 	current_state = RECOVERY;
+	state_first_tick = false;
 	recovery_timer.start();
 	current_recovery = recovery;
 }
@@ -812,5 +851,65 @@ void Character::updateState(CHAR_STATE state, CHAR_ATT_TYPE attack) {
 	state_first_tick = false;
 }
 void Character::playCurrentSFX() {
+	switch (current_state) {
+	case ATTACKING:
+		switch (attack_doing) {
+		case ST_L:
+		case JM_L:
+		case CR_L:
+			App->audio->playSFX(s_light_sword_whiff);
+			break;
+		case ST_H:
+		case CR_H:
+			App->audio->playSFX(s_heavy_sword_whiff);
+			break;
+		case ST_S2:
+			App->audio->playSFX(s_standing_special_2);
+		}
+		break;
+	case CROUCH_BLOCKING || STAND_BLOCKING:
+		switch (attack_doing) {
+		case ST_L:
+		case JM_L:
+		case CR_L:
+		case ST_S1:
+			App->audio->playSFX(s_light_sword_block);
+			break;
+		case ST_H:
+		case CR_H:
+		case JM_H: 
+		case ST_S2: 
+		case CR_S1:
+		case CR_S2:
+			App->audio->playSFX(s_heavy_sword_block);
+			break;
+		}
+		break;
+	case HIT:
+	case JUGGLE:
+		switch (attack_recieving.type) {
+		case ST_L:
+		case JM_L:
+		case CR_L:
+		case ST_S1:
+			App->audio->playSFX(s_light_sword_impact);
+			break;
+		case ST_H:
+		case CR_H:
+		case JM_H:
+		case ST_S2:
+		case CR_S1:
+		case CR_S2:
+			App->audio->playSFX(s_heavy_sword_impact);
+			break;
+		}
+		break;
+	case KNOCKDOWN:
+		break;
+	case SWAPPING:
+		break;
+	case DEAD:
+		break;
+	}
 
 }
