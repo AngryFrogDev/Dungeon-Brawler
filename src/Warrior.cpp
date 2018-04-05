@@ -190,6 +190,21 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	standing_special2.loop = false;
 	standing_special2.speed = 0.3;
 
+	crouching_special1.PushBack({ 0, 1738, 195, 158 });
+	crouching_special1.PushBack({ 195, 1738, 195, 158 });
+	crouching_special1.PushBack({ 390, 1738, 195, 158 });
+	crouching_special1.PushBack({ 585, 1738, 195, 158 }, ACTIVE);
+	crouching_special1.PushBack({ 780, 1738, 195, 158 });
+	crouching_special1.PushBack({ 975, 1738, 195, 158 });
+	crouching_special1.PushBack({ 1170, 1738, 195, 158 });
+	crouching_special1.PushBack({ 1365, 1738, 195, 158 });
+	crouching_special1.PushBack({ 1560, 1738, 195, 158 });
+	crouching_special1.PushBack({ 1755, 1738, 195, 158 });
+	crouching_special1.PushBack({ 1755, 1738, 195, 158 });
+
+	crouching_special1.loop = false;
+	crouching_special1.speed = 0.15;
+	
 	crouching_special2.PushBack({ 0, 632, 195, 158 });
 	crouching_special2.PushBack({ 195, 632, 195, 158 });
 	crouching_special2.PushBack({ 390, 632, 195, 158 });
@@ -205,7 +220,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	crouching_special2.PushBack({ 1950, 632, 195, 158 });
 	
 	crouching_special2.loop = false;
-	crouching_special2.speed = 0.15;
+	crouching_special2.speed = 0.5;
 
 	// Basic attack definitions
 
@@ -316,6 +331,20 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	st_s2.block_type = BLOCK_TYPE::MID;
 	st_s2.recovery = 500;
 
+	cr_s1.pos_rel_char = { 100,50 };
+	cr_s1.hitbox = { 0,0,100,150 };
+	cr_s1.active_time = -1;
+	cr_s1.hitstun = -1;
+	cr_s1.blockstun = 300;
+	cr_s1.pushhit = -1;
+	cr_s1.pushblock = 2;
+	cr_s1.damage = 10;
+	cr_s1.knockdown = true;
+	cr_s1.juggle_speed.x = 2;
+	cr_s1.juggle_speed.y = 25;
+	cr_s1.block_type = BLOCK_TYPE::MID;
+	cr_s1.recovery = 150;
+
 	cr_s2.pos_rel_char = { 130,0 };
 	cr_s2.hitbox = { 0,0,140,300 };
 	cr_s2.active_time = -1;
@@ -419,10 +448,35 @@ void Warrior::standingSpecial2()	{
 		hitbox->SetPos(calculateDrawPosition(st_s2.pos_rel_char.x, st_s2.hitbox.w, true), calculateDrawPosition(st_s2.pos_rel_char.y, st_s2.hitbox.h, false));
 }
 
+void Warrior::crouchingSpecial1() {
+
+	if (!fliped)
+		logic_position.x += spin_speed; // Provisional
+	else
+		logic_position.x -= spin_speed; // Provisional
+
+	if (current_animation->Finished()) {
+		askRecovery(cr_s1.recovery);
+		instanciated_hitbox = false;
+		collider* hitbox = getCurrentAttackHitbox();
+		if (hitbox != nullptr) { // Just for safety
+			deleteAttackHitbox(CR_S1);
+		}
+		hurtbox->rect.h = standing_hurtbox_size.y;
+	}
+	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
+		instanciateHitbox(CR_S1);
+
+	collider* hitbox = getCurrentAttackHitbox();
+	if (hitbox != nullptr)
+		hitbox->SetPos(calculateDrawPosition(cr_s1.pos_rel_char.x, cr_s1.hitbox.w, true), calculateDrawPosition(cr_s1.pos_rel_char.y, cr_s1.hitbox.h, false));
+
+}
+
 void Warrior::crouchingSpecial2()	{
 
 	if (grounded) { 
-		velocity.y -= jump_power.y / 1.25;
+		velocity.y -= jump_power.y / 1.25; // Provisional
 		grounded = false;
 		makeInvencibleFor(swordyuken_invencivility);
 	}

@@ -147,6 +147,7 @@ protected:
 	//Special functions
 	virtual void standingSpecial1() { return; };
 	virtual void standingSpecial2() { return; };
+	virtual void crouchingSpecial1() { return; };
 	virtual void crouchingSpecial2() { return; };
 
 protected:

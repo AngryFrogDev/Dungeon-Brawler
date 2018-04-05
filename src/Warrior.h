@@ -9,6 +9,7 @@ public:
 
 	void standingSpecial1();
 	void standingSpecial2();
+	void crouchingSpecial1();
 	void crouchingSpecial2();
 
 private:

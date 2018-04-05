@@ -603,6 +603,10 @@ void Character::doAttack() {
 		updateAnimation(standing_special2);
 		standingSpecial2();
 		break;
+	case CR_S1:
+		updateAnimation(crouching_special1);
+		crouchingSpecial1();
+		break;
 	case CR_S2:
 		updateAnimation(crouching_special2);
 		crouchingSpecial2();
@@ -656,6 +660,10 @@ void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
 			collider = { calculateDrawPosition(st_s2.pos_rel_char.x, st_s2.hitbox.w, true), calculateDrawPosition(st_s2.pos_rel_char.y, st_s2.hitbox.h, false), st_s2.hitbox.w, st_s2.hitbox.h };
 			life = st_s2.active_time;
 			break;
+		case CR_S1:
+			collider = { calculateDrawPosition(cr_s1.pos_rel_char.x, cr_s1.hitbox.w, true), calculateDrawPosition(cr_s1.pos_rel_char.y, cr_s1.hitbox.h, false), cr_s1.hitbox.w, cr_s1.hitbox.h };
+			life = cr_s1.active_time;
+			break;
 		case CR_S2:
 			collider = { calculateDrawPosition(cr_s2.pos_rel_char.x, cr_s2.hitbox.w, true), calculateDrawPosition(cr_s2.pos_rel_char.y, cr_s2.hitbox.h, false), cr_s2.hitbox.w, cr_s2.hitbox.h };
 			life = cr_s2.active_time;
@@ -699,6 +707,9 @@ basic_attack_deff Character::getAttackData(CHAR_ATT_TYPE attack_type) {
 			break;
 		case ST_S2:
 			return st_s2;
+			break;
+		case CR_S1:
+			return cr_s1;
 			break;
 		case CR_S2:
 			return cr_s2;
