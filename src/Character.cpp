@@ -860,14 +860,16 @@ void Character::playCurrentSFX() {
 			break;
 		case ST_H:
 		case CR_H:
+		case JM_H:
 			App->audio->playSFX(s_heavy_sword_whiff);
 			break;
 		case ST_S2:
 			App->audio->playSFX(s_standing_special_2);
 		}
 		break;
-	case CROUCH_BLOCKING || STAND_BLOCKING:
-		switch (attack_doing) {
+	case CROUCH_BLOCKING:
+	case STAND_BLOCKING:
+		switch (attack_recieving.type) {
 		case ST_L:
 		case JM_L:
 		case CR_L:
