@@ -385,7 +385,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 
 	jm_s1.pos_rel_char = { 60,50 };
 	jm_s1.hitbox = { 0,0,80, 100 };
-	jm_s1.active_time = 5000;
+	jm_s1.active_time = -1;
 	jm_s1.hitstun = 500;
 	jm_s1.blockstun = 450;
 	jm_s1.pushhit = 1;
@@ -395,12 +395,12 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	jm_s1.juggle_speed.x = 0;
 	jm_s1.juggle_speed.y = 0;
 	jm_s1.block_type = BLOCK_TYPE::OVERHEAD;
-	jm_s1.recovery = 500;
+	jm_s1.recovery = 100;
 	jm_s1.type = JM_S1;
 
 	jm_s2.pos_rel_char = { 60,50 };
 	jm_s2.hitbox = { 0,0,80, 100 };
-	jm_s2.active_time = 5000;
+	jm_s2.active_time = -1;
 	jm_s2.hitstun = 500;
 	jm_s2.blockstun = 450;
 	jm_s2.pushhit = 1;
@@ -410,7 +410,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	jm_s2.juggle_speed.x = 0;
 	jm_s2.juggle_speed.y = 0;
 	jm_s2.block_type = BLOCK_TYPE::OVERHEAD;
-	jm_s2.recovery = 500;
+	jm_s2.recovery = 100;
 	jm_s2.type = JM_S2;
 
 	// Other variable initialization
