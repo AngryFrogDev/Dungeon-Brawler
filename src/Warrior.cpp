@@ -224,14 +224,14 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	crouching_special2.speed = 0.5;
 
 	jumping_special1.PushBack({ 0, 3476, 195, 158 });
-	jumping_special1.PushBack({ 195, 3476, 195, 158 });
+	jumping_special1.PushBack({ 195, 3476, 195, 158, }, ACTIVE);
 
 	jumping_special1.loop = false;
 	jumping_special1.speed = 0.3;
 	jumping_special1.angle = -45;
 
 	jumping_special2.PushBack({ 0, 3476, 195, 158 });
-	jumping_special2.PushBack({ 195, 3476, 195, 158 });
+	jumping_special2.PushBack({ 195, 3476, 195, 158, }, ACTIVE);
 
 	jumping_special2.loop = false;
 	jumping_special2.speed = 0.3;
@@ -383,8 +383,8 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	cr_s2.block_type = BLOCK_TYPE::MID;
 	cr_s2.type = CR_S2;
 
-	jm_s1.pos_rel_char = { 110,50 };
-	jm_s1.hitbox = { 0,0,70, 30 };
+	jm_s1.pos_rel_char = { 60,50 };
+	jm_s1.hitbox = { 0,0,80, 100 };
 	jm_s1.active_time = 5000;
 	jm_s1.hitstun = 500;
 	jm_s1.blockstun = 450;
@@ -398,8 +398,8 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	jm_s1.recovery = 500;
 	jm_s1.type = JM_S1;
 
-	jm_s2.pos_rel_char = { 110,50 };
-	jm_s2.hitbox = { 0,0,70, 30 };
+	jm_s2.pos_rel_char = { 60,50 };
+	jm_s2.hitbox = { 0,0,80, 100 };
 	jm_s2.active_time = 5000;
 	jm_s2.hitstun = 500;
 	jm_s2.blockstun = 450;
