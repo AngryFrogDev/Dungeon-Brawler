@@ -458,6 +458,8 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 
 	// WARRIOR EXCLUSIVE VARS
 	spin_speed = 6;
+	diveKickHeight = 220;
+	diveKicking = false;
 	projectile_duration = 2000;
 	projectile_speed = 15;
 	projectile_scale = 3;
@@ -599,16 +601,22 @@ void Warrior::jumpingSpecial1() {
 }
 
 void Warrior::jumpingSpecial2() {
-	if (logic_position.y < ground_position) {
-		if (!fliped)
-			logic_position.x += spin_speed; // Provisional
-		else
-			logic_position.x -= spin_speed; // Provisional
+	if (logic_position.y <= diveKickHeight && !diveKicking)
+		diveKicking = true;
 
-		logic_position.y += jump_power.y; // Provisional
-	}
+	if (current_state != IDLE && diveKicking) {
+		updateAnimation(jumping_special2);
+		if (logic_position.y < ground_position) {
+			if (!fliped)
+				logic_position.x += spin_speed * 2; // Provisional
+			else
+				logic_position.x -= spin_speed * 2; // Provisional
+
+			logic_position.y += jump_power.y; // Provisional
+		}
 
 	if (logic_position.y >= ground_position) {
+		diveKicking = false;
 		askRecovery(jm_s2.recovery);
 		instanciated_hitbox = false;
 		collider* hitbox = getCurrentAttackHitbox();
@@ -623,4 +631,14 @@ void Warrior::jumpingSpecial2() {
 	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
 		hitbox->SetPos(calculateDrawPosition(jm_s2.pos_rel_char.x, jm_s2.hitbox.w, true), calculateDrawPosition(jm_s2.pos_rel_char.y, jm_s2.hitbox.h, false));
+	}
+	else if (!diveKicking) {
+		diveKicking = false;
+		askRecovery(jm_s2.recovery);
+		instanciated_hitbox = false;
+		collider* hitbox = getCurrentAttackHitbox();
+		if (hitbox != nullptr) { // Just for safety
+			deleteAttackHitbox(JM_S2);
+		}
+	}
 }

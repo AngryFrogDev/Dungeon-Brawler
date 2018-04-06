@@ -21,6 +21,8 @@ private:
 	int projectile_speed;
 	int projectile_duration; // in milliseconds
 	int projectile_scale;
+	int diveKickHeight;
+	bool diveKicking;
 
 };
 

@@ -590,7 +590,6 @@ void Character::doAttack() {
 		updateAnimation(jumping_special1);
 		jumpingSpecial1();
 	case JM_S2:
-		updateAnimation(jumping_special2);
 		jumpingSpecial2();
 		break;
 	default:
