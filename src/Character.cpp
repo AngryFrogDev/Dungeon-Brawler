@@ -588,6 +588,7 @@ void Character::doAttack() {
 		break;
 	case JM_S1:
 		jumpingSpecial1();
+		break;
 	case JM_S2:
 		jumpingSpecial2();
 		break;
@@ -898,6 +899,8 @@ void Character::playCurrentSFX() {
 		case ST_S2:
 		case CR_S1:
 		case CR_S2:
+		case JM_S1:
+		case JM_S2:
 			App->audio->playSFX(s_heavy_sword_impact);
 			break;
 		}

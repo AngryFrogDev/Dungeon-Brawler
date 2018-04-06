@@ -17,12 +17,19 @@ public:
 private:
 
 	int spin_speed;
+
 	int swordyuken_invencivility; // In milliseconds
+
 	int projectile_speed;
 	int projectile_duration; // in milliseconds
 	int projectile_scale;
+
 	int diveKickHeight;
 	bool diveKicking;
+	int jm_s1_angle;
+	int jm_s2_angle;
+	iPoint jm_s1_speed;
+	iPoint jm_s2_speed;
 
 };
 
