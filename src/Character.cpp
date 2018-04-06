@@ -587,7 +587,6 @@ void Character::doAttack() {
 		crouchingSpecial2();
 		break;
 	case JM_S1:
-		updateAnimation(jumping_special1);
 		jumpingSpecial1();
 	case JM_S2:
 		jumpingSpecial2();

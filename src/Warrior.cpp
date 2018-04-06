@@ -228,7 +228,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 
 	jumping_special1.loop = false;
 	jumping_special1.speed = 0.3;
-	jumping_special1.angle = -45;
+	jumping_special1.angle = -30;
 
 	jumping_special2.PushBack({ 0, 3476, 195, 158 });
 	jumping_special2.PushBack({ 195, 3476, 195, 158, }, ACTIVE);
@@ -574,30 +574,46 @@ void Warrior::crouchingSpecial2()	{
 }
 
 void Warrior::jumpingSpecial1() {
-	if (logic_position.y < ground_position) {
-		if (!fliped)
-			logic_position.x += spin_speed; // Provisional
-		else
-			logic_position.x -= spin_speed; // Provisional
+	if (logic_position.y <= diveKickHeight && !diveKicking)
+		diveKicking = true;
 
-		logic_position.y += jump_power.y; // Provisional
+	if (current_state != IDLE && diveKicking) {
+		updateAnimation(jumping_special1);
+		if (logic_position.y < ground_position) {
+			if (!fliped)
+				logic_position.x += spin_speed; // Provisional
+			else
+				logic_position.x -= spin_speed; // Provisional
+
+			logic_position.y += jump_power.y; // Provisional
+		}
+
+		if (logic_position.y >= ground_position) {
+			diveKicking = false;
+			askRecovery(jm_s1.recovery);
+			instanciated_hitbox = false;
+			collider* hitbox = getCurrentAttackHitbox();
+			if (hitbox != nullptr) { // Just for safety
+				deleteAttackHitbox(JM_S1);
+			}
+			hurtbox->rect.h = standing_hurtbox_size.y;
+		}
+		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
+			instanciateHitbox(JM_S1);
+
+		collider* hitbox = getCurrentAttackHitbox();
+		if (hitbox != nullptr)
+			hitbox->SetPos(calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false));
 	}
-
-	if (logic_position.y >= ground_position) {
+	else if (!diveKicking) {
+		diveKicking = false;
 		askRecovery(jm_s1.recovery);
 		instanciated_hitbox = false;
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr) { // Just for safety
 			deleteAttackHitbox(JM_S1);
 		}
-		hurtbox->rect.h = standing_hurtbox_size.y;
 	}
-	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
-		instanciateHitbox(JM_S1);
-
-	collider* hitbox = getCurrentAttackHitbox();
-	if (hitbox != nullptr)
-		hitbox->SetPos(calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false));
 }
 
 void Warrior::jumpingSpecial2() {
@@ -608,9 +624,9 @@ void Warrior::jumpingSpecial2() {
 		updateAnimation(jumping_special2);
 		if (logic_position.y < ground_position) {
 			if (!fliped)
-				logic_position.x += spin_speed * 2; // Provisional
+				logic_position.x += spin_speed * 3; // Provisional
 			else
-				logic_position.x -= spin_speed * 2; // Provisional
+				logic_position.x -= spin_speed * 3; // Provisional
 
 			logic_position.y += jump_power.y; // Provisional
 		}
