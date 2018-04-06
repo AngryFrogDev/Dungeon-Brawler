@@ -187,6 +187,20 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	standing_special2.PushBack({ 2145, 948, 195, 158 });
 	standing_special2.PushBack({ 0, 1106, 195, 158 });
 	standing_special2.PushBack({ 195, 1106, 195, 158 });
+	standing_special2.PushBack({ 0, 948, 195, 158 });
+	standing_special2.PushBack({ 195, 948, 195, 158 });
+	standing_special2.PushBack({ 390, 948, 195, 158 });
+	standing_special2.PushBack({ 585, 948, 195, 158 });
+	standing_special2.PushBack({ 780, 948, 195, 158 });
+	standing_special2.PushBack({ 975, 948, 195, 158 });
+	standing_special2.PushBack({ 1170, 948, 195, 158 });
+	standing_special2.PushBack({ 1365, 948, 195, 158 });
+	standing_special2.PushBack({ 1560, 948, 195, 158 });
+	standing_special2.PushBack({ 1755, 948, 195, 158 });
+	standing_special2.PushBack({ 1950, 948, 195, 158 });
+	standing_special2.PushBack({ 2145, 948, 195, 158 });
+	standing_special2.PushBack({ 0, 1106, 195, 158 });
+	standing_special2.PushBack({ 195, 1106, 195, 158 });
 
 	standing_special2.loop = false;
 	standing_special2.speed = 0.3;
@@ -496,7 +510,8 @@ Warrior::~Warrior() {
 
 void Warrior::standingSpecial1() 	{
 		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-			collider* projectile_collider = App->collision->AddCollider({ logic_position.x, logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::HITBOX, projectile_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
+			collider* projectile_collider = App->collision->AddCollider({ logic_position.x, logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
+			hitboxes.push_back(projectile_collider);
 			iPoint speed;
 			if (!fliped)
 				speed.x = projectile_speed;
@@ -509,20 +524,22 @@ void Warrior::standingSpecial1() 	{
 		}
 }
 void Warrior::standingSpecial2()	{
+	hurtbox->type = PROJECTILE_INVENCIBLE_HURTBOX;
 	if(!fliped)
 		logic_position.x += spin_speed; 
 	else
 		logic_position.x -= spin_speed;
 
 	if (current_animation->Finished()) {
-		askRecovery(st_s2.recovery);
 		instanciated_hitbox = false;
+		hurtbox->type = HURTBOX;
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr) { // Just for safety
 			deleteAttackHitbox(ST_S2);
 		}
+		askRecovery(st_s2.recovery);
 	}
-	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
+	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) 
 		instanciateHitbox(ST_S2);
 
 	collider* hitbox = getCurrentAttackHitbox();
@@ -537,12 +554,12 @@ void Warrior::crouchingSpecial1() {
 		logic_position.x -= spin_speed; // Provisional
 
 	if (current_animation->Finished()) {
-		askRecovery(cr_s1.recovery);
 		instanciated_hitbox = false;
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr) { // Just for safety
 			deleteAttackHitbox(CR_S1);
 		}
+		askRecovery(cr_s1.recovery);
 		hurtbox->rect.h = standing_hurtbox_size.y;
 	}
 	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
@@ -554,7 +571,7 @@ void Warrior::crouchingSpecial1() {
 
 }
 
-void Warrior::crouchingSpecial2()	{
+void Warrior::crouchingSpecial2()	{ // Should have recovery
 
 	if (grounded) { 
 		velocity.y -= jump_power.y / 1.25; // Provisional
@@ -609,12 +626,12 @@ void Warrior::jumpingSpecial1() {
 	}
 	if (grounded) {
 		diveKicking = false;
-		askRecovery(jm_s1.recovery);
 		instanciated_hitbox = false;
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr) { // Just for safety
 			deleteAttackHitbox(JM_S1);
 		}
+		askRecovery(jm_s1.recovery);
 	}
 }
 
@@ -644,11 +661,11 @@ void Warrior::jumpingSpecial2() {
 	}
 	if(grounded) {
 		diveKicking = false;
-		askRecovery(jm_s1.recovery);
 		instanciated_hitbox = false;
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr) { // Just for safety
 			deleteAttackHitbox(JM_S2);
 		}
+		askRecovery(jm_s1.recovery);
 	}
 }

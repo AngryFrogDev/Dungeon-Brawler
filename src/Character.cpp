@@ -222,6 +222,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		if (hit) {
 			instanciated_hitbox = false;
 			updateState(HIT, NO_ATT);
+			hurtbox->type = HURTBOX;
 		}
 		// Continuous
 		doAttack();
@@ -383,11 +384,11 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 void Character::onCollision(collider* c1, collider* c2) {
 
-	if (c1->type == HURTBOX && c2->type == HITBOX) {
+	if ((c1->type == HURTBOX || c1->type == PROJECTILE_INVENCIBLE_HURTBOX) && (c2->type == HITBOX || c2->type == PROJECTILE_HITBOX)) {
 		attack_recieving = c2->character->getAttackData(c2->attack_type); 
 		hit = true;
 		moment_hit = SDL_GetTicks();
-		deleteAllHitboxes(); // When you get hit all your current hitboxes are deleted
+		deleteAllMeleeHitboxes(); // When you get hit all your melee  hitboxes are deleted
 	}
 	else if (c1->type == PUSHBOX && c2->type == PUSHBOX) {
 		if (!fliped)
@@ -395,11 +396,11 @@ void Character::onCollision(collider* c1, collider* c2) {
 		else
 			logic_position.x += walk_speed;
 	}
-	else if (c1->type == HITBOX && c2->type == HURTBOX) {
+	else if ((c1->type == HITBOX || c1->type == PROJECTILE_HITBOX) && (c2->type == HURTBOX || c2->type == PROJECTILE_INVENCIBLE_HURTBOX)) {
 		// Allways delete hitboxes on collision
 		deleteAttackHitbox(c1->attack_type);
-		c1->to_delete = true; // PROVISIONAL: This is just in case it is a projectile, put projectile management overall is now bad, projectiles should have a special hitbox
 	}
+	
 }
 void Character::applyGravity() {
 
@@ -799,15 +800,17 @@ void Character::deleteAttackHitbox(CHAR_ATT_TYPE type) 	{
 
 	hitboxes_to_delete.clear();
 }
-void Character::deleteAllHitboxes() {
+void Character::deleteAllMeleeHitboxes() {
 	// Compute what hitboxes need to be deleted
 
 	std::list<collider*> hitboxes_to_delete;
 
 	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
 		collider* c = *it;
+		if(c->type != PROJECTILE_HITBOX){ 
 		c->to_delete = true;
 		hitboxes_to_delete.push_back(c);
+		}
 	}
 	// Remove the colliders
 	for (std::list<collider*>::iterator it = hitboxes_to_delete.begin(); it != hitboxes_to_delete.end(); ++it) {
@@ -827,6 +830,7 @@ CHAR_STATE Character::getCurrentState() {
 
 void Character::askRecovery(int recovery) 	{
 	current_state = RECOVERY;
+	attack_doing = NO_ATT;
 	state_first_tick = false;
 	recovery_timer.start();
 	current_recovery = recovery;

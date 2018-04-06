@@ -132,7 +132,7 @@ protected:
 	void deleteDeadHitboxes();
 	collider* getCurrentAttackHitbox(); // Returns nullptr if no hitbox was found
 	void deleteAttackHitbox(CHAR_ATT_TYPE type);
-	void deleteAllHitboxes();
+	void deleteAllMeleeHitboxes();
 
 	// Swap related functions
 	void manageGroundPosition();
@@ -214,9 +214,9 @@ protected:
 	//If the hitbox of the attack has been already instanciated, it should,'t be instanciated again
 	bool instanciated_hitbox; 
 	bool state_first_tick;
+	bool state_second_tick;
 	//If the projectile has already been thrown, no other projectile should be
 	bool projectile;
-
 
 	bool hit;
 	//Maybe current_stun and moment_hit should be a timer instead
