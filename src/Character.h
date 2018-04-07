@@ -128,7 +128,7 @@ public:
 
 protected:	
 	// Execute attack, rewritable for every type of character
-	virtual void doAttack();		
+	virtual void doAttack(const bool(&inputs)[MAX_INPUTS]);
 	// Hitbox related functions
 	void instanciateHitbox(CHAR_ATT_TYPE type);
 	void deleteDeadHitboxes();
@@ -149,6 +149,8 @@ protected:
 	void updateInvecibility();
 	// Recovery management
 	void askRecovery(int recovery);
+	// Cancel management
+	void manageCancel(const bool(&inputs)[MAX_INPUTS]);
 	// Uses player's logic position, flip, offset and width to calculate the position to draw a collider
 	int calculateDrawPosition(int offset, int size, bool x);
 	//Special functions

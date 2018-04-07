@@ -266,6 +266,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	st_l.juggle_speed.y = 5;
 	st_l.block_type = BLOCK_TYPE::MID;
 	st_l.type = ST_L;
+	st_l.recovery = 100;
 	
 	st_h.pos_rel_char = { 210,20 };
 	st_h.hitbox = { 0,0,150, 50 };
@@ -279,7 +280,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	st_h.juggle_speed.x = 10;
 	st_h.juggle_speed.y = 20;
 	st_h.block_type = BLOCK_TYPE::MID;
-	st_h.recovery = 0;
+	st_h.recovery = 300;
 	st_h.type = ST_H;
 
 	cr_l.pos_rel_char = { 110,50 };
@@ -295,6 +296,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	cr_l.juggle_speed.y = 0;
 	cr_l.block_type = BLOCK_TYPE::LOW;
 	cr_l.type = CR_L;
+	cr_l.recovery = 50;
 
 	cr_h.pos_rel_char = { 190,80 };
 	cr_h.hitbox = { 0,0,180, 50 };
@@ -309,6 +311,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	cr_h.juggle_speed.y = 20;
 	cr_h.block_type = BLOCK_TYPE::LOW;
 	cr_h.type = CR_H;
+	cr_h.recovery = 350;
 
 	jm_l.pos_rel_char = { 150,70 };
 	jm_l.hitbox = { 0,0,140,20 };
@@ -323,6 +326,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	jm_l.juggle_speed.y = 20;
 	jm_l.block_type = BLOCK_TYPE::OVERHEAD;
 	jm_l.type = JM_L;
+	jm_l.recovery = 30;
 
 	jm_h.pos_rel_char = { 42,80 };
 	jm_h.hitbox = { 0,0,120,100 };
@@ -337,6 +341,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	jm_h.juggle_speed.y = 10;
 	jm_h.block_type = BLOCK_TYPE::OVERHEAD;
 	jm_h.type = JM_H;
+	jm_h.recovery = 100;
 
 	st_s1.pos_rel_char = { 0, 0 };
 	st_s1.hitbox = { 0,0,130,30 };
@@ -392,10 +397,11 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	cr_s2.pushblock = 2;
 	cr_s2.damage = 17;
 	cr_s2.knockdown = true;
-	cr_s2.juggle_speed.x = 5;
-	cr_s2.juggle_speed.y = 5;
+	cr_s2.juggle_speed.x = 10;
+	cr_s2.juggle_speed.y = 20;
 	cr_s2.block_type = BLOCK_TYPE::MID;
 	cr_s2.type = CR_S2;
+	cr_s2.recovery = 600;
 
 	jm_s1.pos_rel_char = { 60,50 };
 	jm_s1.hitbox = { 0,0,80, 100 };

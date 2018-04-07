@@ -29,6 +29,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		hurtbox->active = true;
 		death = false;
 		hit = false;
+		state_first_tick = false;
 	}
 	
 	fillBuffer(inputs);
@@ -106,7 +107,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else if (inputs[LIGHT_ATTACK]) 
 			updateState(ATTACKING, ST_L);
 		else if (inputs[HEAVY_ATTACK]) 
-			updateState(ATTACKING, ST_L);
+			updateState(ATTACKING, ST_H);
 		else if (inputs[SPECIAL_1] && !projectile)
 			updateState(ATTACKING, ST_S1);
 		else if (inputs[SPECIAL_2]) 
@@ -232,7 +233,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			hurtbox->type = HURTBOX;
 		}
 		// Continuous
-		doAttack();
+		doAttack(inputs);
 		break;
 
 	case STAND_BLOCKING:
@@ -347,6 +348,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		if (!state_first_tick) {
 			updateAnimation(idle);
 			state_first_tick = true;
+			setCrouchingHurtbox(false);
 		}
 		if (hit) 
 			updateState(HIT, NO_ATT);
@@ -496,16 +498,17 @@ void Character::manageOponent()
 	}
 }
 
-void Character::doAttack() {
+void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 	switch (attack_doing) {
 	case ST_L:
 		updateAnimation(light_attack);
 		if (current_animation->Finished()) 			{
-			updateState(IDLE, NO_ATT);
+			askRecovery(st_l.recovery);
 			instanciated_hitbox = false;
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 			instanciateHitbox(ST_L);
+			manageCancel(inputs);
 		}
 		break;
 	case ST_H:
@@ -516,26 +519,29 @@ void Character::doAttack() {
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 			instanciateHitbox(ST_H);
+			manageCancel(inputs);
 		}
 		break;
 	case CR_L:
 		updateAnimation(crouching_light);
 		if (current_animation->Finished()) {
-			updateState(CROUCHING, NO_ATT);
+			askRecovery(cr_l.recovery);
 			instanciated_hitbox = false;
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 			instanciateHitbox(CR_L);
+			manageCancel(inputs);
 		}
 		break;
 	case CR_H: 
 		updateAnimation(crouching_heavy);
 		if (current_animation->Finished()) {
-			updateState(CROUCHING, NO_ATT);
+			askRecovery(cr_h.recovery);
 			instanciated_hitbox = false;
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 			instanciateHitbox(CR_H);
+			manageCancel(inputs);
 		}
 		break;
 	case JM_L:
@@ -546,7 +552,7 @@ void Character::doAttack() {
 			if(hitbox != nullptr){ // Just for safety
 				deleteAttackHitbox(JM_L);
 			}
-			updateState(IDLE, NO_ATT); //Maybe should be "RECOVERY"
+			askRecovery(jm_l.recovery);
 		}	
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
 			instanciateHitbox(JM_L);	
@@ -566,7 +572,7 @@ void Character::doAttack() {
 			if (hitbox != nullptr){  // Just for safety
 				deleteAttackHitbox(JM_H);
 			}
-			updateState(IDLE, NO_ATT); //Maybe should be "RECOVERY"
+			askRecovery(jm_h.recovery);
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 			instanciateHitbox(JM_H);
@@ -954,4 +960,23 @@ bool Character::lookInBuffer(CHARACTER_INPUTS input, int window) {
 			return true;
 	}
 	return false;
+}
+
+void Character::manageCancel(const bool(&inputs)[MAX_INPUTS]) {
+	if (lookInBuffer(SPECIAL_1, 30) && !inputs[DOWN]) {
+		updateState(ATTACKING, ST_S1);
+		instanciated_hitbox = false;
+	}
+	else if (lookInBuffer(SPECIAL_2, 30) && !inputs[DOWN]) {
+		updateState(ATTACKING, ST_S2);
+		instanciated_hitbox = false;
+	}
+	else if (lookInBuffer(SPECIAL_1, 30) && inputs[DOWN]) {
+		updateState(ATTACKING, CR_S1);
+		instanciated_hitbox = false;
+	}
+	else if (lookInBuffer(SPECIAL_2, 30) && inputs[DOWN]) {
+		updateState(ATTACKING, CR_S2);
+		instanciated_hitbox = false;
+	}
 }
