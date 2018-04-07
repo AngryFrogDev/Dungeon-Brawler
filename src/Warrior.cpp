@@ -433,6 +433,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	hit = false;
 	crouching_hurtbox = false;
 	fliped = _fliped;  
+	death = false;
 	
 	max_life = 100;
 	current_life = max_life;

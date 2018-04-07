@@ -17,14 +17,17 @@ Character::~Character() {
 void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	//PROVISIONAL: Crazy provisional
-	if (current_life <= 0) {
+	if (current_life <= 0 && !death) {
 		updateState(DEAD, NO_ATT);
 		hurtbox->active = false;
+		death = true;
 	}
 	if (App->input->getKey(SDL_SCANCODE_F2) == KEY_DOWN) {
 		current_life = max_life;
 		current_state = CHAR_STATE::IDLE;
 		hurtbox->active = true;
+		death = false;
+		hit = false;
 	}
 
 	switch (current_state) {
@@ -349,6 +352,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	case DEAD:
 		if (!state_first_tick) {
 			updateAnimation(dead);
+			playCurrentSFX();
 			state_first_tick = true;
 		}
 		App->render->drawQuad({ 0,0,100,100 }, 255, 255, 255, 255);
@@ -916,6 +920,7 @@ void Character::playCurrentSFX() {
 	case SWAPPING:
 		break;
 	case DEAD:
+		App->audio->playSFX(s_man_death);
 		break;
 	}
 

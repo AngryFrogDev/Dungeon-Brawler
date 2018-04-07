@@ -211,6 +211,8 @@ protected:
 
 	bool fliped;
 
+	bool death;
+
 	//If the hitbox of the attack has been already instanciated, it should,'t be instanciated again
 	bool instanciated_hitbox; 
 	bool state_first_tick;
