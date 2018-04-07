@@ -580,23 +580,23 @@ void Warrior::crouchingSpecial1() {
 
 void Warrior::crouchingSpecial2()	{ // Should have recovery
 
-	if (grounded) { 
+	if (!state_first_tick) {
+		updateAnimation(crouching_special2);
 		velocity.y -= jump_power.y / 1.25; // Provisional
 		grounded = false;
 		makeInvencibleFor(swordyuken_invencivility);
+		state_first_tick = true;
 	}
-	
 	if (velocity.y >= 0) { 
-		velocity.y = 0;
-		current_state = JUMPING;
-		crouching_hurtbox = false;
-		hurtbox->rect.h = standing_hurtbox_size.y;
+		setCrouchingHurtbox(false);
 		instanciated_hitbox = false;
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr) {
 			deleteAttackHitbox(CR_S2);
 		}
 	}
+	if (grounded)
+		askRecovery(cr_s2.recovery);
 
 	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
 		instanciateHitbox(CR_S2);

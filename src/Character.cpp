@@ -225,7 +225,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		//One Tick
 		if (!state_first_tick) {
 			playCurrentSFX();
-			state_first_tick = true;
 		}
 		if (hit) {
 			instanciated_hitbox = false;
@@ -501,7 +500,10 @@ void Character::manageOponent()
 void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 	switch (attack_doing) {
 	case ST_L:
-		updateAnimation(light_attack);
+		if (!state_first_tick) {
+			updateAnimation(light_attack);
+			state_first_tick = true;
+		}
 		if (current_animation->Finished()) 			{
 			askRecovery(st_l.recovery);
 			instanciated_hitbox = false;
@@ -512,7 +514,10 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		break;
 	case ST_H:
- 		updateAnimation(heavy_attack);
+		if (!state_first_tick) {
+			updateAnimation(heavy_attack);
+			state_first_tick = true;
+		}
 		if (current_animation->Finished()) {
 			askRecovery(st_h.recovery);
 			instanciated_hitbox = false;
@@ -523,7 +528,10 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		break;
 	case CR_L:
-		updateAnimation(crouching_light);
+		if (!state_first_tick) {
+			updateAnimation(crouching_light);
+			state_first_tick = true;
+		}
 		if (current_animation->Finished()) {
 			askRecovery(cr_l.recovery);
 			instanciated_hitbox = false;
@@ -534,7 +542,10 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		break;
 	case CR_H: 
-		updateAnimation(crouching_heavy);
+		if (!state_first_tick) {
+			updateAnimation(crouching_heavy);
+			state_first_tick = true;
+		}
 		if (current_animation->Finished()) {
 			askRecovery(cr_h.recovery);
 			instanciated_hitbox = false;
@@ -545,7 +556,10 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		break;
 	case JM_L:
-		updateAnimation(jumping_light);
+		if (!state_first_tick) {
+			updateAnimation(jumping_light);
+			state_first_tick = true;
+		}
 		if (grounded) {
 			instanciated_hitbox = false;
 			collider* hitbox = getCurrentAttackHitbox();
@@ -565,7 +579,10 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		break;
 	case JM_H:
-		updateAnimation(jumping_heavy);
+		if (!state_first_tick) {
+			updateAnimation(jumping_heavy);
+			state_first_tick = true;
+		}
 		if (grounded) {
 			instanciated_hitbox = false;
 			collider* hitbox = getCurrentAttackHitbox();
@@ -586,19 +603,27 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		break;
 	case ST_S1:
-		updateAnimation(standing_special1);
+		if (!state_first_tick) {
+			updateAnimation(standing_special1);
+			state_first_tick = true;
+		}
 		standingSpecial1(); 
 		break;
 	case ST_S2:
-		updateAnimation(standing_special2);
+		if (!state_first_tick) {
+			updateAnimation(standing_special2);
+			state_first_tick = true;
+		}
 		standingSpecial2();
 		break;
 	case CR_S1:
-		updateAnimation(crouching_special1);
+		if (!state_first_tick) {
+			updateAnimation(crouching_special1);
+			state_first_tick = true;
+		}
 		crouchingSpecial1();
 		break;
 	case CR_S2:
-		updateAnimation(crouching_special2);
 		crouchingSpecial2();
 		break;
 	case JM_S1:
