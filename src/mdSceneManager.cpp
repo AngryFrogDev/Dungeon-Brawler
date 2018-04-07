@@ -7,18 +7,24 @@
 #include "mdCollision.h"
 
 
-mdSceneManager::mdSceneManager()
-{
-}
+mdSceneManager::mdSceneManager(){}
 
 
-mdSceneManager::~mdSceneManager()
-{
-}
+mdSceneManager::~mdSceneManager(){}
 
-bool mdSceneManager::awake(const pugi::xml_node & md_config)
-{
+bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	//HARDCODE, super easy to make an xml out of this, just sayin'
+
+	//Start scene
+	start_scene.type = START_SCENE;
+	game_logo = App->textures->load("assets/game_logo_RA.png");
+
+	intro_label.type = LABEL;
+	intro_label.pos = { 450, 600 };
+	intro_label.label_info.color = { 100,100,100,100 };
+	intro_label.label_info.text = "PRESS ENTER";
+	intro_label.label_info.font_size = App->fonts->medium_size;
+	start_scene.ui_elements.push_back(intro_label);
 
 	//One vs one
 	one_vs_one.type = ONE_VS_ONE;
@@ -35,12 +41,6 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)
 	player2.player = 1;
 	player2.flipped = true;
 	one_vs_one.characters.push_back(player2);
-
-	///UI 
-	left_health_bar.pos = { 100,10 };
-	left_health_bar.type = BAR;
-	left_health_bar.bar_type = HEALTH_BAR;
-	one_vs_one.ui_elements.push_back(left_health_bar);
 
 	//Two vs Two
 	two_vs_two.type = TWO_VS_TWO;
@@ -66,41 +66,28 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)
 	main_menu.type = MAIN_MENU;
 
 	///UI
-	random_button.type = BUTTON;
-	random_button.pos = { 400,100 };
-	random_button.button_type = ONE_V_ONE;
-	main_menu.ui_elements.push_back(random_button);
+	b_o_vs_o.type = BUTTON;
+	b_o_vs_o.pos = { 300,500 };
+	b_o_vs_o.button_type = ONE_V_ONE;
+	main_menu.ui_elements.push_back(b_o_vs_o);
 
-	test_but1.type = BUTTON;
-	test_but1.pos = { 400, 300 };
-	test_but1.button_type = ONE_V_ONE;
-	main_menu.ui_elements.push_back(test_but1);
+	b_t_vs_t.type = BUTTON;
+	b_t_vs_t.pos = { 600,500 };
+	b_t_vs_t.button_type = ONE_V_ONE;
+	main_menu.ui_elements.push_back(b_t_vs_t);
 
-	test_but2.type = BUTTON;
-	test_but2.pos = { 400, 500 };
-	test_but2.button_type = GAME_EXIT;
-	main_menu.ui_elements.push_back(test_but2);
+	b_exit.type = BUTTON;
+	b_exit.pos = { 450, 600 };
+	b_exit.button_type = GAME_EXIT;
+	main_menu.ui_elements.push_back(b_exit);
+		
 
-	random_label.type = LABEL;
-	random_label.pos = { 400,0 };
-	random_label.label_info.color = { 100,100,100,100 };
-	random_label.label_info.text = "PENE";
-	main_menu.ui_elements.push_back(random_label);
-
-	test_bar.type = BAR;
-	test_bar.bar_type = HEALTH_BAR;
-	test_bar.pos = { 100, 0 };
-	test_bar.flip = true;
-	main_menu.ui_elements.push_back(test_bar);
-	
-
-	current_scene = &one_vs_one;
+	current_scene = &start_scene;
 
 	return true;
 }
 
-bool mdSceneManager::start()
-{
+bool mdSceneManager::start()	{
 	bool ret = true;
 
 	if (current_scene == nullptr)
@@ -114,18 +101,22 @@ bool mdSceneManager::start()
 	return true;
 }
 
-bool mdSceneManager::update(float dt)
-{
+bool mdSceneManager::update(float dt)	{
 	if (App->input->getKey(SDL_SCANCODE_M) == KEY_DOWN) //"M" from menu :-)
-		changeScene(main_menu); //To test the code
+		changeScene(one_vs_one); //To test the code
+
+	if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		changeScene(main_menu);
+
+	if (current_scene == &start_scene)//Logo texture
+		App->render->blit(1, game_logo, 100, 100, 0, 1);
 	
 	
 	App->gui->draw();
 	return true;
 }
 
-void mdSceneManager::changeScene(Scene scene_to_load)
-{
+void mdSceneManager::changeScene(Scene scene_to_load)	{
 	App->gui->cleanUI();
 	App->collision->cleanUp();
 	App->entities->cleanUp();
@@ -211,7 +202,7 @@ bool mdSceneManager::CreateWidgets()
 			App->gui->createButton(curr_widget_info.button_type, { curr_widget_info.pos.x,curr_widget_info.pos.y }, this);
 			break;
 		case LABEL:
-			App->gui->createLabel(random_label.label_info.text.c_str(), random_label.label_info.color,*(App->fonts->fonts.begin()),{ curr_widget_info.pos.x,curr_widget_info.pos.y }, this);
+			App->gui->createLabel(curr_widget_info.label_info.text, curr_widget_info.label_info.color,curr_widget_info.label_info.font_size,{ curr_widget_info.pos.x,curr_widget_info.pos.y }, this);
 			break;
 		default:
 			//It should never go here

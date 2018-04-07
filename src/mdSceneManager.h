@@ -14,7 +14,7 @@ enum ui_elem_type;
 enum button_types;
 enum bar_types;
 
-enum scene_type {ONE_VS_ONE, TWO_VS_TWO, MAIN_MENU}; //To make a switch for specific code later
+enum scene_type {ONE_VS_ONE, TWO_VS_TWO, MAIN_MENU, START_SCENE}; //To make a switch for specific code later
 
 struct CharacterInfo {
 	int player;
@@ -24,8 +24,9 @@ struct CharacterInfo {
 };
 
 struct LabelInfo {
-	string text;
+	char* text;
 	SDL_Color color;
+	_TTF_Font* font_size;
 };
 
 struct WidgetInfo {
@@ -75,6 +76,7 @@ private:
 	Scene one_vs_one;
 	Scene two_vs_two;
 	Scene main_menu;
+	Scene start_scene;
 
 	CharacterInfo player1;
 	CharacterInfo player2;
@@ -82,12 +84,24 @@ private:
 	CharacterInfo player3;
 	CharacterInfo player4;
 
-	WidgetInfo left_health_bar;
-	WidgetInfo random_button;
-	WidgetInfo random_label;
+	//START SCENE UI
+	WidgetInfo intro_label;
+	SDL_Texture* game_logo = nullptr;
+
+	//MAIN MENU UI
+	WidgetInfo b_o_vs_o;
+	WidgetInfo b_t_vs_t;
+	WidgetInfo b_exit;
+
+	WidgetInfo l_o_vs_o;
+	WidgetInfo l_t_vs_t;
+	WidgetInfo l_exit;
+
+
+	//COMBAT UI
 	WidgetInfo test_bar;
-	WidgetInfo test_but1;
-	WidgetInfo test_but2;
+
+
 
 };
 
