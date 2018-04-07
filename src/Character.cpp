@@ -32,6 +32,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	}
 	
 	fillBuffer(inputs);
+	lookInBuffer(SPECIAL_1, 30);
 
 	switch (current_state) {
 	case IDLE:
@@ -946,4 +947,11 @@ void Character::pushIntoBuffer(CHARACTER_INPUTS input) {
 		input_buffer[i] = input_buffer[i + 1];
 	}
 	input_buffer[MAX_INPUT_BUFFER - 1] = input;
+}
+bool Character::lookInBuffer(CHARACTER_INPUTS input, int window) {
+	for (int i = MAX_INPUT_BUFFER -1 -window; i < MAX_INPUT_BUFFER; i++) {
+		if (input_buffer[i] == input)
+			return true;
+	}
+	return false;
 }
