@@ -183,6 +183,7 @@ protected:
 	int ground_position;
 	int bottom_lane;
 	int upper_lane;
+	iPoint starting_position;
 
 	Player* owner;
 	// In miliseconds

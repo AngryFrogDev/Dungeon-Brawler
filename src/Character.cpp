@@ -26,6 +26,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	if (App->input->getKey(SDL_SCANCODE_F2) == KEY_DOWN) {
 		current_life = max_life;
 		current_state = CHAR_STATE::IDLE;
+		logic_position.x = starting_position.x;
+		logic_position.y = 500;
 		hurtbox->active = true;
 		death = false;
 		hit = false;
@@ -340,7 +342,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		break;
 	case SWAPPING:
 		//TODO: Define swapping
-		manageSwap();
+		//manageSwap();
+		updateState(IDLE, NO_ATT);
 		break;
 	case RECOVERY:
 		// One tick

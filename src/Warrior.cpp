@@ -459,6 +459,9 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	logic_position.x = x_pos;
 	logic_position.y = -1000;
 
+	starting_position.x = x_pos;
+	starting_position.y = -1000;
+
 	standing_hurtbox_size.x = 100;
 	standing_hurtbox_size.y = 200;
 	crouching_hurtbox_offset = 40;
