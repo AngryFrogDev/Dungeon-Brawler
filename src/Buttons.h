@@ -13,7 +13,7 @@ public:
 	virtual ~Buttons();
 
 	bool preUpdate();
-
+	
 	void draw();
 	void getSection(SDL_Rect idle_sec, SDL_Rect highl_sec, SDL_Rect clicked_sec, SDL_Rect disabled_sec);
 	
@@ -34,6 +34,7 @@ private:
 	SDL_Rect* current_rect = nullptr;
 	
 	bool enabled = true;
+	bool is_clicked = false;
 
 	uint click_sfx;
 

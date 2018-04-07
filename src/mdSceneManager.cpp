@@ -61,25 +61,46 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	player4.player = 3;
 	player4.flipped = true;
 	two_vs_two.characters.push_back(player4);
-
+	
 	//Main menu
 	main_menu.type = MAIN_MENU;
-
+	
 	///UI
 	b_o_vs_o.type = BUTTON;
-	b_o_vs_o.pos = { 300,500 };
+	b_o_vs_o.pos = { 475,200 };
 	b_o_vs_o.button_type = ONE_V_ONE;
 	main_menu.ui_elements.push_back(b_o_vs_o);
 
 	b_t_vs_t.type = BUTTON;
-	b_t_vs_t.pos = { 600,500 };
+	b_t_vs_t.pos = { 475,350 };
 	b_t_vs_t.button_type = ONE_V_ONE;
 	main_menu.ui_elements.push_back(b_t_vs_t);
 
 	b_exit.type = BUTTON;
-	b_exit.pos = { 450, 600 };
+	b_exit.pos = { 475,500 };
 	b_exit.button_type = GAME_EXIT;
 	main_menu.ui_elements.push_back(b_exit);
+
+	l_o_vs_o.type = LABEL;
+	l_o_vs_o.pos = { 490, 215 };
+	l_o_vs_o.label_info.color = { 255,255,255,255 };
+	l_o_vs_o.label_info.text = "ONE VS ONE";
+	l_o_vs_o.label_info.font_size = App->fonts->medium_size;
+	main_menu.ui_elements.push_back(l_o_vs_o);
+
+	l_t_vs_t.type = LABEL;
+	l_t_vs_t.pos = { 490, 365 };
+	l_t_vs_t.label_info.color = { 255,255,255,255 };
+	l_t_vs_t.label_info.text = "TWO VS TWO";
+	l_t_vs_t.label_info.font_size = App->fonts->medium_size;
+	main_menu.ui_elements.push_back(l_t_vs_t);
+
+	l_exit.type = LABEL;
+	l_exit.pos = { 550, 515 };
+	l_exit.label_info.color = { 255,255,255,255 };
+	l_exit.label_info.text = "EXIT";
+	l_exit.label_info.font_size = App->fonts->medium_size;
+	main_menu.ui_elements.push_back(l_exit);
 		
 
 	current_scene = &start_scene;
@@ -102,6 +123,7 @@ bool mdSceneManager::start()	{
 }
 
 bool mdSceneManager::update(float dt)	{
+	//PROVISIONAL: All input should be read from controller too
 	if (App->input->getKey(SDL_SCANCODE_M) == KEY_DOWN) //"M" from menu :-)
 		changeScene(one_vs_one); //To test the code
 

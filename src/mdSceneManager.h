@@ -5,6 +5,7 @@
 #include "SDL\include\SDL.h"
 #include "p2Point.h"
 #include "Character.h"
+#include "mdInput.h"
 #include "Buttons.h"
 #include "Bars.h"
 #include "Labels.h"
