@@ -26,8 +26,8 @@ bool Bars::preUpdate() {
 }
 
 void Bars::draw(){
-	App->render->blit(3, App->gui->getAtlas(), position.first, position.second, &bar_rect, 1, flipped);
-	App->render->blit(3, App->gui->getAtlas(), position.first + 4, position.second + 4, &gauge_rect, 1, flipped);
+	App->render->blit(3, App->gui->getAtlas(), position.first, position.second, &bar_rect, 2, flipped);
+	App->render->blit(3, App->gui->getAtlas(), position.first + 4, position.second + 4, &gauge_rect, 2, flipped);
 }
 
 void Bars::getSection(SDL_Rect rect, SDL_Rect gauge){

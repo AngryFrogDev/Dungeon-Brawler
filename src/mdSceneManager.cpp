@@ -20,7 +20,7 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	game_logo = App->textures->load("assets/game_logo_RA.png");
 
 	intro_label.type = LABEL;
-	intro_label.pos = { 450, 600 };
+	intro_label.pos = { 500, 600 };
 	intro_label.label_info.color = { 100,100,100,100 };
 	intro_label.label_info.text = "PRESS ENTER";
 	intro_label.label_info.font_size = App->fonts->medium_size;
@@ -41,6 +41,11 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	player2.player = 1;
 	player2.flipped = true;
 	one_vs_one.characters.push_back(player2);
+
+	test_bar.type = BAR;
+	test_bar.pos = { 0,0 };
+	test_bar.bar_type = HEALTH_BAR;
+	one_vs_one.ui_elements.push_back(test_bar);
 
 	//Two vs Two
 	two_vs_two.type = TWO_VS_TWO;
@@ -77,7 +82,7 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	main_menu.ui_elements.push_back(b_t_vs_t);
 
 	b_exit.type = BUTTON;
-	b_exit.pos = { 475,500 };
+	b_exit.pos = { 1000,600 };
 	b_exit.button_type = GAME_EXIT;
 	main_menu.ui_elements.push_back(b_exit);
 
@@ -96,9 +101,9 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	main_menu.ui_elements.push_back(l_t_vs_t);
 
 	l_exit.type = LABEL;
-	l_exit.pos = { 550, 515 };
+	l_exit.pos = { 1075, 615 };
 	l_exit.label_info.color = { 255,255,255,255 };
-	l_exit.label_info.text = "EXIT";
+	l_exit.label_info.text = "QUIT";
 	l_exit.label_info.font_size = App->fonts->medium_size;
 	main_menu.ui_elements.push_back(l_exit);
 		
@@ -127,12 +132,12 @@ bool mdSceneManager::update(float dt)	{
 	if (App->input->getKey(SDL_SCANCODE_M) == KEY_DOWN) //"M" from menu :-)
 		changeScene(one_vs_one); //To test the code
 
-	if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-		changeScene(main_menu);
-
 	if (current_scene == &start_scene)//Logo texture
+	{
 		App->render->blit(1, game_logo, 100, 100, 0, 1);
-	
+		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+			changeScene(main_menu);
+	}
 	
 	App->gui->draw();
 	return true;
