@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "mdCollision.h"
 #include "mdAudio.h"
+#include "mdInput.h"
 
 Character::Character() {
 
@@ -29,6 +30,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		death = false;
 		hit = false;
 	}
+	
+	fillBuffer(inputs);
 
 	switch (current_state) {
 	case IDLE:
@@ -924,4 +927,23 @@ void Character::playCurrentSFX() {
 		break;
 	}
 
+}
+void Character::fillBuffer(const bool(&inputs)[MAX_INPUTS]) {
+	bool button_pressed = false;
+	for (int i = 0; i < MAX_INPUTS; i++) {
+		if (inputs[i]){
+			pushIntoBuffer((CHARACTER_INPUTS)i);
+			button_pressed = true;
+		}
+	}
+	if (!button_pressed) {
+		pushIntoBuffer(CHARACTER_INPUTS::NULL_INPUT);
+	}
+}
+void Character::pushIntoBuffer(CHARACTER_INPUTS input) {
+	
+	for (int i = 0; i < MAX_INPUT_BUFFER; i++) {
+		input_buffer[i] = input_buffer[i + 1];
+	}
+	input_buffer[MAX_INPUT_BUFFER - 1] = input;
 }

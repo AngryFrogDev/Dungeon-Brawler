@@ -9,6 +9,8 @@
 #include "Timer.h"
 
 
+#define MAX_INPUT_BUFFER 100
+
 class Mix_Chunk;
 enum CHAR_TYPE {
 	DEF_CHAR,
@@ -156,6 +158,10 @@ protected:
 	virtual void crouchingSpecial2() { return; };
 	virtual void jumpingSpecial1() { return; };
 	virtual void jumpingSpecial2() { return; };
+	// Input buffer functions
+	bool lookInBuffer(CHARACTER_INPUTS input, int window);
+	void fillBuffer(const bool(&inputs)[MAX_INPUTS]);
+	void pushIntoBuffer(CHARACTER_INPUTS input);
 
 protected:
 
@@ -245,6 +251,7 @@ protected:
 
 	int current_recovery; // In milliseconds
 	Timer recovery_timer;
+	CHARACTER_INPUTS input_buffer[MAX_INPUT_BUFFER];
 	
 public:
 	//Swap variables

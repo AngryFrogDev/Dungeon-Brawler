@@ -66,7 +66,6 @@ public:
 public:
 	KEY_STATE buttons[CONTROLLER_BUTTON::BUTTON_MAX];
 	float axes[SDL_CONTROLLER_AXIS_MAX];
-
 private:
 	uint id;
 	SDL_GameController* controller;
@@ -75,7 +74,6 @@ private:
 		CONTROLLER_BUTTON input;
 		uint timestamp;
 	};
-
 	std::list<input_record> input_buffer;
 	//std::list<int> input_times;
 };
