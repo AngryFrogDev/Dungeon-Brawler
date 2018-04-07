@@ -37,9 +37,5 @@ private:
 
 	uint click_sfx;
 
-	//Nodes
-	pugi::xml_document config_doc;
-	pugi::xml_node config;
-	pugi::xml_node data;
 };
 #endif

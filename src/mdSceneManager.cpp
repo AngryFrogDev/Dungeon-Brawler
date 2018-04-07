@@ -71,12 +71,28 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)
 	random_button.button_type = ONE_V_ONE;
 	main_menu.ui_elements.push_back(random_button);
 
+	test_but1.type = BUTTON;
+	test_but1.pos = { 400, 300 };
+	test_but1.button_type = ONE_V_ONE;
+	main_menu.ui_elements.push_back(test_but1);
+
+	test_but2.type = BUTTON;
+	test_but2.pos = { 400, 500 };
+	test_but2.button_type = GAME_EXIT;
+	main_menu.ui_elements.push_back(test_but2);
+
 	random_label.type = LABEL;
 	random_label.pos = { 400,0 };
 	random_label.label_info.color = { 100,100,100,100 };
 	random_label.label_info.text = "PENE";
 	main_menu.ui_elements.push_back(random_label);
 
+	test_bar.type = BAR;
+	test_bar.bar_type = HEALTH_BAR;
+	test_bar.pos = { 100, 0 };
+	test_bar.flip = true;
+	main_menu.ui_elements.push_back(test_bar);
+	
 
 	current_scene = &one_vs_one;
 
@@ -100,15 +116,11 @@ bool mdSceneManager::start()
 
 bool mdSceneManager::update(float dt)
 {
-	App->gui->draw();
-
-
-	if (App->input->getKey(SDL_SCANCODE_M) == KEY_REPEAT) //"M" from menu :-)
-	{
+	if (App->input->getKey(SDL_SCANCODE_M) == KEY_DOWN) //"M" from menu :-)
 		changeScene(main_menu); //To test the code
-	}
 	
-
+	
+	App->gui->draw();
 	return true;
 }
 
@@ -124,7 +136,25 @@ void mdSceneManager::changeScene(Scene scene_to_load)
 	CreateWidgets();
 }
 
-void mdSceneManager::onEvent(Buttons* button)	{
+bool mdSceneManager::onEvent(Buttons* button)	{
+	bool ret = true;
+
+	switch (button->button_type)
+	{
+	default:
+		break;
+	case ONE_V_ONE:
+		changeScene(one_vs_one);
+		break;
+	case TWO_V_TWO:
+		changeScene(two_vs_two); 
+		break;
+	case GAME_EXIT:
+		ret = false;
+		break;
+	}
+
+	return ret;
 }
 
 bool mdSceneManager::CreateCharacters()
@@ -175,7 +205,7 @@ bool mdSceneManager::CreateWidgets()
 		switch (curr_widget_info.type)
 		{
 		case BAR:
-			App->gui->createBar(curr_widget_info.bar_type, { curr_widget_info.pos.x,curr_widget_info.pos.y }, this);
+			App->gui->createBar(curr_widget_info.bar_type, { curr_widget_info.pos.x,curr_widget_info.pos.y }, curr_widget_info.flip, this);
 			break;
 		case BUTTON:
 			App->gui->createButton(curr_widget_info.button_type, { curr_widget_info.pos.x,curr_widget_info.pos.y }, this);
@@ -188,6 +218,9 @@ bool mdSceneManager::CreateWidgets()
 			break;
 		}
 	}
+
+	if (!App->gui->focus_elements.empty())
+		App->gui->focus = *App->gui->focus_elements.begin();
 
 	return true;
 }

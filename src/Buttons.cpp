@@ -12,7 +12,6 @@ Buttons::Buttons(button_types type, std::pair<int, int> pos, Module* callback) :
 	
 	button_type = type;
 	//click_sfx = App->audio->loadSFX(/*Path*/);
-	config = App->loadConfig("config.xml", config_doc);
 	data = config.child("gui").child("button_section");
 
 	loadGuiFromAtlas();
@@ -43,7 +42,10 @@ bool Buttons::preUpdate()
 	{
 		changeVisualState(FOCUSED);
 		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-			changeVisualState(CLICK); App->scene_manager->onEvent(this);
+		{
+			changeVisualState(CLICK); 
+			ret = App->scene_manager->onEvent(this);
+		}
 		hovering = false;
 	}
 	
@@ -52,7 +54,7 @@ bool Buttons::preUpdate()
 }
 
 void Buttons::draw() {
-	App->render->blit(3, App->gui->getAtlas(), position.first, position.second, current_rect);
+	App->render->blit(3, App->gui->getAtlas(), position.first, position.second, current_rect, 2);
 }
 
 void Buttons::getSection(SDL_Rect idle_sec, SDL_Rect high_sec, SDL_Rect clicked_sec, SDL_Rect disabled_sec) {
@@ -125,7 +127,7 @@ void Buttons::loadGuiFromAtlas() {
 		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
 		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
 		break;
-	case EXIT:
+	case GAME_EXIT:
 		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
 		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
 		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });

@@ -7,7 +7,7 @@
 
 class Bars : public Widgets {
 public:
-	Bars(bar_types type, std::pair<int, int> pos, Module* callback);
+	Bars(bar_types type, std::pair<int, int> pos, bool _flipped, Module* callback);
 	~Bars();
 	bool preUpdate();
 	void draw();
@@ -18,14 +18,11 @@ public:
 private:
 	bar_types bar_type = NO_BAR;
 
-	SDL_Rect current_gauge_rect;
-	SDL_Rect max_gauge_rect;
-	SDL_Rect current_bar_rect;
-	SDL_Rect max_bar_rect;
-
-	SDL_Texture* bar_tex = nullptr;
+	SDL_Rect gauge_rect;
+	SDL_Rect bar_rect;
 
 	int gauge_y_position;
+	bool flipped;
 
 };
 

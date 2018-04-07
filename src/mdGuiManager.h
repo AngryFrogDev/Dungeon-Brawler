@@ -35,7 +35,7 @@ public:
 	
 	Widgets* createButton(button_types type, std::pair<int, int> pos, Module* callback = nullptr);
 	Widgets* createLabel(const char* content, const SDL_Color& color, _TTF_Font* font_size, std::pair<int, int> pos, Module* callback = nullptr);
-	Widgets* createBar(bar_types type, std::pair<int, int> pos, Module* callback = nullptr);
+	Widgets* createBar(bar_types type, std::pair<int, int> pos, bool flipped, Module* callback = nullptr);
 	bool destroyWidget(Widgets* widget);
 
 	void manageFocus();

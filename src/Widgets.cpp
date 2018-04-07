@@ -7,6 +7,7 @@ Widgets::Widgets(ui_elem_type type, std::pair<int, int> pos, Module* callback) :
 	this->callback = callback;
 	position.first = pos.first;
 	position.second = pos.second;
+	config = App->loadConfig("config.xml", config_doc);
 }
 
 Widgets::~Widgets() {}

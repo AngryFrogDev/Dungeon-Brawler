@@ -20,7 +20,7 @@ enum button_types {
 	TWO_V_TWO,
 	SETTINGS,
 	CREDITS,
-	EXIT,
+	GAME_EXIT,
 	MUSIC_VOL_UP,
 	MUSIC_VOL_DOWN,
 	SFX_VOL_UP,
@@ -55,5 +55,10 @@ public:
 
 protected:
 	Module* callback = nullptr;
+
+	//Nodes
+	pugi::xml_document config_doc;
+	pugi::xml_node config;
+	pugi::xml_node data;
 };
 #endif

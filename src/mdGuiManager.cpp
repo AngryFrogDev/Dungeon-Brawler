@@ -94,11 +94,11 @@ bool mdGuiManager::cleanUp() {
 	std::list<Widgets*>::reverse_iterator ui_iterator = ui_elements.rbegin();
 	for (ui_iterator; ui_iterator != ui_elements.rend(); ++ui_iterator) {
 		object = *ui_iterator;
-		RELEASE(object);
+		delete object;
 	}
-
 	ui_elements.clear();
-
+	focus_elements.clear();
+		
 	return ret;
 }
 
@@ -109,10 +109,11 @@ bool mdGuiManager::cleanUI()
 	std::list<Widgets*>::reverse_iterator ui_iterator = ui_elements.rbegin();
 	for (ui_iterator; ui_iterator != ui_elements.rend(); ++ui_iterator) {
 		object = *ui_iterator;
-		RELEASE(object);
+		delete object;
 	}
-
 	ui_elements.clear();
+	focus_elements.clear();
+
 	return true;
 }
 
@@ -140,12 +141,12 @@ Widgets* mdGuiManager::createLabel(const char* content, const SDL_Color& color, 
 	return ret;
 }
 
-Widgets* mdGuiManager::createBar(bar_types type, std::pair<int, int> pos, Module * callback) {
+Widgets* mdGuiManager::createBar(bar_types type, std::pair<int, int> pos, bool flipped, Module * callback) {
 
 	Widgets* ret = nullptr;
 
 	if (type != 0) {
-		ret = new Bars(type, pos, callback);
+		ret = new Bars(type, pos, flipped, callback);
 		ui_elements.push_back(ret);
 	}
 

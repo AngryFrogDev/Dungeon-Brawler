@@ -31,7 +31,7 @@
 		<bar_section>
 			<hp>
 				<border x="6" y="94" w="374" h="22"/>
-				<full_gauge x="6" y="10" w="370" h="18"/>
+				<gauge x="6" y="10" w="370" h="18"/>
 				<mid_gauge x="6" y="38" w="370" h="18"/>
 				<low_gauge x="6" y="68" w="370" h="18"/>
 			</hp>
