@@ -373,8 +373,8 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	st_s2.recovery = 500;
 	st_s2.type = ST_S2;
 
-	cr_s1.pos_rel_char = { 100,50 };
-	cr_s1.hitbox = { 0,0,100,150 };
+	cr_s1.pos_rel_char = { 200,50 };
+	cr_s1.hitbox = { 0,0,150,150 };
 	cr_s1.active_time = -1;
 	cr_s1.hitstun = -1;
 	cr_s1.blockstun = 300;
