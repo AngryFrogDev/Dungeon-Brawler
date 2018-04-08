@@ -25,7 +25,7 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	loadSceneUI();
 	loadSceneCharacters();
 
-	current_scene = &one_vs_one;
+	current_scene = &start_scene;
 
 	return true;
 }
@@ -37,8 +37,8 @@ bool mdSceneManager::start()	{
 		return false;
 
 	createCharacters();
-
 	createWidgets();
+	scene_timer.start();
 	
 	SDL_SetRenderDrawBlendMode(App->render->renderer, SDL_BLENDMODE_BLEND);
 	return true;
@@ -102,6 +102,7 @@ bool mdSceneManager::update(float dt)	{
 		App->render->blit(2, App->gui->atlas, 1579, 109, &character2_image, 3, true);
 	}
 
+	updateTimer();
 	App->gui->draw();
 
 	return ret;
@@ -268,7 +269,8 @@ void mdSceneManager::loadSceneUI() {
 	//PROVISIONAL: When we have more than one playable characters, this should be checked with the selected characters. 
 	character2_image = character3_image = character4_image = character1_image;
 
-
+	//auto label_string = std::to_string(current_time);
+	
 	health_bar1.type = BAR;
 	health_bar1.pos = { 100,195 };
 	health_bar1.bar_type = HEALTH_BAR;
@@ -322,6 +324,23 @@ void mdSceneManager::loadSceneCharacters()	{
 	player4.player = 3;
 	player4.flipped = true;
 	two_vs_two.characters.push_back(player4);
+
+}
+
+void mdSceneManager::updateTimer()	{
+	if (paused)
+		return;
+
+	if (scene_timer.readSec() >= 1)
+		current_time--, scene_timer.start();
+	if (current_time == 0)
+	{
+		current_time = max_time;
+		scene_timer.start();
+		changeScene(&main_menu);
+	}
+	auto label_string = std::to_string(current_time);
+	
 
 }
 

@@ -29,7 +29,7 @@ struct CharacterInfo {
 };
 
 struct LabelInfo {
-	char* text;
+	const char* text;
 	SDL_Color color;
 	_TTF_Font* font_size;
 };
@@ -70,12 +70,14 @@ private:
 	bool createWidgets();
 	void loadSceneUI();
 	void loadSceneCharacters();
+	void updateTimer();
 
 
 public:
 	std::list<Scene> scenes;
 	Scene* current_scene = nullptr;
 	Scene* scene_to_load = nullptr;
+	bool	paused = false;
 
 private:
 	enum fade_step
@@ -129,6 +131,12 @@ private:
 	SDL_Rect character2_image;
 	SDL_Rect character3_image;
 	SDL_Rect character4_image;
+
+	//Combat scene timer
+	uint	timer_count = 0;
+	uint	current_time = 90;
+	uint	max_time = 90;
+	Timer	scene_timer;
 
 
 };
