@@ -708,3 +708,12 @@ void Character::makeInvencibleFor(int time_invencible) {
 	invencible_timer.start();
 	stop_invencibility = time_invencible;
 }
+
+int Character::getCurrentLife() {
+	
+	return current_life;
+}
+
+int Character::getMaxLife() {
+	return max_life;
+}

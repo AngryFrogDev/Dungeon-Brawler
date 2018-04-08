@@ -36,6 +36,9 @@ bool mdSceneManager::start()	{
 	if (current_scene == nullptr)
 		return false;
 
+	health_bar_target = 0; //provisional
+	super_bar_target = 0; //provisional
+	swap_bar_target = 0; //provisional
 	createCharacters();
 	createWidgets();
 	scene_timer.start();
@@ -174,7 +177,19 @@ bool mdSceneManager::createWidgets()
 		switch (curr_widget_info.type)
 		{
 		case BAR:
-			App->gui->createBar(curr_widget_info.bar_type, { curr_widget_info.pos.x,curr_widget_info.pos.y }, curr_widget_info.flip, this);
+			//Hardcoded target player provisional
+			if (curr_widget_info.bar_type == HEALTH_BAR) {
+				App->gui->createBar(curr_widget_info.bar_type, { curr_widget_info.pos.x,curr_widget_info.pos.y }, curr_widget_info.flip, health_bar_target, this);
+				health_bar_target++;
+			}
+			else if (curr_widget_info.bar_type == SWAP_BAR) {
+				App->gui->createBar(curr_widget_info.bar_type, { curr_widget_info.pos.x,curr_widget_info.pos.y }, curr_widget_info.flip, swap_bar_target, this);
+				swap_bar_target++;
+			}
+			else if(curr_widget_info.bar_type == SUPER_BAR) {
+				App->gui->createBar(curr_widget_info.bar_type, { curr_widget_info.pos.x,curr_widget_info.pos.y }, curr_widget_info.flip, super_bar_target, this);
+				super_bar_target++;
+			}
 			break;
 		case BUTTON:
 			App->gui->createButton(curr_widget_info.button_type, { curr_widget_info.pos.x,curr_widget_info.pos.y }, this);
