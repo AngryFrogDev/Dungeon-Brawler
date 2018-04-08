@@ -85,24 +85,8 @@ bool mdSceneManager::update(float dt)	{
 		SDL_RenderFillRect(App->render->renderer, &screen);
 	}
 	
-	//PROVISIONAL: All input should be read from controller too
-	if (current_scene == &start_scene)//Logo texture
-	{
-		App->render->blit(1, game_logo, 150, 150, 0, 1);
-		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
-			changeScene(&main_menu);
-	}
-	
-	if (current_scene == &one_vs_one)
-	{
-		App->render->blit(5, App->gui->atlas, 850, 100, &timer_rect, 3);
-		App->render->blit(2, App->gui->atlas, 110, 100, &character1_rect, 3);
-		App->render->blit(2, App->gui->atlas, 119, 109, &character1_image, 3);
-		App->render->blit(2, App->gui->atlas, 1570, 100, &character2_rect, 3);
-		App->render->blit(2, App->gui->atlas, 1579, 109, &character2_image, 3, true);
-	}
-
-	updateTimer();
+	blitUiTextures();
+	//updateTimer();
 	App->gui->draw();
 
 	return ret;
@@ -232,7 +216,7 @@ void mdSceneManager::loadSceneUI() {
 
 	b_t_vs_t.type = BUTTON;
 	b_t_vs_t.pos = { 750,400 };
-	b_t_vs_t.button_type = ONE_V_ONE;
+	b_t_vs_t.button_type = TWO_V_TWO;
 	main_menu.ui_elements.push_back(b_t_vs_t);
 
 	b_exit.type = BUTTON;
@@ -260,6 +244,7 @@ void mdSceneManager::loadSceneUI() {
 	l_exit.label_info.text = "QUIT";
 	l_exit.label_info.font_size = App->fonts->large_size;
 	main_menu.ui_elements.push_back(l_exit);
+	
 
 	//Combat
 	timer_rect = { 421, 142, 59, 59 };
@@ -269,7 +254,8 @@ void mdSceneManager::loadSceneUI() {
 	//PROVISIONAL: When we have more than one playable characters, this should be checked with the selected characters. 
 	character2_image = character3_image = character4_image = character1_image;
 
-	//auto label_string = std::to_string(current_time);
+	auto label_string = std::to_string(current_time);
+	//timer = (Labels*)App->gui->createLabel(label_string.data(), { 255,255,255,255 }, App->fonts->large_size, { 600,200 }, this);
 	
 	health_bar1.type = BAR;
 	health_bar1.pos = { 100,195 };
@@ -293,6 +279,28 @@ void mdSceneManager::loadSceneUI() {
 	super_bar2.flip = true;
 	one_vs_one.ui_elements.push_back(super_bar2);
 
+
+
+	health_bar1.pos = { 100, 125 };
+	two_vs_two.ui_elements.push_back(health_bar1);
+	health_bar2.pos = { 1030, 125 };
+	two_vs_two.ui_elements.push_back(health_bar2);
+	super_bar1.pos = { 109, 152 };
+	two_vs_two.ui_elements.push_back(super_bar1);
+	super_bar2.pos = { 1271, 152 };
+	two_vs_two.ui_elements.push_back(super_bar2);
+
+	health_bar3.type = BAR;
+	health_bar3.pos = { 100,240 };
+	health_bar3.bar_type = HEALTH_BAR;
+	two_vs_two.ui_elements.push_back(health_bar3);
+
+	health_bar4.type = BAR;
+	health_bar4.pos = { 1030,240 };
+	health_bar4.bar_type = HEALTH_BAR;
+	health_bar4.flip = true;
+	two_vs_two.ui_elements.push_back(health_bar4);
+	
 }
 
 void mdSceneManager::loadSceneCharacters()	{
@@ -313,13 +321,13 @@ void mdSceneManager::loadSceneCharacters()	{
 	two_vs_two.characters.push_back(player1); //Perfectly reusable
 	two_vs_two.characters.push_back(player2); //Perfectly reusable
 
-	player3.x_pos = 200;
+	player3.x_pos = 1500;
 	player3.type = WARRIOR;
 	player3.player = 2;
 	player3.flipped = false;
 	two_vs_two.characters.push_back(player3);
 
-	player4.x_pos = 900;
+	player4.x_pos = 400;
 	player4.type = WARRIOR;
 	player4.player = 3;
 	player4.flipped = true;
@@ -340,7 +348,33 @@ void mdSceneManager::updateTimer()	{
 		changeScene(&main_menu);
 	}
 	auto label_string = std::to_string(current_time);
-	
+	timer->changeContent(label_string.data());
 
+}
+
+void mdSceneManager::blitUiTextures()	{
+	//PROVISIONAL: All input should be read from controller too
+	if (current_scene == &start_scene)//Logo texture
+	{
+		App->render->blit(1, game_logo, 150, 150, 0, 1);
+		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+			changeScene(&main_menu);
+	}
+
+	if (current_scene == &one_vs_one || current_scene == &two_vs_two)
+	{
+		App->render->blit(5, App->gui->atlas, 850, 100, &timer_rect, 3);
+		if (current_scene == &one_vs_one)
+		{
+			App->render->blit(2, App->gui->atlas, 110, 100, &character1_rect, 3);
+			App->render->blit(2, App->gui->atlas, 119, 109, &character1_image, 3);
+			App->render->blit(2, App->gui->atlas, 1570, 100, &character2_rect, 3);
+			App->render->blit(2, App->gui->atlas, 1579, 109, &character2_image, 3, true);
+		}
+		else if (current_scene == &two_vs_two)
+		{
+
+		}
+	}
 }
 

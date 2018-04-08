@@ -71,6 +71,7 @@ private:
 	void loadSceneUI();
 	void loadSceneCharacters();
 	void updateTimer();
+	void blitUiTextures();
 
 
 public:
@@ -120,8 +121,13 @@ private:
 	//COMBAT UI
 	WidgetInfo health_bar1;
 	WidgetInfo health_bar2;
+	WidgetInfo health_bar3;
+	WidgetInfo health_bar4;
 	WidgetInfo super_bar1;
 	WidgetInfo super_bar2;
+	WidgetInfo super_bar3;
+	WidgetInfo super_bar4;
+	Labels* timer;
 	SDL_Rect timer_rect;
 	SDL_Rect character1_rect;
 	SDL_Rect character2_rect;
