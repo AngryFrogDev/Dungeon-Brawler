@@ -50,6 +50,7 @@ public:
 
 	//if it returns false something wrong happened
 	bool automaticFlip();
+	bool allowFlip();
 public:
 	std::list<controller_scheme> controller_schemes;
 	std::list<keyboard_scheme>	 keyboard_schemes;

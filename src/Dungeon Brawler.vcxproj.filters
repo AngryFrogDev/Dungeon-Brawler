@@ -189,9 +189,6 @@
     <ClInclude Include="mdMap.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="p2Point.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="mdCollision.h">
       <Filter>Modules</Filter>
     </ClInclude>

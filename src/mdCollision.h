@@ -15,7 +15,10 @@ enum COLLIDER_TYPE
 {
 	COLLIDER_NONE = 0,
 	HURTBOX,
-	HITBOX
+	PROJECTILE_INVENCIBLE_HURTBOX,
+	HITBOX,
+	PUSHBOX,
+	PROJECTILE_HITBOX
 };
 
 struct collider
@@ -59,6 +62,7 @@ public:
 	mdCollision();
 	~mdCollision();
 
+	bool awake(const pugi::xml_node& md_config);
 	bool preUpdate();
 	bool update(float dt);
 	bool cleanUp();
@@ -68,6 +72,9 @@ public:
 	
 	void DebugDraw();
 
+	std::list<COLLIDER_TYPE> hurtbox, projectile_invencible_hurtbox, pushbox, hitbox, projectile_hitbox;
+	bool isInteractive(COLLIDER_TYPE type1, COLLIDER_TYPE type2);
+	bool lookForColliderType(std::list<COLLIDER_TYPE>* list, COLLIDER_TYPE type);
 
 private:
 
