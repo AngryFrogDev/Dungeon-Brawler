@@ -167,6 +167,7 @@ protected:
 	bool lookInBuffer(CHARACTER_INPUTS input, int window);
 	void fillBuffer(const bool(&inputs)[MAX_INPUTS]);
 	void pushIntoBuffer(CHARACTER_INPUTS input);
+	bool checkForSuper(int window);
 
 protected:
 
@@ -187,10 +188,15 @@ protected:
 	int bottom_lane;
 	int upper_lane;
 	iPoint starting_position;
+	int max_life;
+	int max_super_gauge;
 
 	Player* owner;
 	// In miliseconds
 	int invencibility_on_wakeup;
+
+	int super_window;
+	int cancelability_window;
 
 	// Sound effects
 	Mix_Chunk* s_jump;
@@ -215,7 +221,7 @@ protected:
 	bool crouching_hurtbox;
 
 	int current_life;		
-	int max_life;
+	int current_super_gauge;
 
 	int walk_speed;
 

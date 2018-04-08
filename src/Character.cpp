@@ -64,7 +64,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else if (inputs[DOWN])
 			updateState(CROUCHING, NO_ATT);
 		else if (inputs[LIGHT_ATTACK]) 
-			updateState(ATTACKING, SUPER); 
+			updateState(ATTACKING, ST_L); 
 		else if (inputs[HEAVY_ATTACK]) 
 			updateState(ATTACKING, ST_H);
 		else if (inputs[SPECIAL_1] && !projectile) 
@@ -133,6 +133,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		// Input dependent actions
 		if (!fliped && !inputs[RIGHT] || fliped && !inputs[LEFT])
 			updateState(IDLE, NO_ATT);
+		else if (checkForSuper(super_window))
+			updateState(ATTACKING, SUPER);
 		else if (inputs[UP]) {
 			velocity.y -= jump_power.y;
 			if (fliped)
@@ -996,21 +998,46 @@ bool Character::lookInBuffer(CHARACTER_INPUTS input, int window) {
 }
 
 void Character::manageCancel(const bool(&inputs)[MAX_INPUTS]) {
-	if (lookInBuffer(SPECIAL_1, 30) && !inputs[DOWN]) {
+	if (checkForSuper(super_window)) {
+		updateState(ATTACKING, SUPER);
+		instanciated_hitbox = false;
+	}
+	else if (lookInBuffer(SPECIAL_1, cancelability_window) && !inputs[DOWN]) {
 		updateState(ATTACKING, ST_S1);
 		instanciated_hitbox = false;
 	}
-	else if (lookInBuffer(SPECIAL_2, 30) && !inputs[DOWN]) {
+	else if (lookInBuffer(SPECIAL_2, cancelability_window) && !inputs[DOWN]) {
 		updateState(ATTACKING, ST_S2);
 		instanciated_hitbox = false;
 	}
-	else if (lookInBuffer(SPECIAL_1, 30) && inputs[DOWN]) {
+	else if (lookInBuffer(SPECIAL_1, cancelability_window) && inputs[DOWN]) {
 		updateState(ATTACKING, CR_S1);
 		instanciated_hitbox = false;
 	}
-	else if (lookInBuffer(SPECIAL_2, 30) && inputs[DOWN]) {
+	else if (lookInBuffer(SPECIAL_2, cancelability_window) && inputs[DOWN]) {
 		updateState(ATTACKING, CR_S2);
 		instanciated_hitbox = false;
 	}
+}
+bool Character::checkForSuper(int window) {
+	int counter = 0;
+	for (int i = MAX_INPUT_BUFFER - 1 - window; i < MAX_INPUT_BUFFER; i++) {
+		if (input_buffer[i] == DOWN && counter == 0)
+			counter++;
+		if (!fliped) {
+			if (input_buffer[i] == RIGHT && counter == 1)
+				counter++;
+		}
+		else {
+			if (input_buffer[i] == LEFT && counter == 1)
+				counter++;
+		}
+		if (input_buffer[i] == SPECIAL_1 && counter == 2)
+			counter++;
+	}
+	if (counter == 3)
+		return true;
+	else
+		return false;
 }
 
