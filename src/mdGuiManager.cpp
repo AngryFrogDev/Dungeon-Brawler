@@ -141,12 +141,12 @@ Widgets* mdGuiManager::createLabel(const char* content, const SDL_Color& color, 
 	return ret;
 }
 
-Widgets* mdGuiManager::createBar(bar_types type, std::pair<int, int> pos, bool flipped, Module * callback) {
+Widgets* mdGuiManager::createBar(bar_types type, std::pair<int, int> pos, bool flipped, int target_player, Module * callback) {
 
 	Widgets* ret = nullptr;
 
 	if (type != 0) {
-		ret = new Bars(type, pos, flipped, callback);
+		ret = new Bars(type, pos, flipped, target_player, callback);
 		ui_elements.push_back(ret);
 	}
 

@@ -3,14 +3,18 @@
 #include "Widgets.h"
 #include "Bars.h"
 #include "DebLog.h"
+#include "mdEntities.h"
+#include "Player.h"
+#include "Character.h"
 
 
-Bars::Bars(bar_types type, std::pair<int, int> pos, bool _flipped, Module* callback) : Widgets(ui_elem_type::BAR, pos, callback) {
+Bars::Bars(bar_types type, std::pair<int, int> pos, bool _flipped, int target, Module* callback) : Widgets(ui_elem_type::BAR, pos, callback) {
 	
 	bar_type = type;
 	flipped = _flipped;
 	data = config.child("gui").child("bar_section");
 	loadGuiFromAtlas();
+	target_player = target;
 }
 
 Bars::~Bars(){
@@ -26,8 +30,10 @@ bool Bars::preUpdate() {
 }
 
 void Bars::draw()	{
+
+	updateBarGauge();
 	App->render->blit(3, App->gui->getAtlas(), position.first, position.second, &bar_rect, 2, flipped);
-	App->render->blit(4, App->gui->getAtlas(), position.first + relative_pos.x, position.second + relative_pos.y, &gauge_rect, 2, flipped);
+	App->render->blit(4, App->gui->getAtlas(), position.first + relative_pos.x, position.second + relative_pos.y, &current_gauge_rect, 2, flipped);
 }
 
 void Bars::getSection(SDL_Rect rect, SDL_Rect gauge){
@@ -41,17 +47,27 @@ void Bars::getSection(SDL_Rect rect, SDL_Rect gauge){
 	gauge_rect.x = gauge.x;
 	gauge_rect.y = gauge.y;
 
-	gauge_y_position = position.second;
+	current_gauge_rect.h = gauge.h;
+	current_gauge_rect.w = gauge.w;
+	current_gauge_rect.x = gauge.x;
+	current_gauge_rect.y = gauge.y;
+
 }
 
-void Bars::updateBarGauge(uint new_gauge) {
-
-	if (bar_type == SWAP_BAR) {
-		gauge_rect.h -= new_gauge;
-		gauge_y_position += new_gauge;
-	}
-	else
-		gauge_rect.w -= new_gauge;
+void Bars::updateBarGauge() {
+		
+	switch (bar_type) {
+	case HEALTH_BAR:
+		if (target_player <= 1)
+			current_gauge_rect.w = ((App->entities->players[target_player]->getCurrCharacter()->getCurrentLife())*gauge_rect.w) / App->entities->players[target_player]->getCurrCharacter()->getMaxLife();
+		if (target_player >=2)
+			current_gauge_rect.x = gauge_rect.w - ((App->entities->players[target_player]->getCurrCharacter()->getCurrentLife())*gauge_rect.w) / App->entities->players[target_player]->getCurrCharacter()->getMaxLife();
+		break;
+	case SUPER_BAR:
+		break;
+	case SWAP_BAR:
+		break;
+	}	
 }
 
 void Bars::loadGuiFromAtlas()	{
