@@ -13,6 +13,9 @@ public:
 	void crouchingSpecial2();
 	void jumpingSpecial1();
 	void jumpingSpecial2();
+	void doSuper();
+
+	void updateAnimationOnBasicAttack(CHAR_ATT_TYPE type); // Just to use for super
 
 private:
 
@@ -30,6 +33,11 @@ private:
 	int jm_s2_angle;
 	iPoint jm_s1_speed;
 	iPoint jm_s2_speed;
+
+	std::list<CHAR_ATT_TYPE> super_attack_list;
+	CHAR_ATT_TYPE super_last_attack;
+	std::list<CHAR_ATT_TYPE>::iterator super_iterator;
+	int super_advance_speed;
 
 };
 

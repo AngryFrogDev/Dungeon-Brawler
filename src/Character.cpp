@@ -64,7 +64,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else if (inputs[DOWN])
 			updateState(CROUCHING, NO_ATT);
 		else if (inputs[LIGHT_ATTACK]) 
-			updateState(ATTACKING, ST_L);
+			updateState(ATTACKING, SUPER); 
 		else if (inputs[HEAVY_ATTACK]) 
 			updateState(ATTACKING, ST_H);
 		else if (inputs[SPECIAL_1] && !projectile) 
@@ -430,8 +430,7 @@ void Character::applyGravity() {
 }
 
 void Character::setIfGrounded() {
-	//will be updated
-	LOG("%d",logic_position.y);
+
 	if (logic_position.y >= ground_position)
 	{ 
 		grounded = true;
@@ -635,6 +634,9 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 	case JM_S2:
 		jumpingSpecial2();
 		break;
+	case SUPER:
+		doSuper();
+		break;
 	default:
 		current_state = IDLE;
 		break;
@@ -748,9 +750,10 @@ basic_attack_deff Character::getAttackData(CHAR_ATT_TYPE attack_type) {
 		case JM_S2:
 			return jm_s2;
 			break;
+		case SUPER:
+			return super;
 		case NO_ATT:
 			LOG("FATAL ERROR");
-			//return void;
 			break;
 	}
 }
@@ -1010,3 +1013,4 @@ void Character::manageCancel(const bool(&inputs)[MAX_INPUTS]) {
 		instanciated_hitbox = false;
 	}
 }
+

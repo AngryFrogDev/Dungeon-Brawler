@@ -35,7 +35,8 @@ enum CHAR_ATT_TYPE {
 	JM_L,
 	JM_H,
 	JM_S1,
-	JM_S2
+	JM_S2,
+	SUPER
 };
 enum CHAR_STATE {
 	NULL_STATE,
@@ -140,6 +141,7 @@ protected:
 	void manageGroundPosition();
 
 	void updateAnimation(Animation& new_animation);
+
 	void updateState(CHAR_STATE state, CHAR_ATT_TYPE attack);
 	void playCurrentSFX();
 	void setCrouchingHurtbox(bool crouch);
@@ -160,6 +162,7 @@ protected:
 	virtual void crouchingSpecial2() { return; };
 	virtual void jumpingSpecial1() { return; };
 	virtual void jumpingSpecial2() { return; };
+	virtual void doSuper() { return; }
 	// Input buffer functions
 	bool lookInBuffer(CHARACTER_INPUTS input, int window);
 	void fillBuffer(const bool(&inputs)[MAX_INPUTS]);
@@ -176,7 +179,7 @@ protected:
 
 	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_special1, standing_special2, jumping_special1, jumping_special2, crouching_special1, crouching_special2, standing_hit, standing_block, crouching_block, knockdown, dead;
 
-	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2;
+	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2, super;
 
 	iPoint jump_power;
 	float gravity;

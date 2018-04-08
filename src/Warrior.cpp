@@ -433,6 +433,31 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	jm_s2.recovery = 100;
 	jm_s2.type = JM_S2;
 
+	super.pos_rel_char = { 0,0 };
+	super.hitbox = { 0,0 };
+	super.active_time = -1;
+	super.hitstun = 700;
+	super.blockstun = 450;
+	super.pushhit = 1;
+	super.pushblock = 1;
+	super.damage = 7; // It will be 4 hits + cr_s2, so it will be a total of 45 damage
+	super.knockdown = false;
+	super.juggle_speed.x = 0;
+	super.juggle_speed.y = 10;
+	super.block_type = BLOCK_TYPE::MID;
+	super.recovery = 0;
+	super.type = SUPER;
+
+	super_attack_list.push_back(ST_L);
+	super_attack_list.push_back(ST_L);
+	super_attack_list.push_back(ST_H);
+	super_attack_list.push_back(CR_H);
+	super_attack_list.push_back(CR_S2);
+
+	super_last_attack = CR_S2;
+
+	super_advance_speed = 5;
+
 	// Other variable initialization
 	grounded = false;
 	instanciated_hitbox = false;
@@ -677,5 +702,45 @@ void Warrior::jumpingSpecial2() {
 			deleteAttackHitbox(JM_S2);
 		}
 		askRecovery(jm_s1.recovery);
+	}
+}
+
+void Warrior::doSuper() {
+
+	if (!state_first_tick) {
+		super_iterator = super_attack_list.begin();
+		updateAnimationOnBasicAttack(*super_iterator);
+		state_first_tick = true;
+	}
+	if (fliped)
+		logic_position.x -= super_advance_speed;
+	else
+		logic_position.x += super_advance_speed;
+
+	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+		instanciateHitbox(*super_iterator);
+		super_iterator++;
+		instanciated_hitbox = false;
+		if (*super_iterator != super_last_attack)
+			updateAnimationOnBasicAttack(*super_iterator);
+		else
+			updateState(ATTACKING, *super_iterator);
+	}
+}
+void Warrior::updateAnimationOnBasicAttack(CHAR_ATT_TYPE type) {
+	switch (type) {
+	case ST_L:
+		updateAnimation(light_attack);
+		current_animation->Reset();
+		break;
+	case ST_H:
+		updateAnimation(heavy_attack);
+		break;
+	case CR_L:
+		updateAnimation(crouching_light);
+		break;
+	case CR_H:
+		updateAnimation(crouching_heavy);
+		break;
 	}
 }
