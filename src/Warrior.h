@@ -22,6 +22,7 @@ private:
 	int spin_speed;
 
 	int swordyuken_invencivility; // In milliseconds
+	int swordyuken_jump_power;
 
 	int projectile_speed;
 	int projectile_duration; // in milliseconds

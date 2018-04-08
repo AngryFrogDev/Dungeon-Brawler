@@ -209,8 +209,13 @@ protected:
 	Mix_Chunk* s_heavy_sword_whiff;
 	Mix_Chunk* s_light_sword_impact;
 	Mix_Chunk* s_heavy_sword_impact;
+	Mix_Chunk* s_standing_special_1; 
 	Mix_Chunk* s_standing_special_2;
+	Mix_Chunk* s_jumping_special_1; 
+	Mix_Chunk* s_crouching_special_1;
+	Mix_Chunk* s_crouching_special_2; 
 	Mix_Chunk* s_man_death;
+	Mix_Chunk* s_super;
 
 
 

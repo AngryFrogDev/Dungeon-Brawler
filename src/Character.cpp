@@ -638,9 +638,13 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 		crouchingSpecial2();
 		break;
 	case JM_S1:
+		if (!state_first_tick)
+			state_first_tick = true;
 		jumpingSpecial1();
 		break;
 	case JM_S2:
+		if (!state_first_tick)
+			state_first_tick = true;
 		jumpingSpecial2();
 		break;
 	case SUPER:
@@ -918,6 +922,19 @@ void Character::playCurrentSFX() {
 		case CR_L:
 			App->audio->playSFX(s_light_sword_whiff);
 			break;
+		case ST_S1:
+			App->audio->playSFX(s_standing_special_1);
+			break;
+		case JM_S1:
+		case JM_S2:
+			App->audio->playSFX(s_jumping_special_1);
+			break;
+		case CR_S1:
+			App->audio->playSFX(s_crouching_special_1);
+			break;
+		case CR_S2:
+			App->audio->playSFX(s_crouching_special_2);
+			break;
 		case ST_H:
 		case CR_H:
 		case JM_H:
@@ -925,6 +942,10 @@ void Character::playCurrentSFX() {
 			break;
 		case ST_S2:
 			App->audio->playSFX(s_standing_special_2);
+			break;
+		case SUPER:
+			App->audio->playSFX(s_super);
+			break;
 		}
 		break;
 	case CROUCH_BLOCKING:

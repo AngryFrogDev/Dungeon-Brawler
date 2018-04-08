@@ -531,6 +531,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	projectile_scale = 3;
 
 	swordyuken_invencivility = 300;
+	swordyuken_jump_power = 20;
 
 	// PROVISIONAL: This should belong to entities, if not fx are loaded twice
 	s_jump = App->audio->loadSFX("SFX/jump.wav");
@@ -540,10 +541,13 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	s_heavy_sword_whiff = App->audio->loadSFX("SFX/heavy_sword_whiff.wav");
 	s_light_sword_impact = App->audio->loadSFX("SFX/light_sword_impact.wav");
 	s_heavy_sword_impact = App->audio->loadSFX("SFX/heavy_sword_impact.wav");
+	s_standing_special_1 = App->audio->loadSFX("SFX/standing_special_1.wav"); 
 	s_standing_special_2 = App->audio->loadSFX("SFX/standing_special_2.wav");
+	s_jumping_special_1 = App->audio->loadSFX("SFX/jumping_special_1.wav");; 
+    s_crouching_special_1 = App->audio->loadSFX("SFX/crouching_special_1.wav");; 
+	s_crouching_special_2 = App->audio->loadSFX("SFX/crouching_special_2.wav");; 
 	s_man_death = App->audio->loadSFX("SFX/man_death.wav");
-
-
+	s_super = App->audio->loadSFX("SFX/super.wav");
 }
 
 
@@ -618,7 +622,7 @@ void Warrior::crouchingSpecial2()	{ // Should have recovery
 
 	if (!state_first_tick) {
 		updateAnimation(crouching_special2);
-		velocity.y -= jump_power.y / 1.25; // Provisional
+		velocity.y -= swordyuken_jump_power;// jump_power.y / 1.25; // Provisional
 		grounded = false;
 		makeInvencibleFor(swordyuken_invencivility);
 		state_first_tick = true;
@@ -644,11 +648,11 @@ void Warrior::crouchingSpecial2()	{ // Should have recovery
 }
 
 void Warrior::jumpingSpecial1() {
-	if (logic_position.y <= diveKickHeight && !diveKicking)
+	if (logic_position.y <= diveKickHeight && !diveKicking) 
 		diveKicking = true;
 
 	if (diveKicking) {
-		updateAnimation(jumping_special1);
+			updateAnimation(jumping_special1);
 		if (!grounded) {
 			if (!fliped) {
 				velocity.x = jm_s1_speed.x; 
@@ -679,11 +683,11 @@ void Warrior::jumpingSpecial1() {
 }
 
 void Warrior::jumpingSpecial2() {
-	if (logic_position.y <= diveKickHeight && !diveKicking)
+	if (logic_position.y <= diveKickHeight && !diveKicking) 
 		diveKicking = true;
 
 	if (diveKicking) {
-		updateAnimation(jumping_special2);
+			updateAnimation(jumping_special2);
 		if (!grounded) {
 			if (!fliped) {
 				velocity.x = jm_s2_speed.x; 
