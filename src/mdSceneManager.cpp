@@ -64,7 +64,7 @@ bool mdSceneManager::update(float dt)	{
 			App->gui->cleanUI();
 			App->collision->cleanUp();
 			App->entities->cleanUp();
-
+						
 			current_scene = scene_to_load;
 
 			createCharacters();
@@ -382,8 +382,8 @@ void mdSceneManager::blitUiTextures()	{
 
 	if (current_scene == &one_vs_one || current_scene == &two_vs_two)
 	{
+		App->map->map_loaded = true;
 		App->render->blit(5, App->gui->atlas, 850, 100, &timer_rect, 3);
-		App->map->loadMap(1);
 		if (current_scene == &one_vs_one)
 		{
 			App->render->blit(2, App->gui->atlas, 110, 100, &character1_rect, 3);

@@ -43,8 +43,8 @@ Application::Application(int argc, char* args[]) {
 	addModule(textures);
 	addModule(fonts);
 	addModule(projectiles); // Allways check projectiles before collisions
-	addModule(scene_manager);
 	addModule(collision);
+	addModule(scene_manager);
 	addModule(audio);
 	addModule(gui);
 	addModule(map);
