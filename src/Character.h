@@ -190,6 +190,9 @@ protected:
 	iPoint starting_position;
 	int max_life;
 	int max_super_gauge;
+	int super_gauge_gain_hit;
+	int super_gauge_gain_block;
+	int super_gauge_gain_strike;
 
 	Player* owner;
 	// In miliseconds

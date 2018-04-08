@@ -32,7 +32,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		death = false;
 		hit = false;
 		state_first_tick = false;
+		current_super_gauge = 0;
 	}
+	if (current_super_gauge > max_super_gauge)
+		current_super_gauge = max_super_gauge;
 	
 	fillBuffer(inputs);
 	lookInBuffer(SPECIAL_1, 30);
@@ -229,6 +232,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		//One Tick
 		if (!state_first_tick) {
 			playCurrentSFX();
+			current_super_gauge += super_gauge_gain_strike;
 		}
 		if (hit) {
 			instanciated_hitbox = false;
@@ -248,6 +252,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		if (hit) {
 			hit = false;
+			current_super_gauge += super_gauge_gain_block;
 		}
 		if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
 			updateState(IDLE, NO_ATT);
@@ -269,6 +274,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		if (hit) {
 			hit = false;
+			current_super_gauge += super_gauge_gain_block;
 		}
 		if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
 			updateState(CROUCHING, NO_ATT);
@@ -295,6 +301,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			else
 				hit = false;
 			current_life -= attack_recieving.damage;
+			current_super_gauge += super_gauge_gain_hit;
 		}
 		else if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) 
 			updateState(IDLE, NO_ATT);
@@ -1020,6 +1027,9 @@ void Character::manageCancel(const bool(&inputs)[MAX_INPUTS]) {
 	}
 }
 bool Character::checkForSuper(int window) {
+	if (current_super_gauge < max_super_gauge)
+		return false;
+
 	int counter = 0;
 	for (int i = MAX_INPUT_BUFFER - 1 - window; i < MAX_INPUT_BUFFER; i++) {
 		if (input_buffer[i] == DOWN && counter == 0)

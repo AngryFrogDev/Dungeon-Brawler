@@ -471,6 +471,12 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	max_life = 100;
 	current_life = max_life;
 
+	max_super_gauge = 100;
+	current_super_gauge = 0;
+	super_gauge_gain_hit = 20;
+	super_gauge_gain_block = 10;
+	super_gauge_gain_strike = 10;
+
 	jump_power.y = 25;
 	jump_power.x = 5;
 
@@ -713,6 +719,7 @@ void Warrior::doSuper() {
 		super_iterator = super_attack_list.begin();
 		updateAnimationOnBasicAttack(*super_iterator);
 		state_first_tick = true;
+		current_super_gauge = 0;
 	}
 	if (fliped)
 		logic_position.x -= super_advance_speed;
