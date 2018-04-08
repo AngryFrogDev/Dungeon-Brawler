@@ -468,7 +468,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	super_window = 30;
 	cancelability_window = 30;
 	
-	max_life = 100;
+	max_life = 300;
 	current_life = max_life;
 
 	max_super_gauge = 100;

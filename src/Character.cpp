@@ -41,11 +41,11 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	lookInBuffer(SPECIAL_1, 30);
 
 
-	//// PROVISIONAL: (?)
-	//if (logic_position.x < left_x_limit)
-	//	logic_position.x = left_x_limit;
-	//if (logic_position.x > right_x_limit)
-	//	logic_position.x = right_x_limit;
+	// PROVISIONAL: (?)
+	if (logic_position.x < left_x_limit)
+		logic_position.x = left_x_limit;
+	if (logic_position.x > right_x_limit)
+		logic_position.x = right_x_limit;
 
 	switch (current_state) {
 	case IDLE:
@@ -378,7 +378,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			playCurrentSFX();
 			state_first_tick = true;
 		}
-		App->render->drawQuad({ 0,0,100,100 }, 255, 255, 255, 255);
 		break;
 	}
 
