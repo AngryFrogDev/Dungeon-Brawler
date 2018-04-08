@@ -27,6 +27,7 @@ bool mdCollision::awake(const pugi::xml_node& md_config) {
 
 	projectile_hitbox.push_back(HURTBOX);
 
+	debug = false;
 	return true;
 }
 bool mdCollision::preUpdate()
@@ -104,7 +105,7 @@ void mdCollision::DebugDraw()
 	if ((App->input->getKey(SDL_SCANCODE_F1) == KEY_DOWN))
 		debug = !debug;
 
-	if (debug == false)
+	if (!debug)
 		return;
 
 	Uint8 alpha = 80;

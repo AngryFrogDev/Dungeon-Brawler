@@ -79,7 +79,7 @@ public:
 private:
 
 	std::list<collider*> colliders;      
-	bool debug = true;						 // PROVISIONAL: Loaded from the xml
+	bool debug = false;						 // PROVISIONAL: Loaded from the xml
 };
 
 #endif // __ModuleCollision_H__

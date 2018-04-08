@@ -23,7 +23,7 @@ bool mdMap::awake(const pugi::xml_node& md_config) {
 	////data.map_image = App->textures->load("assets/village.png");
 	////data.background_image = App->textures->load("assets/village_background.png");
 	////map_loaded = true;
-
+	
 	return ret;
 }
 
