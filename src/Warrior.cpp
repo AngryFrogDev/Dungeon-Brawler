@@ -483,14 +483,14 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	velocity.y = 0;
 	velocity.x = 0;
 
-	current_state = CHAR_STATE::JUMPING;
+	current_state = CHAR_STATE::IDLE;
 	
 	gravity = 1;
-	bottom_lane = 500;
-	upper_lane = 150;
+	bottom_lane = 800;
+	upper_lane = 450;
 
 	logic_position.x = x_pos;
-	logic_position.y = -1000;
+	logic_position.y = 1000;
 
 	starting_position.x = x_pos;
 	starting_position.y = -1000;

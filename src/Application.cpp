@@ -18,6 +18,7 @@
 #include "mdGuiManager.h"
 #include "mdMap.h"
 #include "mdProjectiles.h"
+#include "mdSceneManager.h"
 
 Application::Application(int argc, char* args[]) {
 	filesystem = new mdFilesystem;
@@ -32,6 +33,7 @@ Application::Application(int argc, char* args[]) {
 	gui = new mdGuiManager;
 	map = new mdMap;
 	projectiles = new mdProjectiles;
+	scene_manager = new mdSceneManager;
 
 
 	addModule(filesystem);
@@ -39,14 +41,15 @@ Application::Application(int argc, char* args[]) {
 	addModule(render);
 	addModule(input);
 	addModule(textures);
+	addModule(fonts);
 	addModule(projectiles); // Allways check projectiles before collisions
+	addModule(scene_manager);
 	addModule(collision);
 	addModule(audio);
-	addModule(fonts);
 	addModule(gui);
 	addModule(map);
 	addModule(entities);
-
+	
 }
 
 Application::~Application() {
@@ -64,7 +67,7 @@ bool Application::awake() {
 	pugi::xml_node config;
 	
 
-	loadConfig(config_file, config);
+	config = loadConfig("config.xml", config_file);
 
 	if (config.empty()) {
 		ret = false;
@@ -76,6 +79,18 @@ bool Application::awake() {
 			ret = (*it)->awake(config.child((*it)->name.c_str()));
 	}
 	startup_time.start();
+
+	return ret;
+}
+
+
+bool Application::start() {
+	BROFILER_CATEGORY("Start", 0xFF00FFFF);
+	bool ret = true;
+
+	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end(); ++it)
+		ret = (*it)->start();
+
 
 	return ret;
 }
@@ -138,15 +153,20 @@ void Application::addModule(Module * module)
 	modules.push_back(module);
 }
 
-void Application::loadConfig(pugi::xml_document& config_file, pugi::xml_node& config_node) {
+pugi::xml_node Application::loadConfig(const char* file_name, pugi::xml_document& config_file) {
+	pugi::xml_node config_node;
 	char* buffer;
-	int size = filesystem->load("config.xml", &buffer);
+	int size = filesystem->load(file_name, &buffer);
 	pugi::xml_parse_result result = config_file.load_buffer(buffer, size);
 	if (size != 0)
 		RELEASE(buffer);
 
 	if (result == NULL)
-		LOG("Application : Could not load config.xml - %s", result.description());
+		LOG("Application : Could not load file - %s", result.description());
 	else
 		config_node = config_file.child("config");
+
+	return config_node;
 }
+
+

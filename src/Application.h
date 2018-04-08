@@ -23,7 +23,7 @@ class mdFonts;
 class mdGuiManager;
 class mdMap;
 class mdProjectiles;
-
+class mdSceneManager;
 
 
 class Application
@@ -39,6 +39,8 @@ public:
 	// Called before render is available
 	bool awake();
 
+	bool start();
+
 	// Called each loop iteration
 	bool update();
 
@@ -50,9 +52,7 @@ public:
 	// Add a new module to handle
 	void addModule(Module* module);
 
-private:
-
-	void loadConfig(pugi::xml_document& config_file, pugi::xml_node& config_node);
+	pugi::xml_node loadConfig(const char* file_name, pugi::xml_document& config_file);
 
 private:
 	std::list<Module*>	modules;
@@ -81,6 +81,7 @@ public:
 	mdGuiManager*	gui;
 	mdMap*			map;
 	mdProjectiles*  projectiles;
+	mdSceneManager*	scene_manager;
 
 };
 

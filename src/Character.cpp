@@ -807,6 +807,15 @@ void Character::makeInvencibleFor(int time_invencible) {
 	stop_invencibility = time_invencible;
 }
 
+int Character::getCurrentLife() {
+	
+	return current_life;
+}
+
+int Character::getMaxLife() {
+	return max_life;
+}
+
 void Character::deleteDeadHitboxes() 	{
 	// Compute what hitboxes need to be deleted
 

@@ -13,13 +13,13 @@ public:
 	virtual ~Buttons();
 
 	bool preUpdate();
-
+	
 	void draw();
 	void getSection(SDL_Rect idle_sec, SDL_Rect highl_sec, SDL_Rect clicked_sec, SDL_Rect disabled_sec);
 	
 private:
 	void changeVisualState(controller_events event);
-	void loadButtonsFromAtlas();
+	void loadGuiFromAtlas();
 
 public:
 	bool being_clicked = false;
@@ -28,13 +28,15 @@ public:
 
 private:
 	SDL_Rect click_rect;
-	SDL_Rect idle_rect;
+	SDL_Rect still_rect;
 	SDL_Rect highl_rect;
 	SDL_Rect disabled_rect;
 	SDL_Rect* current_rect = nullptr;
 	
 	bool enabled = true;
+	bool is_clicked = false;
 
 	uint click_sfx;
+
 };
 #endif

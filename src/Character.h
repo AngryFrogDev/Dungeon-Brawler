@@ -126,6 +126,8 @@ public:
 	CHAR_STATE getCurrentState();
 	void setFlip(bool flip);
 	void setProjectile(bool projectile);
+	int getCurrentLife();
+	int getMaxLife();
 
 protected:	
 	// Execute attack, rewritable for every type of character
