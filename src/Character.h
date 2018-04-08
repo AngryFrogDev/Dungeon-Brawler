@@ -196,6 +196,9 @@ protected:
 	int super_gauge_gain_block;
 	int super_gauge_gain_strike;
 
+	int right_x_limit; // This should also be modified as the camera moves
+	int left_x_limit;  
+
 	Player* owner;
 	// In miliseconds
 	int invencibility_on_wakeup;
