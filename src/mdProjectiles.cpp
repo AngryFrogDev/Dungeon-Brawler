@@ -29,7 +29,7 @@ bool mdProjectiles::preUpdate() {
 	std::list<projectile*> projectiles_to_delete;
 	// Remove all projectiles scheduled for deletion
 
-	//Iterate list looking for the projectiles
+	//Iterate list looking for the projectiles to delete
 	for (std::list<projectile*>::iterator it = projectiles.begin(); it != projectiles.end(); ++it) {
 		projectile* p = *it;
 		if (p->collider->to_delete) { // Projectiles are deleted with their colliders

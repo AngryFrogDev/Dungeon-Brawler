@@ -41,11 +41,11 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	warrior_graphics = App->textures->load("Assets/warrior.png");
 
 	createPlayer(0,100, CHAR_TYPE::WARRIOR, false, 1 );
-	createPlayer(1,1000, CHAR_TYPE::WARRIOR, true, 1 ); //play with the lane (last argument) for 2v2
+	createPlayer(1,1000, CHAR_TYPE::WARRIOR, true, 1); //play with the lane (last argument) for 2v2
 	//createPlayer(2, 1200, CHAR_TYPE::WARRIOR, true, 1);
 	//createPlayer(3, 300, CHAR_TYPE::WARRIOR, true, 2);
 
-	//Very dangerous hardcode to set the partners: 
+	// PROVISIONAL: Very dangerous hardcode to set the partners: 
 
 	//players[0]->getCurrCharacter()->partner = players[1];
 	//players[1]->getCurrCharacter()->partner = players[0];
@@ -86,7 +86,10 @@ bool mdEntities::postUpdate()
 		if (players[i]->getCurrCharacter()->readyToSwap == true) //no flip if characters are swapping
 			return true;
 	}
-	automaticFlip();
+
+	if(allowFlip()) // PROVISIONAL: Kind of useless now, but it can be useful in the future
+		automaticFlip();
+
 	return true;
 }
 
@@ -164,4 +167,19 @@ bool mdEntities::automaticFlip() {
 	}
 
 	return ret;
+}
+
+bool mdEntities::allowFlip() 	{
+
+	// PROVISIONAL: Every character should have specified with which states flip should not be executed
+	bool do_flip = true;
+	for (int i = 0; i < 4; i++) {
+		if (players[i] == nullptr)
+			continue;
+		Character* character = players[i]->getCurrCharacter();
+		if (character->getCurrentState() == ATTACKING && (character->getAttackDoing() == JM_S1 || character->getAttackDoing() == JM_S2))
+			do_flip = false;
+	}
+
+	return do_flip;
 }

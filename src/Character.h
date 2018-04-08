@@ -8,6 +8,10 @@
 #include "mdRender.h"
 #include "Timer.h"
 
+
+#define MAX_INPUT_BUFFER 100
+
+class Mix_Chunk;
 enum CHAR_TYPE {
 	DEF_CHAR,
 	WARRIOR,
@@ -31,7 +35,8 @@ enum CHAR_ATT_TYPE {
 	JM_L,
 	JM_H,
 	JM_S1,
-	JM_S2
+	JM_S2,
+	SUPER
 };
 enum CHAR_STATE {
 	NULL_STATE,
@@ -42,6 +47,7 @@ enum CHAR_STATE {
 	JUMPING,
 	ATTACKING,
 	SWAPPING,
+	RECOVERY,
 
 	STAND_BLOCKING, 
 	CROUCH_BLOCKING,
@@ -84,6 +90,7 @@ struct basic_attack_deff {
 	bool knockdown; //if the attack causes a knockdown or not
 	iPoint juggle_speed;
 	BLOCK_TYPE block_type;
+	int recovery; //in milliseconds
 };
 
 class Player;
@@ -115,25 +122,52 @@ public:
 
 	basic_attack_deff getAttackData(CHAR_ATT_TYPE attack_type);
 	iPoint getPos();
+	CHAR_ATT_TYPE getAttackDoing();
+	CHAR_STATE getCurrentState();
 	void setFlip(bool flip);
 	void setProjectile(bool projectile);
 
 protected:	
 	// Execute attack, rewritable for every type of character
-	virtual void doAttack();		
+	virtual void doAttack(const bool(&inputs)[MAX_INPUTS]);
+	// Hitbox related functions
 	void instanciateHitbox(CHAR_ATT_TYPE type);
+	void deleteDeadHitboxes();
+	collider* getCurrentAttackHitbox(); // Returns nullptr if no hitbox was found
+	void deleteAttackHitbox(CHAR_ATT_TYPE type);
+	void deleteAllMeleeHitboxes();
 
+	// Swap related functions
 	void manageGroundPosition();
 
 	void updateAnimation(Animation& new_animation);
-	// Variable in milliseconds
-	void makeInvencibleFor(int invencible_time); 
+
+	void updateState(CHAR_STATE state, CHAR_ATT_TYPE attack);
+	void playCurrentSFX();
+	void setCrouchingHurtbox(bool crouch);
+	
+	// Invencivility management
+	void makeInvencibleFor(int invencible_time); // Variable in milliseconds
 	void updateInvecibility();
+	// Recovery management
+	void askRecovery(int recovery);
+	// Cancel management
+	void manageCancel(const bool(&inputs)[MAX_INPUTS]);
 	// Uses player's logic position, flip, offset and width to calculate the position to draw a collider
 	int calculateDrawPosition(int offset, int size, bool x);
 	//Special functions
 	virtual void standingSpecial1() { return; };
 	virtual void standingSpecial2() { return; };
+	virtual void crouchingSpecial1() { return; };
+	virtual void crouchingSpecial2() { return; };
+	virtual void jumpingSpecial1() { return; };
+	virtual void jumpingSpecial2() { return; };
+	virtual void doSuper() { return; }
+	// Input buffer functions
+	bool lookInBuffer(CHARACTER_INPUTS input, int window);
+	void fillBuffer(const bool(&inputs)[MAX_INPUTS]);
+	void pushIntoBuffer(CHARACTER_INPUTS input);
+	bool checkForSuper(int window);
 
 protected:
 
@@ -146,12 +180,42 @@ protected:
 
 	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_special1, standing_special2, jumping_special1, jumping_special2, crouching_special1, crouching_special2, standing_hit, standing_block, crouching_block, knockdown, dead;
 
-	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2;
+	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2, super;
 
+	iPoint jump_power;
+	float gravity;
+	int ground_position;
+	int bottom_lane;
+	int upper_lane;
+	iPoint starting_position;
+	int max_life;
+	int max_super_gauge;
+	int super_gauge_gain_hit;
+	int super_gauge_gain_block;
+	int super_gauge_gain_strike;
+
+	Player* owner;
 	// In miliseconds
 	int invencibility_on_wakeup;
 
-	
+	int super_window;
+	int cancelability_window;
+
+	// Sound effects
+	Mix_Chunk* s_jump;
+	Mix_Chunk* s_light_sword_block;
+	Mix_Chunk* s_heavy_sword_block;
+	Mix_Chunk* s_light_sword_whiff;
+	Mix_Chunk* s_heavy_sword_whiff;
+	Mix_Chunk* s_light_sword_impact;
+	Mix_Chunk* s_heavy_sword_impact;
+	Mix_Chunk* s_standing_special_1; 
+	Mix_Chunk* s_standing_special_2;
+	Mix_Chunk* s_jumping_special_1; 
+	Mix_Chunk* s_crouching_special_1;
+	Mix_Chunk* s_crouching_special_2; 
+	Mix_Chunk* s_man_death;
+	Mix_Chunk* s_super;
 
 
 
@@ -165,7 +229,7 @@ protected:
 	bool crouching_hurtbox;
 
 	int current_life;		
-	int max_life;
+	int current_super_gauge;
 
 	int walk_speed;
 
@@ -173,11 +237,14 @@ protected:
 
 	bool fliped;
 
+	bool death;
+
 	//If the hitbox of the attack has been already instanciated, it should,'t be instanciated again
 	bool instanciated_hitbox; 
+	bool state_first_tick;
+	bool state_second_tick;
 	//If the projectile has already been thrown, no other projectile should be
 	bool projectile;
-
 
 	bool hit;
 	//Maybe current_stun and moment_hit should be a timer instead
@@ -186,8 +253,9 @@ protected:
 
 	// Entity collider
 	collider* hurtbox = nullptr;	
+	collider* pushbox = nullptr;
 	iPoint standing_hurtbox_size;
-	collider* hitbox = nullptr; //It should be a list, as a character can have multiple active hitboxes
+	std::list<collider*> hitboxes; //It should be a list, as a character can have multiple active hitboxes
 
 
 	CHAR_STATE current_state;
@@ -197,27 +265,17 @@ protected:
 
 	Animation* current_animation = nullptr;
 
-
-
 	// Time to stop invencibility
 	int stop_invencibility;
 	Timer invencible_timer;
+
+	int current_recovery; // In milliseconds
+	Timer recovery_timer;
+	CHARACTER_INPUTS input_buffer[MAX_INPUT_BUFFER];
 	
-	Player* owner;
-
-
-	//PROVISIONAL should be read from xml
-
-	iPoint jump_power;
-	float gravity;
-	int ground_position;
-	int bottom_lane;
-	int upper_lane;
-
-
 public:
-	//Swap shit
-	int lane; // 1 = bottom  2 = top This is so fucking important
+	//Swap variables
+	int lane; // 1 = bottom  2 = top This is important
 	bool readyToSwap = false;
 	bool swapRequested = false;
 	bool swapDone = false;

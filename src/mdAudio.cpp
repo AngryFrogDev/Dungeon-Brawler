@@ -34,6 +34,9 @@ bool mdAudio::awake(const pugi::xml_node & md_config) {
 	channels = md_config.child("sfx").attribute("channels").as_uint(16);
 	Mix_AllocateChannels(channels);
 
+	playMusic(loadMusic("SFX/BGM_1.ogg")); // PROVISIONAL: Music should be loaded from de xml and stored in a variable
+
+
 	return ret;
 }
 
