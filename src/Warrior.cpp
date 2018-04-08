@@ -468,7 +468,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	super_window = 30;
 	cancelability_window = 30;
 	
-	max_life = 100;
+	max_life = 300;
 	current_life = max_life;
 
 	max_super_gauge = 100;
@@ -513,10 +513,12 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	hurtbox = App->collision->AddCollider({0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
 	pushbox = App->collision->AddCollider({0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y/2 }, PUSHBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
 
+	right_x_limit = 1870;
+	left_x_limit = 50;
 	// WARRIOR EXCLUSIVE VARS
 	spin_speed = 6;
 
-	diveKickHeight = 220;
+	diveKickHeight = 520;
 	diveKicking = false;
 	jm_s1_angle = 20;
 	jm_s1_speed.x = 10;

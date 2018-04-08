@@ -27,7 +27,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		current_life = max_life;
 		current_state = CHAR_STATE::IDLE;
 		logic_position.x = starting_position.x;
-		logic_position.y = 500;
+		logic_position.y = bottom_lane;
 		hurtbox->active = true;
 		death = false;
 		hit = false;
@@ -39,6 +39,13 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	
 	fillBuffer(inputs);
 	lookInBuffer(SPECIAL_1, 30);
+
+
+	// PROVISIONAL: (?)
+	if (logic_position.x < left_x_limit)
+		logic_position.x = left_x_limit;
+	if (logic_position.x > right_x_limit)
+		logic_position.x = right_x_limit;
 
 	switch (current_state) {
 	case IDLE:
@@ -284,7 +291,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		else
 			logic_position.x += attack_recieving.pushblock;
 
-
 		break;
 
 	case HIT:
@@ -372,7 +378,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			playCurrentSFX();
 			state_first_tick = true;
 		}
-		App->render->drawQuad({ 0,0,100,100 }, 255, 255, 255, 255);
 		break;
 	}
 
@@ -394,12 +399,15 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	hurtbox->SetPos(calculateDrawPosition(0, hurtbox->rect.w, true), calculateDrawPosition(offset, hurtbox->rect.h, false));
 	pushbox->SetPos(calculateDrawPosition(0, pushbox->rect.w, true), calculateDrawPosition(crouching_hurtbox_offset, pushbox->rect.h, false));
+
 	if (!grounded) 		{
 		applyGravity();
 		setIfGrounded();
 	}
 	// Delete out of life colliders
 	deleteDeadHitboxes();
+
+
 
 }
 

@@ -24,6 +24,11 @@ bool mdMap::awake(const pugi::xml_node& md_config) {
 	////data.background_image = App->textures->load("assets/village_background.png");
 	////map_loaded = true;
 
+	// Load map characteristics, (Provisional, should be done thorugh xml)
+	data.map_image = App->textures->load("assets/village.png");
+	data.background_image = App->textures->load("assets/village_background.png");
+	
+	
 	return ret;
 }
 
@@ -39,7 +44,7 @@ void mdMap::draw() {
 
 bool mdMap::update(float dt) {
 	if (map_loaded)
-	draw();
+		draw();
 
 	if (App->input->getKey(SDL_SCANCODE_1) == KEY_DOWN) {
 		unloadMap();

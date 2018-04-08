@@ -5,6 +5,7 @@
 #include "mdFonts.h"
 #include "mdInput.h"
 #include "mdCollision.h"
+#include "mdMap.h"
 
 
 mdSceneManager::mdSceneManager()	{
@@ -63,7 +64,7 @@ bool mdSceneManager::update(float dt)	{
 			App->gui->cleanUI();
 			App->collision->cleanUp();
 			App->entities->cleanUp();
-
+						
 			current_scene = scene_to_load;
 
 			createCharacters();
@@ -88,6 +89,9 @@ bool mdSceneManager::update(float dt)	{
 		SDL_RenderFillRect(App->render->renderer, &screen);
 	}
 	
+	if (App->input->getKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		ret = false;
+
 	blitUiTextures();
 	//updateTimer();
 	App->gui->draw();
@@ -366,7 +370,7 @@ void mdSceneManager::updateTimer()	{
 	timer->changeContent(label_string.data());
 
 }
-
+//PROVISIONAL: This function does a lot of things, should be split up into different things
 void mdSceneManager::blitUiTextures()	{
 	//PROVISIONAL: All input should be read from controller too
 	if (current_scene == &start_scene)//Logo texture
@@ -378,6 +382,7 @@ void mdSceneManager::blitUiTextures()	{
 
 	if (current_scene == &one_vs_one || current_scene == &two_vs_two)
 	{
+		App->map->map_loaded = true;
 		App->render->blit(5, App->gui->atlas, 850, 100, &timer_rect, 3);
 		if (current_scene == &one_vs_one)
 		{

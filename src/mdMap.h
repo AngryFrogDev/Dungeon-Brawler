@@ -37,9 +37,9 @@ public:
 	bool cleanUp();
 	int map_id = 0;
 
+	bool loadMap(int mapIndex);
 private:
 
-	bool loadMap(int mapIndex);
 	bool loadMapPropierties(pugi::xml_node& node);
 	bool unloadMap();
 
