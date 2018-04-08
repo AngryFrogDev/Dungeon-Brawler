@@ -25,9 +25,9 @@ bool Bars::preUpdate() {
 	return ret;
 }
 
-void Bars::draw(){
+void Bars::draw()	{
 	App->render->blit(3, App->gui->getAtlas(), position.first, position.second, &bar_rect, 2, flipped);
-	App->render->blit(3, App->gui->getAtlas(), position.first + 4, position.second + 4, &gauge_rect, 2, flipped);
+	App->render->blit(4, App->gui->getAtlas(), position.first + relative_pos.x, position.second + relative_pos.y, &gauge_rect, 2, flipped);
 }
 
 void Bars::getSection(SDL_Rect rect, SDL_Rect gauge){
@@ -63,12 +63,14 @@ void Bars::loadGuiFromAtlas()	{
 	switch (bar_type)
 	{
 	case HEALTH_BAR:
+		relative_pos = { 4,4 };
 		border = hp.child("border");
 		gauge = hp.child("gauge");
 		getSection({ border.attribute("x").as_int(), border.attribute("y").as_int(), border.attribute("w").as_int(), border.attribute("h").as_int() },
 		{ gauge.attribute("x").as_int(),gauge.attribute("y").as_int(), gauge.attribute("w").as_int(), gauge.attribute("h").as_int() });
 		break;
 	case SUPER_BAR:
+		relative_pos = { 5, 0 };
 		border = super.child("border");
 		gauge = super.child("gauge");
 		getSection({ border.attribute("x").as_int(), border.attribute("y").as_int(), border.attribute("w").as_int(), border.attribute("h").as_int() },

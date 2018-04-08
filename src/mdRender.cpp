@@ -56,13 +56,14 @@ bool mdRender::start() {
 // Called each loop iteration
 bool mdRender::preUpdate() {
 	SDL_RenderClear(renderer);
+	drawBlit(blitQueue);
 
 	return true;
 }
 
 bool mdRender::postUpdate() {
 	//BROFILER_CATEGORY("Render PostUpdate", Profiler::Color::Red);
-	drawBlit(blitQueue);
+	//drawBlit(blitQueue);
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
 	BROFILER_CATEGORY("Swapping Buffers", 0xFFFF0000);
 	SDL_RenderPresent(renderer);

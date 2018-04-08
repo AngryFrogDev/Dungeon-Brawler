@@ -4,6 +4,7 @@
 #include "Widgets.h"
 #include "mdGuiManager.h"
 #include "SDL/include/SDL.h"
+#include "p2Point.h"
 
 class Bars : public Widgets {
 public:
@@ -22,6 +23,7 @@ private:
 	SDL_Rect bar_rect;
 
 	int gauge_y_position;
+	iPoint relative_pos = { 0,0 };
 	bool flipped;
 
 };

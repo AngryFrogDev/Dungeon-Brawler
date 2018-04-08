@@ -41,15 +41,15 @@ Application::Application(int argc, char* args[]) {
 	addModule(render);
 	addModule(input);
 	addModule(textures);
+	addModule(fonts);
 	addModule(projectiles); // Allways check projectiles before collisions
+	addModule(scene_manager);
 	addModule(collision);
 	addModule(audio);
-	addModule(fonts);
 	addModule(gui);
 	addModule(map);
 	addModule(entities);
-	addModule(scene_manager);
-
+	
 }
 
 Application::~Application() {

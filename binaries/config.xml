@@ -7,7 +7,7 @@
 	</application>
 	<window>
 		<resolution width="1280" height="720"/>
-		<fullscreen value="false" />
+		<fullscreen value="true" />
 		<borderless value="false" />
 		<resizable value="false" />
 		<fullscreen_window value="false" />
@@ -36,8 +36,8 @@
 				<low_gauge x="6" y="68" w="370" h="18"/>
 			</hp>
 			<super>
-				<border x="6" y="142" w="249" h="8"/>
-				<gauge x="6" y="152" w="244" h="6"/>
+				<border x="6" y="152" w="249" h="8"/>
+				<gauge x="6" y="142" w="244" h="6"/>
 			</super>
 			<swap x="421" y="10" w="114" h="31"/>
 		</bar_section>

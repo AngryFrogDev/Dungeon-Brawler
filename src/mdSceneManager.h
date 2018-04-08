@@ -9,6 +9,10 @@
 #include "Buttons.h"
 #include "Bars.h"
 #include "Labels.h"
+#include "PerfTimer.h"
+
+//PROVISIONAL: Nyeh, needed to do fade to black
+#define MIN( a, b ) ( ((a) < (b)) ? (a) : (b) )
 
 
 enum ui_elem_type;
@@ -58,19 +62,32 @@ public:
 	bool start() override;
 	bool update(float dt) override;
 
-	void changeScene(Scene scene_to_load);
+	bool changeScene(Scene* scene_to_load);
 	bool onEvent(Buttons* button);
 
 private:
-	bool CreateCharacters();
-	bool CreateWidgets();
+	bool createCharacters();
+	bool createWidgets();
+	void loadSceneUI();
+	void loadSceneCharacters();
 
 
 public:
 	std::list<Scene> scenes;
 	Scene* current_scene = nullptr;
+	Scene* scene_to_load = nullptr;
 
 private:
+	enum fade_step
+	{
+		NONE,
+		FADE_TO_BLACK,
+		FADE_FROM_BLACK
+	} current_step = fade_step::NONE;
+
+	SDL_Rect screen;
+	float fadetime = 1.0f;
+	Timer switch_timer;
 	//HARDCODE
 	///When reading this from an XML, names should not be necesary
 
@@ -98,10 +115,20 @@ private:
 	WidgetInfo l_t_vs_t;
 	WidgetInfo l_exit;
 
-
 	//COMBAT UI
-	WidgetInfo test_bar;
-
+	WidgetInfo health_bar1;
+	WidgetInfo health_bar2;
+	WidgetInfo super_bar1;
+	WidgetInfo super_bar2;
+	SDL_Rect timer_rect;
+	SDL_Rect character1_rect;
+	SDL_Rect character2_rect;
+	SDL_Rect character3_rect;
+	SDL_Rect character4_rect;
+	SDL_Rect character1_image;
+	SDL_Rect character2_image;
+	SDL_Rect character3_image;
+	SDL_Rect character4_image;
 
 
 };
