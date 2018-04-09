@@ -517,6 +517,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	left_x_limit = 50;
 	// WARRIOR EXCLUSIVE VARS
 	spin_speed = 6;
+	spin_object = true; // Should be in false 
 
 	//diveKickHeight = 520;
 	//diveKicking = false;
@@ -527,6 +528,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	jm_s2_angle = 40;
 	jm_s2_speed.x = 5;
 	jm_s2_speed.y = 10;
+	dive_kick_object = true; // Should be in false 
 
 	projectile_duration = 2000;
 	projectile_speed = 15;
@@ -572,12 +574,21 @@ void Warrior::standingSpecial1() 	{
 			projectile = true;
 		}
 }
-void Warrior::standingSpecial2()	{
+void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
 	hurtbox->type = PROJECTILE_INVENCIBLE_HURTBOX;
-	if(!fliped)
-		logic_position.x += spin_speed; 
-	else
-		logic_position.x -= spin_speed;
+
+	if(!spin_object){
+		if(!fliped)
+			logic_position.x += spin_speed; 
+		else
+			logic_position.x -= spin_speed;
+	}
+	else {
+		if (inputs[LEFT]) 
+			logic_position.x -= spin_speed;
+		else if(inputs[RIGHT])
+			logic_position.x += spin_speed;
+	}
 
 	if (current_animation->Finished()) {
 		instanciated_hitbox = false;
