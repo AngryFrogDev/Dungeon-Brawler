@@ -518,8 +518,8 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	// WARRIOR EXCLUSIVE VARS
 	spin_speed = 6;
 
-	diveKickHeight = 520;
-	diveKicking = false;
+	//diveKickHeight = 520;
+	//diveKicking = false;
 	jm_s1_angle = 20;
 	jm_s1_speed.x = 10;
 	jm_s1_speed.y = 10;
@@ -650,10 +650,10 @@ void Warrior::crouchingSpecial2()	{ // Should have recovery
 }
 
 void Warrior::jumpingSpecial1() {
-	if (logic_position.y <= diveKickHeight && !diveKicking) 
-		diveKicking = true;
+	//if (logic_position.y <= diveKickHeight && !diveKicking) 
+	//	diveKicking = true;
 
-	if (diveKicking) {
+	//if (diveKicking) {
 			updateAnimation(jumping_special1);
 		if (!grounded) {
 			if (!fliped) {
@@ -672,9 +672,9 @@ void Warrior::jumpingSpecial1() {
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr)
 			hitbox->SetPos(calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false));
-	}
+	//}
 	if (grounded) {
-		diveKicking = false;
+		//diveKicking = false;
 		instanciated_hitbox = false;
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr) { // Just for safety
@@ -685,10 +685,10 @@ void Warrior::jumpingSpecial1() {
 }
 
 void Warrior::jumpingSpecial2() {
-	if (logic_position.y <= diveKickHeight && !diveKicking) 
-		diveKicking = true;
+	//if (logic_position.y <= diveKickHeight && !diveKicking) 
+	//	diveKicking = true;
 
-	if (diveKicking) {
+	//if (diveKicking) {
 			updateAnimation(jumping_special2);
 		if (!grounded) {
 			if (!fliped) {
@@ -707,9 +707,9 @@ void Warrior::jumpingSpecial2() {
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr)
 			hitbox->SetPos(calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false));
-	}
+	//}
 	if(grounded) {
-		diveKicking = false;
+		//diveKicking = false;
 		instanciated_hitbox = false;
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr) { // Just for safety
