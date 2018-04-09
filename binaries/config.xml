@@ -6,8 +6,8 @@
 		<organization>Angry Frogs</organization>
 	</application>
 	<window>
-		<resolution width="1280" height="720"/>
-		<fullscreen value="true" />
+		<resolution width="1600" height="900"/>
+		<fullscreen value="false" />
 		<borderless value="false" />
 		<resizable value="false" />
 		<fullscreen_window value="false" />

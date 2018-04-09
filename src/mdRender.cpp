@@ -136,7 +136,9 @@ bool mdRender::drawBlit(priority_queue <objectToPrint*, vector<objectToPrint*>, 
 			flip_flag = SDL_FLIP_HORIZONTAL;
 		else
 			flip_flag = SDL_FLIP_NONE;
-			
+		
+		SDL_RenderSetLogicalSize(renderer, 1920, 1080); // PROVISIONAL: This should be loaded from xml
+
 		if (SDL_RenderCopyEx(renderer, first->texture, first->section, &rect, first->angle, p, flip_flag) != 0) {
 			LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
 			ret = false;
