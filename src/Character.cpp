@@ -1047,7 +1047,7 @@ void Character::manageCancel(const bool(&inputs)[MAX_INPUTS]) {
 		updateState(ATTACKING, SUPER);
 		instanciated_hitbox = false;
 	}
-	else if (lookInBuffer(SPECIAL_1, cancelability_window) && !inputs[DOWN]) {
+	else if (lookInBuffer(SPECIAL_1, cancelability_window) && !inputs[DOWN] && !projectile) {
 		updateState(ATTACKING, ST_S1);
 		instanciated_hitbox = false;
 	}
