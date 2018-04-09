@@ -18,6 +18,8 @@ public:
 
 public:
 	SDL_Texture* text_texture;
+	SDL_Color color;
+	_TTF_Font* font_size;
 };
 
 #endif

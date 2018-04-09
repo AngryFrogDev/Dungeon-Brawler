@@ -38,6 +38,10 @@ bool mdFonts::awake(const pugi::xml_node& md_config) {
 		//small size
 		size = md_config.child("small_font").attribute("size").as_int();
 		small_size = Load(path, size);
+
+		//extra large size
+		size = md_config.child("extra_large_font").attribute("size").as_int();
+		extra_large_size = Load(path, size);
 	}
 
 	return ret;
@@ -76,7 +80,7 @@ _TTF_Font * const mdFonts::Load(const char * path, int size) {
 
 SDL_Texture * mdFonts::print(const char * text, SDL_Color color, _TTF_Font * font) {
 	SDL_Texture* ret = NULL;
-	SDL_Surface* surface = TTF_RenderText_Blended((font) ? font : medium_size, text, color);
+	SDL_Surface* surface = TTF_RenderText_Blended((font) ? font : extra_large_size, text, color);
 
 	if (surface == NULL)
 	{

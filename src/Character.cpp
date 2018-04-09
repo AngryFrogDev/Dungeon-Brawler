@@ -5,6 +5,7 @@
 #include "mdCollision.h"
 #include "mdAudio.h"
 #include "mdInput.h"
+#include "mdSceneManager.h"
 
 Character::Character() {
 
@@ -33,6 +34,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		hit = false;
 		state_first_tick = false;
 		current_super_gauge = 0;
+		App->scene_manager->current_time = App->scene_manager->max_time;
 	}
 	if (current_super_gauge > max_super_gauge)
 		current_super_gauge = max_super_gauge;

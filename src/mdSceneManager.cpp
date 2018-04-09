@@ -6,6 +6,7 @@
 #include "mdInput.h"
 #include "mdCollision.h"
 #include "mdMap.h"
+#include "Player.h"
 
 
 mdSceneManager::mdSceneManager()	{
@@ -42,8 +43,7 @@ bool mdSceneManager::start()	{
 	swap_bar_target = 0; //provisional
 	createCharacters();
 	createWidgets();
-	scene_timer.start();
-	
+		
 	SDL_SetRenderDrawBlendMode(App->render->renderer, SDL_BLENDMODE_BLEND);
 	return true;
 }
@@ -64,8 +64,11 @@ bool mdSceneManager::update(float dt)	{
 			App->gui->cleanUI();
 			App->collision->cleanUp();
 			App->entities->cleanUp();
+			App->map->map_loaded = false;
 						
 			current_scene = scene_to_load;
+			if (current_scene == &one_vs_one)
+				scene_timer.start();
 
 			createCharacters();
 			createWidgets();
@@ -91,9 +94,19 @@ bool mdSceneManager::update(float dt)	{
 	
 	if (App->input->getKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
+	if (App->input->getKey(SDL_SCANCODE_F3) == KEY_DOWN)
+		changeScene(&main_menu);
 
+	if (current_scene == &one_vs_one)//Should be moved to entities?
+	{
+		updateTimer();
+		int char1_hp = App->entities->players[0]->getCurrCharacter()->getCurrentLife();
+		int char2_hp = App->entities->players[1]->getCurrCharacter()->getCurrentLife();
+		if (char1_hp <= 0 || char2_hp <= 0)
+			changeScene(&main_menu);
+	}
+	
 	blitUiTextures();
-	//updateTimer();
 	App->gui->draw();
 
 	return ret;
@@ -172,45 +185,25 @@ bool mdSceneManager::createCharacters()
 
 bool mdSceneManager::createWidgets()
 {
-	if (current_scene->ui_elements.empty())
+	if (current_scene->scene_ui_elems.empty())
 		return false;
 
-	for (auto it = current_scene->ui_elements.begin(); it != current_scene->ui_elements.end(); it++) {
-		WidgetInfo curr_widget_info = *it;
-		
-		switch (curr_widget_info.type)
-		{
-		case BAR:
-			//Hardcoded target player provisional
-			if (curr_widget_info.bar_type == HEALTH_BAR) {
-				App->gui->createBar(curr_widget_info.bar_type, { curr_widget_info.pos.x,curr_widget_info.pos.y }, curr_widget_info.flip, health_bar_target, this);
-				health_bar_target++;
-			}
-			else if (curr_widget_info.bar_type == SWAP_BAR) {
-				App->gui->createBar(curr_widget_info.bar_type, { curr_widget_info.pos.x,curr_widget_info.pos.y }, curr_widget_info.flip, swap_bar_target, this);
-				swap_bar_target++;
-			}
-			else if(curr_widget_info.bar_type == SUPER_BAR) {
-				App->gui->createBar(curr_widget_info.bar_type, { curr_widget_info.pos.x,curr_widget_info.pos.y }, curr_widget_info.flip, super_bar_target, this);
-				super_bar_target++;
-			}
-			break;
-		case BUTTON:
-			App->gui->createButton(curr_widget_info.button_type, { curr_widget_info.pos.x,curr_widget_info.pos.y }, this);
-			break;
-		case LABEL:
-			App->gui->createLabel(curr_widget_info.label_info.text, curr_widget_info.label_info.color,curr_widget_info.label_info.font_size,{ curr_widget_info.pos.x,curr_widget_info.pos.y }, this);
-			break;
-		default:
-			//It should never go here
-			break;
-		}
+	Widgets* object = nullptr;
+	for (auto it = current_scene->scene_ui_elems.begin(); it != current_scene->scene_ui_elems.end(); it++) {
+		object = *it;
+		object->active = true;
 	}
 
-	if (!App->gui->focus_elements.empty())
-		App->gui->focus = *App->gui->focus_elements.begin();
-	else
-		App->gui->focus = nullptr;
+	for (auto it = App->gui->focus_elements.begin(); it != App->gui->focus_elements.end(); it++) {
+		object = *it;
+		if (object->active)
+		{
+			App->gui->focus = object;
+			break;
+		}
+		else
+			App->gui->focus = nullptr;
+	}
 
 	return true;
 }
@@ -220,49 +213,27 @@ void mdSceneManager::loadSceneUI() {
 	start_scene.type = START_SCENE;
 	game_logo = App->textures->load("assets/game_logo_RA.png");
 
-	intro_label.type = LABEL;
-	intro_label.pos = { 830, 900 };
-	intro_label.label_info.color = { 100,100,100,100 };
-	intro_label.label_info.text = "PRESS ENTER";
-	intro_label.label_info.font_size = App->fonts->large_size;
-	start_scene.ui_elements.push_back(intro_label);
+	intro_label = (Labels*)App->gui->createLabel("PRESS ENTER", { 100,100,100,100 }, App->fonts->large_size, { 830,900 }, this);
+	start_scene.scene_ui_elems.push_back(intro_label);
 
 	//Main Menu
-	b_o_vs_o.type = BUTTON;
-	b_o_vs_o.pos = { 750,200 };
-	b_o_vs_o.button_type = ONE_V_ONE;
-	main_menu.ui_elements.push_back(b_o_vs_o);
+	b_o_vs_o = (Buttons*)App->gui->createButton(ONE_V_ONE, { 750, 200 }, this);
+	main_menu.scene_ui_elems.push_back(b_o_vs_o);
 
-	b_t_vs_t.type = BUTTON;
-	b_t_vs_t.pos = { 750,400 };
-	b_t_vs_t.button_type = TWO_V_TWO;
-	main_menu.ui_elements.push_back(b_t_vs_t);
+	b_t_vs_t = (Buttons*)App->gui->createButton(TWO_V_TWO, { 750,400 }, this);
+	main_menu.scene_ui_elems.push_back(b_t_vs_t);
 
-	b_exit.type = BUTTON;
-	b_exit.pos = { 1350,900 };
-	b_exit.button_type = GAME_EXIT;
-	main_menu.ui_elements.push_back(b_exit);
+	b_exit = (Buttons*)App->gui->createButton(GAME_EXIT, { 1350,900 }, this);
+	main_menu.scene_ui_elems.push_back(b_exit);
 
-	l_o_vs_o.type = LABEL;
-	l_o_vs_o.pos = { 795, 225 };
-	l_o_vs_o.label_info.color = { 255,255,255,255 };
-	l_o_vs_o.label_info.text = "ONE VS ONE";
-	l_o_vs_o.label_info.font_size = App->fonts->large_size;
-	main_menu.ui_elements.push_back(l_o_vs_o);
+	l_o_vs_o = (Labels*)App->gui->createLabel("ONE VS ONE", { 255,255,255,255 }, App->fonts->large_size, { 795, 225 }, this);
+	main_menu.scene_ui_elems.push_back(l_o_vs_o);
 
-	l_t_vs_t.type = LABEL;
-	l_t_vs_t.pos = { 795, 425 };
-	l_t_vs_t.label_info.color = { 255,255,255,255 };
-	l_t_vs_t.label_info.text = "TWO VS TWO";
-	l_t_vs_t.label_info.font_size = App->fonts->large_size;
-	main_menu.ui_elements.push_back(l_t_vs_t);
+	l_t_vs_t = (Labels*)App->gui->createLabel("TWO VS TWO", { 255,255,255,255 }, App->fonts->large_size, { 795, 425 }, this);
+	main_menu.scene_ui_elems.push_back(l_t_vs_t);
 
-	l_exit.type = LABEL;
-	l_exit.pos = { 1475, 925 };
-	l_exit.label_info.color = { 255,255,255,255 };
-	l_exit.label_info.text = "QUIT";
-	l_exit.label_info.font_size = App->fonts->large_size;
-	main_menu.ui_elements.push_back(l_exit);
+	l_exit = (Labels*)App->gui->createLabel("QUIT", { 255,255,255,255 }, App->fonts->large_size, { 1475, 925 }, this);
+	main_menu.scene_ui_elems.push_back(l_exit);
 	
 
 	//Combat
@@ -274,31 +245,22 @@ void mdSceneManager::loadSceneUI() {
 	character2_image = character3_image = character4_image = character1_image;
 
 	auto label_string = std::to_string(current_time);
-	//timer = (Labels*)App->gui->createLabel(label_string.data(), { 255,255,255,255 }, App->fonts->large_size, { 600,200 }, this);
-	
-	health_bar1.type = BAR;
-	health_bar1.pos = { 100,195 };
-	health_bar1.bar_type = HEALTH_BAR;
-	one_vs_one.ui_elements.push_back(health_bar1);
+	timer = (Labels*)App->gui->createLabel(label_string.data(), { 0,0,0,0 }, App->fonts->extra_large_size, { 880,150 }, this);
+	one_vs_one.scene_ui_elems.push_back(timer);
 
-	health_bar2.type = BAR;
-	health_bar2.pos = { 1030,195 };
-	health_bar2.bar_type = HEALTH_BAR;
-	health_bar2.flip = true;
-	one_vs_one.ui_elements.push_back(health_bar2);
+	health_bar1 = (Bars*)App->gui->createBar(HEALTH_BAR, { 100,195 }, false, 0, this);
+	one_vs_one.scene_ui_elems.push_back(health_bar1);
 
-	super_bar1.type = BAR;
-	super_bar1.pos = { 109, 222 };
-	super_bar1.bar_type = SUPER_BAR;
-	one_vs_one.ui_elements.push_back(super_bar1);
+	health_bar2 = (Bars*)App->gui->createBar(HEALTH_BAR, { 1030, 195 }, true, 1, this);
+	one_vs_one.scene_ui_elems.push_back(health_bar2);
 
-	super_bar2.type = BAR;
-	super_bar2.pos = { 1271, 222 };
-	super_bar2.bar_type = SUPER_BAR;
-	super_bar2.flip = true;
-	one_vs_one.ui_elements.push_back(super_bar2);
+	super_bar1 = (Bars*)App->gui->createBar(SUPER_BAR, { 109,222 }, false, 0, this);
+	one_vs_one.scene_ui_elems.push_back(super_bar1);
 
+	super_bar2 = (Bars*)App->gui->createBar(SUPER_BAR, { 1271, 222 }, true, 1, this);
+	one_vs_one.scene_ui_elems.push_back(super_bar2);
 
+/* This needs to be revised, but for the moment we won't use 2vs2
 
 	health_bar1.pos = { 100, 125 };
 	two_vs_two.ui_elements.push_back(health_bar1);
@@ -319,7 +281,7 @@ void mdSceneManager::loadSceneUI() {
 	health_bar4.bar_type = HEALTH_BAR;
 	health_bar4.flip = true;
 	two_vs_two.ui_elements.push_back(health_bar4);
-	
+	*/
 }
 
 void mdSceneManager::loadSceneCharacters()	{
@@ -383,17 +345,13 @@ void mdSceneManager::blitUiTextures()	{
 	if (current_scene == &one_vs_one || current_scene == &two_vs_two)
 	{
 		App->map->map_loaded = true;
-		App->render->blit(5, App->gui->atlas, 850, 100, &timer_rect, 3);
+		App->render->blit(2, App->gui->atlas, 850, 100, &timer_rect, 3);
 		if (current_scene == &one_vs_one)
 		{
 			App->render->blit(2, App->gui->atlas, 110, 100, &character1_rect, 3);
-			App->render->blit(2, App->gui->atlas, 119, 109, &character1_image, 3);
+			App->render->blit(3, App->gui->atlas, 119, 109, &character1_image, 3);
 			App->render->blit(2, App->gui->atlas, 1570, 100, &character2_rect, 3);
-			App->render->blit(2, App->gui->atlas, 1579, 109, &character2_image, 3, true);
-		}
-		else if (current_scene == &two_vs_two)
-		{
-
+			App->render->blit(3, App->gui->atlas, 1579, 109, &character2_image, 3, true);
 		}
 	}
 }

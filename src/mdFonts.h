@@ -27,6 +27,7 @@ public:
 
 public:
 	std::list<_TTF_Font*> fonts;
+	_TTF_Font* extra_large_size = nullptr;
 	_TTF_Font* large_size = nullptr;
 	_TTF_Font* medium_size = nullptr;
 	_TTF_Font* small_size = nullptr;

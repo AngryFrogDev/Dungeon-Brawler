@@ -61,7 +61,7 @@ void Bars::updateBarGauge() {
 		if (target_player <= 1)
 			current_gauge_rect.w = ((App->entities->players[target_player]->getCurrCharacter()->getCurrentLife())*gauge_rect.w) / App->entities->players[target_player]->getCurrCharacter()->getMaxLife();
 		if (target_player >=2)
-			current_gauge_rect.x = gauge_rect.w - ((App->entities->players[target_player]->getCurrCharacter()->getCurrentLife())*gauge_rect.w) / App->entities->players[target_player]->getCurrCharacter()->getMaxLife();
+	//		current_gauge_rect.x = gauge_rect.w - ((App->entities->players[target_player]->getCurrCharacter()->getCurrentLife())*gauge_rect.w) / App->entities->players[target_player]->getCurrCharacter()->getMaxLife();
 		break;
 	case SUPER_BAR:
 		break;

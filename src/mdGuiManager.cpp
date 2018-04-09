@@ -109,11 +109,9 @@ bool mdGuiManager::cleanUI()
 	std::list<Widgets*>::reverse_iterator ui_iterator = ui_elements.rbegin();
 	for (ui_iterator; ui_iterator != ui_elements.rend(); ++ui_iterator) {
 		object = *ui_iterator;
-		delete object;
+		object->active = false;
 	}
-	ui_elements.clear();
-	focus_elements.clear();
-
+	
 	return true;
 }
 
@@ -231,7 +229,8 @@ void mdGuiManager::draw() {
 	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
 	for (ui_iterator; ui_iterator != ui_elements.end(); ui_iterator++) {
 		object = *ui_iterator;
-		object->draw();
+		if (object->active)
+			object->draw();
 	}
 }
 

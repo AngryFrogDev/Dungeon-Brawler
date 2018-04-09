@@ -31,6 +31,7 @@ void Player::update(SDL_Texture* graphics)
 		curr_character->update(player_inputs);
 		curr_character->draw(graphics);
 	}
+
 }
 void Player::assignController(Controller* controller) {
 

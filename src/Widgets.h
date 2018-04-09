@@ -52,6 +52,7 @@ public:
 	SDL_Rect world_area;
 	std::pair<int, int> position;
 	bool to_delete = false;
+	bool active = false;
 
 protected:
 	Module* callback = nullptr;

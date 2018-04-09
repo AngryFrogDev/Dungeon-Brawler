@@ -28,27 +28,11 @@ struct CharacterInfo {
 	bool flipped;
 };
 
-struct LabelInfo {
-	const char* text;
-	SDL_Color color;
-	_TTF_Font* font_size;
-};
-
-struct WidgetInfo {
-	iPoint pos;
-	bool flip;
-	ui_elem_type type;
-	button_types button_type; //in xml, leave empty if item is not a button
-	bar_types bar_type; //in xml, leave empty if item is not a bar
-	LabelInfo label_info;  //in xml, leave empty if item is not a label
-};
-
-
-
 struct Scene {
 	scene_type type; 
 	std::list<CharacterInfo> characters; //to create scenes with 2 or 4 characters
-	std::list<WidgetInfo> ui_elements;
+	std::list<Widgets*> scene_ui_elems;
+	std::list<SDL_Rect> other_scene_elems; //If name is not clear, it could be changed
 };
 
 
@@ -79,6 +63,13 @@ public:
 	Scene* current_scene = nullptr;
 	Scene* scene_to_load = nullptr;
 	bool	paused = false;
+	uint	current_time = 90;
+	uint	max_time = 90;
+	
+	Scene one_vs_one;
+	Scene two_vs_two;
+	Scene main_menu;
+	Scene start_scene;
 
 private:
 	enum fade_step
@@ -94,11 +85,6 @@ private:
 	//HARDCODE
 	///When reading this from an XML, names should not be necesary
 
-	Scene one_vs_one;
-	Scene two_vs_two;
-	Scene main_menu;
-	Scene start_scene;
-
 	CharacterInfo player1;
 	CharacterInfo player2;
 
@@ -106,28 +92,29 @@ private:
 	CharacterInfo player4;
 
 	//START SCENE UI
-	WidgetInfo intro_label;
+	Labels* intro_label;
 	SDL_Texture* game_logo = nullptr;
 
 	//MAIN MENU UI
-	WidgetInfo b_o_vs_o;
-	WidgetInfo b_t_vs_t;
-	WidgetInfo b_exit;
+	Buttons* b_o_vs_o;
+	Buttons* b_t_vs_t;
+	Buttons* b_exit;
 
-	WidgetInfo l_o_vs_o;
-	WidgetInfo l_t_vs_t;
-	WidgetInfo l_exit;
+	Labels* l_o_vs_o;
+	Labels* l_t_vs_t;
+	Labels* l_exit;
 
 	//COMBAT UI
-	WidgetInfo health_bar1;
-	WidgetInfo health_bar2;
-	WidgetInfo health_bar3;
-	WidgetInfo health_bar4;
-	WidgetInfo super_bar1;
-	WidgetInfo super_bar2;
-	WidgetInfo super_bar3;
-	WidgetInfo super_bar4;
+	Bars* health_bar1;
+	Bars* health_bar2;
+	Bars* health_bar3;
+	Bars* health_bar4;
+	Bars* super_bar1;
+	Bars* super_bar2;
+	Bars* super_bar3;
+	Bars* super_bar4;
 	Labels* timer;
+
 	SDL_Rect timer_rect;
 	SDL_Rect character1_rect;
 	SDL_Rect character2_rect;
@@ -139,9 +126,6 @@ private:
 	SDL_Rect character4_image;
 
 	//Combat scene timer
-	uint	timer_count = 0;
-	uint	current_time = 90;
-	uint	max_time = 90;
 	Timer	scene_timer;
 
 	//Provisional bar targets

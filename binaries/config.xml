@@ -17,6 +17,7 @@
 	</filesystem>
         <fonts>
 		<default path = "fonts/VCR_OSD_MONO_1.001.ttf"/>
+		<extra_large_font size = "100"/>
 		<large_font size = "40"/>
     		<medium_font size = "30"/>
     		<small_font size = "15"/>
