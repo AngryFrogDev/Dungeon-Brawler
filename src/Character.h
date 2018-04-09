@@ -144,7 +144,7 @@ protected:
 
 	void updateAnimation(Animation& new_animation);
 
-	void updateState(CHAR_STATE state, CHAR_ATT_TYPE attack);
+	void updateState(CHAR_STATE state, CHAR_ATT_TYPE attack = NO_ATT);
 	void playCurrentSFX();
 	void setCrouchingHurtbox(bool crouch);
 	

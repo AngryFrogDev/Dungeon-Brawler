@@ -19,7 +19,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	//PROVISIONAL: Crazy provisional
 	if (current_life <= 0 && !death) {
-		updateState(DEAD, NO_ATT);
+		updateState(DEAD);
 		hurtbox->active = false;
 		death = true;
 	}
@@ -56,25 +56,25 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			state_first_tick = true;
 		}
 		if (hit) 
-			updateState(HIT, NO_ATT);
+			updateState(HIT);
 		// Input dependent
 		if (checkForSuper(super_window))
 			updateState(ATTACKING, SUPER);
 		else if (inputs[SWITCH]) {
-			updateState(SWAPPING, NO_ATT);				// Is this necessary?
+			updateState(SWAPPING);				// Is this necessary?
 			swapRequested = true;						//Important!
 		}
 		else if (inputs[RIGHT] && !fliped || inputs[LEFT] && fliped)
-			updateState(WALKING_FORWARD, NO_ATT);
+			updateState(WALKING_FORWARD);
 		else if (inputs[LEFT] && !fliped || inputs[RIGHT] && fliped)
-			updateState(WALKING_BACK, NO_ATT);
+			updateState(WALKING_BACK);
 		else if (inputs[UP]) {
 			velocity.y -= jump_power.y;
 			grounded = false;
-			updateState(JUMPING, NO_ATT);
+			updateState(JUMPING);
 		}
 		else if (inputs[DOWN])
-			updateState(CROUCHING, NO_ATT);
+			updateState(CROUCHING);
 		else if (inputs[LIGHT_ATTACK]) 
 			updateState(ATTACKING, ST_L); 
 		else if (inputs[HEAVY_ATTACK]) 
@@ -95,9 +95,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		if (hit) {
 			if (attack_recieving.block_type != BLOCK_TYPE::LOW)
-				updateState(STAND_BLOCKING, NO_ATT);
+				updateState(STAND_BLOCKING);
 			else
-				updateState(HIT, NO_ATT);
+				updateState(HIT);
 		}
 		//Continuous
 		if (fliped)
@@ -106,7 +106,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			logic_position.x -= walk_speed;
 		// Input dependent actions
 		if (!fliped && !inputs[LEFT] || fliped && !inputs[RIGHT])
-			updateState(IDLE, NO_ATT);
+			updateState(IDLE);
 		else if (inputs[UP]) {
 			velocity.y -= jump_power.y;
 			if (!fliped)
@@ -114,10 +114,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			else
 				velocity.x += jump_power.x;
 			grounded = false;
-			updateState(JUMPING, NO_ATT);
+			updateState(JUMPING);
 		}
 		else if (inputs[DOWN])
-			updateState(CROUCHING, NO_ATT);
+			updateState(CROUCHING);
 		else if (inputs[LIGHT_ATTACK]) 
 			updateState(ATTACKING, ST_L);
 		else if (inputs[HEAVY_ATTACK]) 
@@ -136,7 +136,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			state_first_tick = true;
 		}
 		if (hit)
-			updateState(HIT, NO_ATT);
+			updateState(HIT);
 		// Continuous
 		if (fliped)
 			logic_position.x -= walk_speed;
@@ -144,7 +144,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			logic_position.x += walk_speed;
 		// Input dependent actions
 		if (!fliped && !inputs[RIGHT] || fliped && !inputs[LEFT])
-			updateState(IDLE, NO_ATT);
+			updateState(IDLE);
 		else if (checkForSuper(super_window))
 			updateState(ATTACKING, SUPER);
 		else if (inputs[UP]) {
@@ -154,10 +154,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			else
 				velocity.x += jump_power.x;
 			grounded = false;
-			updateState(JUMPING, NO_ATT);
+			updateState(JUMPING);
 		}
 		else if (inputs[DOWN])
-			updateState(CROUCHING, NO_ATT);
+			updateState(CROUCHING);
 		else if (inputs[LIGHT_ATTACK]) 
 			updateState(ATTACKING, ST_L);
 		else if (inputs[HEAVY_ATTACK]) 
@@ -181,9 +181,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		// Input dependent actions
 		if (hit && inputs[LEFT] && !fliped || hit && inputs[RIGHT] && fliped) {
 			if (attack_recieving.block_type != BLOCK_TYPE::OVERHEAD)
-				updateState(CROUCH_BLOCKING, NO_ATT);
+				updateState(CROUCH_BLOCKING);
 			else
-				updateState(HIT, NO_ATT);
+				updateState(HIT);
 		}
 		else if (hit)
 			updateState(HIT, NO_ATT);
@@ -199,7 +199,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			setCrouchingHurtbox(false);
 			velocity.y -= jump_power.y; // Put in the (one_tick thing)
 			grounded = false;
-			updateState(JUMPING, NO_ATT);
+			updateState(JUMPING);
 		}
 		else if (inputs[LIGHT_ATTACK])
 			updateState(ATTACKING, CR_L);
@@ -224,9 +224,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		// Input dependent actions
 		if (grounded)
-			updateState(IDLE, NO_ATT);
+			updateState(IDLE);
 		else if (hit)
-			updateState(HIT, NO_ATT);
+			updateState(HIT);
 		else if (inputs[LIGHT_ATTACK]) 
 			updateState(ATTACKING, JM_L);
 		else if (inputs[HEAVY_ATTACK])
@@ -245,7 +245,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		if (hit) {
 			instanciated_hitbox = false;
-			updateState(HIT, NO_ATT);
+			updateState(HIT);
 			hurtbox->type = HURTBOX;
 		}
 		// Continuous
@@ -286,7 +286,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_super_gauge += super_gauge_gain_block;
 		}
 		if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
-			updateState(CROUCHING, NO_ATT);
+			updateState(CROUCHING);
 		// Continuous
 		if (!fliped)
 			logic_position.x -= attack_recieving.pushblock;
@@ -305,14 +305,14 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		if (hit) { 
 			playCurrentSFX();
 			if (attack_recieving.knockdown)
-				updateState(JUGGLE, NO_ATT);
+				updateState(JUGGLE);
 			else
 				hit = false;
 			current_life -= attack_recieving.damage;
 			current_super_gauge += super_gauge_gain_hit;
 		}
 		else if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) 
-			updateState(IDLE, NO_ATT);
+			updateState(IDLE);
 		// Continuous
 		if (!fliped)
 			logic_position.x -= attack_recieving.pushhit;
@@ -340,7 +340,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			grounded = false;
 		}
 		if (grounded)
-			updateState(KNOCKDOWN, NO_ATT);
+			updateState(KNOCKDOWN);
 		break;
 
 	case KNOCKDOWN:
@@ -353,14 +353,14 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		hurtbox->active = false;
 		if (current_animation->Finished()){
 			makeInvencibleFor(invencibility_on_wakeup);
-			updateState(IDLE, NO_ATT);
+			updateState(IDLE);
 			hurtbox->active = true;
 		}
 		break;
 	case SWAPPING:
 		//TODO: Define swapping
 		//manageSwap();
-		updateState(IDLE, NO_ATT);
+		updateState(IDLE);
 		break;
 	case RECOVERY:
 		// One tick
@@ -370,9 +370,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			setCrouchingHurtbox(false);
 		}
 		if (hit) 
-			updateState(HIT, NO_ATT);
+			updateState(HIT);
 		if (recovery_timer.read() > current_recovery)
-			updateState(IDLE, NO_ATT);
+			updateState(IDLE);
 		break;
 	case DEAD:
 		if (!state_first_tick) {
@@ -480,7 +480,7 @@ bool Character::manageSwap()
 	if (logic_position.y < -200) { //margin to make it go out of the screen
 		readyToSwap = true;
 		if (partner->getCurrCharacter()->readyToSwap) {
-			updateState(JUMPING, NO_ATT);
+			updateState(JUMPING);
 			grounded = false;
 			if (lane == 1)
 				lane = 2;
