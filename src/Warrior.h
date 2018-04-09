@@ -11,8 +11,8 @@ public:
 	void standingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	void crouchingSpecial1();
 	void crouchingSpecial2();
-	void jumpingSpecial1();
-	void jumpingSpecial2();
+	void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]);
+	void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	void doSuper();
 
 	void updateAnimationOnBasicAttack(CHAR_ATT_TYPE type); // Just to use for super
@@ -29,8 +29,8 @@ private:
 	int projectile_duration; // in milliseconds
 	int projectile_scale;
 
-	//int diveKickHeight;
-	//bool diveKicking;
+	int diveKickHeight;
+	bool diveKicking;
 	int jm_s1_angle;
 	int jm_s2_angle;
 	iPoint jm_s1_speed;

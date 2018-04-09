@@ -162,8 +162,8 @@ protected:
 	virtual void standingSpecial2(const bool(&inputs)[MAX_INPUTS]) { return; };
 	virtual void crouchingSpecial1() { return; };
 	virtual void crouchingSpecial2() { return; };
-	virtual void jumpingSpecial1() { return; };
-	virtual void jumpingSpecial2() { return; };
+	virtual void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) { return; };
+	virtual void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) { return; };
 	virtual void doSuper() { return; }
 	// Input buffer functions
 	bool lookInBuffer(CHARACTER_INPUTS input, int window);

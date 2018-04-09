@@ -648,12 +648,12 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 	case JM_S1:
 		if (!state_first_tick)
 			state_first_tick = true;
-		jumpingSpecial1();
+		jumpingSpecial1(inputs);
 		break;
 	case JM_S2:
 		if (!state_first_tick)
 			state_first_tick = true;
-		jumpingSpecial2();
+		jumpingSpecial2(inputs);
 		break;
 	case SUPER:
 		doSuper();
