@@ -519,11 +519,10 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	spin_speed = 6;
 	spin_object = true; // Should be in false 
 
-	diveKickHeight = 520;
-	diveKicking = false;
 	jm_s1_angle = 20;
 	jm_s1_speed.x = 10;
 	jm_s1_speed.y = 10;
+	dive_kick_max_height = 520; // PROVISIONAL: This should be loaded and modified depending on the current lane
 
 	jm_s2_angle = 40;
 	jm_s2_speed.x = 5;
@@ -661,30 +660,25 @@ void Warrior::crouchingSpecial2()	{ // Should have recovery
 }
 
 void Warrior::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
-	if (logic_position.y <= diveKickHeight && !diveKicking) {
-		diveKicking = true;
-	}
-
-	if (diveKicking) {
-		updateAnimation(jumping_special1);
-		if (!grounded) {
-			if (!fliped) {
-				velocity.x = jm_s1_speed.x; 
-				jumping_special1.angle = jm_s1_angle;
-			}
-			else {
-				velocity.x = -jm_s1_speed.x; 
-				jumping_special1.angle = -jm_s1_angle;
-			}
-			velocity.y = jm_s1_speed.y;
-
-			if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
-				instanciateHitbox(JM_S1);
+	updateAnimation(jumping_special1);
+	if (!grounded) {
+		if (!fliped) {
+			velocity.x = jm_s1_speed.x; 
+			jumping_special1.angle = jm_s1_angle;
 		}
-		collider* hitbox = getCurrentAttackHitbox();
-		if (hitbox != nullptr)
-			hitbox->SetPos(calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false));
+		else {
+			velocity.x = -jm_s1_speed.x; 
+			jumping_special1.angle = -jm_s1_angle;
+		}
+		velocity.y = jm_s1_speed.y;
+
+		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
+			instanciateHitbox(JM_S1);
 	}
+	collider* hitbox = getCurrentAttackHitbox();
+	if (hitbox != nullptr)
+		hitbox->SetPos(calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false));
+
 
 	if(dive_kick_object){
 		if (inputs[LIGHT_ATTACK]) {
@@ -692,7 +686,6 @@ void Warrior::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 			if (hitbox != nullptr) { // Just for safety
 				deleteAttackHitbox(JM_S1);
 			}
-			diveKicking = false;
 			instanciated_hitbox = false;
 			updateState(ATTACKING, JM_L);
 		}
@@ -701,14 +694,12 @@ void Warrior::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 			if (hitbox != nullptr) { // Just for safety
 				deleteAttackHitbox(JM_S1);
 			}
-			diveKicking = false;
 			instanciated_hitbox = false;
 			updateState(ATTACKING, JM_H);
 		}
 	}
 
 	if (grounded) {
-		diveKicking = false;
 		instanciated_hitbox = false;
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr) { // Just for safety
@@ -719,37 +710,31 @@ void Warrior::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 }
 
 void Warrior::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
-	if (logic_position.y <= diveKickHeight && !diveKicking){
-		diveKicking = true;
-	}
+	updateAnimation(jumping_special2);
+	if (!grounded) {
+		if (!fliped) {
+			velocity.x = jm_s2_speed.x; 
+			jumping_special2.angle = jm_s2_angle;
+		}
+		else {
+			velocity.x = -jm_s2_speed.x; 
+			jumping_special2.angle = -jm_s2_angle;
+		}
+		velocity.y = jm_s2_speed.y; 
 
-	if (diveKicking) {
-			updateAnimation(jumping_special2);
-			if (!grounded) {
-				if (!fliped) {
-					velocity.x = jm_s2_speed.x; 
-					jumping_special2.angle = jm_s2_angle;
-				}
-				else {
-					velocity.x = -jm_s2_speed.x; 
-					jumping_special2.angle = -jm_s2_angle;
-				}
-				velocity.y = jm_s2_speed.y; 
-
-				if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
-					instanciateHitbox(JM_S2);
-			}
-		collider* hitbox = getCurrentAttackHitbox();
-		if (hitbox != nullptr)
-			hitbox->SetPos(calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false));
+		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
+			instanciateHitbox(JM_S2);
 	}
+	collider* hitbox = getCurrentAttackHitbox();
+	if (hitbox != nullptr)
+		hitbox->SetPos(calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false));
+
 	if (dive_kick_object) {
 		if (inputs[LIGHT_ATTACK]) {
 			collider* hitbox = getCurrentAttackHitbox();
 			if (hitbox != nullptr) { // Just for safety
 				deleteAttackHitbox(JM_S2);
 			}
-			diveKicking = false;
 			instanciated_hitbox = false;
 			updateState(ATTACKING, JM_L);
 		}
@@ -758,13 +743,11 @@ void Warrior::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 			if (hitbox != nullptr) { // Just for safety
 				deleteAttackHitbox(JM_S2);
 			}
-			diveKicking = false;
 			instanciated_hitbox = false;
 			updateState(ATTACKING, JM_H);
 		}
 	}
 	if(grounded) {
-		diveKicking = false;
 		instanciated_hitbox = false;
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr) { // Just for safety

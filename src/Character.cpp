@@ -58,6 +58,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		if (hit) 
 			updateState(HIT, NO_ATT);
 		// Input dependent
+		if (checkForSuper(super_window))
+			updateState(ATTACKING, SUPER);
 		else if (inputs[SWITCH]) {
 			updateState(SWAPPING, NO_ATT);				// Is this necessary?
 			swapRequested = true;						//Important!
@@ -229,9 +231,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			updateState(ATTACKING, JM_L);
 		else if (inputs[HEAVY_ATTACK])
 			updateState(ATTACKING, JM_H);
-		else if (inputs[SPECIAL_1])
+		else if (inputs[SPECIAL_1] && checkDiveKickHeight())
 			updateState(ATTACKING, JM_S1);
-		else if (inputs[SPECIAL_2])
+		else if (inputs[SPECIAL_2] && checkDiveKickHeight())
 			updateState(ATTACKING, JM_S2);
 		break;
 
@@ -646,13 +648,17 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 		crouchingSpecial2();
 		break;
 	case JM_S1:
-		if (!state_first_tick)
+		if (!state_first_tick) {
+			updateAnimation(jumping_special1);
 			state_first_tick = true;
+		}
 		jumpingSpecial1(inputs);
 		break;
 	case JM_S2:
-		if (!state_first_tick)
+		if (!state_first_tick) {
+			updateAnimation(jumping_special2);
 			state_first_tick = true;
+		}
 		jumpingSpecial2(inputs);
 		break;
 	case SUPER:
@@ -1087,5 +1093,8 @@ bool Character::checkForSuper(int window) {
 		return true;
 	else
 		return false;
+}
+bool Character::checkDiveKickHeight() {
+	return logic_position.y <= dive_kick_max_height;
 }
 
