@@ -64,6 +64,7 @@ bool mdSceneManager::update(float dt)	{
 			App->gui->cleanUI();
 			App->collision->cleanUp();
 			App->entities->cleanUp();
+			App->render->cleanBlitQueue();
 			App->map->map_loaded = false;
 						
 			current_scene = scene_to_load;

@@ -223,3 +223,11 @@ bool mdRender::drawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 
 	return ret;
 }
+
+void mdRender::cleanBlitQueue() {
+	while (blitQueue.empty() == false) {
+		objectToPrint* first = blitQueue.top();
+		delete first;
+		blitQueue.pop();
+	}
+}
