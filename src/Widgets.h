@@ -66,6 +66,7 @@ public:
 	std::pair<int, int> position;
 	bool to_delete = false;
 	bool active = false;
+	bool visible = false;
 
 protected:
 	Module* callback = nullptr;

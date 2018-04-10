@@ -18,8 +18,9 @@ mdSceneManager::mdSceneManager()	{
 mdSceneManager::~mdSceneManager(){}
 
 bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
+	scene_config = App->loadConfig("scene_config.xml", scene_config_doc);
 	//HARDCODE, super easy to make an xml out of this, just sayin'
-	
+	start_scene.type = START_SCENE;
 	one_vs_one.type = ONE_VS_ONE;
 	two_vs_two.type = TWO_VS_TWO;
 	main_menu.type = MAIN_MENU;
@@ -68,7 +69,7 @@ bool mdSceneManager::update(float dt)	{
 						
 			current_scene = scene_to_load;
 			if (current_scene == &one_vs_one)
-				scene_timer.start();
+				scene_timer.start(), current_time = max_time;
 
 			createCharacters();
 			createWidgets();
@@ -191,12 +192,13 @@ bool mdSceneManager::createWidgets()
 	Widgets* object = nullptr;
 	for (auto it = current_scene->scene_ui_elems.begin(); it != current_scene->scene_ui_elems.end(); it++) {
 		object = *it;
-		object->active = true;
+		if (object->active)
+			object->visible = true;
 	}
 
 	for (auto it = App->gui->focus_elements.begin(); it != App->gui->focus_elements.end(); it++) {
 		object = *it;
-		if (object->active)
+		if (object->visible)
 		{
 			App->gui->focus = object;
 			break;
@@ -209,30 +211,53 @@ bool mdSceneManager::createWidgets()
 }
 
 void mdSceneManager::loadSceneUI() {
-	//Start scene
-	start_scene.type = START_SCENE;
-	game_logo = App->textures->load("assets/game_logo_RA.png");
+	//START SCENE
+	//Preparing nodes
+	start_scene.scene_data = scene_config.child("start_scene");
+	labels_node = start_scene.scene_data.child("labels");
+	textures_node = start_scene.scene_data.child("textures");
 
-	intro_label = (Labels*)App->gui->createLabel("PRESS ENTER", { 100,100,100,100 }, App->fonts->large_size, { 830,900 }, this);
+	//Loading variables 
+	//
+	game_logo = App->textures->load(textures_node.child("game_logo").attribute("path").as_string());
+	intro_label = (Labels*)App->gui->createLabel(labels_node.child("content").attribute("value").as_string(),{ (Uint8)labels_node.child("color").attribute("r").as_int(),(Uint8)labels_node.child("color").attribute("g").as_int(),(Uint8)labels_node.child("color").attribute("b").as_int(),(Uint8)labels_node.child("color").attribute("a").as_int() }, 
+	App->fonts->large_size, { labels_node.child("pos").attribute("x").as_int(),labels_node.child("pos").attribute("y").as_int() }, this);
+	intro_label->active = labels_node.child("active").attribute("value").as_bool();
 	start_scene.scene_ui_elems.push_back(intro_label);
 
-	//Main Menu
-	b_o_vs_o = (Buttons*)App->gui->createButton(ONE_V_ONE, LARGE, { 750, 200 }, this);
+
+	//MAIN MENU
+	//Preparing nodes
+	main_menu.scene_data = scene_config.child("main_menu");
+	buttons_node = main_menu.scene_data.child("buttons");
+	labels_node = main_menu.scene_data.child("labels");
+
+	//Loading variables
+	b_o_vs_o = (Buttons*)App->gui->createButton(ONE_V_ONE, LARGE, { buttons_node.child("o_vs_o").child("pos").attribute("x").as_int(), buttons_node.child("o_vs_o").child("pos").attribute("y").as_int() }, this);
+	b_o_vs_o->active = buttons_node.child("o_vs_o").child("active").attribute("value").as_bool();
 	main_menu.scene_ui_elems.push_back(b_o_vs_o);
 
-	b_t_vs_t = (Buttons*)App->gui->createButton(TWO_V_TWO, LARGE, { 750,400 }, this);
+	b_t_vs_t = (Buttons*)App->gui->createButton(TWO_V_TWO, LARGE, { buttons_node.child("t_vs_t").child("pos").attribute("x").as_int(), buttons_node.child("t_vs_t").child("pos").attribute("y").as_int() }, this);
+	b_t_vs_t->active = buttons_node.child("t_vs_t").child("active").attribute("value").as_bool();
 	main_menu.scene_ui_elems.push_back(b_t_vs_t);
 
-	b_exit = (Buttons*)App->gui->createButton(GAME_EXIT, LARGE, { 1350,900 }, this);
+	b_exit = (Buttons*)App->gui->createButton(GAME_EXIT, LARGE, { buttons_node.child("exit").child("pos").attribute("x").as_int(), buttons_node.child("exit").child("pos").attribute("y").as_int() }, this);
+	b_exit->active = buttons_node.child("exit").child("active").attribute("value").as_bool();
 	main_menu.scene_ui_elems.push_back(b_exit);
 
-	l_o_vs_o = (Labels*)App->gui->createLabel("ONE VS ONE", { 255,255,255,255 }, App->fonts->large_size, { 795, 225 }, this);
+	l_o_vs_o = (Labels*)App->gui->createLabel(labels_node.child("o_vs_o").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("o_vs_o").child("color").attribute("r").as_int(),(Uint8)labels_node.child("o_vs_o").child("color").attribute("g").as_int(),(Uint8)labels_node.child("o_vs_o").child("color").attribute("b").as_int(),(Uint8)labels_node.child("o_vs_o").child("color").attribute("a").as_int()},
+	App->fonts->large_size, { labels_node.child("o_vs_o").child("pos").attribute("x").as_int(), labels_node.child("o_vs_o").child("pos").attribute("y").as_int() }, this);
+	l_o_vs_o->active = labels_node.child("o_vs_o").child("active").attribute("value").as_bool();
 	main_menu.scene_ui_elems.push_back(l_o_vs_o);
 
-	l_t_vs_t = (Labels*)App->gui->createLabel("TWO VS TWO", { 255,255,255,255 }, App->fonts->large_size, { 795, 425 }, this);
+	l_t_vs_t = (Labels*)App->gui->createLabel(labels_node.child("t_vs_t").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("t_vs_t").child("color").attribute("r").as_int(),(Uint8)labels_node.child("t_vs_t").child("color").attribute("g").as_int(),(Uint8)labels_node.child("t_vs_t").child("color").attribute("b").as_int(),(Uint8)labels_node.child("t_vs_t").child("color").attribute("a").as_int() },
+	App->fonts->large_size, { labels_node.child("t_vs_t").child("pos").attribute("x").as_int(), labels_node.child("t_vs_t").child("pos").attribute("y").as_int() }, this);
+	l_t_vs_t->active = labels_node.child("t_vs_t").child("active").attribute("value").as_bool();
 	main_menu.scene_ui_elems.push_back(l_t_vs_t);
 
-	l_exit = (Labels*)App->gui->createLabel("QUIT", { 255,255,255,255 }, App->fonts->large_size, { 1475, 925 }, this);
+	l_exit = (Labels*)App->gui->createLabel(labels_node.child("exit").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("exit").child("color").attribute("r").as_int(),(Uint8)labels_node.child("exit").child("color").attribute("g").as_int(),(Uint8)labels_node.child("exit").child("color").attribute("b").as_int(),(Uint8)labels_node.child("exit").child("color").attribute("a").as_int() },
+	App->fonts->large_size, { labels_node.child("exit").child("pos").attribute("x").as_int(), labels_node.child("exit").child("pos").attribute("y").as_int() }, this);
+	l_exit->active = labels_node.child("exit").child("active").attribute("value").as_bool();
 	main_menu.scene_ui_elems.push_back(l_exit);
 	
 

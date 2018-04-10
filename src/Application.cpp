@@ -156,10 +156,10 @@ void Application::addModule(Module * module)
 pugi::xml_node Application::loadConfig(const char* file_name, pugi::xml_document& config_file) {
 	pugi::xml_node config_node;
 	char* buffer;
-	int size = filesystem->load(file_name, &buffer);
-	pugi::xml_parse_result result = config_file.load_buffer(buffer, size);
-	if (size != 0)
-		RELEASE(buffer);
+//	int size = filesystem->load(file_name, &buffer);
+	pugi::xml_parse_result result = config_file.load_file(file_name);
+//	if (size != 0)
+//		RELEASE(buffer);
 
 	if (result == NULL)
 		LOG("Application : Could not load file - %s", result.description());
