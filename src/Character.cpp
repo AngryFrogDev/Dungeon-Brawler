@@ -829,9 +829,19 @@ int Character::getCurrentLife() {
 }
 
 int Character::getMaxLife() {
+
 	return max_life;
 }
 
+int Character::getCurrentSuperGauge() {
+
+	return current_super_gauge;
+}
+
+int Character::getMaxSuperGauge() {
+
+	return max_super_gauge;
+}
 void Character::deleteDeadHitboxes() 	{
 	// Compute what hitboxes need to be deleted
 

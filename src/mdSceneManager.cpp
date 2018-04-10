@@ -40,7 +40,6 @@ bool mdSceneManager::start()	{
 
 	health_bar_target = 0; //provisional
 	super_bar_target = 0; //provisional
-	swap_bar_target = 0; //provisional
 	createCharacters();
 	createWidgets();
 		

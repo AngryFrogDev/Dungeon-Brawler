@@ -15,6 +15,9 @@ Bars::Bars(bar_types type, std::pair<int, int> pos, bool _flipped, int target, M
 	data = config.child("gui").child("bar_section");
 	loadGuiFromAtlas();
 	target_player = target;
+
+	if (bar_type == SUPER_BAR)
+		current_gauge_rect.w = 0;
 }
 
 Bars::~Bars(){
@@ -33,7 +36,7 @@ void Bars::draw()	{
 
 	updateBarGauge();
 	App->render->blit(3, App->gui->getAtlas(), position.first, position.second, &bar_rect, 2, flipped);
-	App->render->blit(4, App->gui->getAtlas(), position.first + relative_pos.x, position.second + relative_pos.y, &current_gauge_rect, 2, flipped);
+	App->render->blit(4, App->gui->getAtlas(), position.first + relative_pos.x + aux_bar_pos, position.second + relative_pos.y, &current_gauge_rect, 2, flipped);
 }
 
 void Bars::getSection(SDL_Rect rect, SDL_Rect gauge){
@@ -56,18 +59,10 @@ void Bars::getSection(SDL_Rect rect, SDL_Rect gauge){
 
 void Bars::updateBarGauge() {
 		
-	switch (bar_type) {
-	case HEALTH_BAR:
-		if (target_player <= 1)
-			current_gauge_rect.w = ((App->entities->players[target_player]->getCurrCharacter()->getCurrentLife())*gauge_rect.w) / App->entities->players[target_player]->getCurrCharacter()->getMaxLife();
-		if (target_player >=2)
-	//		current_gauge_rect.x = gauge_rect.w - ((App->entities->players[target_player]->getCurrCharacter()->getCurrentLife())*gauge_rect.w) / App->entities->players[target_player]->getCurrCharacter()->getMaxLife();
-		break;
-	case SUPER_BAR:
-		break;
-	case SWAP_BAR:
-		break;
+	if (bar_type == HEALTH_BAR || bar_type == SUPER_BAR) {
+		calculateBarGauge();
 	}	
+
 }
 
 void Bars::loadGuiFromAtlas()	{
@@ -99,3 +94,44 @@ void Bars::loadGuiFromAtlas()	{
 		break;
 	}
 }
+
+void Bars::calculateBarGauge() {
+
+	if (bar_type == HEALTH_BAR) {
+		current_gauge = App->entities->players[target_player]->getCurrCharacter()->getCurrentLife();
+		max_gauge = App->entities->players[target_player]->getCurrCharacter()->getMaxLife();
+
+		if (flipped && last_gauge != current_gauge) {
+			current_gauge_rect.w = (gauge_rect.w*current_gauge) / max_gauge;
+			current_gauge_rect.x = gauge_rect.x + (gauge_rect.w - current_gauge_rect.w);
+			last_gauge = current_gauge;
+
+		}
+		else if (!flipped && last_gauge != current_gauge) {
+			current_gauge_rect.w = (gauge_rect.w*current_gauge) / max_gauge;
+			current_gauge_rect.x = gauge_rect.x + (gauge_rect.w - current_gauge_rect.w);
+			aux_bar_pos = 2 * (gauge_rect.w - current_gauge_rect.w);
+			last_gauge = current_gauge;
+		}
+	}	
+	else if (bar_type == SUPER_BAR) {
+		 current_gauge = App->entities->players[target_player]->getCurrCharacter()->getCurrentSuperGauge();
+		 max_gauge = App->entities->players[target_player]->getCurrCharacter()->getMaxSuperGauge();
+
+		 if (flipped && last_gauge != current_gauge) {
+			 current_gauge_rect.w = (gauge_rect.w*current_gauge) / max_gauge;
+			 current_gauge_rect.x = gauge_rect.x + (gauge_rect.w - current_gauge_rect.w);
+			 last_gauge = current_gauge;
+
+		 }
+		 else if (!flipped && last_gauge != current_gauge) {
+			 current_gauge_rect.w = (gauge_rect.w*current_gauge) / max_gauge;
+			 current_gauge_rect.x = gauge_rect.x + (gauge_rect.w - current_gauge_rect.w);
+			 aux_bar_pos = 2 * (gauge_rect.w - current_gauge_rect.w);
+			 last_gauge = current_gauge;
+		 }
+	}
+	
+
+}
+
