@@ -517,7 +517,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	left_x_limit = 50;
 	// WARRIOR EXCLUSIVE VARS
 	spin_speed = 6;
-	spin_object.active = true; // Should be in false 
+	spin_object.active = false; // Should be in false 
 	spin_object.item_type = SPECIAL_ITEM_1;
 
 	jm_s1_angle = 20;
@@ -528,7 +528,7 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	jm_s2_angle = 40;
 	jm_s2_speed.x = 5;
 	jm_s2_speed.y = 10;
-	dive_kick_object.active = true; // Should be in false 
+	dive_kick_object.active = false; // Should be in false 
 	dive_kick_object.item_type = SPECIAL_ITEM_2;
 
 	projectile_duration = 2000;
@@ -798,4 +798,16 @@ void Warrior::updateAnimationOnBasicAttack(CHAR_ATT_TYPE type) {
 		updateAnimation(crouching_heavy);
 		break;
 	}
+	
+}
+void Warrior::giveItem(ITEMS type) {
+
+	if (type == dive_kick_object.item_type)
+		dive_kick_object.active = true;
+	if (type == spin_object.item_type)
+		spin_object.active = true;
+}
+void Warrior::takeAllItems() {
+	dive_kick_object.active = false;
+	spin_object.active = false;
 }

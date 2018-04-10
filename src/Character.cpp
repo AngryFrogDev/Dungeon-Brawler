@@ -35,6 +35,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		state_first_tick = false;
 		current_super_gauge = 0;
 		App->scene_manager->current_time = App->scene_manager->max_time;
+		giveItem(SPECIAL_ITEM_2);
 	}
 
 	

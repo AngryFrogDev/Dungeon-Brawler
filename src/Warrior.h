@@ -15,6 +15,9 @@ public:
 	void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	void doSuper();
 
+	void giveItem(ITEMS type);
+	void takeAllItems();
+
 	void updateAnimationOnBasicAttack(CHAR_ATT_TYPE type); // Just to use for super
 
 private:

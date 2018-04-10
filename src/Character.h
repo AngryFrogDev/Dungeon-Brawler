@@ -186,6 +186,7 @@ protected:
 	virtual void doSuper() { return; }
 	// Item management
 	virtual void giveItem(ITEMS type) { return; }
+	virtual void takeAllItems() { return; }
 	// Input buffer functions
 	bool lookInBuffer(CHARACTER_INPUTS input, int window);
 	void fillBuffer(const bool(&inputs)[MAX_INPUTS]);
