@@ -139,7 +139,6 @@ private:
 
 	//Provisional bar targets
 	int health_bar_target = 0;
-	int swap_bar_target = 0;
 	int super_bar_target = 0;
 
 	//Nodes

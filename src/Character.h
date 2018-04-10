@@ -128,6 +128,8 @@ public:
 	void setProjectile(bool projectile);
 	int getCurrentLife();
 	int getMaxLife();
+	int getCurrentSuperGauge();
+	int getMaxSuperGauge();
 
 protected:	
 	// Execute attack, rewritable for every type of character

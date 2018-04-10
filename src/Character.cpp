@@ -36,8 +36,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		current_super_gauge = 0;
 		App->scene_manager->current_time = App->scene_manager->max_time;
 	}
-	if (current_super_gauge > max_super_gauge)
-		current_super_gauge = max_super_gauge;
+
 	
 	fillBuffer(inputs);
 	lookInBuffer(SPECIAL_1, 30);
@@ -403,6 +402,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	hurtbox->SetPos(calculateDrawPosition(0, hurtbox->rect.w, true), calculateDrawPosition(offset, hurtbox->rect.h, false));
 	pushbox->SetPos(calculateDrawPosition(0, pushbox->rect.w, true), calculateDrawPosition(crouching_hurtbox_offset, pushbox->rect.h, false));
+
+	// Gauge Limit
+	if (current_super_gauge > max_super_gauge)
+		current_super_gauge = max_super_gauge;
 
 	if (!grounded) 		{
 		applyGravity();
@@ -829,9 +832,19 @@ int Character::getCurrentLife() {
 }
 
 int Character::getMaxLife() {
+
 	return max_life;
 }
 
+int Character::getCurrentSuperGauge() {
+
+	return current_super_gauge;
+}
+
+int Character::getMaxSuperGauge() {
+
+	return max_super_gauge;
+}
 void Character::deleteDeadHitboxes() 	{
 	// Compute what hitboxes need to be deleted
 

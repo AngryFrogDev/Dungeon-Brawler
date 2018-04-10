@@ -65,10 +65,8 @@ bool mdEntities::preUpdate() {
 	if (players[0] == nullptr) //It crashed if there were no playres
 		return true;
 
-	if (players[0]->getController() == nullptr) {
-		std::list<Controller*> controllers = App->input->getController();
-		if (!controllers.empty())
-			players[0]->assignController(controllers.front());
+	if (players[0]->getController() == nullptr) { // Shouldn't this be done less often?
+		assignControllers();
 	}
 
 	for (int i = 0; i < 4; i++) {
@@ -119,18 +117,21 @@ void mdEntities::destroyCharacters() {
 
 void mdEntities::assignControls()
 {
-	//HARDCODE
+	//PROVISIONAL: HARDCODE
+	if (players[0] != nullptr){
+		players[0]->assignControlScheme(controller_schemes.front());
+		players[0]->assignKeyboardScheme(keyboard_schemes.front());
+	}
 
-	if (players[0] != nullptr)
-	players[0]->assignControlScheme(controller_schemes.front());
-
-	if (players[1] != nullptr)
-	players[1]->assignKeyboardScheme(keyboard_schemes.front());
+	if (players[1] != nullptr){
+		players[1]->assignControlScheme(controller_schemes.front());
+		players[1]->assignKeyboardScheme(keyboard_schemes.front());
+	}
 }
 
 void mdEntities::assignPartners()
 {
-	//Very dangerous hardcode to set the partners: 
+	// PROVISIONAL: Very dangerous hardcode to set the partners: 
 	players[0]->getCurrCharacter()->partner = players[1];
 	players[1]->getCurrCharacter()->partner = players[0];
 	players[2]->getCurrCharacter()->partner = players[3];
@@ -205,4 +206,13 @@ bool mdEntities::allowFlip() 	{
 	}
 
 	return do_flip;
+}
+
+void mdEntities::assignControllers() {
+	std::list<Controller*> controllers = App->input->getController();
+	int counter = 0;
+	for (auto it = controllers.begin(); it != controllers.end() || counter > 4; it++) {
+		players[counter]->assignController(*it);
+		counter++;
+	}
 }
