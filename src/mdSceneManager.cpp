@@ -6,6 +6,7 @@
 #include "mdInput.h"
 #include "mdCollision.h"
 #include "mdMap.h"
+#include "Player.h"
 
 
 mdSceneManager::mdSceneManager()	{
