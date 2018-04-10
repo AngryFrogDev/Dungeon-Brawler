@@ -60,6 +60,7 @@ private:
 
 	//Graphics of the warrior
 	SDL_Texture* warrior_graphics;
+	SDL_Texture* warrior_graphics2;
 
 
 };

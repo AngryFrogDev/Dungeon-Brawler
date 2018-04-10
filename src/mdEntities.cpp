@@ -39,6 +39,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 
 	//PROVISIONAL: Should be loaded from an xml
 	warrior_graphics = App->textures->load("Assets/warrior.png");
+	warrior_graphics2 = App->textures->load("Assets/warrior_2_placeholder.png");
 	traning = false;
 
 	//createPlayer(0,100, CHAR_TYPE::WARRIOR, false, 1 );
@@ -70,9 +71,14 @@ bool mdEntities::preUpdate() {
 		assignControllers();
 	}
 
-	for (int i = 0; i < 4; i++) {
-		if (players[i] != nullptr)
-			players[i]->update(warrior_graphics); // PROVISIONAL: We should check the type of character of the player and pass the correct textures
+	for (int i = 0; i < 4; i++) { // PROVISIONAL: We should check the type of character of the player and pass the correct textures
+		if (players[i] != nullptr){
+			if(i == 0) // PROVISIONAL: Super hardcode
+				players[i]->update(warrior_graphics); 
+			else
+				players[i]->update(warrior_graphics2);
+		}
+		
 	}
 
 
