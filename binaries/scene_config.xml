@@ -47,4 +47,45 @@
 			</exit>
 		</labels>
 	</main_menu>
+	<combat>
+		<one_vs_one>
+			<labels>
+				<timer>
+					<color r="0" g="0" b="0" a="0"/>
+					<pos x="880" y="150"/>
+					<active value="true"/>
+				</timer>
+			</labels>
+			<bars>
+				<health_bar1>
+					<pos x="100" y="195"/>
+					<flip value="false"/>
+					<target_player value ="0"/>
+					<active value="true"/>
+				</health_bar1>
+				<health_bar2>
+					<pos x="1030" y="195"/>
+					<flip value="true"/>
+					<target_player value ="1"/>
+					<active value="true"/>
+				</health_bar2>
+				<super_bar1>
+					<pos x="109" y="222"/>
+					<flip value="false"/>
+					<target_player value ="0"/>
+					<active value="true"/>
+				</super_bar1>
+				<super_bar2>
+					<pos x="1271" y="222"/>
+					<flip value="true"/>
+					<target_player value ="1"/>
+					<active value="true"/>
+				</super_bar2>
+			</bars>
+			<buttons>
+			</buttons>
+			<textures>
+			</textures>
+		</one_vs_one>
+	</combat>
 </config>

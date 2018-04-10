@@ -6,7 +6,6 @@
 #include "mdInput.h"
 #include "mdCollision.h"
 #include "mdMap.h"
-#include "Player.h"
 
 
 mdSceneManager::mdSceneManager()	{
@@ -261,7 +260,14 @@ void mdSceneManager::loadSceneUI() {
 	main_menu.scene_ui_elems.push_back(l_exit);
 	
 
-	//Combat
+	//COMBAT
+	//Preparing nodes
+	one_vs_one.scene_data = scene_config.child("combat").child("one_vs_one");
+	labels_node = one_vs_one.scene_data.child("labels");
+	buttons_node = one_vs_one.scene_data.child("buttons");
+	bars_node = one_vs_one.scene_data.child("bars");
+	textures_node = one_vs_one.scene_data.child("textures");
+
 	timer_rect = { 421, 142, 59, 59 };
 	character1_rect = { 6,175,66,34 };
 	character1_image = { 82,175,60,28 };
@@ -270,19 +276,29 @@ void mdSceneManager::loadSceneUI() {
 	character2_image = character3_image = character4_image = character1_image;
 
 	auto label_string = std::to_string(current_time);
-	timer = (Labels*)App->gui->createLabel(label_string.data(), { 0,0,0,0 }, App->fonts->extra_large_size, { 880,150 }, this);
+	timer = (Labels*)App->gui->createLabel(label_string.data(), { (Uint8)labels_node.child("timer").child("color").attribute("r").as_int(),(Uint8)labels_node.child("timer").child("color").attribute("g").as_int(),(Uint8)labels_node.child("timer").child("color").attribute("b").as_int(),(Uint8)labels_node.child("timer").child("color").attribute("a").as_int() }, 
+	App->fonts->extra_large_size, { labels_node.child("timer").child("pos").attribute("x").as_int(),labels_node.child("timer").child("pos").attribute("y").as_int() }, this);
+	timer->active = labels_node.child("timer").child("active").attribute("value").as_bool();
 	one_vs_one.scene_ui_elems.push_back(timer);
 
-	health_bar1 = (Bars*)App->gui->createBar(HEALTH_BAR, { 100,195 }, false, 0, this);
+	health_bar1 = (Bars*)App->gui->createBar(HEALTH_BAR, { bars_node.child("health_bar1").child("pos").attribute("x").as_int(),bars_node.child("health_bar1").child("pos").attribute("y").as_int() },
+	bars_node.child("health_bar1").child("flip").attribute("value").as_bool(), bars_node.child("health_bar1").child("target_player").attribute("value").as_int(), this);
+	health_bar1->active = bars_node.child("health_bar1").child("active").attribute("value").as_bool();
 	one_vs_one.scene_ui_elems.push_back(health_bar1);
 
-	health_bar2 = (Bars*)App->gui->createBar(HEALTH_BAR, { 1030, 195 }, true, 1, this);
+	health_bar2 = (Bars*)App->gui->createBar(HEALTH_BAR, { bars_node.child("health_bar2").child("pos").attribute("x").as_int(),bars_node.child("health_bar2").child("pos").attribute("y").as_int() },
+	bars_node.child("health_bar2").child("flip").attribute("value").as_bool(), bars_node.child("health_bar2").child("target_player").attribute("value").as_int(), this);
+	health_bar2->active = bars_node.child("health_bar2").child("active").attribute("value").as_bool(); 
 	one_vs_one.scene_ui_elems.push_back(health_bar2);
 
-	super_bar1 = (Bars*)App->gui->createBar(SUPER_BAR, { 109,222 }, false, 0, this);
+	super_bar1 = (Bars*)App->gui->createBar(SUPER_BAR, { bars_node.child("super_bar1").child("pos").attribute("x").as_int(),bars_node.child("super_bar1").child("pos").attribute("y").as_int() }, 
+	bars_node.child("super_bar1").child("flip").attribute("value").as_bool(), bars_node.child("super_bar1").child("target_player").attribute("value").as_int(), this);
+	super_bar1->active = bars_node.child("super_bar1").child("active").attribute("value").as_bool();
 	one_vs_one.scene_ui_elems.push_back(super_bar1);
 
-	super_bar2 = (Bars*)App->gui->createBar(SUPER_BAR, { 1271, 222 }, true, 1, this);
+	super_bar2 = (Bars*)App->gui->createBar(SUPER_BAR, { bars_node.child("super_bar2").child("pos").attribute("x").as_int(),bars_node.child("super_bar2").child("pos").attribute("y").as_int() },
+	bars_node.child("super_bar2").child("flip").attribute("value").as_bool(), bars_node.child("super_bar2").child("target_player").attribute("value").as_int(), this);
+	super_bar2->active = bars_node.child("super_bar2").child("active").attribute("value").as_bool();
 	one_vs_one.scene_ui_elems.push_back(super_bar2);
 
 /* This needs to be revised, but for the moment we won't use 2vs2

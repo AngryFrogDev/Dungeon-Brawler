@@ -54,7 +54,6 @@ public:
 private:
 	bool debug = false;
 
-
 };
 
 #endif
