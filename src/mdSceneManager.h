@@ -35,8 +35,6 @@ struct Scene {
 	std::list<SDL_Rect> other_scene_elems; //If name is not clear, it could be changed
 };
 
-
-
 class mdSceneManager : public Module{
 public:
 	mdSceneManager();
@@ -124,6 +122,16 @@ private:
 	SDL_Rect character2_image;
 	SDL_Rect character3_image;
 	SDL_Rect character4_image;
+
+	//WINDOWS && RELATED UI
+	SDL_Rect window;
+	Buttons* rematch = nullptr;
+	Buttons* restart = nullptr;
+	Buttons* resume = nullptr;
+	Buttons* in_game_settings = nullptr;
+	Buttons* char_sel = nullptr;
+	Buttons* stage_sel = nullptr;
+	Buttons* to_main_menu = nullptr;
 
 	//Combat scene timer
 	Timer	scene_timer;
