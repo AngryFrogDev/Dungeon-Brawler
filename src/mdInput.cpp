@@ -36,13 +36,15 @@ const std::list<CONTROLLER_BUTTON> Controller::getInputs() const {
 }
 
 void Controller::addInput(CONTROLLER_BUTTON input, uint timestamp) {
-	buttons[input] = KEY_DOWN;
-	input_record new_input;
-	new_input.input = input;
-	if (timestamp == NULL)
-		timestamp = SDL_GetTicks();
-	new_input.timestamp = timestamp;
-	input_buffer.push_back(new_input);
+	if (buttons[input] != KEY_REPEAT || buttons[input] != KEY_DOWN) {
+		buttons[input] = KEY_DOWN;
+		input_record new_input;
+		new_input.input = input;
+		if (timestamp == NULL)
+			timestamp = SDL_GetTicks();
+		new_input.timestamp = timestamp;
+		input_buffer.push_back(new_input);
+	}
 }
 
 void Controller::popInput() {
@@ -125,6 +127,16 @@ bool mdInput::preUpdate() {
 		}
 	}
 
+	for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
+		(*it)->pruneInput(controller_buffer_timeout);
+		for (int i = 0; i < BUTTON_MAX; ++i) {
+			if ((*it)->buttons[i] == KEY_UP)
+				(*it)->buttons[i] = KEY_IDLE;
+			else if ((*it)->buttons[i] == KEY_DOWN)
+				(*it)->buttons[i] = KEY_REPEAT;
+		}
+	}
+
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		case SDL_QUIT:
@@ -168,16 +180,6 @@ bool mdInput::preUpdate() {
 		case SDL_CONTROLLERAXISMOTION:
 			handleAxes(event);
 			break;
-		}
-	}
-
-	for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
-		(*it)->pruneInput(controller_buffer_timeout);
-		for (int i = 0; i < BUTTON_MAX; ++i) {
-			if ((*it)->buttons[i] == KEY_UP)
-				(*it)->buttons[i] = KEY_IDLE;
-			else if ((*it)->buttons[i] == KEY_DOWN)
-				(*it)->buttons[i] = KEY_REPEAT;
 		}
 	}
 
