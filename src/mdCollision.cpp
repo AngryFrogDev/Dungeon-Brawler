@@ -116,22 +116,22 @@ void mdCollision::DebugDraw()
 		switch (c->type)
 		{
 			case COLLIDER_NONE: // white
-				App->render->drawQuad(c->rect, 255, 255, 255, alpha,true);
+				App->render->drawQuad( 1, c->rect, 255, 255, 255, alpha,true);
 				break;
 			case HITBOX:
-				App->render->drawQuad(c->rect, 255, 0, 0, alpha, true);
+				App->render->drawQuad( 1, c->rect, 255, 0, 0, alpha, true);
 				break;
 			case HURTBOX:
-				App->render->drawQuad(c->rect, 0, 0, 255, alpha, true);
+				App->render->drawQuad( 1, c->rect, 0, 0, 255, alpha, true);
 				break;
 			case PUSHBOX:
-				App->render->drawQuad(c->rect, 255, 127, 80, alpha, true);
+				App->render->drawQuad( 1, c->rect, 255, 127, 80, alpha, true);
 				break;
 			case PROJECTILE_HITBOX:
-				App->render->drawQuad(c->rect, 255, 255, 255, alpha, true);
+				App->render->drawQuad( 1, c->rect, 255, 255, 255, alpha, true);
 				break;
 			case PROJECTILE_INVENCIBLE_HURTBOX:
-				App->render->drawQuad(c->rect, 0, 255, 0, alpha, true);
+				App->render->drawQuad( 1, c->rect, 0, 255, 0, alpha, true);
 				break;
 		}
 	}

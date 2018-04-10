@@ -103,5 +103,5 @@ void projectile::update() {
 	}
 }
 void projectile::draw(SDL_Texture* graphics) {
-	App->render->blit(3, graphics, position.x, position.y, &animation.GetCurrentFrame(),scale, fliped); 
+	App->render->drawSprite(3, graphics, position.x, position.y, &animation.GetCurrentFrame(),scale, fliped); 
 }

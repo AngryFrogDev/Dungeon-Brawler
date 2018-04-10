@@ -255,11 +255,11 @@ void mdGuiManager::debugUi() {
 			switch (object->type)
 			{
 			case BUTTON: // red
-				App->render->drawQuad(object->world_area, 255, 0, 0, alpha); break;
+				App->render->drawQuad( 1, object->world_area, 255, 0, 0, alpha); break;
 			case LABEL: // gren
-				App->render->drawQuad(object->world_area, 0, 255, 0, alpha); break;
+				App->render->drawQuad( 1, object->world_area, 0, 255, 0, alpha); break;
 			case BAR: //blue
-				App->render->drawQuad(object->world_area, 0, 0, 255, alpha); break;
+				App->render->drawQuad( 1, object->world_area, 0, 0, 255, alpha); break;
 			}
 		}
 	}

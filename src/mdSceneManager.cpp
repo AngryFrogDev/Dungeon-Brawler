@@ -381,7 +381,7 @@ void mdSceneManager::blitUiTextures()	{
 	//PROVISIONAL: All input should be read from controller too
 	if (current_scene == &start_scene)//Logo texture
 	{
-		App->render->blit(1, game_logo, 150, 150, 0, 1);
+		App->render->drawSprite(1, game_logo, 150, 150, 0, 1);
 		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 			changeScene(&main_menu);
 	}
@@ -392,13 +392,13 @@ void mdSceneManager::blitUiTextures()	{
 
 	if (current_scene == &one_vs_one || current_scene == &two_vs_two)
 	{
-		App->render->blit(2, App->gui->atlas, 850, 100, &timer_rect, 3);
+		App->render->drawSprite(2, App->gui->atlas, 850, 100, &timer_rect, 3);
 		if (current_scene == &one_vs_one)
 		{
-			App->render->blit(2, App->gui->atlas, 110, 100, &character1_rect, 3);
-			App->render->blit(3, App->gui->atlas, 119, 109, &character1_image, 3);
-			App->render->blit(2, App->gui->atlas, 1570, 100, &character2_rect, 3);
-			App->render->blit(3, App->gui->atlas, 1579, 109, &character2_image, 3, true);
+			App->render->drawSprite(2, App->gui->atlas, 110, 100, &character1_rect, 3);
+			App->render->drawSprite(3, App->gui->atlas, 119, 109, &character1_image, 3);
+			App->render->drawSprite(2, App->gui->atlas, 1570, 100, &character2_rect, 3);
+			App->render->drawSprite(3, App->gui->atlas, 1579, 109, &character2_image, 3, true);
 		}
 	}
 }

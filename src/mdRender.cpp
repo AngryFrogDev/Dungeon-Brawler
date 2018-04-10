@@ -56,7 +56,8 @@ bool mdRender::start() {
 // Called each loop iteration
 bool mdRender::preUpdate() {
 	SDL_RenderClear(renderer);
-	drawBlit(blitQueue);
+	blitSprites(spriteQueue);
+	blitQuads(quadQueue);
 
 	return true;
 }
@@ -91,22 +92,22 @@ void mdRender::resetViewPort() {
 }
 
 // Add to blit queue according to priority
-bool mdRender::blit(int priority, SDL_Texture* texture, int x, int y, const SDL_Rect* section, double scale,bool flip, float speed, double angle, int pivot_x, int pivot_y) {
+bool mdRender::drawSprite(int priority, SDL_Texture* texture, int x, int y, const SDL_Rect* section, double scale,bool flip, float speed, double angle, int pivot_x, int pivot_y) {
 	bool ret = true;
 
-	objectToPrint* sprite = new objectToPrint(priority, texture, x, y, section, scale, flip, speed, angle, pivot_x, pivot_y);
-	blitQueue.push(sprite);
+	spriteToPrint* sprite = new spriteToPrint(priority, texture, x, y, section, scale, flip, speed, angle, pivot_x, pivot_y);
+	spriteQueue.push(sprite);
 
 	return ret;
 }
 
 // Blit to screen
-bool mdRender::drawBlit(priority_queue <objectToPrint*, vector<objectToPrint*>, orderCrit>& queue) const {
+bool mdRender::blitSprites(priority_queue <spriteToPrint*, vector<spriteToPrint*>, spriteOrderCrit>& queue) const {
 
 	bool ret = true;
 
 	while (queue.empty() == false) {
-		objectToPrint* first = queue.top();
+		spriteToPrint* first = queue.top();
 
 		SDL_Rect rect;
 		rect.x = (int)(camera.x * first->speed) + first->x;
@@ -141,37 +142,49 @@ bool mdRender::drawBlit(priority_queue <objectToPrint*, vector<objectToPrint*>, 
 
 		if (SDL_RenderCopyEx(renderer, first->texture, first->section, &rect, first->angle, p, flip_flag) != 0) {
 			LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
-			ret = false;
 		}
 
 		RELEASE(first);
-
 		queue.pop();
-
-
 	}
 
 		return ret;
 }
 
 
-bool mdRender::drawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera) const {
+bool mdRender::drawQuad(int priority, const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera) {
 	bool ret = true;
 
-	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-	SDL_SetRenderDrawColor(renderer, r, g, b, a);
+	quadToPrint* quad = new quadToPrint(priority, rect, r, g, b, a, filled, use_camera);
+	quadQueue.push(quad);
 
-	SDL_Rect rec(rect);
-	if (use_camera) {
-		rec.x = (int)(camera.x + rect.x);
-		rec.y = (int)(camera.y + rect.y);
-	}
+	return ret;
+}
 
-	int result = (filled) ? SDL_RenderFillRect(renderer, &rec) : SDL_RenderDrawRect(renderer, &rec);
+bool mdRender::blitQuads(priority_queue <quadToPrint*, vector<quadToPrint*>, quadOrderCrit>& queue) const {
 
-	if (result != 0) {
-		LOG("Cannot draw quad to screen. SDL_RenderFillRect error: %s", SDL_GetError());
-		ret = false;
+	bool ret = true;
+
+	while (queue.empty() == false) {
+		quadToPrint* first = queue.top();
+
+		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+		SDL_SetRenderDrawColor(renderer, first->r, first->g, first->b, first->a);
+
+		SDL_Rect rec(first->rect);
+		if (first->use_camera) {
+			rec.x = (int)(camera.x + first->rect.x);
+			rec.y = (int)(camera.y + first->rect.y);
+		}
+
+		int result = (first->filled) ? SDL_RenderFillRect(renderer, &rec) : SDL_RenderDrawRect(renderer, &rec);
+
+		if (result != 0) {
+			LOG("Cannot draw quad to screen. SDL_RenderFillRect error: %s", SDL_GetError());
+		}
+
+		RELEASE(first);
+		queue.pop();
 	}
 
 	return ret;
@@ -225,9 +238,14 @@ bool mdRender::drawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 }
 
 void mdRender::cleanBlitQueue() {
-	while (blitQueue.empty() == false) {
-		objectToPrint* first = blitQueue.top();
+	while (spriteQueue.empty() == false) {
+		spriteToPrint* first = spriteQueue.top();
 		delete first;
-		blitQueue.pop();
+		spriteQueue.pop();
+	}
+	while (quadQueue.empty() == false) {
+		quadToPrint* first = quadQueue.top();
+		delete first;
+		quadQueue.pop();
 	}
 }

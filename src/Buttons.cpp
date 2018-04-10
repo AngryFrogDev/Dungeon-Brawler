@@ -55,7 +55,7 @@ bool Buttons::preUpdate()
 }
 
 void Buttons::draw() {
-	App->render->blit(3, App->gui->getAtlas(), position.first, position.second, current_rect, 3);
+	App->render->drawSprite(3, App->gui->getAtlas(), position.first, position.second, current_rect, 3);
 }
 
 void Buttons::getSection(SDL_Rect idle_sec, SDL_Rect high_sec, SDL_Rect clicked_sec, SDL_Rect disabled_sec) {

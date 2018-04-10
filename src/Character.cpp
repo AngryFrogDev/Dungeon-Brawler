@@ -469,7 +469,7 @@ void Character::setIfGrounded() {
 }
 
 void Character::draw(SDL_Texture* graphic)  const{
-	App->render->blit(3,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped, 1.0f, current_animation->angle);
+	App->render->drawSprite(3,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped, 1.0f, current_animation->angle);
 }
 
 bool Character::manageSwap()
