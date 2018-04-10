@@ -33,6 +33,7 @@ struct Scene {
 	std::list<CharacterInfo> characters; //to create scenes with 2 or 4 characters
 	std::list<Widgets*> scene_ui_elems;
 	std::list<SDL_Rect> other_scene_elems; //If name is not clear, it could be changed
+	pugi::xml_node scene_data;
 };
 
 class mdSceneManager : public Module{
@@ -90,28 +91,28 @@ private:
 	CharacterInfo player4;
 
 	//START SCENE UI
-	Labels* intro_label;
+	Labels* intro_label = nullptr;
 	SDL_Texture* game_logo = nullptr;
 
 	//MAIN MENU UI
-	Buttons* b_o_vs_o;
-	Buttons* b_t_vs_t;
-	Buttons* b_exit;
+	Buttons* b_o_vs_o = nullptr;
+	Buttons* b_t_vs_t = nullptr;
+	Buttons* b_exit = nullptr;
 
-	Labels* l_o_vs_o;
-	Labels* l_t_vs_t;
-	Labels* l_exit;
+	Labels* l_o_vs_o = nullptr;
+	Labels* l_t_vs_t = nullptr;
+	Labels* l_exit = nullptr;
 
 	//COMBAT UI
-	Bars* health_bar1;
-	Bars* health_bar2;
-	Bars* health_bar3;
-	Bars* health_bar4;
-	Bars* super_bar1;
-	Bars* super_bar2;
-	Bars* super_bar3;
-	Bars* super_bar4;
-	Labels* timer;
+	Bars* health_bar1 = nullptr;
+	Bars* health_bar2 = nullptr;
+	Bars* health_bar3 = nullptr;
+	Bars* health_bar4 = nullptr;
+	Bars* super_bar1 = nullptr;
+	Bars* super_bar2 = nullptr;
+	Bars* super_bar3 = nullptr;
+	Bars* super_bar4 = nullptr;
+	Labels* timer = nullptr;
 
 	SDL_Rect timer_rect;
 	SDL_Rect character1_rect;
@@ -140,6 +141,14 @@ private:
 	int health_bar_target = 0;
 	int swap_bar_target = 0;
 	int super_bar_target = 0;
+
+	//Nodes
+	pugi::xml_document scene_config_doc;
+	pugi::xml_node scene_config;
+	pugi::xml_node labels_node;
+	pugi::xml_node buttons_node;
+	pugi::xml_node bars_node;
+	pugi::xml_node textures_node;
 };
 
 #endif
