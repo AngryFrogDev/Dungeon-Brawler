@@ -14,6 +14,7 @@ public:
 	void draw();
 	void getSection(SDL_Rect rect, SDL_Rect gauge);
 	void updateBarGauge();
+	void calculateBarGauge();
 	void loadGuiFromAtlas();
 
 private:
@@ -23,8 +24,10 @@ private:
 	SDL_Rect bar_rect;
 	SDL_Rect current_gauge_rect;
 
-
-
+	int current_gauge = 0;
+	int max_gauge = 0;
+	int last_gauge = 0;
+	int aux_bar_pos = 0;
 	int target_player;
 	iPoint relative_pos = { 0,0 };
 	bool flipped;
