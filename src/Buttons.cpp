@@ -8,9 +8,10 @@
 
 
 
-Buttons::Buttons(button_types type, std::pair<int, int> pos, Module* callback) : Widgets(ui_elem_type::BUTTON, pos, callback) {
+Buttons::Buttons(button_types type, button_size _size, std::pair<int, int> pos, Module* callback) : Widgets(ui_elem_type::BUTTON, pos, callback) {
 	
 	button_type = type;
+	size = _size;
 	//click_sfx = App->audio->loadSFX(/*Path*/);
 	data = config.child("gui").child("button_section");
 
@@ -98,49 +99,38 @@ void Buttons::changeVisualState(controller_events event) {
 
 void Buttons::loadGuiFromAtlas() {
 	//The moment we have buttons visually different, there should be another node to differentiate them 
-	pugi::xml_node still = data.child("still");
-	pugi::xml_node focused = data.child("focused");
-	pugi::xml_node clicked = data.child("clicked");
+	pugi::xml_node still;
+	pugi::xml_node focused;
+	pugi::xml_node clicked;
 		
-	switch (button_type)
+		switch (size)
 	{
-	case NO_BUTTON:
-		LOG("Non valid Button type");
+	case NO_SIZE:
+		LOG("No valid button size");
 		break;
-	case ONE_V_ONE:
+	case SMALL:
+		still = data.child("small").child("still");
+		focused = data.child("small").child("focused");
+		clicked = data.child("small").child("clicked");
 		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
-		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
-		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
+			{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
+			{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
 		break;
-	case TWO_V_TWO:
+	case MEDIUM:
+		still = data.child("medium").child("still");
+		focused = data.child("medium").child("focused");
+		clicked = data.child("medium").child("clicked");
 		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
-		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
-		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
+			{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
+			{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
 		break;
-	case SETTINGS:
+	case LARGE:
+		still = data.child("big").child("still");
+		focused = data.child("big").child("focused");
+		clicked = data.child("big").child("clicked");
 		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
-		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
-		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
-		break;
-	case CREDITS:
-		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
-		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
-		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
-		break;
-	case GAME_EXIT:
-		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
-		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
-		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
-		break;
-	case MUSIC_VOL_UP:
-		break;
-	case MUSIC_VOL_DOWN:
-		break;
-	case SFX_VOL_UP:
-		break;
-	case SFX_VOL_DOWN:
-		break;
-	case BACK:
+			{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
+			{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
 		break;
 	default:
 		break;

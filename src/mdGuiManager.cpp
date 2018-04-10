@@ -116,12 +116,12 @@ bool mdGuiManager::cleanUI()
 }
 
 
-Widgets* mdGuiManager::createButton(button_types type, std::pair<int, int> pos, Module * callback) {
+Widgets* mdGuiManager::createButton(button_types type, button_size size, std::pair<int, int> pos, Module * callback) {
 
 	Widgets* ret = nullptr;
 
 	if (type != 0) {
-		ret = new Buttons(type, pos, callback);
+		ret = new Buttons(type, size, pos, callback);
 		ui_elements.push_back(ret);
 		focus_elements.push_back(ret);
 	}
@@ -250,14 +250,17 @@ void mdGuiManager::debugUi() {
 	for (ui_iterator; ui_iterator != ui_elements.end(); ui_iterator++)	{
 
 		object = *ui_iterator;
-		switch (object->type)
+		if (object->active)
 		{
-		case BUTTON: // red
-			App->render->drawQuad(object->world_area, 255, 0, 0, alpha); break;
-		case LABEL: // gren
-			App->render->drawQuad(object->world_area, 0, 255, 0, alpha); break;
-		case BAR: //blue
-			App->render->drawQuad(object->world_area, 0, 0, 255, alpha); break;
+			switch (object->type)
+			{
+			case BUTTON: // red
+				App->render->drawQuad(object->world_area, 255, 0, 0, alpha); break;
+			case LABEL: // gren
+				App->render->drawQuad(object->world_area, 0, 255, 0, alpha); break;
+			case BAR: //blue
+				App->render->drawQuad(object->world_area, 0, 0, 255, alpha); break;
+			}
 		}
 	}
 }

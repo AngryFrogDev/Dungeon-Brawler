@@ -6,10 +6,9 @@
 
 #include "SDL/include/SDL.h"
 
-
 class Buttons : public Widgets {
 public:
-	Buttons(button_types type, std::pair<int, int> pos, Module* callback);
+	Buttons(button_types type, button_size _size, std::pair<int, int> pos, Module* callback);
 	virtual ~Buttons();
 
 	bool preUpdate();
@@ -25,6 +24,7 @@ public:
 	bool being_clicked = false;
 	bool hovering = false;
 	button_types button_type = NO_BUTTON;
+	button_size size = NO_SIZE;
 
 private:
 	SDL_Rect click_rect;

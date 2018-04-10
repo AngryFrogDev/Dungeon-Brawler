@@ -25,7 +25,20 @@ enum button_types {
 	MUSIC_VOL_DOWN,
 	SFX_VOL_UP,
 	SFX_VOL_DOWN,
+	IN_GAME_REMATCH,
+	IN_GAME_RESTART,
+	IN_GAME_SETTINGS,
+	IN_GAME_CHAR_SEL,
+	IN_GAME_STAGE_SEL,
+	IN_GAME_MAIN_MENU,
 	BACK,
+};
+
+enum button_size {
+	NO_SIZE = 0,
+	SMALL,
+	MEDIUM,
+	LARGE
 };
 
 enum bar_types {

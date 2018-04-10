@@ -25,9 +25,18 @@
 	<gui>
 		<atlas file="gui/GUI_placeholder_WIP.png"/>
 		<button_section>
-			<still x="421" y="10" w="114" h="31"/>
-			<focused x="421" y="48" w="114" h="31"/>
-			<clicked x="421" y="94" w="114" h="31"/>
+			<big>
+				<still x="421" y="10" w="114" h="31"/>
+				<focused x="421" y="48" w="114" h="31"/>
+				<clicked x="421" y="94" w="114" h="31"/>
+			</big>
+			<medium>
+				<still x="6" y="219" w="90" h="21"/>
+				<focused x="6" y="245" w="90" h="21"/>
+				<clicked x="6" y="272" w="90" h="21"/>	
+			</medium>
+			<small>
+			</small>
 		</button_section>
 		<bar_section>
 			<hp>

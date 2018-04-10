@@ -218,13 +218,13 @@ void mdSceneManager::loadSceneUI() {
 	start_scene.scene_ui_elems.push_back(intro_label);
 
 	//Main Menu
-	b_o_vs_o = (Buttons*)App->gui->createButton(ONE_V_ONE, { 750, 200 }, this);
+	b_o_vs_o = (Buttons*)App->gui->createButton(ONE_V_ONE, LARGE, { 750, 200 }, this);
 	main_menu.scene_ui_elems.push_back(b_o_vs_o);
 
-	b_t_vs_t = (Buttons*)App->gui->createButton(TWO_V_TWO, { 750,400 }, this);
+	b_t_vs_t = (Buttons*)App->gui->createButton(TWO_V_TWO, LARGE, { 750,400 }, this);
 	main_menu.scene_ui_elems.push_back(b_t_vs_t);
 
-	b_exit = (Buttons*)App->gui->createButton(GAME_EXIT, { 1350,900 }, this);
+	b_exit = (Buttons*)App->gui->createButton(GAME_EXIT, LARGE, { 1350,900 }, this);
 	main_menu.scene_ui_elems.push_back(b_exit);
 
 	l_o_vs_o = (Labels*)App->gui->createLabel("ONE VS ONE", { 255,255,255,255 }, App->fonts->large_size, { 795, 225 }, this);
@@ -343,9 +343,12 @@ void mdSceneManager::blitUiTextures()	{
 			changeScene(&main_menu);
 	}
 
+	if (current_scene == &one_vs_one || current_scene == &two_vs_two || current_scene == &main_menu)
+		App->map->map_loaded = true;
+
+
 	if (current_scene == &one_vs_one || current_scene == &two_vs_two)
 	{
-		App->map->map_loaded = true;
 		App->render->blit(2, App->gui->atlas, 850, 100, &timer_rect, 3);
 		if (current_scene == &one_vs_one)
 		{
