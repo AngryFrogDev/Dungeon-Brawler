@@ -93,6 +93,22 @@ struct basic_attack_deff {
 	int recovery; //in milliseconds
 };
 
+enum ITEMS {
+	SPECIAL_ITEM_1,
+	SPECIAL_ITEM_2,
+	SPECIAL_ITEM_3,
+
+	STRENGTH_ITEM,
+	INTELIGENCE_ITEM,
+	DEXTERITY_ITEM,
+	// There should be more items, but i don't remember them right now
+};
+
+struct item {
+	ITEMS item_type;
+	bool active;
+};
+
 class Player;
 
 class Character {
@@ -168,6 +184,8 @@ protected:
 	virtual void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) { return; };
 	bool checkDiveKickHeight();
 	virtual void doSuper() { return; }
+	// Item management
+	virtual void giveItem(ITEMS type) { return; }
 	// Input buffer functions
 	bool lookInBuffer(CHARACTER_INPUTS input, int window);
 	void fillBuffer(const bool(&inputs)[MAX_INPUTS]);
@@ -186,6 +204,7 @@ protected:
 	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_special1, standing_special2, jumping_special1, jumping_special2, crouching_special1, crouching_special2, standing_hit, standing_block, crouching_block, knockdown, dead, taunt;
 
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2, super;
+
 
 	iPoint jump_power;
 	float gravity;

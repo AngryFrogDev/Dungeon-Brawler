@@ -517,7 +517,8 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	left_x_limit = 50;
 	// WARRIOR EXCLUSIVE VARS
 	spin_speed = 6;
-	spin_object = true; // Should be in false 
+	spin_object.active = true; // Should be in false 
+	spin_object.item_type = SPECIAL_ITEM_1;
 
 	jm_s1_angle = 20;
 	jm_s1_speed.x = 10;
@@ -527,7 +528,8 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	jm_s2_angle = 40;
 	jm_s2_speed.x = 5;
 	jm_s2_speed.y = 10;
-	dive_kick_object = true; // Should be in false 
+	dive_kick_object.active = true; // Should be in false 
+	dive_kick_object.item_type = SPECIAL_ITEM_2;
 
 	projectile_duration = 2000;
 	projectile_speed = 15;
@@ -576,7 +578,7 @@ void Warrior::standingSpecial1() 	{
 void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
 	hurtbox->type = PROJECTILE_INVENCIBLE_HURTBOX;
 
-	if(!spin_object){
+	if(!spin_object.active){
 		if(!fliped)
 			logic_position.x += spin_speed; 
 		else
@@ -680,7 +682,7 @@ void Warrior::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		hitbox->SetPos(calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false));
 
 
-	if(dive_kick_object){
+	if(dive_kick_object.active){
 		if (inputs[LIGHT_ATTACK]) {
 			collider* hitbox = getCurrentAttackHitbox();
 			if (hitbox != nullptr) { // Just for safety
@@ -729,7 +731,7 @@ void Warrior::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 	if (hitbox != nullptr)
 		hitbox->SetPos(calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false));
 
-	if (dive_kick_object) {
+	if (dive_kick_object.active) {
 		if (inputs[LIGHT_ATTACK]) {
 			collider* hitbox = getCurrentAttackHitbox();
 			if (hitbox != nullptr) { // Just for safety
