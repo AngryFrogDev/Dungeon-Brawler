@@ -2,6 +2,7 @@
 #include "Character.h"
 #include "Warrior.h"
 #include "Application.h"
+#include "mdSceneManager.h"
 
 Player::Player(){
 
@@ -28,7 +29,8 @@ void Player::update(SDL_Texture* graphics)
 	}
 
 	if (curr_character != nullptr) {
-		curr_character->update(player_inputs);
+		if(!App->scene_manager->paused)
+			curr_character->update(player_inputs);
 		curr_character->draw(graphics);
 	}
 

@@ -39,6 +39,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 
 	//PROVISIONAL: Should be loaded from an xml
 	warrior_graphics = App->textures->load("Assets/warrior.png");
+	traning = false;
 
 	//createPlayer(0,100, CHAR_TYPE::WARRIOR, false, 1 );
 	//createPlayer(1,1000, CHAR_TYPE::WARRIOR, true, 1); //play with the lane (last argument) for 2v2

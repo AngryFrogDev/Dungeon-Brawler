@@ -48,7 +48,7 @@ public:
 	void assignControllers();
 	void assignPartners();
 
-
+	bool traning;
 	//if it returns false something wrong happened
 	bool automaticFlip();
 	bool allowFlip();
