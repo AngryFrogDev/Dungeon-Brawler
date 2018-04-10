@@ -196,6 +196,7 @@ protected:
 protected:
 
 	// Variables to assign from xml
+	// -To load from xml-
 	CHAR_TYPE type;
 
 	float scale;
@@ -246,7 +247,7 @@ protected:
 	Mix_Chunk* s_crouching_special_2; 
 	Mix_Chunk* s_man_death;
 	Mix_Chunk* s_super;
-
+	// -To load from xml-
 
 
 	// Variables to modify in runtime

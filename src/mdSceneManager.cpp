@@ -7,6 +7,7 @@
 #include "mdCollision.h"
 #include "mdMap.h"
 #include "Player.h"
+#include "mdProjectiles.h"
 
 
 mdSceneManager::mdSceneManager()	{
@@ -65,6 +66,7 @@ bool mdSceneManager::update(float dt)	{
 			App->collision->cleanUp();
 			App->entities->cleanUp();
 			App->render->cleanBlitQueue();
+			App->projectiles->cleanUp();
 			App->map->map_loaded = false;
 						
 			current_scene = scene_to_load;
