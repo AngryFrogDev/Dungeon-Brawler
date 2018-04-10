@@ -310,4 +310,3 @@ std::list<Controller*> mdInput::getController(SDL_GameControllerButton button){
 
 	return ret;
 }
-

@@ -45,6 +45,7 @@ public:
 	void destroyCharacters();
 
 	void assignControls();
+	void assignControllers();
 	void assignPartners();
 
 
