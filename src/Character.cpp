@@ -36,6 +36,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		current_super_gauge = 0;
 		App->scene_manager->current_time = App->scene_manager->max_time;
 	}
+	if (App->entities->traning) {
+		current_life = max_life;
+		current_super_gauge = max_super_gauge;
+	}
 
 	
 	fillBuffer(inputs);

@@ -15,12 +15,14 @@ public:
 	void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	void doSuper();
 
+	void giveItem(ITEMS type);
+	void takeAllItems();
+
 	void updateAnimationOnBasicAttack(CHAR_ATT_TYPE type); // Just to use for super
 
 private:
 
 	int spin_speed;
-	bool spin_object;
 
 	int swordyuken_invencivility; // In milliseconds
 	int swordyuken_jump_power;
@@ -33,7 +35,8 @@ private:
 	int jm_s2_angle;
 	iPoint jm_s1_speed;
 	iPoint jm_s2_speed;
-	bool dive_kick_object;
+
+	item dive_kick_object, spin_object, swap_object; // Swap object is not being used
 
 	std::list<CHAR_ATT_TYPE> super_attack_list;
 	CHAR_ATT_TYPE super_last_attack;

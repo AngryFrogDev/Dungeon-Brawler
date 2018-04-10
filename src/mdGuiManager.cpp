@@ -174,44 +174,44 @@ void mdGuiManager::manageFocus() {
 	if (focus)//Check if focus has been assigned -> Current scene is not ingame scene
 	{
 		//Temporary done in keyboard
-		if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN || App->input->getKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+		Controller* controller = nullptr;
+		controller = App->input->getController().front();
+		if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_UP)))
 		{
-			if (focus != *focus_elements.begin())//Case player wants to go up when not at the first button
-			{
-				std::list<Widgets*>::iterator temp_elem = focus_elements.begin();
-				for (temp_elem; temp_elem != focus_elements.end(); temp_elem++)
+				if (focus != *focus_elements.begin())//Case player wants to go up when not at the first button
 				{
-					object = *temp_elem;
-					if (object == focus)//Iterate until find the currently focused element
+					std::list<Widgets*>::iterator temp_elem = focus_elements.begin();
+					for (temp_elem; temp_elem != focus_elements.end(); temp_elem++)
 					{
-						temp_elem--;//Move the iterator to the previous ui element
-						focus = *temp_elem;//Assign its value to the focused element
-						break;
+						object = *temp_elem;
+						if (object == focus)//Iterate until find the currently focused element
+						{
+							temp_elem--;//Move the iterator to the previous ui element
+							focus = *temp_elem;//Assign its value to the focused element
+							break;
+						}
 					}
 				}
-			}
-			else
-				focus = *focus_elements.rbegin();
+				else
+					focus = *focus_elements.rbegin();
 		}
 
-		if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN || App->input->getKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+		if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_DOWN)))
 		{
-			if (focus != *focus_elements.rbegin())//Case player wants to go down when not at the last button
-			{
-				std::list<Widgets*>::iterator temp_elem = focus_elements.begin();
-				for (temp_elem; temp_elem != focus_elements.end(); temp_elem++)
+				if (focus != *focus_elements.rbegin())//Case player wants to go down when not at the last button
 				{
-					object = *temp_elem;
-					if (object == focus)
-					{
-						temp_elem++;
-						focus = *temp_elem;
-						break;
+					std::list<Widgets*>::iterator temp_elem = focus_elements.begin();
+					for (temp_elem; temp_elem != focus_elements.end(); temp_elem++) {
+						object = *temp_elem;
+						if (object == focus) {
+							temp_elem++;
+							focus = *temp_elem;
+							break;
+						}
 					}
 				}
-			}
-			else
-				focus = *focus_elements.begin();
+				else
+					focus = *focus_elements.begin();
 		}
 	}
 	
