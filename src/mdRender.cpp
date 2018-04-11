@@ -125,8 +125,11 @@ bool mdRender::blitSprites(priority_queue <spriteToPrint*, vector<spriteToPrint*
 
 		//If the sprite is out of the viewport, no need to render it.
 		if (rect.x + rect.w < 0 || rect.x > viewport.w ||
-			rect.y + rect.h < 0 || rect.y > viewport.h)
+			rect.y + rect.h < 0 || rect.y > viewport.h) {
+			RELEASE(first);
+			queue.pop();
 			continue;
+		}
 
 		SDL_Point* p = NULL;
 		SDL_Point pivot;
