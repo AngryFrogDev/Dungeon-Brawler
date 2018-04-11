@@ -38,9 +38,12 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	}
 	std::string name = md_config.child("settings").attribute("attack_type").as_string();
 	attack_input = stringToKeystate(name);
+
+	loadCharactersFromXML(App->loadConfig("characters_deff.xml", entities_config_doc));
 	//PROVISIONAL: Should be loaded from an xml
 	warrior_graphics = App->textures->load("Assets/warrior.png");
 	warrior_graphics2 = App->textures->load("Assets/warrior_2_placeholder.png");
+
 	traning = false;
 
 	//createPlayer(0,100, CHAR_TYPE::WARRIOR, false, 1 );
@@ -230,4 +233,66 @@ KEY_STATE mdEntities::stringToKeystate(std::string string) {
 		return KEY_REPEAT;
 	else if (string == "key_down")
 		return KEY_DOWN;
+	else
+		return KEY_NULL;
+}
+CHAR_TYPE mdEntities::stringToCharType(std::string string) {
+	if (string == "warrior")
+		return WARRIOR;
+	else if (string == "mage")
+		return MAGE;
+	else if (string == "rogue")
+		return ROGUE;
+	else if (string == "paladin")
+		return PALADIN;
+
+	return DEF_CHAR;
+}
+ITEMS mdEntities::stringToItem(std::string string) {
+	if (string == "special_item_1")
+		return SPECIAL_ITEM_1;
+	else if (string == "special_item_2")
+		return SPECIAL_ITEM_2;
+	else if (string == "special_item_3")
+		return SPECIAL_ITEM_3;
+
+	return NO_ITEM;
+}
+void mdEntities::loadCharactersFromXML(const pugi::xml_node& md_config) {
+	fillWarriorFromXML(md_config.child("warrior"));
+}
+void mdEntities::fillWarriorFromXML(const pugi::xml_node& md_config) {
+	std::string tmp;
+	tmp = md_config.attribute("type").as_string();
+	warrior.type = stringToCharType(tmp);
+	warrior.scale = md_config.attribute("scale").as_int();
+	warrior.gravity = md_config.attribute("gravity").as_float();
+	warrior.walk_speed = md_config.attribute("walk_speed").as_int();
+	warrior.jump_power.x = md_config.attribute("jump_power_x").as_int();
+	warrior.jump_power.y = md_config.attribute("jump_power_y").as_int();
+	warrior.max_life = md_config.attribute("max_life").as_int();
+	warrior.max_super_gauge = md_config.attribute("max_super_gauge").as_int();
+	warrior.super_gauge_gain_hit = md_config.attribute("super_gauge_gain_hit").as_int();
+	warrior.super_gauge_gain_block = md_config.attribute("super_gauge_gain_block").as_int();
+	warrior.super_gauge_gain_strike = md_config.attribute("super_gauge_gain_strike").as_int();
+	//warrior.left_x_limit = md_config.attribute("left_x_limit").as_int();
+	//warrior.left_y_limit = md_config.attribute("left_y_limit").as_int();
+	warrior.standing_hurtbox_size.x = md_config.attribute("standing_hurtbox_size_x").as_int();
+	warrior.standing_hurtbox_size.y = md_config.attribute("standing_hurtbox_size_y").as_int();
+	warrior.crouching_hurtbox_offset = md_config.attribute("crouching_hurtbox_offset").as_int();
+	warrior.spin_speed = md_config.attribute("spin_speed").as_int();
+	tmp = md_config.attribute("spin_object").as_string();
+	warrior.spin_object = stringToItem(tmp);
+	warrior.jm_s1_angle = md_config.attribute("jm_s1_angle").as_int();
+	warrior.jm_s1_speed.x = md_config.attribute("jm_s1_speed_x").as_int();
+	warrior.jm_s1_speed.y = md_config.attribute("jm_s1_speed_y").as_int();
+	warrior.jm_s2_angle = md_config.attribute("jm_s2_angle").as_int();
+	warrior.jm_s2_speed.x = md_config.attribute("jm_s2_speed_x").as_int();
+	warrior.jm_s2_speed.y = md_config.attribute("jm_s2_speed_y").as_int();
+	tmp = md_config.attribute("dive_kick_object").as_string();
+	warrior.dive_kick_object = stringToItem(tmp);
+	warrior.projectile_duration = md_config.attribute("projectile_duration").as_int();
+	warrior.projectile_speed = md_config.attribute("projectile_speed").as_int();
+	warrior.swordyuken_invencivility = md_config.attribute("swordyuken_invencivility").as_int();
+	warrior.swordyuken_jump_power = md_config.attribute("swordyuken_jump_power").as_int();
 }

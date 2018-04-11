@@ -73,6 +73,7 @@ enum CHARACTER_INPUTS {
 };
 
 enum BLOCK_TYPE {
+	NO_BLOCK_TYPE = -1,
 	MID,
 	OVERHEAD,
 	LOW
@@ -94,6 +95,7 @@ struct basic_attack_deff {
 };
 
 enum ITEMS {
+	NO_ITEM = -1,
 	SPECIAL_ITEM_1,
 	SPECIAL_ITEM_2,
 	SPECIAL_ITEM_3,
@@ -202,6 +204,7 @@ protected:
 	float scale;
 
 	int crouching_hurtbox_offset;
+	iPoint standing_hurtbox_size;
 
 	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_special1, standing_special2, jumping_special1, jumping_special2, crouching_special1, crouching_special2, standing_hit, standing_block, crouching_block, knockdown, dead, taunt;
 
@@ -210,10 +213,6 @@ protected:
 
 	iPoint jump_power;
 	float gravity;
-	int ground_position;
-	int bottom_lane;
-	int upper_lane;
-	iPoint starting_position;
 	int max_life;
 	int max_super_gauge;
 	int super_gauge_gain_hit;
@@ -223,7 +222,8 @@ protected:
 	int right_x_limit; // This should also be modified as the camera moves
 	int left_x_limit;  
 
-	Player* owner;
+	int walk_speed;
+
 	// In miliseconds
 	int invencibility_on_wakeup;
 
@@ -249,8 +249,14 @@ protected:
 	Mix_Chunk* s_super;
 	// -To load from xml-
 
+	// Variables to load from constructor
+	iPoint starting_position;
+	int bottom_lane;
+	int upper_lane;
+	Player* owner;
 
 	// Variables to modify in runtime
+	int ground_position;
 	iPoint logic_position;
 	iPoint draw_position;
 	iPoint draw_size;
@@ -261,8 +267,6 @@ protected:
 
 	int current_life;		
 	int current_super_gauge;
-
-	int walk_speed;
 
 	bool grounded;
 
@@ -285,7 +289,6 @@ protected:
 	// Entity collider
 	collider* hurtbox = nullptr;	
 	collider* pushbox = nullptr;
-	iPoint standing_hurtbox_size;
 	std::list<collider*> hitboxes; //It should be a list, as a character can have multiple active hitboxes
 
 
