@@ -613,7 +613,7 @@ void Warrior::giveItem(ITEMS type) {
 
 	if (type == dive_kick_object.item_type)
 		dive_kick_object.active = true;
-	if (type == spin_object.item_type)
+	else if (type == spin_object.item_type)
 		spin_object.active = true;
 }
 void Warrior::takeAllItems() {

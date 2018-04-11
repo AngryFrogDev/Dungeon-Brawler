@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <config>
+  <items player_1_item ="false" player_2_item ="true"/>
 	<application>
 		<framerate_cap>60</framerate_cap>
 		<product name="Dungeon Brawler" />

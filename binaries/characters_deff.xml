@@ -40,7 +40,7 @@
     jm_s2_angle ="40"
     jm_s2_speed_x ="5"
     jm_s2_speed_y ="10"
-    dive_kick_object ="special_item_1"
+    dive_kick_object ="special_item_2"
     
     projectile_duration ="2000"
     projectile_speed ="15"

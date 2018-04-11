@@ -35,7 +35,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	
 	fillBuffer(inputs);
-	lookInBuffer(SPECIAL_1, 30);
 
 
 	// PROVISIONAL: (?)

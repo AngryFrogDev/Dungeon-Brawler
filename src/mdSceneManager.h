@@ -153,6 +153,10 @@ private:
 	pugi::xml_node buttons_node;
 	pugi::xml_node bars_node;
 	pugi::xml_node textures_node;
+
+	// PROVISIONAL: Crazy provisional
+	bool player1item;
+	bool player2item;
 };
 
 #endif

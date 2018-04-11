@@ -13,6 +13,7 @@
 mdSceneManager::mdSceneManager()	{
 	//PROVISIONAL: Hardcoded
 	screen = { 0, 0, 1920, 1080 };
+	name = "items";
 }
 
 
@@ -21,6 +22,9 @@ mdSceneManager::~mdSceneManager(){}
 bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	scene_config = App->loadConfig("scene_config.xml", scene_config_doc);
 	//PROVISIONAL: HARDCODE, super easy to make an xml out of this, just sayin'
+
+	player1item = md_config.attribute("player_1_item").as_bool();
+	player2item = md_config.attribute("player_2_item").as_bool();
 	start_scene.type = START_SCENE;
 	one_vs_one.type = ONE_VS_ONE;
 	two_vs_two.type = TWO_VS_TWO;
@@ -195,6 +199,16 @@ bool mdSceneManager::createCharacters()
 	}
 
 	//This will need to change
+	if (player1item)
+		App->entities->players[0]->getCurrCharacter()->giveItem(SPECIAL_ITEM_1);
+	else
+		App->entities->players[0]->getCurrCharacter()->giveItem(SPECIAL_ITEM_2);
+
+	if (player2item)
+		App->entities->players[1]->getCurrCharacter()->giveItem(SPECIAL_ITEM_1);
+	else
+		App->entities->players[1]->getCurrCharacter()->giveItem(SPECIAL_ITEM_2);
+
 	App->entities->assignControls();
 
 	return true;

@@ -150,7 +150,9 @@ public:
 	int getCurrentSuperGauge();
 	int getMaxSuperGauge();
 	void resetCharacter();
-
+	// Item management
+	virtual void giveItem(ITEMS type) { return; }
+	virtual void takeAllItems() { return; }
 protected:	
 	// Execute attack, rewritable for every type of character
 	virtual void doAttack(const bool(&inputs)[MAX_INPUTS]);
@@ -188,9 +190,6 @@ protected:
 	virtual void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) { return; };
 	bool checkDiveKickHeight();
 	virtual void doSuper() { return; }
-	// Item management
-	virtual void giveItem(ITEMS type) { return; }
-	virtual void takeAllItems() { return; }
 	// Input buffer functions
 	bool lookInBuffer(CHARACTER_INPUTS input, int window);
 	void fillBuffer(const bool(&inputs)[MAX_INPUTS]);
