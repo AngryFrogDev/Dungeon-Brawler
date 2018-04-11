@@ -54,7 +54,7 @@ void Player::createAndAssignCharacter(int x_pos, CHAR_TYPE type, bool fliped, in
 	{
 		case WARRIOR:
 		{
-			curr_character = new Warrior(x_pos, fliped, lane);
+			curr_character = new Warrior(App->entities->warrior,x_pos, fliped, lane);
 			break;
 		}
 		//case MAGE:

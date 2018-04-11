@@ -23,6 +23,12 @@
     standing_hurtbox_size_y ="200"
     crouching_hurtbox_offset ="40"
     
+    invencibility_on_wakeup ="30"
+    super_window ="30"
+    cancelability_window ="30"
+    
+    
+    dive_kick_max_height ="520"
     
     spin_speed ="6"
     spin_object ="special_item_1"

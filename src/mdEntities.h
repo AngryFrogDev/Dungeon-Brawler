@@ -36,7 +36,9 @@ struct character_deff {
 	//int right_x_limit;
 	iPoint standing_hurtbox_size;
 	int crouching_hurtbox_offset;
-
+	int invencibility_on_wakeup;
+	int super_window;
+	int cancelability_window;
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2, super;
 
 	// Warrior variables
@@ -46,9 +48,11 @@ struct character_deff {
 	iPoint jm_s1_speed;
 	int jm_s2_angle;
 	iPoint jm_s2_speed;
+	int dive_kick_max_height;
 	ITEMS dive_kick_object;
 	int projectile_duration;
 	int projectile_speed;
+	int projectile_scale;
 	int swordyuken_invencivility;
 	int swordyuken_jump_power;
 };
@@ -79,11 +83,14 @@ public:
 	void assignControllers();
 	void assignPartners();
 
+	character_deff warrior;
 	bool traning;
 
 	KEY_STATE stringToKeystate(std::string string);
 	CHAR_TYPE stringToCharType(std::string string);
 	ITEMS stringToItem(std::string string);
+	BLOCK_TYPE stringToBlockType(std::string string);
+	CHAR_ATT_TYPE stringToCharAttType(std::string string);
 public:
 	std::list<controller_scheme> controller_schemes;
 	std::list<keyboard_scheme>	 keyboard_schemes;
@@ -95,14 +102,13 @@ private:
 	bool allowFlip();
 	void loadCharactersFromXML(const pugi::xml_node& md_config);
 	void fillWarriorFromXML(const pugi::xml_node& md_config);	
+	void loadAttackDeffFromXML(const pugi::xml_node& md_config, basic_attack_deff& attack);
 
 	//Graphics of the warrior
 	SDL_Texture* warrior_graphics;
 	SDL_Texture* warrior_graphics2;
 
 	pugi::xml_document entities_config_doc;
-
-	character_deff warrior;
 };
 
 #endif //__MDENTITIES__
