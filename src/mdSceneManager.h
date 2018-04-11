@@ -102,6 +102,7 @@ private:
 
 	Labels* l_o_vs_o = nullptr;
 	Labels* l_t_vs_t = nullptr;
+	Labels* l_traning = nullptr;
 	Labels* l_exit = nullptr;
 
 	//COMBAT UI
