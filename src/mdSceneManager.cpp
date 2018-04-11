@@ -279,12 +279,12 @@ void mdSceneManager::loadSceneUI() {
 	l_traning = (Labels*)App->gui->createLabel("TRAINING", { 255,255,255,255 },App->fonts->large_size, {825, 625}, this);
 	l_traning->active = true;
 	main_menu.scene_ui_elems.push_back(l_traning);
-
+	
 	l_exit = (Labels*)App->gui->createLabel(labels_node.child("exit").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("exit").child("color").attribute("r").as_int(),(Uint8)labels_node.child("exit").child("color").attribute("g").as_int(),(Uint8)labels_node.child("exit").child("color").attribute("b").as_int(),(Uint8)labels_node.child("exit").child("color").attribute("a").as_int() },
 	App->fonts->large_size, { labels_node.child("exit").child("pos").attribute("x").as_int(), labels_node.child("exit").child("pos").attribute("y").as_int() }, this);
 	l_exit->active = labels_node.child("exit").child("active").attribute("value").as_bool();
 	main_menu.scene_ui_elems.push_back(l_exit);
-	
+
 
 	//COMBAT
 	//Preparing nodes
@@ -397,7 +397,7 @@ void mdSceneManager::loadSceneCharacters()	{
 }
 
 void mdSceneManager::updateTimer()	{
-	if (paused)
+	if (paused || App->entities->traning)
 		return;
 
 	if (scene_timer.readSec() >= 1)

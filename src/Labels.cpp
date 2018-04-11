@@ -20,6 +20,7 @@ Labels::~Labels() {
 }
 
 void Labels::draw() {
+
 	App->render->drawSprite(4, text_texture, position.first, position.second);
 }
 
