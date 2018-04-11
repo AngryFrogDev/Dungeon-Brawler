@@ -8,7 +8,8 @@
 #include "mdSceneManager.h"
 
 Character::Character() {
-
+	config = App->loadConfig("config.xml", config_doc);
+	data = config.child("entities");
 }
 
 

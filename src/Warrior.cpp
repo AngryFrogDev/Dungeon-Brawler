@@ -8,6 +8,7 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 
 	this->lane = lane;
 
+	
 	//PROVISIONAL: Animations should be loaded from the xml
 
 	//Animations

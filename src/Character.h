@@ -313,6 +313,10 @@ public:
 	bool swapRequested = false;
 	bool swapDone = false;
 
+protected:
+	pugi::xml_document config_doc;
+	pugi::xml_node config;
+	pugi::xml_node data;
 };
 
 #endif //__CHARACTER__
