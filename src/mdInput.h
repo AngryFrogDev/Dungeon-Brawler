@@ -51,7 +51,7 @@ public:
 	Controller(SDL_GameController* controller, SDL_Haptic* controller_haptic);
 	virtual ~Controller();
 
-	bool isPressed(CONTROLLER_BUTTON button) const;
+	bool isPressed(CONTROLLER_BUTTON button, KEY_STATE state = KEY_REPEAT) const;
 	const std::list<CONTROLLER_BUTTON> getInputs() const;
 	//Will add an input to the buffer, if no timestamp provided the current time will be used
 	void addInput(CONTROLLER_BUTTON input, uint timestamp = NULL);

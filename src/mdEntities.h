@@ -52,17 +52,18 @@ public:
 	//if it returns false something wrong happened
 	bool automaticFlip();
 	bool allowFlip();
+
+	KEY_STATE stringToKeystate(std::string string);
 public:
 	std::list<controller_scheme> controller_schemes;
 	std::list<keyboard_scheme>	 keyboard_schemes;
+	KEY_STATE attack_input; 
 
 private:
 
 	//Graphics of the warrior
 	SDL_Texture* warrior_graphics;
 	SDL_Texture* warrior_graphics2;
-
-
 };
 
 #endif //__MDENTITIES__

@@ -36,7 +36,8 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 			new_scheme.scheme[i] = (SDL_Scancode)attribute->as_int();
 		keyboard_schemes.push_back(new_scheme);
 	}
-
+	std::string name = md_config.child("settings").attribute("attack_type").as_string();
+	attack_input = stringToKeystate(name);
 	//PROVISIONAL: Should be loaded from an xml
 	warrior_graphics = App->textures->load("Assets/warrior.png");
 	warrior_graphics2 = App->textures->load("Assets/warrior_2_placeholder.png");
@@ -222,4 +223,11 @@ void mdEntities::assignControllers() {
 		players[counter]->assignController(*it);
 		counter++;
 	}
+}
+
+KEY_STATE mdEntities::stringToKeystate(std::string string) {
+	if (string == "key_repeat")
+		return KEY_REPEAT;
+	else if (string == "key_down")
+		return KEY_DOWN;
 }

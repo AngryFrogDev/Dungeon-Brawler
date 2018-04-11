@@ -20,12 +20,20 @@ void Player::update(SDL_Texture* graphics)
 {
 	bool player_inputs[MAX_INPUTS] = { false };
 	if (controller != nullptr) {
-		for (int i = 0; i < MAX_INPUTS; i++)
-				player_inputs[i] = controller->isPressed(player_controller_scheme.scheme[i]);
+		for (int i = 0; i < MAX_INPUTS; i++){
+				if(i < 4)
+					player_inputs[i] = controller->isPressed(player_controller_scheme.scheme[i], KEY_REPEAT);
+				else
+					player_inputs[i] = controller->isPressed(player_controller_scheme.scheme[i], App->entities->attack_input);
+		}
 	}
 	else {
-		for (int i = 0; i < MAX_INPUTS; i++)
-			player_inputs[i] = App->input->getKey(player_keyboard_scheme.scheme[i]) == KEY_REPEAT;
+		for (int i = 0; i < MAX_INPUTS; i++){
+			if(i < 4)
+				player_inputs[i] = App->input->getKey(player_keyboard_scheme.scheme[i]) == KEY_REPEAT;
+			else 
+				player_inputs[i] = App->input->getKey(player_keyboard_scheme.scheme[i]) == App->entities->attack_input;
+		}
 	}
 
 	if (curr_character != nullptr) {
