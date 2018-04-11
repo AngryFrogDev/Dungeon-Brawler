@@ -175,8 +175,9 @@ void mdGuiManager::manageFocus() {
 	{
 		//Temporary done in keyboard
 		Controller* controller = nullptr;
-	//	controller = App->input->getController().front(); //For the moment, it breaks the game
-		if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN )//|| (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_UP)))
+		if(!App->input->getController().empty())
+			controller = App->input->getController().front(); //For the moment, it breaks the game
+		if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_UP)))
 		{
 				if (focus != *focus_elements.begin())//Case player wants to go up when not at the first button
 				{
@@ -196,7 +197,7 @@ void mdGuiManager::manageFocus() {
 					focus = *focus_elements.rbegin();
 		}
 
-		if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN)// || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_DOWN)))
+		if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_DOWN)))
 		{
 				if (focus != *focus_elements.rbegin())//Case player wants to go down when not at the last button
 				{

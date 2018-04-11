@@ -23,7 +23,7 @@ Controller::~Controller() {
 }
 
 bool Controller::isPressed(CONTROLLER_BUTTON button) const {
-	return buttons[button] == KEY_DOWN || buttons[button] == KEY_REPEAT;
+	return buttons[button] == KEY_DOWN /*|| buttons[button] == KEY_REPEAT*/;
 }
 
 const std::list<CONTROLLER_BUTTON> Controller::getInputs() const {
