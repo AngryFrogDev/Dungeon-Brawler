@@ -66,7 +66,8 @@
           juggle_speed_y ="5"
           block_type ="mid"
           type ="st_l"
-          recovery ="100"/>
+          recovery ="100"
+          animation_speed ="0.2"/>
         <st_h
           pos_rel_char_x ="210"
           pos_rel_char_y ="20"
@@ -83,7 +84,8 @@
           juggle_speed_y ="20"
           block_type ="mid"
           type ="st_h"
-          recovery ="300"/>
+          recovery ="300"
+          animation_speed ="0.2"/>
         <cr_l
           pos_rel_char_x ="110"
           pos_rel_char_y ="50"
@@ -100,7 +102,8 @@
           juggle_speed_y ="0"
           block_type ="low"
           type ="cr_l"
-          recovery ="50"/>
+          recovery ="50"
+          animation_speed ="0.2"/>
         <cr_h
           pos_rel_char_x ="190"
           pos_rel_char_y ="80"
@@ -117,7 +120,8 @@
           juggle_speed_y ="20"
           block_type ="low"
           type ="cr_h"
-          recovery ="350"/>
+          recovery ="350"
+          animation_speed ="0.2"/>
         <jm_l
           pos_rel_char_x ="150"
           pos_rel_char_y ="70"
@@ -134,7 +138,8 @@
           juggle_speed_y ="20"
           block_type ="overhead"
           type ="jm_l"
-          recovery ="30"/>
+          recovery ="30"
+          animation_speed ="0.2"/>
         <jm_h
           pos_rel_char_x ="42"
           pos_rel_char_y ="80"
@@ -151,7 +156,8 @@
           juggle_speed_y ="10"
           block_type ="overhead"
           type ="jm_h"
-          recovery ="30"/>
+          recovery ="30"
+          animation_speed ="0.2"/>
         <st_s1
          pos_rel_char_x ="0"
          pos_rel_char_y ="0"
@@ -168,7 +174,8 @@
          juggle_speed_y ="15"
          block_type ="mid"
          type ="st_s1"
-         recovery ="300"/>
+         recovery ="300"
+         animation_speed ="0.2"/>
         <st_s2
           pos_rel_char_x ="0"
           pos_rel_char_y ="0"
@@ -185,7 +192,8 @@
           juggle_speed_y ="3"
           block_type ="mid"
           type ="st_s2"
-          recovery ="500"/>
+          recovery ="500"
+          animation_speed ="0.3"/>
         <cr_s1
           pos_rel_char_x ="200"
           pos_rel_char_y ="50"
@@ -202,7 +210,8 @@
           juggle_speed_y ="25"
           block_type ="mid"
           type ="cr_s1"
-          recovery ="150"/>
+          recovery ="150"
+          animation_speed ="0.15"/>
         <cr_s2
           pos_rel_char_x ="130"
           pos_rel_char_y ="0"
@@ -219,7 +228,8 @@
           juggle_speed_y ="20"
           block_type ="mid"
           type ="cr_s2"
-          recovery ="600"/>
+          recovery ="600"
+          animation_speed ="0.5"/>
         <jm_s1
           pos_rel_char_x ="60"
           pos_rel_char_y ="50"
@@ -236,7 +246,8 @@
           juggle_speed_y ="0"
           block_type ="overhead"
           type ="jm_s1"
-          recovery ="100"/>
+          recovery ="100"
+          animation_speed ="0.3"/>
         <jm_s2
           pos_rel_char_x ="60"
           pos_rel_char_y ="50"
@@ -253,7 +264,8 @@
           juggle_speed_y ="0"
           block_type ="overhead"
           type ="jm_s2"
-          recovery ="100"/>
+          recovery ="100"
+          animation_speed ="0.3"/>
         <super
           pos_rel_char_x ="0"
           pos_rel_char_y ="0"

@@ -375,4 +375,5 @@ void mdEntities::loadAttackDeffFromXML(const pugi::xml_node& md_config, basic_at
 	tmp = md_config.attribute("type").as_string();
 	attack.type = stringToCharAttType(tmp);
 	attack.recovery = md_config.attribute("recovery").as_int();
+	attack.animation_speed = md_config.attribute("animation_speed").as_float();
 }
