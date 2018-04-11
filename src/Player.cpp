@@ -5,7 +5,7 @@
 #include "mdSceneManager.h"
 
 Player::Player(){
-
+	
 }
 
 Player::Player(Controller* controller) : controller(controller){

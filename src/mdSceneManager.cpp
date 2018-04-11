@@ -252,11 +252,11 @@ void mdSceneManager::loadSceneUI() {
 	b_o_vs_o = (Buttons*)App->gui->createButton(ONE_V_ONE, LARGE, { buttons_node.child("o_vs_o").child("pos").attribute("x").as_int(), buttons_node.child("o_vs_o").child("pos").attribute("y").as_int() }, this);
 	b_o_vs_o->active = buttons_node.child("o_vs_o").child("active").attribute("value").as_bool();
 	main_menu.scene_ui_elems.push_back(b_o_vs_o);
-
+/*
 	b_t_vs_t = (Buttons*)App->gui->createButton(TWO_V_TWO, LARGE, { buttons_node.child("t_vs_t").child("pos").attribute("x").as_int(), buttons_node.child("t_vs_t").child("pos").attribute("y").as_int() }, this);
 	b_t_vs_t->active = buttons_node.child("t_vs_t").child("active").attribute("value").as_bool();
 	main_menu.scene_ui_elems.push_back(b_t_vs_t);
-
+*/
 	// PROVISIONAL
 	b_training = (Buttons*)App->gui->createButton(TRANING, LARGE, { 750, 600 }, this);
 	b_training->active = true;
@@ -270,12 +270,12 @@ void mdSceneManager::loadSceneUI() {
 	App->fonts->large_size, { labels_node.child("o_vs_o").child("pos").attribute("x").as_int(), labels_node.child("o_vs_o").child("pos").attribute("y").as_int() }, this);
 	l_o_vs_o->active = labels_node.child("o_vs_o").child("active").attribute("value").as_bool();
 	main_menu.scene_ui_elems.push_back(l_o_vs_o);
-
+/*
 	l_t_vs_t = (Labels*)App->gui->createLabel(labels_node.child("t_vs_t").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("t_vs_t").child("color").attribute("r").as_int(),(Uint8)labels_node.child("t_vs_t").child("color").attribute("g").as_int(),(Uint8)labels_node.child("t_vs_t").child("color").attribute("b").as_int(),(Uint8)labels_node.child("t_vs_t").child("color").attribute("a").as_int() },
 	App->fonts->large_size, { labels_node.child("t_vs_t").child("pos").attribute("x").as_int(), labels_node.child("t_vs_t").child("pos").attribute("y").as_int() }, this);
 	l_t_vs_t->active = labels_node.child("t_vs_t").child("active").attribute("value").as_bool();
 	main_menu.scene_ui_elems.push_back(l_t_vs_t);
-
+*/
 	l_traning = (Labels*)App->gui->createLabel("TRAINING", { 255,255,255,255 },App->fonts->large_size, {825, 625}, this);
 	l_traning->active = true;
 	main_menu.scene_ui_elems.push_back(l_traning);
@@ -423,7 +423,7 @@ void mdSceneManager::updateTimer()	{
 }
 //PROVISIONAL: This function does a lot of things, should be split up into different things
 void mdSceneManager::blitUiTextures()	{
-	//PROVISIONAL: All input should be read from controller too
+	
 	if (current_scene == &start_scene)//Logo texture
 	{
 		App->render->drawSprite(1, game_logo, 150, 150, 0, 1);
