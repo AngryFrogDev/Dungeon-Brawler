@@ -553,6 +553,8 @@ Warrior::Warrior(int x_pos, bool _fliped, int lane) : Character() {
 	s_crouching_special_2 = App->audio->loadSFX("SFX/crouching_special_2.wav");; 
 	s_man_death = App->audio->loadSFX("SFX/man_death.wav");
 	s_super = App->audio->loadSFX("SFX/super.wav");
+
+	current_animation = &idle;
 }
 
 

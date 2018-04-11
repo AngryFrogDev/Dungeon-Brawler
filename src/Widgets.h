@@ -11,6 +11,7 @@ enum ui_elem_type {
 	BUTTON,
 	LABEL,
 	BAR,
+	WINDOW,
 };
 
 //Review button types
@@ -46,6 +47,12 @@ enum bar_types {
 	HEALTH_BAR,
 	SUPER_BAR,
 	SWAP_BAR,
+};
+
+enum window_type {
+	NO_WINDOW = 0,
+	PAUSE,
+	MATCH_END
 };
 
 class Widgets {

@@ -146,6 +146,7 @@ public:
 	int getMaxLife();
 	int getCurrentSuperGauge();
 	int getMaxSuperGauge();
+	void resetCharacter();
 
 protected:	
 	// Execute attack, rewritable for every type of character

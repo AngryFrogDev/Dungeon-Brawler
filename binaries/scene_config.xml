@@ -48,6 +48,9 @@
 		</labels>
 	</main_menu>
 	<combat>
+		<window>
+			<pos x="400" y="400"/>
+		</window>
 		<one_vs_one>
 			<labels>
 				<timer>
@@ -83,6 +86,10 @@
 				</super_bar2>
 			</bars>
 			<buttons>
+				<rematch>
+					<pos x="780" y="600"/>
+					<active value="false"/>	
+				</rematch>
 			</buttons>
 			<textures>
 			</textures>

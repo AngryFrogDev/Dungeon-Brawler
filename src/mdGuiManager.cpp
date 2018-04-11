@@ -7,7 +7,7 @@
 #include "Buttons.h"
 #include "Labels.h"
 #include "Bars.h"
-
+#include "UiWindow.h"
 
 mdGuiManager::mdGuiManager() : Module() {
 	name = "gui";
@@ -151,6 +151,15 @@ Widgets* mdGuiManager::createBar(bar_types type, std::pair<int, int> pos, bool f
 	return ret;
 }
 
+Widgets* mdGuiManager::createWindow(window_type type, std::pair<int, int> pos, Module* callback)	{
+	Widgets* ret = nullptr;
+
+	ret = new UiWindow(type, pos, callback);
+	ui_elements.push_back(ret);
+
+	return ret;
+}
+
 bool mdGuiManager::destroyWidget(Widgets* widget) {
 
 	bool ret = true;
@@ -171,47 +180,61 @@ bool mdGuiManager::destroyWidget(Widgets* widget) {
 void mdGuiManager::manageFocus() {
 
 	Widgets* object = nullptr;
-	if (focus)//Check if focus has been assigned -> Current scene is not ingame scene
+	Widgets* temp_object = nullptr;
+
+	if (focus)//Check if focus has been assigned 
 	{
-		//Temporary done in keyboard
-		Controller* controller = nullptr;
-	//	controller = App->input->getController().front(); //For the moment, it breaks the game
-		if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN )//|| (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_UP)))
+		if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN)
 		{
-				if (focus != *focus_elements.begin())//Case player wants to go up when not at the first button
+			std::list<Widgets*>::iterator temp_iterator = focus_elements.begin();
+			for (temp_iterator; temp_iterator != focus_elements.end(); temp_iterator++)
+			{
+				object = *temp_iterator;
+				if (object == focus)
 				{
-					std::list<Widgets*>::iterator temp_elem = focus_elements.begin();
-					for (temp_elem; temp_elem != focus_elements.end(); temp_elem++)
+					if (temp_iterator != focus_elements.begin())
 					{
-						object = *temp_elem;
-						if (object == focus)//Iterate until find the currently focused element
+						std::list<Widgets*>::iterator it = temp_iterator;
+						it--;
+						for (it; *it != nullptr; it--)
 						{
-							temp_elem--;//Move the iterator to the previous ui element
-							focus = *temp_elem;//Assign its value to the focused element
-							break;
+							temp_object = *it;
+							if (temp_object->active)
+							{
+								focus = temp_object;
+								break;
+							}
 						}
 					}
 				}
-				else
-					focus = *focus_elements.rbegin();
+			}
 		}
 
-		if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN)// || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_DOWN)))
+		if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 		{
-				if (focus != *focus_elements.rbegin())//Case player wants to go down when not at the last button
+			std::list<Widgets*>::iterator temp_iterator = focus_elements.begin();
+			for (temp_iterator; temp_iterator != focus_elements.end(); temp_iterator++)
+			{
+				object = *temp_iterator;
+				if (object == focus)
 				{
-					std::list<Widgets*>::iterator temp_elem = focus_elements.begin();
-					for (temp_elem; temp_elem != focus_elements.end(); temp_elem++) {
-						object = *temp_elem;
-						if (object == focus) {
-							temp_elem++;
-							focus = *temp_elem;
-							break;
+					if (temp_iterator != focus_elements.end())
+					{
+						std::list<Widgets*>::iterator it = temp_iterator;
+						it++;
+						for (it; it != focus_elements.end(); it++)
+						{
+							temp_object = *it;
+							if (temp_object->active)
+							{
+								focus = temp_object;
+								break;
+							}
 						}
 					}
+					break;
 				}
-				else
-					focus = *focus_elements.begin();
+			}
 		}
 	}
 	
