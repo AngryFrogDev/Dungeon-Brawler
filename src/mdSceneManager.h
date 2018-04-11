@@ -2,6 +2,7 @@
 #define __MDSCENEMANAGER__
 #include "Module.h"
 #include <list>
+#include "DebLog.h"
 #include "SDL\include\SDL.h"
 #include "p2Point.h"
 #include "Character.h"
@@ -9,10 +10,12 @@
 #include "Buttons.h"
 #include "Bars.h"
 #include "Labels.h"
+#include "UiWindow.h"
 #include "PerfTimer.h"
 
 //PROVISIONAL: Nyeh, needed to do fade to black
 #define MIN( a, b ) ( ((a) < (b)) ? (a) : (b) )
+
 
 
 enum ui_elem_type;
@@ -32,7 +35,6 @@ struct Scene {
 	scene_type type; 
 	std::list<CharacterInfo> characters; //to create scenes with 2 or 4 characters
 	std::list<Widgets*> scene_ui_elems;
-	std::list<SDL_Rect> other_scene_elems; //If name is not clear, it could be changed
 	pugi::xml_node scene_data;
 };
 
@@ -55,7 +57,7 @@ private:
 	void loadSceneCharacters();
 	void updateTimer();
 	void blitUiTextures();
-
+	
 
 public:
 	std::list<Scene> scenes;
@@ -115,7 +117,7 @@ private:
 	Bars* super_bar3 = nullptr;
 	Bars* super_bar4 = nullptr;
 	Labels* timer = nullptr;
-
+	
 	SDL_Rect timer_rect;
 	SDL_Rect character1_rect;
 	SDL_Rect character2_rect;
@@ -125,9 +127,10 @@ private:
 	SDL_Rect character2_image;
 	SDL_Rect character3_image;
 	SDL_Rect character4_image;
+	
 
 	//WINDOWS && RELATED UI
-	SDL_Rect window;
+	UiWindow* window = nullptr;
 	Buttons* rematch = nullptr;
 	Buttons* restart = nullptr;
 	Buttons* resume = nullptr;

@@ -355,10 +355,12 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	s_man_death = App->audio->loadSFX("SFX/man_death.wav");
 	s_super = App->audio->loadSFX("SFX/super.wav");
 
+
+	current_animation = &idle;
+
 	// Collider creation
 	hurtbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
 	pushbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y / 2 }, PUSHBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
-
 }
 
 

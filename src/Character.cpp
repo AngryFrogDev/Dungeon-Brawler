@@ -25,16 +25,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		death = true;
 	}
 	if (App->input->getKey(SDL_SCANCODE_F2) == KEY_DOWN) {
-		current_life = max_life;
-		current_state = CHAR_STATE::IDLE;
-		logic_position.x = starting_position.x;
-		logic_position.y = bottom_lane;
-		hurtbox->active = true;
-		death = false;
-		hit = false;
-		state_first_tick = false;
-		current_super_gauge = 0;
-		App->scene_manager->current_time = App->scene_manager->max_time;
+		resetCharacter();
 	}
 	if (App->entities->traning) {
 		current_life = max_life;
@@ -470,7 +461,8 @@ void Character::setIfGrounded() {
 }
 
 void Character::draw(SDL_Texture* graphic)  const{
-	App->render->drawSprite(3,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped, 1.0f, current_animation->angle);
+	if (current_animation != nullptr)
+		App->render->drawSprite(3,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped, 1.0f, current_animation->angle);
 }
 
 bool Character::manageSwap()
@@ -849,6 +841,19 @@ int Character::getCurrentSuperGauge() {
 int Character::getMaxSuperGauge() {
 
 	return max_super_gauge;
+}
+void Character::resetCharacter()	{
+	current_life = max_life;
+	current_state = CHAR_STATE::IDLE;
+	logic_position.x = starting_position.x;
+	logic_position.y = bottom_lane;
+	hurtbox->active = true;
+	death = false;
+	hit = false;
+	state_first_tick = false;
+	current_super_gauge = 0;
+	App->scene_manager->current_time = App->scene_manager->max_time;
+	App->scene_manager->paused = false;
 }
 void Character::deleteDeadHitboxes() 	{
 	// Compute what hitboxes need to be deleted

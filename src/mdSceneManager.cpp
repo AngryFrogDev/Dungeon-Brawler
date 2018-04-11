@@ -149,6 +149,15 @@ bool mdSceneManager::onEvent(Buttons* button)	{
 	case GAME_EXIT:
 		ret = false;
 		break;
+	case IN_GAME_MAIN_MENU:
+		changeScene(&main_menu);
+		break;
+	case IN_GAME_REMATCH:
+		//PROVISIONAL
+		App->entities->players[0]->getCurrCharacter()->resetCharacter();
+		App->entities->players[1]->getCurrCharacter()->resetCharacter();
+		//changeScene(&one_vs_one);
+		break;
 	}
 
 	return ret;
@@ -318,6 +327,19 @@ void mdSceneManager::loadSceneUI() {
 	super_bar2->active = bars_node.child("super_bar2").child("active").attribute("value").as_bool();
 	one_vs_one.scene_ui_elems.push_back(super_bar2);
 
+	//WINDOWS AND RELATED UI
+	rematch = (Buttons*)App->gui->createButton(IN_GAME_REMATCH, MEDIUM, {buttons_node.child("rematch").child("pos").attribute("x").as_int(), buttons_node.child("rematch").child("pos").attribute("y").as_int()}, this);
+	rematch->active = buttons_node.child("rematch").child("active").attribute("value").as_bool();
+	one_vs_one.scene_ui_elems.push_back(rematch);
+
+	to_main_menu = (Buttons*)App->gui->createButton(IN_GAME_MAIN_MENU, MEDIUM, { 100,100 }, this);
+	to_main_menu->active = false;
+	one_vs_one.scene_ui_elems.push_back(to_main_menu);
+
+	window = (UiWindow*)App->gui->createWindow(MATCH_END, { 600,400 }, this);
+	window->active = false;
+	one_vs_one.scene_ui_elems.push_back(window);
+
 /* This needs to be revised, but for the moment we won't use 2vs2
 
 	health_bar1.pos = { 100, 125 };
@@ -383,12 +405,21 @@ void mdSceneManager::updateTimer()	{
 	if (current_time == 0)
 	{
 		current_time = max_time;
+		//PROVISIONAL
+	/*	paused = true;
+		window->active = true;
+		rematch->active = true;
+		to_main_menu->active = true;
+		createWidgets();*/
+		current_time = max_time;
 		scene_timer.start();
-		changeScene(&main_menu);
 	}
-	auto label_string = std::to_string(current_time);
-	timer->changeContent(label_string.data());
-
+	if (current_time > 0)
+	{
+		auto label_string = std::to_string(current_time);
+		timer->changeContent(label_string.data());
+	}
+	
 }
 //PROVISIONAL: This function does a lot of things, should be split up into different things
 void mdSceneManager::blitUiTextures()	{
@@ -396,7 +427,9 @@ void mdSceneManager::blitUiTextures()	{
 	if (current_scene == &start_scene)//Logo texture
 	{
 		App->render->drawSprite(1, game_logo, 150, 150, 0, 1);
-		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		Controller* temp = nullptr;
+		temp = App->input->getController().front();
+		if (temp->isPressed(CONTROLLER_BUTTON::BUTTON_A))
 			changeScene(&main_menu);
 	}
 
@@ -416,4 +449,6 @@ void mdSceneManager::blitUiTextures()	{
 		}
 	}
 }
+
+
 

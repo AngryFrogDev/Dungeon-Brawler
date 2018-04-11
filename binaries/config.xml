@@ -24,6 +24,7 @@
 	</fonts>
 	<gui>
 		<atlas file="gui/GUI_placeholder_WIP.png"/>
+		<window_rect x="165" y="219" w="160" h="139"/>
 		<button_section>
 			<big>
 				<still x="421" y="10" w="114" h="31"/>

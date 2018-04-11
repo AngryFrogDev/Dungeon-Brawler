@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{4A02FCC9-A402-402A-A846-EE691FD9099C}</ProjectGuid>
     <RootNamespace>DungeonBrawler</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -148,6 +148,7 @@
     <ClCompile Include="ProjDefs.cpp" />
     <ClCompile Include="pugixml\pugixml.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="UiWindow.cpp" />
     <ClCompile Include="Widgets.cpp" />
     <ClCompile Include="Warrior.cpp" />
   </ItemGroup>
@@ -179,6 +180,7 @@
     <ClInclude Include="pugixml\pugiconfig.hpp" />
     <ClInclude Include="pugixml\pugixml.hpp" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="UiWindow.h" />
     <ClInclude Include="Widgets.h" />
     <ClInclude Include="Warrior.h" />
   </ItemGroup>
