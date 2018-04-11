@@ -59,7 +59,7 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	light_attack.PushBack({ 195 * 5,158 * 13,195, 158 });
 
 	light_attack.loop = false;
-	light_attack.speed = 0.2;
+	light_attack.speed = character.st_l.animation_speed;
 
 	heavy_attack.PushBack({ 0,158 * 12,195, 158 });
 	heavy_attack.PushBack({ 195,158 * 12,195, 158 });
@@ -73,7 +73,7 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	heavy_attack.PushBack({ 195 * 9,158 * 12,195, 158 });
 
 	heavy_attack.loop = false;
-	heavy_attack.speed = 0.2;
+	heavy_attack.speed = character.st_h.animation_speed;
 
 	crouch.PushBack({ 195 * 2	,158 * 19,195,158 });
 
@@ -89,7 +89,7 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	crouching_light.PushBack({ 195 * 6,158 * 20,195,158 });
 
 	crouching_light.loop = false;
-	crouching_light.speed = 0.2;
+	crouching_light.speed = character.cr_l.animation_speed;
 
 	crouching_heavy.PushBack({ 0,158 * 8,195,158 });
 	crouching_heavy.PushBack({ 195,158 * 8,195,158 });
@@ -100,7 +100,7 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	crouching_heavy.PushBack({ 195 * 6,158 * 8 ,195,158 });
 
 	crouching_heavy.loop = false;
-	crouching_heavy.speed = 0.2;
+	crouching_heavy.speed = character.cr_h.animation_speed;
 
 	jump.PushBack({ 0, 158 * 2, 195, 158 });
 	jump.PushBack({ 195, 158 * 2, 195, 158 });
@@ -120,13 +120,13 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	jumping_light.PushBack({ 195 * 2,158 * 15,195,158 }, ACTIVE);
 
 	jumping_light.loop = false;
-	jumping_light.speed = 0.2;
+	jumping_light.speed = character.jm_l.animation_speed;
 
 	jumping_heavy.PushBack({ 0      ,158 * 16,195,158 });
 	jumping_heavy.PushBack({ 195    ,158 * 16,195,158 }, ACTIVE);
 
 	jumping_heavy.loop = false;
-	jumping_heavy.speed = 0.2;
+	jumping_heavy.speed = character.jm_h.animation_speed;
 
 	standing_hit.PushBack({ 0, 158 * 14, 195, 158 });
 	standing_hit.PushBack({ 195, 158 * 14, 195, 158 });
@@ -170,7 +170,7 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	standing_special1.PushBack({ 195 * 6, 158 * 5, 195, 158 });
 
 	standing_special1.loop = false;
-	standing_special1.speed = 0.2;
+	standing_special1.speed = character.st_s1.animation_speed;
 
 	standing_special2.PushBack({ 0, 948, 195, 158 });
 	standing_special2.PushBack({ 0, 948, 195, 158 });
@@ -204,7 +204,7 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	standing_special2.PushBack({ 195, 1106, 195, 158 });
 
 	standing_special2.loop = false;
-	standing_special2.speed = 0.3;
+	standing_special2.speed = character.st_s2.animation_speed;
 
 	crouching_special1.PushBack({ 0, 1738, 195, 158 });
 	crouching_special1.PushBack({ 195, 1738, 195, 158 });
@@ -219,7 +219,7 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	crouching_special1.PushBack({ 1755, 1738, 195, 158 });
 
 	crouching_special1.loop = false;
-	crouching_special1.speed = 0.15;
+	crouching_special1.speed = character.cr_s1.animation_speed;
 	
 	crouching_special2.PushBack({ 0, 632, 195, 158 });
 	crouching_special2.PushBack({ 195, 632, 195, 158 });
@@ -236,230 +236,37 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	crouching_special2.PushBack({ 1950, 632, 195, 158 });
 	
 	crouching_special2.loop = false;
-	crouching_special2.speed = 0.5;
+	crouching_special2.speed = character.cr_s2.animation_speed;
 
 	jumping_special1.PushBack({ 0, 3476, 195, 158 });
 	jumping_special1.PushBack({ 195, 3476, 195, 158, }, ACTIVE);
 
 	jumping_special1.loop = false;
-	jumping_special1.speed = 0.3;
+	jumping_special1.speed = character.jm_s1.animation_speed;
 	jumping_special1.angle = 30;
 
 	jumping_special2.PushBack({ 0, 3476, 195, 158 });
 	jumping_special2.PushBack({ 195, 3476, 195, 158, }, ACTIVE);
 
 	jumping_special2.loop = false;
-	jumping_special2.speed = 0.3;
+	jumping_special2.speed = character.jm_s2.animation_speed;
 	jumping_special2.angle = 30;
 
 	// Basic attack definitions
 
 	st_l = character.st_l;
-	//st_l.pos_rel_char = {110,35}; 
-	//st_l.hitbox = { 0,0,250,20 };
-	//st_l.active_time = 100;
-	//st_l.hitstun = 300;
-	//st_l.blockstun = 100;
-	//st_l.pushhit = 3;     
-	//st_l.pushblock = 2;
-	//st_l.damage = 5;
-	//st_l.knockdown = false;
-	//st_l.juggle_speed.x = 5;
-	//st_l.juggle_speed.y = 5;
-	//st_l.block_type = BLOCK_TYPE::MID;
-	//st_l.type = ST_L;
-	//st_l.recovery = 100;
 	st_h = character.st_h;
-	//st_h.pos_rel_char = { 210,20 };
-	//st_h.hitbox = { 0,0,150, 50 };
-	//st_h.active_time = 200;
-	//st_h.hitstun = 500;
-	//st_h.blockstun = 200;
-	//st_h.pushhit = 5;
-	//st_h.pushblock = 3;
-	//st_h.damage = 15;
-	//st_h.knockdown = false;
-	//st_h.juggle_speed.x = 10;
-	//st_h.juggle_speed.y = 20;
-	//st_h.block_type = BLOCK_TYPE::MID;
-	//st_h.recovery = 300;
-	//st_h.type = ST_H;
 	cr_l = character.cr_l;
-	//cr_l.pos_rel_char = { 110,50 };
-	//cr_l.hitbox = { 0,0,70, 30 };
-	//cr_l.active_time = 70;
-	//cr_l.hitstun = 200;
-	//cr_l.blockstun = 50;
-	//cr_l.pushhit = 2;
-	//cr_l.pushblock = 2;
-	//cr_l.damage = 3;
-	//cr_l.knockdown = false;
-	//cr_l.juggle_speed.x = 0;
-	//cr_l.juggle_speed.y = 0;
-	//cr_l.block_type = BLOCK_TYPE::LOW;
-	//cr_l.type = CR_L;
-	//cr_l.recovery = 50;
-
 	cr_h = character.cr_h;
-	//cr_h.pos_rel_char = { 190,80 };
-	//cr_h.hitbox = { 0,0,180, 50 };
-	//cr_h.active_time = 200;
-	//cr_h.hitstun = 500;
-	//cr_h.blockstun = 200;
-	//cr_h.pushhit = -1; // -1 means that is a knockdown attack
-	//cr_h.pushblock = 2;
-	//cr_h.damage = 15;
-	//cr_h.knockdown = true;
-	//cr_h.juggle_speed.x = 5;
-	//cr_h.juggle_speed.y = 20;
-	//cr_h.block_type = BLOCK_TYPE::LOW;
-	//cr_h.type = CR_H;
-	//cr_h.recovery = 350;
-
 	jm_l = character.jm_l;
-	//jm_l.pos_rel_char = { 150,70 };
-	//jm_l.hitbox = { 0,0,140,20 };
-	//jm_l.active_time = -1;
-	//jm_l.hitstun = 200;
-	//jm_l.blockstun = 150;
-	//jm_l.pushhit = 1;
-	//jm_l.pushblock = 1;
-	//jm_l.damage = 6;
-	//jm_l.knockdown = false;
-	//jm_l.juggle_speed.x = 5;
-	//jm_l.juggle_speed.y = 20;
-	//jm_l.block_type = BLOCK_TYPE::OVERHEAD;
-	//jm_l.type = JM_L;
-	//jm_l.recovery = 30;
-
 	jm_h = character.jm_h;
-	//jm_h.pos_rel_char = { 42,80 };
-	//jm_h.hitbox = { 0,0,120,100 };
-	//jm_h.active_time = -1;
-	//jm_h.hitstun = 500;
-	//jm_h.blockstun = 450;
-	//jm_h.pushhit = 1;
-	//jm_h.pushblock = 1;
-	//jm_h.damage = 10;
-	//jm_h.knockdown = false;
-	//jm_h.juggle_speed.x = 0;
-	//jm_h.juggle_speed.y = 10;
-	//jm_h.block_type = BLOCK_TYPE::OVERHEAD;
-	//jm_h.type = JM_H;
-	//jm_h.recovery = 30;
-
 	st_s1 = character.st_s1;
-	//st_s1.pos_rel_char = { 0, 0 };
-	//st_s1.hitbox = { 0,0,130,30 };
-	//st_s1.active_time = -1;
-	//st_s1.hitstun = 200;
-	//st_s1.blockstun = 150;
-	//st_s1.pushhit = 2;
-	//st_s1.pushblock = 2;
-	//st_s1.damage = 10;
-	//st_s1.knockdown = false;
-	//st_s1.juggle_speed.x = 10;
-	//st_s1.juggle_speed.y = 15;
-	//st_s1.block_type = BLOCK_TYPE::MID;
-	//st_s1.recovery = 300;
-	//st_s1.type = ST_S1;
-
 	st_s2 = character.st_s2;
-	//st_s2.pos_rel_char = { 0, 0 };
-	//st_s2.hitbox = { 0,0,420,100 };
-	//st_s2.active_time = -1;
-	//st_s2.hitstun = -1;
-	//st_s2.blockstun = 300;
-	//st_s2.pushhit = 2;
-	//st_s2.pushblock = 2;
-	//st_s2.damage = 20;
-	//st_s2.knockdown = true;
-	//st_s2.juggle_speed.x = 3;
-	//st_s2.juggle_speed.y = 3;
-	//st_s2.block_type = BLOCK_TYPE::MID;
-	//st_s2.recovery = 500;
-	//st_s2.type = ST_S2;
-
 	cr_s1 = character.cr_s1;
-	//cr_s1.pos_rel_char = { 200,50 };
-	//cr_s1.hitbox = { 0,0,150,150 };
-	//cr_s1.active_time = -1;
-	//cr_s1.hitstun = -1;
-	//cr_s1.blockstun = 300;
-	//cr_s1.pushhit = -1;
-	//cr_s1.pushblock = 2;
-	//cr_s1.damage = 10;
-	//cr_s1.knockdown = true;
-	//cr_s1.juggle_speed.x = 2;
-	//cr_s1.juggle_speed.y = 25;
-	//cr_s1.block_type = BLOCK_TYPE::MID;
-	//cr_s1.recovery = 150;
-	//cr_s1.type = CR_S1;
-
 	cr_s2 = character.cr_s2;
-	//cr_s2.pos_rel_char = { 130,0 };
-	//cr_s2.hitbox = { 0,0,140,300 };
-	//cr_s2.active_time = -1;
-	//cr_s2.hitstun = -1;
-	//cr_s2.blockstun = 300;
-	//cr_s2.pushhit = -1;
-	//cr_s2.pushblock = 2;
-	//cr_s2.damage = 17;
-	//cr_s2.knockdown = true;
-	//cr_s2.juggle_speed.x = 10;
-	//cr_s2.juggle_speed.y = 20;
-	//cr_s2.block_type = BLOCK_TYPE::MID;
-	//cr_s2.type = CR_S2;
-	//cr_s2.recovery = 600;
-
 	jm_s1 = character.jm_s1;
-
-	//jm_s1.pos_rel_char = { 60,50 };
-	//jm_s1.hitbox = { 0,0,80, 100 };
-	//jm_s1.active_time = -1;
-	//jm_s1.hitstun = 300;
-	//jm_s1.blockstun = 300;
-	//jm_s1.pushhit = 1;
-	//jm_s1.pushblock = 1;
-	//jm_s1.damage = 10;
-	//jm_s1.knockdown = false;
-	//jm_s1.juggle_speed.x = 0;
-	//jm_s1.juggle_speed.y = 0;
-	//jm_s1.block_type = BLOCK_TYPE::OVERHEAD;
-	//jm_s1.recovery = 100;
-	//jm_s1.type = JM_S1;
-
 	jm_s2 = character.jm_s2;
-	//jm_s2.pos_rel_char = { 60,50 };
-	//jm_s2.hitbox = { 0,0,80, 100 };
-	//jm_s2.active_time = -1;
-	//jm_s2.hitstun = 300;
-	//jm_s2.blockstun = 300;
-	//jm_s2.pushhit = 1;
-	//jm_s2.pushblock = 1;
-	//jm_s2.damage = 10;
-	//jm_s2.knockdown = false;
-	//jm_s2.juggle_speed.x = 0;
-	//jm_s2.juggle_speed.y = 0;
-	//jm_s2.block_type = BLOCK_TYPE::OVERHEAD;
-	//jm_s2.recovery = 100;
-	//jm_s2.type = JM_S2;
-
 	super = character.super;
-	//super.pos_rel_char = { 0,0 };
-	//super.hitbox = { 0,0 };
-	//super.active_time = -1;
-	//super.hitstun = 700;
-	//super.blockstun = 450;
-	//super.pushhit = 1;
-	//super.pushblock = 1;
-	//super.damage = 7; // It will be 4 hits + cr_s2, so it will be a total of 45 damage
-	//super.knockdown = false;
-	//super.juggle_speed.x = 0;
-	//super.juggle_speed.y = 10;
-	//super.block_type = BLOCK_TYPE::MID;
-	//super.recovery = 0;
-	//super.type = SUPER;
 
 	// PROVISIONAL: Should be loaded from xml
 	super_attack_list.push_back(ST_L);

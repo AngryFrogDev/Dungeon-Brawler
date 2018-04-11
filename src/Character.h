@@ -92,6 +92,7 @@ struct basic_attack_deff {
 	iPoint juggle_speed;
 	BLOCK_TYPE block_type;
 	int recovery; //in milliseconds
+	float animation_speed;
 };
 
 enum ITEMS {
@@ -198,7 +199,6 @@ protected:
 protected:
 
 	// Variables to assign from xml
-	// -To load from xml-
 	CHAR_TYPE type;
 
 	float scale;
@@ -247,7 +247,6 @@ protected:
 	Mix_Chunk* s_crouching_special_2; 
 	Mix_Chunk* s_man_death;
 	Mix_Chunk* s_super;
-	// -To load from xml-
 
 	// Variables to load from constructor
 	iPoint starting_position;
