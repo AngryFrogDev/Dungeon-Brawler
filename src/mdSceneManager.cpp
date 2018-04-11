@@ -20,7 +20,7 @@ mdSceneManager::~mdSceneManager(){}
 
 bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	scene_config = App->loadConfig("scene_config.xml", scene_config_doc);
-	//HARDCODE, super easy to make an xml out of this, just sayin'
+	//PROVISIONAL: HARDCODE, super easy to make an xml out of this, just sayin'
 	start_scene.type = START_SCENE;
 	one_vs_one.type = ONE_VS_ONE;
 	two_vs_two.type = TWO_VS_TWO;
@@ -136,6 +136,11 @@ bool mdSceneManager::onEvent(Buttons* button)	{
 	default:
 		break;
 	case ONE_V_ONE:
+		App->entities->traning = false;
+		changeScene(&one_vs_one);
+		break;
+	case TRANING:
+		App->entities->traning = true;
 		changeScene(&one_vs_one);
 		break;
 	case TWO_V_TWO:
@@ -246,6 +251,11 @@ void mdSceneManager::loadSceneUI() {
 	b_exit = (Buttons*)App->gui->createButton(GAME_EXIT, LARGE, { buttons_node.child("exit").child("pos").attribute("x").as_int(), buttons_node.child("exit").child("pos").attribute("y").as_int() }, this);
 	b_exit->active = buttons_node.child("exit").child("active").attribute("value").as_bool();
 	main_menu.scene_ui_elems.push_back(b_exit);
+
+	// PROVISIONAL
+	b_training = (Buttons*)App->gui->createButton(TRANING, LARGE, {300, 400}, this);
+	b_training->active = true;
+	main_menu.scene_ui_elems.push_back(b_training);
 
 	l_o_vs_o = (Labels*)App->gui->createLabel(labels_node.child("o_vs_o").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("o_vs_o").child("color").attribute("r").as_int(),(Uint8)labels_node.child("o_vs_o").child("color").attribute("g").as_int(),(Uint8)labels_node.child("o_vs_o").child("color").attribute("b").as_int(),(Uint8)labels_node.child("o_vs_o").child("color").attribute("a").as_int()},
 	App->fonts->large_size, { labels_node.child("o_vs_o").child("pos").attribute("x").as_int(), labels_node.child("o_vs_o").child("pos").attribute("y").as_int() }, this);
