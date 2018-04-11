@@ -19,6 +19,7 @@ enum button_types {
 	NO_BUTTON = 0,
 	ONE_V_ONE,
 	TWO_V_TWO,
+	TRANING,
 	SETTINGS,
 	CREDITS,
 	GAME_EXIT,

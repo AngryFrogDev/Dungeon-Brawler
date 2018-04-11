@@ -345,6 +345,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			//playCurrentSFX(); Maybe knockdown should play something?
 			updateAnimation(knockdown);
 			state_first_tick = true;
+			hit = false;
 		}
 		hurtbox->active = false;
 		if (current_animation->Finished()){

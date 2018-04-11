@@ -20,7 +20,7 @@ mdSceneManager::~mdSceneManager(){}
 
 bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	scene_config = App->loadConfig("scene_config.xml", scene_config_doc);
-	//HARDCODE, super easy to make an xml out of this, just sayin'
+	//PROVISIONAL: HARDCODE, super easy to make an xml out of this, just sayin'
 	start_scene.type = START_SCENE;
 	one_vs_one.type = ONE_VS_ONE;
 	two_vs_two.type = TWO_VS_TWO;
@@ -136,6 +136,11 @@ bool mdSceneManager::onEvent(Buttons* button)	{
 	default:
 		break;
 	case ONE_V_ONE:
+		App->entities->traning = false;
+		changeScene(&one_vs_one);
+		break;
+	case TRANING:
+		App->entities->traning = true;
 		changeScene(&one_vs_one);
 		break;
 	case TWO_V_TWO:
@@ -252,6 +257,11 @@ void mdSceneManager::loadSceneUI() {
 	b_t_vs_t->active = buttons_node.child("t_vs_t").child("active").attribute("value").as_bool();
 	main_menu.scene_ui_elems.push_back(b_t_vs_t);
 
+	// PROVISIONAL
+	b_training = (Buttons*)App->gui->createButton(TRANING, LARGE, { 750, 600 }, this);
+	b_training->active = true;
+	main_menu.scene_ui_elems.push_back(b_training);
+
 	b_exit = (Buttons*)App->gui->createButton(GAME_EXIT, LARGE, { buttons_node.child("exit").child("pos").attribute("x").as_int(), buttons_node.child("exit").child("pos").attribute("y").as_int() }, this);
 	b_exit->active = buttons_node.child("exit").child("active").attribute("value").as_bool();
 	main_menu.scene_ui_elems.push_back(b_exit);
@@ -265,6 +275,10 @@ void mdSceneManager::loadSceneUI() {
 	App->fonts->large_size, { labels_node.child("t_vs_t").child("pos").attribute("x").as_int(), labels_node.child("t_vs_t").child("pos").attribute("y").as_int() }, this);
 	l_t_vs_t->active = labels_node.child("t_vs_t").child("active").attribute("value").as_bool();
 	main_menu.scene_ui_elems.push_back(l_t_vs_t);
+
+	l_traning = (Labels*)App->gui->createLabel("TRAINING", { 255,255,255,255 },App->fonts->large_size, {825, 625}, this);
+	l_traning->active = true;
+	main_menu.scene_ui_elems.push_back(l_traning);
 
 	l_exit = (Labels*)App->gui->createLabel(labels_node.child("exit").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("exit").child("color").attribute("r").as_int(),(Uint8)labels_node.child("exit").child("color").attribute("g").as_int(),(Uint8)labels_node.child("exit").child("color").attribute("b").as_int(),(Uint8)labels_node.child("exit").child("color").attribute("a").as_int() },
 	App->fonts->large_size, { labels_node.child("exit").child("pos").attribute("x").as_int(), labels_node.child("exit").child("pos").attribute("y").as_int() }, this);

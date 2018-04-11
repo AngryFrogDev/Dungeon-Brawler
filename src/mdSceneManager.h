@@ -100,9 +100,11 @@ private:
 	Buttons* b_o_vs_o = nullptr;
 	Buttons* b_t_vs_t = nullptr;
 	Buttons* b_exit = nullptr;
+	Buttons* b_training = nullptr;
 
 	Labels* l_o_vs_o = nullptr;
 	Labels* l_t_vs_t = nullptr;
+	Labels* l_traning = nullptr;
 	Labels* l_exit = nullptr;
 
 	//COMBAT UI

@@ -2,9 +2,11 @@
 #define __WARRIOR__
 #include "Character.h"
 
+struct character_deff;
+
 class Warrior : public Character {
 public:
-	Warrior(int x_pos, bool _fliped, int lane);
+	Warrior(character_deff character,int x_pos, bool _fliped, int lane);
 	~Warrior();
 
 	void standingSpecial1();

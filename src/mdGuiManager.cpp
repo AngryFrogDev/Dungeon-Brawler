@@ -184,7 +184,12 @@ void mdGuiManager::manageFocus() {
 
 	if (focus)//Check if focus has been assigned 
 	{
-		if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN)
+		//Temporary done in keyboard
+		Controller* controller = nullptr;
+		if(!App->input->getController().empty())
+			controller = App->input->getController().front(); //For the moment, it breaks the game
+		if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_UP, KEY_DOWN)))
+
 		{
 			std::list<Widgets*>::iterator temp_iterator = focus_elements.begin();
 			for (temp_iterator; temp_iterator != focus_elements.end(); temp_iterator++)
@@ -210,7 +215,8 @@ void mdGuiManager::manageFocus() {
 			}
 		}
 
-		if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+
+		if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_DOWN, KEY_DOWN)))
 		{
 			std::list<Widgets*>::iterator temp_iterator = focus_elements.begin();
 			for (temp_iterator; temp_iterator != focus_elements.end(); temp_iterator++)

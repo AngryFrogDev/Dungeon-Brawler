@@ -36,10 +36,10 @@ bool mdRender::awake(const pugi::xml_node& md_config) {
 		ret = false;
 	}
 	else {
-		camera.w = App->window->window_surface->w;
-		camera.h = App->window->window_surface->h;
-		camera.x = 0;
-		camera.y = 0;
+		viewport.w = camera.w = App->window->window_surface->w;
+		viewport.h = camera.h = App->window->window_surface->h;
+		viewport.x = camera.x = 0;
+		viewport.y = camera.y = 0;
 	}
 
 	return ret;
@@ -110,8 +110,8 @@ bool mdRender::blitSprites(priority_queue <spriteToPrint*, vector<spriteToPrint*
 		spriteToPrint* first = queue.top();
 
 		SDL_Rect rect;
-		rect.x = (int)(camera.x * first->speed) + first->x;
-		rect.y = (int)(camera.y * first->speed) + first->y;
+		rect.x = first->x - (int)(camera.x * first->speed);
+		rect.y = first->y - (int)(camera.y * first->speed);
 
 		if (first->section != NULL) {
 			rect.w = first->section->w;
@@ -122,6 +122,14 @@ bool mdRender::blitSprites(priority_queue <spriteToPrint*, vector<spriteToPrint*
 
 		rect.w *= first->scale;
 		rect.h *= first->scale;
+
+		//If the sprite is out of the viewport, no need to render it.
+		if (rect.x + rect.w < 0 || rect.x > viewport.w ||
+			rect.y + rect.h < 0 || rect.y > viewport.h) {
+			RELEASE(first);
+			queue.pop();
+			continue;
+		}
 
 		SDL_Point* p = NULL;
 		SDL_Point pivot;

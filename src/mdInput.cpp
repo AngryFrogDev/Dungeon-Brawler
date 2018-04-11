@@ -22,8 +22,8 @@ Controller::~Controller() {
 	input_buffer.clear();
 }
 
-bool Controller::isPressed(CONTROLLER_BUTTON button) const {
-	return buttons[button] == KEY_DOWN || buttons[button] == KEY_REPEAT;
+bool Controller::isPressed(CONTROLLER_BUTTON button, KEY_STATE state) const {
+	return buttons[button] == state;
 }
 
 const std::list<CONTROLLER_BUTTON> Controller::getInputs() const {
