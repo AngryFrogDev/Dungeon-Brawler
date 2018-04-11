@@ -231,7 +231,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		if (grounded)
 			updateState(IDLE);
 		else if (hit)
-			updateState(HIT);
+			updateState(JUGGLE);
 		else if (inputs[LIGHT_ATTACK]) 
 			updateState(ATTACKING, JM_L);
 		else if (inputs[HEAVY_ATTACK])
