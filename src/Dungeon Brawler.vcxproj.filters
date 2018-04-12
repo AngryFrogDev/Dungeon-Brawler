@@ -108,9 +108,11 @@
     <ClCompile Include="mdProjectiles.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="mdSceneManager.cpp" />
     <ClCompile Include="UiWindow.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="mdSceneManager.cpp">
+      <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -198,9 +200,11 @@
     <ClInclude Include="mdProjectiles.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="mdSceneManager.h" />
     <ClInclude Include="UiWindow.h">
       <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="mdSceneManager.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

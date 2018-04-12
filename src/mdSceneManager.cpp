@@ -22,7 +22,7 @@ mdSceneManager::~mdSceneManager(){}
 bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	scene_config = App->loadConfig("scene_config.xml", scene_config_doc);
 	//PROVISIONAL: HARDCODE, super easy to make an xml out of this, just sayin'
-	max_time = 90;
+	max_time = 10;
 	current_time = max_time;
 
 	player1item = md_config.attribute("player_1_item").as_bool();
@@ -107,7 +107,10 @@ bool mdSceneManager::update(float dt)	{
 	if (App->input->getKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 	if (App->input->getKey(SDL_SCANCODE_F3) == KEY_DOWN)
+	{
+		closeWindow();
 		changeScene(&main_menu);
+	}
 
 	if (current_scene == &one_vs_one)//Should be moved to entities?
 	{
@@ -115,7 +118,7 @@ bool mdSceneManager::update(float dt)	{
 		int char1_hp = App->entities->players[0]->getCurrCharacter()->getCurrentLife();
 		int char2_hp = App->entities->players[1]->getCurrCharacter()->getCurrentLife();
 		if (char1_hp <= 0 || char2_hp <= 0)
-			changeScene(&main_menu);
+			popUpWindow();
 	}
 	
 	blitUiTextures();
