@@ -301,6 +301,8 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	shadow_offset = 105;
 		// WARRIOR EXCLUSIVE VARS
 	spin_speed = character.spin_speed;
+	improved_spin_speed = character.improved_spin_speed;
+	improved_spin_recovery = character.improved_spin_recovery;
 	spin_object.item_type = character.spin_object;
 	jm_s1_angle = character.jm_s1_angle;
 	jm_s1_speed = character.jm_s1_speed;
@@ -395,10 +397,19 @@ void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
 			logic_position.x -= spin_speed;
 	}
 	else {
-		if (inputs[LEFT]) 
-			logic_position.x -= spin_speed;
-		else if(inputs[RIGHT])
-			logic_position.x += spin_speed;
+		if (inputs[LEFT])
+			logic_position.x -= improved_spin_speed;
+		else if (inputs[RIGHT])
+			logic_position.x += improved_spin_speed;
+		else if (inputs[DOWN] && inputs[SPECIAL_2]) {
+			instanciated_hitbox = false;
+			hurtbox->type = HURTBOX;
+			collider* hitbox = getCurrentAttackHitbox();
+			if (hitbox != nullptr) { // Just for safety
+				deleteAttackHitbox(ST_S2);
+			}
+			updateState(ATTACKING, CR_S2);
+		}
 	}
 
 	if (current_animation->Finished()) {
@@ -408,7 +419,10 @@ void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
 		if (hitbox != nullptr) { // Just for safety
 			deleteAttackHitbox(ST_S2);
 		}
-		askRecovery(st_s2.recovery);
+		if(!spin_object.active)
+			askRecovery(st_s2.recovery);
+		else
+			askRecovery(improved_spin_recovery);
 	}
 	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) 
 		instanciateHitbox(ST_S2);

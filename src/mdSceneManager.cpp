@@ -344,19 +344,19 @@ void mdSceneManager::loadSceneUI() {
 	selected_char2_label->active = true;
 	obj_sel.scene_ui_elems.push_back(selected_char2_label);
 
-	obj1_name_label = (Labels*)App->gui->createLabel("PLATE ARMOR:", { 255,255,255,255 }, App->fonts->medium_size, { 380,700 }, this);
+	obj1_name_label = (Labels*)App->gui->createLabel("PLATE ARMOR:", { 255,255,255,255 }, App->fonts->medium_size, { 250,700 }, this);
 	obj1_name_label->active = true;
 	obj_sel.scene_ui_elems.push_back(obj1_name_label);
 
-	obj2_name_label = (Labels*)App->gui->createLabel("PLATE HELM:", { 255,255,255,255 }, App->fonts->medium_size, { 380,800 }, this);
+	obj2_name_label = (Labels*)App->gui->createLabel("PLATE HELM:", { 255,255,255,255 }, App->fonts->medium_size, { 250,800 }, this);
 	obj2_name_label->active = true;
 	obj_sel.scene_ui_elems.push_back(obj2_name_label);
 
-	obj1_desc_label = (Labels*)App->gui->createLabel("You can control your direction while using Bladestorm", { 255,255,255,255 }, App->fonts->medium_size, { 590, 700 }, this);
+	obj1_desc_label = (Labels*)App->gui->createLabel("You can control your direction while using Bladestorm and cancel into Swordyuken", { 255,255,255,255 }, App->fonts->medium_size, { 470, 700 }, this);
 	obj1_desc_label->active = true;
 	obj_sel.scene_ui_elems.push_back(obj1_desc_label);
 
-	obj2_desc_label = (Labels*)App->gui->createLabel("You can cancel Divekick with a basic attack", { 255,255,255,255 }, App->fonts->medium_size, { 580, 800 }, this);
+	obj2_desc_label = (Labels*)App->gui->createLabel("You can cancel Divekick with a basic attack", { 255,255,255,255 }, App->fonts->medium_size, { 470, 800 }, this);
 	obj2_desc_label->active = true;
 	obj_sel.scene_ui_elems.push_back(obj2_desc_label);
 

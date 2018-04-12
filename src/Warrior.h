@@ -25,6 +25,8 @@ public:
 private:
 	// -To load from xml-
 	int spin_speed;
+	int improved_spin_speed;
+	int improved_spin_recovery;
 
 	int swordyuken_invencivility; // In milliseconds
 	int swordyuken_jump_power;

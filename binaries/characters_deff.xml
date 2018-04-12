@@ -31,6 +31,8 @@
     dive_kick_max_height ="520"
     
     spin_speed ="6"
+    improved_spin_speed ="10"
+    improved_spin_recovery ="250"
     spin_object ="special_item_1"
     
     jm_s1_angle ="20"
@@ -188,8 +190,8 @@
           pushblock ="2"
           damage ="20"
           knockdown ="true"
-          juggle_speed_x ="3"
-          juggle_speed_y ="3"
+          juggle_speed_x ="5"
+          juggle_speed_y ="15"
           block_type ="mid"
           type ="st_s2"
           recovery ="500"
