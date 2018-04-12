@@ -22,7 +22,7 @@ mdSceneManager::~mdSceneManager(){}
 bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	scene_config = App->loadConfig("scene_config.xml", scene_config_doc);
 	//PROVISIONAL: HARDCODE, super easy to make an xml out of this, just sayin'
-	max_time = 10;
+	max_time = 90;
 	current_time = max_time;
 
 	player1item = md_config.attribute("player_1_item").as_bool();
@@ -117,7 +117,7 @@ bool mdSceneManager::update(float dt)	{
 		updateTimer();
 		int char1_hp = App->entities->players[0]->getCurrCharacter()->getCurrentLife();
 		int char2_hp = App->entities->players[1]->getCurrCharacter()->getCurrentLife();
-		if (char1_hp <= 0 || char2_hp <= 0)
+		if (char1_hp <= 0 && !paused || char2_hp <= 0 && !paused)
 			popUpWindow();
 	}
 	
