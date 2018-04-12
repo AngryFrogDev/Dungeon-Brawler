@@ -24,7 +24,7 @@
     crouching_hurtbox_offset ="40"
     
     invencibility_on_wakeup ="30"
-    super_window ="30"
+    super_window ="20"
     cancelability_window ="30"
     
     
@@ -195,9 +195,9 @@
           recovery ="500"
           animation_speed ="0.3"/>
         <cr_s1
-          pos_rel_char_x ="200"
+          pos_rel_char_x ="175"
           pos_rel_char_y ="50"
-          hitbox_w ="150"
+          hitbox_w ="175"
           hitbox_h ="150"
           active_time ="-1"
           hitstun ="-1"
@@ -207,7 +207,7 @@
           damage ="10"
           knockdown ="true"
           juggle_speed_x ="2"
-          juggle_speed_y ="25"
+          juggle_speed_y ="30"
           block_type ="mid"
           type ="cr_s1"
           recovery ="150"
