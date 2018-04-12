@@ -48,7 +48,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 
 	traning = false;
 
-	camera_movement = 5; //Should be loaded from XML
+	camera_movement = 20; //Should be loaded from XML
 
 	//createPlayer(0,100, CHAR_TYPE::WARRIOR, false, 1 );
 	//createPlayer(1,1000, CHAR_TYPE::WARRIOR, true, 1); //play with the lane (last argument) for 2v2
@@ -173,7 +173,7 @@ bool mdEntities::moveCamera(bool movingLeft) {
 	}
 	else {
 		int map_limit = App->map->data.camera_x_limit;
-		if (App->render->camera.x == map_limit) ret = false;
+		if (App->render->camera.x + App->render->camera.w == map_limit) ret = false;
 		else {
 			int target_x = std::min(App->render->camera.x + camera_movement + App->render->camera.w, map_limit) - App->render->camera.w;
 			for (int i = 0; i < 4 && ret; ++i) {

@@ -35,8 +35,8 @@ bool Bars::preUpdate() {
 void Bars::draw()	{
 
 	updateBarGauge();
-	App->render->drawSprite(3, App->gui->getAtlas(), position.first, position.second, &bar_rect, 2, flipped);
-	App->render->drawSprite(4, App->gui->getAtlas(), position.first + relative_pos.x + aux_bar_pos, position.second + relative_pos.y, &current_gauge_rect, 2, flipped);
+	App->render->drawSprite(3, App->gui->getAtlas(), position.first, position.second, &bar_rect, 2, flipped, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(4, App->gui->getAtlas(), position.first + relative_pos.x + aux_bar_pos, position.second + relative_pos.y, &current_gauge_rect, 2, flipped, 1.0f, 0, 0, 0, false);
 }
 
 void Bars::getSection(SDL_Rect rect, SDL_Rect gauge){
