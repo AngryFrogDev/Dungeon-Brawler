@@ -526,7 +526,7 @@ void mdSceneManager::blitUiTextures()	{
 
 	if (current_scene == &start_scene)//Logo texture
 	{
-		App->render->drawSprite(1, game_logo, 150, 150, 0, 1);
+		App->render->drawSprite(1, game_logo, 150, 150, 0, 1, false, 0, 0, 0, 0, false);
 		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || (temp != nullptr && temp->isPressed(CONTROLLER_BUTTON::BUTTON_A)))
 			changeScene(&main_menu);
 	}
@@ -540,8 +540,8 @@ void mdSceneManager::blitUiTextures()	{
 			App->entities->paused = true;
 			App->entities->show = false;
 		}
-		App->render->drawSprite(3, App->gui->atlas, 500, 500, &character1_image, 3);
-		App->render->drawSprite(3, App->gui->atlas, 1200, 500, &character1_image, 3);
+		App->render->drawSprite(3, App->gui->atlas, 500, 500, &character1_image, 3,false,0,0,0,0,false);
+		App->render->drawSprite(3, App->gui->atlas, 1200, 500, &character1_image, 3, false, 0, 0, 0, 0, false);
 
 
 		// PROVISIONAL
