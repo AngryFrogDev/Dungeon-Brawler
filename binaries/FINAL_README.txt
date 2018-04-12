@@ -41,6 +41,12 @@ While crouching and pressing back, mids and lows can be blocked
 CHARACTERS
 - For the moment only the warrior is playable. 
 
+ITEMS
+- Skip items scene with "SPACE"
+
+PLATE ARMOR: Control st_s2 (bladestorm), it's faster and cancelable into cr_s2 (swordyuken)
+PLATE HELM: Cancel dive kick into jumping light or heavy attack
+
 Debug controls:
 
 F1 -> See/Hide colliders
