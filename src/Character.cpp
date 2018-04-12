@@ -428,7 +428,7 @@ void Character::onCollision(collider* c1, collider* c2) {
 		moment_hit = SDL_GetTicks();
 		deleteAllMeleeHitboxes(); // When you get hit all your melee  hitboxes are deleted
 	}
-	else if (c1->type == PUSHBOX && c2->type == PUSHBOX) {
+	else if (c1->type == PUSHBOX && c2->type == PUSHBOX && !App->scene_manager->paused) { // PROVISIONAL
 		if (!fliped)
 			logic_position.x -= walk_speed;
 		else
