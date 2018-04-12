@@ -7,8 +7,6 @@
 #include "Module.h"
 #include "SDL/include/SDL.h"
 
-using namespace std;
-
 class spriteToPrint {
 public:
 
@@ -97,9 +95,9 @@ public:
 	
 
 	bool drawSprite(int priority, SDL_Texture* texture, int x, int y, const SDL_Rect* section = NULL, double scale = 1,bool flip = false, float speed = 1.0f, double angle = 0, int pivot_x = INT_MAX, int pivot_y = INT_MAX);
-	bool blitSprites(priority_queue <spriteToPrint*, vector<spriteToPrint*>, spriteOrderCrit>& queue) const;
+	bool blitSprites(std::priority_queue <spriteToPrint*, std::vector<spriteToPrint*>, spriteOrderCrit>& queue) const;
 	bool drawQuad(int priority, const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool filled = true, bool use_camera = true);
-	bool blitQuads(priority_queue <quadToPrint*, vector<quadToPrint*>, quadOrderCrit>& queue) const;
+	bool blitQuads(std::priority_queue <quadToPrint*, std::vector<quadToPrint*>, quadOrderCrit>& queue) const;
 	void cleanBlitQueue();
 	bool drawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool use_camera = true) const;
 	bool drawCircle(int x1, int y1, int redius, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool use_camera = true) const;
@@ -116,8 +114,8 @@ public:
 
 private:
 
-	priority_queue <spriteToPrint*, vector<spriteToPrint*>, spriteOrderCrit> spriteQueue;
-	priority_queue <quadToPrint*, vector<quadToPrint*>, quadOrderCrit> quadQueue;
+	std::priority_queue <spriteToPrint*, std::vector<spriteToPrint*>, spriteOrderCrit> spriteQueue;
+	std::priority_queue <quadToPrint*, std::vector<quadToPrint*>, quadOrderCrit> quadQueue;
 };
 
 #endif // __MDRENDER__

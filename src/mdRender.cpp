@@ -102,7 +102,7 @@ bool mdRender::drawSprite(int priority, SDL_Texture* texture, int x, int y, cons
 }
 
 // Blit to screen
-bool mdRender::blitSprites(priority_queue <spriteToPrint*, vector<spriteToPrint*>, spriteOrderCrit>& queue) const {
+bool mdRender::blitSprites(std::priority_queue <spriteToPrint*, std::vector<spriteToPrint*>, spriteOrderCrit>& queue) const {
 
 	bool ret = true;
 
@@ -169,7 +169,7 @@ bool mdRender::drawQuad(int priority, const SDL_Rect& rect, Uint8 r, Uint8 g, Ui
 	return ret;
 }
 
-bool mdRender::blitQuads(priority_queue <quadToPrint*, vector<quadToPrint*>, quadOrderCrit>& queue) const {
+bool mdRender::blitQuads(std::priority_queue <quadToPrint*, std::vector<quadToPrint*>, quadOrderCrit>& queue) const {
 
 	bool ret = true;
 
