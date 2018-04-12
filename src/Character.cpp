@@ -862,7 +862,8 @@ void Character::resetCharacter()	{
 	state_first_tick = false;
 	current_super_gauge = 0;
 	App->scene_manager->current_time = App->scene_manager->max_time;	//This should be done from the scene manager
-	App->scene_manager->paused = false;									//This should be done from the scene manager
+	App->scene_manager->paused = false;		
+	velocity.x = velocity.y = 0//This should be done from the scene manager
 }
 void Character::deleteDeadHitboxes() 	{
 	// Compute what hitboxes need to be deleted
