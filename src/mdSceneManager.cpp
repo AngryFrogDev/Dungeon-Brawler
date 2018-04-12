@@ -147,7 +147,7 @@ bool mdSceneManager::onEvent(Buttons* button)	{
 		break;
 	case ONE_V_ONE:
 		App->entities->traning = false;
-		changeScene(&one_vs_one);
+		changeScene(&obj_sel);
 		break;
 	case TRANING:
 		App->entities->traning = true;
@@ -205,7 +205,7 @@ bool mdSceneManager::createCharacters()
 		//Very dangerous hardcode to set the partners: 
 		App->entities->assignPartners();
 	}
-
+/*
 	//This will need to change
 	if (player1item)
 		App->entities->players[0]->getCurrCharacter()->giveItem(SPECIAL_ITEM_1);
@@ -216,7 +216,7 @@ bool mdSceneManager::createCharacters()
 		App->entities->players[1]->getCurrCharacter()->giveItem(SPECIAL_ITEM_1);
 	else
 		App->entities->players[1]->getCurrCharacter()->giveItem(SPECIAL_ITEM_2);
-
+		*/
 	App->entities->assignControls();
 
 	return true;
@@ -309,6 +309,66 @@ void mdSceneManager::loadSceneUI() {
 	l_exit->active = labels_node.child("exit").child("active").attribute("value").as_bool();
 	main_menu.scene_ui_elems.push_back(l_exit);
 
+	//PROVISIONAL: This scene is basically for the VS, may need to change after
+	//OBJ_SEL
+	//Preparing nodes
+
+	//Loading variables
+	obj1 = { 14, 13, 19, 15 };
+	obj2 = { 47, 16, 14, 11 };
+
+	scene_title = (Labels*)App->gui->createLabel("SELECT YOUR CHARACTER", { 255,255,255,255 }, App->fonts->extra_large_size, { 300, 100 }, this);
+	scene_title->active = true;
+	obj_sel.scene_ui_elems.push_back(scene_title);
+
+	player1_label = (Labels*)App->gui->createLabel("PLAYER 1", { 255,255,255,255 }, App->fonts->large_size, { 500, 400 }, this);
+	player1_label->active = true;
+	obj_sel.scene_ui_elems.push_back(player1_label);
+
+	player2_label = (Labels*)App->gui->createLabel("PLAYER 2", { 255,255,255,255 }, App->fonts->large_size, { 1200, 400 }, this);
+	player2_label->active = true;
+	obj_sel.scene_ui_elems.push_back(player2_label);
+
+	//PROVISIONAL: These labels must read which is the currently selected char by each player. For the moment, hardcoded to warrior
+	selected_char1_label = (Labels*)App->gui->createLabel("WARRIOR", { 200, 0, 0, 255 }, App->fonts->large_size, { 500, 600 }, this);
+	selected_char1_label->active = true;
+	obj_sel.scene_ui_elems.push_back(selected_char1_label);
+
+	selected_char2_label = (Labels*)App->gui->createLabel("WARRIOR", { 200, 0, 0, 255 }, App->fonts->large_size, { 1200, 600 }, this);
+	selected_char2_label->active = true;
+	obj_sel.scene_ui_elems.push_back(selected_char2_label);
+
+	obj1_name_label = (Labels*)App->gui->createLabel("PLATE ARMOR:", { 255,255,255,255 }, App->fonts->medium_size, { 380,700 }, this);
+	obj1_name_label->active = true;
+	obj_sel.scene_ui_elems.push_back(obj1_name_label);
+
+	obj2_name_label = (Labels*)App->gui->createLabel("PLATE HELM:", { 255,255,255,255 }, App->fonts->medium_size, { 380,800 }, this);
+	obj2_name_label->active = true;
+	obj_sel.scene_ui_elems.push_back(obj2_name_label);
+
+	obj1_desc_label = (Labels*)App->gui->createLabel("You can control your direction while using Bladestorm", { 255,255,255,255 }, App->fonts->medium_size, { 590, 700 }, this);
+	obj1_desc_label->active = true;
+	obj_sel.scene_ui_elems.push_back(obj1_desc_label);
+
+	obj2_desc_label = (Labels*)App->gui->createLabel("You can cancel Divekick by pressing the Special button again", { 255,255,255,255 }, App->fonts->medium_size, { 580, 800 }, this);
+	obj2_desc_label->active = true;
+	obj_sel.scene_ui_elems.push_back(obj2_desc_label);
+
+	sel_obj1 = (Labels*)App->gui->createLabel("Press A to selected PLATE ARMOR", { 175, 0, 0, 255 }, App->fonts->medium_size, { 650, 750 }, this);
+	sel_obj1->active = true;
+	obj_sel.scene_ui_elems.push_back(sel_obj1);
+
+	sel_obj2 = (Labels*)App->gui->createLabel("Press B to selected PLATE HELM", { 175, 0, 0, 255 }, App->fonts->medium_size, { 650, 850 }, this);
+	sel_obj2->active = true;
+	obj_sel.scene_ui_elems.push_back(sel_obj2);
+
+	waiting_pl1 = (Labels*)App->gui->createLabel("WAITING PLAYER 1...", { 100,100,100,100 }, App->fonts->large_size, { 400, 1000 }, this);
+	waiting_pl1->active = true;
+	obj_sel.scene_ui_elems.push_back(waiting_pl1);
+
+	waiting_pl2 = (Labels*)App->gui->createLabel("WAITING PLAYER 2...", { 100,100,100,100 }, App->fonts->large_size, { 1200, 1000 }, this);
+	waiting_pl2->active = true;
+	obj_sel.scene_ui_elems.push_back(waiting_pl2);
 
 	//COMBAT
 	//Preparing nodes
@@ -446,19 +506,19 @@ void mdSceneManager::updateTimer()	{
 	if (current_time > 0)
 	{
 		auto label_string = std::to_string(current_time);
-		timer->changeContent(label_string.data());
+		timer->changeContent(label_string.data(), { 0,0,0,255 });
 	}
 	
 }
 //PROVISIONAL: This function does a lot of things, should be split up into different things
 void mdSceneManager::blitUiTextures()	{
-	
+	Controller* temp = nullptr;
+	if (!App->input->getController().empty())
+		temp = App->input->getController().front();
+
 	if (current_scene == &start_scene)//Logo texture
 	{
 		App->render->drawSprite(1, game_logo, 150, 150, 0, 1);
-		Controller* temp = nullptr;
-		if (!App->input->getController().empty())
-			temp = App->input->getController().front();
 		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || (temp != nullptr && temp->isPressed(CONTROLLER_BUTTON::BUTTON_A)))
 			changeScene(&main_menu);
 	}
@@ -466,6 +526,41 @@ void mdSceneManager::blitUiTextures()	{
 	if (current_scene == &one_vs_one || current_scene == &two_vs_two || current_scene == &main_menu)
 		App->map->map_loaded = true;
 
+	if (current_scene == &obj_sel)
+	{
+		App->render->drawSprite(3, App->gui->atlas, 500, 500, &character1_image, 3);
+		App->render->drawSprite(3, App->gui->atlas, 1200, 500, &character1_image, 3);
+		//PROVISIONAL
+		if (App->input->getKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+			changeScene(&one_vs_one);
+		/*
+		Controller* play1 = App->entities->players[0]->getController();
+		Controller* play2 = App->entities->players[1]->getController();
+
+
+		if (play1 != nullptr && play1->isPressed(CONTROLLER_BUTTON::BUTTON_A) || App->input->getKey(SDL_SCANCODE_A) == KEY_DOWN)
+		{
+			waiting_pl1->changeContent("DONE!", { 0, 150, 0, 255 });
+			App->entities->players[0]->getCurrCharacter()->giveItem(SPECIAL_ITEM_1);
+		}
+		else if (play1 != nullptr && play1->isPressed(CONTROLLER_BUTTON::BUTTON_B) || App->input->getKey(SDL_SCANCODE_B) == KEY_DOWN)
+		{
+			waiting_pl1->changeContent("DONE!", { 0, 150, 0, 255 });
+			App->entities->players[0]->getCurrCharacter()->giveItem(SPECIAL_ITEM_2);
+		}
+
+		if (play2 != nullptr && play2->isPressed(CONTROLLER_BUTTON::BUTTON_A) || App->input->getKey(SDL_SCANCODE_A) == KEY_DOWN)
+		{
+			waiting_pl2->changeContent("DONE!", { 0, 150, 0, 255 });
+			App->entities->players[1]->getCurrCharacter()->giveItem(SPECIAL_ITEM_1);
+		}
+		else if (play2 != nullptr && play2->isPressed(CONTROLLER_BUTTON::BUTTON_B) || App->input->getKey(SDL_SCANCODE_B) == KEY_DOWN)
+		{
+			waiting_pl2->changeContent("DONE!", { 0, 150, 0, 255 });
+			App->entities->players[1]->getCurrCharacter()->giveItem(SPECIAL_ITEM_2);
+		}
+		*/
+	}
 
 	if (current_scene == &one_vs_one || current_scene == &two_vs_two)
 	{

@@ -72,6 +72,7 @@ public:
 	Scene two_vs_two;
 	Scene main_menu;
 	Scene start_scene;
+	Scene obj_sel;
 
 private:
 	enum fade_step
@@ -145,7 +146,21 @@ private:
 	Labels* to_main_menu_l = nullptr;
 
 	//OBJECT SEL
-
+	SDL_Rect obj1;
+	SDL_Rect obj2;
+	Labels* scene_title = nullptr;
+	Labels* player1_label = nullptr;
+	Labels* player2_label = nullptr;
+	Labels* selected_char1_label = nullptr;
+	Labels* selected_char2_label = nullptr;
+	Labels* obj1_name_label = nullptr;
+	Labels* obj2_name_label = nullptr;
+	Labels* obj1_desc_label = nullptr;
+	Labels* obj2_desc_label = nullptr;
+	Labels* waiting_pl1 = nullptr;
+	Labels* waiting_pl2 = nullptr;
+	Labels* sel_obj1 = nullptr;
+	Labels* sel_obj2 = nullptr;
 
 	//Combat scene timer
 	Timer	scene_timer;
