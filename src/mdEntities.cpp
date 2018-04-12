@@ -44,7 +44,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	loadCharactersFromXML(App->loadConfig("characters_deff.xml", entities_config_doc));
 	//PROVISIONAL: Should be loaded from an xml
 	warrior_graphics = App->textures->load("Assets/warrior.png");
-	warrior_graphics2 = App->textures->load("Assets/warrior_2_placeholder.png");
+	warrior_graphics2 = App->textures->load("Assets/warrior_2.png");
 
 	traning = false;
 	show = true;
