@@ -57,15 +57,16 @@ private:
 	void loadSceneCharacters();
 	void updateTimer();
 	void blitUiTextures();
-	
+	void popUpWindow();
+	void closeWindow();
 
 public:
 	std::list<Scene> scenes;
 	Scene* current_scene = nullptr;
 	Scene* scene_to_load = nullptr;
 	bool	paused = false;
-	uint	current_time = 90;
-	uint	max_time = 90;
+	uint	current_time = 0;
+	uint	max_time = 0;
 	
 	Scene one_vs_one;
 	Scene two_vs_two;
@@ -138,6 +139,10 @@ private:
 	Buttons* char_sel = nullptr;
 	Buttons* stage_sel = nullptr;
 	Buttons* to_main_menu = nullptr;
+	Labels* pause_label = nullptr;
+	Labels* end_label = nullptr;
+	Labels* rematch_l = nullptr;
+	Labels* to_main_menu_l = nullptr;
 
 	//Combat scene timer
 	Timer	scene_timer;

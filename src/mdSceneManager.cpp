@@ -22,6 +22,8 @@ mdSceneManager::~mdSceneManager(){}
 bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	scene_config = App->loadConfig("scene_config.xml", scene_config_doc);
 	//PROVISIONAL: HARDCODE, super easy to make an xml out of this, just sayin'
+	max_time = 5;
+	current_time = max_time;
 
 	player1item = md_config.attribute("player_1_item").as_bool();
 	player2item = md_config.attribute("player_2_item").as_bool();
@@ -72,7 +74,10 @@ bool mdSceneManager::update(float dt)	{
 			App->render->cleanBlitQueue();
 			App->projectiles->cleanUp();
 			App->map->map_loaded = false;
-						
+
+			if (paused)
+				paused = !paused;
+
 			current_scene = scene_to_load;
 			if (current_scene == &one_vs_one)
 				scene_timer.start(), current_time = max_time;
@@ -154,10 +159,12 @@ bool mdSceneManager::onEvent(Buttons* button)	{
 		ret = false;
 		break;
 	case IN_GAME_MAIN_MENU:
+		closeWindow();
 		changeScene(&main_menu);
 		break;
 	case IN_GAME_REMATCH:
 		//PROVISIONAL
+		closeWindow();
 		App->entities->players[0]->getCurrCharacter()->resetCharacter();
 		App->entities->players[1]->getCurrCharacter()->resetCharacter();
 		//changeScene(&one_vs_one);
@@ -224,6 +231,8 @@ bool mdSceneManager::createWidgets()
 		object = *it;
 		if (object->active)
 			object->visible = true;
+		else
+			object->visible = false;
 	}
 
 	for (auto it = App->gui->focus_elements.begin(); it != App->gui->focus_elements.end(); it++) {
@@ -346,9 +355,21 @@ void mdSceneManager::loadSceneUI() {
 	rematch->active = buttons_node.child("rematch").child("active").attribute("value").as_bool();
 	one_vs_one.scene_ui_elems.push_back(rematch);
 
-	to_main_menu = (Buttons*)App->gui->createButton(IN_GAME_MAIN_MENU, MEDIUM, { 100,100 }, this);
+	to_main_menu = (Buttons*)App->gui->createButton(IN_GAME_MAIN_MENU, MEDIUM, { 780,680 }, this);
 	to_main_menu->active = false;
 	one_vs_one.scene_ui_elems.push_back(to_main_menu);
+
+	rematch_l = (Labels*)App->gui->createLabel("REMATCH", { 0,0,0,255 }, App->fonts->large_size, { 820, 615 }, this);
+	rematch_l->active = false;
+	one_vs_one.scene_ui_elems.push_back(rematch_l);
+
+	to_main_menu_l = (Labels*)App->gui->createLabel("MAIN MENU", { 0,0,0,255 }, App->fonts->large_size, { 795, 695 }, this);
+	to_main_menu_l->active = false;
+	one_vs_one.scene_ui_elems.push_back(to_main_menu_l);
+
+	end_label = (Labels*)App->gui->createLabel("WE HAVE A WINNER!", { 255,255,255,255 }, App->fonts->large_size, { 725, 420 }, this);
+	end_label->active = false;
+	one_vs_one.scene_ui_elems.push_back(end_label);
 
 	window = (UiWindow*)App->gui->createWindow(MATCH_END, { 600,400 }, this);
 	window->active = false;
@@ -419,15 +440,7 @@ void mdSceneManager::updateTimer()	{
 	if (current_time == 0)
 	{
 		current_time = max_time;
-		//PROVISIONAL
-		paused = true;
-		window->active = true;
-		rematch->active = true;
-		to_main_menu->active = true;
-		createWidgets();
-		//current_time = max_time;
-		//
-		scene_timer.start();
+		popUpWindow();
 	}
 	if (current_time > 0)
 	{
@@ -464,6 +477,27 @@ void mdSceneManager::blitUiTextures()	{
 			App->render->drawSprite(3, App->gui->atlas, 1579, 109, &character2_image, 3, true);
 		}
 	}
+}
+
+void mdSceneManager::popUpWindow()	{
+	paused = true;
+	window->active = true;
+	rematch->active = true;
+	to_main_menu->active = true;
+	rematch_l->active = true;
+	to_main_menu_l->active = true;
+	end_label->active = true;
+	createWidgets();
+}
+
+void mdSceneManager::closeWindow()	{
+	window->active = false;
+	rematch->active = false;
+	to_main_menu->active = false;
+	rematch_l->active = false;
+	to_main_menu_l->active = false;
+	end_label->active = false;
+	createWidgets();
 }
 
 
