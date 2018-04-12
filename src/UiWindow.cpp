@@ -11,5 +11,5 @@ UiWindow::UiWindow(window_type _type, std::pair<int, int> pos, Module * callback
 UiWindow::~UiWindow(){}
 
 void UiWindow::draw()	{
-	App->render->drawSprite(5, App->gui->getAtlas(), position.first, position.second, &window_rect, 4);
+	App->render->drawSprite(5, App->gui->getAtlas(), position.first, position.second, &window_rect, 4, false, 1.0f, 0.0, 0, 0, false);
 }

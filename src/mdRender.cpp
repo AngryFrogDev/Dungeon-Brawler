@@ -43,7 +43,7 @@ bool mdRender::awake(const pugi::xml_node& md_config) {
 		camera.h = resolution.second / 1.5;
 		viewport.x = viewport.y = 0;
 		camera.x = (viewport.w - camera.w) / 2;
-		camera.y = viewport.h - camera.h;
+		camera.y = viewport.h - camera.h - 60;
 	}
 
 	return ret;
