@@ -37,12 +37,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	fillBuffer(inputs);
 
 
-	// PROVISIONAL: (?)
-	if (logic_position.x < left_x_limit)
-		logic_position.x = left_x_limit;
-	if (logic_position.x > right_x_limit)
-		logic_position.x = right_x_limit;
-
 	switch (current_state) {
 	case IDLE:
 		//Input independent actions
@@ -379,6 +373,12 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		break;
 	}
+
+	// PROVISIONAL: (?)
+	if (logic_position.x < App->render->camera.x + left_x_limit)
+		logic_position.x = App->render->camera.x + left_x_limit;
+	if (logic_position.x > App->render->camera.x + App->render->camera.w - left_x_limit)
+		logic_position.x = App->render->camera.x + App->render->camera.w - left_x_limit;
 
 	manageGroundPosition();
 

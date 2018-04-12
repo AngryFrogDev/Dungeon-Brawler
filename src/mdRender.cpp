@@ -31,13 +31,14 @@ bool mdRender::awake(const pugi::xml_node& md_config) {
 
 	renderer = SDL_CreateRenderer(App->window->window, -1, flags);
 
+	resolution = { 1920,1080 };
 	if (renderer == NULL) {
 		LOG("Could not create the renderer! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 	else {
-		viewport.w = camera.w = App->window->window_surface->w;
-		viewport.h = camera.h = App->window->window_surface->h;
+		viewport.w = camera.w = resolution.first;
+		viewport.h = camera.h = resolution.second;
 		viewport.x = camera.x = 0;
 		viewport.y = camera.y = 0;
 	}

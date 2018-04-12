@@ -3,6 +3,7 @@
 
 #include <queue>
 #include <vector>
+#include <utility>
 
 #include "Module.h"
 #include "SDL/include/SDL.h"
@@ -107,10 +108,11 @@ public:
 
 public:
 
-	SDL_Renderer *	renderer;
-	SDL_Rect		camera;
-	SDL_Rect		viewport;
-	SDL_Color		background;
+	SDL_Renderer *			renderer;
+	SDL_Rect				camera;
+	SDL_Rect				viewport;
+	SDL_Color				background;
+	std::pair<uint, uint>	resolution;
 
 private:
 
