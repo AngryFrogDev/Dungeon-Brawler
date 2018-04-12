@@ -132,7 +132,7 @@ public:
 
 	void setIfGrounded();
 
-	void draw(SDL_Texture* graphic) const;
+	void draw(SDL_Texture* graphic);
 
 	bool manageSwap();
 
@@ -232,6 +232,10 @@ protected:
 	int cancelability_window;
 
 	int dive_kick_max_height; // PROVISIONAL: This should only belong to warrior
+
+	int shadow_offset;
+	SDL_Rect shadow_rect;
+
 
 	// Sound effects
 	Mix_Chunk* s_jump;

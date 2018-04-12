@@ -466,9 +466,16 @@ void Character::setIfGrounded() {
 	}
 }
 
-void Character::draw(SDL_Texture* graphic)  const{
-	if (current_animation != nullptr)
-		App->render->drawSprite(3,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped, 1.0f, current_animation->angle);
+void Character::draw(SDL_Texture* graphic){
+	if (current_animation != nullptr){ // PROVISIONAL
+		int hardcoded_offset = 0;
+		if (fliped)
+			hardcoded_offset = 15;
+		else
+			hardcoded_offset = -15;
+		App->render->drawSprite(4, graphic, logic_position.x - ((shadow_rect.w/2)*scale) + hardcoded_offset, ground_position + shadow_offset, &shadow_rect, scale, fliped, 1.0f, current_animation->angle);
+		App->render->drawSprite(5,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped, 1.0f, current_animation->angle);
+	}
 
 }
 
