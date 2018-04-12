@@ -43,8 +43,9 @@ bool Buttons::preUpdate()
 	{
 		changeVisualState(FOCUSED);
 		Controller* temp = nullptr;
-		temp = App->input->getController().front();
-		if (temp->isPressed(CONTROLLER_BUTTON::BUTTON_A) || App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		if(!App->input->getController().empty())
+			temp = App->input->getController().front();
+		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || (temp != nullptr && temp->isPressed(CONTROLLER_BUTTON::BUTTON_A)))
 		{
 			changeVisualState(CLICK); 
 			ret = App->scene_manager->onEvent(this);

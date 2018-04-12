@@ -442,8 +442,9 @@ void mdSceneManager::blitUiTextures()	{
 	{
 		App->render->drawSprite(1, game_logo, 150, 150, 0, 1);
 		Controller* temp = nullptr;
-		temp = App->input->getController().front();
-		if (temp->isPressed(CONTROLLER_BUTTON::BUTTON_A) || App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		if (!App->input->getController().empty())
+			temp = App->input->getController().front();
+		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || (temp != nullptr && temp->isPressed(CONTROLLER_BUTTON::BUTTON_A)))
 			changeScene(&main_menu);
 	}
 
