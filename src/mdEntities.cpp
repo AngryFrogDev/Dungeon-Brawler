@@ -1,5 +1,7 @@
 #include "mdEntities.h"
+#include "mdMap.h"
 #include "Player.h"
+#include <algorithm>
 
 mdEntities::mdEntities(){
 	name = "entities";
@@ -45,6 +47,8 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	warrior_graphics2 = App->textures->load("Assets/warrior_2_placeholder.png");
 
 	traning = false;
+
+	camera_movement = 5; //Should be loaded from XML
 
 	//createPlayer(0,100, CHAR_TYPE::WARRIOR, false, 1 );
 	//createPlayer(1,1000, CHAR_TYPE::WARRIOR, true, 1); //play with the lane (last argument) for 2v2
@@ -147,6 +151,46 @@ void mdEntities::assignPartners()
 	players[1]->getCurrCharacter()->partner = players[0];
 	players[2]->getCurrCharacter()->partner = players[3];
 	players[3]->getCurrCharacter()->partner = players[2];
+}
+
+bool mdEntities::moveCamera(bool movingLeft) {
+	bool ret = true;
+	if (movingLeft) {
+		if (App->render->camera.x == 0) ret = false;
+		else {
+			int target_x = std::max(App->render->camera.x - camera_movement, 0);
+			for (int i = 0; i < 4 && ret; ++i) {
+				if (players[i] != nullptr && players[i]->getCurrCharacter() != nullptr) {
+					Character* temp = players[i]->getCurrCharacter();
+					int future_limit = target_x + App->render->camera.w - temp->getLateralLimit();
+					if (temp->getPos().x > future_limit) ret = false;  //If the character will be out of limits, the camera doesn't move
+				}
+			}
+
+			if (ret)
+				App->render->camera.x = target_x;
+		}
+	}
+	else {
+		int map_limit = App->map->data.camera_x_limit;
+		if (App->render->camera.x == map_limit) ret = false;
+		else {
+			int target_x = std::min(App->render->camera.x + camera_movement + App->render->camera.w, map_limit) - App->render->camera.w;
+			for (int i = 0; i < 4 && ret; ++i) {
+				if (players[i] != nullptr && players[i]->getCurrCharacter() != nullptr) {
+					Character* temp = players[i]->getCurrCharacter();
+					int future_limit = target_x + temp->getLateralLimit();
+					if (temp->getPos().x < future_limit) ret = false;  //If the character will be out of limits, the camera doesn't move
+				}
+			}
+
+			if (ret)
+				App->render->camera.x = target_x;
+		}
+	}
+
+	return ret;
+
 }
 
 bool mdEntities::automaticFlip() {

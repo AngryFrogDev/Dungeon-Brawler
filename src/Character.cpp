@@ -377,10 +377,14 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	}
 
 	// PROVISIONAL: (?)
-	if (logic_position.x < App->render->camera.x + lateral_limit)
-		logic_position.x = App->render->camera.x + lateral_limit;
-	if (logic_position.x > App->render->camera.x + App->render->camera.w - lateral_limit)
-		logic_position.x = App->render->camera.x + App->render->camera.w - lateral_limit;
+	if (logic_position.x < App->render->camera.x + lateral_limit) {
+		if (!App->entities->moveCamera(true))
+			logic_position.x = App->render->camera.x + lateral_limit;
+	}
+	if (logic_position.x > App->render->camera.x + App->render->camera.w - lateral_limit) {
+		if (!App->entities->moveCamera(false))
+			logic_position.x = App->render->camera.x + App->render->camera.w - lateral_limit;
+	}
 
 	manageGroundPosition();
 

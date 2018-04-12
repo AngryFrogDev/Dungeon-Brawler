@@ -70,10 +70,6 @@ public:
 	bool postUpdate() override;
 	bool cleanUp();
 
-
-
-	Player* players[4]; //I made it public to make the partner system work
-
 	// Creates a character and assigns it to a player
 	void createPlayer(int player,int x_pos, CHAR_TYPE type, bool fliped, int lane);
 
@@ -83,6 +79,8 @@ public:
 	void assignControllers();
 	void assignPartners();
 
+	bool moveCamera(bool movingLeft);
+
 	character_deff warrior;
 	bool traning;
 
@@ -91,7 +89,9 @@ public:
 	ITEMS stringToItem(std::string string);
 	BLOCK_TYPE stringToBlockType(std::string string);
 	CHAR_ATT_TYPE stringToCharAttType(std::string string);
+
 public:
+	Player * players[4]; //I made it public to make the partner system work
 	std::list<controller_scheme> controller_schemes;
 	std::list<keyboard_scheme>	 keyboard_schemes;
 	KEY_STATE attack_input; 
@@ -104,6 +104,8 @@ private:
 	void fillWarriorFromXML(const pugi::xml_node& md_config);	
 	void loadAttackDeffFromXML(const pugi::xml_node& md_config, basic_attack_deff& attack);
 
+private:
+	int camera_movement;
 	//Graphics of the warrior
 	SDL_Texture* warrior_graphics;
 	SDL_Texture* warrior_graphics2;

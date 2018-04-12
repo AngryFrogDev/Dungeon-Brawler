@@ -336,8 +336,7 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	// Others
 	bottom_lane = 800;
 	upper_lane = 450;
-	right_x_limit = 1870;
-	left_x_limit = 50;
+	lateral_limit = 50;
 
 
 	// PROVISIONAL: This should belong to entities, if not fx are loaded twice
