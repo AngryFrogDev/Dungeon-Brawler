@@ -31,6 +31,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	if (App->entities->traning) {
 		current_life = max_life;
 		current_super_gauge = max_super_gauge;
+		giveItem(SPECIAL_ITEM_1);
+		giveItem(SPECIAL_ITEM_2);
 	}
 
 	

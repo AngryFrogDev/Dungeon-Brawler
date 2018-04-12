@@ -531,6 +531,7 @@ void mdSceneManager::blitUiTextures()	{
 	{
 		App->render->drawSprite(3, App->gui->atlas, 500, 500, &character1_image, 3);
 		App->render->drawSprite(3, App->gui->atlas, 1200, 500, &character1_image, 3);
+
 		//PROVISIONAL
 		if (App->input->getKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 			changeScene(&one_vs_one);
