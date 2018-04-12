@@ -8,6 +8,7 @@
 #include "Module.h"
 #include "SDL/include/SDL.h"
 
+
 class spriteToPrint {
 public:
 
@@ -112,7 +113,7 @@ public:
 	SDL_Rect				camera;
 	SDL_Rect				viewport;
 	SDL_Color				background;
-	std::pair<uint, uint>	resolution;
+	std::pair<int, int>	    resolution;
 
 private:
 

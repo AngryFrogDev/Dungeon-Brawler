@@ -19,6 +19,7 @@
 #include "mdMap.h"
 #include "mdProjectiles.h"
 #include "mdSceneManager.h"
+#include "mdParticleSystem.h"
 
 Application::Application(int argc, char* args[]) {
 	filesystem = new mdFilesystem;
@@ -34,6 +35,7 @@ Application::Application(int argc, char* args[]) {
 	map = new mdMap;
 	projectiles = new mdProjectiles;
 	scene_manager = new mdSceneManager;
+	particle_system = new mdParticleSystem;
 
 
 	addModule(filesystem);
@@ -49,6 +51,7 @@ Application::Application(int argc, char* args[]) {
 	addModule(gui);
 	addModule(map);
 	addModule(entities);
+	addModule(particle_system);
 	
 }
 

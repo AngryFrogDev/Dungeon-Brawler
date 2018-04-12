@@ -114,6 +114,15 @@
     <ClCompile Include="mdSceneManager.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleEmitter.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="mdParticleSystem.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -204,6 +213,15 @@
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="mdSceneManager.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEmitter.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="mdParticleSystem.h">
       <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>

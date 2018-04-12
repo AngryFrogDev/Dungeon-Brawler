@@ -315,6 +315,7 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	projectile_scale = character.projectile_scale;
 	swordyuken_invencivility = character.swordyuken_invencivility;
 	swordyuken_jump_power = character.swordyuken_jump_power;
+	super_invencibility = 300;
 
 	// Constructor inicialization
 	fliped = _fliped;
@@ -590,6 +591,7 @@ void Warrior::doSuper() {
 		updateAnimationOnBasicAttack(*super_iterator);
 		state_first_tick = true;
 		current_super_gauge = 0;
+		makeInvencibleFor(super_invencibility);
 	}
 	if (fliped)
 		logic_position.x -= super_advance_speed;

@@ -6,10 +6,14 @@
 #include "mdAudio.h"
 #include "mdInput.h"
 #include "mdSceneManager.h"
+#include "mdParticleSystem.h"
 
 Character::Character() {
 	config = App->loadConfig("config.xml", config_doc);
 	data = config.child("entities");
+
+	//LUCAS
+
 }
 
 
@@ -248,6 +252,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		// One tick
 		if (!state_first_tick) {
 			playCurrentSFX();
+			emmitCurrentParticle();
+			updateAnimation(standing_block);
 			state_first_tick = true;
 		}
 		if (hit) {
@@ -261,7 +267,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			logic_position.x -= attack_recieving.pushblock;
 		else
 			logic_position.x += attack_recieving.pushblock;
-		updateAnimation(standing_block);
+		
 		break;
 
 	case CROUCH_BLOCKING:
@@ -269,6 +275,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		// One tick
 		if (!state_first_tick) {
 			playCurrentSFX();
+			emmitCurrentParticle();
 			updateAnimation(crouching_block);
 			state_first_tick = true;
 		}
@@ -291,6 +298,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		// One tick
 		if (!state_first_tick) {
 			updateAnimation(standing_hit);
+			emmitCurrentParticle();
 			state_first_tick = true;
 		}
 		if (hit) { 
@@ -478,8 +486,8 @@ void Character::draw(SDL_Texture* graphic){
 			hardcoded_offset = 15;
 		else
 			hardcoded_offset = -15;
-		App->render->drawSprite(6, graphic, logic_position.x - ((shadow_rect.w/2)*scale) + hardcoded_offset, ground_position + shadow_offset, &shadow_rect, scale, fliped, 1.0f,0);
-		App->render->drawSprite(7,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped, 1.0f, current_animation->angle);
+		App->render->drawSprite(3, graphic, logic_position.x - ((shadow_rect.w/2)*scale) + hardcoded_offset, ground_position + shadow_offset, &shadow_rect, scale, fliped, 1.0f,0);
+		App->render->drawSprite(4,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped, 1.0f, current_animation->angle);
 	}
 
 }
@@ -1148,5 +1156,46 @@ bool Character::checkForSuper(int window) {
 }
 bool Character::checkDiveKickHeight() {
 	return logic_position.y <= dive_kick_max_height;
+}
+void Character::emmitCurrentParticle() {
+	switch (attack_recieving.type) {
+		case ST_L:
+		case CR_L:
+		case JM_L:
+		case ST_S1:
+			switch (current_state) {
+			case STAND_BLOCKING:
+				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/light-block.xml");
+				break;
+			case CROUCH_BLOCKING:
+				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/light-block.xml");
+				break;
+			case HIT:
+			case JUGGLE:
+				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/light-hit.xml");
+				break;
+			}
+
+			break;
+		case ST_H:
+		case CR_H:
+		case JM_H:
+		case ST_S2:
+		case CR_S2:
+		case CR_S1:
+			switch (current_state) {
+			case STAND_BLOCKING:
+				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/heavy-block.xml");
+				break;
+			case CROUCH_BLOCKING:
+				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/heavy-block.xml");
+				break;
+			case HIT:
+			case JUGGLE:
+				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/heavy-hit.xml");
+				break;
+			}
+			break;
+	}
 }
 

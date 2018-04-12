@@ -24,6 +24,7 @@ class mdGuiManager;
 class mdMap;
 class mdProjectiles;
 class mdSceneManager;
+class mdParticleSystem;
 
 
 class Application
@@ -82,6 +83,7 @@ public:
 	mdMap*			map;
 	mdProjectiles*  projectiles;
 	mdSceneManager*	scene_manager;
+	mdParticleSystem* particle_system;
 
 };
 
