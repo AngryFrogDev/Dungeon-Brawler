@@ -420,12 +420,13 @@ void mdSceneManager::updateTimer()	{
 	{
 		current_time = max_time;
 		//PROVISIONAL
-	/*	paused = true;
+		paused = true;
 		window->active = true;
 		rematch->active = true;
 		to_main_menu->active = true;
-		createWidgets();*/
-		current_time = max_time;
+		createWidgets();
+		//current_time = max_time;
+		//
 		scene_timer.start();
 	}
 	if (current_time > 0)
