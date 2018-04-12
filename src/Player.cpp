@@ -2,9 +2,10 @@
 #include "Character.h"
 #include "Warrior.h"
 #include "Application.h"
+#include "mdSceneManager.h"
 
 Player::Player(){
-
+	
 }
 
 Player::Player(Controller* controller) : controller(controller){
@@ -19,18 +20,29 @@ void Player::update(SDL_Texture* graphics)
 {
 	bool player_inputs[MAX_INPUTS] = { false };
 	if (controller != nullptr) {
-		for (int i = 0; i < MAX_INPUTS; i++)
-				player_inputs[i] = controller->isPressed(player_controller_scheme.scheme[i]);
+		for (int i = 0; i < MAX_INPUTS; i++){
+				if(i < 4)
+					player_inputs[i] = controller->isPressed(player_controller_scheme.scheme[i], KEY_REPEAT);
+				else
+					player_inputs[i] = controller->isPressed(player_controller_scheme.scheme[i], App->entities->attack_input);
+		}
 	}
 	else {
-		for (int i = 0; i < MAX_INPUTS; i++)
-			player_inputs[i] = App->input->getKey(player_keyboard_scheme.scheme[i]) == KEY_REPEAT;
+		for (int i = 0; i < MAX_INPUTS; i++){
+			if(i < 4)
+				player_inputs[i] = App->input->getKey(player_keyboard_scheme.scheme[i]) == KEY_REPEAT;
+			else 
+				player_inputs[i] = App->input->getKey(player_keyboard_scheme.scheme[i]) == App->entities->attack_input;
+		}
 	}
 
 	if (curr_character != nullptr) {
-		curr_character->update(player_inputs);
-		curr_character->draw(graphics);
+		if(!App->entities->paused)
+			curr_character->update(player_inputs);
+		if(App->entities->show)
+			curr_character->draw(graphics);
 	}
+
 }
 void Player::assignController(Controller* controller) {
 
@@ -43,7 +55,7 @@ void Player::createAndAssignCharacter(int x_pos, CHAR_TYPE type, bool fliped, in
 	{
 		case WARRIOR:
 		{
-			curr_character = new Warrior(x_pos, fliped, lane);
+			curr_character = new Warrior(App->entities->warrior,x_pos, fliped, lane);
 			break;
 		}
 		//case MAGE:

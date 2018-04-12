@@ -100,15 +100,17 @@ bool Application::update() {
 	++frame_count;
 	float dt = frame_time.readSec();
 	frame_time.start();
+
+	//We iterate on the modules calling their update steps
 	BROFILER_CATEGORY("Preupdates", 0xFFF0E68C);
 	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
-		ret = (*it)->isActive() ? ret = (*it)->preUpdate() : true;
+		ret = (*it)->isActive() ? (*it)->preUpdate() : true;
 	BROFILER_CATEGORY("Updates", 0xFF008000);
 	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
-		ret = (*it)->isActive() ? ret = (*it)->update(dt) : true;
+		ret = (*it)->isActive() ? (*it)->update(dt) : true;
 	BROFILER_CATEGORY("Postupdates", 0xFFADD8E6);
 	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
-		ret = (*it)->isActive() ? ret = (*it)->postUpdate() : true;
+		ret = (*it)->isActive() ? (*it)->postUpdate() : true;
 
 	if (ret) ret = finishUpdate();
 
@@ -156,10 +158,10 @@ void Application::addModule(Module * module)
 pugi::xml_node Application::loadConfig(const char* file_name, pugi::xml_document& config_file) {
 	pugi::xml_node config_node;
 	char* buffer;
-	int size = filesystem->load(file_name, &buffer);
-	pugi::xml_parse_result result = config_file.load_buffer(buffer, size);
-	if (size != 0)
-		RELEASE(buffer);
+//	int size = filesystem->load(file_name, &buffer);
+	pugi::xml_parse_result result = config_file.load_file(file_name);
+//	if (size != 0)
+//		RELEASE(buffer);
 
 	if (result == NULL)
 		LOG("Application : Could not load file - %s", result.description());

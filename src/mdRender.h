@@ -3,17 +3,16 @@
 
 #include <queue>
 #include <vector>
+#include <utility>
 
 #include "Module.h"
 #include "SDL/include/SDL.h"
 
-using namespace std;
-
-class objectToPrint {
+class spriteToPrint {
 public:
 
-	objectToPrint(int priority, SDL_Texture* texture, int x, int y, const SDL_Rect* section, double scale,bool flip, float speed, double angle, int pivot_x, int pivot_y) :
-		priority(priority), texture(texture), x(x), y(y), section(section), scale(scale),flip(flip), speed(speed), angle(angle), pivot_x(pivot_x), pivot_y(pivot_y) {}
+	spriteToPrint(int priority, SDL_Texture* texture, int x, int y, const SDL_Rect* section, double scale,bool flip, float speed, double angle, int pivot_x, int pivot_y, bool use_camera) :
+		priority(priority), texture(texture), x(x), y(y), section(section), scale(scale),flip(flip), speed(speed), angle(angle), pivot_x(pivot_x), pivot_y(pivot_y), use_camera(use_camera) {}
 
 	int getPriority()const {
 		return priority;
@@ -31,12 +30,40 @@ public:
 	int					pivot_x;
 	int					pivot_y;
 	bool				flip;
+	bool				use_camera;
+	int					priority;
+};
+
+struct spriteOrderCrit {
+	bool operator()(const spriteToPrint* obj1, const spriteToPrint* obj2)const {
+		return obj1->getPriority() > obj2->getPriority();
+	}
+};
+
+class quadToPrint {
+public:
+
+	quadToPrint(int priority, const SDL_Rect rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a, bool filled, bool use_camera) :
+		priority(priority), rect(rect), r(r), g(g), b(b), a(a), filled(filled), use_camera(use_camera) {}
+
+	int getPriority()const {
+		return priority;
+	}
+
+public:
+	const SDL_Rect rect;
+	Uint8 r;
+	Uint8 g;
+	Uint8 b;
+	Uint8 a;
+	bool filled;
+	bool use_camera;
 
 	int					priority;
 };
 
-struct orderCrit {
-	bool operator()(const objectToPrint* obj1, const objectToPrint* obj2)const {
+struct quadOrderCrit {
+	bool operator()(const quadToPrint* obj1, const quadToPrint* obj2)const {
 		return obj1->getPriority() > obj2->getPriority();
 	}
 };
@@ -68,9 +95,11 @@ public:
 
 	
 
-	bool blit(int priority, SDL_Texture* texture, int x, int y, const SDL_Rect* section = NULL, double scale = 1,bool flip = false, float speed = 1.0f, double angle = 0, int pivot_x = INT_MAX, int pivot_y = INT_MAX);
-	bool drawBlit(priority_queue <objectToPrint*, vector<objectToPrint*>, orderCrit>& Queue) const;
-	bool drawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool filled = true, bool use_camera = true) const;
+	bool drawSprite(int priority, SDL_Texture* texture, int x, int y, const SDL_Rect* section = NULL, double scale = 1,bool flip = false, float speed = 1.0f, double angle = 0, int pivot_x = INT_MAX, int pivot_y = INT_MAX, bool use_camera = true);
+	bool blitSprites(std::priority_queue <spriteToPrint*, std::vector<spriteToPrint*>, spriteOrderCrit>& queue) const;
+	bool drawQuad(int priority, const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool filled = true, bool use_camera = true);
+	bool blitQuads(std::priority_queue <quadToPrint*, std::vector<quadToPrint*>, quadOrderCrit>& queue) const;
+	void cleanBlitQueue();
 	bool drawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool use_camera = true) const;
 	bool drawCircle(int x1, int y1, int redius, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool use_camera = true) const;
 
@@ -79,14 +108,16 @@ public:
 
 public:
 
-	SDL_Renderer *	renderer;
-	SDL_Rect		camera;
-	SDL_Rect		viewport;
-	SDL_Color		background;
+	SDL_Renderer *			renderer;
+	SDL_Rect				camera;
+	SDL_Rect				viewport;
+	SDL_Color				background;
+	std::pair<uint, uint>	resolution;
 
 private:
 
-	priority_queue <objectToPrint*, vector<objectToPrint*>, orderCrit> blitQueue;
+	std::priority_queue <spriteToPrint*, std::vector<spriteToPrint*>, spriteOrderCrit> spriteQueue;
+	std::priority_queue <quadToPrint*, std::vector<quadToPrint*>, quadOrderCrit> quadQueue;
 };
 
 #endif // __MDRENDER__

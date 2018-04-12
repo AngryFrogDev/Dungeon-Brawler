@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <config>
+  <items player_1_item ="false" player_2_item ="true"/>
 	<application>
 		<framerate_cap>60</framerate_cap>
 		<product name="Dungeon Brawler" />
@@ -17,16 +18,27 @@
 	</filesystem>
         <fonts>
 		<default path = "fonts/VCR_OSD_MONO_1.001.ttf"/>
+		<extra_large_font size = "100"/>
 		<large_font size = "40"/>
     		<medium_font size = "30"/>
     		<small_font size = "15"/>
 	</fonts>
 	<gui>
 		<atlas file="gui/GUI_placeholder_WIP.png"/>
+		<window_rect x="165" y="219" w="160" h="139"/>
 		<button_section>
-			<still x="421" y="10" w="114" h="31"/>
-			<focused x="421" y="48" w="114" h="31"/>
-			<clicked x="421" y="94" w="114" h="31"/>
+			<big>
+				<still x="421" y="10" w="114" h="31"/>
+				<focused x="421" y="48" w="114" h="31"/>
+				<clicked x="421" y="94" w="114" h="31"/>
+			</big>
+			<medium>
+				<still x="6" y="245" w="90" h="21"/>
+				<focused x="6" y="219" w="90" h="21"/>
+				<clicked x="6" y="272" w="90" h="21"/>	
+			</medium>
+			<small>
+			</small>
 		</button_section>
 		<bar_section>
 			<hp>
@@ -47,6 +59,7 @@
 		<axis tolerance="0.2"/>
 	</input>
 	<entities>
+    <settings attack_type ="key_repeat"/>
 		<schemes>
       <controller_schemes>
 			  <default_controller up="11" down="12" left="13"   right="14"  light_attack="2" heavy_attack="0"  special_1="10" special_2="9"  grab="1"  switch="3" />

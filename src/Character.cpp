@@ -5,9 +5,11 @@
 #include "mdCollision.h"
 #include "mdAudio.h"
 #include "mdInput.h"
+#include "mdSceneManager.h"
 
 Character::Character() {
-
+	config = App->loadConfig("config.xml", config_doc);
+	data = config.child("entities");
 }
 
 
@@ -19,33 +21,21 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	//PROVISIONAL: Crazy provisional
 	if (current_life <= 0 && !death) {
-		updateState(DEAD, NO_ATT);
+		updateState(DEAD);
 		hurtbox->active = false;
 		death = true;
 	}
 	if (App->input->getKey(SDL_SCANCODE_F2) == KEY_DOWN) {
-		current_life = max_life;
-		current_state = CHAR_STATE::IDLE;
-		logic_position.x = starting_position.x;
-		logic_position.y = bottom_lane;
-		hurtbox->active = true;
-		death = false;
-		hit = false;
-		state_first_tick = false;
-		current_super_gauge = 0;
+		resetCharacter();
 	}
-	if (current_super_gauge > max_super_gauge)
+	if (App->entities->traning) {
+		current_life = max_life;
 		current_super_gauge = max_super_gauge;
+	}
+
 	
 	fillBuffer(inputs);
-	lookInBuffer(SPECIAL_1, 30);
 
-
-	// PROVISIONAL: (?)
-	if (logic_position.x < left_x_limit)
-		logic_position.x = left_x_limit;
-	if (logic_position.x > right_x_limit)
-		logic_position.x = right_x_limit;
 
 	switch (current_state) {
 	case IDLE:
@@ -56,23 +46,25 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			state_first_tick = true;
 		}
 		if (hit) 
-			updateState(HIT, NO_ATT);
+			updateState(HIT);
 		// Input dependent
+		if (checkForSuper(super_window))
+			updateState(ATTACKING, SUPER);
 		else if (inputs[SWITCH]) {
-			updateState(SWAPPING, NO_ATT);				// Is this necessary?
+			updateState(SWAPPING);				// Is this necessary?
 			swapRequested = true;						//Important!
 		}
 		else if (inputs[RIGHT] && !fliped || inputs[LEFT] && fliped)
-			updateState(WALKING_FORWARD, NO_ATT);
+			updateState(WALKING_FORWARD);
 		else if (inputs[LEFT] && !fliped || inputs[RIGHT] && fliped)
-			updateState(WALKING_BACK, NO_ATT);
+			updateState(WALKING_BACK);
 		else if (inputs[UP]) {
 			velocity.y -= jump_power.y;
 			grounded = false;
-			updateState(JUMPING, NO_ATT);
+			updateState(JUMPING);
 		}
 		else if (inputs[DOWN])
-			updateState(CROUCHING, NO_ATT);
+			updateState(CROUCHING);
 		else if (inputs[LIGHT_ATTACK]) 
 			updateState(ATTACKING, ST_L); 
 		else if (inputs[HEAVY_ATTACK]) 
@@ -93,9 +85,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		if (hit) {
 			if (attack_recieving.block_type != BLOCK_TYPE::LOW)
-				updateState(STAND_BLOCKING, NO_ATT);
+				updateState(STAND_BLOCKING);
 			else
-				updateState(HIT, NO_ATT);
+				updateState(HIT);
 		}
 		//Continuous
 		if (fliped)
@@ -104,7 +96,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			logic_position.x -= walk_speed;
 		// Input dependent actions
 		if (!fliped && !inputs[LEFT] || fliped && !inputs[RIGHT])
-			updateState(IDLE, NO_ATT);
+			updateState(IDLE);
 		else if (inputs[UP]) {
 			velocity.y -= jump_power.y;
 			if (!fliped)
@@ -112,10 +104,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			else
 				velocity.x += jump_power.x;
 			grounded = false;
-			updateState(JUMPING, NO_ATT);
+			updateState(JUMPING);
 		}
 		else if (inputs[DOWN])
-			updateState(CROUCHING, NO_ATT);
+			updateState(CROUCHING);
 		else if (inputs[LIGHT_ATTACK]) 
 			updateState(ATTACKING, ST_L);
 		else if (inputs[HEAVY_ATTACK]) 
@@ -134,7 +126,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			state_first_tick = true;
 		}
 		if (hit)
-			updateState(HIT, NO_ATT);
+			updateState(HIT);
 		// Continuous
 		if (fliped)
 			logic_position.x -= walk_speed;
@@ -142,7 +134,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			logic_position.x += walk_speed;
 		// Input dependent actions
 		if (!fliped && !inputs[RIGHT] || fliped && !inputs[LEFT])
-			updateState(IDLE, NO_ATT);
+			updateState(IDLE);
 		else if (checkForSuper(super_window))
 			updateState(ATTACKING, SUPER);
 		else if (inputs[UP]) {
@@ -152,10 +144,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			else
 				velocity.x += jump_power.x;
 			grounded = false;
-			updateState(JUMPING, NO_ATT);
+			updateState(JUMPING);
 		}
 		else if (inputs[DOWN])
-			updateState(CROUCHING, NO_ATT);
+			updateState(CROUCHING);
 		else if (inputs[LIGHT_ATTACK]) 
 			updateState(ATTACKING, ST_L);
 		else if (inputs[HEAVY_ATTACK]) 
@@ -179,9 +171,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		// Input dependent actions
 		if (hit && inputs[LEFT] && !fliped || hit && inputs[RIGHT] && fliped) {
 			if (attack_recieving.block_type != BLOCK_TYPE::OVERHEAD)
-				updateState(CROUCH_BLOCKING, NO_ATT);
+				updateState(CROUCH_BLOCKING);
 			else
-				updateState(HIT, NO_ATT);
+				updateState(HIT);
 		}
 		else if (hit)
 			updateState(HIT, NO_ATT);
@@ -197,7 +189,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			setCrouchingHurtbox(false);
 			velocity.y -= jump_power.y; // Put in the (one_tick thing)
 			grounded = false;
-			updateState(JUMPING, NO_ATT);
+			updateState(JUMPING);
 		}
 		else if (inputs[LIGHT_ATTACK])
 			updateState(ATTACKING, CR_L);
@@ -222,16 +214,16 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		// Input dependent actions
 		if (grounded)
-			updateState(IDLE, NO_ATT);
+			updateState(IDLE);
 		else if (hit)
-			updateState(HIT, NO_ATT);
+			updateState(JUGGLE);
 		else if (inputs[LIGHT_ATTACK]) 
 			updateState(ATTACKING, JM_L);
 		else if (inputs[HEAVY_ATTACK])
 			updateState(ATTACKING, JM_H);
-		else if (inputs[SPECIAL_1])
+		else if (inputs[SPECIAL_1] && checkDiveKickHeight())
 			updateState(ATTACKING, JM_S1);
-		else if (inputs[SPECIAL_2])
+		else if (inputs[SPECIAL_2] && checkDiveKickHeight())
 			updateState(ATTACKING, JM_S2);
 		break;
 
@@ -241,13 +233,14 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			playCurrentSFX();
 			current_super_gauge += super_gauge_gain_strike;
 		}
-		if (hit) {
-			instanciated_hitbox = false;
-			updateState(HIT, NO_ATT);
-			hurtbox->type = HURTBOX;
-		}
 		// Continuous
 		doAttack(inputs);
+
+		if (hit) {
+			instanciated_hitbox = false;
+			updateState(HIT);
+			hurtbox->type = HURTBOX;
+		}
 		break;
 
 	case STAND_BLOCKING:
@@ -284,7 +277,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_super_gauge += super_gauge_gain_block;
 		}
 		if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
-			updateState(CROUCHING, NO_ATT);
+			updateState(CROUCHING);
 		// Continuous
 		if (!fliped)
 			logic_position.x -= attack_recieving.pushblock;
@@ -303,14 +296,14 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		if (hit) { 
 			playCurrentSFX();
 			if (attack_recieving.knockdown)
-				updateState(JUGGLE, NO_ATT);
+				updateState(JUGGLE);
 			else
 				hit = false;
 			current_life -= attack_recieving.damage;
 			current_super_gauge += super_gauge_gain_hit;
 		}
 		else if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) 
-			updateState(IDLE, NO_ATT);
+			updateState(IDLE);
 		// Continuous
 		if (!fliped)
 			logic_position.x -= attack_recieving.pushhit;
@@ -338,7 +331,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			grounded = false;
 		}
 		if (grounded)
-			updateState(KNOCKDOWN, NO_ATT);
+			updateState(KNOCKDOWN);
 		break;
 
 	case KNOCKDOWN:
@@ -347,18 +340,19 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			//playCurrentSFX(); Maybe knockdown should play something?
 			updateAnimation(knockdown);
 			state_first_tick = true;
+			hit = false;
 		}
 		hurtbox->active = false;
 		if (current_animation->Finished()){
 			makeInvencibleFor(invencibility_on_wakeup);
-			updateState(IDLE, NO_ATT);
+			updateState(IDLE);
 			hurtbox->active = true;
 		}
 		break;
 	case SWAPPING:
 		//TODO: Define swapping
 		//manageSwap();
-		updateState(IDLE, NO_ATT);
+		updateState(IDLE);
 		break;
 	case RECOVERY:
 		// One tick
@@ -368,9 +362,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			setCrouchingHurtbox(false);
 		}
 		if (hit) 
-			updateState(HIT, NO_ATT);
+			updateState(HIT);
 		if (recovery_timer.read() > current_recovery)
-			updateState(IDLE, NO_ATT);
+			updateState(IDLE);
 		break;
 	case DEAD:
 		if (!state_first_tick) {
@@ -379,6 +373,22 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			state_first_tick = true;
 		}
 		break;
+
+	}
+
+	// PROVISIONAL: (?)
+	if (logic_position.x < App->render->camera.x + lateral_limit) {
+		if (!App->entities->moveCamera(true))
+			logic_position.x = App->render->camera.x + lateral_limit;
+		else if(logic_position.x < App->render->camera.x + lateral_limit)
+			logic_position.x = App->render->camera.x + lateral_limit;
+	}
+	if (logic_position.x > App->render->camera.x + App->render->camera.w - lateral_limit) {
+		if (!App->entities->moveCamera(false))
+			logic_position.x = App->render->camera.x + App->render->camera.w - lateral_limit;
+		else if (logic_position.x > App->render->camera.x + App->render->camera.w - lateral_limit)
+			logic_position.x = App->render->camera.x + App->render->camera.w - lateral_limit;
+
 	}
 
 	manageGroundPosition();
@@ -400,6 +410,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	hurtbox->SetPos(calculateDrawPosition(0, hurtbox->rect.w, true), calculateDrawPosition(offset, hurtbox->rect.h, false));
 	pushbox->SetPos(calculateDrawPosition(0, pushbox->rect.w, true), calculateDrawPosition(crouching_hurtbox_offset, pushbox->rect.h, false));
 
+	// Gauge Limit
+	if (current_super_gauge > max_super_gauge)
+		current_super_gauge = max_super_gauge;
+
 	if (!grounded) 		{
 		applyGravity();
 		setIfGrounded();
@@ -419,7 +433,7 @@ void Character::onCollision(collider* c1, collider* c2) {
 		moment_hit = SDL_GetTicks();
 		deleteAllMeleeHitboxes(); // When you get hit all your melee  hitboxes are deleted
 	}
-	else if (c1->type == PUSHBOX && c2->type == PUSHBOX) {
+	else if (c1->type == PUSHBOX && c2->type == PUSHBOX && !App->entities->paused) { // PROVISIONAL
 		if (!fliped)
 			logic_position.x -= walk_speed;
 		else
@@ -457,8 +471,17 @@ void Character::setIfGrounded() {
 	}
 }
 
-void Character::draw(SDL_Texture* graphic)  const{
-	App->render->blit(3,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped, 1.0f, current_animation->angle);
+void Character::draw(SDL_Texture* graphic){
+	if (current_animation != nullptr){ // PROVISIONAL
+		int hardcoded_offset = 0;
+		if (fliped)
+			hardcoded_offset = 15;
+		else
+			hardcoded_offset = -15;
+		App->render->drawSprite(6, graphic, logic_position.x - ((shadow_rect.w/2)*scale) + hardcoded_offset, ground_position + shadow_offset, &shadow_rect, scale, fliped, 1.0f,0);
+		App->render->drawSprite(7,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped, 1.0f, current_animation->angle);
+	}
+
 }
 
 bool Character::manageSwap()
@@ -478,7 +501,7 @@ bool Character::manageSwap()
 	if (logic_position.y < -200) { //margin to make it go out of the screen
 		readyToSwap = true;
 		if (partner->getCurrCharacter()->readyToSwap) {
-			updateState(JUMPING, NO_ATT);
+			updateState(JUMPING);
 			grounded = false;
 			if (lane == 1)
 				lane = 2;
@@ -633,7 +656,7 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 			updateAnimation(standing_special2);
 			state_first_tick = true;
 		}
-		standingSpecial2();
+		standingSpecial2(inputs);
 		break;
 	case CR_S1:
 		if (!state_first_tick) {
@@ -646,14 +669,18 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 		crouchingSpecial2();
 		break;
 	case JM_S1:
-		if (!state_first_tick)
+		if (!state_first_tick) {
+			updateAnimation(jumping_special1);
 			state_first_tick = true;
-		jumpingSpecial1();
+		}
+		jumpingSpecial1(inputs);
 		break;
 	case JM_S2:
-		if (!state_first_tick)
+		if (!state_first_tick) {
+			updateAnimation(jumping_special2);
 			state_first_tick = true;
-		jumpingSpecial2();
+		}
+		jumpingSpecial2(inputs);
 		break;
 	case SUPER:
 		doSuper();
@@ -733,7 +760,7 @@ void Character::manageGroundPosition() {
 
 
 
-basic_attack_deff Character::getAttackData(CHAR_ATT_TYPE attack_type) {
+basic_attack_deff Character::getAttackData(CHAR_ATT_TYPE attack_type) const {
 	switch (attack_type) {
 		case ST_L:
 			return st_l;
@@ -790,8 +817,11 @@ int Character::calculateDrawPosition(int offset, int size, bool x) 	{
 		return logic_position.y + offset - size/2;
 }
 
-iPoint Character::getPos() 	{
+iPoint Character::getPos() const	{
 	return logic_position;
+}
+int Character::getLateralLimit() const {
+	return lateral_limit;
 }
 void Character::setFlip(bool flip) {
 	fliped = flip;
@@ -815,15 +845,43 @@ void Character::makeInvencibleFor(int time_invencible) {
 	stop_invencibility = time_invencible;
 }
 
-int Character::getCurrentLife() {
+int Character::getCurrentLife() const{
 	
 	return current_life;
 }
 
-int Character::getMaxLife() {
+int Character::getMaxLife() const{
+
 	return max_life;
 }
 
+int Character::getCurrentSuperGauge() const{
+
+	return current_super_gauge;
+}
+
+int Character::getMaxSuperGauge() const{
+
+	return max_super_gauge;
+}
+void Character::resetCharacter()	{
+	current_life = max_life;
+	current_state = CHAR_STATE::IDLE;
+	logic_position.x = starting_position.x;
+	logic_position.y = bottom_lane;
+	hurtbox->active = true;
+	death = false;
+	hit = false;
+	state_first_tick = false;
+	current_super_gauge = 0;
+	App->scene_manager->current_time = App->scene_manager->max_time;	//This should be done from the scene manager
+	App->entities->paused = false;
+	App->render->camera.x = (App->render->resolution.first - App->render->camera.w) / 2; //This should be done from the scene manager
+	velocity.x = velocity.y = 0;//This should be done from the scene manager
+	projectile = false;
+	instanciated_hitbox = false;
+
+}
 void Character::deleteDeadHitboxes() 	{
 	// Compute what hitboxes need to be deleted
 
@@ -896,10 +954,10 @@ void Character::deleteAllMeleeHitboxes() {
 	hitboxes_to_delete.clear();
 }
 
-CHAR_ATT_TYPE Character::getAttackDoing() 	{
+CHAR_ATT_TYPE Character::getAttackDoing() const{
 	return attack_doing;
 }
-CHAR_STATE Character::getCurrentState() {
+CHAR_STATE Character::getCurrentState() const{
 	return current_state;
 }
 
@@ -1047,7 +1105,7 @@ void Character::manageCancel(const bool(&inputs)[MAX_INPUTS]) {
 		updateState(ATTACKING, SUPER);
 		instanciated_hitbox = false;
 	}
-	else if (lookInBuffer(SPECIAL_1, cancelability_window) && !inputs[DOWN]) {
+	else if (lookInBuffer(SPECIAL_1, cancelability_window) && !inputs[DOWN] && !projectile) {
 		updateState(ATTACKING, ST_S1);
 		instanciated_hitbox = false;
 	}
@@ -1087,5 +1145,8 @@ bool Character::checkForSuper(int window) {
 		return true;
 	else
 		return false;
+}
+bool Character::checkDiveKickHeight() {
+	return logic_position.y <= dive_kick_max_height;
 }
 

@@ -7,7 +7,7 @@
 #include "Buttons.h"
 #include "Labels.h"
 #include "Bars.h"
-
+#include "UiWindow.h"
 
 mdGuiManager::mdGuiManager() : Module() {
 	name = "gui";
@@ -109,21 +109,19 @@ bool mdGuiManager::cleanUI()
 	std::list<Widgets*>::reverse_iterator ui_iterator = ui_elements.rbegin();
 	for (ui_iterator; ui_iterator != ui_elements.rend(); ++ui_iterator) {
 		object = *ui_iterator;
-		delete object;
+		object->visible = false;
 	}
-	ui_elements.clear();
-	focus_elements.clear();
-
+	
 	return true;
 }
 
 
-Widgets* mdGuiManager::createButton(button_types type, std::pair<int, int> pos, Module * callback) {
+Widgets* mdGuiManager::createButton(button_types type, button_size size, std::pair<int, int> pos, Module * callback) {
 
 	Widgets* ret = nullptr;
 
 	if (type != 0) {
-		ret = new Buttons(type, pos, callback);
+		ret = new Buttons(type, size, pos, callback);
 		ui_elements.push_back(ret);
 		focus_elements.push_back(ret);
 	}
@@ -153,6 +151,15 @@ Widgets* mdGuiManager::createBar(bar_types type, std::pair<int, int> pos, bool f
 	return ret;
 }
 
+Widgets* mdGuiManager::createWindow(window_type type, std::pair<int, int> pos, Module* callback)	{
+	Widgets* ret = nullptr;
+
+	ret = new UiWindow(type, pos, callback);
+	ui_elements.push_back(ret);
+
+	return ret;
+}
+
 bool mdGuiManager::destroyWidget(Widgets* widget) {
 
 	bool ret = true;
@@ -173,47 +180,70 @@ bool mdGuiManager::destroyWidget(Widgets* widget) {
 void mdGuiManager::manageFocus() {
 
 	Widgets* object = nullptr;
-	if (focus)//Check if focus has been assigned -> Current scene is not ingame scene
+	Widgets* temp_object = nullptr;
+
+	if (focus)//Check if focus has been assigned 
 	{
 		//Temporary done in keyboard
-		if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN || App->input->getKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+		Controller* controller = nullptr;
+		if(!App->input->getController().empty())
+			controller = App->input->getController().front(); //For the moment, it breaks the game
+		if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_UP, KEY_DOWN)))
+
 		{
-			if (focus != *focus_elements.begin())//Case player wants to go up when not at the first button
+			std::list<Widgets*>::iterator temp_iterator = focus_elements.begin();
+			for (temp_iterator; temp_iterator != focus_elements.end(); temp_iterator++)
 			{
-				std::list<Widgets*>::iterator temp_elem = focus_elements.begin();
-				for (temp_elem; temp_elem != focus_elements.end(); temp_elem++)
+				object = *temp_iterator;
+				if (object == focus)
 				{
-					object = *temp_elem;
-					if (object == focus)//Iterate until find the currently focused element
+					if (temp_iterator != focus_elements.begin())
 					{
-						temp_elem--;//Move the iterator to the previous ui element
-						focus = *temp_elem;//Assign its value to the focused element
-						break;
+						std::list<Widgets*>::iterator it = temp_iterator;
+						it--;
+						for (it; *it != nullptr; it--)
+						{
+							temp_object = *it;
+							if (temp_object->visible)
+							{
+								focus = temp_object;
+								break;
+							}
+							else
+								break;
+						}
 					}
+					break;
 				}
 			}
-			else
-				focus = *focus_elements.rbegin();
 		}
 
-		if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN || App->input->getKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+
+		if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_DOWN, KEY_DOWN)))
 		{
-			if (focus != *focus_elements.rbegin())//Case player wants to go down when not at the last button
+			std::list<Widgets*>::iterator temp_iterator = focus_elements.begin();
+			for (temp_iterator; temp_iterator != focus_elements.end(); temp_iterator++)
 			{
-				std::list<Widgets*>::iterator temp_elem = focus_elements.begin();
-				for (temp_elem; temp_elem != focus_elements.end(); temp_elem++)
+				object = *temp_iterator;
+				if (object == focus)
 				{
-					object = *temp_elem;
-					if (object == focus)
+					if (temp_iterator != focus_elements.end())
 					{
-						temp_elem++;
-						focus = *temp_elem;
-						break;
+						std::list<Widgets*>::iterator it = temp_iterator;
+						it++;
+						for (it; it != focus_elements.end(); it++)
+						{
+							temp_object = *it;
+							if (temp_object->visible)
+							{
+								focus = temp_object;
+								break;
+							}
+						}
 					}
+					break;
 				}
 			}
-			else
-				focus = *focus_elements.begin();
 		}
 	}
 	
@@ -231,7 +261,8 @@ void mdGuiManager::draw() {
 	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
 	for (ui_iterator; ui_iterator != ui_elements.end(); ui_iterator++) {
 		object = *ui_iterator;
-		object->draw();
+		if (object->visible)
+			object->draw();
 	}
 }
 
@@ -251,14 +282,17 @@ void mdGuiManager::debugUi() {
 	for (ui_iterator; ui_iterator != ui_elements.end(); ui_iterator++)	{
 
 		object = *ui_iterator;
-		switch (object->type)
+		if (object->active)
 		{
-		case BUTTON: // red
-			App->render->drawQuad(object->world_area, 255, 0, 0, alpha); break;
-		case LABEL: // gren
-			App->render->drawQuad(object->world_area, 0, 255, 0, alpha); break;
-		case BAR: //blue
-			App->render->drawQuad(object->world_area, 0, 0, 255, alpha); break;
+			switch (object->type)
+			{
+			case BUTTON: // red
+				App->render->drawQuad( 1, object->world_area, 255, 0, 0, alpha); break;
+			case LABEL: // gren
+				App->render->drawQuad( 1, object->world_area, 0, 255, 0, alpha); break;
+			case BAR: //blue
+				App->render->drawQuad( 1, object->world_area, 0, 0, 255, alpha); break;
+			}
 		}
 	}
 }

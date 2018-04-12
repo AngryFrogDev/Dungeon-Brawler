@@ -11,6 +11,8 @@
 struct Buttons;
 struct Labels;
 struct Bars;
+struct UiWindow;
+
 struct _TTF_Font;
 
 //Some events may be missing
@@ -33,16 +35,17 @@ public:
 	bool cleanUp();
 	bool cleanUI();
 	
-	Widgets* createButton(button_types type, std::pair<int, int> pos, Module* callback = nullptr);
+	Widgets* createButton(button_types type, button_size size, std::pair<int, int> pos, Module* callback = nullptr);
 	Widgets* createLabel(const char* content, const SDL_Color& color, _TTF_Font* font_size, std::pair<int, int> pos, Module* callback = nullptr);
 	Widgets* createBar(bar_types type, std::pair<int, int> pos, bool flipped, int target_player, Module* callback = nullptr);
+	Widgets* createWindow(window_type type, std::pair<int, int> pos, Module* callback = nullptr);
 	bool destroyWidget(Widgets* widget);
 
 	void manageFocus();
 	SDL_Texture* getAtlas() const;
 	void draw();
 	void debugUi();
-
+	
 public:
 	std::list<Widgets*> ui_elements;
 	std::list<Widgets*> temp_list; //Temporary list to delete elements
@@ -53,7 +56,6 @@ public:
 
 private:
 	bool debug = false;
-
 
 };
 

@@ -1,46 +1,98 @@
-<!-- Complementary file with every UI element in each Scene -->
-
+<?xml version="1.0"?>
 <config>
+	<start_scene>
+		<labels>
+			<content value="PRESS ENTER/BUTTON A"/>
+			<color r="100" g="100" b="100" a="100"/>
+			<pos x="700" y="900"/>
+			<active value="true"/>
+		</labels>
+		<textures>
+			<game_logo path="assets/game_logo_RA.png"/>
+		</textures>
+	</start_scene>
 	<main_menu>
 		<buttons>
+			<o_vs_o>
+				<pos x="750" y="200"/>
+				<active value="true"/>
+			</o_vs_o>
+			<t_vs_t>
+				<pos x="750" y="400"/>
+				<active value="true"/>
+			</t_vs_t>
+			<exit>
+				<pos x="1350" y="900"/>
+				<active value="true"/>
+			</exit>
 		</buttons>
 		<labels>
+			<o_vs_o>
+				<content value="ONE VS ONE"/>
+				<color r="255" g="255" b="255" a="255"/>
+				<pos x="795" y="225"/>
+				<active value="true"/>
+			</o_vs_o>
+			<t_vs_t>
+				<content value="TWO VS TWO"/>
+				<color r="255" g="255" b="255" a="255"/>
+				<pos x="795" y="425"/>
+				<active value="true"/>
+			</t_vs_t>
+			<exit>
+				<content value="QUIT"/>
+				<color r="255" g="255" b="255" a="255"/>
+				<pos x="1475" y="925"/>
+				<active value="true"/>
+			</exit>
 		</labels>
-		<textures>
-		</textures>
 	</main_menu>
-	<char_sel>
-		<buttons>
-		</buttons>
-		<labels>
-		</labels>
-		<textures>
-		</textures>
-	</char_sel>
-	<obj_sel>
-		<buttons>
-		</buttons>
-		<labels>
-		</labels>
-		<textures>
-		</textures>
-	</obj_sel>
 	<combat>
+		<window>
+			<pos x="400" y="400"/>
+		</window>
 		<one_vs_one>
 			<labels>
+				<timer>
+					<color r="0" g="0" b="0" a="0"/>
+					<pos x="880" y="150"/>
+					<active value="true"/>
+				</timer>
 			</labels>
 			<bars>
+				<health_bar1>
+					<pos x="100" y="195"/>
+					<flip value="false"/>
+					<target_player value ="0"/>
+					<active value="true"/>
+				</health_bar1>
+				<health_bar2>
+					<pos x="1030" y="195"/>
+					<flip value="true"/>
+					<target_player value ="1"/>
+					<active value="true"/>
+				</health_bar2>
+				<super_bar1>
+					<pos x="109" y="222"/>
+					<flip value="false"/>
+					<target_player value ="0"/>
+					<active value="true"/>
+				</super_bar1>
+				<super_bar2>
+					<pos x="1271" y="222"/>
+					<flip value="true"/>
+					<target_player value ="1"/>
+					<active value="true"/>
+				</super_bar2>
 			</bars>
+			<buttons>
+				<rematch>
+					<pos x="780" y="600"/>
+					<active value="false"/>	
+				</rematch>
+			</buttons>
 			<textures>
 			</textures>
 		</one_vs_one>
-		<two_vs_two>
-			<labels>
-			</labels>
-			<bars>
-			</bars>
-			<textures>
-			</textures>
-		</two_vs_two>
 	</combat>
 </config>

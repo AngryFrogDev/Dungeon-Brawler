@@ -11,6 +11,7 @@ enum ui_elem_type {
 	BUTTON,
 	LABEL,
 	BAR,
+	WINDOW,
 };
 
 //Review button types
@@ -18,6 +19,7 @@ enum button_types {
 	NO_BUTTON = 0,
 	ONE_V_ONE,
 	TWO_V_TWO,
+	TRANING,
 	SETTINGS,
 	CREDITS,
 	GAME_EXIT,
@@ -25,7 +27,20 @@ enum button_types {
 	MUSIC_VOL_DOWN,
 	SFX_VOL_UP,
 	SFX_VOL_DOWN,
+	IN_GAME_REMATCH,
+	IN_GAME_RESTART,
+	IN_GAME_SETTINGS,
+	IN_GAME_CHAR_SEL,
+	IN_GAME_STAGE_SEL,
+	IN_GAME_MAIN_MENU,
 	BACK,
+};
+
+enum button_size {
+	NO_SIZE = 0,
+	SMALL,
+	MEDIUM,
+	LARGE
 };
 
 enum bar_types {
@@ -33,6 +48,12 @@ enum bar_types {
 	HEALTH_BAR,
 	SUPER_BAR,
 	SWAP_BAR,
+};
+
+enum window_type {
+	NO_WINDOW = 0,
+	PAUSE,
+	MATCH_END
 };
 
 class Widgets {
@@ -52,6 +73,8 @@ public:
 	SDL_Rect world_area;
 	std::pair<int, int> position;
 	bool to_delete = false;
+	bool active = false;
+	bool visible = false;
 
 protected:
 	Module* callback = nullptr;

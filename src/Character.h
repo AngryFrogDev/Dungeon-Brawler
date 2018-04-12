@@ -73,6 +73,7 @@ enum CHARACTER_INPUTS {
 };
 
 enum BLOCK_TYPE {
+	NO_BLOCK_TYPE = -1,
 	MID,
 	OVERHEAD,
 	LOW
@@ -91,6 +92,24 @@ struct basic_attack_deff {
 	iPoint juggle_speed;
 	BLOCK_TYPE block_type;
 	int recovery; //in milliseconds
+	float animation_speed;
+};
+
+enum ITEMS {
+	NO_ITEM = -1,
+	SPECIAL_ITEM_1,
+	SPECIAL_ITEM_2,
+	SPECIAL_ITEM_3,
+
+	STRENGTH_ITEM,
+	INTELIGENCE_ITEM,
+	DEXTERITY_ITEM,
+	// There should be more items, but i don't remember them right now
+};
+
+struct item {
+	ITEMS item_type;
+	bool active;
 };
 
 class Player;
@@ -113,22 +132,29 @@ public:
 
 	void setIfGrounded();
 
-	void draw(SDL_Texture* graphic) const;
+	void draw(SDL_Texture* graphic);
 
 	bool manageSwap();
 
 	void manageOponent();
 
 
-	basic_attack_deff getAttackData(CHAR_ATT_TYPE attack_type);
-	iPoint getPos();
-	CHAR_ATT_TYPE getAttackDoing();
-	CHAR_STATE getCurrentState();
+	basic_attack_deff getAttackData(CHAR_ATT_TYPE attack_type) const;
+	iPoint getPos() const;
+	int getLateralLimit() const;
+	CHAR_ATT_TYPE getAttackDoing() const;
+	CHAR_STATE getCurrentState() const;
 	void setFlip(bool flip);
 	void setProjectile(bool projectile);
-	int getCurrentLife();
-	int getMaxLife();
+	int getCurrentLife() const;
+	int getMaxLife() const;
+	int getCurrentSuperGauge() const;
+	int getMaxSuperGauge() const;
+	void resetCharacter();
 
+	// Item management
+	virtual void giveItem(ITEMS type) { return; }
+	virtual void takeAllItems() { return; }
 protected:	
 	// Execute attack, rewritable for every type of character
 	virtual void doAttack(const bool(&inputs)[MAX_INPUTS]);
@@ -144,7 +170,7 @@ protected:
 
 	void updateAnimation(Animation& new_animation);
 
-	void updateState(CHAR_STATE state, CHAR_ATT_TYPE attack);
+	void updateState(CHAR_STATE state, CHAR_ATT_TYPE attack = NO_ATT);
 	void playCurrentSFX();
 	void setCrouchingHurtbox(bool crouch);
 	
@@ -159,11 +185,12 @@ protected:
 	int calculateDrawPosition(int offset, int size, bool x);
 	//Special functions
 	virtual void standingSpecial1() { return; };
-	virtual void standingSpecial2() { return; };
+	virtual void standingSpecial2(const bool(&inputs)[MAX_INPUTS]) { return; };
 	virtual void crouchingSpecial1() { return; };
 	virtual void crouchingSpecial2() { return; };
-	virtual void jumpingSpecial1() { return; };
-	virtual void jumpingSpecial2() { return; };
+	virtual void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) { return; };
+	virtual void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) { return; };
+	bool checkDiveKickHeight();
 	virtual void doSuper() { return; }
 	// Input buffer functions
 	bool lookInBuffer(CHARACTER_INPUTS input, int window);
@@ -179,32 +206,36 @@ protected:
 	float scale;
 
 	int crouching_hurtbox_offset;
+	iPoint standing_hurtbox_size;
 
-	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_special1, standing_special2, jumping_special1, jumping_special2, crouching_special1, crouching_special2, standing_hit, standing_block, crouching_block, knockdown, dead;
+	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_special1, standing_special2, jumping_special1, jumping_special2, crouching_special1, crouching_special2, standing_hit, standing_block, crouching_block, knockdown, dead, taunt;
 
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2, super;
 
+
 	iPoint jump_power;
 	float gravity;
-	int ground_position;
-	int bottom_lane;
-	int upper_lane;
-	iPoint starting_position;
 	int max_life;
 	int max_super_gauge;
 	int super_gauge_gain_hit;
 	int super_gauge_gain_block;
 	int super_gauge_gain_strike;
 
-	int right_x_limit; // This should also be modified as the camera moves
-	int left_x_limit;  
+	int lateral_limit;  
 
-	Player* owner;
+	int walk_speed;
+
 	// In miliseconds
 	int invencibility_on_wakeup;
 
 	int super_window;
 	int cancelability_window;
+
+	int dive_kick_max_height; // PROVISIONAL: This should only belong to warrior
+
+	int shadow_offset;
+	SDL_Rect shadow_rect;
+
 
 	// Sound effects
 	Mix_Chunk* s_jump;
@@ -222,9 +253,14 @@ protected:
 	Mix_Chunk* s_man_death;
 	Mix_Chunk* s_super;
 
-
+	// Variables to load from constructor
+	iPoint starting_position;
+	int bottom_lane;
+	int upper_lane;
+	Player* owner;
 
 	// Variables to modify in runtime
+	int ground_position;
 	iPoint logic_position;
 	iPoint draw_position;
 	iPoint draw_size;
@@ -235,8 +271,6 @@ protected:
 
 	int current_life;		
 	int current_super_gauge;
-
-	int walk_speed;
 
 	bool grounded;
 
@@ -249,7 +283,7 @@ protected:
 	bool state_first_tick;
 	bool state_second_tick;
 	//If the projectile has already been thrown, no other projectile should be
-	bool projectile;
+	bool projectile; // PROVISIONAL: This should only belong to warrior
 
 	bool hit;
 	//Maybe current_stun and moment_hit should be a timer instead
@@ -259,7 +293,6 @@ protected:
 	// Entity collider
 	collider* hurtbox = nullptr;	
 	collider* pushbox = nullptr;
-	iPoint standing_hurtbox_size;
 	std::list<collider*> hitboxes; //It should be a list, as a character can have multiple active hitboxes
 
 
@@ -277,7 +310,6 @@ protected:
 	int current_recovery; // In milliseconds
 	Timer recovery_timer;
 	CHARACTER_INPUTS input_buffer[MAX_INPUT_BUFFER];
-	
 public:
 	//Swap variables
 	int lane; // 1 = bottom  2 = top This is important
@@ -285,6 +317,10 @@ public:
 	bool swapRequested = false;
 	bool swapDone = false;
 
+protected:
+	pugi::xml_document config_doc;
+	pugi::xml_node config;
+	pugi::xml_node data;
 };
 
 #endif //__CHARACTER__

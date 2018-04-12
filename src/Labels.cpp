@@ -7,8 +7,10 @@
 
 
 
-Labels::Labels(const char* content, const SDL_Color& color, _TTF_Font* font_size, std::pair<int, int> pos, Module* callback) : Widgets(ui_elem_type::LABEL, pos, callback) {
-	setText(content, color, font_size);
+Labels::Labels(const char* content, const SDL_Color& _color, _TTF_Font* _font_size, std::pair<int, int> pos, Module* callback) : Widgets(ui_elem_type::LABEL, pos, callback) {
+	setText(content, _color, _font_size);
+	color = _color;
+	font_size = _font_size;
 }
 
 
@@ -18,7 +20,7 @@ Labels::~Labels() {
 }
 
 void Labels::draw() {
-	App->render->blit(4, text_texture, position.first, position.second);
+	App->render->drawSprite(7, text_texture, position.first, position.second, nullptr, 1, false, 1.0f, 0.0, 0, 0, false);
 }
 
 void Labels::setArea(std::pair<int, int> area) {
@@ -26,18 +28,18 @@ void Labels::setArea(std::pair<int, int> area) {
 	world_area.h = area.second;
 }
 
-void Labels::setText(const char * content, const SDL_Color & color, _TTF_Font* font_size) {
-	text_texture = App->fonts->print(content, color, font_size);
+void Labels::setText(const char * content, const SDL_Color & _color, _TTF_Font* _font_size) {
+	text_texture = App->fonts->print(content, _color, _font_size);
 	std::pair<int, int> area;
 	SDL_QueryTexture(text_texture, NULL, NULL, &area.first, &area.second);
 	setArea(area);
 }
 
-void Labels::changeContent(const char * new_content)  {
+void Labels::changeContent(const char * new_content, const SDL_Color &new_color)  {
 	if (text_texture != nullptr)
 		App->textures->unload(text_texture);
 
-	text_texture = App->fonts->print(new_content);
+	text_texture = App->fonts->print(new_content,new_color, font_size);
 	std::pair<int, int> area;
 	SDL_QueryTexture(text_texture, NULL, NULL, &area.first, &area.second);
 	setArea(area);
