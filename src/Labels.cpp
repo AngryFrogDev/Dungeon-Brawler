@@ -21,7 +21,7 @@ Labels::~Labels() {
 
 void Labels::draw() {
 
-	App->render->drawSprite(4, text_texture, position.first, position.second);
+	App->render->drawSprite(6, text_texture, position.first, position.second);
 }
 
 void Labels::setArea(std::pair<int, int> area) {

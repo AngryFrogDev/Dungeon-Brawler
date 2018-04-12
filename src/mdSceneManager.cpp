@@ -22,7 +22,7 @@ mdSceneManager::~mdSceneManager(){}
 bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	scene_config = App->loadConfig("scene_config.xml", scene_config_doc);
 	//PROVISIONAL: HARDCODE, super easy to make an xml out of this, just sayin'
-	max_time = 90;
+	max_time = 10;
 	current_time = max_time;
 
 	player1item = md_config.attribute("player_1_item").as_bool();
