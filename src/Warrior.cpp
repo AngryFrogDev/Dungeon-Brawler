@@ -397,10 +397,19 @@ void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
 			logic_position.x -= spin_speed;
 	}
 	else {
-		if (inputs[LEFT]) 
+		if (inputs[LEFT])
 			logic_position.x -= improved_spin_speed;
-		else if(inputs[RIGHT])
+		else if (inputs[RIGHT])
 			logic_position.x += improved_spin_speed;
+		else if (inputs[DOWN] && inputs[SPECIAL_2]) {
+			instanciated_hitbox = false;
+			hurtbox->type = HURTBOX;
+			collider* hitbox = getCurrentAttackHitbox();
+			if (hitbox != nullptr) { // Just for safety
+				deleteAttackHitbox(ST_S2);
+			}
+			updateState(ATTACKING, CR_S2);
+		}
 	}
 
 	if (current_animation->Finished()) {
