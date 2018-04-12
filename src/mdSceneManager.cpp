@@ -223,6 +223,7 @@ bool mdSceneManager::createCharacters()
 		App->entities->players[1]->getCurrCharacter()->giveItem(SPECIAL_ITEM_2);
 		*/
 	App->entities->assignControls();
+	App->render->camera.x = (App->render->resolution.first - App->render->camera.w) / 2; //PROVISIONAL: This should be done from the scene manager
 
 	return true;
 }
