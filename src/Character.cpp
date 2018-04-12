@@ -373,13 +373,14 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			state_first_tick = true;
 		}
 		break;
+
 	}
 
 	// PROVISIONAL: (?)
-	if (logic_position.x < App->render->camera.x + left_x_limit)
-		logic_position.x = App->render->camera.x + left_x_limit;
-	if (logic_position.x > App->render->camera.x + App->render->camera.w - left_x_limit)
-		logic_position.x = App->render->camera.x + App->render->camera.w - left_x_limit;
+	if (logic_position.x < App->render->camera.x + lateral_limit)
+		logic_position.x = App->render->camera.x + lateral_limit;
+	if (logic_position.x > App->render->camera.x + App->render->camera.w - lateral_limit)
+		logic_position.x = App->render->camera.x + App->render->camera.w - lateral_limit;
 
 	manageGroundPosition();
 
@@ -742,7 +743,7 @@ void Character::manageGroundPosition() {
 
 
 
-basic_attack_deff Character::getAttackData(CHAR_ATT_TYPE attack_type) {
+basic_attack_deff Character::getAttackData(CHAR_ATT_TYPE attack_type) const {
 	switch (attack_type) {
 		case ST_L:
 			return st_l;
@@ -799,8 +800,11 @@ int Character::calculateDrawPosition(int offset, int size, bool x) 	{
 		return logic_position.y + offset - size/2;
 }
 
-iPoint Character::getPos() 	{
+iPoint Character::getPos() const	{
 	return logic_position;
+}
+int Character::getLateralLimit() const {
+	return lateral_limit;
 }
 void Character::setFlip(bool flip) {
 	fliped = flip;
@@ -824,22 +828,22 @@ void Character::makeInvencibleFor(int time_invencible) {
 	stop_invencibility = time_invencible;
 }
 
-int Character::getCurrentLife() {
+int Character::getCurrentLife() const{
 	
 	return current_life;
 }
 
-int Character::getMaxLife() {
+int Character::getMaxLife() const{
 
 	return max_life;
 }
 
-int Character::getCurrentSuperGauge() {
+int Character::getCurrentSuperGauge() const{
 
 	return current_super_gauge;
 }
 
-int Character::getMaxSuperGauge() {
+int Character::getMaxSuperGauge() const{
 
 	return max_super_gauge;
 }
@@ -853,8 +857,8 @@ void Character::resetCharacter()	{
 	hit = false;
 	state_first_tick = false;
 	current_super_gauge = 0;
-	App->scene_manager->current_time = App->scene_manager->max_time;
-	App->scene_manager->paused = false;
+	App->scene_manager->current_time = App->scene_manager->max_time;	//This should be done from the scene manager
+	App->scene_manager->paused = false;									//This should be done from the scene manager
 }
 void Character::deleteDeadHitboxes() 	{
 	// Compute what hitboxes need to be deleted
@@ -928,10 +932,10 @@ void Character::deleteAllMeleeHitboxes() {
 	hitboxes_to_delete.clear();
 }
 
-CHAR_ATT_TYPE Character::getAttackDoing() 	{
+CHAR_ATT_TYPE Character::getAttackDoing() const{
 	return attack_doing;
 }
-CHAR_STATE Character::getCurrentState() {
+CHAR_STATE Character::getCurrentState() const{
 	return current_state;
 }
 

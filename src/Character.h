@@ -139,16 +139,17 @@ public:
 	void manageOponent();
 
 
-	basic_attack_deff getAttackData(CHAR_ATT_TYPE attack_type);
-	iPoint getPos();
-	CHAR_ATT_TYPE getAttackDoing();
-	CHAR_STATE getCurrentState();
+	basic_attack_deff getAttackData(CHAR_ATT_TYPE attack_type) const;
+	iPoint getPos() const;
+	int getLateralLimit() const;
+	CHAR_ATT_TYPE getAttackDoing() const;
+	CHAR_STATE getCurrentState() const;
 	void setFlip(bool flip);
 	void setProjectile(bool projectile);
-	int getCurrentLife();
-	int getMaxLife();
-	int getCurrentSuperGauge();
-	int getMaxSuperGauge();
+	int getCurrentLife() const;
+	int getMaxLife() const;
+	int getCurrentSuperGauge() const;
+	int getMaxSuperGauge() const;
 	void resetCharacter();
 	// Item management
 	virtual void giveItem(ITEMS type) { return; }
@@ -219,8 +220,7 @@ protected:
 	int super_gauge_gain_block;
 	int super_gauge_gain_strike;
 
-	int right_x_limit; // This should also be modified as the camera moves
-	int left_x_limit;  
+	int lateral_limit;  
 
 	int walk_speed;
 
