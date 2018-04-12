@@ -22,7 +22,7 @@ enum ui_elem_type;
 enum button_types;
 enum bar_types;
 
-enum scene_type {ONE_VS_ONE, TWO_VS_TWO, MAIN_MENU, START_SCENE}; //To make a switch for specific code later
+enum scene_type {ONE_VS_ONE, TWO_VS_TWO, MAIN_MENU, START_SCENE, OBJECT_SEL}; //To make a switch for specific code later
 
 struct CharacterInfo {
 	int player;
@@ -144,12 +144,11 @@ private:
 	Labels* rematch_l = nullptr;
 	Labels* to_main_menu_l = nullptr;
 
+	//OBJECT SEL
+
+
 	//Combat scene timer
 	Timer	scene_timer;
-
-	//Provisional bar targets
-	int health_bar_target = 0;
-	int super_bar_target = 0;
 
 	//Nodes
 	pugi::xml_document scene_config_doc;

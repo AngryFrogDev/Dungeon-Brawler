@@ -47,8 +47,6 @@ bool mdSceneManager::start()	{
 	if (current_scene == nullptr)
 		return false;
 
-	health_bar_target = 0; //provisional
-	super_bar_target = 0; //provisional
 	createCharacters();
 	createWidgets();
 		
