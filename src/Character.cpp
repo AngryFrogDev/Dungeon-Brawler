@@ -469,6 +469,7 @@ void Character::setIfGrounded() {
 void Character::draw(SDL_Texture* graphic)  const{
 	if (current_animation != nullptr)
 		App->render->drawSprite(3,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped, 1.0f, current_animation->angle);
+
 }
 
 bool Character::manageSwap()
@@ -863,7 +864,10 @@ void Character::resetCharacter()	{
 	current_super_gauge = 0;
 	App->scene_manager->current_time = App->scene_manager->max_time;	//This should be done from the scene manager
 	App->scene_manager->paused = false;		
-	velocity.x = velocity.y = 0//This should be done from the scene manager
+	velocity.x = velocity.y = 0;//This should be done from the scene manager
+	projectile = false;
+	instanciated_hitbox = false;
+
 }
 void Character::deleteDeadHitboxes() 	{
 	// Compute what hitboxes need to be deleted
