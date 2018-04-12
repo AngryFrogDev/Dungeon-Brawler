@@ -27,6 +27,7 @@ bool mdMap::awake(const pugi::xml_node& md_config) {
 	// Load map characteristics, (Provisional, should be done thorugh xml)
 	data.map_image = App->textures->load("assets/village.png");
 	data.background_image = App->textures->load("assets/village_background.png");
+	data.camera_x_limit = 4236;
 	
 	
 	return ret;
@@ -38,7 +39,7 @@ void mdMap::draw() {
 		App->render->drawSprite(1, data.background_image, 0, 0, (const SDL_Rect*)0, 4,false,0.3);
 
 		//Blit map
-		App->render->drawSprite(2, data.map_image, 0, 0, (const SDL_Rect*)0,4,false,0.2);
+		App->render->drawSprite(2, data.map_image, 0, 0, (const SDL_Rect*)0,4,false);
 	}
 }
 

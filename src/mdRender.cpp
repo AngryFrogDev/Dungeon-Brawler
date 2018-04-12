@@ -31,16 +31,19 @@ bool mdRender::awake(const pugi::xml_node& md_config) {
 
 	renderer = SDL_CreateRenderer(App->window->window, -1, flags);
 
-	resolution = { 1920,1080 };
+	resolution = { 1920,1080 }; // PROVISIONAL: This should be loaded from xml
 	if (renderer == NULL) {
 		LOG("Could not create the renderer! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 	else {
-		viewport.w = camera.w = resolution.first;
-		viewport.h = camera.h = resolution.second;
-		viewport.x = camera.x = 0;
-		viewport.y = camera.y = 0;
+		viewport.w  = resolution.first;
+		viewport.h  = resolution.second;
+		camera.w = resolution.first / 1.5; // PROVISIONAL: This should be loaded from xml
+		camera.h = resolution.second / 1.5;
+		viewport.x = viewport.y = 0;
+		camera.x = (viewport.w - camera.w) / 2;
+		camera.y = viewport.h - camera.h;
 	}
 
 	return ret;
@@ -93,10 +96,10 @@ void mdRender::resetViewPort() {
 }
 
 // Add to blit queue according to priority
-bool mdRender::drawSprite(int priority, SDL_Texture* texture, int x, int y, const SDL_Rect* section, double scale,bool flip, float speed, double angle, int pivot_x, int pivot_y) {
+bool mdRender::drawSprite(int priority, SDL_Texture* texture, int x, int y, const SDL_Rect* section, double scale,bool flip, float speed, double angle, int pivot_x, int pivot_y, bool use_camera) {
 	bool ret = true;
 
-	spriteToPrint* sprite = new spriteToPrint(priority, texture, x, y, section, scale, flip, speed, angle, pivot_x, pivot_y);
+	spriteToPrint* sprite = new spriteToPrint(priority, texture, x, y, section, scale, flip, speed, angle, pivot_x, pivot_y, use_camera);
 	spriteQueue.push(sprite);
 
 	return ret;
@@ -111,8 +114,9 @@ bool mdRender::blitSprites(std::priority_queue <spriteToPrint*, std::vector<spri
 		spriteToPrint* first = queue.top();
 
 		SDL_Rect rect;
-		rect.x = first->x - (int)(camera.x * first->speed);
-		rect.y = first->y - (int)(camera.y * first->speed);
+		rect.x = first->x;
+		rect.y = first->y;
+
 
 		if (first->section != NULL) {
 			rect.w = first->section->w;
@@ -123,6 +127,14 @@ bool mdRender::blitSprites(std::priority_queue <spriteToPrint*, std::vector<spri
 
 		rect.w *= first->scale;
 		rect.h *= first->scale;
+
+		if (first->use_camera) {
+			float camerazoom = resolution.first / (float)camera.w;
+			rect.x = (rect.x - (int)(camera.x * first->speed)) * camerazoom;
+			rect.y = (rect.y - (int)(camera.y * first->speed)) * camerazoom;
+			rect.w *= camerazoom;
+			rect.h *= camerazoom;
+		}
 
 		//If the sprite is out of the viewport, no need to render it.
 		//if (rect.x + rect.w < 0 || rect.x > viewport.w ||
@@ -147,7 +159,7 @@ bool mdRender::blitSprites(std::priority_queue <spriteToPrint*, std::vector<spri
 		else
 			flip_flag = SDL_FLIP_NONE;
 		
-		SDL_RenderSetLogicalSize(renderer, 1920, 1080); // PROVISIONAL: This should be loaded from xml
+		SDL_RenderSetLogicalSize(renderer, resolution.first, resolution.second); 
 
 		if (SDL_RenderCopyEx(renderer, first->texture, first->section, &rect, first->angle, p, flip_flag) != 0) {
 			LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
