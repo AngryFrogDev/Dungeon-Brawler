@@ -23,7 +23,7 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	scene_config = App->loadConfig("scene_config.xml", scene_config_doc);
 	//PROVISIONAL: HARDCODE, super easy to make an xml out of this, just sayin'
 
-	max_time = 120;
+	max_time = 99;
 	current_time = max_time;
 
 	//player1item = md_config.attribute("player_1_item").as_bool();
@@ -585,13 +585,13 @@ void mdSceneManager::blitUiTextures()	{
 
 	if (current_scene == &one_vs_one || current_scene == &two_vs_two)
 	{
-		App->render->drawSprite(2, App->gui->atlas, 850, 100, &timer_rect, 3);
+		App->render->drawSprite(3, App->gui->atlas, 567, 70, &timer_rect, 2, 0, 0, 0, 0, false);
 		if (current_scene == &one_vs_one)
 		{
-			App->render->drawSprite(2, App->gui->atlas, 110, 100, &character1_rect, 3);
-			App->render->drawSprite(3, App->gui->atlas, 119, 109, &character1_image, 3);
-			App->render->drawSprite(2, App->gui->atlas, 1570, 100, &character2_rect, 3);
-			App->render->drawSprite(3, App->gui->atlas, 1579, 109, &character2_image, 3, true);
+			App->render->drawSprite(2, App->gui->atlas, 110, 100, &character1_rect, 3, false, 0, 0, 0, 0, false);
+			App->render->drawSprite(3, App->gui->atlas, 119, 109, &character1_image, 3, false, 0, 0, 0, 0, false);
+			App->render->drawSprite(2, App->gui->atlas, 1570, 100, &character2_rect, 3, false, 0, 0, 0, 0, false);
+			App->render->drawSprite(3, App->gui->atlas, 1579, 109, &character2_image, 3, true, 0, 0, 0, 0, false);
 		}
 	}
 }
