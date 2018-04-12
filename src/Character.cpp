@@ -473,7 +473,7 @@ void Character::draw(SDL_Texture* graphic){
 			hardcoded_offset = 15;
 		else
 			hardcoded_offset = -15;
-		App->render->drawSprite(4, graphic, logic_position.x - ((shadow_rect.w/2)*scale) + hardcoded_offset, ground_position + shadow_offset, &shadow_rect, scale, fliped, 1.0f, current_animation->angle);
+		App->render->drawSprite(4, graphic, logic_position.x - ((shadow_rect.w/2)*scale) + hardcoded_offset, ground_position + shadow_offset, &shadow_rect, scale, fliped, 1.0f,0);
 		App->render->drawSprite(5,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped, 1.0f, current_animation->angle);
 	}
 
