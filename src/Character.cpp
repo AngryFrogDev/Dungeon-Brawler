@@ -1165,14 +1165,14 @@ void Character::emmitCurrentParticle() {
 		case ST_S1:
 			switch (current_state) {
 			case STAND_BLOCKING:
-				App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/light-block.xml");
+				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/light-block.xml");
 				break;
 			case CROUCH_BLOCKING:
-				App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/light-block.xml");
+				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/light-block.xml");
 				break;
 			case HIT:
 			case JUGGLE:
-				App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/light-hit.xml");
+				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/light-hit.xml");
 				break;
 			}
 
@@ -1185,14 +1185,14 @@ void Character::emmitCurrentParticle() {
 		case CR_S1:
 			switch (current_state) {
 			case STAND_BLOCKING:
-				App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/heavy-block.xml");
+				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/heavy-block.xml");
 				break;
 			case CROUCH_BLOCKING:
-				App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/heavy-block.xml");
+				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/heavy-block.xml");
 				break;
 			case HIT:
 			case JUGGLE:
-				App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/heavy-hit.xml");
+				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/heavy-hit.xml");
 				break;
 			}
 			break;
