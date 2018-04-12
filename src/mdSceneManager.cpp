@@ -26,8 +26,8 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	max_time = 120;
 	current_time = max_time;
 
-	player1item = md_config.attribute("player_1_item").as_bool();
-	player2item = md_config.attribute("player_2_item").as_bool();
+	//player1item = md_config.attribute("player_1_item").as_bool();
+	//player2item = md_config.attribute("player_2_item").as_bool();
 	start_scene.type = START_SCENE;
 	one_vs_one.type = ONE_VS_ONE;
 	two_vs_two.type = TWO_VS_TWO;
@@ -67,19 +67,23 @@ bool mdSceneManager::update(float dt)	{
 	case fade_step::FADE_TO_BLACK:
 		if (switch_timer.readSec() >= fadetime)
 		{
+			if(current_scene != &obj_sel){ // PROVISIONAL
+				App->collision->cleanUp();
+				App->entities->cleanUp();
+			}
 			App->gui->cleanUI();
-			App->collision->cleanUp();
-			App->entities->cleanUp();
 			App->render->cleanBlitQueue();
 			App->projectiles->cleanUp();
 			App->map->map_loaded = false;
 
-			if (paused)
-				paused = !paused;
-
 			current_scene = scene_to_load;
-			if (current_scene == &one_vs_one)
+			if (current_scene == &one_vs_one){
 				scene_timer.start(), current_time = max_time;
+				waiting_pl1->changeContent("WAITING PLAYER 1...", { 100,100,100,100 });
+				waiting_pl2->changeContent("WAITING PLAYER 2...", { 100,100,100,100 });
+				App->entities->paused = false;
+				App->entities->show = true;
+			}
 
 			createCharacters();
 			createWidgets();
@@ -116,7 +120,7 @@ bool mdSceneManager::update(float dt)	{
 		updateTimer();
 		int char1_hp = App->entities->players[0]->getCurrCharacter()->getCurrentLife();
 		int char2_hp = App->entities->players[1]->getCurrCharacter()->getCurrentLife();
-		if (char1_hp <= 0 && !paused || char2_hp <= 0 && !paused)
+		if (char1_hp <= 0 && !App->entities->paused || char2_hp <= 0 && !App->entities->paused)
 			popUpWindow();
 	}
 	
@@ -152,7 +156,7 @@ bool mdSceneManager::onEvent(Buttons* button)	{
 		break;
 	case TRANING:
 		App->entities->traning = true;
-		changeScene(&one_vs_one);
+		changeScene(&obj_sel);
 		break;
 	case TWO_V_TWO:
 		changeScene(&two_vs_two); 
@@ -351,7 +355,7 @@ void mdSceneManager::loadSceneUI() {
 	obj1_desc_label->active = true;
 	obj_sel.scene_ui_elems.push_back(obj1_desc_label);
 
-	obj2_desc_label = (Labels*)App->gui->createLabel("You can cancel Divekick by pressing the Special button again", { 255,255,255,255 }, App->fonts->medium_size, { 580, 800 }, this);
+	obj2_desc_label = (Labels*)App->gui->createLabel("You can cancel Divekick with a basic attack", { 255,255,255,255 }, App->fonts->medium_size, { 580, 800 }, this);
 	obj2_desc_label->active = true;
 	obj_sel.scene_ui_elems.push_back(obj2_desc_label);
 
@@ -467,13 +471,16 @@ void mdSceneManager::loadSceneCharacters()	{
 	player1.type = WARRIOR;
 	player1.player = 0;
 	player1.flipped = false;
-	one_vs_one.characters.push_back(player1);
+	obj_sel.characters.push_back(player1);
 
 	player2.x_pos = 1500;
 	player2.type = WARRIOR;
 	player2.player = 1;
 	player2.flipped = true;
+	obj_sel.characters.push_back(player2);
+
 	one_vs_one.characters.push_back(player2);
+
 
 	//2VS2
 	two_vs_two.characters.push_back(player1); //Perfectly reusable
@@ -494,7 +501,7 @@ void mdSceneManager::loadSceneCharacters()	{
 }
 
 void mdSceneManager::updateTimer()	{
-	if (paused || App->entities->traning)
+	if (App->entities->paused || App->entities->traning)
 		return;
 
 	if (scene_timer.readSec() >= 1)
@@ -529,39 +536,50 @@ void mdSceneManager::blitUiTextures()	{
 
 	if (current_scene == &obj_sel)
 	{
+		if(scene_to_load != &one_vs_one){ //PROVISIONAL
+			App->entities->paused = true;
+			App->entities->show = false;
+		}
 		App->render->drawSprite(3, App->gui->atlas, 500, 500, &character1_image, 3);
 		App->render->drawSprite(3, App->gui->atlas, 1200, 500, &character1_image, 3);
 
-		//PROVISIONAL
-		if (App->input->getKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-			changeScene(&one_vs_one);
-		/*
+
+		// PROVISIONAL
 		Controller* play1 = App->entities->players[0]->getController();
 		Controller* play2 = App->entities->players[1]->getController();
 
 
-		if (play1 != nullptr && play1->isPressed(CONTROLLER_BUTTON::BUTTON_A) || App->input->getKey(SDL_SCANCODE_A) == KEY_DOWN)
+		if (play1 != nullptr && play1->isPressed(CONTROLLER_BUTTON::BUTTON_A) && !player1itemselect)
 		{
 			waiting_pl1->changeContent("DONE!", { 0, 150, 0, 255 });
 			App->entities->players[0]->getCurrCharacter()->giveItem(SPECIAL_ITEM_1);
+			player1itemselect = true;
 		}
-		else if (play1 != nullptr && play1->isPressed(CONTROLLER_BUTTON::BUTTON_B) || App->input->getKey(SDL_SCANCODE_B) == KEY_DOWN)
+		else if (play1 != nullptr && play1->isPressed(CONTROLLER_BUTTON::BUTTON_B) && !player1itemselect)
 		{
 			waiting_pl1->changeContent("DONE!", { 0, 150, 0, 255 });
 			App->entities->players[0]->getCurrCharacter()->giveItem(SPECIAL_ITEM_2);
+			player1itemselect = true;
 		}
 
-		if (play2 != nullptr && play2->isPressed(CONTROLLER_BUTTON::BUTTON_A) || App->input->getKey(SDL_SCANCODE_A) == KEY_DOWN)
+		if ((play2 != nullptr && play2->isPressed(CONTROLLER_BUTTON::BUTTON_A) || App->input->getKey(SDL_SCANCODE_A) == KEY_DOWN) && !player2itemselect)
 		{
 			waiting_pl2->changeContent("DONE!", { 0, 150, 0, 255 });
 			App->entities->players[1]->getCurrCharacter()->giveItem(SPECIAL_ITEM_1);
+			player2itemselect = true;
 		}
-		else if (play2 != nullptr && play2->isPressed(CONTROLLER_BUTTON::BUTTON_B) || App->input->getKey(SDL_SCANCODE_B) == KEY_DOWN)
+		else if ((play2 != nullptr && play2->isPressed(CONTROLLER_BUTTON::BUTTON_B) || App->input->getKey(SDL_SCANCODE_B) == KEY_DOWN) && !player2itemselect)
 		{
 			waiting_pl2->changeContent("DONE!", { 0, 150, 0, 255 });
 			App->entities->players[1]->getCurrCharacter()->giveItem(SPECIAL_ITEM_2);
+			player2itemselect = true;
 		}
-		*/
+		if ((player1itemselect && player2itemselect) || App->input->getKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+			player1itemselect = false;
+			player2itemselect = false;
+			changeScene(&one_vs_one);
+		}
+		
 	}
 
 	if (current_scene == &one_vs_one || current_scene == &two_vs_two)
@@ -578,7 +596,7 @@ void mdSceneManager::blitUiTextures()	{
 }
 
 void mdSceneManager::popUpWindow()	{
-	paused = true;
+	App->entities->paused = true;
 	window->active = true;
 	rematch->active = true;
 	to_main_menu->active = true;

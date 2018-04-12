@@ -37,9 +37,10 @@ void Player::update(SDL_Texture* graphics)
 	}
 
 	if (curr_character != nullptr) {
-		if(!App->scene_manager->paused)
+		if(!App->entities->paused)
 			curr_character->update(player_inputs);
-		curr_character->draw(graphics);
+		if(App->entities->show)
+			curr_character->draw(graphics);
 	}
 
 }

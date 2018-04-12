@@ -47,6 +47,8 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	warrior_graphics2 = App->textures->load("Assets/warrior_2_placeholder.png");
 
 	traning = false;
+	show = true;
+	paused = false;
 
 	camera_movement = 5; //Should be loaded from XML
 

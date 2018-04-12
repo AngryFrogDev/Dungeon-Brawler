@@ -31,8 +31,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	if (App->entities->traning) {
 		current_life = max_life;
 		current_super_gauge = max_super_gauge;
-		giveItem(SPECIAL_ITEM_1);
-		giveItem(SPECIAL_ITEM_2);
 	}
 
 	
@@ -430,7 +428,7 @@ void Character::onCollision(collider* c1, collider* c2) {
 		moment_hit = SDL_GetTicks();
 		deleteAllMeleeHitboxes(); // When you get hit all your melee  hitboxes are deleted
 	}
-	else if (c1->type == PUSHBOX && c2->type == PUSHBOX && !App->scene_manager->paused) { // PROVISIONAL
+	else if (c1->type == PUSHBOX && c2->type == PUSHBOX && !App->entities->paused) { // PROVISIONAL
 		if (!fliped)
 			logic_position.x -= walk_speed;
 		else
@@ -872,7 +870,7 @@ void Character::resetCharacter()	{
 	state_first_tick = false;
 	current_super_gauge = 0;
 	App->scene_manager->current_time = App->scene_manager->max_time;	//This should be done from the scene manager
-	App->scene_manager->paused = false;		
+	App->entities->paused = false;		
 	velocity.x = velocity.y = 0;//This should be done from the scene manager
 	projectile = false;
 	instanciated_hitbox = false;

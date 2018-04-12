@@ -64,7 +64,6 @@ public:
 	std::list<Scene> scenes;
 	Scene* current_scene = nullptr;
 	Scene* scene_to_load = nullptr;
-	bool	paused = false;
 	uint	current_time = 0;
 	uint	max_time = 0;
 	
@@ -161,6 +160,8 @@ private:
 	Labels* waiting_pl2 = nullptr;
 	Labels* sel_obj1 = nullptr;
 	Labels* sel_obj2 = nullptr;
+	bool player1itemselect = false; // PROVISIONAL
+	bool player2itemselect = false; 
 
 	//Combat scene timer
 	Timer	scene_timer;
@@ -174,8 +175,8 @@ private:
 	pugi::xml_node textures_node;
 
 	// PROVISIONAL: Crazy provisional
-	bool player1item;
-	bool player2item;
+	//bool player1item;
+	//bool player2item;
 };
 
 #endif
