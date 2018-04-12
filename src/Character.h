@@ -151,6 +151,7 @@ public:
 	int getCurrentSuperGauge() const;
 	int getMaxSuperGauge() const;
 	void resetCharacter();
+
 	// Item management
 	virtual void giveItem(ITEMS type) { return; }
 	virtual void takeAllItems() { return; }
