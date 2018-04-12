@@ -40,6 +40,8 @@ private:
 	iPoint jm_s1_speed;
 	iPoint jm_s2_speed;
 
+	int super_invencibility;
+
 	item dive_kick_object, spin_object, swap_object; // Swap object is not being used
 	// -To load from xml-
 
