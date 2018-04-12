@@ -172,6 +172,7 @@ protected:
 
 	void updateState(CHAR_STATE state, CHAR_ATT_TYPE attack = NO_ATT);
 	void playCurrentSFX();
+	void emmitCurrentParticle();
 	void setCrouchingHurtbox(bool crouch);
 	
 	// Invencivility management
@@ -224,6 +225,8 @@ protected:
 	int lateral_limit;  
 
 	int walk_speed;
+
+	int crouch_particle_offset;
 
 	// In miliseconds
 	int invencibility_on_wakeup;
