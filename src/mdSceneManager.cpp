@@ -420,12 +420,13 @@ void mdSceneManager::updateTimer()	{
 	{
 		current_time = max_time;
 		//PROVISIONAL
-	/*	paused = true;
+		paused = true;
 		window->active = true;
 		rematch->active = true;
 		to_main_menu->active = true;
-		createWidgets();*/
-		current_time = max_time;
+		createWidgets();
+		//current_time = max_time;
+		//
 		scene_timer.start();
 	}
 	if (current_time > 0)
@@ -442,8 +443,9 @@ void mdSceneManager::blitUiTextures()	{
 	{
 		App->render->drawSprite(1, game_logo, 150, 150, 0, 1);
 		Controller* temp = nullptr;
-		temp = App->input->getController().front();
-		if (temp->isPressed(CONTROLLER_BUTTON::BUTTON_A) || App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		if (!App->input->getController().empty())
+			temp = App->input->getController().front();
+		if (temp != nullptr && temp->isPressed(CONTROLLER_BUTTON::BUTTON_A) || App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 			changeScene(&main_menu);
 	}
 
