@@ -50,7 +50,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	show = true;
 	paused = false;
 
-	camera_movement = 20; //Should be loaded from XML
+	camera_movement = 4; //Should be loaded from XML
 
 	//createPlayer(0,100, CHAR_TYPE::WARRIOR, false, 1 );
 	//createPlayer(1,1000, CHAR_TYPE::WARRIOR, true, 1); //play with the lane (last argument) for 2v2
