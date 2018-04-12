@@ -51,6 +51,7 @@ Application::Application(int argc, char* args[]) {
 	addModule(gui);
 	addModule(map);
 	addModule(entities);
+	addModule(particle_system);
 	
 }
 

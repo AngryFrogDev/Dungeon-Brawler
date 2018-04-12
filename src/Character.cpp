@@ -6,10 +6,14 @@
 #include "mdAudio.h"
 #include "mdInput.h"
 #include "mdSceneManager.h"
+#include "mdParticleSystem.h"
 
 Character::Character() {
 	config = App->loadConfig("config.xml", config_doc);
 	data = config.child("entities");
+
+	//LUCAS
+	App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/faya.xml");
 }
 
 

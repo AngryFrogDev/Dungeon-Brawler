@@ -8,6 +8,7 @@
 #include "mdMap.h"
 #include "Player.h"
 #include "mdProjectiles.h"
+#include "mdParticleSystem.h"
 
 
 mdSceneManager::mdSceneManager()	{

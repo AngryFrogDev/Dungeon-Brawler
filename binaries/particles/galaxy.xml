@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config>
+  <type value="1"></type>
+  <frequency value="1000"></frequency>
+  <max_emissions value="40"></max_emissions>
+  <angle value="0" variation="360"></angle>
+  <vel_mag value="4.0f" variation="0"></vel_mag>
+  <pos_var x="0" y="0"></pos_var>
+  <lifetime value = "30" variation="30"></lifetime>
+  <initial_scale value="1.5f" variation="0.3f"></initial_scale>
+  <final_scale value="0.3f" variation="0"></final_scale>
+  <initial_color r="200" g="60" b="0"></initial_color>
+  <final_color r="0" g="0" b="100" a ="150"></final_color>
+  <blend_mode value="2"></blend_mode>
+  <texture_path value="particles/fire.png"></texture_path>
+</config>
