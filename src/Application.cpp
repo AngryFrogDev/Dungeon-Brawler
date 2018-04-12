@@ -100,15 +100,17 @@ bool Application::update() {
 	++frame_count;
 	float dt = frame_time.readSec();
 	frame_time.start();
+
+	//We iterate on the modules calling their update steps
 	BROFILER_CATEGORY("Preupdates", 0xFFF0E68C);
 	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
-		ret = (*it)->isActive() ? ret = (*it)->preUpdate() : true;
+		ret = (*it)->isActive() ? (*it)->preUpdate() : true;
 	BROFILER_CATEGORY("Updates", 0xFF008000);
 	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
-		ret = (*it)->isActive() ? ret = (*it)->update(dt) : true;
+		ret = (*it)->isActive() ? (*it)->update(dt) : true;
 	BROFILER_CATEGORY("Postupdates", 0xFFADD8E6);
 	for (std::list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
-		ret = (*it)->isActive() ? ret = (*it)->postUpdate() : true;
+		ret = (*it)->isActive() ? (*it)->postUpdate() : true;
 
 	if (ret) ret = finishUpdate();
 
