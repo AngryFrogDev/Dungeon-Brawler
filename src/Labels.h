@@ -14,7 +14,7 @@ public:
 	void draw();
 	void setText(const char* content, const SDL_Color &color, _TTF_Font* font_size); 
 	void setArea(std::pair<int, int> area);
-	void changeContent(const char* new_content);
+	void changeContent(const char* new_content, const SDL_Color &new_color);
 
 public:
 	SDL_Texture* text_texture;

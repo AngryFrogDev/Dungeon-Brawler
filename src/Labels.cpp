@@ -20,8 +20,7 @@ Labels::~Labels() {
 }
 
 void Labels::draw() {
-
-	App->render->drawSprite(4, text_texture, position.first, position.second, nullptr, 1, false, 1.0f, 0.0, 0, 0, false);
+	App->render->drawSprite(7, text_texture, position.first, position.second, nullptr, 1, false, 1.0f, 0.0, 0, 0, false);
 }
 
 void Labels::setArea(std::pair<int, int> area) {
@@ -36,11 +35,11 @@ void Labels::setText(const char * content, const SDL_Color & _color, _TTF_Font* 
 	setArea(area);
 }
 
-void Labels::changeContent(const char * new_content)  {
+void Labels::changeContent(const char * new_content, const SDL_Color &new_color)  {
 	if (text_texture != nullptr)
 		App->textures->unload(text_texture);
 
-	text_texture = App->fonts->print(new_content, color, font_size);
+	text_texture = App->fonts->print(new_content,new_color, font_size);
 	std::pair<int, int> area;
 	SDL_QueryTexture(text_texture, NULL, NULL, &area.first, &area.second);
 	setArea(area);

@@ -256,7 +256,7 @@ bool mdEntities::allowFlip() 	{
 		if (players[i] == nullptr)
 			continue;
 		Character* character = players[i]->getCurrCharacter();
-		if (character->getCurrentState() == ATTACKING && (character->getAttackDoing() == JM_S1 || character->getAttackDoing() == JM_S2))
+		if (character->getCurrentState() == ATTACKING && (character->getAttackDoing() == JM_S1 || character->getAttackDoing() == JM_S2 || character->getAttackDoing() == CR_S1))
 			do_flip = false;
 	}
 

@@ -31,6 +31,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	if (App->entities->traning) {
 		current_life = max_life;
 		current_super_gauge = max_super_gauge;
+		giveItem(SPECIAL_ITEM_1);
+		giveItem(SPECIAL_ITEM_2);
 	}
 
 	
@@ -433,7 +435,7 @@ void Character::onCollision(collider* c1, collider* c2) {
 		moment_hit = SDL_GetTicks();
 		deleteAllMeleeHitboxes(); // When you get hit all your melee  hitboxes are deleted
 	}
-	else if (c1->type == PUSHBOX && c2->type == PUSHBOX) {
+	else if (c1->type == PUSHBOX && c2->type == PUSHBOX && !App->scene_manager->paused) { // PROVISIONAL
 		if (!fliped)
 			logic_position.x -= walk_speed;
 		else
@@ -471,9 +473,17 @@ void Character::setIfGrounded() {
 	}
 }
 
-void Character::draw(SDL_Texture* graphic)  const{
-	if (current_animation != nullptr)
-		App->render->drawSprite(3,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped, 1.0f, current_animation->angle);
+void Character::draw(SDL_Texture* graphic){
+	if (current_animation != nullptr){ // PROVISIONAL
+		int hardcoded_offset = 0;
+		if (fliped)
+			hardcoded_offset = 15;
+		else
+			hardcoded_offset = -15;
+		App->render->drawSprite(3, graphic, logic_position.x - ((shadow_rect.w/2)*scale) + hardcoded_offset, ground_position + shadow_offset, &shadow_rect, scale, fliped, 1.0f,0);
+		App->render->drawSprite(4,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped, 1.0f, current_animation->angle);
+	}
+
 }
 
 bool Character::manageSwap()
@@ -867,7 +877,11 @@ void Character::resetCharacter()	{
 	state_first_tick = false;
 	current_super_gauge = 0;
 	App->scene_manager->current_time = App->scene_manager->max_time;	//This should be done from the scene manager
-	App->scene_manager->paused = false;									//This should be done from the scene manager
+	App->scene_manager->paused = false;		
+	velocity.x = velocity.y = 0;//This should be done from the scene manager
+	projectile = false;
+	instanciated_hitbox = false;
+
 }
 void Character::deleteDeadHitboxes() 	{
 	// Compute what hitboxes need to be deleted

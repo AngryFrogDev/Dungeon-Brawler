@@ -297,6 +297,8 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	gravity = character.gravity;
 	invencibility_on_wakeup = character.invencibility_on_wakeup;
 	scale = character.scale;
+	shadow_rect = { 452, 3719, 68, 14 };
+	shadow_offset = 105;
 		// WARRIOR EXCLUSIVE VARS
 	spin_speed = character.spin_speed;
 	spin_object.item_type = character.spin_object;
