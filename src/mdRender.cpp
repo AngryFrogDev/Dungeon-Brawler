@@ -192,13 +192,16 @@ bool mdRender::blitQuads(std::priority_queue <quadToPrint*, std::vector<quadToPr
 		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 		SDL_SetRenderDrawColor(renderer, first->r, first->g, first->b, first->a);
 
-		SDL_Rect rec(first->rect);
+		SDL_Rect rect(first->rect);
 		if (first->use_camera) {
-			rec.x = (int)(camera.x + first->rect.x);
-			rec.y = (int)(camera.y + first->rect.y);
+			float camerazoom = resolution.first / (float)camera.w;
+			rect.x = (rect.x - (int)camera.x) * camerazoom;
+			rect.y = (rect.y - (int)camera.y) * camerazoom;
+			rect.w *= camerazoom;
+			rect.h *= camerazoom;
 		}
 
-		int result = (first->filled) ? SDL_RenderFillRect(renderer, &rec) : SDL_RenderDrawRect(renderer, &rec);
+		int result = (first->filled) ? SDL_RenderFillRect(renderer, &rect) : SDL_RenderDrawRect(renderer, &rect);
 
 		if (result != 0) {
 			LOG("Cannot draw quad to screen. SDL_RenderFillRect error: %s", SDL_GetError());
