@@ -204,13 +204,16 @@ void mdGuiManager::manageFocus() {
 						for (it; *it != nullptr; it--)
 						{
 							temp_object = *it;
-							if (temp_object->active)
+							if (temp_object->visible)
 							{
 								focus = temp_object;
 								break;
 							}
+							else
+								break;
 						}
 					}
+					break;
 				}
 			}
 		}
@@ -231,7 +234,7 @@ void mdGuiManager::manageFocus() {
 						for (it; it != focus_elements.end(); it++)
 						{
 							temp_object = *it;
-							if (temp_object->active)
+							if (temp_object->visible)
 							{
 								focus = temp_object;
 								break;
