@@ -239,13 +239,14 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			playCurrentSFX();
 			current_super_gauge += super_gauge_gain_strike;
 		}
+		// Continuous
+		doAttack(inputs);
+
 		if (hit) {
 			instanciated_hitbox = false;
 			updateState(HIT);
 			hurtbox->type = HURTBOX;
 		}
-		// Continuous
-		doAttack(inputs);
 		break;
 
 	case STAND_BLOCKING:
