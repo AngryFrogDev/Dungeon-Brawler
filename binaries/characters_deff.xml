@@ -207,7 +207,7 @@
           damage ="10"
           knockdown ="true"
           juggle_speed_x ="2"
-          juggle_speed_y ="30"
+          juggle_speed_y ="25"
           block_type ="mid"
           type ="cr_s1"
           recovery ="150"
