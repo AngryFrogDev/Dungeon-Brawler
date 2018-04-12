@@ -370,6 +370,8 @@ void mdEntities::fillWarriorFromXML(const pugi::xml_node& md_config) {
 	warrior.super_window = md_config.attribute("super_window").as_int();
 	warrior.cancelability_window = md_config.attribute("cancelability_window").as_int();
 	warrior.spin_speed = md_config.attribute("spin_speed").as_int();
+	warrior.improved_spin_speed = md_config.attribute("improved_spin_speed").as_int();
+	warrior.improved_spin_recovery = md_config.attribute("improved_spin_recovery").as_int();
 	tmp = md_config.attribute("spin_object").as_string();
 	warrior.spin_object = stringToItem(tmp);
 	warrior.jm_s1_angle = md_config.attribute("jm_s1_angle").as_int();

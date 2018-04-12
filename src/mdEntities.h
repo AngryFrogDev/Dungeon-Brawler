@@ -43,6 +43,8 @@ struct character_deff {
 
 	// Warrior variables
 	int spin_speed;
+	int improved_spin_speed;
+	int improved_spin_recovery;
 	ITEMS spin_object;
 	int jm_s1_angle;
 	iPoint jm_s1_speed;

@@ -31,6 +31,8 @@
     dive_kick_max_height ="520"
     
     spin_speed ="6"
+    improved_spin_speed ="10"
+    improved_spin_recovery ="250"
     spin_object ="special_item_1"
     
     jm_s1_angle ="20"
