@@ -112,6 +112,8 @@ bool mdSceneManager::update(float dt)	{
 		ret = false;
 	if (App->input->getKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
+		player1itemselect = false; // Bad bugfixing
+		player2itemselect = false;
 		closeWindow();
 		changeScene(&main_menu);
 	}
@@ -551,26 +553,26 @@ void mdSceneManager::blitUiTextures()	{
 		Controller* play2 = App->entities->players[1]->getController();
 
 
-		if (play1 != nullptr && play1->isPressed(CONTROLLER_BUTTON::BUTTON_A) && !player1itemselect)
+		if (play1 != nullptr && play1->isPressed(CONTROLLER_BUTTON::BUTTON_A, KEY_DOWN) && !player1itemselect)
 		{
 			waiting_pl1->changeContent("DONE!", { 0, 150, 0, 255 });
 			App->entities->players[0]->getCurrCharacter()->giveItem(SPECIAL_ITEM_1);
 			player1itemselect = true;
 		}
-		else if (play1 != nullptr && play1->isPressed(CONTROLLER_BUTTON::BUTTON_B) && !player1itemselect)
+		else if (play1 != nullptr && play1->isPressed(CONTROLLER_BUTTON::BUTTON_B, KEY_DOWN) && !player1itemselect)
 		{
 			waiting_pl1->changeContent("DONE!", { 0, 150, 0, 255 });
 			App->entities->players[0]->getCurrCharacter()->giveItem(SPECIAL_ITEM_2);
 			player1itemselect = true;
 		}
 
-		if ((play2 != nullptr && play2->isPressed(CONTROLLER_BUTTON::BUTTON_A) || App->input->getKey(SDL_SCANCODE_A) == KEY_DOWN) && !player2itemselect)
+		if ((play2 != nullptr && play2->isPressed(CONTROLLER_BUTTON::BUTTON_A, KEY_DOWN) || App->input->getKey(SDL_SCANCODE_A) == KEY_DOWN) && !player2itemselect)
 		{
 			waiting_pl2->changeContent("DONE!", { 0, 150, 0, 255 });
 			App->entities->players[1]->getCurrCharacter()->giveItem(SPECIAL_ITEM_1);
 			player2itemselect = true;
 		}
-		else if ((play2 != nullptr && play2->isPressed(CONTROLLER_BUTTON::BUTTON_B) || App->input->getKey(SDL_SCANCODE_B) == KEY_DOWN) && !player2itemselect)
+		else if ((play2 != nullptr && play2->isPressed(CONTROLLER_BUTTON::BUTTON_B, KEY_DOWN) || App->input->getKey(SDL_SCANCODE_B) == KEY_DOWN) && !player2itemselect)
 		{
 			waiting_pl2->changeContent("DONE!", { 0, 150, 0, 255 });
 			App->entities->players[1]->getCurrCharacter()->giveItem(SPECIAL_ITEM_2);

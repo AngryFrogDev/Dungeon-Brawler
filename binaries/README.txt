@@ -1,6 +1,6 @@
 DUNGEON BRAWLER
 
-This is the version 0.493 of Dungeon Brawler.
+This is the version 0.5 of Dungeon Brawler.
 
 Features:
 
@@ -32,7 +32,7 @@ RB/Z   -> Special 1
 LB/X   -> Special 2
 DOWN + FORWARD + S1 -> Super (Only with full gauge, which is filled by attacking, blocking or getting hit)
 
-Every attack button is different wheather if crouching, standing or jumping.
+Every attack is different depending on being whether crouching, standing or jumping.
 
 BLOCK:
 While walking back, mids and overheads can be blocked
