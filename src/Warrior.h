@@ -15,6 +15,7 @@ public:
 	void crouchingSpecial2();
 	void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]);
 	void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]);
+	bool standingSpecial1Condition();
 	bool jumpingSpecial1Condition();
 	bool jumpingSpecial2Condition();
 	void doSuper();

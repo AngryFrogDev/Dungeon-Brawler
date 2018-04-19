@@ -9,6 +9,7 @@
 #pragma comment( lib, "SDL_image/libx86/SDL2_image.lib" )
 struct collider;
 struct SDL_Texture;
+class Character;
 
 
 enum PROJECTILE_TYPE {
@@ -17,8 +18,8 @@ enum PROJECTILE_TYPE {
 };
 
 struct projectile {
-	projectile(Animation animation, iPoint position,iPoint speed, collider* collider, int life,bool fliped, int scale): 
-		animation(animation), position(position),speed(speed), collider(collider), life(life),fliped(fliped), scale(scale){
+	projectile(Animation animation, iPoint position,iPoint speed, collider* collider, int life,bool fliped, int scale, PROJECTILE_TYPE type): 
+		animation(animation), position(position),speed(speed), collider(collider), life(life),fliped(fliped), scale(scale), type(type){
 		born = SDL_GetTicks();
 	}
 	void update();
@@ -33,6 +34,7 @@ struct projectile {
 	bool fliped;
 	bool to_delete = false;
 	int scale;
+	PROJECTILE_TYPE type;
 };
 
 class mdProjectiles :
@@ -47,6 +49,7 @@ public:
 	bool cleanUp();
 
 	projectile* addProjectile(PROJECTILE_TYPE type, iPoint position, iPoint speed, collider* collider, int life,bool fliped, int scale);
+	bool lookForProjectileType(PROJECTILE_TYPE type, Character* character);
 
 	SDL_Texture* graphics;
 	Animation warrior_knife;

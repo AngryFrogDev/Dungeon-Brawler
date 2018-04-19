@@ -73,7 +73,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			updateState(ATTACKING, ST_L); 
 		else if (inputs[HEAVY_ATTACK]) 
 			updateState(ATTACKING, ST_H);
-		else if (inputs[SPECIAL_1] && !projectile) 
+		else if (inputs[SPECIAL_1] && standingSpecial1Condition()) 
 			updateState(ATTACKING, ST_S1);
 		else if (inputs[SPECIAL_2]) 
 			updateState(ATTACKING, ST_S2);
@@ -116,7 +116,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			updateState(ATTACKING, ST_L);
 		else if (inputs[HEAVY_ATTACK]) 
 			updateState(ATTACKING, ST_H);
-		else if (inputs[SPECIAL_1] && !projectile)
+		else if (inputs[SPECIAL_1] && standingSpecial1Condition())
 			updateState(ATTACKING, ST_S1);
 		else if (inputs[SPECIAL_2]) 
 			updateState(ATTACKING, ST_S2);
@@ -156,7 +156,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			updateState(ATTACKING, ST_L);
 		else if (inputs[HEAVY_ATTACK]) 
 			updateState(ATTACKING, ST_H);
-		else if (inputs[SPECIAL_1] && !projectile) 
+		else if (inputs[SPECIAL_1] && standingSpecial1Condition())
 			updateState(ATTACKING, ST_S1);
 		else if (inputs[SPECIAL_2]) 
 			updateState(ATTACKING, ST_S2);
@@ -834,9 +834,6 @@ int Character::getLateralLimit() const {
 void Character::setFlip(bool flip) {
 	fliped = flip;
 }
-void Character::setProjectile(bool _projectile) {
-	projectile = _projectile;
-}
 void Character::updateInvecibility() {
 	if(invencible_timer.isActive())
 	{ 
@@ -886,7 +883,6 @@ void Character::resetCharacter()	{
 	App->entities->paused = false;
 	App->render->camera.x = (App->render->resolution.first - App->render->camera.w) / 2; //This should be done from the scene manager
 	velocity.x = velocity.y = 0;//This should be done from the scene manager
-	projectile = false;
 	instanciated_hitbox = false;
 
 }
@@ -1113,7 +1109,7 @@ void Character::manageCancel(const bool(&inputs)[MAX_INPUTS]) {
 		updateState(ATTACKING, SUPER);
 		instanciated_hitbox = false;
 	}
-	else if (lookInBuffer(SPECIAL_1, cancelability_window) && !inputs[DOWN] && !projectile) {
+	else if (lookInBuffer(SPECIAL_1, cancelability_window) && !inputs[DOWN] && standingSpecial1Condition() /*&& !projectile*//* !projectile*/) {
 		updateState(ATTACKING, ST_S1);
 		instanciated_hitbox = false;
 	}

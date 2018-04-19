@@ -40,7 +40,7 @@ bool mdProjectiles::preUpdate() {
 	// Remove the projectiles
 	for (std::list<projectile*>::iterator it = projectiles_to_delete.begin(); it != projectiles_to_delete.end(); ++it) {
 		projectile* p = *it;
-		p->collider->character->setProjectile(false);
+		//p->collider->character->setProjectile(false);
 		projectiles.remove(p);
 		delete p;
 	}
@@ -89,11 +89,21 @@ projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, i
 	projectile* new_projectile;
 	switch (type) {
 		case WARRIOR_KNIFE:
-			new_projectile = new projectile(warrior_knife,position, speed, collider,life, fliped, scale); 
+			new_projectile = new projectile(warrior_knife,position, speed, collider,life, fliped, scale, WARRIOR_KNIFE); 
 	}	
 
 	projectiles.push_back(new_projectile);
 	return new_projectile;
+}
+
+bool mdProjectiles::lookForProjectileType(PROJECTILE_TYPE type, Character* character ) {
+	for (std::list<projectile*>::iterator it = projectiles.begin(); it != projectiles.end(); ++it) {
+		projectile* p = *it;
+		if (p->type == type && p->collider->character == character) { // Projectiles are deleted with their colliders
+			return true;
+		}
+	}
+	return false;
 }
 
 void projectile::update() {

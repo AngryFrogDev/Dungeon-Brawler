@@ -145,7 +145,7 @@ public:
 	CHAR_ATT_TYPE getAttackDoing() const;
 	CHAR_STATE getCurrentState() const;
 	void setFlip(bool flip);
-	void setProjectile(bool projectile);
+	//void setProjectile(bool projectile);
 	int getCurrentLife() const;
 	int getMaxLife() const;
 	int getCurrentSuperGauge() const;
@@ -191,8 +191,10 @@ protected:
 	virtual void crouchingSpecial2() { return; };
 	virtual void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) { return; };
 	virtual void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) { return; };
+	virtual bool standingSpecial1Condition() {return true; }
 	virtual bool jumpingSpecial1Condition() {return true; }
 	virtual bool jumpingSpecial2Condition() {return true; }
+
 	virtual void doSuper() { return; }
 	// Input buffer functions
 	bool lookInBuffer(CHARACTER_INPUTS input, int window);
@@ -236,7 +238,7 @@ protected:
 	int cancelability_window;
 
 	//If the projectile has already been thrown, no other projectile should be
-	bool projectile; // PROVISIONAL: This should only belong to warrior
+	//bool projectile; // PROVISIONAL: This should only belong to warrior
 
 	int shadow_offset;
 	SDL_Rect shadow_rect;

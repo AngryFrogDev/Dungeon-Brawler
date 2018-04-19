@@ -383,9 +383,8 @@ void Warrior::standingSpecial1() 	{
 			else
 				speed.x = -projectile_speed;
 			speed.y = 0;
-			App->projectiles->addProjectile(WARRIOR_KNIFE, { logic_position.x, logic_position.y }, speed, projectile_collider, -1, fliped , scale);
+			App->projectiles->addProjectile(WARRIOR_KNIFE, {calculateDrawPosition(0,st_s1.hitbox.w,true), calculateDrawPosition(0,st_s1.hitbox.h,false) }, speed, projectile_collider, -1, fliped , projectile_scale);
 			askRecovery(st_s1.recovery);
-			projectile = true;
 		}
 }
 void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
@@ -642,4 +641,7 @@ bool Warrior::jumpingSpecial1Condition() {
 }
 bool Warrior::jumpingSpecial2Condition() {
 	return logic_position.y <= dive_kick_max_height;
+}
+bool Warrior::standingSpecial1Condition() {
+	return !App->projectiles->lookForProjectileType(WARRIOR_KNIFE, (Character*)this);
 }
