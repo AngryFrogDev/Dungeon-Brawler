@@ -225,9 +225,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			updateState(ATTACKING, JM_L);
 		else if (inputs[HEAVY_ATTACK])
 			updateState(ATTACKING, JM_H);
-		else if (inputs[SPECIAL_1] && checkDiveKickHeight())
+		else if (inputs[SPECIAL_1] && jumpingSpecial1Condition())
 			updateState(ATTACKING, JM_S1);
-		else if (inputs[SPECIAL_2] && checkDiveKickHeight())
+		else if (inputs[SPECIAL_2] && jumpingSpecial2Condition())
 			updateState(ATTACKING, JM_S2);
 		break;
 
@@ -1153,9 +1153,6 @@ bool Character::checkForSuper(int window) {
 		return true;
 	else
 		return false;
-}
-bool Character::checkDiveKickHeight() {
-	return logic_position.y <= dive_kick_max_height;
 }
 void Character::emmitCurrentParticle() {
 	switch (attack_recieving.type) {

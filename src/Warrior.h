@@ -15,6 +15,8 @@ public:
 	void crouchingSpecial2();
 	void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]);
 	void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]);
+	bool jumpingSpecial1Condition();
+	bool jumpingSpecial2Condition();
 	void doSuper();
 
 	void giveItem(ITEMS type);
@@ -39,6 +41,7 @@ private:
 	int jm_s2_angle;
 	iPoint jm_s1_speed;
 	iPoint jm_s2_speed;
+	int dive_kick_max_height; 
 
 	int super_invencibility;
 

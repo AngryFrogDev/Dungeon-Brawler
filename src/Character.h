@@ -191,7 +191,8 @@ protected:
 	virtual void crouchingSpecial2() { return; };
 	virtual void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) { return; };
 	virtual void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) { return; };
-	bool checkDiveKickHeight();
+	virtual bool jumpingSpecial1Condition() {return true; }
+	virtual bool jumpingSpecial2Condition() {return true; }
 	virtual void doSuper() { return; }
 	// Input buffer functions
 	bool lookInBuffer(CHARACTER_INPUTS input, int window);
@@ -234,7 +235,8 @@ protected:
 	int super_window;
 	int cancelability_window;
 
-	int dive_kick_max_height; // PROVISIONAL: This should only belong to warrior
+	//If the projectile has already been thrown, no other projectile should be
+	bool projectile; // PROVISIONAL: This should only belong to warrior
 
 	int shadow_offset;
 	SDL_Rect shadow_rect;
@@ -285,8 +287,6 @@ protected:
 	bool instanciated_hitbox; 
 	bool state_first_tick;
 	bool state_second_tick;
-	//If the projectile has already been thrown, no other projectile should be
-	bool projectile; // PROVISIONAL: This should only belong to warrior
 
 	bool hit;
 	//Maybe current_stun and moment_hit should be a timer instead

@@ -637,3 +637,9 @@ void Warrior::takeAllItems() {
 	dive_kick_object.active = false;
 	spin_object.active = false;
 }
+bool Warrior::jumpingSpecial1Condition() {
+	return logic_position.y <= dive_kick_max_height;
+}
+bool Warrior::jumpingSpecial2Condition() {
+	return logic_position.y <= dive_kick_max_height;
+}
