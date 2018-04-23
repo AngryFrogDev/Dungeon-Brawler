@@ -129,6 +129,7 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="DebLog.cpp" />
     <ClCompile Include="Labels.cpp" />
+    <ClCompile Include="Mage.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="mdEntities.cpp" />
     <ClCompile Include="mdAudio.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Bars.h" />
     <ClInclude Include="Buttons.h" />
     <ClInclude Include="Labels.h" />
+    <ClInclude Include="Mage.h" />
     <ClInclude Include="mdParticleSystem.h" />
     <ClInclude Include="mdProjectiles.h" />
     <ClInclude Include="Character.h" />

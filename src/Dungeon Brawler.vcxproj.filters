@@ -28,6 +28,9 @@
     <Filter Include="Entities\Player">
       <UniqueIdentifier>{b14fe0f2-f8df-4d41-b258-91a5b71ec428}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities\Characters\Mage">
+      <UniqueIdentifier>{82a00218-b0e5-44f2-98fa-14c6ee1ed37c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -122,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="mdParticleSystem.cpp">
       <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Mage.cpp">
+      <Filter>Entities\Characters\Mage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="mdParticleSystem.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Mage.h">
+      <Filter>Entities\Characters\Mage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

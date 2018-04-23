@@ -45,6 +45,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	//PROVISIONAL: Should be loaded from an xml
 	warrior_graphics = App->textures->load("Assets/warrior.png");
 	warrior_graphics2 = App->textures->load("Assets/warrior_2.png");
+	mage_graphics = App->textures->load("Assets/mage.png");
 
 	traning = false;
 	show = true;
@@ -83,10 +84,20 @@ bool mdEntities::preUpdate() {
 
 	for (int i = 0; i < 4; i++) { // PROVISIONAL: We should check the type of character of the player and pass the correct textures
 		if (players[i] != nullptr){
-			if(i == 0) // PROVISIONAL: Super hardcode
-				players[i]->update(warrior_graphics); 
-			else
-				players[i]->update(warrior_graphics2);
+
+			switch (players[i]->getCurrCharacter()->getType()) {
+				case WARRIOR:
+					//if(pallete == 0) // PROVISIONAL: Super hardcode
+						players[i]->update(warrior_graphics); 
+					//else
+					//	players[i]->update(warrior_graphics2);
+						break;
+				case MAGE:
+					players[i]->update(mage_graphics);
+					break;
+
+			}
+
 		}
 		
 	}
@@ -348,63 +359,63 @@ CHAR_ATT_TYPE mdEntities::stringToCharAttType(std::string string) {
 		return NO_ATT;
 }
 void mdEntities::loadCharactersFromXML(const pugi::xml_node& md_config) {
-	fillWarriorFromXML(md_config.child("warrior"));
+	fillFromXML(md_config.child("warrior"), warrior);
+	fillFromXML(md_config.child("mage"), mage);
 }
-void mdEntities::fillWarriorFromXML(const pugi::xml_node& md_config) {
+void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& character) {
 	std::string tmp;
 	tmp = md_config.attribute("type").as_string();
-	warrior.type = stringToCharType(tmp);
-	warrior.scale = md_config.attribute("scale").as_int();
-	warrior.gravity = md_config.attribute("gravity").as_float();
-	warrior.walk_speed = md_config.attribute("walk_speed").as_int();
-	warrior.jump_power.x = md_config.attribute("jump_power_x").as_int();
-	warrior.jump_power.y = md_config.attribute("jump_power_y").as_int();
-	warrior.max_life = md_config.attribute("max_life").as_int();
-	warrior.max_super_gauge = md_config.attribute("max_super_gauge").as_int();
-	warrior.super_gauge_gain_hit = md_config.attribute("super_gauge_gain_hit").as_int();
-	warrior.super_gauge_gain_block = md_config.attribute("super_gauge_gain_block").as_int();
-	warrior.super_gauge_gain_strike = md_config.attribute("super_gauge_gain_strike").as_int();
-	//warrior.left_x_limit = md_config.attribute("left_x_limit").as_int();
-	//warrior.left_y_limit = md_config.attribute("left_y_limit").as_int();
-	warrior.standing_hurtbox_size.x = md_config.attribute("standing_hurtbox_size_x").as_int();
-	warrior.standing_hurtbox_size.y = md_config.attribute("standing_hurtbox_size_y").as_int();
-	warrior.crouching_hurtbox_offset = md_config.attribute("crouching_hurtbox_offset").as_int();
-	warrior.invencibility_on_wakeup = md_config.attribute("invencibility_on_wakeup").as_int();
-	warrior.super_window = md_config.attribute("super_window").as_int();
-	warrior.cancelability_window = md_config.attribute("cancelability_window").as_int();
-	warrior.spin_speed = md_config.attribute("spin_speed").as_int();
-	warrior.improved_spin_speed = md_config.attribute("improved_spin_speed").as_int();
-	warrior.improved_spin_recovery = md_config.attribute("improved_spin_recovery").as_int();
+	character.type = stringToCharType(tmp);
+	character.scale = md_config.attribute("scale").as_int();
+	character.gravity = md_config.attribute("gravity").as_float();
+	character.walk_speed = md_config.attribute("walk_speed").as_int();
+	character.jump_power.x = md_config.attribute("jump_power_x").as_int();
+	character.jump_power.y = md_config.attribute("jump_power_y").as_int();
+	character.max_life = md_config.attribute("max_life").as_int();
+	character.max_super_gauge = md_config.attribute("max_super_gauge").as_int();
+	character.super_gauge_gain_hit = md_config.attribute("super_gauge_gain_hit").as_int();
+	character.super_gauge_gain_block = md_config.attribute("super_gauge_gain_block").as_int();
+	character.super_gauge_gain_strike = md_config.attribute("super_gauge_gain_strike").as_int();
+	character.standing_hurtbox_size.x = md_config.attribute("standing_hurtbox_size_x").as_int();
+	character.standing_hurtbox_size.y = md_config.attribute("standing_hurtbox_size_y").as_int();
+	character.crouching_hurtbox_offset = md_config.attribute("crouching_hurtbox_offset").as_int();
+	character.invencibility_on_wakeup = md_config.attribute("invencibility_on_wakeup").as_int();
+	character.super_window = md_config.attribute("super_window").as_int();
+	character.cancelability_window = md_config.attribute("cancelability_window").as_int();
+
+	character.spin_speed = md_config.attribute("spin_speed").as_int();
+	character.improved_spin_speed = md_config.attribute("improved_spin_speed").as_int();
+	character.improved_spin_recovery = md_config.attribute("improved_spin_recovery").as_int();
 	tmp = md_config.attribute("spin_object").as_string();
-	warrior.spin_object = stringToItem(tmp);
-	warrior.jm_s1_angle = md_config.attribute("jm_s1_angle").as_int();
-	warrior.jm_s1_speed.x = md_config.attribute("jm_s1_speed_x").as_int();
-	warrior.jm_s1_speed.y = md_config.attribute("jm_s1_speed_y").as_int();
-	warrior.jm_s2_angle = md_config.attribute("jm_s2_angle").as_int();
-	warrior.jm_s2_speed.x = md_config.attribute("jm_s2_speed_x").as_int();
-	warrior.jm_s2_speed.y = md_config.attribute("jm_s2_speed_y").as_int();
-	warrior.dive_kick_max_height = md_config.attribute("dive_kick_max_height").as_int();
+	character.spin_object = stringToItem(tmp);
+	character.jm_s1_angle = md_config.attribute("jm_s1_angle").as_int();
+	character.jm_s1_speed.x = md_config.attribute("jm_s1_speed_x").as_int();
+	character.jm_s1_speed.y = md_config.attribute("jm_s1_speed_y").as_int();
+	character.jm_s2_angle = md_config.attribute("jm_s2_angle").as_int();
+	character.jm_s2_speed.x = md_config.attribute("jm_s2_speed_x").as_int();
+	character.jm_s2_speed.y = md_config.attribute("jm_s2_speed_y").as_int();
+	character.dive_kick_max_height = md_config.attribute("dive_kick_max_height").as_int();
 	tmp = md_config.attribute("dive_kick_object").as_string();
-	warrior.dive_kick_object = stringToItem(tmp);
-	warrior.projectile_duration = md_config.attribute("projectile_duration").as_int();
-	warrior.projectile_speed = md_config.attribute("projectile_speed").as_int();
-	warrior.projectile_scale = md_config.attribute("projectile_scale").as_int();
-	warrior.swordyuken_invencivility = md_config.attribute("swordyuken_invencivility").as_int();
-	warrior.swordyuken_jump_power = md_config.attribute("swordyuken_jump_power").as_int();
+	character.dive_kick_object = stringToItem(tmp);
+	character.projectile_duration = md_config.attribute("projectile_duration").as_int();
+	character.projectile_speed = md_config.attribute("projectile_speed").as_int();
+	character.projectile_scale = md_config.attribute("projectile_scale").as_int();
+	character.swordyuken_invencivility = md_config.attribute("swordyuken_invencivility").as_int();
+	character.swordyuken_jump_power = md_config.attribute("swordyuken_jump_power").as_int();
 	pugi::xml_node attack_data = md_config.child("attack_data");
-	loadAttackDeffFromXML(attack_data.child("st_l"), warrior.st_l);
-	loadAttackDeffFromXML(attack_data.child("st_h"), warrior.st_h);
-	loadAttackDeffFromXML(attack_data.child("cr_l"), warrior.cr_l);
-	loadAttackDeffFromXML(attack_data.child("cr_h"), warrior.cr_h);
-	loadAttackDeffFromXML(attack_data.child("jm_l"), warrior.jm_l);
-	loadAttackDeffFromXML(attack_data.child("jm_h"), warrior.jm_h);
-	loadAttackDeffFromXML(attack_data.child("st_s1"), warrior.st_s1);
-	loadAttackDeffFromXML(attack_data.child("st_s2"), warrior.st_s2);
-	loadAttackDeffFromXML(attack_data.child("cr_s1"), warrior.cr_s1);
-	loadAttackDeffFromXML(attack_data.child("cr_s2"), warrior.cr_s2);
-	loadAttackDeffFromXML(attack_data.child("jm_s1"), warrior.jm_s1);
-	loadAttackDeffFromXML(attack_data.child("jm_s2"), warrior.jm_s2);
-	loadAttackDeffFromXML(attack_data.child("super"), warrior.super);
+	loadAttackDeffFromXML(attack_data.child("st_l"), character.st_l);
+	loadAttackDeffFromXML(attack_data.child("st_h"), character.st_h);
+	loadAttackDeffFromXML(attack_data.child("cr_l"), character.cr_l);
+	loadAttackDeffFromXML(attack_data.child("cr_h"), character.cr_h);
+	loadAttackDeffFromXML(attack_data.child("jm_l"), character.jm_l);
+	loadAttackDeffFromXML(attack_data.child("jm_h"), character.jm_h);
+	loadAttackDeffFromXML(attack_data.child("st_s1"), character.st_s1);
+	loadAttackDeffFromXML(attack_data.child("st_s2"), character.st_s2);
+	loadAttackDeffFromXML(attack_data.child("cr_s1"), character.cr_s1);
+	loadAttackDeffFromXML(attack_data.child("cr_s2"), character.cr_s2);
+	loadAttackDeffFromXML(attack_data.child("jm_s1"), character.jm_s1);
+	loadAttackDeffFromXML(attack_data.child("jm_s2"), character.jm_s2);
+	loadAttackDeffFromXML(attack_data.child("super"), character.super);
 }
 void mdEntities::loadAttackDeffFromXML(const pugi::xml_node& md_config, basic_attack_deff& attack) {
 	std::string tmp;

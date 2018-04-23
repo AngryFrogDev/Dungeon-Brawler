@@ -145,11 +145,11 @@ public:
 	CHAR_ATT_TYPE getAttackDoing() const;
 	CHAR_STATE getCurrentState() const;
 	void setFlip(bool flip);
-	//void setProjectile(bool projectile);
 	int getCurrentLife() const;
 	int getMaxLife() const;
 	int getCurrentSuperGauge() const;
 	int getMaxSuperGauge() const;
+	CHAR_TYPE getType() const;
 	void resetCharacter();
 
 	// Item management

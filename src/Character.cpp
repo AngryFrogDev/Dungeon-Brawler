@@ -869,6 +869,10 @@ int Character::getMaxSuperGauge() const{
 
 	return max_super_gauge;
 }
+
+CHAR_TYPE Character::getType() const {
+	return type;
+}
 void Character::resetCharacter()	{
 	current_life = max_life;
 	current_state = CHAR_STATE::IDLE;

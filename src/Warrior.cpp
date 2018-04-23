@@ -269,17 +269,6 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	jm_s2 = character.jm_s2;
 	super = character.super;
 
-	// PROVISIONAL: Should be loaded from xml
-	super_attack_list.push_back(ST_L);
-	super_attack_list.push_back(ST_L);
-	super_attack_list.push_back(ST_H);
-	super_attack_list.push_back(CR_H);
-	super_attack_list.push_back(CR_S2);
-
-	super_last_attack = CR_S2;
-
-	super_advance_speed = 5;
-
 	// XML inicialization
 	draw_size.x = 195;
 	draw_size.y = 158;
@@ -299,7 +288,12 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	scale = character.scale;
 	shadow_rect = { 452, 3719, 68, 14 };
 	shadow_offset = 105;
-		// WARRIOR EXCLUSIVE VARS
+	// Constructor inicialization
+	fliped = _fliped;
+	logic_position.x = x_pos;
+	type = CHAR_TYPE::WARRIOR;
+
+	// WARRIOR EXCLUSIVE VARS
 	spin_speed = character.spin_speed;
 	improved_spin_speed = character.improved_spin_speed;
 	improved_spin_recovery = character.improved_spin_recovery;
@@ -316,11 +310,16 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	swordyuken_invencivility = character.swordyuken_invencivility;
 	swordyuken_jump_power = character.swordyuken_jump_power;
 	super_invencibility = 300;
+	// PROVISIONAL: Should be loaded from xml
+	super_attack_list.push_back(ST_L);
+	super_attack_list.push_back(ST_L);
+	super_attack_list.push_back(ST_H);
+	super_attack_list.push_back(CR_H);
+	super_attack_list.push_back(CR_S2);
 
-	// Constructor inicialization
-	fliped = _fliped;
-	logic_position.x = x_pos;
-	type = CHAR_TYPE::WARRIOR;
+	super_last_attack = CR_S2;
+
+	super_advance_speed = 5;
 	// Runtime inicialization
 	grounded = false;
 	instanciated_hitbox = false;

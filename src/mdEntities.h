@@ -83,7 +83,7 @@ public:
 
 	bool moveCamera(bool movingLeft);
 
-	character_deff warrior;
+	character_deff warrior, mage;
 	bool traning;
 	bool paused;
 	bool show;
@@ -105,7 +105,7 @@ private:
 	bool automaticFlip();
 	bool allowFlip();
 	void loadCharactersFromXML(const pugi::xml_node& md_config);
-	void fillWarriorFromXML(const pugi::xml_node& md_config);	
+	void fillFromXML(const pugi::xml_node& md_config, character_deff& character);	
 	void loadAttackDeffFromXML(const pugi::xml_node& md_config, basic_attack_deff& attack);
 
 private:
@@ -113,6 +113,7 @@ private:
 	//Graphics of the warrior
 	SDL_Texture* warrior_graphics;
 	SDL_Texture* warrior_graphics2;
+	SDL_Texture* mage_graphics;
 
 	pugi::xml_document entities_config_doc;
 };
