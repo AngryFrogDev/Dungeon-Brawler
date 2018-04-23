@@ -50,6 +50,10 @@ void Particle::animate()
 
 	updateColors();
 
+	float gravity = 0.3;
+
+	vel.y += gravity;
+
 	pos.x += vel.x; //Simple linear motion
 	pos.y += vel.y;
 }

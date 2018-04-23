@@ -236,6 +236,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		if (!state_first_tick) {
 			playCurrentSFX();
 			current_super_gauge += super_gauge_gain_strike;
+
 		}
 		// Continuous
 		doAttack(inputs);
@@ -255,6 +256,12 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			emmitCurrentParticle();
 			updateAnimation(standing_block);
 			state_first_tick = true;
+			int offset_x = 80;
+			int offset_y = 380;
+			if (fliped) 
+				App->particle_system->createEmitter({(float)logic_position.x - offset_x,(float)logic_position.y - offset_y }, "particles/heavy-block.xml");
+			else
+				App->particle_system->createEmitter({(float)logic_position.x + offset_x,(float)logic_position.y - offset_y }, "particles/heavy-block.xml");
 		}
 		if (hit) {
 			hit = false;
