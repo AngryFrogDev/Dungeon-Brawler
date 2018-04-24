@@ -34,12 +34,10 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	walk_forward.PushBack({ 195 * 9,158,195,158 });
 	walk_forward.PushBack({ 195 * 10,158,195,158 });
 	walk_forward.PushBack({ 195 * 11,158,195,158 });
-	walk_forward.PushBack({ 195 * 12,158,195,158 });
 
 	walk_forward.loop = true;
 	walk_forward.speed = 0.2;
 
-	walk_back.PushBack({ 195 * 12,158,195,158 });
 	walk_back.PushBack({ 195 * 11,158,195,158 });
 	walk_back.PushBack({ 195 * 10,158,195,158 });
 	walk_back.PushBack({ 195 * 9,158,195,158 });

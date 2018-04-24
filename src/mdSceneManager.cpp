@@ -478,7 +478,7 @@ void mdSceneManager::loadSceneCharacters()	{
 	obj_sel.characters.push_back(player1);
 
 	player2.x_pos = 1500;
-	player2.type = WARRIOR;
+	player2.type = MAGE;
 	player2.player = 1;
 	player2.flipped = true;
 	obj_sel.characters.push_back(player2);
