@@ -455,7 +455,7 @@ void Character::onCollision(collider* c1, collider* c2) {
 }
 void Character::applyGravity() {
 
-	velocity.y += gravity;
+	velocity.y += gravity; // Maybe it shuld apply other gravity on juggle state
 	
 	if (velocity.y > 0) {
 		if (logic_position.y < ground_position)
@@ -825,8 +825,8 @@ int Character::calculateDrawPosition(int offset, int size, bool x) 	{
 		return logic_position.y + offset - size/2;
 }
 
-iPoint Character::getPos() const	{
-	return logic_position;
+iPoint Character::getPos() const{
+	return { (int)logic_position.x, (int)logic_position.y };
 }
 int Character::getLateralLimit() const {
 	return lateral_limit;

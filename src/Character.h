@@ -268,11 +268,11 @@ protected:
 
 	// Variables to modify in runtime
 	int ground_position;
-	iPoint logic_position;
+	fPoint logic_position;
 	iPoint draw_position;
 	iPoint draw_size;
 	
-	iPoint velocity;
+	fPoint velocity;
 
 	bool crouching_hurtbox;
 

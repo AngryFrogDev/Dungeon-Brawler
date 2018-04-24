@@ -7,6 +7,7 @@
 
 Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Character() {
 
+	this->lane = lane;
 
 	//PROVISIONAL: Animations should be loaded from the xml
 
@@ -54,34 +55,46 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	walk_back.loop = true;
 	walk_back.speed = 0.2;
 
-	//heavy_attack.PushBack({ 0,158 * 12,195, 158 });
-	//heavy_attack.PushBack({ 195,158 * 12,195, 158 });
-	//heavy_attack.PushBack({ 195 * 2,158 * 12,195, 158 });
-	//heavy_attack.PushBack({ 195 * 3,158 * 12,195, 158 });
-	//heavy_attack.PushBack({ 195 * 4,158 * 12,195, 158 });
-	//heavy_attack.PushBack({ 195 * 5,158 * 12,195, 158 });
-	//heavy_attack.PushBack({ 195 * 6,158 * 12,195, 158 });
-	//heavy_attack.PushBack({ 195 * 7,158 * 12,195, 158 }, ACTIVE);
-	//heavy_attack.PushBack({ 195 * 8,158 * 12,195, 158 });
-	//heavy_attack.PushBack({ 195 * 9,158 * 12,195, 158 });
+	heavy_attack.PushBack({ 0,158 * 3,195, 158 });
+	heavy_attack.PushBack({ 195,158 * 3,195, 158 });
+	heavy_attack.PushBack({ 195 * 2,158 * 3,195, 158 });
+	heavy_attack.PushBack({ 195 * 3,158 * 3,195, 158 }, ACTIVE);
+	heavy_attack.PushBack({ 195 * 4,158 * 3,195, 158 });
+	heavy_attack.PushBack({ 195 * 5,158 * 3,195, 158 });
+	heavy_attack.PushBack({ 195 * 6,158 * 3,195, 158 });
+	heavy_attack.PushBack({ 195 * 7,158 * 3,195, 158 });
 
-	//heavy_attack.loop = false;
-	//heavy_attack.speed = character.st_h.animation_speed;
+	heavy_attack.loop = false;
+	heavy_attack.speed = character.st_h.animation_speed;
+	 
+	jump.PushBack({ 0, 158 * 2, 195, 158 });
+	jump.PushBack({ 195, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 2, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 3, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 4, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 5, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 6, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 7, 158 * 2, 195, 158 });
 
-	//jump.PushBack({ 0, 158 * 2, 195, 158 });
-	//jump.PushBack({ 195, 158 * 2, 195, 158 });
-	//jump.PushBack({ 195 * 2, 158 * 2, 195, 158 });
-	//jump.PushBack({ 195 * 3, 158 * 2, 195, 158 });
-	//jump.PushBack({ 195 * 4, 158 * 2, 195, 158 });
-	//jump.PushBack({ 195 * 5, 158 * 2, 195, 158 });
-	//jump.PushBack({ 195 * 6, 158 * 2, 195, 158 });
-	//jump.PushBack({ 195 * 7, 158 * 2, 195, 158 });
-	//jump.PushBack({ 195 * 8, 158 * 2, 195, 158 });
-
-	//jump.loop = false;
-	//jump.speed = 0.2;
+	jump.loop = false;
+	jump.speed = 0.2;
 
 
+	// Basic attack definitions
+
+	st_l = character.st_l;
+	st_h = character.st_h;
+	cr_l = character.cr_l;
+	cr_h = character.cr_h;
+	jm_l = character.jm_l;
+	jm_h = character.jm_h;
+	st_s1 = character.st_s1;
+	st_s2 = character.st_s2;
+	cr_s1 = character.cr_s1;
+	cr_s2 = character.cr_s2;
+	jm_s1 = character.jm_s1;
+	jm_s2 = character.jm_s2;
+	super = character.super;
 
 
 	// XML inicialization
@@ -130,6 +143,7 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	bottom_lane = 800;
 	upper_lane = 450;
 	lateral_limit = 50;
+	lane = 0;
 
 
 	// PROVISIONAL: This should belong to entities, if not fx are loaded twice

@@ -374,7 +374,7 @@ Warrior::~Warrior() {
 
 void Warrior::standingSpecial1() 	{
 		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-			collider* projectile_collider = App->collision->AddCollider({ logic_position.x, logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
+			collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
 			hitboxes.push_back(projectile_collider);
 			iPoint speed;
 			if (!fliped)

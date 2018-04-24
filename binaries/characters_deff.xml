@@ -289,9 +289,9 @@
     type ="mage"
     scale ="3"
    
-    gravity ="1"
+    gravity ="0.5"
     walk_speed ="4"
-    jump_power_y ="25"
+    jump_power_y ="15"
     jump_power_x ="5"
    
     max_life ="250"
@@ -354,9 +354,9 @@
         recovery ="100"
         animation_speed ="0.2"/>
       <st_h
-        pos_rel_char_x ="210"
-        pos_rel_char_y ="20"
-        hitbox_w ="150"
+        pos_rel_char_x ="220"
+        pos_rel_char_y ="-35"
+        hitbox_w ="190"
         hitbox_h ="50"
         active_time ="200"
         hitstun ="500"
@@ -370,7 +370,7 @@
         block_type ="mid"
         type ="st_h"
         recovery ="300"
-        animation_speed ="0.2"/>
+        animation_speed ="0.1"/>
       <cr_l
         pos_rel_char_x ="110"
         pos_rel_char_y ="50"
