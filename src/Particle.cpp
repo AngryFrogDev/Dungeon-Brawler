@@ -78,7 +78,7 @@ void Particle::Draw()
 
 	SDL_SetTextureBlendMode(texture, blend);
 
-	App->render->drawSprite(draw_priority, texture, position_to_draw.x, position_to_draw.y, NULL, scale,NULL,NULL,current_spin);
+	App->render->drawSprite(draw_priority, texture, position_to_draw.x, position_to_draw.y, NULL, scale,NULL,NULL,current_spin,NULL,NULL,true);
 }
 
 float Particle::calculateRatio(float final, float inital, float variation) const
