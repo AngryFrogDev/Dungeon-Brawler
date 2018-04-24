@@ -256,12 +256,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			emmitCurrentParticle();
 			updateAnimation(standing_block);
 			state_first_tick = true;
-			int offset_x = 80;
-			int offset_y = 380;
-			if (fliped) 
-				App->particle_system->createEmitter({(float)logic_position.x - offset_x,(float)logic_position.y - offset_y }, "particles/heavy-block.xml");
-			else
-				App->particle_system->createEmitter({(float)logic_position.x + offset_x,(float)logic_position.y - offset_y }, "particles/heavy-block.xml");
 		}
 		if (hit) {
 			hit = false;
@@ -1165,6 +1159,8 @@ bool Character::checkDiveKickHeight() {
 	return logic_position.y <= dive_kick_max_height;
 }
 void Character::emmitCurrentParticle() {
+	int offset_x = 80;
+	int offset_y = 380;
 	switch (attack_recieving.type) {
 		case ST_L:
 		case CR_L:
@@ -1172,12 +1168,28 @@ void Character::emmitCurrentParticle() {
 		case ST_S1:
 			switch (current_state) {
 			case STAND_BLOCKING:
-				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/light-block.xml");
+				offset_x = 80;
+				offset_y = 380;
+				if (fliped)
+					App->particle_system->createEmitter({ (float)logic_position.x - offset_x,(float)logic_position.y - offset_y }, "particles/heavy-block.xml");
+				else
+					App->particle_system->createEmitter({ (float)logic_position.x + offset_x,(float)logic_position.y - offset_y }, "particles/heavy-block.xml");
 				break;
 			case CROUCH_BLOCKING:
-				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/light-block.xml");
+				offset_x = 80;
+				offset_y = 300;
+				if (fliped)
+					App->particle_system->createEmitter({ (float)logic_position.x - offset_x,(float)logic_position.y - offset_y }, "particles/heavy-block.xml");
+				else
+					App->particle_system->createEmitter({ (float)logic_position.x + offset_x,(float)logic_position.y - offset_y }, "particles/heavy-block.xml");
 				break;
 			case HIT:
+				offset_x = 10;
+				offset_y = 300;
+				if (fliped)
+					App->particle_system->createEmitter({ (float)logic_position.x - offset_x,(float)logic_position.y - offset_y }, "particles/hit.xml");
+				else
+					App->particle_system->createEmitter({ (float)logic_position.x + offset_x,(float)logic_position.y - offset_y }, "particles/hit.xml");
 			case JUGGLE:
 				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/light-hit.xml");
 				break;

@@ -20,7 +20,8 @@ public:
 
 	Particle* createParticle();
 	void update(float dt);
-	float addOrSubstractRand(float atribute, int maxVariation) const;
+	float addOrSubstractRand(float atribute, float maxVariation) const;
+	float numberBetweenZeroAndOne() const;
 
 
 private:
