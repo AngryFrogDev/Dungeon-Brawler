@@ -480,7 +480,7 @@ void Character::setIfGrounded() {
 }
 
 void Character::draw(SDL_Texture* graphic){
-	if (current_animation != nullptr){ // PROVISIONAL
+	if (current_animation != nullptr){ 
 		int hardcoded_offset = 0;
 		if (fliped)
 			hardcoded_offset = 15;
@@ -870,6 +870,17 @@ int Character::getMaxSuperGauge() const{
 	return max_super_gauge;
 }
 
+bool Character::notAllowFlip() {
+	if (current_state != ATTACKING)
+		return false;
+	for (std::list<CHAR_ATT_TYPE>::iterator it = non_flip_attacks.begin(); it != non_flip_attacks.end(); ++it) {
+		CHAR_ATT_TYPE att = *it;
+		if (att == attack_doing) 
+			return true;
+	}
+	return false;
+}
+
 CHAR_TYPE Character::getType() const {
 	return type;
 }
@@ -898,7 +909,7 @@ void Character::deleteDeadHitboxes() 	{
 
 	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
 		collider* c = *it;
-		if (c->life != -1 && SDL_GetTicks() - c->born > c->life)/*PROVISIONAL: Maybe it should use a timer*/ {
+		if (c->life != -1 && SDL_GetTicks() - c->born > c->life){
 			c->to_delete = true;
 			hitboxes_to_delete.push_back(c);
 		}

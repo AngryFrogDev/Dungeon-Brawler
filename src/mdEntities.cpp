@@ -82,7 +82,7 @@ bool mdEntities::preUpdate() {
 		assignControllers();
 	}
 
-	for (int i = 0; i < 4; i++) { // PROVISIONAL: We should check the type of character of the player and pass the correct textures
+	for (int i = 0; i < 4; i++) { 
 		if (players[i] != nullptr){
 
 			switch (players[i]->getCurrCharacter()->getType()) {
@@ -116,7 +116,7 @@ bool mdEntities::postUpdate()
 			return true;
 	}
 
-	if(allowFlip()) // PROVISIONAL: Kind of useless now, but it can be useful in the future
+	if(allowFlip()) 
 		automaticFlip();
 
 	return true;
@@ -269,7 +269,7 @@ bool mdEntities::allowFlip() 	{
 		if (players[i] == nullptr)
 			continue;
 		Character* character = players[i]->getCurrCharacter();
-		if (character->getCurrentState() == ATTACKING && (character->getAttackDoing() == JM_S1 || character->getAttackDoing() == JM_S2 || character->getAttackDoing() == CR_S1))
+		if (character->notAllowFlip())
 			do_flip = false;
 	}
 
@@ -382,6 +382,7 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 	character.invencibility_on_wakeup = md_config.attribute("invencibility_on_wakeup").as_int();
 	character.super_window = md_config.attribute("super_window").as_int();
 	character.cancelability_window = md_config.attribute("cancelability_window").as_int();
+	loadAttackListFromXML(md_config.child("non_flip_attacks"), character.non_flip_attacks);
 
 	character.spin_speed = md_config.attribute("spin_speed").as_int();
 	character.improved_spin_speed = md_config.attribute("improved_spin_speed").as_int();
@@ -438,4 +439,12 @@ void mdEntities::loadAttackDeffFromXML(const pugi::xml_node& md_config, basic_at
 	attack.type = stringToCharAttType(tmp);
 	attack.recovery = md_config.attribute("recovery").as_int();
 	attack.animation_speed = md_config.attribute("animation_speed").as_float();
+}
+void mdEntities::loadAttackListFromXML(const pugi::xml_node& md_config, std::list<CHAR_ATT_TYPE>& attack_list) {
+	pugi::xml_node iterator = md_config.first_child();
+
+	while (iterator != nullptr) {
+		attack_list.push_back(stringToCharAttType(iterator.attribute("value").as_string()));
+ 		iterator = iterator.next_sibling();
+	}
 }

@@ -149,6 +149,7 @@ public:
 	int getMaxLife() const;
 	int getCurrentSuperGauge() const;
 	int getMaxSuperGauge() const;
+	bool notAllowFlip();
 	CHAR_TYPE getType() const;
 	void resetCharacter();
 
@@ -216,6 +217,8 @@ protected:
 
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2, super;
 
+	std::list<CHAR_ATT_TYPE> non_flip_attacks;
+
 
 	iPoint jump_power;
 	float gravity;
@@ -236,9 +239,6 @@ protected:
 
 	int super_window;
 	int cancelability_window;
-
-	//If the projectile has already been thrown, no other projectile should be
-	//bool projectile; // PROVISIONAL: This should only belong to warrior
 
 	int shadow_offset;
 	SDL_Rect shadow_rect;

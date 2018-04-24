@@ -286,6 +286,7 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	gravity = character.gravity;
 	invencibility_on_wakeup = character.invencibility_on_wakeup;
 	scale = character.scale;
+	non_flip_attacks = character.non_flip_attacks;
 	shadow_rect = { 452, 3719, 68, 14 };
 	shadow_offset = 105;
 	// Constructor inicialization
@@ -300,7 +301,7 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	spin_object.item_type = character.spin_object;
 	jm_s1_angle = character.jm_s1_angle;
 	jm_s1_speed = character.jm_s1_speed;
-	dive_kick_max_height = character.dive_kick_max_height; // PROVISIONAL: This should be loaded and modified depending on the current lane
+	dive_kick_max_height = character.dive_kick_max_height; 
 	jm_s2_angle = character.jm_s2_angle;
 	jm_s2_speed = character.jm_s2_speed;
 	dive_kick_object.item_type = character.dive_kick_object;
@@ -433,9 +434,9 @@ void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
 
 void Warrior::crouchingSpecial1() {
 	if (!fliped)
-		logic_position.x += spin_speed; // Provisional
+		logic_position.x += spin_speed; 
 	else
-		logic_position.x -= spin_speed; // Provisional
+		logic_position.x -= spin_speed; 
 
 	if (current_animation->Finished()) {
 		instanciated_hitbox = false;
@@ -459,7 +460,7 @@ void Warrior::crouchingSpecial2()	{ // Should have recovery
 
 	if (!state_first_tick) {
 		updateAnimation(crouching_special2);
-		velocity.y -= swordyuken_jump_power;// jump_power.y / 1.25; // Provisional
+		velocity.y -= swordyuken_jump_power;
 		grounded = false;
 		makeInvencibleFor(swordyuken_invencivility);
 		state_first_tick = true;

@@ -49,6 +49,11 @@
     swordyuken_invencivility ="300"
     swordyuken_jump_power ="20"
     >
+      <non_flip_attacks>
+        <attack value="jm_s1"/>
+        <attack value="jm_s2"/>
+        <attack value="cr_s1"/>
+      </non_flip_attacks>
       <attack_data>
         <st_l 
           pos_rel_char_x ="110" 
@@ -334,6 +339,8 @@
     swordyuken_invencivility ="300"
     swordyuken_jump_power ="20"
     >
+    <non_flip_attacks>
+    </non_flip_attacks>
     <attack_data>
       <st_l
         pos_rel_char_x ="110"
