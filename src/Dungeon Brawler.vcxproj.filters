@@ -28,6 +28,9 @@
     <Filter Include="Entities\Player">
       <UniqueIdentifier>{b14fe0f2-f8df-4d41-b258-91a5b71ec428}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{a002927c-2a0c-413d-b488-a6b054c245b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -122,6 +125,21 @@
     </ClCompile>
     <ClCompile Include="mdParticleSystem.cpp">
       <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="characterSelScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="combatScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="mainScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="scene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="startScene.cpp">
+      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +241,21 @@
     </ClInclude>
     <ClInclude Include="mdParticleSystem.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="characterSelScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="combatScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="mainScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="startScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

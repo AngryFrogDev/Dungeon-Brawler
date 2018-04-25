@@ -2,13 +2,19 @@
 #define _BUTTONS_
 
 #include "Widgets.h"
-#include "mdGuiManager.h"
 
 #include "SDL/include/SDL.h"
 
+enum controller_events {
+	NO_EVENT = 0,
+	STILL,
+	FOCUSED,
+	CLICK,
+};
+
 class Buttons : public Widgets {
 public:
-	Buttons(button_types type, button_size _size, std::pair<int, int> pos, Module* callback);
+	Buttons(button_types type, button_size _size, std::pair<int, int> pos, scene* callback);
 	virtual ~Buttons();
 
 	bool preUpdate();

@@ -2,13 +2,12 @@
 #define _BARS_
 
 #include "Widgets.h"
-#include "mdGuiManager.h"
 #include "SDL/include/SDL.h"
 #include "p2Point.h"
 
 class Bars : public Widgets {
 public:
-	Bars(bar_types type, std::pair<int, int> pos, bool _flipped, int target_player, Module* callback);
+	Bars(bar_types type, std::pair<int, int> pos, bool _flipped, int target_player, scene* callback);
 	~Bars();
 	bool preUpdate();
 	void draw();

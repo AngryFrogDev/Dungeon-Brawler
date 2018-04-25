@@ -5,7 +5,7 @@
 #include "mdSceneManager.h"
 
 Player::Player(){
-	
+	curr_character = nullptr;
 }
 
 Player::Player(Controller* controller) : controller(controller){

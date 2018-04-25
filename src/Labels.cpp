@@ -7,17 +7,14 @@
 
 
 
-Labels::Labels(const char* content, const SDL_Color& _color, _TTF_Font* _font_size, std::pair<int, int> pos, Module* callback) : Widgets(ui_elem_type::LABEL, pos, callback) {
+Labels::Labels(const char* content, const SDL_Color& _color, _TTF_Font* _font_size, std::pair<int, int> pos, scene* callback) : Widgets(ui_elem_type::LABEL, pos, callback) {
 	setText(content, _color, _font_size);
 	color = _color;
 	font_size = _font_size;
 }
 
 
-Labels::~Labels() {
-	if (text_texture != nullptr)
-		App->textures->unload(text_texture);
-}
+Labels::~Labels() {}
 
 void Labels::draw() {
 	App->render->drawSprite(7, text_texture, position.first, position.second, nullptr, 1, false, 1.0f, 0.0, 0, 0, false);

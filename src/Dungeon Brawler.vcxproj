@@ -127,9 +127,12 @@
     <ClCompile Include="Bars.cpp" />
     <ClCompile Include="Buttons.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="characterSelScene.cpp" />
+    <ClCompile Include="combatScene.cpp" />
     <ClCompile Include="DebLog.cpp" />
     <ClCompile Include="Labels.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="mainScene.cpp" />
     <ClCompile Include="mdEntities.cpp" />
     <ClCompile Include="mdAudio.cpp" />
     <ClCompile Include="mdFilesystem.cpp" />
@@ -150,6 +153,8 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ProjDefs.cpp" />
     <ClCompile Include="pugixml\pugixml.cpp" />
+    <ClCompile Include="scene.cpp" />
+    <ClCompile Include="startScene.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UiWindow.cpp" />
     <ClCompile Include="Widgets.cpp" />
@@ -160,7 +165,10 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Bars.h" />
     <ClInclude Include="Buttons.h" />
+    <ClInclude Include="characterSelScene.h" />
+    <ClInclude Include="combatScene.h" />
     <ClInclude Include="Labels.h" />
+    <ClInclude Include="mainScene.h" />
     <ClInclude Include="mdParticleSystem.h" />
     <ClInclude Include="mdProjectiles.h" />
     <ClInclude Include="Character.h" />
@@ -185,6 +193,8 @@
     <ClInclude Include="Module.h" />
     <ClInclude Include="pugixml\pugiconfig.hpp" />
     <ClInclude Include="pugixml\pugixml.hpp" />
+    <ClInclude Include="scene.h" />
+    <ClInclude Include="startScene.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UiWindow.h" />
     <ClInclude Include="Widgets.h" />

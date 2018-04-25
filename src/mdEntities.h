@@ -73,7 +73,7 @@ public:
 	bool cleanUp();
 
 	// Creates a character and assigns it to a player
-	void createPlayer(int player,int x_pos, CHAR_TYPE type, bool fliped, int lane);
+	void createPlayer(int player);
 
 	void destroyCharacters();
 

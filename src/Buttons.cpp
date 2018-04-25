@@ -5,10 +5,11 @@
 #include "mdInput.h"
 #include "mdSceneManager.h"
 #include "DebLog.h"
+#include "mdGuiManager.h"
 
 
 
-Buttons::Buttons(button_types type, button_size _size, std::pair<int, int> pos, Module* callback) : Widgets(ui_elem_type::BUTTON, pos, callback) {
+Buttons::Buttons(button_types type, button_size _size, std::pair<int, int> pos, scene* callback) : Widgets(ui_elem_type::BUTTON, pos, callback) {
 	
 	button_type = type;
 	size = _size;
@@ -26,12 +27,9 @@ bool Buttons::preUpdate()
 {
 	bool ret = true;
 
-	if (!enabled)
-	{
-		current_rect = &disabled_rect;
+	if (current_rect == &click_rect && size == CHARACTER_SELECTION)
 		return ret;
-	}
-	
+		
 	world_area = { position.first, position.second, current_rect->w, current_rect->h };
 
 	if (App->gui->focus == this)
@@ -45,10 +43,14 @@ bool Buttons::preUpdate()
 		Controller* temp = nullptr;
 		if(!App->input->getController().empty())
 			temp = App->input->getController().front();
+
+		if (size == CHARACTER_SELECTION)
+			ret = callback->onEvent(this);
+
 		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || (temp != nullptr && temp->isPressed(CONTROLLER_BUTTON::BUTTON_A)))
 		{
 			changeVisualState(CLICK); 
-			ret = App->scene_manager->onEvent(this);
+			ret = callback->onEvent(this);
 		}
 		hovering = false;
 	}
@@ -77,15 +79,6 @@ void Buttons::getSection(SDL_Rect idle_sec, SDL_Rect high_sec, SDL_Rect clicked_
 	click_rect.w = clicked_sec.w;
 	click_rect.h = clicked_sec.h;
 
-	if (disabled_sec.h != 0 && disabled_sec.w != 0)
-	{
-		disabled_rect.h = disabled_sec.h;
-		disabled_rect.w = disabled_sec.w;
-		disabled_rect.x = disabled_sec.x;
-		disabled_rect.y = disabled_sec.y;
-
-		enabled = false;
-	}
 }
 
 
@@ -134,6 +127,14 @@ void Buttons::loadGuiFromAtlas() {
 		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
 			{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
 			{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
+		break;
+	case CHARACTER_SELECTION:
+		still = data.child("char_sel").child("still");
+		focused = data.child("char_sel").child("focused");
+		clicked = data.child("char_sel").child("clicked");
+		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
+		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
+		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
 		break;
 	default:
 		break;

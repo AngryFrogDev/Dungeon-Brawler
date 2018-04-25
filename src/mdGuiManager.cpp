@@ -4,10 +4,6 @@
 #include "mdTextures.h"
 #include "mdInput.h"
 #include "mdRender.h"
-#include "Buttons.h"
-#include "Labels.h"
-#include "Bars.h"
-#include "UiWindow.h"
 
 mdGuiManager::mdGuiManager() : Module() {
 	name = "gui";
@@ -87,7 +83,6 @@ bool mdGuiManager::postUpdate() {
 bool mdGuiManager::cleanUp() {
 
 	bool ret = true;
-	App->textures->unload(atlas);
 
 	Widgets* object = nullptr;
 
@@ -102,21 +97,7 @@ bool mdGuiManager::cleanUp() {
 	return ret;
 }
 
-bool mdGuiManager::cleanUI()
-{
-	Widgets* object = nullptr;
-
-	std::list<Widgets*>::reverse_iterator ui_iterator = ui_elements.rbegin();
-	for (ui_iterator; ui_iterator != ui_elements.rend(); ++ui_iterator) {
-		object = *ui_iterator;
-		object->visible = false;
-	}
-	
-	return true;
-}
-
-
-Widgets* mdGuiManager::createButton(button_types type, button_size size, std::pair<int, int> pos, Module * callback) {
+Widgets* mdGuiManager::createButton(button_types type, button_size size, std::pair<int, int> pos, scene* callback) {
 
 	Widgets* ret = nullptr;
 
@@ -129,7 +110,7 @@ Widgets* mdGuiManager::createButton(button_types type, button_size size, std::pa
 	return ret;
 }
 
-Widgets* mdGuiManager::createLabel(const char* content, const SDL_Color& color, _TTF_Font* font_size, std::pair<int, int> pos, Module * callback) {
+Widgets* mdGuiManager::createLabel(const char* content, const SDL_Color& color, _TTF_Font* font_size, std::pair<int, int> pos, scene* callback) {
 
 	Widgets* ret = nullptr;
 
@@ -139,7 +120,7 @@ Widgets* mdGuiManager::createLabel(const char* content, const SDL_Color& color, 
 	return ret;
 }
 
-Widgets* mdGuiManager::createBar(bar_types type, std::pair<int, int> pos, bool flipped, int target_player, Module * callback) {
+Widgets* mdGuiManager::createBar(bar_types type, std::pair<int, int> pos, bool flipped, int target_player, scene* callback) {
 
 	Widgets* ret = nullptr;
 
@@ -151,7 +132,7 @@ Widgets* mdGuiManager::createBar(bar_types type, std::pair<int, int> pos, bool f
 	return ret;
 }
 
-Widgets* mdGuiManager::createWindow(window_type type, std::pair<int, int> pos, Module* callback)	{
+Widgets* mdGuiManager::createWindow(window_type type, std::pair<int, int> pos, scene* callback)	{
 	Widgets* ret = nullptr;
 
 	ret = new UiWindow(type, pos, callback);
@@ -180,16 +161,13 @@ bool mdGuiManager::destroyWidget(Widgets* widget) {
 void mdGuiManager::manageFocus() {
 
 	Widgets* object = nullptr;
-	Widgets* temp_object = nullptr;
 
 	if (focus)//Check if focus has been assigned 
 	{
-		//Temporary done in keyboard
 		Controller* controller = nullptr;
 		if(!App->input->getController().empty())
-			controller = App->input->getController().front(); //For the moment, it breaks the game
+			controller = App->input->getController().front(); 
 		if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_UP, KEY_DOWN)))
-
 		{
 			std::list<Widgets*>::iterator temp_iterator = focus_elements.begin();
 			for (temp_iterator; temp_iterator != focus_elements.end(); temp_iterator++)
@@ -199,21 +177,12 @@ void mdGuiManager::manageFocus() {
 				{
 					if (temp_iterator != focus_elements.begin())
 					{
-						std::list<Widgets*>::iterator it = temp_iterator;
-						it--;
-						for (it; *it != nullptr; it--)
-						{
-							temp_object = *it;
-							if (temp_object->visible)
-							{
-								focus = temp_object;
-								break;
-							}
-							else
-								break;
-						}
+						temp_iterator--;
+						focus = *temp_iterator;
+						break;
 					}
-					break;
+					else
+						focus = *focus_elements.rbegin(); break;
 				}
 			}
 		}
@@ -221,27 +190,20 @@ void mdGuiManager::manageFocus() {
 
 		if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_DOWN, KEY_DOWN)))
 		{
-			std::list<Widgets*>::iterator temp_iterator = focus_elements.begin();
-			for (temp_iterator; temp_iterator != focus_elements.end(); temp_iterator++)
+			std::list<Widgets*>::reverse_iterator temp_iterator = focus_elements.rbegin();
+			for (temp_iterator; temp_iterator != focus_elements.rend(); temp_iterator++)
 			{
 				object = *temp_iterator;
 				if (object == focus)
 				{
-					if (temp_iterator != focus_elements.end())
+					if (temp_iterator != focus_elements.rbegin())
 					{
-						std::list<Widgets*>::iterator it = temp_iterator;
-						it++;
-						for (it; it != focus_elements.end(); it++)
-						{
-							temp_object = *it;
-							if (temp_object->visible)
-							{
-								focus = temp_object;
-								break;
-							}
-						}
+						temp_iterator--;
+						focus = *temp_iterator;
+						break;
 					}
-					break;
+					else
+						focus = *focus_elements.begin(); break;
 				}
 			}
 		}
@@ -261,8 +223,7 @@ void mdGuiManager::draw() {
 	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
 	for (ui_iterator; ui_iterator != ui_elements.end(); ui_iterator++) {
 		object = *ui_iterator;
-		if (object->visible)
-			object->draw();
+		object->draw();
 	}
 }
 
@@ -279,19 +240,18 @@ void mdGuiManager::debugUi() {
 	uint alpha = 80;
 
 	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
-	for (ui_iterator; ui_iterator != ui_elements.end(); ui_iterator++)	{
+	for (ui_iterator; ui_iterator != ui_elements.end(); ui_iterator++) {
 
 		object = *ui_iterator;
-		if (object->active)
 		{
 			switch (object->type)
 			{
 			case BUTTON: // red
-				App->render->drawQuad( 1, object->world_area, 255, 0, 0, alpha); break;
+				App->render->drawQuad(1, object->world_area, 255, 0, 0, alpha); break;
 			case LABEL: // gren
-				App->render->drawQuad( 1, object->world_area, 0, 255, 0, alpha); break;
+				App->render->drawQuad(1, object->world_area, 0, 255, 0, alpha); break;
 			case BAR: //blue
-				App->render->drawQuad( 1, object->world_area, 0, 0, 255, alpha); break;
+				App->render->drawQuad(1, object->world_area, 0, 0, 255, alpha); break;
 			}
 		}
 	}

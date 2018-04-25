@@ -101,7 +101,7 @@ bool mdEntities::postUpdate()
 	for (int i = 0; i < 4; i++) {
 		if (players[i] == nullptr)
 			continue;
-		if (players[i]->getCurrCharacter()->readyToSwap == true) //no flip if characters are swapping
+		if (players[i]->getCurrCharacter() != nullptr && players[i]->getCurrCharacter()->readyToSwap == true) //no flip if characters are swapping
 			return true;
 	}
 
@@ -116,12 +116,10 @@ bool mdEntities::cleanUp() {
 	destroyCharacters();
 	return ret;
 }
-void mdEntities::createPlayer(int player,int x_pos, CHAR_TYPE type, bool fliped, int lane) {
+void mdEntities::createPlayer(int player) {
 
 	if (players[player] == nullptr)
 		players[player] = new Player();
-
-	players[player]->createAndAssignCharacter(x_pos,type,fliped, lane);
 }
 
 void mdEntities::destroyCharacters() {
@@ -258,7 +256,12 @@ bool mdEntities::allowFlip() 	{
 		if (players[i] == nullptr)
 			continue;
 		Character* character = players[i]->getCurrCharacter();
-		if (character->getCurrentState() == ATTACKING && (character->getAttackDoing() == JM_S1 || character->getAttackDoing() == JM_S2 || character->getAttackDoing() == CR_S1))
+		if (character)
+		{
+			if (character->getCurrentState() == ATTACKING && (character->getAttackDoing() == JM_S1 || character->getAttackDoing() == JM_S2 || character->getAttackDoing() == CR_S1))
+				do_flip = false;
+		}
+		else
 			do_flip = false;
 	}
 

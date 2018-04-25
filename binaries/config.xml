@@ -39,6 +39,11 @@
 			</medium>
 			<small>
 			</small>
+			<char_sel>
+				<still x="0" y="0" w="0" h="0"/>
+				<focused x="6" y="301" w="64" h="32"/>
+				<clicked x="6" y="335" w="64" h="32"/>	
+			</char_sel>
 		</button_section>
 		<bar_section>
 			<hp>

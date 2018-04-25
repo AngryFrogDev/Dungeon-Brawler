@@ -8,6 +8,7 @@
 
 #define RELEASE(x) releasePointer(x, false)
 #define RELEASE_ARRAY(x) releasePointer(x, true)
+#define MIN( a, b ) ( ((a) < (b)) ? (a) : (b) )
 
 void releasePointer(void* x, bool is_array);
 
