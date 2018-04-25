@@ -82,7 +82,7 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	heavy_attack.PushBack({ 195 * 7,158 * 3,195, 158 });
 
 	heavy_attack.loop = false;
-	heavy_attack.speed = character.st_h.animation_speed;
+	heavy_attack.speed = character.st_h.animation_speed; //Maybe this attack is too powerfull and could be crouched
 
 	crouching_heavy.PushBack({ 0,158 * 5,195,158 });
 	crouching_heavy.PushBack({ 195,158 * 5,195,158 });
@@ -108,6 +108,8 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 
 	jump.loop = false;
 	jump.speed = 0.2;
+
+
 
 
 	// Basic attack definitions
