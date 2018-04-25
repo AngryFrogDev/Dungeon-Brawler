@@ -55,6 +55,17 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	walk_back.loop = true;
 	walk_back.speed = 0.2;
 
+	light_attack.PushBack({ 0,158 * 10,195, 158 });
+	light_attack.PushBack({ 195,158 * 10,195, 158 });
+	light_attack.PushBack({ 195 * 2,158 * 10,195, 158 });
+	light_attack.PushBack({ 195 * 3,158 * 10,195, 158 }, ACTIVE);
+	light_attack.PushBack({ 195 * 4,158 * 10,195, 158 });
+	light_attack.PushBack({ 195 * 5,158 * 10,195, 158 });
+
+	light_attack.loop = false;
+	light_attack.speed = character.st_l.animation_speed;
+
+
 	heavy_attack.PushBack({ 0,158 * 3,195, 158 });
 	heavy_attack.PushBack({ 195,158 * 3,195, 158 });
 	heavy_attack.PushBack({ 195 * 2,158 * 3,195, 158 });

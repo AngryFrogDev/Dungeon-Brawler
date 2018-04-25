@@ -344,13 +344,13 @@
     <attack_data>
       <st_l
         pos_rel_char_x ="110"
-        pos_rel_char_y ="35"
-        hitbox_w ="250"
+        pos_rel_char_y ="45"
+        hitbox_w ="150"
         hitbox_h ="20"
         active_time ="100"
-        hitstun ="300"
-        blockstun ="100"
-        pushhit ="3"
+        hitstun ="200"
+        blockstun ="80"
+        pushhit ="5"
         pushblock ="2"
         damage ="5"
         knockdown ="false"
@@ -359,7 +359,7 @@
         block_type ="mid"
         type ="st_l"
         recovery ="100"
-        animation_speed ="0.2"/>
+        animation_speed ="0.25"/>
       <st_h
         pos_rel_char_x ="220"
         pos_rel_char_y ="-35"
