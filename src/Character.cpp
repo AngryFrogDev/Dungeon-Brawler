@@ -310,8 +310,11 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_life -= attack_recieving.damage;
 			current_super_gauge += super_gauge_gain_hit;
 		}
-		else if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) 
+		else if (SDL_GetTicks() - moment_hit > attack_recieving.hitstun) {
 			updateState(IDLE);
+			setCrouchingHurtbox(false);
+		}
+		
 		// Continuous
 		if (!fliped)
 			logic_position.x -= attack_recieving.pushhit;
