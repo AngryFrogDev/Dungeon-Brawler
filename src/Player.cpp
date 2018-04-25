@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Character.h"
 #include "Warrior.h"
+#include "Mage.h"
 #include "Application.h"
 #include "mdSceneManager.h"
 
@@ -58,11 +59,11 @@ void Player::createAndAssignCharacter(int x_pos, CHAR_TYPE type, bool fliped, in
 			curr_character = new Warrior(App->entities->warrior,x_pos, fliped, lane);
 			break;
 		}
-		//case MAGE:
-		//{
-		//	curr_character = Character(MAGE);
-		//	break;
-		//}
+		case MAGE:
+		{
+			curr_character = new Mage(App->entities->mage, x_pos, fliped, lane);
+			break;
+		}
 		//case ROGUE:
 		//{
 		//	curr_character = Character(ROGUE);

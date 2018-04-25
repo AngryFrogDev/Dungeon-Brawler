@@ -38,6 +38,9 @@ void Bars::draw()	{
 	updateBarGauge();
 
 	App->render->drawSprite(4, App->gui->getAtlas(), position.first, position.second, &bar_rect, 2, flipped, 1.0f, 0, 0, 0, false);
+	if (bar_type == SUPER_BAR && current_gauge == max_gauge)
+		App->render->drawSprite(5, App->gui->getAtlas(), position.first + relative_pos.x + aux_bar_pos, position.second + relative_pos.y, &curr_anim->GetCurrentFrame(), 2, flipped, 1.0f, 0, 0, 0, false);
+	else	
 	App->render->drawSprite(5, App->gui->getAtlas(), position.first + relative_pos.x + aux_bar_pos, position.second + relative_pos.y, &current_gauge_rect, 2, flipped, 1.0f, 0, 0, 0, false);
 }
 
@@ -88,6 +91,11 @@ void Bars::loadGuiFromAtlas()	{
 		gauge = super.child("gauge");
 		getSection({ border.attribute("x").as_int(), border.attribute("y").as_int(), border.attribute("w").as_int(), border.attribute("h").as_int() },
 		{ gauge.attribute("x").as_int(),gauge.attribute("y").as_int(), gauge.attribute("w").as_int(), gauge.attribute("h").as_int() });
+		full_gauge.x = super.child("full_gauge").attribute("x").as_int();
+		full_gauge.y = super.child("full_gauge").attribute("y").as_int();
+		full_gauge.h = super.child("full_gauge").attribute("h").as_int();
+		full_gauge.w = super.child("full_gauge").attribute("w").as_int();
+		setAnimation();
 		break;
 	case SWAP_BAR:
 		break;
@@ -137,3 +145,11 @@ void Bars::calculateBarGauge() {
 
 }
 
+void Bars::setAnimation() {
+
+	super_anim.PushBack(current_gauge_rect);
+	super_anim.PushBack(full_gauge);
+	super_anim.speed = 0.1;
+	super_anim.loop = true;
+	curr_anim = &super_anim;
+}

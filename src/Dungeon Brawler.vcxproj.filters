@@ -28,8 +28,13 @@
     <Filter Include="Entities\Player">
       <UniqueIdentifier>{b14fe0f2-f8df-4d41-b258-91a5b71ec428}</UniqueIdentifier>
     </Filter>
+<<<<<<< HEAD
     <Filter Include="Scenes">
       <UniqueIdentifier>{a002927c-2a0c-413d-b488-a6b054c245b3}</UniqueIdentifier>
+=======
+    <Filter Include="Entities\Characters\Mage">
+      <UniqueIdentifier>{82a00218-b0e5-44f2-98fa-14c6ee1ed37c}</UniqueIdentifier>
+>>>>>>> f628a1213bdfa2542964d852b3f7c125dac50381
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +131,7 @@
     <ClCompile Include="mdParticleSystem.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="characterSelScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -140,6 +146,10 @@
     </ClCompile>
     <ClCompile Include="startScene.cpp">
       <Filter>Scenes</Filter>
+=======
+    <ClCompile Include="Mage.cpp">
+      <Filter>Entities\Characters\Mage</Filter>
+>>>>>>> f628a1213bdfa2542964d852b3f7c125dac50381
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,6 +252,7 @@
     <ClInclude Include="mdParticleSystem.h">
       <Filter>Modules</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="characterSelScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -256,6 +267,10 @@
     </ClInclude>
     <ClInclude Include="startScene.h">
       <Filter>Scenes</Filter>
+=======
+    <ClInclude Include="Mage.h">
+      <Filter>Entities\Characters\Mage</Filter>
+>>>>>>> f628a1213bdfa2542964d852b3f7c125dac50381
     </ClInclude>
   </ItemGroup>
 </Project>

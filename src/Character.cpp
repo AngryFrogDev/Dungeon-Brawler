@@ -310,8 +310,11 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_life -= attack_recieving.damage;
 			current_super_gauge += super_gauge_gain_hit;
 		}
-		else if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) 
+		else if (SDL_GetTicks() - moment_hit > attack_recieving.hitstun) {
 			updateState(IDLE);
+			setCrouchingHurtbox(false);
+		}
+		
 		// Continuous
 		if (!fliped)
 			logic_position.x -= attack_recieving.pushhit;
@@ -455,7 +458,7 @@ void Character::onCollision(collider* c1, collider* c2) {
 }
 void Character::applyGravity() {
 
-	velocity.y += gravity;
+	velocity.y += gravity; // Maybe it shuld apply other gravity on juggle state
 	
 	if (velocity.y > 0) {
 		if (logic_position.y < ground_position)
@@ -480,7 +483,7 @@ void Character::setIfGrounded() {
 }
 
 void Character::draw(SDL_Texture* graphic){
-	if (current_animation != nullptr){ // PROVISIONAL
+	if (current_animation != nullptr){ 
 		int hardcoded_offset = 0;
 		if (fliped)
 			hardcoded_offset = 15;
@@ -825,8 +828,8 @@ int Character::calculateDrawPosition(int offset, int size, bool x) 	{
 		return logic_position.y + offset - size/2;
 }
 
-iPoint Character::getPos() const	{
-	return logic_position;
+iPoint Character::getPos() const{
+	return { (int)logic_position.x, (int)logic_position.y };
 }
 int Character::getLateralLimit() const {
 	return lateral_limit;
@@ -869,6 +872,21 @@ int Character::getMaxSuperGauge() const{
 
 	return max_super_gauge;
 }
+
+bool Character::notAllowFlip() {
+	if (current_state != ATTACKING)
+		return false;
+	for (std::list<CHAR_ATT_TYPE>::iterator it = non_flip_attacks.begin(); it != non_flip_attacks.end(); ++it) {
+		CHAR_ATT_TYPE att = *it;
+		if (att == attack_doing) 
+			return true;
+	}
+	return false;
+}
+
+CHAR_TYPE Character::getType() const {
+	return type;
+}
 void Character::resetCharacter()	{
 	current_life = max_life;
 	current_state = CHAR_STATE::IDLE;
@@ -894,7 +912,7 @@ void Character::deleteDeadHitboxes() 	{
 
 	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
 		collider* c = *it;
-		if (c->life != -1 && SDL_GetTicks() - c->born > c->life)/*PROVISIONAL: Maybe it should use a timer*/ {
+		if (c->life != -1 && SDL_GetTicks() - c->born > c->life){
 			c->to_delete = true;
 			hitboxes_to_delete.push_back(c);
 		}
