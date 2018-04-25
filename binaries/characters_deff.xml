@@ -126,7 +126,7 @@
           block_type ="low"
           type ="cr_h"
           recovery ="350"
-          animation_speed ="0.2"/>
+          animation_speed ="0.18"/>
         <jm_l
           pos_rel_char_x ="150"
           pos_rel_char_y ="70"
@@ -397,7 +397,7 @@
         recovery ="50"
         animation_speed ="0.2"/>
       <cr_h
-        pos_rel_char_x ="190"
+        pos_rel_char_x ="160"
         pos_rel_char_y ="80"
         hitbox_w ="180"
         hitbox_h ="50"
@@ -413,7 +413,7 @@
         block_type ="low"
         type ="cr_h"
         recovery ="350"
-        animation_speed ="0.2"/>
+        animation_speed ="0.15"/>
       <jm_l
         pos_rel_char_x ="150"
         pos_rel_char_y ="70"

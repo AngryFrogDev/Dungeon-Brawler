@@ -55,6 +55,12 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	walk_back.loop = true;
 	walk_back.speed = 0.2;
 
+	crouch.PushBack({ 195 * 1	,158 * 4,195,158 });
+	crouch.PushBack({ 195 * 2	,158 * 4,195,158 });
+
+	crouch.loop = false;
+	crouch.speed = 0.2;
+
 	light_attack.PushBack({ 0,158 * 10,195, 158 });
 	light_attack.PushBack({ 195,158 * 10,195, 158 });
 	light_attack.PushBack({ 195 * 2,158 * 10,195, 158 });
@@ -77,6 +83,19 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 
 	heavy_attack.loop = false;
 	heavy_attack.speed = character.st_h.animation_speed;
+
+	crouching_heavy.PushBack({ 0,158 * 5,195,158 });
+	crouching_heavy.PushBack({ 195,158 * 5,195,158 });
+	crouching_heavy.PushBack({ 195 * 2,158 * 5,195,158 });
+	crouching_heavy.PushBack({ 195 * 3,158 * 5,195,158 });
+	crouching_heavy.PushBack({ 195 * 4,158 * 5,195,158 }, ACTIVE);
+	crouching_heavy.PushBack({ 195 * 5,158 * 5,195,158 });
+	crouching_heavy.PushBack({ 195 * 6,158 * 5,195,158 });
+	crouching_heavy.PushBack({ 195 * 7,158 * 5,195,158 });
+	crouching_heavy.PushBack({ 195 * 8,158 * 5,195,158 });
+
+	crouching_heavy.loop = false;
+	crouching_heavy.speed = character.cr_h.animation_speed;
 	 
 	jump.PushBack({ 0, 158 * 2, 195, 158 });
 	jump.PushBack({ 195, 158 * 2, 195, 158 });
