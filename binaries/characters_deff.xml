@@ -97,7 +97,7 @@
           hitbox_w ="70"
           hitbox_h ="30"
           active_time ="70"
-          hitstun ="200"
+          hitstun ="250"
           blockstun ="50"
           pushhit ="2"
           pushblock ="2"
@@ -108,7 +108,7 @@
           block_type ="low"
           type ="cr_l"
           recovery ="50"
-          animation_speed ="0.2"/>
+          animation_speed ="0.25"/>
         <cr_h
           pos_rel_char_x ="190"
           pos_rel_char_y ="80"
@@ -380,11 +380,11 @@
         animation_speed ="0.1"/>
       <cr_l
         pos_rel_char_x ="110"
-        pos_rel_char_y ="50"
-        hitbox_w ="70"
-        hitbox_h ="30"
+        pos_rel_char_y ="100"
+        hitbox_w ="150"
+        hitbox_h ="50"
         active_time ="70"
-        hitstun ="200"
+        hitstun ="250"
         blockstun ="50"
         pushhit ="2"
         pushblock ="2"
@@ -395,7 +395,7 @@
         block_type ="low"
         type ="cr_l"
         recovery ="50"
-        animation_speed ="0.2"/>
+        animation_speed ="0.15"/>
       <cr_h
         pos_rel_char_x ="160"
         pos_rel_char_y ="80"
@@ -416,9 +416,9 @@
         animation_speed ="0.15"/>
       <jm_l
         pos_rel_char_x ="150"
-        pos_rel_char_y ="70"
-        hitbox_w ="140"
-        hitbox_h ="20"
+        pos_rel_char_y ="0"
+        hitbox_w ="300"
+        hitbox_h ="50"
         active_time ="-1"
         hitstun ="200"
         blockstun ="150"
@@ -434,9 +434,9 @@
         animation_speed ="0.2"/>
       <jm_h
         pos_rel_char_x ="42"
-        pos_rel_char_y ="80"
-        hitbox_w ="120"
-        hitbox_h ="100"
+        pos_rel_char_y ="110"
+        hitbox_w ="80"
+        hitbox_h ="220"
         active_time ="-1"
         hitstun ="500"
         blockstun ="450"

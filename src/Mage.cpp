@@ -72,6 +72,15 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	light_attack.speed = character.st_l.animation_speed;
 
 
+	crouching_light.PushBack({ 0,158 * 12,195, 158 });
+	crouching_light.PushBack({ 195,158 * 12,195, 158 });
+	crouching_light.PushBack({ 195 * 2,158 * 12,195, 158 }, ACTIVE);
+	crouching_light.PushBack({ 195 * 3,158 * 12,195, 158 });
+
+	crouching_light.loop = false;
+	crouching_light.speed = character.cr_l.animation_speed;
+
+
 	heavy_attack.PushBack({ 0,158 * 3,195, 158 });
 	heavy_attack.PushBack({ 195,158 * 3,195, 158 });
 	heavy_attack.PushBack({ 195 * 2,158 * 3,195, 158 });
@@ -109,8 +118,42 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	jump.loop = false;
 	jump.speed = 0.2;
 
+	jumping_light.PushBack({ 0      ,158 * 9,195,158 });
+	jumping_light.PushBack({ 195    ,158 * 9,195,158 });
+	jumping_light.PushBack({ 195 * 2,158 * 9,195,158 }, ACTIVE);
 
+	jumping_light.loop = false;
+	jumping_light.speed = character.jm_l.animation_speed;
 
+	jumping_heavy.PushBack({ 0      ,158 * 8,195,158 });
+	jumping_heavy.PushBack({ 195    ,158 * 8,195,158 });
+	jumping_heavy.PushBack({ 195 * 2,158 * 8,195,158 }, ACTIVE);
+
+	jumping_heavy.loop = false;
+	jumping_heavy.speed = character.jm_h.animation_speed;
+
+	standing_hit.PushBack({ 0, 158 * 11, 195, 158 });
+	standing_hit.PushBack({ 195, 158 * 11, 195, 158 });
+
+	standing_hit.loop = true;
+	standing_hit.speed = 0.2;
+
+	knockdown.PushBack({ 0      , 158 * 6, 195, 158 });
+	knockdown.PushBack({ 0      , 158 * 6, 195, 158 });
+	knockdown.PushBack({ 0      , 158 * 6, 195, 158 });
+	knockdown.PushBack({ 0      , 158 * 6, 195, 158 });
+	knockdown.PushBack({ 0      , 158 * 6, 195, 158 }); // It works for me
+	knockdown.PushBack({ 195    , 158 * 6, 195, 158 });
+	knockdown.PushBack({ 195 * 2, 158 * 6, 195, 158 });
+	knockdown.PushBack({ 195 * 3, 158 * 6, 195, 158 });
+
+	knockdown.loop = false;
+	knockdown.speed = 0.1;
+
+	dead.PushBack({ 0      , 158 * 6, 195, 158 });
+
+	dead.loop = true;
+	dead.speed = 0.1;
 
 	// Basic attack definitions
 
