@@ -64,10 +64,10 @@ void characterSelScene::loadSceneUi()	{
 	scene_title = (Labels*)App->gui->createLabel(labels_node.child("title").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("title").child("color").attribute("r").as_int(),(Uint8)labels_node.child("title").child("color").attribute("g").as_int(),(Uint8)labels_node.child("title").child("color").attribute("b").as_int(),(Uint8)labels_node.child("title").child("color").attribute("a").as_int() },
 	App->fonts->extra_large_size, { labels_node.child("title").child("pos").attribute("x").as_int(), labels_node.child("title").child("pos").attribute("y").as_int() }, this);
 
-	b_warrior = (Buttons*)App->gui->createButton(SELECT_WARRIOR, CHARACTER_SELECTION, { 680, 300 }, this);
-	b_mage = (Buttons*)App->gui->createButton(SELECT_MAGE, CHARACTER_SELECTION, { 680, 450 }, this);
-	b_rogue = (Buttons*)App->gui->createButton(SELECT_ROGUE, CHARACTER_SELECTION, { 680, 600 }, this);
-	b_paladin = (Buttons*)App->gui->createButton(SELECT_PALADIN, CHARACTER_SELECTION, { 680, 750 }, this);
+	b_warrior = (Buttons*)App->gui->createButton(SELECT_WARRIOR, CHARACTER_SELECTION, 0, { 680, 300 }, this);
+	b_mage = (Buttons*)App->gui->createButton(SELECT_MAGE, CHARACTER_SELECTION, 0, { 680, 450 }, this);
+	b_rogue = (Buttons*)App->gui->createButton(SELECT_ROGUE, CHARACTER_SELECTION, 0, { 680, 600 }, this);
+	b_paladin = (Buttons*)App->gui->createButton(SELECT_PALADIN, CHARACTER_SELECTION, 0, { 680, 750 }, this);
 }
 
 void characterSelScene::loadSceneTextures()	{
@@ -102,8 +102,11 @@ void characterSelScene::loadSceneTextures()	{
 }
 
 void characterSelScene::assignFocus()	{
-	if (!App->gui->focus_elements.empty())
-		App->gui->focus = *App->gui->focus_elements.begin();
+	if (!App->gui->p1_focus_elements.empty() && !App->gui->p2_focus_elements.empty())
+	{
+		App->entities->players[0]->focus = *App->gui->p1_focus_elements.begin();
+		App->entities->players[1]->focus = *App->gui->p2_focus_elements.begin();
+	}
 }
 
 void characterSelScene::checkSceneInput()	{

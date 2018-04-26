@@ -63,11 +63,11 @@ bool mainScene::onEvent(Buttons* button)	{
 
 void mainScene::loadSceneUi()	{
 	//BUTTONS
-	b_o_vs_o = (Buttons*)App->gui->createButton(ONE_V_ONE, LARGE, { buttons_node.child("o_vs_o").child("pos").attribute("x").as_int(), buttons_node.child("o_vs_o").child("pos").attribute("y").as_int() }, this);
-	b_training = (Buttons*)App->gui->createButton(TRAINING, LARGE, { buttons_node.child("training").child("pos").attribute("x").as_int(), buttons_node.child("training").child("pos").attribute("y").as_int() }, this);
-	b_settings = (Buttons*)App->gui->createButton(SETTINGS, LARGE, { buttons_node.child("settings").child("pos").attribute("x").as_int(), buttons_node.child("settings").child("pos").attribute("y").as_int() }, this);
-	b_credits = (Buttons*)App->gui->createButton(CREDITS, LARGE, { buttons_node.child("credits").child("pos").attribute("x").as_int(), buttons_node.child("credits").child("pos").attribute("y").as_int() }, this);
-	b_exit = (Buttons*)App->gui->createButton(GAME_EXIT, LARGE, { buttons_node.child("exit").child("pos").attribute("x").as_int(), buttons_node.child("exit").child("pos").attribute("y").as_int() }, this);
+	b_o_vs_o = (Buttons*)App->gui->createButton(ONE_V_ONE, LARGE, 0, { buttons_node.child("o_vs_o").child("pos").attribute("x").as_int(), buttons_node.child("o_vs_o").child("pos").attribute("y").as_int() }, this);
+	b_training = (Buttons*)App->gui->createButton(TRAINING, LARGE, 0, { buttons_node.child("training").child("pos").attribute("x").as_int(), buttons_node.child("training").child("pos").attribute("y").as_int() }, this);
+	b_settings = (Buttons*)App->gui->createButton(SETTINGS, LARGE, 0, { buttons_node.child("settings").child("pos").attribute("x").as_int(), buttons_node.child("settings").child("pos").attribute("y").as_int() }, this);
+	b_credits = (Buttons*)App->gui->createButton(CREDITS, LARGE, 0, { buttons_node.child("credits").child("pos").attribute("x").as_int(), buttons_node.child("credits").child("pos").attribute("y").as_int() }, this);
+	b_exit = (Buttons*)App->gui->createButton(GAME_EXIT, LARGE, 0, { buttons_node.child("exit").child("pos").attribute("x").as_int(), buttons_node.child("exit").child("pos").attribute("y").as_int() }, this);
 	
 	//LABELS
 	l_o_vs_o = (Labels*)App->gui->createLabel(labels_node.child("o_vs_o").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("o_vs_o").child("color").attribute("r").as_int(),(Uint8)labels_node.child("o_vs_o").child("color").attribute("g").as_int(),(Uint8)labels_node.child("o_vs_o").child("color").attribute("b").as_int(),(Uint8)labels_node.child("o_vs_o").child("color").attribute("a").as_int() },
@@ -88,7 +88,7 @@ void mainScene::loadSceneUi()	{
 }
 
 void mainScene::assignFocus()	{
-	if (!App->gui->focus_elements.empty())
-		App->gui->focus = *App->gui->focus_elements.begin();
+	if (!App->gui->p1_focus_elements.empty())
+		App->entities->players[0]->focus = *App->gui->p1_focus_elements.begin();
 }
 

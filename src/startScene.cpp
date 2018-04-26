@@ -21,9 +21,6 @@ startScene::~startScene()
 
 bool startScene::start()	{
 	loadSceneUi();
-
-	App->entities->createPlayer(0);
-	App->entities->createPlayer(1);
 	
 	//player1_cont = App->entities->players[0]->getController();
 	//player2_cont = App->entities->players[1]->getController();

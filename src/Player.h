@@ -5,6 +5,7 @@
 #include "mdEntities.h"
 
 class Character;
+class Widgets;
 
 class Player {
 public:

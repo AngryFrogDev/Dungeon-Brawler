@@ -22,7 +22,7 @@ class scene
 public:
 	scene(scene_type _type);
 	virtual ~scene();
-	virtual bool awake(const pugi::xml_node & md_config) { return true; };
+//	virtual bool awake(const pugi::xml_node & md_config) { return true; };
 	virtual bool start() { return true; };
 	virtual bool update(float dt) { return true; };
 	virtual bool cleanUp() { return true; };

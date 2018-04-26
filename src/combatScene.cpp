@@ -131,8 +131,7 @@ void combatScene::loadSceneTextures()	{
 }
 
 void combatScene::assignFocus()	{
-	if (!App->gui->focus_elements.empty())
-		App->gui->focus = *App->gui->focus_elements.begin();
+	
 }
 
 void combatScene::checkSceneInput()	{
@@ -142,9 +141,9 @@ void combatScene::checkSceneInput()	{
 void combatScene::popUpWindow()	{
 	//WINDOWS AND RELATED UI
 	//BUTTONS
-	rematch = (Buttons*)App->gui->createButton(IN_GAME_REMATCH, MEDIUM, { buttons_node.child("rematch").child("pos").attribute("x").as_int(), buttons_node.child("rematch").child("pos").attribute("y").as_int() }, this);
+//	rematch = (Buttons*)App->gui->createButton(IN_GAME_REMATCH, MEDIUM, { buttons_node.child("rematch").child("pos").attribute("x").as_int(), buttons_node.child("rematch").child("pos").attribute("y").as_int() }, this);
 
-	to_main_menu = (Buttons*)App->gui->createButton(IN_GAME_MAIN_MENU, MEDIUM, { 780,680 }, this);
+//	to_main_menu = (Buttons*)App->gui->createButton(IN_GAME_MAIN_MENU, MEDIUM, { 780,680 }, this);
 
 	//LABELS
 	rematch_l = (Labels*)App->gui->createLabel("REMATCH", { 0,0,0,255 }, App->fonts->large_size, { 820, 615 }, this);

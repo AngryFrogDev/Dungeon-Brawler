@@ -33,7 +33,7 @@ bool Buttons::preUpdate()
 		
 	world_area = { position.first, position.second, current_rect->w, current_rect->h };
 
-	if (App->gui->focus == this)
+	if (App->entities->players[0]->focus == this || App->entities->players[1]->focus == this)
 		hovering = true;
 	else
 		changeVisualState(STILL);

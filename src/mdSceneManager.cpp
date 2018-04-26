@@ -42,6 +42,11 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 bool mdSceneManager::start()	{
 	bool ret = false;
 
+	for (int i = 0; i < 2; i++)
+	{
+		App->entities->createPlayer(i);
+	}
+
 	std::list<scene*>::iterator scene_it = scene_list.begin();
 	scene* object = nullptr;
 	for (scene_it; scene_it != scene_list.end(); scene_it++)
@@ -134,7 +139,7 @@ void mdSceneManager::startSwitch()	{
 			to_disable->scene_active = false;
 
 			App->collision->cleanUp();
-			App->entities->cleanUp();
+			App->entities->removeCharacters();
 			App->gui->cleanUp();
 			App->render->cleanBlitQueue();
 			App->projectiles->cleanUp();

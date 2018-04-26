@@ -141,6 +141,12 @@ void mdEntities::destroyCharacters() {
 	}
 }
 
+void mdEntities::removeCharacters()	{
+	for (int i = 0; i < 2; i++) {
+		delete players[i]->getCurrCharacter();
+	}
+}
+
 void mdEntities::assignControls()
 {
 	//PROVISIONAL: HARDCODE

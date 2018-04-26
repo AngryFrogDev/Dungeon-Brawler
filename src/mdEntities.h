@@ -77,6 +77,7 @@ public:
 	void createPlayer(int player);
 
 	void destroyCharacters();
+	void removeCharacters();//Destroy current character from each player
 
 	void assignControls();
 	void assignControllers();
