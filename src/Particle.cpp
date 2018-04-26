@@ -39,10 +39,10 @@ void Particle::animate()
 
 	if (!inUse()) {
 		App->textures->unload(texture);
-		return; 
+		return;
 	}
 
-	lifetime_ratio = float(framesLeft_) / float(lifetime); 
+	lifetime_ratio = float(framesLeft_) / float(lifetime);
 
 	scale = calculateRatio(final_scale, initial_scale);
 
@@ -50,9 +50,12 @@ void Particle::animate()
 
 	updateColors();
 
+	if (use_gravity) {
 	float gravity = 0.3;
 
 	vel.y += gravity;
+
+	}
 
 	pos.x += vel.x; //Simple linear motion
 	pos.y += vel.y;
@@ -127,6 +130,8 @@ void Particle::config(ParticleInfo info)
 	blend = info.blend;
 
 	draw_priority = info.draw_priority;
+
+	use_gravity = info.use_gravity;
 }
 
 void Particle::loadTexture(const char* path)

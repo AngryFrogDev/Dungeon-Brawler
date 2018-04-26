@@ -144,5 +144,7 @@ void ParticleEmitter::configureParticle(ParticleInfo & info)
 	info.final_spin = addOrSubstractRand(final_spin, final_spin_var);
 
 	info.draw_priority = config.child("draw_priority").attribute("value").as_int(1);
+
+	info.use_gravity = config.child("gravity").attribute("value").as_bool(true);
 }
 
