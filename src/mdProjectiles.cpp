@@ -3,6 +3,8 @@
 #include "mdRender.h"
 #include "mdTextures.h"
 #include "mdCollision.h"
+#include "mdParticleSystem.h"
+#include "ParticleEmitter.h"
 #include "DebLog.h"
 
 
@@ -40,8 +42,8 @@ bool mdProjectiles::preUpdate() {
 	// Remove the projectiles
 	for (std::list<projectile*>::iterator it = projectiles_to_delete.begin(); it != projectiles_to_delete.end(); ++it) {
 		projectile* p = *it;
-		//p->collider->character->setProjectile(false);
 		projectiles.remove(p);
+		p->emitter->active = false;
 		delete p;
 	}
 
@@ -64,7 +66,7 @@ bool mdProjectiles::update(float dt) {
 	// Check life
 	for (std::list<projectile*>::iterator it = projectiles.begin(); it != projectiles.end(); ++it) {
 		projectile* p = *it;
-		if (p->life != -1 && SDL_GetTicks() - p->born > p->life)/*PROVISIONAL: Maybe it should use a timer*/ {
+		if (p->life != -1 && SDL_GetTicks() - p->born > p->life){
 			p->to_delete = true;
 		}
 	}
@@ -84,12 +86,13 @@ bool mdProjectiles::cleanUp() {
 	return true;
 }
 
-projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, iPoint speed,collider* collider,int life, bool fliped, int scale) {
+projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, iPoint speed,collider* collider,int life, bool fliped, int scale, ParticleEmitter* emitter) {
 
 	projectile* new_projectile;
 	switch (type) {
 		case WARRIOR_KNIFE:
-			new_projectile = new projectile(warrior_knife,position, speed, collider,life, fliped, scale, WARRIOR_KNIFE); 
+			new_projectile = new projectile(warrior_knife,position, speed, collider,life, fliped, scale, WARRIOR_KNIFE, emitter);
+
 	}	
 
 	projectiles.push_back(new_projectile);
@@ -110,6 +113,11 @@ void projectile::update() {
 	position += speed;
 	if (collider != nullptr) {
 		collider->SetPos(position.x, position.y);
+
+		if (emitter) {
+			emitter->start_pos.x = (float)position.x;
+			emitter->start_pos.y = (float)position.y;
+		}
 	}
 }
 void projectile::draw(SDL_Texture* graphics) {

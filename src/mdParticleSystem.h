@@ -17,7 +17,7 @@ public:
 	~mdParticleSystem();
 
 	Particle* create(ParticleInfo info);
-	void createEmitter(fPoint pos, std::string config_path);
+	ParticleEmitter* createEmitter(fPoint pos, std::string config_path);
 
 	void updateParticles();
 	void updateEmitters();

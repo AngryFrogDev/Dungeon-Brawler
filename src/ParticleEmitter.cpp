@@ -23,8 +23,9 @@ ParticleEmitter::ParticleEmitter(fPoint pos, std::string config_path)
 	type = (emmiterType)config.child("type").attribute("value").as_int(0);
 
 	if (type == EXPLOSION) {
-		for (int i = 0; i < max_emissions; i++)
+		for (int i = 0; i < max_emissions; i++){
 			createParticle();
+		}
 		active = false;
 	}
 }
@@ -58,16 +59,22 @@ void ParticleEmitter::update(float dt)
 
 }
 
-float ParticleEmitter::addOrSubstractRand(float atribute, int maxVariation) const
+float ParticleEmitter::addOrSubstractRand(float atribute, float maxVariation) const
 {
 	float atribute_variated = atribute;
 
-	int variation = rand() % ((2 * maxVariation) + 1);
+	//float variation = fmod(rand(),  ((2 * maxVariation) + 1));
+	float variation = numberBetweenZeroAndOne() * (2*maxVariation);
 
 	atribute_variated -= maxVariation;
-	atribute_variated += +variation;
+	atribute_variated += variation;
 
 	return atribute_variated;
+}
+
+float ParticleEmitter::numberBetweenZeroAndOne() const
+{
+	return ((double)rand() / (RAND_MAX)) + 1;
 }
 
 bool ParticleEmitter::loadConfig(pugi::xml_document & config_file, pugi::xml_node & config_node, std::string path)
@@ -137,5 +144,7 @@ void ParticleEmitter::configureParticle(ParticleInfo & info)
 	info.final_spin = addOrSubstractRand(final_spin, final_spin_var);
 
 	info.draw_priority = config.child("draw_priority").attribute("value").as_int(1);
+
+	info.use_gravity = config.child("gravity").attribute("value").as_bool(true);
 }
 
