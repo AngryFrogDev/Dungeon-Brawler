@@ -9,9 +9,10 @@
 
 
 
-Buttons::Buttons(button_types type, button_size _size, std::pair<int, int> pos, scene* callback) : Widgets(ui_elem_type::BUTTON, pos, callback) {
+Buttons::Buttons(button_types type, button_size _size, int id, std::pair<int, int> pos, scene* callback) : Widgets(ui_elem_type::BUTTON, pos, callback) {
 	
 	button_type = type;
+	focus_id = id;
 	size = _size;
 	//click_sfx = App->audio->loadSFX(/*Path*/);
 	data = config.child("gui").child("button_section");

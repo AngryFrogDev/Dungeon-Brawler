@@ -92,19 +92,23 @@ bool mdGuiManager::cleanUp() {
 		delete object;
 	}
 	ui_elements.clear();
-	focus_elements.clear();
-		
+	p1_focus_elements.clear();
+	p2_focus_elements.clear();
+
 	return ret;
 }
 
-Widgets* mdGuiManager::createButton(button_types type, button_size size, std::pair<int, int> pos, scene* callback) {
+Widgets* mdGuiManager::createButton(button_types type, button_size size, int id, std::pair<int, int> pos, scene* callback) {
 
 	Widgets* ret = nullptr;
 
 	if (type != 0) {
-		ret = new Buttons(type, size, pos, callback);
+		ret = new Buttons(type, size, id, pos, callback);
 		ui_elements.push_back(ret);
-		focus_elements.push_back(ret);
+		if (id == 0)
+			p1_focus_elements.push_back(ret);
+		else if (id == 1)
+			p2_focus_elements.push_back(ret);
 	}
 			
 	return ret;
@@ -151,8 +155,14 @@ bool mdGuiManager::destroyWidget(Widgets* widget) {
 	{
 		ui_elements.remove(widget);//Deleting from the main ui list
 
-		if (widget->type == BUTTON)
-			focus_elements.remove(widget);//Deleting from the specific focus list
+		if (widget->type == BUTTON)//Deleting from the specific focus list
+		{
+			if (widget->focus_id == 0)
+				p1_focus_elements.remove(widget);
+			else if (widget->focus_id == 1)
+				p2_focus_elements.remove(widget);
+		}
+			
 	}
 	
 	return ret;
@@ -160,55 +170,112 @@ bool mdGuiManager::destroyWidget(Widgets* widget) {
 
 void mdGuiManager::manageFocus() {
 
+	if (!App->entities->players[0]->focus && !App->entities->players[1]->focus)//Check if, at least, one focus has been assigned
+		return;
+	
+	assignP1Focus();
+	assignP2Focus();
+
+}
+
+void mdGuiManager::assignP1Focus()	{
+
 	Widgets* object = nullptr;
+	Controller* controller = nullptr;
+	if (!App->input->getController().empty())
+		controller = App->entities->players[0]->getController();
 
-	if (focus)//Check if focus has been assigned 
+	if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_UP, KEY_DOWN)))
 	{
-		Controller* controller = nullptr;
-		if(!App->input->getController().empty())
-			controller = App->input->getController().front(); 
-		if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_UP, KEY_DOWN)))
+		std::list<Widgets*>::iterator temp_iterator = p1_focus_elements.begin();
+		for (temp_iterator; temp_iterator != p1_focus_elements.end(); temp_iterator++)
 		{
-			std::list<Widgets*>::iterator temp_iterator = focus_elements.begin();
-			for (temp_iterator; temp_iterator != focus_elements.end(); temp_iterator++)
+			object = *temp_iterator;
+			if (object == App->entities->players[0]->focus)
 			{
-				object = *temp_iterator;
-				if (object == focus)
+				if (temp_iterator != p1_focus_elements.begin())
 				{
-					if (temp_iterator != focus_elements.begin())
-					{
-						temp_iterator--;
-						focus = *temp_iterator;
-						break;
-					}
-					else
-						focus = *focus_elements.rbegin(); break;
+					temp_iterator--;
+					App->entities->players[0]->focus = *temp_iterator;
+					break;
 				}
-			}
-		}
-
-
-		if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_DOWN, KEY_DOWN)))
-		{
-			std::list<Widgets*>::reverse_iterator temp_iterator = focus_elements.rbegin();
-			for (temp_iterator; temp_iterator != focus_elements.rend(); temp_iterator++)
-			{
-				object = *temp_iterator;
-				if (object == focus)
-				{
-					if (temp_iterator != focus_elements.rbegin())
-					{
-						temp_iterator--;
-						focus = *temp_iterator;
-						break;
-					}
-					else
-						focus = *focus_elements.begin(); break;
-				}
+				else
+					App->entities->players[0]->focus = *p1_focus_elements.rbegin(); break;
 			}
 		}
 	}
+
+
+	if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_DOWN, KEY_DOWN)))
+	{
+		std::list<Widgets*>::reverse_iterator temp_iterator = p1_focus_elements.rbegin();
+		for (temp_iterator; temp_iterator != p1_focus_elements.rend(); temp_iterator++)
+		{
+			object = *temp_iterator;
+			if (object == App->entities->players[0]->focus)
+			{
+				if (temp_iterator != p1_focus_elements.rbegin())
+				{
+					temp_iterator--;
+					App->entities->players[0]->focus = *temp_iterator;
+					break;
+				}
+				else
+					App->entities->players[0]->focus = *p1_focus_elements.begin(); break;
+			}
+		}
+	}
+
+}
+
+void mdGuiManager::assignP2Focus()	{
 	
+	Widgets* object = nullptr;
+	Controller* controller = nullptr;
+	if (!App->input->getController().empty())
+		controller = App->entities->players[1]->getController();
+
+	if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_UP, KEY_DOWN)))
+	{
+		std::list<Widgets*>::iterator temp_iterator = p2_focus_elements.begin();
+		for (temp_iterator; temp_iterator != p2_focus_elements.end(); temp_iterator++)
+		{
+			object = *temp_iterator;
+			if (object == App->entities->players[1]->focus)
+			{
+				if (temp_iterator != p2_focus_elements.begin())
+				{
+					temp_iterator--;
+					App->entities->players[1]->focus = *temp_iterator;
+					break;
+				}
+				else
+					App->entities->players[1]->focus = *p2_focus_elements.rbegin(); break;
+			}
+		}
+	}
+
+
+	if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_DOWN, KEY_DOWN)))
+	{
+		std::list<Widgets*>::reverse_iterator temp_iterator = p2_focus_elements.rbegin();
+		for (temp_iterator; temp_iterator != p2_focus_elements.rend(); temp_iterator++)
+		{
+			object = *temp_iterator;
+			if (object == App->entities->players[1]->focus)
+			{
+				if (temp_iterator != p2_focus_elements.rbegin())
+				{
+					temp_iterator--;
+					App->entities->players[1]->focus = *temp_iterator;
+					break;
+				}
+				else
+					App->entities->players[1]->focus = *p2_focus_elements.begin(); break;
+			}
+		}
+	}
+
 }
 
 SDL_Texture * mdGuiManager::getAtlas() const {

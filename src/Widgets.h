@@ -80,6 +80,7 @@ public:
 	SDL_Rect world_area;
 	std::pair<int, int> position;
 	bool to_delete = false;
+	int focus_id = 0;
 
 protected:
 	scene* callback = nullptr;

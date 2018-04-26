@@ -32,6 +32,10 @@ public:
 	void setFlip(bool flip);
 
 	Controller* getController() const;
+
+public:
+	Widgets* focus = nullptr;
+
 private:
 	// Number of the controller being used by the player
 	Controller* controller;

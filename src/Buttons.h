@@ -14,7 +14,7 @@ enum controller_events {
 
 class Buttons : public Widgets {
 public:
-	Buttons(button_types type, button_size _size, std::pair<int, int> pos, scene* callback);
+	Buttons(button_types type, button_size _size, int id,  std::pair<int, int> pos, scene* callback);
 	virtual ~Buttons();
 
 	bool preUpdate();
