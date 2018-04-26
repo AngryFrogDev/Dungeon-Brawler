@@ -39,16 +39,23 @@ void Particle::animate()
 
 	if (!inUse()) {
 		App->textures->unload(texture);
-		return; 
+		return;
 	}
 
-	lifetime_ratio = float(framesLeft_) / float(lifetime); 
+	lifetime_ratio = float(framesLeft_) / float(lifetime);
 
 	scale = calculateRatio(final_scale, initial_scale);
 
 	current_spin = calculateRatio(final_spin, initial_spin);
 
 	updateColors();
+
+	if (use_gravity) {
+	float gravity = 0.3;
+
+	vel.y += gravity;
+
+	}
 
 	pos.x += vel.x; //Simple linear motion
 	pos.y += vel.y;
@@ -74,7 +81,7 @@ void Particle::Draw()
 
 	SDL_SetTextureBlendMode(texture, blend);
 
-	App->render->drawSprite(draw_priority, texture, position_to_draw.x, position_to_draw.y, NULL, scale,NULL,NULL,current_spin);
+	App->render->drawSprite(draw_priority, texture, position_to_draw.x, position_to_draw.y, NULL, scale,NULL,1,current_spin,NULL,NULL,true);
 }
 
 float Particle::calculateRatio(float final, float inital, float variation) const
@@ -123,6 +130,8 @@ void Particle::config(ParticleInfo info)
 	blend = info.blend;
 
 	draw_priority = info.draw_priority;
+
+	use_gravity = info.use_gravity;
 }
 
 void Particle::loadTexture(const char* path)

@@ -36,12 +36,13 @@ Particle* mdParticleSystem::create(ParticleInfo info)
 	}
 }
 
-void mdParticleSystem::createEmitter(fPoint pos, std::string config_path)
+ParticleEmitter* mdParticleSystem::createEmitter(fPoint pos, std::string config_path)
 {
 	ParticleEmitter* emitter = nullptr;
 
 	emitter = new ParticleEmitter(pos, config_path);
 	particle_emitters.push_back(emitter);
+	return emitter;
 }
 
 void mdParticleSystem::updateParticles()
