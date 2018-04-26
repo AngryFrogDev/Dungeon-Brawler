@@ -23,8 +23,9 @@ ParticleEmitter::ParticleEmitter(fPoint pos, std::string config_path)
 	type = (emmiterType)config.child("type").attribute("value").as_int(0);
 
 	if (type == EXPLOSION) {
-		for (int i = 0; i < max_emissions; i++)
+		for (int i = 0; i < max_emissions; i++){
 			createParticle();
+		}
 		active = false;
 	}
 }
