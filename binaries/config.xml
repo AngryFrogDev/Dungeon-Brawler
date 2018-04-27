@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+ <?xml version="1.0"?>
 <config>
   <items player_1_item ="false" player_2_item ="true"/>
 	<application>
@@ -40,7 +40,7 @@
 			<small>
 			</small>
 			<char_sel>
-				<still x="0" y="0" w="0" h="0"/>
+				<still x="6" y="372" w="62" h="30"/>
 				<focused x="6" y="301" w="64" h="32"/>
 				<clicked x="6" y="335" w="64" h="32"/>	
 			</char_sel>

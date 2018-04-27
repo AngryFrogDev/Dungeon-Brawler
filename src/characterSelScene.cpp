@@ -37,68 +37,93 @@ bool characterSelScene::update(float dt)	{
 	return true;
 }
 
-bool characterSelScene::onEvent(Buttons * button)	{
+bool characterSelScene::onEvent(Buttons* button)	{
 	switch (button->button_type)
 	{
 	default:
 		break;
 	case SELECT_WARRIOR:
-		player1.character = WARRIOR;
+		if (button->focus_id == 0)
+			player1.character = WARRIOR;
+		else 
+			player2.character = WARRIOR;
 		break;
 	case SELECT_MAGE:
-		player1.character = MAGE;
+		if (button->focus_id == 0)
+			player1.character = MAGE;
+		else 
+			player2.character = MAGE;
 		break;
 	case SELECT_ROGUE:
-		player1.character = ROGUE;
+		if (button->focus_id == 0)
+			player1.character = ROGUE;
+		else 
+			player2.character = ROGUE;
 		break;
 	case SELECT_PALADIN:
-		player1.character = PALADIN;
+		if (button->focus_id == 0)
+			player1.character = PALADIN;
+		else 
+			player2.character = PALADIN;
 		break;
 	}
 
-	player1.has_selected_character = true;
 	return true;
 }
 
 void characterSelScene::loadSceneUi()	{
+	//LABELS
 	scene_title = (Labels*)App->gui->createLabel(labels_node.child("title").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("title").child("color").attribute("r").as_int(),(Uint8)labels_node.child("title").child("color").attribute("g").as_int(),(Uint8)labels_node.child("title").child("color").attribute("b").as_int(),(Uint8)labels_node.child("title").child("color").attribute("a").as_int() },
 	App->fonts->extra_large_size, { labels_node.child("title").child("pos").attribute("x").as_int(), labels_node.child("title").child("pos").attribute("y").as_int() }, this);
 
-	b_warrior = (Buttons*)App->gui->createButton(SELECT_WARRIOR, CHARACTER_SELECTION, 0, { 680, 300 }, this);
-	b_mage = (Buttons*)App->gui->createButton(SELECT_MAGE, CHARACTER_SELECTION, 0, { 680, 450 }, this);
-	b_rogue = (Buttons*)App->gui->createButton(SELECT_ROGUE, CHARACTER_SELECTION, 0, { 680, 600 }, this);
-	b_paladin = (Buttons*)App->gui->createButton(SELECT_PALADIN, CHARACTER_SELECTION, 0, { 680, 750 }, this);
+	p1_label = (Labels*)App->gui->createLabel(labels_node.child("player_1").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("player_1").child("color").attribute("r").as_int(),(Uint8)labels_node.child("player_1").child("color").attribute("g").as_int(),(Uint8)labels_node.child("player_1").child("color").attribute("b").as_int(),(Uint8)labels_node.child("player_1").child("color").attribute("a").as_int() },
+	App->fonts->large_size, { labels_node.child("player_1").child("pos").attribute("x").as_int(), labels_node.child("player_1").child("pos").attribute("y").as_int() }, this);
+	
+	p2_label = (Labels*)App->gui->createLabel(labels_node.child("player_2").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("player_2").child("color").attribute("r").as_int(),(Uint8)labels_node.child("player_2").child("color").attribute("g").as_int(),(Uint8)labels_node.child("player_2").child("color").attribute("b").as_int(),(Uint8)labels_node.child("player_2").child("color").attribute("a").as_int() },
+	App->fonts->large_size, { labels_node.child("player_2").child("pos").attribute("x").as_int(), labels_node.child("player_2").child("pos").attribute("y").as_int() }, this);
+
+	//BUTTONS
+	//Left
+	b_warrior_l = (Buttons*)App->gui->createButton(SELECT_WARRIOR, CHARACTER_SELECTION, buttons_node.child("b_warrior_l").child("player_id").attribute("value").as_int(), { buttons_node.child("b_warrior_l").child("pos").attribute("x").as_int(), buttons_node.child("b_warrior_l").child("pos").attribute("y").as_int() }, this);
+	b_mage_l = (Buttons*)App->gui->createButton(SELECT_MAGE, CHARACTER_SELECTION, buttons_node.child("b_mage_l").child("player_id").attribute("value").as_int(), { buttons_node.child("b_mage_l").child("pos").attribute("x").as_int(), buttons_node.child("b_mage_l").child("pos").attribute("y").as_int() }, this);
+	b_rogue_l = (Buttons*)App->gui->createButton(SELECT_ROGUE, CHARACTER_SELECTION, buttons_node.child("b_rogue_l").child("player_id").attribute("value").as_int(), { buttons_node.child("b_rogue_l").child("pos").attribute("x").as_int(), buttons_node.child("b_rogue_l").child("pos").attribute("y").as_int() }, this);
+	b_paladin_l = (Buttons*)App->gui->createButton(SELECT_PALADIN, CHARACTER_SELECTION, buttons_node.child("b_paladin_l").child("player_id").attribute("value").as_int(), { buttons_node.child("b_paladin_l").child("pos").attribute("x").as_int(), buttons_node.child("b_paladin_l").child("pos").attribute("y").as_int() }, this);
+	//Right
+	b_warrior_r = (Buttons*)App->gui->createButton(SELECT_WARRIOR, CHARACTER_SELECTION, buttons_node.child("b_warrior_r").child("player_id").attribute("value").as_int(), { buttons_node.child("b_warrior_r").child("pos").attribute("x").as_int(), buttons_node.child("b_warrior_r").child("pos").attribute("y").as_int() }, this);
+	b_mage_r = (Buttons*)App->gui->createButton(SELECT_MAGE, CHARACTER_SELECTION, buttons_node.child("b_mage_r").child("player_id").attribute("value").as_int(), { buttons_node.child("b_mage_r").child("pos").attribute("x").as_int(), buttons_node.child("b_mage_r").child("pos").attribute("y").as_int() }, this);
+	b_rogue_r = (Buttons*)App->gui->createButton(SELECT_ROGUE, CHARACTER_SELECTION, buttons_node.child("b_rogue_r").child("player_id").attribute("value").as_int(), { buttons_node.child("b_rogue_r").child("pos").attribute("x").as_int(), buttons_node.child("b_rogue_r").child("pos").attribute("y").as_int() }, this);
+	b_paladin_r = (Buttons*)App->gui->createButton(SELECT_PALADIN, CHARACTER_SELECTION, buttons_node.child("b_paladin_r").child("player_id").attribute("value").as_int(), { buttons_node.child("b_paladin_r").child("pos").attribute("x").as_int(), buttons_node.child("b_paladin_r").child("pos").attribute("y").as_int() }, this);
 }
 
 void characterSelScene::loadSceneTextures()	{
-	//PROVISIONAL: Hardcoded values
+
 	//Player 1 portrait (left)
 	if (player1.portrait == &paladin_portrait || player1.portrait == &warrior_portrait)
-		App->render->drawSprite(3, character_potraits, -190, 350, player1.portrait, 3, true, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, character_potraits, textures_node.child("left_portraits").attribute("x").as_int(), textures_node.child("left_portraits").attribute("y").as_int(), player1.portrait, textures_node.child("portraits").attribute("scale").as_int(), true, 1.0f, 0, 0, 0, false);
 	else
-		App->render->drawSprite(3, character_potraits, -190, 350, player1.portrait, 3, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, character_potraits, textures_node.child("left_portraits").attribute("x").as_int(), textures_node.child("left_portraits").attribute("y").as_int(), player1.portrait, textures_node.child("portraits").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 
 	//Player 2 portrait (right)
 	if (player2.portrait == &rogue_portrait || player2.portrait == &mage_portrait)
-		App->render->drawSprite(3, character_potraits, 800, 350, player2.portrait, 3, true, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, character_potraits, textures_node.child("right_portraits").attribute("x").as_int(), textures_node.child("right_portraits").attribute("y").as_int(), player2.portrait, textures_node.child("portraits").attribute("scale").as_int(), true, 1.0f, 0, 0, 0, false);
 	else
-		App->render->drawSprite(3, character_potraits, 800, 350, player2.portrait, 3, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, character_potraits, textures_node.child("right_portraits").attribute("x").as_int(), textures_node.child("right_portraits").attribute("y").as_int(), player2.portrait, textures_node.child("portraits").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 
 	//VS
-//	App->render->drawSprite(4, vs_tex, 700, 400, 0, 2, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(4, vs_tex, textures_node.child("vs_tex").attribute("x").as_int(), textures_node.child("vs_tex").attribute("y").as_int(), 0, textures_node.child("vs_tex").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 
 	//CHARACTER MINIATURES
 	//Left
-	App->render->drawSprite(3, App->gui->atlas, 684, 306, &warrior_miniature, 3, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 684, 456, &mage_miniature, 3, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 684, 606, &rogue_miniature, 3, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 684, 756, &paladin_miniature, 3, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(3, App->gui->atlas, 686, 306, &warrior_miniature, 3, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(3, App->gui->atlas, 686, 456, &mage_miniature, 3, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(3, App->gui->atlas, 686, 606, &rogue_miniature, 3, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(3, App->gui->atlas, 686, 756, &paladin_miniature, 3, false, 1.0f, 0, 0, 0, false);
 
 	//Right
-	App->render->drawSprite(3, App->gui->atlas, 1054, 306, &warrior_miniature, 3, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 1054, 456, &mage_miniature, 3, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 1054, 606, &rogue_miniature, 3, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 1054, 756, &paladin_miniature, 3, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(3, App->gui->atlas, 1056, 306, &warrior_miniature, 3, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(3, App->gui->atlas, 1056, 456, &mage_miniature, 3, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(3, App->gui->atlas, 1056, 606, &rogue_miniature, 3, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(3, App->gui->atlas, 1056, 756, &paladin_miniature, 3, false, 1.0f, 0, 0, 0, false);
 }
 
 void characterSelScene::assignFocus()	{
@@ -182,15 +207,41 @@ void characterSelScene::setCurrentCharDisplay()	{
 		break;
 	case WARRIOR:
 		player1.portrait = &warrior_portrait;
+		player1.name_tex = &warrior_name_tex;
 		break;
 	case MAGE:
 		player1.portrait = &mage_portrait;
+		player1.name_tex = &mage_name_tex;
 		break;
 	case ROGUE:
 		player1.portrait = &rogue_portrait;
+		player1.name_tex = &rogue_name_tex;
 		break;
 	case PALADIN:
 		player1.portrait = &paladin_portrait;
+		player1.name_tex = &paladin_name_tex;
+		break;
+	}
+
+	switch (player2.character)
+	{
+	default:
+		break;
+	case WARRIOR:
+		player2.portrait = &warrior_portrait;
+		player2.name_tex = &warrior_name_tex;
+		break;
+	case MAGE:
+		player2.portrait = &mage_portrait;
+		player2.name_tex = &mage_name_tex;
+		break;
+	case ROGUE:
+		player2.portrait = &rogue_portrait;
+		player2.name_tex = &rogue_name_tex;
+		break;
+	case PALADIN:
+		player2.portrait = &paladin_portrait;
+		player2.name_tex = &paladin_name_tex;
 		break;
 	}
 }

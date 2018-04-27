@@ -35,10 +35,18 @@ private:
 
 private:
 	Labels* scene_title = nullptr;
-	Buttons* b_warrior = nullptr;
-	Buttons* b_mage = nullptr;
-	Buttons* b_rogue = nullptr;
-	Buttons* b_paladin = nullptr;
+	Labels* p1_label = nullptr;
+	Labels* p2_label = nullptr;
+
+	Buttons* b_warrior_l = nullptr;
+	Buttons* b_mage_l = nullptr;
+	Buttons* b_rogue_l = nullptr;
+	Buttons* b_paladin_l = nullptr;
+
+	Buttons* b_warrior_r = nullptr;
+	Buttons* b_mage_r = nullptr;
+	Buttons* b_rogue_r = nullptr;
+	Buttons* b_paladin_r = nullptr;
 	
 	SDL_Texture* character_potraits = nullptr;
 	SDL_Texture* vs_tex = nullptr;

@@ -73,7 +73,51 @@
 				<color r="255" g="255" b="255" a="255"/>
 				<pos x="325" y="65"/>
 			</title>
+			<player_1>
+				<content value="PLAYER 1"/>
+				<color r="169" g="46" b="46" a="255"/>
+				<pos x="225" y="265"/>
+			</player_1>
+			<player_2>
+				<content value="PLAYER 2"/>
+				<color r="126" g="208" b="223" a="255"/>
+				<pos x="1525" y="265"/>
+			</player_2>
 		</labels>
+		<buttons>
+			<b_warrior_l>
+				<pos x="680" y="300"/>
+				<player_id value="0"/>
+			</b_warrior_l>
+			<b_mage_l>
+				<pos x="680" y="450"/>
+				<player_id value="0"/>
+			</b_mage_l>
+			<b_rogue_l>
+				<pos x="680" y="600"/>
+				<player_id value="0"/>
+			</b_rogue_l>
+			<b_paladin_l>
+				<pos x="680" y="751"/>
+				<player_id value="0"/>
+			</b_paladin_l>
+			<b_warrior_r>
+				<pos x="1050" y="300"/>
+				<player_id value="1"/>
+			</b_warrior_r>
+			<b_mage_r>
+				<pos x="1050" y="450"/>
+				<player_id value="1"/>
+			</b_mage_r>
+			<b_rogue_r>
+				<pos x="1050" y="600"/>
+				<player_id value="1"/>
+			</b_rogue_r>
+			<b_paladin_l>
+				<pos x="1050" y="751"/>
+				<player_id value="1"/>
+			</b_paladin_l>
+		</buttons>
 	</char_sel_scene>
 	<combat>
 		<window>
