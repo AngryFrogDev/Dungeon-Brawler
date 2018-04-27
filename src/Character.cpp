@@ -258,6 +258,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			state_first_tick = true;
 		}
 		if (hit) {
+			playCurrentSFX();
+			emmitCurrentParticle();
 			hit = false;
 			current_super_gauge += super_gauge_gain_block;
 		}
@@ -281,6 +283,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			state_first_tick = true;
 		}
 		if (hit) {
+			playCurrentSFX();
+			emmitCurrentParticle();
 			hit = false;
 			current_super_gauge += super_gauge_gain_block;
 		}
@@ -304,6 +308,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		if (hit) { 
 			playCurrentSFX();
+			emmitCurrentParticle();
 			if (attack_recieving.knockdown)
 				updateState(JUGGLE);
 			else
@@ -326,11 +331,13 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	case JUGGLE:
 		if (!state_first_tick) {
+			emmitCurrentParticle();
 			updateAnimation(standing_hit);
 			state_first_tick = true;
 		}
 		if (hit) {
 			playCurrentSFX();
+			emmitCurrentParticle();
 			if (!fliped)
 				velocity.x -= attack_recieving.juggle_speed.x;
 			else
@@ -1206,7 +1213,7 @@ void Character::emmitCurrentParticle() {
 
 				}
 			case JUGGLE:
-				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/light-hit.xml");
+				App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/hit-light-r.xml");
 				break;
 			}
 
@@ -1219,10 +1226,10 @@ void Character::emmitCurrentParticle() {
 		case CR_S1:
 			switch (current_state) {
 			case STAND_BLOCKING:
-				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/heavy-block.xml");
+				App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/heavy-block.xml");
 				break;
 			case CROUCH_BLOCKING:
-				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/heavy-block.xml");
+				App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/heavy-block.xml");
 				break;
 			case HIT:
 				offset_x = 10;
@@ -1235,7 +1242,7 @@ void Character::emmitCurrentParticle() {
 				}
 				break;
 			case JUGGLE:
-				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/heavy-hit.xml");
+				App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/hit-light-r.xml");
 				break;
 			}
 			break;

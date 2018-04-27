@@ -138,6 +138,16 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	standing_hit.loop = true;
 	standing_hit.speed = 0.2;
 
+	standing_block.PushBack({ 195 * 4, 158 * 3, 195, 158 });
+
+	standing_block.loop = false;
+	standing_block.speed = 0.2;
+
+	crouching_block.PushBack({ 195*3, 158 * 5, 195, 158 });
+
+	crouching_block.loop = false;
+	crouching_block.speed = 0.2;
+
 	knockdown.PushBack({ 0      , 158 * 6, 195, 158 });
 	knockdown.PushBack({ 0      , 158 * 6, 195, 158 });
 	knockdown.PushBack({ 0      , 158 * 6, 195, 158 });
