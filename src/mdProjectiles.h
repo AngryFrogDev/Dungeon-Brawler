@@ -15,13 +15,14 @@ class ParticleEmitter;
 
 enum PROJECTILE_TYPE {
 	DEFF_PROJECTILE,
-	WARRIOR_KNIFE
+	WARRIOR_KNIFE,
+	MAGE_FIREBALL
 };
 
 struct projectile {
 
-	projectile(Animation animation, iPoint position,iPoint speed, collider* collider, int life,bool fliped, int scale, PROJECTILE_TYPE type, ParticleEmitter* emitter = nullptr):
-		animation(animation), position(position),speed(speed), collider(collider), life(life),fliped(fliped), scale(scale), type(type), emitter(emitter) {
+	projectile(Animation* animation, iPoint position,iPoint speed, collider* collider, iPoint collider_offset, int life,bool fliped, int scale, PROJECTILE_TYPE type, ParticleEmitter* emitter = nullptr):
+		animation(animation), position(position),speed(speed), collider(collider),collider_offset(collider_offset), life(life),fliped(fliped), scale(scale), type(type), emitter(emitter) {
 		born = SDL_GetTicks();
 	}
 	void update();
@@ -29,8 +30,9 @@ struct projectile {
 	
 	iPoint position;
 	iPoint speed;
+	iPoint collider_offset;
 	collider* collider;
-	Animation animation;
+	Animation* animation;
 	int born; // in milliseconds
 	int life; // in milliseconds
 	bool fliped;
@@ -54,7 +56,7 @@ public:
 
 	bool lookForProjectileType(PROJECTILE_TYPE type, Character* character);
 
-	projectile* addProjectile(PROJECTILE_TYPE type, iPoint position, iPoint speed, collider* collider, int life,bool fliped, int scale, ParticleEmitter* emitter = nullptr);
+	projectile* addProjectile(PROJECTILE_TYPE type, iPoint position, iPoint speed, collider* collider,iPoint collider_offset, int life,bool fliped, int scale, ParticleEmitter* emitter = nullptr);
 
 
 	SDL_Texture* graphics;

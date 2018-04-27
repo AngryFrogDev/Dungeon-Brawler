@@ -43,6 +43,7 @@ bool mdProjectiles::preUpdate() {
 	for (std::list<projectile*>::iterator it = projectiles_to_delete.begin(); it != projectiles_to_delete.end(); ++it) {
 		projectile* p = *it;
 		projectiles.remove(p);
+		if(p->emitter)
 		p->emitter->active = false;
 		delete p;
 	}
@@ -86,12 +87,16 @@ bool mdProjectiles::cleanUp() {
 	return true;
 }
 
-projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, iPoint speed,collider* collider,int life, bool fliped, int scale, ParticleEmitter* emitter) {
+projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, iPoint speed,collider* collider, iPoint collider_offset, int life, bool fliped, int scale, ParticleEmitter* emitter) {
 
-	projectile* new_projectile;
+	projectile* new_projectile = nullptr;
 	switch (type) {
 		case WARRIOR_KNIFE:
-			new_projectile = new projectile(warrior_knife,position, speed, collider,life, fliped, scale, WARRIOR_KNIFE, emitter);
+			new_projectile = new projectile(&warrior_knife,position, speed, collider, collider_offset,life, fliped, scale, WARRIOR_KNIFE, emitter);
+			break;
+		case MAGE_FIREBALL:
+			new_projectile = new projectile(nullptr, position, speed, collider, collider_offset, life, fliped, scale, MAGE_FIREBALL, emitter);
+			break;
 
 	}	
 
@@ -112,7 +117,7 @@ bool mdProjectiles::lookForProjectileType(PROJECTILE_TYPE type, Character* chara
 void projectile::update() {
 	position += speed;
 	if (collider != nullptr) {
-		collider->SetPos(position.x, position.y);
+		collider->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
 
 		if (emitter) {
 			emitter->start_pos.x = (float)position.x;
@@ -121,5 +126,6 @@ void projectile::update() {
 	}
 }
 void projectile::draw(SDL_Texture* graphics) {
-	App->render->drawSprite(3, graphics, position.x, position.y, &animation.GetCurrentFrame(),scale, fliped); 
+	if(animation)
+		App->render->drawSprite(3, graphics, position.x, position.y, &animation->GetCurrentFrame(),scale, fliped); 
 }

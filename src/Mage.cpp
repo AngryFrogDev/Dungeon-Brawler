@@ -1,6 +1,7 @@
 #include "Mage.h"
 #include "mdCollision.h"
 #include "mdProjectiles.h"
+#include "mdParticleSystem.h"
 #include "mdAudio.h"
 #include "mdEntities.h"
 
@@ -165,6 +166,16 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	dead.loop = true;
 	dead.speed = 0.1;
 
+	standing_special1.PushBack({ 195    , 158 * 14, 195, 158 });
+	standing_special1.PushBack({ 195 * 2, 158 * 14, 195, 158 });
+	standing_special1.PushBack({ 0		, 158 * 14, 195, 158 }, ACTIVE);
+	standing_special1.PushBack({ 195    , 158 * 14, 195, 158 });
+	standing_special1.PushBack({ 195 * 2, 158 * 14, 195, 158 });
+
+
+	standing_special1.loop = false;
+	standing_special1.speed = character.st_s1.animation_speed;
+
 	// Basic attack definitions
 
 	st_l = character.st_l;
@@ -206,7 +217,9 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	logic_position.x = x_pos;
 	type = CHAR_TYPE::MAGE;
 
-
+	//MAGE EXCLUSIVE VARS
+	fireball_speed = 10;
+	fireball_duration = 2000; // in milliseconds
 
 
 	// Runtime inicialization
@@ -258,4 +271,27 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 
 
 Mage::~Mage() {
+}
+
+void Mage::standingSpecial1() {
+	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, fireball_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
+		hitboxes.push_back(projectile_collider);
+		iPoint speed;
+		if (!fliped)
+			speed.x = fireball_speed;
+		else
+			speed.x = -fireball_speed;
+		speed.y = 0;
+
+		ParticleEmitter* emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-ball.xml");
+		App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,st_s1.hitbox.w,true), calculateDrawPosition(0,st_s1.hitbox.h,false) }, speed, projectile_collider,{0,-st_s1.hitbox.h/2}, -1, fliped, scale, emitter);
+
+	}
+	if(current_animation->Finished())
+		askRecovery(st_s1.recovery);
+}
+
+bool Mage::standingSpecial1Condition() {
+	return !App->projectiles->lookForProjectileType(MAGE_FIREBALL, (Character*)this);
 }

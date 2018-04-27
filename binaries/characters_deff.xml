@@ -44,7 +44,6 @@
     
     projectile_duration ="2000"
     projectile_speed ="15"
-    projectile_scale ="3"
     
     swordyuken_invencivility ="300"
     swordyuken_jump_power ="20"
@@ -454,20 +453,20 @@
        pos_rel_char_x ="0"
        pos_rel_char_y ="0"
        hitbox_w ="130"
-       hitbox_h ="30"
+       hitbox_h ="90"
        active_time ="-1"
-       hitstun ="200"
-       blockstun ="150"
-       pushhit ="2"
-       pushblock ="2"
-       damage ="10"
-       knockdown ="false"
+       hitstun ="-1"
+       blockstun ="200"
+       pushhit ="-1"
+       pushblock ="4"
+       damage ="15"
+       knockdown ="true"
        juggle_speed_x ="10"
        juggle_speed_y ="15"
        block_type ="mid"
        type ="st_s1"
-       recovery ="300"
-       animation_speed ="0.2"/>
+       recovery ="350"
+       animation_speed ="0.1"/>
       <st_s2
         pos_rel_char_x ="0"
         pos_rel_char_y ="0"

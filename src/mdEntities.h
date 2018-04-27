@@ -55,7 +55,6 @@ struct character_deff {
 	ITEMS dive_kick_object;
 	int projectile_duration;
 	int projectile_speed;
-	int projectile_scale;
 	int swordyuken_invencivility;
 	int swordyuken_jump_power;
 };

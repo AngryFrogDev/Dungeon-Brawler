@@ -308,7 +308,6 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	dive_kick_object.item_type = character.dive_kick_object;
 	projectile_duration = character.projectile_duration;
 	projectile_speed = character.projectile_speed;
-	projectile_scale = character.projectile_scale;
 	swordyuken_invencivility = character.swordyuken_invencivility;
 	swordyuken_jump_power = character.swordyuken_jump_power;
 	super_invencibility = 300;
@@ -385,8 +384,7 @@ void Warrior::standingSpecial1() 	{
 				speed.x = -projectile_speed;
 			speed.y = 0;
 
-			ParticleEmitter* emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y}, "particles/fire-ball.xml");
-			App->projectiles->addProjectile(WARRIOR_KNIFE, { calculateDrawPosition(0,st_s1.hitbox.w,true), calculateDrawPosition(0,st_s1.hitbox.h,false) }, speed, projectile_collider, -1, fliped , scale, emitter);
+			App->projectiles->addProjectile(WARRIOR_KNIFE, { calculateDrawPosition(0,st_s1.hitbox.w,true), calculateDrawPosition(0,st_s1.hitbox.h,false) }, speed, projectile_collider, { 0,0 }, -1, fliped, scale, nullptr);
 			askRecovery(st_s1.recovery);
 		}
 }
@@ -639,6 +637,8 @@ void Warrior::giveItem(ITEMS type) {
 	else if (type == spin_object.item_type)
 		spin_object.active = true;
 }
+
+
 void Warrior::takeAllItems() {
 	dive_kick_object.active = false;
 	spin_object.active = false;

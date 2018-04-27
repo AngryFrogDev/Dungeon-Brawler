@@ -400,7 +400,6 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 	character.dive_kick_object = stringToItem(tmp);
 	character.projectile_duration = md_config.attribute("projectile_duration").as_int();
 	character.projectile_speed = md_config.attribute("projectile_speed").as_int();
-	character.projectile_scale = md_config.attribute("projectile_scale").as_int();
 	character.swordyuken_invencivility = md_config.attribute("swordyuken_invencivility").as_int();
 	character.swordyuken_jump_power = md_config.attribute("swordyuken_jump_power").as_int();
 	pugi::xml_node attack_data = md_config.child("attack_data");
