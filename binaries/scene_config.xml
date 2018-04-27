@@ -58,14 +58,23 @@
 	</main_scene>
 	<char_sel_scene>
 		<textures>
+			<portraits_tex path = "assets/character_sel_portraits.png"/>
+
 			<warrior_portrait x="0" y="0" w="436" h="240"/>
 			<mage_portrait x="436" y="0" w="436" h="240"/>
 			<rogue_portrait x="872" y="0" w="436" h="240"/>
 			<paladin_portrait x="1308" y="0" w="436" h="240"/>
+			
 			<warrior_miniature x="82" y="175" w="60" h="28"/>
 			<mage_miniature x="143" y="175" w="60" h="28"/>
 			<rogue_miniature x="204" y="175" w="60" h="28"/>
 			<paladin_miniature x="265" y="175" w="60" h="28"/>
+			
+			<left_portraits x="-190" y="350"/>
+			<right_portraits x="800" y="350"/>
+			<portraits scale="3"/>
+			<vs_tex x="700" y="400" scale="2" path="assets/vs.png"/>
+			
 		</textures>
 		<labels>
 			<title>
@@ -113,10 +122,10 @@
 				<pos x="1050" y="600"/>
 				<player_id value="1"/>
 			</b_rogue_r>
-			<b_paladin_l>
+			<b_paladin_r>
 				<pos x="1050" y="751"/>
 				<player_id value="1"/>
-			</b_paladin_l>
+			</b_paladin_r>
 		</buttons>
 	</char_sel_scene>
 	<combat>

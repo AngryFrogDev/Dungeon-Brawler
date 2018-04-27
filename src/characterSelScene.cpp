@@ -19,8 +19,8 @@ characterSelScene::characterSelScene(bool active) : scene(CHAR_SEL_SCENE)	{
 characterSelScene::~characterSelScene()	{}
 
 bool characterSelScene::start()	{
-	character_potraits = App->textures->load("assets/character_sel_portraits.png");
-	vs_tex = App->textures->load("assets/vs.png");
+	character_potraits = App->textures->load(textures_node.child("portraits_tex").attribute("path").as_string());
+	vs_tex = App->textures->load(textures_node.child("vs_tex").attribute("path").as_string());
 		
 	loadSceneUi();
 	assignFocus();
