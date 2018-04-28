@@ -234,6 +234,7 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	type = CHAR_TYPE::MAGE;
 
 	//MAGE EXCLUSIVE VARS
+	//Load from xml
 	fireball_speed = 10;
 	fireball_duration = 2000; // in milliseconds
 	fireball_emitter_offset.x = 50;
@@ -245,6 +246,11 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	jm_s1_backfire.y = -10;
 	air_fireball_speed.x = 10;
 	air_fireball_speed.y = 5;
+
+	double_jump_power.x = 5;
+	double_jump_power.y = 15;
+	//Runtime inicialization
+	double_jump = false;
 
 
 	// Runtime inicialization
@@ -398,9 +404,39 @@ void Mage::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 	}
 }
 
+void Mage::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
+	double_jump = true;
+	fPoint speed = { 0,0 };
+	if (inputs[RIGHT]) 		{
+		if (!fliped)
+			speed.x = -double_jump_power.x;
+		else
+			speed.x = double_jump_power.x;
+	}
+	else if (inputs[LEFT]) {
+		if (!fliped)
+			speed.x = double_jump_power.x;
+		else
+			speed.x = -double_jump_power.x;
+	}
+	speed.y = -double_jump_power.y;
+
+	velocity = speed;
+	updateState(JUMPING);
+	
+}
+
 bool Mage::standingSpecial1Condition() {
 	return !App->projectiles->lookForProjectileType(MAGE_FIREBALL, (Character*)this);
 }
+
 bool Mage::jumpingSpecial1Condition() {
 	return (logic_position.y <= jm_s1_max_height && current_state != JM_S1);
+}
+bool Mage::jumpingSpecial2Condition() {
+	return !double_jump;
+}
+void Mage::characterSpecificUpdates() {
+	if (grounded)
+		double_jump = false;
 }

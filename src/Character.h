@@ -196,6 +196,8 @@ protected:
 	virtual bool jumpingSpecial1Condition() {return true; }
 	virtual bool jumpingSpecial2Condition() {return true; }
 
+	virtual void characterSpecificUpdates() {return; }
+
 	virtual void doSuper() { return; }
 	// Input buffer functions
 	bool lookInBuffer(CHARACTER_INPUTS input, int window);

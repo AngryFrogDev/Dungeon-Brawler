@@ -437,11 +437,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		applyGravity();
 		setIfGrounded();
 	}
+
+	characterSpecificUpdates();
 	// Delete out of life colliders
 	deleteDeadHitboxes();
-
-
-
 }
 
 void Character::onCollision(collider* c1, collider* c2) {
