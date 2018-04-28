@@ -47,6 +47,7 @@ bool mdSceneManager::start()	{
 		App->entities->createPlayer(i);
 	}
 
+
 	std::list<scene*>::iterator scene_it = scene_list.begin();
 	scene* object = nullptr;
 	for (scene_it; scene_it != scene_list.end(); scene_it++)
