@@ -422,6 +422,7 @@ void Mage::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 	speed.y = -double_jump_power.y;
 
 	velocity = speed;
+	current_animation->Reset();
 	updateState(JUMPING);
 	
 }
