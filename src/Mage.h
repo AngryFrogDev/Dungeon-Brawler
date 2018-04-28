@@ -12,10 +12,10 @@ public:
 	void standingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	//void crouchingSpecial1();
 	//void crouchingSpecial2();
-	//void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]);
+	void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]);
 	//void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	bool standingSpecial1Condition();
-	//bool jumpingSpecial1Condition();
+	bool jumpingSpecial1Condition();
 	//bool jumpingSpecial2Condition();
 	//void doSuper();
 
@@ -25,8 +25,13 @@ public:
 private:
 	int fireball_speed;
 	int fireball_duration;
-	iPoint fireball_offset;
 	iPoint fireball_emitter_offset;
+
+	int jm_s1_angle;
+	int jm_s1_max_height;
+	iPoint jm_s1_backfire;
+	iPoint air_fireball_speed;
+
 
 };
 

@@ -24,19 +24,18 @@
     invencibility_on_wakeup ="30"
     super_window ="20"
     cancelability_window ="30"
+
     
-    
-    dive_kick_max_height ="520"
     
     spin_speed ="6"
     improved_spin_speed ="10"
     improved_spin_recovery ="250"
     spin_object ="special_item_1"
     
+    dive_kick_max_height ="520"
     jm_s1_angle ="20"
     jm_s1_speed_x ="10"
     jm_s1_speed_y ="10"
-    
     jm_s2_angle ="40"
     jm_s2_speed_x ="5"
     jm_s2_speed_y ="10"
@@ -339,6 +338,9 @@
     swordyuken_jump_power ="20"
     >
     <non_flip_attacks>
+      <attack value="jm_s1"/>
+      <attack value="st_s2"/>
+      <attack value="st_s1"/>
     </non_flip_attacks>
     <attack_data>
       <st_l
@@ -450,8 +452,8 @@
         recovery ="30"
         animation_speed ="0.2"/>
       <st_s1
-       pos_rel_char_x ="0"
-       pos_rel_char_y ="0"
+       pos_rel_char_x ="100"
+       pos_rel_char_y ="-25"
        hitbox_w ="130"
        hitbox_h ="90"
        active_time ="-1"
@@ -522,23 +524,23 @@
         recovery ="600"
         animation_speed ="0.5"/>
       <jm_s1
-        pos_rel_char_x ="60"
-        pos_rel_char_y ="50"
-        hitbox_w ="80"
-        hitbox_h ="100"
-        active_time ="-1"
-        hitstun ="300"
-        blockstun ="300"
-        pushhit ="1"
-        pushblock ="1"
-        damage ="10"
-        knockdown ="false"
-        juggle_speed_x ="0"
-        juggle_speed_y ="0"
-        block_type ="overhead"
-        type ="jm_s1"
-        recovery ="100"
-        animation_speed ="0.3"/>
+         pos_rel_char_x ="-50"
+         pos_rel_char_y ="50"
+         hitbox_w ="130"
+         hitbox_h ="90"
+         active_time ="-1"
+         hitstun ="-1"
+         blockstun ="200"
+         pushhit ="-1"
+         pushblock ="4"
+         damage ="15"
+         knockdown ="true"
+         juggle_speed_x ="10"
+         juggle_speed_y ="15"
+         block_type ="overhead"
+         type ="jm_s1"
+         recovery ="150"
+         animation_speed ="0.1"/>
       <jm_s2
         pos_rel_char_x ="60"
         pos_rel_char_y ="50"

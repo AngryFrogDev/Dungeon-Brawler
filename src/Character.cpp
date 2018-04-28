@@ -440,7 +440,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	// Delete out of life colliders
 	deleteDeadHitboxes();
 
-	//App->render->drawQuad(10, { logic_position.x - 25, logic_position.y - 25, 50, 50 }, 0, 0, 0, 255, true, true);
 
 
 }
@@ -689,17 +688,9 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 		crouchingSpecial2();
 		break;
 	case JM_S1:
-		if (!state_first_tick) {
-			updateAnimation(jumping_special1);
-			state_first_tick = true;
-		}
 		jumpingSpecial1(inputs);
 		break;
 	case JM_S2:
-		if (!state_first_tick) {
-			updateAnimation(jumping_special2);
-			state_first_tick = true;
-		}
 		jumpingSpecial2(inputs);
 		break;
 	case SUPER:

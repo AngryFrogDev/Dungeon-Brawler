@@ -490,7 +490,10 @@ void Warrior::crouchingSpecial2()	{ // Should have recovery
 }
 
 void Warrior::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
-	updateAnimation(jumping_special1);
+	if (!state_first_tick) {
+		updateAnimation(jumping_special1);
+		state_first_tick = true;
+	}
 	if (!grounded) {
 		if (!fliped) {
 			velocity.x = jm_s1_speed.x; 
@@ -540,7 +543,10 @@ void Warrior::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 }
 
 void Warrior::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
-	updateAnimation(jumping_special2);
+	if (!state_first_tick) {
+		updateAnimation(jumping_special2);
+		state_first_tick = true;
+	}
 	if (!grounded) {
 		if (!fliped) {
 			velocity.x = jm_s2_speed.x; 

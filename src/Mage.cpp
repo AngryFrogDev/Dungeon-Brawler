@@ -186,6 +186,12 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	standing_special2.loop = false;
 	standing_special2.speed = character.st_s2.animation_speed;
 
+	jumping_special1.PushBack({ 195 * 7,158 * 5,195,158 }, ACTIVE);
+
+	jumping_special1.loop = false;
+	jumping_special1.speed = character.jm_s1.animation_speed;
+	jumping_special1.angle = -30;
+
 	// Basic attack definitions
 
 	st_l = character.st_l;
@@ -230,10 +236,15 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	//MAGE EXCLUSIVE VARS
 	fireball_speed = 10;
 	fireball_duration = 2000; // in milliseconds
-	fireball_offset.x = 100;
-	fireball_offset.y = -25;
 	fireball_emitter_offset.x = 50;
 	fireball_emitter_offset.y = 0;
+
+	jm_s1_angle = 30;
+	jm_s1_max_height = 600;
+	jm_s1_backfire.x = -7;
+	jm_s1_backfire.y = -10;
+	air_fireball_speed.x = 10;
+	air_fireball_speed.y = 5;
 
 
 	// Runtime inicialization
@@ -296,15 +307,15 @@ void Mage::standingSpecial1() {
 		iPoint emitter_offset = { 0,0 };
 		if (!fliped) {
 			speed.x = fireball_speed;
-			offset.x = fireball_offset.x;
+			offset.x = st_s1.pos_rel_char.x;
 			emitter_offset.x = fireball_emitter_offset.x;
 		}
 		else{
 			speed.x = -fireball_speed;
-			offset.x = -fireball_offset.x;
+			offset.x = -st_s1.pos_rel_char.x;
 			emitter_offset.x = -fireball_emitter_offset.x;
 		}
-		offset.y = fireball_offset.y;
+		offset.y = st_s1.pos_rel_char.y;
 
 		ParticleEmitter* emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-ball.xml");
 		App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,st_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,st_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, emitter,emitter_offset);
@@ -342,7 +353,54 @@ void Mage::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 	}
 }
 
+void Mage::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
+
+	if (!state_first_tick) {
+		updateAnimation(jumping_special1);
+		if (!fliped) {
+			velocity.x = jm_s1_backfire.x;
+			jumping_special1.angle = jm_s1_angle;
+		}
+		else {
+			velocity.x = -jm_s1_backfire.x;
+			jumping_special1.angle = -jm_s1_angle;
+		}
+		velocity.y = jm_s1_backfire.y;
+		state_first_tick = true;
+	}
+	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, jm_s1.hitbox.w,jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, fireball_duration, CHAR_ATT_TYPE::JM_S1, (Module*)App->entities, this);
+		hitboxes.push_back(projectile_collider);
+		iPoint speed = { 0,0 };
+		iPoint offset = { 0,0 };
+		iPoint emitter_offset = { 0,0 };
+		if (!fliped) {
+			speed.x = air_fireball_speed.x;
+			offset.x = jm_s1.pos_rel_char.x;
+			emitter_offset.x = fireball_emitter_offset.x;
+		}
+		else {
+			speed.x = -air_fireball_speed.x;
+			offset.x = -jm_s1.pos_rel_char.x;
+			emitter_offset.x = -fireball_emitter_offset.x;
+		}
+		speed.y = air_fireball_speed.y;
+		offset.y = jm_s1.pos_rel_char.y;
+
+		ParticleEmitter* emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-ball.xml");
+		App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,jm_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,jm_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, emitter, emitter_offset);
+		instanciated_hitbox = true;
+	}
+
+	if (grounded) {
+		instanciated_hitbox = false;
+		askRecovery(jm_s1.recovery);
+	}
+}
 
 bool Mage::standingSpecial1Condition() {
 	return !App->projectiles->lookForProjectileType(MAGE_FIREBALL, (Character*)this);
+}
+bool Mage::jumpingSpecial1Condition() {
+	return (logic_position.y <= jm_s1_max_height && current_state != JM_S1);
 }
