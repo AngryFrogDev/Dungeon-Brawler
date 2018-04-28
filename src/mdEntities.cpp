@@ -102,8 +102,6 @@ bool mdEntities::preUpdate() {
 		
 	}
 
-
-
 	return ret;
 }
 

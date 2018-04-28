@@ -11,7 +11,7 @@ public:
 	void standingSpecial1();
 	void standingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	//void crouchingSpecial1(); //Easy
-	//void crouchingSpecial2();
+	void crouchingSpecial2();
 	// If !mine placed: Save position and in "character update" blit the arcane symbol, which will be in the mage spritesheet
 
 	// If mine placed: instanciate emmiter and hitbox in arcane symbol position, with all the desired properties
@@ -39,6 +39,10 @@ private:
 
 	bool double_jump;
 	iPoint double_jump_power;
+
+	bool mine_placed;
+	iPoint mine_position;
+
 
 
 };

@@ -506,13 +506,13 @@
         recovery ="150"
         animation_speed ="0.15"/>
       <cr_s2
-        pos_rel_char_x ="130"
+        pos_rel_char_x ="200"
         pos_rel_char_y ="0"
-        hitbox_w ="140"
+        hitbox_w ="200"
         hitbox_h ="300"
-        active_time ="-1"
+        active_time ="100"
         hitstun ="-1"
-        blockstun ="300"
+        blockstun ="500"
         pushhit ="-1"
         pushblock ="2"
         damage ="17"
@@ -521,8 +521,8 @@
         juggle_speed_y ="20"
         block_type ="mid"
         type ="cr_s2"
-        recovery ="600"
-        animation_speed ="0.5"/>
+        recovery ="200"
+        animation_speed ="0.1"/>
       <jm_s1
          pos_rel_char_x ="-50"
          pos_rel_char_y ="50"

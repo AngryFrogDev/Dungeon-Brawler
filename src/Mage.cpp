@@ -193,6 +193,15 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	jumping_special1.angle = -30;
 	
 	crouching_special2.PushBack({ 195 * 0 , 158 * 15, 195, 158 });
+	crouching_special2.PushBack({ 195 * 1 , 158 * 15, 195, 158 });
+	crouching_special2.PushBack({ 195 * 2 , 158 * 15, 195, 158 });
+	crouching_special2.PushBack({ 195 * 3 , 158 * 15, 195, 158 }, ACTIVE);
+	crouching_special2.PushBack({ 195 * 4 , 158 * 15, 195, 158 });
+	crouching_special2.PushBack({ 195 * 4 , 158 * 15, 195, 158 });
+
+	crouching_special2.loop = false;
+	crouching_special2.speed = character.cr_s2.animation_speed;
+
 
 	// Basic attack definitions
 
@@ -253,6 +262,8 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	double_jump_power.y = 15;
 	//Runtime inicialization
 	double_jump = false;
+	mine_placed = false;
+	mine_position = { 0,0 };
 
 
 	// Runtime inicialization
@@ -429,6 +440,37 @@ void Mage::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 	
 }
 
+void Mage::crouchingSpecial2() {
+	if (!state_first_tick) {
+		updateAnimation(crouching_special2);
+		state_first_tick = true;
+	}
+	if (!mine_placed) {
+		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+			iPoint pos = { 0,0 };
+			if (!fliped)
+				pos.x = logic_position.x + cr_s2.pos_rel_char.x;
+			else
+				pos.x = logic_position.x - cr_s2.pos_rel_char.x;
+			pos.y = logic_position.y + 100;
+			mine_position = pos;
+			mine_placed = true;
+			instanciated_hitbox = true;
+		}
+	}
+	else {
+		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+			hitboxes.push_back(App->collision->AddCollider({ mine_position.x - cr_s2.hitbox.w / 2 , mine_position.y - cr_s2.hitbox.h / 2 ,cr_s2.hitbox.w, cr_s2.hitbox.h }, HITBOX, cr_s2.active_time, CR_S2, App->entities, this));
+			mine_placed = false;
+			instanciated_hitbox = true;
+		}
+	}
+	if (current_animation->Finished()) {
+		instanciated_hitbox = false;
+		askRecovery(cr_s2.recovery);
+	}
+}
+
 bool Mage::standingSpecial1Condition() {
 	return !App->projectiles->lookForProjectileType(MAGE_FIREBALL, (Character*)this);
 }
@@ -442,4 +484,7 @@ bool Mage::jumpingSpecial2Condition() {
 void Mage::characterSpecificUpdates() {
 	if (grounded)
 		double_jump = false;
+
+	if (mine_placed)
+		App->render->drawQuad(10, { mine_position.x - 25, mine_position.y - 7, 50, 14 }, 0, 0, 0, 255, true, true);
 }
