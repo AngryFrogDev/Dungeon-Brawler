@@ -21,8 +21,8 @@ enum PROJECTILE_TYPE {
 
 struct projectile {
 
-	projectile(Animation* animation, iPoint position,iPoint speed, collider* collider, iPoint collider_offset, int life,bool fliped, int scale, PROJECTILE_TYPE type, ParticleEmitter* emitter = nullptr):
-		animation(animation), position(position),speed(speed), collider(collider),collider_offset(collider_offset), life(life),fliped(fliped), scale(scale), type(type), emitter(emitter) {
+	projectile(Animation* animation, iPoint position,iPoint speed, collider* collider, int life,bool fliped, int scale, PROJECTILE_TYPE type, ParticleEmitter* emitter, iPoint emitter_offset):
+		animation(animation), position(position),speed(speed), collider(collider), life(life),fliped(fliped), scale(scale), type(type), emitter(emitter), emitter_offset(emitter_offset) {
 		born = SDL_GetTicks();
 	}
 	void update();
@@ -30,7 +30,6 @@ struct projectile {
 	
 	iPoint position;
 	iPoint speed;
-	iPoint collider_offset;
 	collider* collider;
 	Animation* animation;
 	int born; // in milliseconds
@@ -40,6 +39,7 @@ struct projectile {
 	int scale;
 	PROJECTILE_TYPE type;
 	ParticleEmitter* emitter = nullptr;
+	iPoint emitter_offset;
 };
 
 class mdProjectiles :
@@ -56,7 +56,7 @@ public:
 
 	bool lookForProjectileType(PROJECTILE_TYPE type, Character* character);
 
-	projectile* addProjectile(PROJECTILE_TYPE type, iPoint position, iPoint speed, collider* collider,iPoint collider_offset, int life,bool fliped, int scale, ParticleEmitter* emitter = nullptr);
+	projectile* addProjectile(PROJECTILE_TYPE type, iPoint position, iPoint speed, collider* collider, int life, bool fliped, int scale, ParticleEmitter* emitter = nullptr, iPoint emitter_offset = { 0,0 });
 
 
 	SDL_Texture* graphics;

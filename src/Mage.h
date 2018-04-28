@@ -25,7 +25,8 @@ public:
 private:
 	int fireball_speed;
 	int fireball_duration;
-	iPoint fireball_collider_offset;// in milliseconds
+	iPoint fireball_offset;
+	iPoint fireball_emitter_offset;
 
 };
 

@@ -87,15 +87,15 @@ bool mdProjectiles::cleanUp() {
 	return true;
 }
 
-projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, iPoint speed,collider* collider, iPoint collider_offset, int life, bool fliped, int scale, ParticleEmitter* emitter) {
+projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, iPoint speed,collider* collider, int life, bool fliped, int scale, ParticleEmitter* emitter, iPoint emitter_offset) {
 
 	projectile* new_projectile = nullptr;
 	switch (type) {
 		case WARRIOR_KNIFE:
-			new_projectile = new projectile(&warrior_knife,position, speed, collider, collider_offset,life, fliped, scale, WARRIOR_KNIFE, emitter);
+			new_projectile = new projectile(&warrior_knife,position, speed, collider,life, fliped, scale, WARRIOR_KNIFE, emitter, emitter_offset);
 			break;
 		case MAGE_FIREBALL:
-			new_projectile = new projectile(nullptr, position, speed, collider, collider_offset, life, fliped, scale, MAGE_FIREBALL, emitter);
+			new_projectile = new projectile(nullptr, position, speed, collider, life, fliped, scale, MAGE_FIREBALL, emitter, emitter_offset);
 			break;
 
 	}	
@@ -117,11 +117,12 @@ bool mdProjectiles::lookForProjectileType(PROJECTILE_TYPE type, Character* chara
 void projectile::update() {
 	position += speed;
 	if (collider != nullptr) {
-		collider->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
+		collider->SetPos(position.x, position.y);
 
 		if (emitter) {
-			emitter->start_pos.x = (float)position.x;
-			emitter->start_pos.y = (float)position.y;
+			emitter->start_pos.x = (float)position.x + collider->rect.w/2 + emitter_offset.x;
+			emitter->start_pos.y = (float)position.y + collider->rect.h/2 + emitter_offset.y;
+			App->render->drawQuad(100, { (int)emitter->start_pos.x - 10, (int)emitter->start_pos.y - 10, 20,20 }, 255, 255, 255, 255, true, true);
 		}
 	}
 }
