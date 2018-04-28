@@ -191,6 +191,8 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	jumping_special1.loop = false;
 	jumping_special1.speed = character.jm_s1.animation_speed;
 	jumping_special1.angle = -30;
+	
+	crouching_special2.PushBack({ 195 * 0 , 158 * 15, 195, 158 });
 
 	// Basic attack definitions
 
