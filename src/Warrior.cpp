@@ -389,7 +389,6 @@ void Warrior::standingSpecial1() 	{
 		}
 }
 void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
-	App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-column.xml");
 	hurtbox->type = PROJECTILE_INVENCIBLE_HURTBOX;
 
 	if(!spin_object.active){

@@ -9,7 +9,7 @@ public:
 	~Mage();
 
 	void standingSpecial1();
-	//void standingSpecial2(const bool(&inputs)[MAX_INPUTS]);
+	void standingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	//void crouchingSpecial1();
 	//void crouchingSpecial2();
 	//void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]);

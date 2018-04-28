@@ -176,6 +176,16 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	standing_special1.loop = false;
 	standing_special1.speed = character.st_s1.animation_speed;
 
+	standing_special2.PushBack({ 195 * 8 , 158 * 13, 195, 158 });
+	standing_special2.PushBack({ 195 * 9 , 158 * 13, 195, 158 });
+	standing_special2.PushBack({ 195 * 10, 158 * 13, 195, 158 });
+	standing_special2.PushBack({ 195 * 11, 158 * 13, 195, 158 }, ACTIVE);
+	standing_special2.PushBack({ 195 * 12, 158 * 13, 195, 158 });
+
+
+	standing_special2.loop = false;
+	standing_special2.speed = character.st_s2.animation_speed;
+
 	// Basic attack definitions
 
 	st_l = character.st_l;
@@ -299,13 +309,39 @@ void Mage::standingSpecial1() {
 		ParticleEmitter* emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-ball.xml");
 		App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,st_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,st_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, emitter,emitter_offset);
 		instanciated_hitbox = true;
-
 	}
 	if(current_animation->Finished()){
 		askRecovery(st_s1.recovery);
 		instanciated_hitbox = false;
 	}
 }
+
+void Mage::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
+	if (current_animation->GetState() == ACTIVE ) {
+		if(!instanciated_hitbox) {
+			instanciated_hitbox = true;
+			instanciateHitbox(ST_S2);
+		}
+		fPoint emitter_player_offset = { 0,0 };
+		if (!fliped)
+			emitter_player_offset.x = (float)st_s2.pos_rel_char.x;
+		else
+			emitter_player_offset.x = -(float)st_s2.pos_rel_char.x;
+
+		emitter_player_offset.y = (float)st_s2.pos_rel_char.y;
+		App->particle_system->createEmitter({ (float)logic_position.x + emitter_player_offset.x, (float)logic_position.y + emitter_player_offset.y + (float)st_s2.hitbox.h/2 }, "particles/fire-column.xml");
+	}
+
+	if (current_animation->Finished()) {
+		instanciated_hitbox = false;
+		collider* hitbox = getCurrentAttackHitbox();
+		if (hitbox != nullptr) { // Just for safety
+			deleteAttackHitbox(ST_S2);
+		}
+		askRecovery(st_s2.recovery);
+	}
+}
+
 
 bool Mage::standingSpecial1Condition() {
 	return !App->projectiles->lookForProjectileType(MAGE_FIREBALL, (Character*)this);
