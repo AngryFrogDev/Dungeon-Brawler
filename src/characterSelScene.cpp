@@ -68,6 +68,16 @@ bool characterSelScene::onEvent(Buttons* button)	{
 		break;
 	}
 
+	if (button->being_clicked)
+	{
+		if (button->focus_id == 0)
+			player1.has_selected_character = true;
+		else
+			player2.has_selected_character = true;
+
+	//	popUpWindow();
+	}
+
 	return true;
 }
 
@@ -244,4 +254,20 @@ void characterSelScene::setCurrentCharDisplay()	{
 		player2.name_tex = &paladin_name_tex;
 		break;
 	}
+}
+
+void characterSelScene::popUpWindow()	{
+
+	if (!object_win_p1 && player1.has_selected_character)
+	{
+		object_win_p1 = (UiWindow*)App->gui->createWindow(OBJ_SELECTION, { 300, 500 }, this);
+	}
+
+	if (!object_win_p2 && player2.has_selected_character)
+	{
+		object_win_p2 = (UiWindow*)App->gui->createWindow(OBJ_SELECTION, { 700, 500 }, this);
+	}
+}
+
+void characterSelScene::closeWindow()	{
 }

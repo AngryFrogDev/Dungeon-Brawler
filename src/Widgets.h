@@ -60,7 +60,8 @@ enum bar_types {
 enum window_type {
 	NO_WINDOW = 0,
 	PAUSE,
-	MATCH_END
+	MATCH_END, 
+	OBJ_SELECTION,
 };
 
 class Widgets {

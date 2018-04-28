@@ -50,7 +50,8 @@ bool Buttons::preUpdate()
 
 		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || (temp != nullptr && temp->isPressed(CONTROLLER_BUTTON::BUTTON_A)))
 		{
-			changeVisualState(CLICK); 
+			changeVisualState(CLICK);
+			being_clicked = true;
 			ret = callback->onEvent(this);
 		}
 		hovering = false;

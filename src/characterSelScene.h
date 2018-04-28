@@ -29,9 +29,12 @@ private:
 	void loadSceneTextures();
 	void assignFocus();
 	void checkSceneInput();
+
 	void assignCharacterToPlayer();
 	void setRects();
 	void setCurrentCharDisplay();
+	void popUpWindow();
+	void closeWindow();
 
 private:
 	Labels* scene_title = nullptr;
@@ -47,6 +50,9 @@ private:
 	Buttons* b_mage_r = nullptr;
 	Buttons* b_rogue_r = nullptr;
 	Buttons* b_paladin_r = nullptr;
+
+	UiWindow* object_win_p1 = nullptr;
+	UiWindow* object_win_p2 = nullptr;
 	
 	SDL_Texture* character_potraits = nullptr;
 	SDL_Texture* vs_tex = nullptr;
