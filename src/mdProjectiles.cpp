@@ -97,6 +97,9 @@ projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, i
 		case MAGE_FIREBALL:
 			new_projectile = new projectile(nullptr, position, speed, collider, life, fliped, scale, MAGE_FIREBALL, emitter, emitter_offset);
 			break;
+		case MAGE_METEORIT:
+			new_projectile = new projectile(nullptr, position, speed, collider, life, fliped, scale, MAGE_METEORIT, emitter, emitter_offset);
+			break;
 
 	}	
 

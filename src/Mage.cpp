@@ -214,6 +214,19 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	crouching_special2.loop = false;
 	crouching_special2.speed = character.cr_s2.animation_speed; 
 
+	super_anim.PushBack({ 195 * 0 , 158 * 13 ,195, 158 });
+	super_anim.PushBack({ 195 * 1 , 158 * 13 ,195, 158 });
+	super_anim.PushBack({ 195 * 2 , 158 * 13 ,195, 158 });
+	super_anim.PushBack({ 195 * 3 , 158 * 13 ,195, 158 });
+	super_anim.PushBack({ 195 * 4 , 158 * 13 ,195, 158 }, ACTIVE);
+	super_anim.PushBack({ 195 * 5 , 158 * 13 ,195, 158 });
+	super_anim.PushBack({ 195 * 6 , 158 * 13 ,195, 158 });
+	super_anim.PushBack({ 195 * 7 , 158 * 13 ,195, 158 });
+
+	super_anim.loop = false;
+	super_anim.speed = character.super.animation_speed;
+
+
 
 	// Basic attack definitions
 
@@ -281,9 +294,20 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	arcane_symbol.loop = true;
 	arcane_symbol.speed = 0.2;
 
+	meteorits_life = 10000;
+	meteorits = 6;
+	first_meteorit_height = -200;
+	meteorits_offset.x = 200;
+	meteorits_offset.y = 100;
+	meteorits_speed.x = 3;
+	meteorits_speed.y = 6;
+	meteorits_rows = 3;
+	meteorits_rows_offset = -300;
+
 	//Runtime inicialization
 	double_jump = false;
 	mine_placed = false;
+	meteorits_spawned = false;
 	mine_position = { 0,0 };
 
 
@@ -494,6 +518,58 @@ void Mage::crouchingSpecial2() {
 		instanciated_hitbox = false;
 		askRecovery(cr_s2.recovery);
 	}
+}
+
+void Mage::doSuper() {
+	if (!state_first_tick) {
+		updateAnimation(super_anim);
+		state_first_tick = true;
+		current_super_gauge = 0;
+	}
+	if (current_animation->GetState() == ACTIVE && !meteorits_spawned) {
+		iPoint meteorits_current_offset = { 0,0 };
+		int x_pos = 0; // Projectiles should spawn on the camera limit
+		if (!fliped) {
+			meteorits_current_offset.x = meteorits_offset.x;
+			//x_pos = App->render->camera.x + App->render->camera.w;
+		}
+		else {
+			meteorits_current_offset.x = -meteorits_offset.x;
+			//x_pos = App->render->camera.x;
+		}
+
+		meteorits_current_offset.y = meteorits_offset.y;
+
+		for(int a = 0; a < meteorits_rows; a++){
+			for (int i = 0; i < meteorits; i++) {
+				iPoint meteorit_spawn_position = { (int)logic_position.x + meteorits_current_offset.x*i, first_meteorit_height + meteorits_current_offset.y *i + meteorits_rows_offset*a };
+				collider* projectile_collider = App->collision->AddCollider({ meteorit_spawn_position.x, (int)meteorit_spawn_position.y, jm_s1.hitbox.w,jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, meteorits_life, CHAR_ATT_TYPE::JM_S1, (Module*)App->entities, this);
+				hitboxes.push_back(projectile_collider);
+				iPoint speed = { 0,0 };
+				iPoint emitter_offset = { 0,0 };
+				if (!fliped) {
+					speed.x = meteorits_speed.x;
+					emitter_offset.x = fireball_emitter_offset.x;
+				}
+				else {
+					speed.x = -meteorits_speed.x;
+					emitter_offset.x = -fireball_emitter_offset.x;
+				}
+				speed.y = meteorits_speed.y;
+				speed.x += rand() % 1;
+				speed.y += rand() % 5;
+
+				ParticleEmitter* emitter = App->particle_system->createEmitter({ (float)meteorit_spawn_position.x,(float)meteorit_spawn_position.y }, "particles/fire-ball.xml");
+				App->projectiles->addProjectile(MAGE_METEORIT, meteorit_spawn_position, speed, projectile_collider, -1, fliped, scale, emitter, emitter_offset);
+			}
+		}
+		meteorits_spawned = true;
+	}
+	if (current_animation->Finished()) {
+		askRecovery(super.recovery);
+		meteorits_spawned = false;
+	}
+
 }
 
 bool Mage::standingSpecial1Condition() {

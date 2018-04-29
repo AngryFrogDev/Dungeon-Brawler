@@ -17,7 +17,7 @@ public:
 	bool standingSpecial1Condition();
 	bool jumpingSpecial1Condition();
 	bool jumpingSpecial2Condition();
-	//void doSuper();
+	void doSuper();
 
 	void characterSpecificUpdates();
 
@@ -40,6 +40,19 @@ private:
 	bool mine_placed;
 	iPoint mine_position;
 	Animation arcane_symbol;
+
+	int meteorits_life;
+	int first_meteorit_height;
+	iPoint meteorits_offset;
+	int meteorits;
+	int meteorits_rows;
+	int meteorits_rows_offset;
+	iPoint meteorits_speed;
+	bool meteorits_spawned;
+
+
+
+
 
 
 

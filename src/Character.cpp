@@ -459,7 +459,7 @@ void Character::onCollision(collider* c1, collider* c2) {
 	}
 	else if ((c1->type == HITBOX || c1->type == PROJECTILE_HITBOX) && (c2->type == HURTBOX || c2->type == PROJECTILE_INVENCIBLE_HURTBOX)) {
 		// Allways delete hitboxes on collision
-		deleteAttackHitbox(c1->attack_type);
+		deleteAttackHitbox(c1->attack_type, c1);
 	}
 	
 }
@@ -935,14 +935,14 @@ collider* Character::getCurrentAttackHitbox() 	{
 	}
 	return nullptr;
 }
-void Character::deleteAttackHitbox(CHAR_ATT_TYPE type) 	{
+void Character::deleteAttackHitbox(CHAR_ATT_TYPE type, collider* hitbox) 	{
 	// Compute what hitboxes need to be deleted
 
 	std::list<collider*> hitboxes_to_delete;
 
 	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
 		collider* c = *it;
-		if (c->attack_type == type) {
+		if (c->attack_type == type && (c == hitbox || hitbox ==nullptr)) {
 			c->to_delete = true;
 			hitboxes_to_delete.push_back(c);
 		}

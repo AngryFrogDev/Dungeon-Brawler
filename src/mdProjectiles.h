@@ -16,7 +16,8 @@ class ParticleEmitter;
 enum PROJECTILE_TYPE {
 	DEFF_PROJECTILE,
 	WARRIOR_KNIFE,
-	MAGE_FIREBALL
+	MAGE_FIREBALL,
+	MAGE_METEORIT
 };
 
 struct projectile {

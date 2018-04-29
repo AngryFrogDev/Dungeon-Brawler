@@ -163,7 +163,7 @@ protected:
 	void instanciateHitbox(CHAR_ATT_TYPE type);
 	void deleteDeadHitboxes();
 	collider* getCurrentAttackHitbox(); // Returns nullptr if no hitbox was found
-	void deleteAttackHitbox(CHAR_ATT_TYPE type);
+	void deleteAttackHitbox(CHAR_ATT_TYPE type, collider* hitbox = nullptr);
 	void deleteAllMeleeHitboxes();
 
 	// Swap related functions
@@ -215,7 +215,7 @@ protected:
 	int crouching_hurtbox_offset;
 	iPoint standing_hurtbox_size;
 
-	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_special1, standing_special2, jumping_special1, jumping_special2, crouching_special1, crouching_special2, standing_hit, standing_block, crouching_block, knockdown, dead, taunt;
+	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_special1, standing_special2, jumping_special1, jumping_special2, crouching_special1, crouching_special2, standing_hit, standing_block, crouching_block, knockdown, dead, super_anim;
 
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2, super;
 

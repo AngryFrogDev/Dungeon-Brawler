@@ -3,7 +3,7 @@
   <draw_priority value="10"></draw_priority>
   <type value="0"></type>
   <frequency value="1000"></frequency>
-  <max_emissions value="150"></max_emissions>
+  <max_emissions value="500"></max_emissions>
   <angle value="0" variation="0"></angle>
   <vel_mag value="0" variation="0"></vel_mag>
   <pos_var x="10" y="10"></pos_var>

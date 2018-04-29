@@ -562,20 +562,21 @@
       <super
         pos_rel_char_x ="0"
         pos_rel_char_y ="0"
-        hitbox_w ="80"
-        hitbox_h ="100"
+        hitbox_w ="0"
+        hitbox_h ="0"
         active_time ="-1"
-        hitstun ="700"
-        blockstun ="450"
-        pushhit ="1"
-        pushblock ="1"
-        damage ="7"
+        hitstun ="0"
+        blockstun ="0"
+        pushhit ="0"
+        pushblock ="0"
+        damage ="0"
         knockdown ="false"
         juggle_speed_x ="0"
-        juggle_speed_y ="10"
+        juggle_speed_y ="0"
         block_type ="mid"
         type ="super"
-        recovery ="0"/>
+        recovery ="0"
+        animation_speed ="0.2"/>
     </attack_data>
   </mage>
 </config>
