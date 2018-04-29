@@ -192,15 +192,27 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	jumping_special1.speed = character.jm_s1.animation_speed;
 	jumping_special1.angle = -30;
 	
+	crouching_special1.PushBack({ 195 * 0 , 158 * 16, 195, 158 });
+	crouching_special1.PushBack({ 195 * 1 , 158 * 16, 195, 158 });
+	crouching_special1.PushBack({ 195 * 2 , 158 * 16, 195, 158 });
+	crouching_special1.PushBack({ 195 * 3 , 158 * 16, 195, 158 }, ACTIVE);
+	crouching_special1.PushBack({ 195 * 4 , 158 * 16, 195, 158 });
+	crouching_special1.PushBack({ 195 * 5 , 158 * 16 , 195, 158 });
+	crouching_special1.PushBack({ 195 * 6 , 158 * 16 , 195, 158 });
+
+
+	crouching_special1.loop = false;
+	crouching_special1.speed = character.cr_s1.animation_speed;
+
 	crouching_special2.PushBack({ 195 * 0 , 158 * 15, 195, 158 });
 	crouching_special2.PushBack({ 195 * 1 , 158 * 15, 195, 158 });
 	crouching_special2.PushBack({ 195 * 2 , 158 * 15, 195, 158 });
 	crouching_special2.PushBack({ 195 * 3 , 158 * 15, 195, 158 }, ACTIVE);
 	crouching_special2.PushBack({ 195 * 4 , 158 * 15, 195, 158 });
-	crouching_special2.PushBack({ 195 * 4 , 158 * 15, 195, 158 });
-
+	crouching_special2.PushBack({ 195 * 5 , 158 * 15, 195, 158 });
+	 
 	crouching_special2.loop = false;
-	crouching_special2.speed = character.cr_s2.animation_speed;
+	crouching_special2.speed = character.cr_s2.animation_speed; 
 
 
 	// Basic attack definitions
@@ -438,6 +450,16 @@ void Mage::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 	current_animation->Reset();
 	updateState(JUMPING);
 	
+}
+
+void Mage::crouchingSpecial1() {
+	if (current_animation->Finished()) {
+		askRecovery(cr_s1.recovery);
+		instanciated_hitbox = false;
+	}
+	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+		instanciateHitbox(CR_S1);
+	}
 }
 
 void Mage::crouchingSpecial2() {
