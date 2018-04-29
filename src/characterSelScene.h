@@ -37,6 +37,7 @@ private:
 	void closeWindow();
 
 private:
+	//Character Selection elements
 	Labels* scene_title = nullptr;
 	Labels* p1_label = nullptr;
 	Labels* p2_label = nullptr;
@@ -51,13 +52,21 @@ private:
 	Buttons* b_rogue_r = nullptr;
 	Buttons* b_paladin_r = nullptr;
 
+	//Object selection elements
 	UiWindow* object_win_p1 = nullptr;
 	UiWindow* object_win_p2 = nullptr;
 	
+	Buttons* p1_select_item1 = nullptr;
+	Buttons* p1_select_item2 = nullptr;
+	Buttons* p2_select_item1 = nullptr;
+	Buttons* p2_select_item2 = nullptr;
+
+	//Textures
 	SDL_Texture* character_potraits = nullptr;
 	SDL_Texture* vs_tex = nullptr;
 	SDL_Texture* character_names = nullptr;
 
+	//Rects
 	SDL_Rect warrior_name_tex;
 	SDL_Rect mage_name_tex;
 	SDL_Rect rogue_name_tex;

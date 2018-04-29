@@ -70,8 +70,8 @@
 			<rogue_miniature x="204" y="175" w="60" h="28"/>
 			<paladin_miniature x="265" y="175" w="60" h="28"/>
 			
-			<left_portraits x="-190" y="350"/>
-			<right_portraits x="800" y="350"/>
+			<left_portraits x="-190" y="400"/>
+			<right_portraits x="800" y="400"/>
 			<portraits scale="3"/>
 			<vs_tex x="700" y="400" scale="2" path="assets/vs.png"/>
 			<char_name_tex path = "assets/character_name_tex.png"/>

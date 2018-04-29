@@ -45,27 +45,27 @@ bool characterSelScene::onEvent(Buttons* button)	{
 		break;
 	case SELECT_WARRIOR:
 		if (button->focus_id == 0)
-			player1.character = WARRIOR, player1.name_tex = &warrior_name_tex;
+			player1.character = WARRIOR;
 		else 
-			player2.character = WARRIOR, player2.name_tex = &warrior_name_tex;
+			player2.character = WARRIOR;
 		break;
 	case SELECT_MAGE:
 		if (button->focus_id == 0)
-			player1.character = MAGE, player1.name_tex = &mage_name_tex;
+			player1.character = MAGE;
 		else 
-			player2.character = MAGE, player2.name_tex = &mage_name_tex;
+			player2.character = MAGE;
 		break;
 	case SELECT_ROGUE:
 		if (button->focus_id == 0)
-			player1.character = ROGUE, player1.name_tex = &rogue_name_tex;
+			player1.character = ROGUE;
 		else 
-			player2.character = ROGUE, player2.name_tex = &rogue_name_tex;
+			player2.character = ROGUE;
 		break;
 	case SELECT_PALADIN:
 		if (button->focus_id == 0)
-			player1.character = PALADIN, player1.name_tex = &paladin_name_tex;
+			player1.character = PALADIN;
 		else 
-			player2.character = PALADIN, player2.name_tex = &paladin_name_tex;
+			player2.character = PALADIN;
 		break;
 	}
 
@@ -76,7 +76,7 @@ bool characterSelScene::onEvent(Buttons* button)	{
 		else
 			player2.has_selected_character = true;
 
-	//	popUpWindow();
+		popUpWindow();
 	}
 
 	return true;
@@ -121,21 +121,26 @@ void characterSelScene::loadSceneTextures()	{
 		App->render->drawSprite(3, character_potraits, textures_node.child("right_portraits").attribute("x").as_int(), textures_node.child("right_portraits").attribute("y").as_int(), player2.portrait, textures_node.child("portraits").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 
 	//VS
-	App->render->drawSprite(4, vs_tex, textures_node.child("vs_tex").attribute("x").as_int(), textures_node.child("vs_tex").attribute("y").as_int(), 0, textures_node.child("vs_tex").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
+//	App->render->drawSprite(4, vs_tex, textures_node.child("vs_tex").attribute("x").as_int(), textures_node.child("vs_tex").attribute("y").as_int(), 0, textures_node.child("vs_tex").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 
-	//CHARACTER MINIATURES
-	//Left
-	App->render->drawSprite(3, App->gui->atlas, 686, 306, &warrior_miniature, 3, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 686, 456, &mage_miniature, 3, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 686, 606, &rogue_miniature, 3, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 686, 756, &paladin_miniature, 3, false, 1.0f, 0, 0, 0, false);
-
-	//Right
-	App->render->drawSprite(3, App->gui->atlas, 1056, 306, &warrior_miniature, 3, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 1056, 456, &mage_miniature, 3, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 1056, 606, &rogue_miniature, 3, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 1056, 756, &paladin_miniature, 3, false, 1.0f, 0, 0, 0, false);
-
+	if (!player1.has_selected_character)
+	{
+		//CHARACTER MINIATURES
+		//Left
+		App->render->drawSprite(3, App->gui->atlas, 686, 306, &warrior_miniature, 3, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, App->gui->atlas, 686, 456, &mage_miniature, 3, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, App->gui->atlas, 686, 606, &rogue_miniature, 3, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, App->gui->atlas, 686, 756, &paladin_miniature, 3, false, 1.0f, 0, 0, 0, false);
+	}
+	if (!player2.has_selected_character)
+	{
+		//Right
+		App->render->drawSprite(3, App->gui->atlas, 1056, 306, &warrior_miniature, 3, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, App->gui->atlas, 1056, 456, &mage_miniature, 3, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, App->gui->atlas, 1056, 606, &rogue_miniature, 3, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, App->gui->atlas, 1056, 756, &paladin_miniature, 3, false, 1.0f, 0, 0, 0, false);
+	}
+	
 	//CHARACTER NAME TEXTURES
 	//Left
 	App->render->drawSprite(4, character_names, textures_node.child("left_names").attribute("x").as_int(), textures_node.child("left_names").attribute("y").as_int(), player1.name_tex, textures_node.child("names").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
@@ -290,16 +295,33 @@ void characterSelScene::setCurrentCharDisplay()	{
 }
 
 void characterSelScene::popUpWindow()	{
+	//First we destroy the already created buttons
+	std::list<Widgets*>::reverse_iterator it = App->gui->p1_focus_elements.rbegin();
+	Widgets* object = nullptr;
 
 	if (!object_win_p1 && player1.has_selected_character)
 	{
-		object_win_p1 = (UiWindow*)App->gui->createWindow(OBJ_SELECTION, { 300, 500 }, this);
+		for (it; it != App->gui->p1_focus_elements.rend(); it++)
+		{
+			object = *it;
+			object->to_delete = true;
+		}
+		
+		object_win_p1 = (UiWindow*)App->gui->createWindow(OBJ_SELECTION, { 50, 300 }, this);
 	}
 
 	if (!object_win_p2 && player2.has_selected_character)
 	{
-		object_win_p2 = (UiWindow*)App->gui->createWindow(OBJ_SELECTION, { 700, 500 }, this);
+		it = App->gui->p2_focus_elements.rbegin();
+		for (it; it != App->gui->p2_focus_elements.rend(); it++)
+		{
+			object = *it;
+			object->to_delete = true;
+		}
+		object_win_p2 = (UiWindow*)App->gui->createWindow(OBJ_SELECTION, { 1200, 300 }, this);
 	}
+
+	//And finally we reasign both focus
 }
 
 void characterSelScene::closeWindow()	{
