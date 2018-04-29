@@ -4,6 +4,7 @@
 #include "mdTextures.h"
 #include "mdInput.h"
 #include "mdRender.h"
+#include "mdSceneManager.h"
 
 mdGuiManager::mdGuiManager() : Module() {
 	name = "gui";
@@ -181,11 +182,8 @@ void mdGuiManager::manageFocus() {
 void mdGuiManager::assignP1Focus()	{
 
 	Widgets* object = nullptr;
-	Controller* controller = nullptr;
-	if (!App->input->getController().empty())
-		controller = App->entities->players[0]->getController();
-
-	if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_UP, KEY_DOWN)))
+	
+	if (App->entities->players[0]->getInput(UP, KEY_DOWN))
 	{
 		std::list<Widgets*>::iterator temp_iterator = p1_focus_elements.begin();
 		for (temp_iterator; temp_iterator != p1_focus_elements.end(); temp_iterator++)
@@ -206,7 +204,7 @@ void mdGuiManager::assignP1Focus()	{
 	}
 
 
-	if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_DOWN, KEY_DOWN)))
+	if (App->entities->players[0]->getInput(DOWN, KEY_DOWN))
 	{
 		std::list<Widgets*>::reverse_iterator temp_iterator = p1_focus_elements.rbegin();
 		for (temp_iterator; temp_iterator != p1_focus_elements.rend(); temp_iterator++)
@@ -231,11 +229,8 @@ void mdGuiManager::assignP1Focus()	{
 void mdGuiManager::assignP2Focus()	{
 	
 	Widgets* object = nullptr;
-	Controller* controller = nullptr;
-	if (!App->input->getController().empty())
-		controller = App->entities->players[1]->getController();
-
-	if (App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_UP, KEY_DOWN)))
+	
+	if (App->entities->players[1]->getInput(UP, KEY_DOWN))
 	{
 		std::list<Widgets*>::iterator temp_iterator = p2_focus_elements.begin();
 		for (temp_iterator; temp_iterator != p2_focus_elements.end(); temp_iterator++)
@@ -256,7 +251,7 @@ void mdGuiManager::assignP2Focus()	{
 	}
 
 
-	if (App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN || (controller != nullptr && controller->isPressed(CONTROLLER_BUTTON::BUTTON_DPAD_DOWN, KEY_DOWN)))
+	if (App->entities->players[1]->getInput(DOWN, KEY_DOWN))
 	{
 		std::list<Widgets*>::reverse_iterator temp_iterator = p2_focus_elements.rbegin();
 		for (temp_iterator; temp_iterator != p2_focus_elements.rend(); temp_iterator++)

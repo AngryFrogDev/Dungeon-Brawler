@@ -21,6 +21,7 @@ characterSelScene::~characterSelScene()	{}
 bool characterSelScene::start()	{
 	character_potraits = App->textures->load(textures_node.child("portraits_tex").attribute("path").as_string());
 	vs_tex = App->textures->load(textures_node.child("vs_tex").attribute("path").as_string());
+	character_names = App->textures->load("assets/character_name_tex.png");
 		
 	loadSceneUi();
 	assignFocus();
@@ -44,27 +45,27 @@ bool characterSelScene::onEvent(Buttons* button)	{
 		break;
 	case SELECT_WARRIOR:
 		if (button->focus_id == 0)
-			player1.character = WARRIOR;
+			player1.character = WARRIOR, player1.name_tex = &warrior_name_tex;
 		else 
-			player2.character = WARRIOR;
+			player2.character = WARRIOR, player2.name_tex = &warrior_name_tex;
 		break;
 	case SELECT_MAGE:
 		if (button->focus_id == 0)
-			player1.character = MAGE;
+			player1.character = MAGE, player1.name_tex = &mage_name_tex;
 		else 
-			player2.character = MAGE;
+			player2.character = MAGE, player2.name_tex = &mage_name_tex;
 		break;
 	case SELECT_ROGUE:
 		if (button->focus_id == 0)
-			player1.character = ROGUE;
+			player1.character = ROGUE, player1.name_tex = &rogue_name_tex;
 		else 
-			player2.character = ROGUE;
+			player2.character = ROGUE, player2.name_tex = &rogue_name_tex;
 		break;
 	case SELECT_PALADIN:
 		if (button->focus_id == 0)
-			player1.character = PALADIN;
+			player1.character = PALADIN, player1.name_tex = &paladin_name_tex;
 		else 
-			player2.character = PALADIN;
+			player2.character = PALADIN, player2.name_tex = &paladin_name_tex;
 		break;
 	}
 
@@ -134,6 +135,13 @@ void characterSelScene::loadSceneTextures()	{
 	App->render->drawSprite(3, App->gui->atlas, 1056, 456, &mage_miniature, 3, false, 1.0f, 0, 0, 0, false);
 	App->render->drawSprite(3, App->gui->atlas, 1056, 606, &rogue_miniature, 3, false, 1.0f, 0, 0, 0, false);
 	App->render->drawSprite(3, App->gui->atlas, 1056, 756, &paladin_miniature, 3, false, 1.0f, 0, 0, 0, false);
+
+	//CHARACTER NAME TEXTURES
+	//Left
+	App->render->drawSprite(4, character_names, textures_node.child("left_names").attribute("x").as_int(), textures_node.child("left_names").attribute("y").as_int(), player1.name_tex, textures_node.child("names").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
+	//Right
+	App->render->drawSprite(4, character_names, textures_node.child("right_names").attribute("x").as_int(), textures_node.child("right_names").attribute("y").as_int(), player2.name_tex, textures_node.child("names").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
+
 }
 
 void characterSelScene::assignFocus()	{
@@ -181,31 +189,56 @@ void characterSelScene::setRects()	{
 	paladin_portrait.h = paladin.attribute("h").as_int();
 
 	//MINIATURES
-	pugi::xml_node warrior_m = textures_node.child("warrior_miniature");
-	pugi::xml_node mage_m = textures_node.child("mage_miniature");
-	pugi::xml_node rogue_m = textures_node.child("rogue_miniature");
-	pugi::xml_node paladin_m = textures_node.child("paladin_miniature");
+	warrior = textures_node.child("warrior_miniature");
+	mage = textures_node.child("mage_miniature");
+	rogue = textures_node.child("rogue_miniature");
+	paladin = textures_node.child("paladin_miniature");
 
-	warrior_miniature.x = warrior_m.attribute("x").as_int();
-	warrior_miniature.y = warrior_m.attribute("y").as_int();
-	warrior_miniature.w = warrior_m.attribute("w").as_int();
-	warrior_miniature.h = warrior_m.attribute("h").as_int();
+	warrior_miniature.x = warrior.attribute("x").as_int();
+	warrior_miniature.y = warrior.attribute("y").as_int();
+	warrior_miniature.w = warrior.attribute("w").as_int();
+	warrior_miniature.h = warrior.attribute("h").as_int();
 
-	mage_miniature.x = mage_m.attribute("x").as_int();
-	mage_miniature.y = mage_m.attribute("y").as_int();
-	mage_miniature.w = mage_m.attribute("w").as_int();
-	mage_miniature.h = mage_m.attribute("h").as_int();
+	mage_miniature.x = mage.attribute("x").as_int();
+	mage_miniature.y = mage.attribute("y").as_int();
+	mage_miniature.w = mage.attribute("w").as_int();
+	mage_miniature.h = mage.attribute("h").as_int();
 
-	rogue_miniature.x = rogue_m.attribute("x").as_int();
-	rogue_miniature.y = rogue_m.attribute("y").as_int();
-	rogue_miniature.w = rogue_m.attribute("w").as_int();
-	rogue_miniature.h = rogue_m.attribute("h").as_int();
+	rogue_miniature.x = rogue.attribute("x").as_int();
+	rogue_miniature.y = rogue.attribute("y").as_int();
+	rogue_miniature.w = rogue.attribute("w").as_int();
+	rogue_miniature.h = rogue.attribute("h").as_int();
 
-	paladin_miniature.x = paladin_m.attribute("x").as_int();
-	paladin_miniature.y = paladin_m.attribute("y").as_int();
-	paladin_miniature.w = paladin_m.attribute("w").as_int();
-	paladin_miniature.h = paladin_m.attribute("h").as_int();
+	paladin_miniature.x = paladin.attribute("x").as_int();
+	paladin_miniature.y = paladin.attribute("y").as_int();
+	paladin_miniature.w = paladin.attribute("w").as_int();
+	paladin_miniature.h = paladin.attribute("h").as_int();
 
+	//NAME TEXTURES
+	warrior = textures_node.child("warrior_name");
+	mage = textures_node.child("mage_name");
+	rogue = textures_node.child("rogue_name");
+	paladin = textures_node.child("paladin_name");
+
+	warrior_name_tex.x = warrior.attribute("x").as_int();
+	warrior_name_tex.y = warrior.attribute("y").as_int();
+	warrior_name_tex.w = warrior.attribute("w").as_int();
+	warrior_name_tex.h = warrior.attribute("h").as_int();
+
+	mage_name_tex.x = mage.attribute("x").as_int();
+	mage_name_tex.y = mage.attribute("y").as_int();
+	mage_name_tex.w = mage.attribute("w").as_int();
+	mage_name_tex.h = mage.attribute("h").as_int();
+
+	rogue_name_tex.x = rogue.attribute("x").as_int();
+	rogue_name_tex.y = rogue.attribute("y").as_int();
+	rogue_name_tex.w = rogue.attribute("w").as_int();
+	rogue_name_tex.h = rogue.attribute("h").as_int();
+
+	paladin_name_tex.x = paladin.attribute("x").as_int();
+	paladin_name_tex.y = paladin.attribute("y").as_int();
+	paladin_name_tex.w = paladin.attribute("w").as_int();
+	paladin_name_tex.h = paladin.attribute("h").as_int();
 }
 
 void characterSelScene::setCurrentCharDisplay()	{

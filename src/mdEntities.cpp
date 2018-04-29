@@ -65,8 +65,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	//players[2]->getCurrCharacter()->partner = players[3];
 	//players[3]->getCurrCharacter()->partner = players[2];
 
-	//players[0]->assignControlScheme(controller_schemes.front());
-	//players[1]->assignKeyboardScheme(keyboard_schemes.front());
+
 
 
 	return ret;
@@ -103,6 +102,10 @@ bool mdEntities::preUpdate() {
 	}
 
 
+	if (players[0]->getInput(UP, KEY_DOWN))
+		players[3] = nullptr;
+
+
 
 	return ret;
 }
@@ -129,8 +132,11 @@ bool mdEntities::cleanUp() {
 }
 void mdEntities::createPlayer(int player) {
 
-	if (players[player] == nullptr)
+	if (players[player] == nullptr){
 		players[player] = new Player();
+		players[player]->assignControlScheme(controller_schemes.front());
+		players[player]->assignKeyboardScheme(keyboard_schemes.front());
+	}
 }
 
 void mdEntities::destroyCharacters() {

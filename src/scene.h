@@ -38,8 +38,6 @@ public:
 public:
 	bool scene_active = false;
 	scene_type type = NO_SCENE;
-	Controller* player1_cont = nullptr;
-	Controller* player2_cont = nullptr;
 
 protected:
 	//Nodes

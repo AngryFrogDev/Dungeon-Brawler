@@ -41,14 +41,11 @@ bool Buttons::preUpdate()
 	if (hovering)
 	{
 		changeVisualState(FOCUSED);
-		Controller* temp = nullptr;
-		if(!App->input->getController().empty())
-			temp = App->input->getController().front();
-
+		
 		if (size == CHARACTER_SELECTION)
 			ret = callback->onEvent(this);
 
-		if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || (temp != nullptr && temp->isPressed(CONTROLLER_BUTTON::BUTTON_A)))
+		if (App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN) && focus_id == 0 || App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN) && focus_id == 1)
 		{
 			changeVisualState(CLICK);
 			being_clicked = true;

@@ -74,7 +74,15 @@
 			<right_portraits x="800" y="350"/>
 			<portraits scale="3"/>
 			<vs_tex x="700" y="400" scale="2" path="assets/vs.png"/>
-			
+			<char_name_tex path = "assets/character_name_tex.png"/>
+
+			<warrior_name x="0" y="0" w="400" h="131"/>
+			<mage_name x="0" y="131" w="400" h="131"/>
+			<rogue_name x="0" y="262" w="400" h="131"/>
+			<paladin_name x="0" y="393" w="400" h="131"/>
+			<left_names x="300" y="900"/>
+			<right_names x="1200" y="900"/>
+			<names scale="1"/>			
 		</textures>
 		<labels>
 			<title>

@@ -22,8 +22,6 @@ startScene::~startScene()
 bool startScene::start()	{
 	loadSceneUi();
 	
-	//player1_cont = App->entities->players[0]->getController();
-	//player2_cont = App->entities->players[1]->getController();
 	return true;
 }
 
@@ -48,6 +46,6 @@ void startScene::loadSceneTextures()	{
 }
 
 void startScene::checkSceneInput()	{
-	if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || (player1_cont != nullptr && player1_cont->isPressed(CONTROLLER_BUTTON::BUTTON_A)))
+	if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))
 		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
 }
