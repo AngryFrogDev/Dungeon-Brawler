@@ -99,6 +99,7 @@ public:
 	std::list<controller_scheme> controller_schemes;
 	std::list<keyboard_scheme>	 keyboard_schemes;
 	KEY_STATE attack_input; 
+	SDL_Texture* mage_graphics; // So mage can blit arcane symbol
 
 private:
 	//if it returns false something wrong happened
@@ -108,13 +109,12 @@ private:
 	void fillFromXML(const pugi::xml_node& md_config, character_deff& character);	
 	void loadAttackListFromXML(const pugi::xml_node& md_config, std::list<CHAR_ATT_TYPE>& attack_list);
 	void loadAttackDeffFromXML(const pugi::xml_node& md_config, basic_attack_deff& attack);
-
 private:
 	int camera_movement;
 	//Graphics of the warrior
 	SDL_Texture* warrior_graphics;
 	SDL_Texture* warrior_graphics2;
-	SDL_Texture* mage_graphics;
+
 
 	pugi::xml_document entities_config_doc;
 };

@@ -272,6 +272,15 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 
 	double_jump_power.x = 5;
 	double_jump_power.y = 15;
+
+	arcane_symbol.PushBack({649, 3717, 67, 17});
+	arcane_symbol.PushBack({845, 3717, 67, 17 });
+	arcane_symbol.PushBack({1039, 3717, 67, 17 });
+	arcane_symbol.PushBack({ 845, 3717, 67, 17 });
+
+	arcane_symbol.loop = true;
+	arcane_symbol.speed = 0.2;
+
 	//Runtime inicialization
 	double_jump = false;
 	mine_placed = false;
@@ -433,16 +442,10 @@ void Mage::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 	double_jump = true;
 	fPoint speed = { 0,0 };
 	if (inputs[RIGHT]) 		{
-		if (!fliped)
-			speed.x = -double_jump_power.x;
-		else
-			speed.x = double_jump_power.x;
+		speed.x = double_jump_power.x;
 	}
 	else if (inputs[LEFT]) {
-		if (!fliped)
-			speed.x = double_jump_power.x;
-		else
-			speed.x = -double_jump_power.x;
+		speed.x = -double_jump_power.x;
 	}
 	speed.y = -double_jump_power.y;
 
@@ -474,7 +477,7 @@ void Mage::crouchingSpecial2() {
 				pos.x = logic_position.x + cr_s2.pos_rel_char.x;
 			else
 				pos.x = logic_position.x - cr_s2.pos_rel_char.x;
-			pos.y = logic_position.y + 100;
+			pos.y = logic_position.y + cr_s2.pos_rel_char.y;
 			mine_position = pos;
 			mine_placed = true;
 			instanciated_hitbox = true;
@@ -507,6 +510,7 @@ void Mage::characterSpecificUpdates() {
 	if (grounded)
 		double_jump = false;
 
-	if (mine_placed)
-		App->render->drawQuad(10, { mine_position.x - 25, mine_position.y - 7, 50, 14 }, 0, 0, 0, 255, true, true);
+	if (mine_placed) 
+		App->render->drawSprite(3, App->entities->mage_graphics, mine_position.x - 67 * 3 / 2, mine_position.y - 17 * 3 / 2, &arcane_symbol.GetCurrentFrame(), scale, fliped, 1, 0, 0, 0, true);
+	
 }

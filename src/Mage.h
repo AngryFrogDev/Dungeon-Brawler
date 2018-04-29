@@ -39,6 +39,7 @@ private:
 
 	bool mine_placed;
 	iPoint mine_position;
+	Animation arcane_symbol;
 
 
 

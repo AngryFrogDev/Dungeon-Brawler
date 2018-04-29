@@ -507,7 +507,7 @@
         animation_speed ="0.15"/>
       <cr_s2
         pos_rel_char_x ="200"
-        pos_rel_char_y ="0"
+        pos_rel_char_y ="125"
         hitbox_w ="200"
         hitbox_h ="300"
         active_time ="100"
