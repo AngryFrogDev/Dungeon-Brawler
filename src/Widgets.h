@@ -39,6 +39,8 @@ enum button_types {
 	SELECT_MAGE,
 	SELECT_ROGUE,
 	SELECT_PALADIN,
+	SELECT_ITEM1,
+	SELECT_ITEM2,
 	BACK,
 };
 
@@ -47,7 +49,8 @@ enum button_size {
 	SMALL,
 	MEDIUM,
 	LARGE,
-	CHARACTER_SELECTION
+	CHARACTER_SELECTION,
+	OBJECT_SELECTION
 };
 
 enum bar_types {

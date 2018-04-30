@@ -59,6 +59,8 @@
 	<char_sel_scene>
 		<textures>
 			<portraits_tex path = "assets/character_sel_portraits.png"/>
+			<char_name_tex path = "assets/character_name_tex.png"/>
+			<items_tex path = "assets/objects.png"/>
 
 			<warrior_portrait x="0" y="0" w="436" h="240"/>
 			<mage_portrait x="436" y="0" w="436" h="240"/>
@@ -74,15 +76,23 @@
 			<right_portraits x="800" y="400"/>
 			<portraits scale="3"/>
 			<vs_tex x="700" y="400" scale="2" path="assets/vs.png"/>
-			<char_name_tex path = "assets/character_name_tex.png"/>
-
+			
 			<warrior_name x="0" y="0" w="400" h="131"/>
 			<mage_name x="0" y="131" w="400" h="131"/>
 			<rogue_name x="0" y="262" w="400" h="131"/>
 			<paladin_name x="0" y="393" w="400" h="131"/>
 			<left_names x="300" y="900"/>
 			<right_names x="1200" y="900"/>
-			<names scale="1"/>			
+			<names scale="1"/>	
+
+			<warrior_obj1 x="" y="" w="29" h="27"/>
+			<warrior_obj2 x="" y="" w="29" h="27"/>
+			<mage_obj1 x="" y="" w="29" h="27"/>
+			<mage_obj2 x="" y="" w="29" h="27"/>
+			<rogue_obj1 x="" y="" w="29" h="27"/>
+			<rogue_obj2 x="" y="" w="29" h="27"/>
+			<paladin_obj1 x="" y="" w="29" h="27"/>
+			<paladin_obj2 x="" y="" w="29" h="27"/>		
 		</textures>
 		<labels>
 			<title>
@@ -100,6 +110,66 @@
 				<color r="126" g="208" b="223" a="255"/>
 				<pos x="1525" y="265"/>
 			</player_2>
+			<warrior_obj1>
+				<content value="PLATE HELM"/>
+				<color r="255" g="255" b="255" a="255"/>
+				<pos x="200" y="420"/>
+			</warrior_obj1>
+			<warrior_obj2>
+				<content value="PLATE ARMOR"/>
+				<color r="255" g="255" b="255" a="255"/>
+				<pos x="200" y="645"/>
+			</warrior_obj2>
+			<warrior_obj1_desc>
+				<content value="Bladestorm (ST SP1)"/>
+				<color r="255" g="255" b="255" a="255"/>
+				<pos x="390" y="525"/>
+			</warrior_obj1_desc>
+			<warrior_obj2_desc>
+				<content value="Dagger Throw (ST SP2)"/>
+				<color r="255" g="255" b="255" a="255"/>
+				<pos x="390" y="750"/>
+			</warrior_obj2_desc>
+			<mage_obj1>
+				<content value="WIZARD HAT"/>
+				<color r="255" g="255" b="255" a="255"/>
+				<pos x="200" y="420"/>
+			</mage_obj1>
+			<mage_obj2>
+				<content value="MAGE ROBE"/>
+				<color r="255" g="255" b="255" a="255"/>
+				<pos x="200" y="645"/>
+			</mage_obj2>
+			<mage_obj1_desc>
+				<content value="Fireball (ST SP1)"/>
+				<color r="255" g="255" b="255" a="255"/>
+				<pos x="390" y="525"/>
+			</mage_obj1_desc>
+			<mage_obj2_desc>
+				<content value="Fireball (ST SP1)"/>
+				<color r="255" g="255" b="255" a="255"/>
+				<pos x="390" y="750"/>
+			</mage_obj2_desc>
+			<rogue_obj1>
+				<content value="THIEF HOOD"/>
+				<color r="255" g="255" b="255" a="255"/>
+				<pos x="200" y="420"/>
+			</rogue_obj1>
+			<rogue_obj2>
+				<content value="LEATHER CLOACK"/>
+				<color r="255" g="255" b="255" a="255"/>
+				<pos x="200" y="645"/>
+			</rogue_obj2>
+			<rogue_obj1_desc>
+				<content value="Roll (CRH SP1)"/>
+				<color r="255" g="255" b="255" a="255"/>
+				<pos x="390" y="525"/>
+			</rogue_obj1_desc>
+			<rogue_obj2_desc>
+				<content value="Airdash (JMP SP2)"/>
+				<color r="255" g="255" b="255" a="255"/>
+				<pos x="390" y="750"/>
+			</rogue_obj2_desc>
 		</labels>
 		<buttons>
 			<b_warrior_l>

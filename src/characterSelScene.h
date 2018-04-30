@@ -17,7 +17,7 @@ class characterSelScene : public scene
 {
 public:
 	characterSelScene(bool active);
-	~characterSelScene();
+	virtual ~characterSelScene();
 
 //	bool awake(const pugi::xml_node & md_config);
 	bool start();
@@ -26,6 +26,8 @@ public:
 private:
 	bool onEvent(Buttons* button);
 	void loadSceneUi();
+	void createP1CharButtons();
+	void createP2CharButtons();//Separated in individual function to be able to re-create them when needed
 	void loadSceneTextures();
 	void assignFocus();
 	void checkSceneInput();
@@ -33,8 +35,11 @@ private:
 	void assignCharacterToPlayer();
 	void setRects();
 	void setCurrentCharDisplay();
-	void popUpWindow();
 	void closeWindow();
+	void popUpP1Window();
+	void popUpP2Window();
+	void closeP1Window();
+	void closeP2Window();
 
 private:
 	//Character Selection elements
@@ -61,10 +66,33 @@ private:
 	Buttons* p2_select_item1 = nullptr;
 	Buttons* p2_select_item2 = nullptr;
 
+	Labels* select_object_p1 = nullptr;
+	Labels* select_object_p2 = nullptr;
+	Labels* affects_special1_p1 = nullptr;
+	Labels* affects_special2_p1 = nullptr;
+	Labels* affects_special1_p2 = nullptr;
+	Labels* affects_special2_p2 = nullptr;
+
+	Labels* obj1_name_p1 = nullptr;
+	Labels* obj2_name_p1 = nullptr;
+	Labels* obj1_name_p2 = nullptr;
+	Labels* obj2_name_p2 = nullptr;
+
+	Labels* obj1_desc_p1 = nullptr;
+	Labels* obj2_desc_p1 = nullptr;
+	Labels* obj1_desc_p2 = nullptr;
+	Labels* obj2_desc_p2 = nullptr;
+
+	Buttons* obj1_p1 = nullptr;
+	Buttons* obj2_p1 = nullptr;
+	Buttons* obj1_p2 = nullptr;
+	Buttons* obj2_p2 = nullptr;
+
 	//Textures
 	SDL_Texture* character_potraits = nullptr;
 	SDL_Texture* vs_tex = nullptr;
 	SDL_Texture* character_names = nullptr;
+	SDL_Texture* items = nullptr;
 
 	//Rects
 	SDL_Rect warrior_name_tex;
@@ -81,6 +109,15 @@ private:
 	SDL_Rect mage_miniature;
 	SDL_Rect rogue_miniature;
 	SDL_Rect paladin_miniature;
+
+	SDL_Rect warrior_item1;
+	SDL_Rect warrior_item2;
+	SDL_Rect mage_item1;
+	SDL_Rect mage_item2;
+	SDL_Rect rogue_item1;
+	SDL_Rect rogue_item2;
+	SDL_Rect paladin_item1;
+	SDL_Rect paladin_item2;
 
 	currentCharacter player1, player2;
 	

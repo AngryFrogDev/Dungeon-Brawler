@@ -135,6 +135,13 @@ void Buttons::loadGuiFromAtlas() {
 		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
 		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
 		break;
+	case OBJECT_SELECTION:
+		still = data.child("obj_sel").child("still");
+		focused = data.child("obj_sel").child("focused");
+		clicked = data.child("obj_sel").child("clicked");
+		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
+		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
+		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
 	default:
 		break;
 	}
