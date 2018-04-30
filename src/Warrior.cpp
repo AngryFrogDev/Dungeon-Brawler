@@ -299,13 +299,11 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	spin_speed = character.spin_speed;
 	improved_spin_speed = character.improved_spin_speed;
 	improved_spin_recovery = character.improved_spin_recovery;
-	spin_object.item_type = character.spin_object;
 	jm_s1_angle = character.jm_s1_angle;
 	jm_s1_speed = character.jm_s1_speed;
 	dive_kick_max_height = character.dive_kick_max_height; 
 	jm_s2_angle = character.jm_s2_angle;
 	jm_s2_speed = character.jm_s2_speed;
-	dive_kick_object.item_type = character.dive_kick_object;
 	projectile_duration = character.projectile_duration;
 	projectile_speed = character.projectile_speed;
 	swordyuken_invencivility = character.swordyuken_invencivility;
@@ -336,8 +334,8 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	starting_position.x = logic_position.x;
 	starting_position.y = -1000;
 	state_first_tick = false;
-	spin_object.active = false; 
-	dive_kick_object.active = false;
+	spin_object = false; 
+	dive_kick_object = false;
 	// Others
 	bottom_lane = 800;
 	upper_lane = 450;
@@ -373,7 +371,8 @@ Warrior::~Warrior() {
 
 }
 
-void Warrior::standingSpecial1() 	{
+void Warrior::standingSpecial1(const bool(&inputs)[MAX_INPUTS]){
+
 		if (current_animation->GetState() == ACTIVE) {
 			collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
 			hitboxes.push_back(projectile_collider);
@@ -391,7 +390,7 @@ void Warrior::standingSpecial1() 	{
 void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
 	hurtbox->type = PROJECTILE_INVENCIBLE_HURTBOX;
 
-	if(!spin_object.active){
+	if(!spin_object){
 		if(!fliped)
 			logic_position.x += spin_speed; 
 		else
@@ -420,7 +419,7 @@ void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
 		if (hitbox != nullptr) { // Just for safety
 			deleteAttackHitbox(ST_S2);
 		}
-		if(!spin_object.active)
+		if(!spin_object)
 			askRecovery(st_s2.recovery);
 		else
 			askRecovery(improved_spin_recovery);
@@ -513,7 +512,7 @@ void Warrior::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		hitbox->SetPos(calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false));
 
 
-	if(dive_kick_object.active){
+	if(dive_kick_object){
 		if (inputs[LIGHT_ATTACK]) {
 			collider* hitbox = getCurrentAttackHitbox();
 			if (hitbox != nullptr) { // Just for safety
@@ -565,7 +564,7 @@ void Warrior::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 	if (hitbox != nullptr)
 		hitbox->SetPos(calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false));
 
-	if (dive_kick_object.active) {
+	if (dive_kick_object) {
 		if (inputs[LIGHT_ATTACK]) {
 			collider* hitbox = getCurrentAttackHitbox();
 			if (hitbox != nullptr) { // Just for safety
@@ -636,17 +635,20 @@ void Warrior::updateAnimationOnBasicAttack(CHAR_ATT_TYPE type) {
 	
 }
 void Warrior::giveItem(ITEMS type) {
-
-	if (type == dive_kick_object.item_type)
-		dive_kick_object.active = true;
-	else if (type == spin_object.item_type)
-		spin_object.active = true;
+	switch (type) {
+	case SPECIAL_ITEM_1:
+		dive_kick_object = true;
+		break;
+	case SPECIAL_ITEM_2:
+		spin_object = true;
+		break;
+	}
 }
 
 
 void Warrior::takeAllItems() {
-	dive_kick_object.active = false;
-	spin_object.active = false;
+	dive_kick_object = false;
+	spin_object = false;
 }
 bool Warrior::jumpingSpecial1Condition() {
 	return logic_position.y <= dive_kick_max_height;

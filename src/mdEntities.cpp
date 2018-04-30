@@ -386,8 +386,6 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 	character.spin_speed = md_config.attribute("spin_speed").as_int(0);
 	character.improved_spin_speed = md_config.attribute("improved_spin_speed").as_int(0);
 	character.improved_spin_recovery = md_config.attribute("improved_spin_recovery").as_int(0);
-	tmp = md_config.attribute("spin_object").as_string("");
-	character.spin_object = stringToItem(tmp);
 	character.jm_s1_angle = md_config.attribute("jm_s1_angle").as_int(0);
 	character.jm_s1_speed.x = md_config.attribute("jm_s1_speed_x").as_int(0);
 	character.jm_s1_speed.y = md_config.attribute("jm_s1_speed_y").as_int(0);
@@ -396,9 +394,8 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 	character.jm_s2_speed.y = md_config.attribute("jm_s2_speed_y").as_int(0);
 	character.dive_kick_max_height = md_config.attribute("dive_kick_max_height").as_int(0);
 	tmp = md_config.attribute("dive_kick_object").as_string("");
-	character.dive_kick_object = stringToItem(tmp);
-	character.projectile_duration = md_config.attribute("projectile_duration").as_int(0);
 	character.projectile_speed = md_config.attribute("projectile_speed").as_int(0);
+	character.projectile_duration = md_config.attribute("projectile_duration").as_int(0);
 	character.swordyuken_invencivility = md_config.attribute("swordyuken_invencivility").as_int(0);
 	character.swordyuken_jump_power = md_config.attribute("swordyuken_jump_power").as_int(0);
 

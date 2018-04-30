@@ -46,13 +46,11 @@ struct character_deff {
 	int spin_speed;
 	int improved_spin_speed;
 	int improved_spin_recovery;
-	ITEMS spin_object;
 	int jm_s1_angle;
 	iPoint jm_s1_speed;
 	int jm_s2_angle;
 	iPoint jm_s2_speed;
 	int dive_kick_max_height;
-	ITEMS dive_kick_object;
 	int projectile_duration;
 	int projectile_speed;
 	int swordyuken_invencivility;

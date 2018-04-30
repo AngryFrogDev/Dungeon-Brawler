@@ -8,7 +8,7 @@ public:
 	Mage(character_deff character, int x_pos, bool _fliped, int lane);
 	~Mage();
 
-	void standingSpecial1();
+	void standingSpecial1(const bool(&inputs)[MAX_INPUTS]);
 	void standingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	void crouchingSpecial1();
 	void crouchingSpecial2();
@@ -28,6 +28,13 @@ private:
 	int fireball_speed;
 	int fireball_duration;
 	iPoint fireball_emitter_offset;
+	//Item specific vars
+	double fireball_level; //in seconds
+	bool fireball_max_charge;
+	int fireball_size_grow;
+	int fireball_damage_boost;
+	basic_attack_deff initial_fireball;
+
 
 
 	int air_fireball_angle;
@@ -51,6 +58,8 @@ private:
 	iPoint meteorits_speed;
 	bool meteorits_spawned;
 
+
+	bool fireball_item;
 
 
 

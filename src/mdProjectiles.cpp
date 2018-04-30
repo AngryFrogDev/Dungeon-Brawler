@@ -44,7 +44,7 @@ bool mdProjectiles::preUpdate() {
 		projectile* p = *it;
 		projectiles.remove(p);
 		if(p->emitter)
-		p->emitter->active = false;
+			p->emitter->active = false;
 		delete p;
 	}
 
@@ -63,13 +63,6 @@ bool mdProjectiles::update(float dt) {
 	for (std::list<projectile*>::iterator it = projectiles.begin(); it != projectiles.end(); ++it) {
 		projectile* p = *it;
 		p->draw(graphics);
-	}
-	// Check life
-	for (std::list<projectile*>::iterator it = projectiles.begin(); it != projectiles.end(); ++it) {
-		projectile* p = *it;
-		if (p->life != -1 && SDL_GetTicks() - p->born > p->life){
-			p->to_delete = true;
-		}
 	}
 
 	return true;

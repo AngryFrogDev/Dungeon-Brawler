@@ -9,7 +9,7 @@ public:
 	Warrior(character_deff character,int x_pos, bool _fliped, int lane);
 	~Warrior();
 
-	void standingSpecial1();
+	void standingSpecial1(const bool(&inputs)[MAX_INPUTS]);
 	void standingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	void crouchingSpecial1();
 	void crouchingSpecial2();
@@ -46,7 +46,7 @@ private:
 
 	int super_invencibility;
 
-	item dive_kick_object, spin_object;
+	bool dive_kick_object, spin_object;
 
 	// I would leave it hardcoded for now
 	std::list<CHAR_ATT_TYPE> super_attack_list;

@@ -669,7 +669,7 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 			updateAnimation(standing_special1);
 			state_first_tick = true;
 		}
-		standingSpecial1(); 
+		standingSpecial1(inputs); 
 		break;
 	case ST_S2:
 		if (!state_first_tick) {

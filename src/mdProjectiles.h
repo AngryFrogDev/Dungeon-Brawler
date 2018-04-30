@@ -36,7 +36,6 @@ struct projectile {
 	int born; // in milliseconds
 	int life; // in milliseconds
 	bool fliped;
-	bool to_delete = false;
 	int scale;
 	PROJECTILE_TYPE type;
 	ParticleEmitter* emitter = nullptr;

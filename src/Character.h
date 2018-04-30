@@ -107,11 +107,6 @@ enum ITEMS {
 	// There should be more items, but i don't remember them right now
 };
 
-struct item {
-	ITEMS item_type;
-	bool active;
-};
-
 class Player;
 
 class Character {
@@ -186,7 +181,7 @@ protected:
 	// Uses player's logic position, flip, offset and width to calculate the position to draw a collider
 	int calculateDrawPosition(int offset, int size, bool x);
 	//Special functions
-	virtual void standingSpecial1() { return; };
+	virtual void standingSpecial1(const bool(&inputs)[MAX_INPUTS]) { return; };
 	virtual void standingSpecial2(const bool(&inputs)[MAX_INPUTS]) { return; };
 	virtual void crouchingSpecial1() { return; };
 	virtual void crouchingSpecial2() { return; };

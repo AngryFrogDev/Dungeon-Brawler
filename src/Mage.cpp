@@ -4,7 +4,8 @@
 #include "mdParticleSystem.h"
 #include "mdAudio.h"
 #include "mdEntities.h"
-
+#include "Player.h"
+#include "ParticleEmitter.h"
 
 Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Character() {
 
@@ -236,7 +237,7 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	cr_h = character.cr_h;
 	jm_l = character.jm_l;
 	jm_h = character.jm_h;
-	st_s1 = character.st_s1;
+	initial_fireball = st_s1 = character.st_s1;
 	st_s2 = character.st_s2;
 	cr_s1 = character.cr_s1;
 	cr_s2 = character.cr_s2;
@@ -274,6 +275,8 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	fireball_speed = character.fireball_speed;
 	fireball_duration = character.fireball_duration; // in milliseconds
 	fireball_emitter_offset = character.fireball_emitter_offset;
+	fireball_size_grow = 60;
+	fireball_damage_boost = 10;
 
 	air_fireball_angle = character.air_fireball_angle;
 	air_fireball_max_height = character.air_fireball_max_height;
@@ -303,6 +306,10 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	mine_placed = false;
 	meteorits_spawned = false;
 	mine_position = { 0,0 };
+	fireball_level = 0;
+	fireball_max_charge = false;
+	fireball_item = true;
+
 
 
 	// Runtime inicialization
@@ -356,32 +363,48 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 Mage::~Mage() {
 }
 
-void Mage::standingSpecial1() {
-	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, fireball_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
-		hitboxes.push_back(projectile_collider);
-		iPoint speed = { 0,0 };
-		iPoint offset = { 0,0 };
-		iPoint emitter_offset = { 0,0 };
-		if (!fliped) {
-			speed.x = fireball_speed;
-			offset.x = st_s1.pos_rel_char.x;
-			emitter_offset.x = fireball_emitter_offset.x;
+void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
+	if (current_animation->GetState() == ACTIVE) {
+		// Item code
+		if (inputs[SPECIAL_1] && !fireball_max_charge && fireball_item) {
+			fireball_level += 0.016; // Time duration of a frame at 60 fps
+			standing_special1.paused = true;
+			if (fireball_level >= 2)
+				fireball_max_charge = true;
 		}
-		else{
-			speed.x = -fireball_speed;
-			offset.x = -st_s1.pos_rel_char.x;
-			emitter_offset.x = -fireball_emitter_offset.x;
-		}
-		offset.y = st_s1.pos_rel_char.y;
+		else if (!instanciated_hitbox) {
+			standing_special1.paused = false;
+			st_s1.hitbox.w = initial_fireball.hitbox.w + fireball_size_grow*(int)fireball_level;
+			st_s1.hitbox.h = initial_fireball.hitbox.h + fireball_size_grow*(int)fireball_level;
+			st_s1.damage = initial_fireball.damage + fireball_damage_boost*(int)fireball_level;
+		//Item code
+			collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, fireball_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
+			hitboxes.push_back(projectile_collider);
+			iPoint speed, offset, emitter_offset = { 0,0 };
+			if (!fliped) {
+				speed.x = fireball_speed;
+				offset.x = st_s1.pos_rel_char.x;
+				emitter_offset.x = fireball_emitter_offset.x;
+			}
+			else {
+				speed.x = -fireball_speed;
+				offset.x = -st_s1.pos_rel_char.x;
+				emitter_offset.x = -fireball_emitter_offset.x;
+			}
+			offset.y = st_s1.pos_rel_char.y;
+			speed.y = 0;
 
-		ParticleEmitter* emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-ball.xml");
-		App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,st_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,st_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, emitter,emitter_offset);
-		instanciated_hitbox = true;
+			ParticleEmitter* emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-ball.xml");
+			emitter->scale *= (int)fireball_level;
+			App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,st_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,st_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, emitter, emitter_offset);
+			instanciated_hitbox = true;
+		}
 	}
 	if(current_animation->Finished()){
 		askRecovery(st_s1.recovery);
 		instanciated_hitbox = false;
+		fireball_level = 0;
+		fireball_max_charge = 0;
 	}
 }
 
