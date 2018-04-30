@@ -271,20 +271,16 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 
 	//MAGE EXCLUSIVE VARS
 	//Load from xml
-	fireball_speed = 10;
-	fireball_duration = 2000; // in milliseconds
-	fireball_emitter_offset.x = 50;
-	fireball_emitter_offset.y = 0;
+	fireball_speed = character.fireball_speed;
+	fireball_duration = character.fireball_duration; // in milliseconds
+	fireball_emitter_offset = character.fireball_emitter_offset;
 
-	jm_s1_angle = 30;
-	jm_s1_max_height = 600;
-	jm_s1_backfire.x = -7;
-	jm_s1_backfire.y = -10;
-	air_fireball_speed.x = 10;
-	air_fireball_speed.y = 5;
+	air_fireball_angle = character.air_fireball_angle;
+	air_fireball_max_height = character.air_fireball_max_height;
+	air_fireball_backfire = character.air_fireball_backfire;
+	air_fireball_speed = character.air_fireball_speed;
 
-	double_jump_power.x = 5;
-	double_jump_power.y = 15;
+	double_jump_power = character.double_jump_power;
 
 	arcane_symbol.PushBack({649, 3717, 67, 17});
 	arcane_symbol.PushBack({845, 3717, 67, 17 });
@@ -294,15 +290,13 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	arcane_symbol.loop = true;
 	arcane_symbol.speed = 0.2;
 
-	meteorits_life = 10000;
-	meteorits = 6;
-	first_meteorit_height = -200;
-	meteorits_offset.x = 200;
-	meteorits_offset.y = 100;
-	meteorits_speed.x = 3;
-	meteorits_speed.y = 6;
-	meteorits_rows = 3;
-	meteorits_rows_offset = -300;
+	meteorits_life = character.meteorits_life;
+	meteorits = character.meteorits;
+	first_meteorit_height = character.first_meteorit_height;
+	meteorits_offset = character.meteorits_offset;
+	meteorits_speed = character.meteorits_speed;
+	meteorits_rows = character.meteorits_rows;
+	meteorits_rows_offset = character.meteorits_rows_offset;
 
 	//Runtime inicialization
 	double_jump = false;
@@ -422,14 +416,14 @@ void Mage::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 	if (!state_first_tick) {
 		updateAnimation(jumping_special1);
 		if (!fliped) {
-			velocity.x = jm_s1_backfire.x;
-			jumping_special1.angle = jm_s1_angle;
+			velocity.x = air_fireball_backfire.x;
+			jumping_special1.angle = air_fireball_angle;
 		}
 		else {
-			velocity.x = -jm_s1_backfire.x;
-			jumping_special1.angle = -jm_s1_angle;
+			velocity.x = -air_fireball_backfire.x;
+			jumping_special1.angle = -air_fireball_angle;
 		}
-		velocity.y = jm_s1_backfire.y;
+		velocity.y = air_fireball_backfire.y;
 		state_first_tick = true;
 	}
 	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
@@ -577,7 +571,7 @@ bool Mage::standingSpecial1Condition() {
 }
 
 bool Mage::jumpingSpecial1Condition() {
-	return (logic_position.y <= jm_s1_max_height && current_state != JM_S1);
+	return (logic_position.y <= air_fireball_max_height && current_state != JM_S1);
 }
 bool Mage::jumpingSpecial2Condition() {
 	return !double_jump;

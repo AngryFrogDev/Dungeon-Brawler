@@ -29,9 +29,10 @@ private:
 	int fireball_duration;
 	iPoint fireball_emitter_offset;
 
-	int jm_s1_angle;
-	int jm_s1_max_height;
-	iPoint jm_s1_backfire;
+
+	int air_fireball_angle;
+	int air_fireball_max_height;
+	iPoint air_fireball_backfire;
 	iPoint air_fireball_speed;
 
 	bool double_jump;

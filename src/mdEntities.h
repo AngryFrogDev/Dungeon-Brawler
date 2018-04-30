@@ -57,6 +57,23 @@ struct character_deff {
 	int projectile_speed;
 	int swordyuken_invencivility;
 	int swordyuken_jump_power;
+
+	// Mage variables
+	int fireball_speed;
+	int fireball_duration;
+	iPoint fireball_emitter_offset;
+	int air_fireball_angle;
+	int air_fireball_max_height;
+	iPoint air_fireball_backfire;
+	iPoint air_fireball_speed;
+	iPoint double_jump_power;
+	int meteorits_life;
+	int first_meteorit_height;
+	iPoint meteorits_offset;
+	int meteorits;
+	int meteorits_rows;
+	int meteorits_rows_offset;
+	iPoint meteorits_speed;
 };
 
 class Player;

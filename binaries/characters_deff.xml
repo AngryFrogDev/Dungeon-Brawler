@@ -313,29 +313,30 @@
     super_window ="20"
     cancelability_window ="30"
     
+    fireball_speed ="10"
+    fireball_duration ="2000"
+    fireball_emitter_offset_x ="50"
+    fireball_emitter_offset_y ="0"
     
-    dive_kick_max_height ="520"
+    air_fireball_angle ="30"
+    air_fireball_max_height ="600"
+    air_fireball_backfire_x ="-7"
+    air_fireball_backfire_y ="-10"
+    air_fireball_speed_x ="10"
+    air_fireball_speed_y ="5"
     
-    spin_speed ="6"
-    improved_spin_speed ="10"
-    improved_spin_recovery ="250"
-    spin_object ="special_item_1"
+    double_jump_power_x ="5"
+    double_jump_power_y ="15"
     
-    jm_s1_angle ="20"
-    jm_s1_speed_x ="10"
-    jm_s1_speed_y ="10"
-    
-    jm_s2_angle ="40"
-    jm_s2_speed_x ="5"
-    jm_s2_speed_y ="10"
-    dive_kick_object ="special_item_2"
-    
-    projectile_duration ="2000"
-    projectile_speed ="15"
-    projectile_scale ="3"
-    
-    swordyuken_invencivility ="300"
-    swordyuken_jump_power ="20"
+    meteorits="6"
+    meteorits_life="10000"
+    first_meteorit_height ="-200"
+    meteorits_offset_x="200"
+    meteorits_offset_y="100"
+    meteorits_speed_x="3"
+    meteorits_speed_y="6"
+    meteorits_rows="3"
+    meteorits_rows_offset="-300"
     >
     <non_flip_attacks>
       <attack value="jm_s1"/>
@@ -492,7 +493,7 @@
         pos_rel_char_y ="-160"
         hitbox_w ="250"
         hitbox_h ="150"
-        active_time ="300"
+        active_time ="150"
         hitstun ="-1"
         blockstun ="100"
         pushhit ="-1"
