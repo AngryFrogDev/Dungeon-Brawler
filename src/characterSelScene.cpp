@@ -455,10 +455,10 @@ void characterSelScene::popUpP2Window()	{
 
 		object_win_p2 = (UiWindow*)App->gui->createWindow(OBJ_SELECTION, { 1140, 310 }, this);
 		select_object_p2 = (Labels*)App->gui->createLabel("Choose your Item", { 255,255,255,255 }, App->fonts->large_size, { 1260, 330 }, this);
-		affects_special1_p2 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 390, 480 }, this);
-		affects_special2_p2 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 390,705 }, this);
-		p2_select_item1 = (Buttons*)App->gui->createButton(SELECT_ITEM1, OBJECT_SELECTION, 0, { 170, 390 }, this);
-		p2_select_item2 = (Buttons*)App->gui->createButton(SELECT_ITEM1, OBJECT_SELECTION, 0, { 170, 610 }, this);
+		affects_special1_p2 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 1380, 480 }, this);
+		affects_special2_p2 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 1380,705 }, this);
+		p2_select_item1 = (Buttons*)App->gui->createButton(SELECT_ITEM1, OBJECT_SELECTION, 1, { 1160, 390 }, this);
+		p2_select_item2 = (Buttons*)App->gui->createButton(SELECT_ITEM1, OBJECT_SELECTION, 1, { 1160, 610 }, this);
 
 		pugi::xml_node obj1_name;
 		pugi::xml_node obj2_name;
@@ -487,10 +487,10 @@ void characterSelScene::popUpP2Window()	{
 				App->fonts->medium_size, { obj2_desc.child("pos").attribute("x").as_int(), obj2_desc.child("pos").attribute("y").as_int() }, this);
 			break;
 		case MAGE:
-			obj1_name = labels_node.child("mage_obj1");
-			obj2_name = labels_node.child("mage_obj2");
-			obj1_desc = labels_node.child("mage_obj1_desc");
-			obj2_desc = labels_node.child("mage_obj2_desc");
+			obj1_name = labels_node.child("player_2").child("mage_obj1");
+			obj2_name = labels_node.child("player_2").child("mage_obj2");
+			obj1_desc = labels_node.child("player_2").child("mage_obj1_desc");
+			obj2_desc = labels_node.child("player_2").child("mage_obj2_desc");
 			obj1_name_p2 = (Labels*)App->gui->createLabel(obj1_name.child("content").attribute("value").as_string(), { (Uint8)obj1_name.child("color").attribute("r").as_int(),(Uint8)obj1_name.child("color").attribute("g").as_int(),(Uint8)obj1_name.child("color").attribute("b").as_int(),(Uint8)obj1_name.child("color").attribute("a").as_int() },
 				App->fonts->medium_size, { obj1_name.child("pos").attribute("x").as_int(), obj1_name.child("pos").attribute("y").as_int() }, this);
 
@@ -504,10 +504,10 @@ void characterSelScene::popUpP2Window()	{
 				App->fonts->medium_size, { obj2_desc.child("pos").attribute("x").as_int(), obj2_desc.child("pos").attribute("y").as_int() }, this);
 			break;
 		case ROGUE:
-			obj1_name = labels_node.child("rogue_obj1");
-			obj2_name = labels_node.child("rogue_obj2");
-			obj1_desc = labels_node.child("rogue_obj1_desc");
-			obj2_desc = labels_node.child("rogue_obj2_desc");
+			obj1_name = labels_node.child("player_2").child("rogue_obj1");
+			obj2_name = labels_node.child("player_2").child("rogue_obj2");
+			obj1_desc = labels_node.child("player_2").child("rogue_obj1_desc");
+			obj2_desc = labels_node.child("player_2").child("rogue_obj2_desc");
 			obj1_name_p2 = (Labels*)App->gui->createLabel(obj1_name.child("content").attribute("value").as_string(), { (Uint8)obj1_name.child("color").attribute("r").as_int(),(Uint8)obj1_name.child("color").attribute("g").as_int(),(Uint8)obj1_name.child("color").attribute("b").as_int(),(Uint8)obj1_name.child("color").attribute("a").as_int() },
 				App->fonts->medium_size, { obj1_name.child("pos").attribute("x").as_int(), obj1_name.child("pos").attribute("y").as_int() }, this);
 
@@ -521,10 +521,10 @@ void characterSelScene::popUpP2Window()	{
 				App->fonts->medium_size, { obj2_desc.child("pos").attribute("x").as_int(), obj2_desc.child("pos").attribute("y").as_int() }, this);
 			break;
 		case PALADIN:
-			obj1_name = labels_node.child("paladin_obj1");
-			obj2_name = labels_node.child("paladin_obj2");
-			obj1_desc = labels_node.child("paladin_obj1_desc");
-			obj2_desc = labels_node.child("paladin_obj2_desc");
+			obj1_name = labels_node.child("player_2").child("paladin_obj1");
+			obj2_name = labels_node.child("player_2").child("paladin_obj2");
+			obj1_desc = labels_node.child("player_2").child("paladin_obj1_desc");
+			obj2_desc = labels_node.child("player_2").child("paladin_obj2_desc");
 			obj1_name_p2 = (Labels*)App->gui->createLabel(obj1_name.child("content").attribute("value").as_string(), { (Uint8)obj1_name.child("color").attribute("r").as_int(),(Uint8)obj1_name.child("color").attribute("g").as_int(),(Uint8)obj1_name.child("color").attribute("b").as_int(),(Uint8)obj1_name.child("color").attribute("a").as_int() },
 				App->fonts->medium_size, { obj1_name.child("pos").attribute("x").as_int(), obj1_name.child("pos").attribute("y").as_int() }, this);
 
@@ -572,6 +572,29 @@ void characterSelScene::closeP1Window()	{
 }
 
 void characterSelScene::closeP2Window()	{
+	std::list<Widgets*>::reverse_iterator it = App->gui->p2_focus_elements.rbegin();
+	Widgets* object = nullptr;
 
+	for (it; it != App->gui->p2_focus_elements.rend(); it++)
+	{
+		object = *it;
+		object->to_delete = true;
+	}
+	App->gui->p2_focus_elements.clear();
+	App->entities->players[1]->focus = nullptr;
+
+	object_win_p2->to_delete = true;
+	object_win_p2 = nullptr;
+	select_object_p2->to_delete = true;
+	affects_special1_p2->to_delete = true;
+	affects_special2_p2->to_delete = true;
+	obj1_name_p2->to_delete = true;
+	obj2_name_p2->to_delete = true;
+	obj1_desc_p2->to_delete = true;
+	obj2_desc_p2->to_delete = true;
+	player2.has_selected_character = false;
+
+	createP2CharButtons();
+	assignFocus();
 }
 
