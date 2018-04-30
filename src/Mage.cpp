@@ -393,9 +393,19 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 			}
 			offset.y = st_s1.pos_rel_char.y;
 			speed.y = 0;
+			ParticleEmitter* emitter = nullptr;
+			switch ((int)fireball_level) {
+				case 0:
+					emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-ball.xml");
+					break;
+				case 1:
+					emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-ball-2.xml");
+					break;
+				case 2:
+					emitter = emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-ball-3.xml");
+					break;
+			}
 
-			ParticleEmitter* emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-ball.xml");
-			emitter->scale *= (int)fireball_level;
 			App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,st_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,st_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, emitter, emitter_offset);
 			instanciated_hitbox = true;
 		}
