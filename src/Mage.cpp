@@ -366,7 +366,7 @@ Mage::~Mage() {
 void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 	if (current_animation->GetState() == ACTIVE) {
 		// Item code
-		if (inputs[SPECIAL_1] && !fireball_max_charge && fireball_item) {
+		if (inputs[SPECIAL_1] && !fireball_max_charge && fireball_item && !instanciated_hitbox) {
 			fireball_level += 0.016; // Time duration of a frame at 60 fps
 			standing_special1.paused = true;
 			if (fireball_level >= 2)
