@@ -54,7 +54,7 @@ public:
 	bool cleanUp();
 
 
-	bool lookForProjectileType(PROJECTILE_TYPE type, Character* character);
+	int lookForProjectileType(PROJECTILE_TYPE type, Character* character);
 
 	projectile* addProjectile(PROJECTILE_TYPE type, iPoint position, iPoint speed, collider* collider, int life, bool fliped, int scale, ParticleEmitter* emitter = nullptr, iPoint emitter_offset = { 0,0 });
 

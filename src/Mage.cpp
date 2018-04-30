@@ -308,7 +308,8 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	mine_position = { 0,0 };
 	fireball_level = 0;
 	fireball_max_charge = false;
-	fireball_item = true;
+	charge_fireball_item = false; 
+	double_fireball_item = true;
 
 
 
@@ -366,7 +367,7 @@ Mage::~Mage() {
 void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 	if (current_animation->GetState() == ACTIVE) {
 		// Item code
-		if (inputs[SPECIAL_1] && !fireball_max_charge && fireball_item && !instanciated_hitbox) {
+		if (inputs[SPECIAL_1] && !fireball_max_charge && charge_fireball_item && !instanciated_hitbox) {
 			fireball_level += 0.016; // Time duration of a frame at 60 fps
 			standing_special1.paused = true;
 			if (fireball_level >= 2)
@@ -600,7 +601,13 @@ void Mage::doSuper() {
 }
 
 bool Mage::standingSpecial1Condition() {
-	return !App->projectiles->lookForProjectileType(MAGE_FIREBALL, (Character*)this);
+	bool ret = true;
+	if (!double_fireball_item)
+		ret = App->projectiles->lookForProjectileType(MAGE_FIREBALL, (Character*)this) == 0;
+	else 
+		ret = App->projectiles->lookForProjectileType(MAGE_FIREBALL, (Character*)this) <= 1;
+
+	return ret;
 }
 
 bool Mage::jumpingSpecial1Condition() {

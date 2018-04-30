@@ -59,8 +59,8 @@ private:
 	bool meteorits_spawned;
 
 
-	bool fireball_item;
-
+	bool charge_fireball_item;
+	bool double_fireball_item;
 
 
 

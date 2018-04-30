@@ -100,14 +100,15 @@ projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, i
 	return new_projectile;
 }
 
-bool mdProjectiles::lookForProjectileType(PROJECTILE_TYPE type, Character* character ) {
+int mdProjectiles::lookForProjectileType(PROJECTILE_TYPE type, Character* character ) {
+	int counter = 0;
 	for (std::list<projectile*>::iterator it = projectiles.begin(); it != projectiles.end(); ++it) {
 		projectile* p = *it;
-		if (p->type == type && p->collider->character == character) { // Projectiles are deleted with their colliders
-			return true;
+		if (p->type == type && p->collider->character == character) { 
+			counter++;
 		}
 	}
-	return false;
+	return counter;
 }
 
 void projectile::update() {

@@ -657,5 +657,5 @@ bool Warrior::jumpingSpecial2Condition() {
 	return logic_position.y <= dive_kick_max_height;
 }
 bool Warrior::standingSpecial1Condition() {
-	return !App->projectiles->lookForProjectileType(WARRIOR_KNIFE, (Character*)this);
+	return App->projectiles->lookForProjectileType(WARRIOR_KNIFE, (Character*)this) == 0;
 }
