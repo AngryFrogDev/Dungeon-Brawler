@@ -339,11 +339,11 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			playCurrentSFX();
 			emmitCurrentParticle();
 			if (!fliped)
-				velocity.x -= attack_recieving.juggle_speed.x;
+				velocity.x = -attack_recieving.juggle_speed.x;
 			else
-				velocity.x += attack_recieving.juggle_speed.x;
+				velocity.x = attack_recieving.juggle_speed.x;
 
-			velocity.y -= attack_recieving.juggle_speed.y;
+			velocity.y = -attack_recieving.juggle_speed.y;
 			
 			current_life -= attack_recieving.damage;
 			hit = false;
@@ -464,9 +464,11 @@ void Character::onCollision(collider* c1, collider* c2) {
 	
 }
 void Character::applyGravity() {
+	if(current_state != JUGGLE)
+		velocity.y += gravity; // Maybe it shuld apply other gravity on juggle state
+	else
+		velocity.y += 1.0;
 
-	velocity.y += gravity; // Maybe it shuld apply other gravity on juggle state
-	
 	if (velocity.y > 0) {
 		if (logic_position.y < ground_position)
 			logic_position.y += velocity.y;
