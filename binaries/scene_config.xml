@@ -100,76 +100,141 @@
 				<color r="255" g="255" b="255" a="255"/>
 				<pos x="325" y="65"/>
 			</title>
-			<player_1>
+			<player1_l>
 				<content value="PLAYER 1"/>
 				<color r="169" g="46" b="46" a="255"/>
 				<pos x="225" y="265"/>
-			</player_1>
-			<player_2>
+			</player1_l>
+			<player2_l>
 				<content value="PLAYER 2"/>
 				<color r="126" g="208" b="223" a="255"/>
 				<pos x="1525" y="265"/>
+			</player2_l>
+			<player_1>
+				<warrior_obj1>
+					<content value="PLATE HELM"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="200" y="420"/>
+				</warrior_obj1>
+				<warrior_obj2>
+					<content value="PLATE ARMOR"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="200" y="645"/>
+				</warrior_obj2>
+				<warrior_obj1_desc>
+					<content value="Bladestorm (ST SP1)"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="390" y="525"/>
+				</warrior_obj1_desc>
+				<warrior_obj2_desc>
+					<content value="Dagger Throw (ST SP2)"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="390" y="750"/>
+				</warrior_obj2_desc>
+				<mage_obj1>
+					<content value="WIZARD HAT"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="200" y="420"/>
+				</mage_obj1>
+				<mage_obj2>
+					<content value="MAGE ROBE"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="200" y="645"/>
+				</mage_obj2>
+				<mage_obj1_desc>
+					<content value="Fireball (ST SP1)"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="390" y="525"/>
+				</mage_obj1_desc>
+				<mage_obj2_desc>
+					<content value="Fireball (ST SP1)"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="390" y="750"/>
+				</mage_obj2_desc>
+				<rogue_obj1>
+					<content value="THIEF HOOD"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="200" y="420"/>
+				</rogue_obj1>
+				<rogue_obj2>
+					<content value="LEATHER CLOACK"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="200" y="645"/>
+				</rogue_obj2>
+				<rogue_obj1_desc>
+					<content value="Roll (CRH SP1)"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="390" y="525"/>
+				</rogue_obj1_desc>
+				<rogue_obj2_desc>
+					<content value="Airdash (JMP SP2)"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="390" y="750"/>
+				</rogue_obj2_desc>
+			</player_1>
+			<player_2>
+				<warrior_obj1>
+					<content value="PLATE HELM"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="200" y="420"/>
+				</warrior_obj1>
+				<warrior_obj2>
+					<content value="PLATE ARMOR"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="200" y="645"/>
+				</warrior_obj2>
+				<warrior_obj1_desc>
+					<content value="Bladestorm (ST SP1)"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="390" y="525"/>
+				</warrior_obj1_desc>
+				<warrior_obj2_desc>
+					<content value="Dagger Throw (ST SP2)"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="390" y="750"/>
+				</warrior_obj2_desc>
+				<mage_obj1>
+					<content value="WIZARD HAT"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="200" y="420"/>
+				</mage_obj1>
+				<mage_obj2>
+					<content value="MAGE ROBE"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="200" y="645"/>
+				</mage_obj2>
+				<mage_obj1_desc>
+					<content value="Fireball (ST SP1)"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="390" y="525"/>
+				</mage_obj1_desc>
+				<mage_obj2_desc>
+					<content value="Fireball (ST SP1)"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="390" y="750"/>
+				</mage_obj2_desc>
+				<rogue_obj1>
+					<content value="THIEF HOOD"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="200" y="420"/>
+				</rogue_obj1>
+				<rogue_obj2>
+					<content value="LEATHER CLOACK"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="200" y="645"/>
+				</rogue_obj2>
+				<rogue_obj1_desc>
+					<content value="Roll (CRH SP1)"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="390" y="525"/>
+				</rogue_obj1_desc>
+				<rogue_obj2_desc>
+					<content value="Airdash (JMP SP2)"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="390" y="750"/>
+				</rogue_obj2_desc>
 			</player_2>
-			<warrior_obj1>
-				<content value="PLATE HELM"/>
-				<color r="255" g="255" b="255" a="255"/>
-				<pos x="200" y="420"/>
-			</warrior_obj1>
-			<warrior_obj2>
-				<content value="PLATE ARMOR"/>
-				<color r="255" g="255" b="255" a="255"/>
-				<pos x="200" y="645"/>
-			</warrior_obj2>
-			<warrior_obj1_desc>
-				<content value="Bladestorm (ST SP1)"/>
-				<color r="255" g="255" b="255" a="255"/>
-				<pos x="390" y="525"/>
-			</warrior_obj1_desc>
-			<warrior_obj2_desc>
-				<content value="Dagger Throw (ST SP2)"/>
-				<color r="255" g="255" b="255" a="255"/>
-				<pos x="390" y="750"/>
-			</warrior_obj2_desc>
-			<mage_obj1>
-				<content value="WIZARD HAT"/>
-				<color r="255" g="255" b="255" a="255"/>
-				<pos x="200" y="420"/>
-			</mage_obj1>
-			<mage_obj2>
-				<content value="MAGE ROBE"/>
-				<color r="255" g="255" b="255" a="255"/>
-				<pos x="200" y="645"/>
-			</mage_obj2>
-			<mage_obj1_desc>
-				<content value="Fireball (ST SP1)"/>
-				<color r="255" g="255" b="255" a="255"/>
-				<pos x="390" y="525"/>
-			</mage_obj1_desc>
-			<mage_obj2_desc>
-				<content value="Fireball (ST SP1)"/>
-				<color r="255" g="255" b="255" a="255"/>
-				<pos x="390" y="750"/>
-			</mage_obj2_desc>
-			<rogue_obj1>
-				<content value="THIEF HOOD"/>
-				<color r="255" g="255" b="255" a="255"/>
-				<pos x="200" y="420"/>
-			</rogue_obj1>
-			<rogue_obj2>
-				<content value="LEATHER CLOACK"/>
-				<color r="255" g="255" b="255" a="255"/>
-				<pos x="200" y="645"/>
-			</rogue_obj2>
-			<rogue_obj1_desc>
-				<content value="Roll (CRH SP1)"/>
-				<color r="255" g="255" b="255" a="255"/>
-				<pos x="390" y="525"/>
-			</rogue_obj1_desc>
-			<rogue_obj2_desc>
-				<content value="Airdash (JMP SP2)"/>
-				<color r="255" g="255" b="255" a="255"/>
-				<pos x="390" y="750"/>
-			</rogue_obj2_desc>
+			
 		</labels>
 		<buttons>
 			<b_warrior_l>

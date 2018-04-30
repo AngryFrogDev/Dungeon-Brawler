@@ -88,11 +88,11 @@ void characterSelScene::loadSceneUi()	{
 	scene_title = (Labels*)App->gui->createLabel(labels_node.child("title").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("title").child("color").attribute("r").as_int(),(Uint8)labels_node.child("title").child("color").attribute("g").as_int(),(Uint8)labels_node.child("title").child("color").attribute("b").as_int(),(Uint8)labels_node.child("title").child("color").attribute("a").as_int() },
 	App->fonts->extra_large_size, { labels_node.child("title").child("pos").attribute("x").as_int(), labels_node.child("title").child("pos").attribute("y").as_int() }, this);
 
-	p1_label = (Labels*)App->gui->createLabel(labels_node.child("player_1").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("player_1").child("color").attribute("r").as_int(),(Uint8)labels_node.child("player_1").child("color").attribute("g").as_int(),(Uint8)labels_node.child("player_1").child("color").attribute("b").as_int(),(Uint8)labels_node.child("player_1").child("color").attribute("a").as_int() },
-	App->fonts->large_size, { labels_node.child("player_1").child("pos").attribute("x").as_int(), labels_node.child("player_1").child("pos").attribute("y").as_int() }, this);
+	p1_label = (Labels*)App->gui->createLabel(labels_node.child("player1_l").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("player1_l").child("color").attribute("r").as_int(),(Uint8)labels_node.child("player1_l").child("color").attribute("g").as_int(),(Uint8)labels_node.child("player1_l").child("color").attribute("b").as_int(),(Uint8)labels_node.child("player1_l").child("color").attribute("a").as_int() },
+	App->fonts->large_size, { labels_node.child("player1_l").child("pos").attribute("x").as_int(), labels_node.child("player1_l").child("pos").attribute("y").as_int() }, this);
 	
-	p2_label = (Labels*)App->gui->createLabel(labels_node.child("player_2").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("player_2").child("color").attribute("r").as_int(),(Uint8)labels_node.child("player_2").child("color").attribute("g").as_int(),(Uint8)labels_node.child("player_2").child("color").attribute("b").as_int(),(Uint8)labels_node.child("player_2").child("color").attribute("a").as_int() },
-	App->fonts->large_size, { labels_node.child("player_2").child("pos").attribute("x").as_int(), labels_node.child("player_2").child("pos").attribute("y").as_int() }, this);
+	p2_label = (Labels*)App->gui->createLabel(labels_node.child("player2_l").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("player2_l").child("color").attribute("r").as_int(),(Uint8)labels_node.child("player2_l").child("color").attribute("g").as_int(),(Uint8)labels_node.child("player2_l").child("color").attribute("b").as_int(),(Uint8)labels_node.child("player2_l").child("color").attribute("a").as_int() },
+	App->fonts->large_size, { labels_node.child("player2_l").child("pos").attribute("x").as_int(), labels_node.child("player2_l").child("pos").attribute("y").as_int() }, this);
 
 	//BUTTONS
 	createP1CharButtons();
@@ -172,9 +172,15 @@ void characterSelScene::assignFocus()	{
 void characterSelScene::checkSceneInput()	{
 	if (App->entities->players[0]->getInput(GRAB, KEY_DOWN) && object_win_p1)
 		closeP1Window();
+	if (App->entities->players[1]->getInput(GRAB, KEY_DOWN) && object_win_p2)
+		closeP2Window();
+
+	if (player1.has_selected_character && player1.has_selected_item && player2.has_selected_character && player2.has_selected_item)
+		assignCharacterToPlayer();
 }
 
 void characterSelScene::assignCharacterToPlayer()	{
+	
 
 }
 
@@ -359,10 +365,10 @@ void characterSelScene::popUpP1Window() {
 		default:
 			break;
 		case WARRIOR:
-			obj1_name = labels_node.child("warrior_obj1");
-			obj2_name = labels_node.child("warrior_obj2");
-			obj1_desc = labels_node.child("warrior_obj1_desc");
-			obj2_desc = labels_node.child("warrior_obj2_desc");
+			obj1_name = labels_node.child("player_1").child("warrior_obj1");
+			obj2_name = labels_node.child("player_1").child("warrior_obj2");
+			obj1_desc = labels_node.child("player_1").child("warrior_obj1_desc");
+			obj2_desc = labels_node.child("player_1").child("warrior_obj2_desc");
 			obj1_name_p1 = (Labels*)App->gui->createLabel(obj1_name.child("content").attribute("value").as_string(), { (Uint8)obj1_name.child("color").attribute("r").as_int(),(Uint8)obj1_name.child("color").attribute("g").as_int(),(Uint8)obj1_name.child("color").attribute("b").as_int(),(Uint8)obj1_name.child("color").attribute("a").as_int() },
 				App->fonts->medium_size, { obj1_name.child("pos").attribute("x").as_int(), obj1_name.child("pos").attribute("y").as_int() }, this);
 
@@ -376,10 +382,10 @@ void characterSelScene::popUpP1Window() {
 				App->fonts->medium_size, { obj2_desc.child("pos").attribute("x").as_int(), obj2_desc.child("pos").attribute("y").as_int() }, this);
 			break;
 		case MAGE:
-			obj1_name = labels_node.child("mage_obj1");
-			obj2_name = labels_node.child("mage_obj2");
-			obj1_desc = labels_node.child("mage_obj1_desc");
-			obj2_desc = labels_node.child("mage_obj2_desc");
+			obj1_name = labels_node.child("player_1").child("mage_obj1");
+			obj2_name = labels_node.child("player_1").child("mage_obj2");
+			obj1_desc = labels_node.child("player_1").child("mage_obj1_desc");
+			obj2_desc = labels_node.child("player_1").child("mage_obj2_desc");
 			obj1_name_p1 = (Labels*)App->gui->createLabel(obj1_name.child("content").attribute("value").as_string(), { (Uint8)obj1_name.child("color").attribute("r").as_int(),(Uint8)obj1_name.child("color").attribute("g").as_int(),(Uint8)obj1_name.child("color").attribute("b").as_int(),(Uint8)obj1_name.child("color").attribute("a").as_int() },
 				App->fonts->medium_size, { obj1_name.child("pos").attribute("x").as_int(), obj1_name.child("pos").attribute("y").as_int() }, this);
 
@@ -393,10 +399,10 @@ void characterSelScene::popUpP1Window() {
 				App->fonts->medium_size, { obj2_desc.child("pos").attribute("x").as_int(), obj2_desc.child("pos").attribute("y").as_int() }, this);
 			break;
 		case ROGUE:
-			obj1_name = labels_node.child("rogue_obj1");
-			obj2_name = labels_node.child("rogue_obj2");
-			obj1_desc = labels_node.child("rogue_obj1_desc");
-			obj2_desc = labels_node.child("rogue_obj2_desc");
+			obj1_name = labels_node.child("player_1").child("rogue_obj1");
+			obj2_name = labels_node.child("player_1").child("rogue_obj2");
+			obj1_desc = labels_node.child("player_1").child("rogue_obj1_desc");
+			obj2_desc = labels_node.child("player_1").child("rogue_obj2_desc");
 			obj1_name_p1 = (Labels*)App->gui->createLabel(obj1_name.child("content").attribute("value").as_string(), { (Uint8)obj1_name.child("color").attribute("r").as_int(),(Uint8)obj1_name.child("color").attribute("g").as_int(),(Uint8)obj1_name.child("color").attribute("b").as_int(),(Uint8)obj1_name.child("color").attribute("a").as_int() },
 				App->fonts->medium_size, { obj1_name.child("pos").attribute("x").as_int(), obj1_name.child("pos").attribute("y").as_int() }, this);
 
@@ -410,10 +416,10 @@ void characterSelScene::popUpP1Window() {
 				App->fonts->medium_size, { obj2_desc.child("pos").attribute("x").as_int(), obj2_desc.child("pos").attribute("y").as_int() }, this);
 			break;
 		case PALADIN:
-			obj1_name = labels_node.child("paladin_obj1");
-			obj2_name = labels_node.child("paladin_obj2");
-			obj1_desc = labels_node.child("paladin_obj1_desc");
-			obj2_desc = labels_node.child("paladin_obj2_desc");
+			obj1_name = labels_node.child("player_1").child("paladin_obj1");
+			obj2_name = labels_node.child("player_1").child("paladin_obj2");
+			obj1_desc = labels_node.child("player_1").child("paladin_obj1_desc");
+			obj2_desc = labels_node.child("player_1").child("paladin_obj2_desc");
 			obj1_name_p1 = (Labels*)App->gui->createLabel(obj1_name.child("content").attribute("value").as_string(), { (Uint8)obj1_name.child("color").attribute("r").as_int(),(Uint8)obj1_name.child("color").attribute("g").as_int(),(Uint8)obj1_name.child("color").attribute("b").as_int(),(Uint8)obj1_name.child("color").attribute("a").as_int() },
 				App->fonts->medium_size, { obj1_name.child("pos").attribute("x").as_int(), obj1_name.child("pos").attribute("y").as_int() }, this);
 
@@ -444,8 +450,94 @@ void characterSelScene::popUpP2Window()	{
 			object = *it;
 			object->to_delete = true;
 		}
+		App->gui->p2_focus_elements.clear();
+		App->entities->players[1]->focus = nullptr;
+
 		object_win_p2 = (UiWindow*)App->gui->createWindow(OBJ_SELECTION, { 1140, 310 }, this);
 		select_object_p2 = (Labels*)App->gui->createLabel("Choose your Item", { 255,255,255,255 }, App->fonts->large_size, { 1260, 330 }, this);
+		affects_special1_p2 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 390, 480 }, this);
+		affects_special2_p2 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 390,705 }, this);
+		p2_select_item1 = (Buttons*)App->gui->createButton(SELECT_ITEM1, OBJECT_SELECTION, 0, { 170, 390 }, this);
+		p2_select_item2 = (Buttons*)App->gui->createButton(SELECT_ITEM1, OBJECT_SELECTION, 0, { 170, 610 }, this);
+
+		pugi::xml_node obj1_name;
+		pugi::xml_node obj2_name;
+		pugi::xml_node obj1_desc;
+		pugi::xml_node obj2_desc;
+
+		switch (player2.character)
+		{
+		default:
+			break;
+		case WARRIOR:
+			obj1_name = labels_node.child("player_2").child("warrior_obj1");
+			obj2_name = labels_node.child("player_2").child("warrior_obj2");
+			obj1_desc = labels_node.child("player_2").child("warrior_obj1_desc");
+			obj2_desc = labels_node.child("player_2").child("warrior_obj2_desc");
+			obj1_name_p2 = (Labels*)App->gui->createLabel(obj1_name.child("content").attribute("value").as_string(), { (Uint8)obj1_name.child("color").attribute("r").as_int(),(Uint8)obj1_name.child("color").attribute("g").as_int(),(Uint8)obj1_name.child("color").attribute("b").as_int(),(Uint8)obj1_name.child("color").attribute("a").as_int() },
+				App->fonts->medium_size, { obj1_name.child("pos").attribute("x").as_int(), obj1_name.child("pos").attribute("y").as_int() }, this);
+
+			obj2_name_p2 = (Labels*)App->gui->createLabel(obj2_name.child("content").attribute("value").as_string(), { (Uint8)obj2_name.child("color").attribute("r").as_int(),(Uint8)obj2_name.child("color").attribute("g").as_int(),(Uint8)obj2_name.child("color").attribute("b").as_int(),(Uint8)obj2_name.child("color").attribute("a").as_int() },
+				App->fonts->medium_size, { obj2_name.child("pos").attribute("x").as_int(), obj2_name.child("pos").attribute("y").as_int() }, this);
+
+			obj1_desc_p2 = (Labels*)App->gui->createLabel(obj1_desc.child("content").attribute("value").as_string(), { (Uint8)obj1_desc.child("color").attribute("r").as_int(),(Uint8)obj1_desc.child("color").attribute("g").as_int(),(Uint8)obj1_desc.child("color").attribute("b").as_int(),(Uint8)obj1_desc.child("color").attribute("a").as_int() },
+				App->fonts->medium_size, { obj1_desc.child("pos").attribute("x").as_int(), obj1_desc.child("pos").attribute("y").as_int() }, this);
+
+			obj2_desc_p2 = (Labels*)App->gui->createLabel(obj2_desc.child("content").attribute("value").as_string(), { (Uint8)obj2_desc.child("color").attribute("r").as_int(),(Uint8)obj2_desc.child("color").attribute("g").as_int(),(Uint8)obj2_desc.child("color").attribute("b").as_int(),(Uint8)obj2_desc.child("color").attribute("a").as_int() },
+				App->fonts->medium_size, { obj2_desc.child("pos").attribute("x").as_int(), obj2_desc.child("pos").attribute("y").as_int() }, this);
+			break;
+		case MAGE:
+			obj1_name = labels_node.child("mage_obj1");
+			obj2_name = labels_node.child("mage_obj2");
+			obj1_desc = labels_node.child("mage_obj1_desc");
+			obj2_desc = labels_node.child("mage_obj2_desc");
+			obj1_name_p2 = (Labels*)App->gui->createLabel(obj1_name.child("content").attribute("value").as_string(), { (Uint8)obj1_name.child("color").attribute("r").as_int(),(Uint8)obj1_name.child("color").attribute("g").as_int(),(Uint8)obj1_name.child("color").attribute("b").as_int(),(Uint8)obj1_name.child("color").attribute("a").as_int() },
+				App->fonts->medium_size, { obj1_name.child("pos").attribute("x").as_int(), obj1_name.child("pos").attribute("y").as_int() }, this);
+
+			obj2_name_p2 = (Labels*)App->gui->createLabel(obj2_name.child("content").attribute("value").as_string(), { (Uint8)obj2_name.child("color").attribute("r").as_int(),(Uint8)obj2_name.child("color").attribute("g").as_int(),(Uint8)obj2_name.child("color").attribute("b").as_int(),(Uint8)obj2_name.child("color").attribute("a").as_int() },
+				App->fonts->medium_size, { obj2_name.child("pos").attribute("x").as_int(), obj2_name.child("pos").attribute("y").as_int() }, this);
+
+			obj1_desc_p2 = (Labels*)App->gui->createLabel(obj1_desc.child("content").attribute("value").as_string(), { (Uint8)obj1_desc.child("color").attribute("r").as_int(),(Uint8)obj1_desc.child("color").attribute("g").as_int(),(Uint8)obj1_desc.child("color").attribute("b").as_int(),(Uint8)obj1_desc.child("color").attribute("a").as_int() },
+				App->fonts->medium_size, { obj1_desc.child("pos").attribute("x").as_int(), obj1_desc.child("pos").attribute("y").as_int() }, this);
+
+			obj2_desc_p2 = (Labels*)App->gui->createLabel(obj2_desc.child("content").attribute("value").as_string(), { (Uint8)obj2_desc.child("color").attribute("r").as_int(),(Uint8)obj2_desc.child("color").attribute("g").as_int(),(Uint8)obj2_desc.child("color").attribute("b").as_int(),(Uint8)obj2_desc.child("color").attribute("a").as_int() },
+				App->fonts->medium_size, { obj2_desc.child("pos").attribute("x").as_int(), obj2_desc.child("pos").attribute("y").as_int() }, this);
+			break;
+		case ROGUE:
+			obj1_name = labels_node.child("rogue_obj1");
+			obj2_name = labels_node.child("rogue_obj2");
+			obj1_desc = labels_node.child("rogue_obj1_desc");
+			obj2_desc = labels_node.child("rogue_obj2_desc");
+			obj1_name_p2 = (Labels*)App->gui->createLabel(obj1_name.child("content").attribute("value").as_string(), { (Uint8)obj1_name.child("color").attribute("r").as_int(),(Uint8)obj1_name.child("color").attribute("g").as_int(),(Uint8)obj1_name.child("color").attribute("b").as_int(),(Uint8)obj1_name.child("color").attribute("a").as_int() },
+				App->fonts->medium_size, { obj1_name.child("pos").attribute("x").as_int(), obj1_name.child("pos").attribute("y").as_int() }, this);
+
+			obj2_name_p2 = (Labels*)App->gui->createLabel(obj2_name.child("content").attribute("value").as_string(), { (Uint8)obj2_name.child("color").attribute("r").as_int(),(Uint8)obj2_name.child("color").attribute("g").as_int(),(Uint8)obj2_name.child("color").attribute("b").as_int(),(Uint8)obj2_name.child("color").attribute("a").as_int() },
+				App->fonts->medium_size, { obj2_name.child("pos").attribute("x").as_int(), obj2_name.child("pos").attribute("y").as_int() }, this);
+
+			obj1_desc_p2 = (Labels*)App->gui->createLabel(obj1_desc.child("content").attribute("value").as_string(), { (Uint8)obj1_desc.child("color").attribute("r").as_int(),(Uint8)obj1_desc.child("color").attribute("g").as_int(),(Uint8)obj1_desc.child("color").attribute("b").as_int(),(Uint8)obj1_desc.child("color").attribute("a").as_int() },
+				App->fonts->medium_size, { obj1_desc.child("pos").attribute("x").as_int(), obj1_desc.child("pos").attribute("y").as_int() }, this);
+
+			obj2_desc_p2 = (Labels*)App->gui->createLabel(obj2_desc.child("content").attribute("value").as_string(), { (Uint8)obj2_desc.child("color").attribute("r").as_int(),(Uint8)obj2_desc.child("color").attribute("g").as_int(),(Uint8)obj2_desc.child("color").attribute("b").as_int(),(Uint8)obj2_desc.child("color").attribute("a").as_int() },
+				App->fonts->medium_size, { obj2_desc.child("pos").attribute("x").as_int(), obj2_desc.child("pos").attribute("y").as_int() }, this);
+			break;
+		case PALADIN:
+			obj1_name = labels_node.child("paladin_obj1");
+			obj2_name = labels_node.child("paladin_obj2");
+			obj1_desc = labels_node.child("paladin_obj1_desc");
+			obj2_desc = labels_node.child("paladin_obj2_desc");
+			obj1_name_p2 = (Labels*)App->gui->createLabel(obj1_name.child("content").attribute("value").as_string(), { (Uint8)obj1_name.child("color").attribute("r").as_int(),(Uint8)obj1_name.child("color").attribute("g").as_int(),(Uint8)obj1_name.child("color").attribute("b").as_int(),(Uint8)obj1_name.child("color").attribute("a").as_int() },
+				App->fonts->medium_size, { obj1_name.child("pos").attribute("x").as_int(), obj1_name.child("pos").attribute("y").as_int() }, this);
+
+			obj2_name_p2 = (Labels*)App->gui->createLabel(obj2_name.child("content").attribute("value").as_string(), { (Uint8)obj2_name.child("color").attribute("r").as_int(),(Uint8)obj2_name.child("color").attribute("g").as_int(),(Uint8)obj2_name.child("color").attribute("b").as_int(),(Uint8)obj2_name.child("color").attribute("a").as_int() },
+				App->fonts->medium_size, { obj2_name.child("pos").attribute("x").as_int(), obj2_name.child("pos").attribute("y").as_int() }, this);
+
+			obj1_desc_p2 = (Labels*)App->gui->createLabel(obj1_desc.child("content").attribute("value").as_string(), { (Uint8)obj1_desc.child("color").attribute("r").as_int(),(Uint8)obj1_desc.child("color").attribute("g").as_int(),(Uint8)obj1_desc.child("color").attribute("b").as_int(),(Uint8)obj1_desc.child("color").attribute("a").as_int() },
+				App->fonts->medium_size, { obj1_desc.child("pos").attribute("x").as_int(), obj1_desc.child("pos").attribute("y").as_int() }, this);
+
+			obj2_desc_p2 = (Labels*)App->gui->createLabel(obj2_desc.child("content").attribute("value").as_string(), { (Uint8)obj2_desc.child("color").attribute("r").as_int(),(Uint8)obj2_desc.child("color").attribute("g").as_int(),(Uint8)obj2_desc.child("color").attribute("b").as_int(),(Uint8)obj2_desc.child("color").attribute("a").as_int() },
+				App->fonts->medium_size, { obj2_desc.child("pos").attribute("x").as_int(), obj2_desc.child("pos").attribute("y").as_int() }, this);
+			break;
+		}
 	}
 
 	//And finally we reasign both focus
@@ -477,5 +569,9 @@ void characterSelScene::closeP1Window()	{
 
 	createP1CharButtons();
 	assignFocus();
+}
+
+void characterSelScene::closeP2Window()	{
+
 }
 
