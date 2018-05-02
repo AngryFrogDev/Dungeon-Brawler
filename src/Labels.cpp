@@ -17,7 +17,7 @@ Labels::Labels(const char* content, const SDL_Color& _color, _TTF_Font* _font_si
 Labels::~Labels() {}
 
 void Labels::draw() {
-	App->render->drawSprite(7, text_texture, position.first, position.second, nullptr, 1, false, 1.0f, 0.0, 0, 0, false);
+	App->render->drawSprite(8, text_texture, position.first, position.second, nullptr, 1, false, 1.0f, 0.0, 0, 0, false);
 }
 
 void Labels::setArea(std::pair<int, int> area) {

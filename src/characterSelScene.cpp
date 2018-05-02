@@ -23,6 +23,7 @@ bool characterSelScene::start()	{
 	vs_tex = App->textures->load(textures_node.child("vs_tex").attribute("path").as_string());
 	character_names = App->textures->load(textures_node.child("char_name_tex").attribute("path").as_string());
 	items = App->textures->load(textures_node.child("items_tex").attribute("path").as_string());
+	ready_tex = App->textures->load("assets/ready_tex.png");
 
 	App->entities->players[0]->focus = App->entities->players[1]->focus = nullptr;
 
@@ -184,8 +185,80 @@ void characterSelScene::loadSceneTextures()	{
 		App->render->drawSprite(2, character_potraits, textures_node.child("right_portraits").attribute("x").as_int(), textures_node.child("right_portraits").attribute("y").as_int(), player2.portrait, textures_node.child("portraits").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 
 	//VS
-	App->render->drawSprite(2, vs_tex, textures_node.child("vs_tex").attribute("x").as_int(), textures_node.child("vs_tex").attribute("y").as_int(), 0, textures_node.child("vs_tex").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
+//	App->render->drawSprite(4, vs_tex, textures_node.child("vs_tex").attribute("x").as_int(), textures_node.child("vs_tex").attribute("y").as_int(), 0, textures_node.child("vs_tex").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 
+	//Character Miniatures
+	loadCharMiniaturesTex();
+	
+	//CHARACTER NAME TEXTURES
+	//Left
+	App->render->drawSprite(4, character_names, textures_node.child("left_names").attribute("x").as_int(), textures_node.child("left_names").attribute("y").as_int(), player1.name_tex, textures_node.child("names").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
+	//Right
+	App->render->drawSprite(4, character_names, textures_node.child("right_names").attribute("x").as_int(), textures_node.child("right_names").attribute("y").as_int(), player2.name_tex, textures_node.child("names").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
+
+	if (player1.has_selected_character && player1.has_selected_item)
+		App->render->drawSprite(4, ready_tex, 450, 250, 0, 1, false, 1.0f, 0, 0, 0, false);
+	if (player2.has_selected_character && player2.has_selected_item)
+		App->render->drawSprite(4, ready_tex, 1250, 250, 0, 1, false, 1.0f, 0, 0, 0, false);
+
+	//OBJECT TEXTUREs
+	loadObjectTextures();
+
+}
+
+void characterSelScene::loadObjectTextures()	{
+	if (player1.has_selected_character && !player1.has_selected_item)
+	{
+		switch (player1.character)
+		{
+		default:
+			break;
+		case WARRIOR:
+			App->render->drawSprite(6, items, 225, 470, &warrior_item1, 6, false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, 225, 690, &warrior_item2, 6, false, 1.0f, 0, 0, 0, false);
+			break;
+		case MAGE:
+			App->render->drawSprite(6, items, 225, 470, &mage_item1, 6, false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, 225, 690, &mage_item2, 6, false, 1.0f, 0, 0, 0, false);
+			break;
+		case ROGUE:
+			App->render->drawSprite(6, items, 225, 470, &rogue_item1, 6, false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, 225, 690, &rogue_item2, 6, false, 1.0f, 0, 0, 0, false);
+			break;
+		case PALADIN:
+			App->render->drawSprite(6, items, 225, 440, &paladin_item1, 6, false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, 225, 660, &paladin_item2, 6, false, 1.0f, 0, 0, 0, false);
+			break;
+		}
+	}
+
+	if (player2.has_selected_character && !player2.has_selected_item)
+	{
+		switch (player2.character)
+		{
+		default:
+			break;
+		case WARRIOR:
+			App->render->drawSprite(6, items, 1200, 470, &warrior_item1, 6, false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, 1200, 690, &warrior_item2, 6, false, 1.0f, 0, 0, 0, false);
+			break;
+		case MAGE:
+			App->render->drawSprite(6, items, 1200, 470, &mage_item1, 6, false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, 1200, 690, &mage_item2, 6, false, 1.0f, 0, 0, 0, false);
+			break;
+		case ROGUE:
+			App->render->drawSprite(6, items, 1200, 470, &rogue_item1, 6, false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, 1200, 690, &rogue_item2, 6, false, 1.0f, 0, 0, 0, false);
+			break;
+		case PALADIN:
+			App->render->drawSprite(6, items, 1200, 440, &paladin_item1, 6, false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, 1200, 660, &paladin_item2, 6, false, 1.0f, 0, 0, 0, false);
+			break;
+		}
+	}
+}
+
+void characterSelScene::loadCharMiniaturesTex()	{
 	if (!player1.has_selected_character)
 	{
 		//CHARACTER MINIATURES
@@ -203,13 +276,6 @@ void characterSelScene::loadSceneTextures()	{
 		App->render->drawSprite(3, App->gui->atlas, 1056, 606, &rogue_miniature, 3, false, 1.0f, 0, 0, 0, false);
 		App->render->drawSprite(3, App->gui->atlas, 1056, 756, &paladin_miniature, 3, false, 1.0f, 0, 0, 0, false);
 	}
-	
-	//CHARACTER NAME TEXTURES
-	//Left
-	App->render->drawSprite(4, character_names, textures_node.child("left_names").attribute("x").as_int(), textures_node.child("left_names").attribute("y").as_int(), player1.name_tex, textures_node.child("names").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
-	//Right
-	App->render->drawSprite(4, character_names, textures_node.child("right_names").attribute("x").as_int(), textures_node.child("right_names").attribute("y").as_int(), player2.name_tex, textures_node.child("names").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
-
 }
 
 void characterSelScene::assignFocus()	{
@@ -316,15 +382,45 @@ void characterSelScene::setRects()	{
 	paladin_name_tex.h = paladin.attribute("h").as_int();
 
 	//OBJECTS
-	warrior_item1.x = textures_node.child("warrior_obj1").attribute("x").as_int();
-	warrior_item1.y = textures_node.child("warrior_obj1").attribute("y").as_int();
-	warrior_item1.w = textures_node.child("warrior_obj1").attribute("w").as_int();
-	warrior_item1.h = textures_node.child("warrior_obj1").attribute("h").as_int();
+	warrior_item2.x = textures_node.child("warrior_obj1").attribute("x").as_int();
+	warrior_item2.y = textures_node.child("warrior_obj1").attribute("y").as_int();
+	warrior_item2.w = textures_node.child("warrior_obj1").attribute("w").as_int();
+	warrior_item2.h = textures_node.child("warrior_obj1").attribute("h").as_int();
 
-	warrior_item2.x = textures_node.child("warrior_obj2").attribute("x").as_int();
-	warrior_item2.y = textures_node.child("warrior_obj2").attribute("y").as_int();
-	warrior_item2.w = textures_node.child("warrior_obj2").attribute("w").as_int();
-	warrior_item2.h = textures_node.child("warrior_obj2").attribute("h").as_int();
+	warrior_item1.x = textures_node.child("warrior_obj2").attribute("x").as_int();
+	warrior_item1.y = textures_node.child("warrior_obj2").attribute("y").as_int();
+	warrior_item1.w = textures_node.child("warrior_obj2").attribute("w").as_int();
+	warrior_item1.h = textures_node.child("warrior_obj2").attribute("h").as_int();
+
+	mage_item1.x = textures_node.child("mage_obj2").attribute("x").as_int();
+	mage_item1.y = textures_node.child("mage_obj2").attribute("y").as_int();
+	mage_item1.w = textures_node.child("mage_obj2").attribute("w").as_int();
+	mage_item1.h = textures_node.child("mage_obj2").attribute("h").as_int();
+
+	mage_item2.x = textures_node.child("mage_obj1").attribute("x").as_int();
+	mage_item2.y = textures_node.child("mage_obj1").attribute("y").as_int();
+	mage_item2.w = textures_node.child("mage_obj1").attribute("w").as_int();
+	mage_item2.h = textures_node.child("mage_obj1").attribute("h").as_int();
+
+	rogue_item1.x = textures_node.child("rogue_obj2").attribute("x").as_int();
+	rogue_item1.y = textures_node.child("rogue_obj2").attribute("y").as_int();
+	rogue_item1.w = textures_node.child("rogue_obj2").attribute("w").as_int();
+	rogue_item1.h = textures_node.child("rogue_obj2").attribute("h").as_int();
+
+	rogue_item2.x = textures_node.child("rogue_obj1").attribute("x").as_int();
+	rogue_item2.y = textures_node.child("rogue_obj1").attribute("y").as_int();
+	rogue_item2.w = textures_node.child("rogue_obj1").attribute("w").as_int();
+	rogue_item2.h = textures_node.child("rogue_obj1").attribute("h").as_int();
+
+	paladin_item1.x = textures_node.child("paladin_obj2").attribute("x").as_int();
+	paladin_item1.y = textures_node.child("paladin_obj2").attribute("y").as_int();
+	paladin_item1.w = textures_node.child("paladin_obj2").attribute("w").as_int();
+	paladin_item1.h = textures_node.child("paladin_obj2").attribute("h").as_int();
+
+	paladin_item2.x = textures_node.child("paladin_obj1").attribute("x").as_int();
+	paladin_item2.y = textures_node.child("paladin_obj1").attribute("y").as_int();
+	paladin_item2.w = textures_node.child("paladin_obj1").attribute("w").as_int();
+	paladin_item2.h = textures_node.child("paladin_obj1").attribute("h").as_int();
 }
 
 void characterSelScene::setCurrentCharDisplay()	{

@@ -30,6 +30,9 @@ private:
 	void createP1CharButtons();
 	void createP2CharButtons();//Separated in individual function to be able to re-create them when needed
 	void loadSceneTextures();
+	//Supplementary functions to one above
+	void loadObjectTextures();
+	void loadCharMiniaturesTex();
 	void assignFocus();
 	void checkSceneInput();
 
@@ -94,6 +97,7 @@ private:
 	SDL_Texture* vs_tex = nullptr;
 	SDL_Texture* character_names = nullptr;
 	SDL_Texture* items = nullptr;
+	SDL_Texture* ready_tex = nullptr;
 
 	//Rects
 	SDL_Rect warrior_name_tex;
@@ -111,8 +115,8 @@ private:
 	SDL_Rect rogue_miniature;
 	SDL_Rect paladin_miniature;
 
-	SDL_Rect warrior_item1;
 	SDL_Rect warrior_item2;
+	SDL_Rect warrior_item1;
 	SDL_Rect mage_item1;
 	SDL_Rect mage_item2;
 	SDL_Rect rogue_item1;

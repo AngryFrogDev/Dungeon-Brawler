@@ -85,14 +85,14 @@
 			<right_names x="1200" y="900"/>
 			<names scale="1"/>	
 
-			<warrior_obj1 x="" y="" w="29" h="27"/>
-			<warrior_obj2 x="" y="" w="29" h="27"/>
-			<mage_obj1 x="" y="" w="29" h="27"/>
-			<mage_obj2 x="" y="" w="29" h="27"/>
-			<rogue_obj1 x="" y="" w="29" h="27"/>
-			<rogue_obj2 x="" y="" w="29" h="27"/>
-			<paladin_obj1 x="" y="" w="29" h="27"/>
-			<paladin_obj2 x="" y="" w="29" h="27"/>		
+			<warrior_obj1 x="0" y="0" w="29" h="27"/>
+			<warrior_obj2 x="29" y="0" w="29" h="27"/>
+			<mage_obj1 x="0" y="27" w="29" h="27"/>
+			<mage_obj2 x="29" y="27" w="29" h="27"/>
+			<rogue_obj1 x="0" y="54" w="29" h="27"/>
+			<rogue_obj2 x="29" y="54" w="29" h="27"/>
+			<paladin_obj1 x="0" y="81" w="29" h="27"/>
+			<paladin_obj2 x="29" y="81" w="29" h="27"/>		
 		</textures>
 		<labels>
 			<title>
