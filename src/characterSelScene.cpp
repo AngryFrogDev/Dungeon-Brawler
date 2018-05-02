@@ -33,6 +33,9 @@ bool characterSelScene::start()	{
 }
 
 bool characterSelScene::update(float dt)	{
+	if (!App->entities->players[0]->focus || !App->entities->players[1]->focus)
+		assignFocus();
+
 	setCurrentCharDisplay();
 	loadSceneTextures();
 	checkSceneInput();
@@ -70,14 +73,63 @@ bool characterSelScene::onEvent(Buttons* button)	{
 		else 
 			player2.character = PALADIN;
 		break;
+	case SELECT_ITEM1:
+		if (button->focus_id == 0) {
+			player1.item = SPECIAL_ITEM_1;
+			player1.has_selected_item = true;
+			closeP1Window();
+		}
+		else  {
+			player2.item = SPECIAL_ITEM_1;
+			player2.has_selected_item = true;
+			closeP2Window();
+		}
+		break;
+	case SELECT_ITEM2:
+		if (button->focus_id == 0) {
+			player1.item = SPECIAL_ITEM_2;
+			player1.has_selected_item = true;
+			closeP1Window();
+		}
+		else {
+			player2.item = SPECIAL_ITEM_2;
+			player2.has_selected_item = true;
+			closeP2Window();
+		}
+		break;
 	}
 
-	if (button->being_clicked)
+	if (button->being_clicked && button->size == CHARACTER_SELECTION)
 	{
 		if (button->focus_id == 0)
-			player1.has_selected_character = true, popUpP1Window();
+		{
+			if (App->entities->players[0]->getInput(LIGHT_ATTACK, KEY_DOWN))
+				player1.skin = 0;
+			if (App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))
+				player1.skin = 1;
+			if (App->entities->players[0]->getInput(GRAB, KEY_DOWN))
+				player1.skin = 2;
+			if (App->entities->players[0]->getInput(SWITCH, KEY_DOWN))
+				player1.skin = 3;
+
+			player1.has_selected_character = true; 
+			popUpP1Window();
+
+		}
 		else
-			player2.has_selected_character = true, popUpP2Window();
+		{
+			if (App->entities->players[1]->getInput(LIGHT_ATTACK, KEY_DOWN))
+				player2.skin = 0;
+			if (App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN))
+				player2.skin = 1;
+			if (App->entities->players[1]->getInput(GRAB, KEY_DOWN))
+				player2.skin = 2;
+			if (App->entities->players[1]->getInput(SWITCH, KEY_DOWN))
+				player2.skin = 3;
+
+			player2.has_selected_character = true;
+			popUpP2Window();
+		}
 	}
 
 	return true;
@@ -132,7 +184,7 @@ void characterSelScene::loadSceneTextures()	{
 		App->render->drawSprite(2, character_potraits, textures_node.child("right_portraits").attribute("x").as_int(), textures_node.child("right_portraits").attribute("y").as_int(), player2.portrait, textures_node.child("portraits").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 
 	//VS
-//	App->render->drawSprite(4, vs_tex, textures_node.child("vs_tex").attribute("x").as_int(), textures_node.child("vs_tex").attribute("y").as_int(), 0, textures_node.child("vs_tex").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(2, vs_tex, textures_node.child("vs_tex").attribute("x").as_int(), textures_node.child("vs_tex").attribute("y").as_int(), 0, textures_node.child("vs_tex").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 
 	if (!player1.has_selected_character)
 	{
@@ -353,7 +405,7 @@ void characterSelScene::popUpP1Window() {
 		affects_special1_p1 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 390, 480 }, this);
 		affects_special2_p1 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 390,705 }, this);
 		p1_select_item1 = (Buttons*)App->gui->createButton(SELECT_ITEM1, OBJECT_SELECTION, 0, { 170, 390 }, this);
-		p1_select_item2 = (Buttons*)App->gui->createButton(SELECT_ITEM1, OBJECT_SELECTION, 0, { 170, 610 }, this);
+		p1_select_item2 = (Buttons*)App->gui->createButton(SELECT_ITEM2, OBJECT_SELECTION, 0, { 170, 610 }, this);
 
 		pugi::xml_node obj1_name;
 		pugi::xml_node obj2_name;
@@ -434,9 +486,6 @@ void characterSelScene::popUpP1Window() {
 			break;
 		}
 	}
-	
-	//And finally we reasign both focus
-	assignFocus();
 }
 
 void characterSelScene::popUpP2Window()	{
@@ -458,7 +507,7 @@ void characterSelScene::popUpP2Window()	{
 		affects_special1_p2 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 1380, 480 }, this);
 		affects_special2_p2 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 1380,705 }, this);
 		p2_select_item1 = (Buttons*)App->gui->createButton(SELECT_ITEM1, OBJECT_SELECTION, 1, { 1160, 390 }, this);
-		p2_select_item2 = (Buttons*)App->gui->createButton(SELECT_ITEM1, OBJECT_SELECTION, 1, { 1160, 610 }, this);
+		p2_select_item2 = (Buttons*)App->gui->createButton(SELECT_ITEM2, OBJECT_SELECTION, 1, { 1160, 610 }, this);
 
 		pugi::xml_node obj1_name;
 		pugi::xml_node obj2_name;
@@ -539,9 +588,6 @@ void characterSelScene::popUpP2Window()	{
 			break;
 		}
 	}
-
-	//And finally we reasign both focus
-	assignFocus();
 }
 
 void characterSelScene::closeP1Window()	{
@@ -565,10 +611,14 @@ void characterSelScene::closeP1Window()	{
 	obj2_name_p1->to_delete = true;
 	obj1_desc_p1->to_delete = true;
 	obj2_desc_p1->to_delete = true;
-	player1.has_selected_character = false;
-
-	createP1CharButtons();
-	assignFocus();
+	
+	if (!player1.has_selected_item)
+	{
+		player1.has_selected_character = false;
+		createP1CharButtons();
+		assignFocus();
+	}
+	
 }
 
 void characterSelScene::closeP2Window()	{
@@ -592,9 +642,12 @@ void characterSelScene::closeP2Window()	{
 	obj2_name_p2->to_delete = true;
 	obj1_desc_p2->to_delete = true;
 	obj2_desc_p2->to_delete = true;
-	player2.has_selected_character = false;
-
-	createP2CharButtons();
-	assignFocus();
+	
+	if (!player2.has_selected_item)
+	{
+		player2.has_selected_character = false;
+		createP2CharButtons();
+		assignFocus();
+	}
 }
 

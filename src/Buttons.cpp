@@ -44,8 +44,19 @@ bool Buttons::preUpdate()
 		
 		if (size == CHARACTER_SELECTION)
 			ret = callback->onEvent(this);
+		
+		//Temporary bools to optimize if below
+		bool p1_heavy_attack = App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN);
+		bool p1_light_attack = App->entities->players[0]->getInput(LIGHT_ATTACK, KEY_DOWN);
+		bool p1_r1 = App->entities->players[0]->getInput(SPECIAL_1, KEY_DOWN);
+		bool p1_r2 = App->entities->players[0]->getInput(SPECIAL_2, KEY_DOWN);
 
-		if (App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN) && focus_id == 0 || App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN) && focus_id == 1)
+		bool p2_heavy_attack = App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN);
+		bool p2_light_attack = App->entities->players[1]->getInput(LIGHT_ATTACK, KEY_DOWN);
+		bool p2_r1 = App->entities->players[1]->getInput(SPECIAL_1, KEY_DOWN);
+		bool p2_r2 = App->entities->players[1]->getInput(SPECIAL_2, KEY_DOWN);
+
+		if (p1_heavy_attack && focus_id == 0 || p1_light_attack && focus_id == 0 || p1_r1 && focus_id == 0 || p1_r2 && focus_id == 0 || p2_heavy_attack && focus_id == 1 || p2_light_attack && focus_id == 1 || p2_r1 && focus_id == 1 || p2_r2 && focus_id == 1)
 		{
 			changeVisualState(CLICK);
 			being_clicked = true;

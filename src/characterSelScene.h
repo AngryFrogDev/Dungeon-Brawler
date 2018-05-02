@@ -11,6 +11,7 @@ struct currentCharacter
 	ITEMS item;
 	bool has_selected_character = false;
 	bool has_selected_item = false;
+	uint skin;
 };
 
 class characterSelScene : public scene

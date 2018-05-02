@@ -75,7 +75,7 @@
 			<left_portraits x="-190" y="400"/>
 			<right_portraits x="800" y="400"/>
 			<portraits scale="3"/>
-			<vs_tex x="700" y="400" scale="2" path="assets/vs.png"/>
+			<vs_tex x="700" y="670" scale="2" path="assets/vs.png"/>
 			
 			<warrior_name x="0" y="0" w="400" h="131"/>
 			<mage_name x="0" y="131" w="400" h="131"/>
@@ -171,6 +171,26 @@
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="390" y="750"/>
 				</rogue_obj2_desc>
+				<paladin_obj1>
+					<content value="HOLY CROWN"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="200" y="420"/>
+				</paladin_obj1>
+				<paladin_obj2>
+					<content value="MAIL ARMOR"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="200" y="645"/>
+				</paladin_obj2>
+				<paladin_obj1_desc>
+					<content value=""/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="390" y="525"/>
+				</paladin_obj1_desc>
+				<paladin_obj2_desc>
+					<content value=""/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="390" y="750"/>
+				</paladin_obj2_desc>
 			</player_1>
 			<player_2>
 				<warrior_obj1>
@@ -233,6 +253,26 @@
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="1380" y="750"/>
 				</rogue_obj2_desc>
+				<paladin_obj1>
+					<content value="HOLY CROWN"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="1190" y="420"/>
+				</paladin_obj1>
+				<paladin_obj2>
+					<content value="MAIL ARMOR"/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="1190" y="645"/>
+				</paladin_obj2>
+				<paladin_obj1_desc>
+					<content value=""/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="1380" y="525"/>
+				</paladin_obj1_desc>
+				<paladin_obj2_desc>
+					<content value=""/>
+					<color r="255" g="255" b="255" a="255"/>
+					<pos x="1380" y="750"/>
+				</paladin_obj2_desc>
 			</player_2>
 			
 		</labels>
