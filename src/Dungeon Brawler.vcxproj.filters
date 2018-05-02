@@ -112,6 +112,9 @@
     <ClCompile Include="Character.cpp">
       <Filter>Entities\Characters</Filter>
     </ClCompile>
+    <ClCompile Include="settingsScene.cpp">
+      <Filter>Scenes\Settings Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mdAudio.h">
@@ -231,6 +234,9 @@
     <ClInclude Include="Character.h">
       <Filter>Entities\Characters</Filter>
     </ClInclude>
+    <ClInclude Include="settingsScene.h">
+      <Filter>Scenes\Settings Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scenes">
@@ -286,6 +292,9 @@
     </Filter>
     <Filter Include="Utilities">
       <UniqueIdentifier>{a2b99a2a-7f93-4992-bafb-3353e4d2bd35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Settings Scene">
+      <UniqueIdentifier>{ee99b702-0fe7-46a3-bf5b-90f2bf0410b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
