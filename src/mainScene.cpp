@@ -55,7 +55,7 @@ bool mainScene::onEvent(Buttons* button)	{
 		ret = false;
 		break;
 	case SETTINGS:
-		break;
+		App->scene_manager->changeScene(App->scene_manager->settings_scene, this);
 	}
 
 	return ret;

@@ -13,6 +13,7 @@
 #include "mainScene.h"
 #include "combatScene.h"
 #include "characterSelScene.h"
+#include "settingsScene.h"
 
 
 mdSceneManager::mdSceneManager()	{
@@ -22,11 +23,13 @@ mdSceneManager::mdSceneManager()	{
 
 	start_scene = new startScene(true);
 	main_scene = new mainScene(false);
+	settings_scene = new settingsScene(false);
 	char_sel_scene = new characterSelScene(false);
 	combat_scene = new combatScene(false);
 
 	scene_list.push_back(start_scene);
 	scene_list.push_back(main_scene);
+	scene_list.push_back(settings_scene);
 	scene_list.push_back(char_sel_scene);
 	scene_list.push_back(combat_scene);
 }

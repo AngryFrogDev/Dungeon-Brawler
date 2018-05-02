@@ -39,6 +39,7 @@ public:
 	scene* start_scene = nullptr;
 	scene* main_scene = nullptr;
 	scene* char_sel_scene = nullptr;
+	scene* settings_scene = nullptr;
 	scene* combat_scene = nullptr;
 
 private:

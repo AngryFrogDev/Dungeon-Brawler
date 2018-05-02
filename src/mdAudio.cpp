@@ -1,5 +1,6 @@
 #include "mdAudio.h"
 #include "DebLog.h"
+#include "settingsScene.h"
 #pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
 
 mdAudio::mdAudio() : Module() {
@@ -36,6 +37,8 @@ bool mdAudio::awake(const pugi::xml_node & md_config) {
 
 	playMusic(loadMusic("SFX/BGM_1.ogg")); // PROVISIONAL: Music should be loaded from de xml and stored in a variable
 
+	sfxVolume(128);
+	musicVolume(128);
 
 	return ret;
 }
