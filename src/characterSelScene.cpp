@@ -271,22 +271,24 @@ void characterSelScene::loadObjectTextures()	{
 }
 
 void characterSelScene::loadCharMiniaturesTex()	{
+
+	pugi::xml_node min_pos = textures_node.child("miniature_pos");
 	if (!player1.has_selected_character)
 	{
 		//CHARACTER MINIATURES
 		//Left
-		App->render->drawSprite(3, App->gui->atlas, 686, 306, &warrior_miniature, 3, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(3, App->gui->atlas, 686, 456, &mage_miniature, 3, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(3, App->gui->atlas, 686, 606, &rogue_miniature, 3, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(3, App->gui->atlas, 686, 756, &paladin_miniature, 3, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, App->gui->atlas, min_pos.attribute("x1").as_int(), min_pos.attribute("y1").as_int(), &warrior_miniature, 3, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, App->gui->atlas, min_pos.attribute("x1").as_int(), min_pos.attribute("y2").as_int(), &mage_miniature, 3, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, App->gui->atlas, min_pos.attribute("x1").as_int(), min_pos.attribute("y3").as_int(), &rogue_miniature, 3, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, App->gui->atlas, min_pos.attribute("x1").as_int(), min_pos.attribute("y4").as_int(), &paladin_miniature, 3, false, 1.0f, 0, 0, 0, false);
 	}
 	if (!player2.has_selected_character)
 	{
 		//Right
-		App->render->drawSprite(3, App->gui->atlas, 1056, 306, &warrior_miniature, 3, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(3, App->gui->atlas, 1056, 456, &mage_miniature, 3, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(3, App->gui->atlas, 1056, 606, &rogue_miniature, 3, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(3, App->gui->atlas, 1056, 756, &paladin_miniature, 3, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, App->gui->atlas, min_pos.attribute("x2").as_int(), min_pos.attribute("y1").as_int(), &warrior_miniature, 3, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, App->gui->atlas, min_pos.attribute("x2").as_int(), min_pos.attribute("y2").as_int(), &mage_miniature, 3, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, App->gui->atlas, min_pos.attribute("x2").as_int(), min_pos.attribute("y3").as_int(), &rogue_miniature, 3, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(3, App->gui->atlas, min_pos.attribute("x2").as_int(), min_pos.attribute("y4").as_int(), &paladin_miniature, 3, false, 1.0f, 0, 0, 0, false);
 	}
 }
 
