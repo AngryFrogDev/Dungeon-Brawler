@@ -108,8 +108,8 @@ void Bars::loadGuiFromAtlas()	{
 void Bars::calculateBarGauge() {
 
 	if (bar_type == HEALTH_BAR) {
-	//	current_gauge = App->entities->players[target_player]->getCurrCharacter()->getCurrentLife();
-	//	max_gauge = App->entities->players[target_player]->getCurrCharacter()->getMaxLife();
+		current_gauge = App->entities->players[target_player]->getCurrCharacter()->getCurrentLife();
+		max_gauge = App->entities->players[target_player]->getCurrCharacter()->getMaxLife();
 
 		if (flipped && last_gauge != current_gauge) {
 			current_gauge_rect.w = (gauge_rect.w*current_gauge) / max_gauge;
@@ -125,8 +125,8 @@ void Bars::calculateBarGauge() {
 		}
 	}	
 	else if (bar_type == SUPER_BAR) {
-	//	 current_gauge = App->entities->players[target_player]->getCurrCharacter()->getCurrentSuperGauge();
-	//	 max_gauge = App->entities->players[target_player]->getCurrCharacter()->getMaxSuperGauge();
+		 current_gauge = App->entities->players[target_player]->getCurrCharacter()->getCurrentSuperGauge();
+		 max_gauge = App->entities->players[target_player]->getCurrCharacter()->getMaxSuperGauge();
 
 		 if (flipped && last_gauge != current_gauge) {
 			 current_gauge_rect.w = (gauge_rect.w*current_gauge) / max_gauge;

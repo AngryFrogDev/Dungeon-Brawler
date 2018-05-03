@@ -31,8 +31,6 @@ public:
 	bool changeScene(scene* scene_in, scene* scene_out);
 	
 private:
-	bool createCharacters();
-	void loadSceneCharacters();
 	void startSwitch();
 	
 public:

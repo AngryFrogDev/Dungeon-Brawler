@@ -75,7 +75,7 @@ void Player::createAndAssignCharacter(int x_pos, CHAR_TYPE type, bool fliped, in
 		//	break;
 		//}
 	}
-	curr_character->manageOponent();
+//	curr_character->manageOponent();
 			
 }
 

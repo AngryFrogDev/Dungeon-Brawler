@@ -11,6 +11,7 @@
 
 combatScene::combatScene(bool active) : scene(COMBAT_SCENE)	{
 	scene_active = active;
+	name = "Combat Scene";
 
 	//Preparing nodes
 	labels_node = scene_config.child("combat").child("labels");
@@ -29,6 +30,10 @@ bool combatScene::start()	{
 	App->map->map_loaded = true;
 	loadSceneUi();
 
+	App->entities->paused = false;
+	App->entities->show = true;
+
+	scene_timer.start();
 	return true;
 }
 
@@ -37,7 +42,7 @@ bool combatScene::update(float dt)	{
 	updateTimer();
 //	checkPlayers(); //Check if both player are still alive
 	App->gui->draw();
-
+	
 	return true;
 }
 

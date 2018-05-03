@@ -45,6 +45,8 @@ private:
 	void closeP1Window();
 	void closeP2Window();
 
+	void startingTransition();
+
 private:
 	//Character Selection elements
 	Labels* scene_title = nullptr;
@@ -125,6 +127,8 @@ private:
 	SDL_Rect paladin_item2;
 
 	currentCharacter player1, player2;
+
+	Timer transition_timer;
 	
 };
 

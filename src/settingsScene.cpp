@@ -11,7 +11,7 @@
 
 settingsScene::settingsScene(bool active) : scene(MAIN_SCENE) {
 	scene_active = active;
-
+	name = "Settings Scene";
 }
 
 

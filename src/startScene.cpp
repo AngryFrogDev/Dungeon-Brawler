@@ -8,7 +8,7 @@
 
 startScene::startScene(bool active) : scene(START_SCENE)	{
 	scene_active = active;
-
+	name = "Start Scene";
 	//Preparing nodes to ease XML reading
 	labels_node = scene_config.child("start_scene").child("labels");
 	textures_node = scene_config.child("start_scene").child("textures");

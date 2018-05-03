@@ -97,38 +97,6 @@ bool mdSceneManager::changeScene(scene* scene_in, scene* scene_out)	{
 	return ret;
 }
 
-bool mdSceneManager::createCharacters()
-{	
-/*	for (auto it = current_scene->characters.begin(); it != current_scene->characters.end(); it++) {
-		CharacterInfo curr_character_info = *it;
-		App->entities->createPlayer(curr_character_info.player, curr_character_info.x_pos, curr_character_info.type, curr_character_info.flipped, 1);
-	}
-	*/
-	App->entities->assignControls();
-	App->render->camera.x = (App->render->resolution.first - App->render->camera.w) / 2; //PROVISIONAL: This should be done from the scene manager
-
-	return true;
-}
-
-void mdSceneManager::loadSceneCharacters()	{
-	//1VS1
-/*	player1.x_pos = 400;
-	player1.type = WARRIOR;
-	player1.player = 0;
-	player1.flipped = false;
-	obj_sel.characters.push_back(player1);
-
-	player2.x_pos = 1500;
-	player2.type = MAGE;
-	player2.player = 1;
-	player2.flipped = true;
-	obj_sel.characters.push_back(player2);
-
-	one_vs_one.characters.push_back(player2);
-
-	*/
-}
-
 void mdSceneManager::startSwitch()	{
 	float normalized = MIN(1.0f, switch_timer.readSec() / fadetime);
 	static iPoint temp_cam;
@@ -142,14 +110,16 @@ void mdSceneManager::startSwitch()	{
 		{
 			to_disable->scene_active = false;
 
-			App->collision->cleanUp();
-			App->entities->removeCharacters();
+			if (to_disable->name == "Combat Scene")
+			{
+				App->collision->cleanUp();
+				App->entities->removeCharacters();
+			}
+
 			App->gui->cleanUp();
 			App->render->cleanBlitQueue();
 			App->projectiles->cleanUp();
 			App->map->map_loaded = false;
-
-		//	createCharacters();
 
 			to_enable->scene_active = true;
 			to_enable->start();

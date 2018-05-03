@@ -39,6 +39,7 @@ public:
 public:
 	bool scene_active = false;
 	scene_type type = NO_SCENE;
+	char* name = nullptr;
 
 protected:
 	//Nodes

@@ -1,11 +1,13 @@
 #include "Application.h"
 #include "characterSelScene.h"
 #include "mdGuiManager.h"
+#include "mdSceneManager.h"
 
 
 
 characterSelScene::characterSelScene(bool active) : scene(CHAR_SEL_SCENE)	{
 	scene_active = active;
+	name = "Character Selection";
 
 	buttons_node = scene_config.child("char_sel_scene").child("buttons");
 	labels_node = scene_config.child("char_sel_scene").child("labels");
@@ -23,7 +25,7 @@ bool characterSelScene::start()	{
 	vs_tex = App->textures->load(textures_node.child("vs_tex").attribute("path").as_string());
 	character_names = App->textures->load(textures_node.child("char_name_tex").attribute("path").as_string());
 	items = App->textures->load(textures_node.child("items_tex").attribute("path").as_string());
-	ready_tex = App->textures->load("assets/ready_tex.png");
+	ready_tex = App->textures->load(textures_node.child("ready_tex").attribute("path").as_string());
 
 	App->entities->players[0]->focus = App->entities->players[1]->focus = nullptr;
 
@@ -41,6 +43,9 @@ bool characterSelScene::update(float dt)	{
 	loadSceneTextures();
 	checkSceneInput();
 	App->gui->draw();
+
+	if (transition_timer.isActive())
+		startingTransition();
 
 	return true;
 }
@@ -108,9 +113,9 @@ bool characterSelScene::onEvent(Buttons* button)	{
 				player1.skin = 0;
 			if (App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))
 				player1.skin = 1;
-			if (App->entities->players[0]->getInput(GRAB, KEY_DOWN))
+			if (App->entities->players[0]->getInput(SPECIAL_1, KEY_DOWN))
 				player1.skin = 2;
-			if (App->entities->players[0]->getInput(SWITCH, KEY_DOWN))
+			if (App->entities->players[0]->getInput(SPECIAL_2, KEY_DOWN))
 				player1.skin = 3;
 
 			player1.has_selected_character = true; 
@@ -123,9 +128,9 @@ bool characterSelScene::onEvent(Buttons* button)	{
 				player2.skin = 0;
 			if (App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN))
 				player2.skin = 1;
-			if (App->entities->players[1]->getInput(GRAB, KEY_DOWN))
+			if (App->entities->players[1]->getInput(SPECIAL_1, KEY_DOWN))
 				player2.skin = 2;
-			if (App->entities->players[1]->getInput(SWITCH, KEY_DOWN))
+			if (App->entities->players[1]->getInput(SPECIAL_2, KEY_DOWN))
 				player2.skin = 3;
 
 			player2.has_selected_character = true;
@@ -197,9 +202,9 @@ void characterSelScene::loadSceneTextures()	{
 	App->render->drawSprite(4, character_names, textures_node.child("right_names").attribute("x").as_int(), textures_node.child("right_names").attribute("y").as_int(), player2.name_tex, textures_node.child("names").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 
 	if (player1.has_selected_character && player1.has_selected_item)
-		App->render->drawSprite(4, ready_tex, 450, 250, 0, 1, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, ready_tex, textures_node.child("ready_p1").attribute("x").as_int(), textures_node.child("ready_p1").attribute("y").as_int(), 0, textures_node.child("ready_p1").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 	if (player2.has_selected_character && player2.has_selected_item)
-		App->render->drawSprite(4, ready_tex, 1250, 250, 0, 1, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, ready_tex, textures_node.child("ready_p2").attribute("x").as_int(), textures_node.child("ready_p2").attribute("y").as_int(), 0, textures_node.child("ready_p2").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 
 	//OBJECT TEXTUREs
 	loadObjectTextures();
@@ -207,52 +212,59 @@ void characterSelScene::loadSceneTextures()	{
 }
 
 void characterSelScene::loadObjectTextures()	{
+	pugi::xml_node obj1;
+	pugi::xml_node obj2;
+
 	if (player1.has_selected_character && !player1.has_selected_item)
 	{
+		obj1 = textures_node.child("p1_obj1_tex");
+		obj2 = textures_node.child("p1_obj2_tex");
 		switch (player1.character)
 		{
 		default:
 			break;
 		case WARRIOR:
-			App->render->drawSprite(6, items, 225, 470, &warrior_item1, 6, false, 1.0f, 0, 0, 0, false);
-			App->render->drawSprite(6, items, 225, 690, &warrior_item2, 6, false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, obj1.attribute("x").as_int(), obj1.attribute("y").as_int(), &warrior_item1, obj1.attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, obj2.attribute("x").as_int(), obj2.attribute("y").as_int(), &warrior_item2, obj2.attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 			break;
 		case MAGE:
-			App->render->drawSprite(6, items, 225, 470, &mage_item1, 6, false, 1.0f, 0, 0, 0, false);
-			App->render->drawSprite(6, items, 225, 690, &mage_item2, 6, false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, obj1.attribute("x").as_int(), obj1.attribute("y").as_int(), &mage_item1, obj1.attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, obj2.attribute("x").as_int(), obj2.attribute("y").as_int(), &mage_item2, obj2.attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 			break;
 		case ROGUE:
-			App->render->drawSprite(6, items, 225, 470, &rogue_item1, 6, false, 1.0f, 0, 0, 0, false);
-			App->render->drawSprite(6, items, 225, 690, &rogue_item2, 6, false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, obj1.attribute("x").as_int(), obj1.attribute("y").as_int(), &rogue_item1, obj1.attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, obj2.attribute("x").as_int(), obj2.attribute("y").as_int(), &rogue_item2, obj2.attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 			break;
 		case PALADIN:
-			App->render->drawSprite(6, items, 225, 440, &paladin_item1, 6, false, 1.0f, 0, 0, 0, false);
-			App->render->drawSprite(6, items, 225, 660, &paladin_item2, 6, false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, obj1.attribute("x").as_int(), obj1.attribute("y").as_int() - 30, &paladin_item1, obj1.attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, obj2.attribute("x").as_int(), obj2.attribute("y").as_int() - 30, &paladin_item2, obj2.attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 			break;
 		}
 	}
 
 	if (player2.has_selected_character && !player2.has_selected_item)
 	{
+		obj1 = textures_node.child("p2_obj1_tex");
+		obj2 = textures_node.child("p2_obj2_tex");
 		switch (player2.character)
 		{
 		default:
 			break;
 		case WARRIOR:
-			App->render->drawSprite(6, items, 1200, 470, &warrior_item1, 6, false, 1.0f, 0, 0, 0, false);
-			App->render->drawSprite(6, items, 1200, 690, &warrior_item2, 6, false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, obj1.attribute("x").as_int(), obj1.attribute("y").as_int(), &warrior_item1, obj1.attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, obj2.attribute("x").as_int(), obj2.attribute("y").as_int(), &warrior_item2, obj2.attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 			break;
 		case MAGE:
-			App->render->drawSprite(6, items, 1200, 470, &mage_item1, 6, false, 1.0f, 0, 0, 0, false);
-			App->render->drawSprite(6, items, 1200, 690, &mage_item2, 6, false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, obj1.attribute("x").as_int(), obj1.attribute("y").as_int(), &mage_item1, obj1.attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, obj2.attribute("x").as_int(), obj2.attribute("y").as_int(), &mage_item2, obj2.attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 			break;
 		case ROGUE:
-			App->render->drawSprite(6, items, 1200, 470, &rogue_item1, 6, false, 1.0f, 0, 0, 0, false);
-			App->render->drawSprite(6, items, 1200, 690, &rogue_item2, 6, false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, obj1.attribute("x").as_int(), obj1.attribute("y").as_int(), &rogue_item1, obj1.attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, obj2.attribute("x").as_int(), obj2.attribute("y").as_int(), &rogue_item2, obj2.attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 			break;
 		case PALADIN:
-			App->render->drawSprite(6, items, 1200, 440, &paladin_item1, 6, false, 1.0f, 0, 0, 0, false);
-			App->render->drawSprite(6, items, 1200, 660, &paladin_item2, 6, false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, obj1.attribute("x").as_int(), obj1.attribute("y").as_int() - 30, &paladin_item1, obj1.attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
+			App->render->drawSprite(6, items, obj2.attribute("x").as_int(), obj2.attribute("y").as_int() - 30, &paladin_item2, obj2.attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 			break;
 		}
 	}
@@ -293,13 +305,20 @@ void characterSelScene::checkSceneInput()	{
 	if (App->entities->players[1]->getInput(GRAB, KEY_DOWN) && object_win_p2)
 		closeP2Window();
 
-	if (player1.has_selected_character && player1.has_selected_item && player2.has_selected_character && player2.has_selected_item)
+	if (player1.has_selected_character && player1.has_selected_item && player2.has_selected_character && player2.has_selected_item && !transition_timer.isActive())
 		assignCharacterToPlayer();
 }
 
 void characterSelScene::assignCharacterToPlayer()	{
-	
+	//Creating players
+	App->entities->players[0]->createAndAssignCharacter(200, player1.character, false, 1);
+	App->entities->players[1]->createAndAssignCharacter(700, player2.character, true, 1);
 
+	//Hidding them
+	App->entities->paused = true;
+	App->entities->show = false;
+	
+	transition_timer.start();
 }
 
 void characterSelScene::setRects()	{
@@ -745,5 +764,12 @@ void characterSelScene::closeP2Window()	{
 		createP2CharButtons();
 		assignFocus();
 	}
+}
+
+void characterSelScene::startingTransition()	{
+
+	if (transition_timer.readSec() >= 2)
+		App->scene_manager->changeScene(App->scene_manager->combat_scene, this);
+
 }
 

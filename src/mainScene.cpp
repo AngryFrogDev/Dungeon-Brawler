@@ -9,6 +9,7 @@
 
 mainScene::mainScene(bool active) : scene(MAIN_SCENE)	{
 	scene_active = active;
+	name = "Main Scene";
 
 	//Preparing nodes to ease XML reading
 	labels_node = scene_config.child("main_scene").child("labels");
