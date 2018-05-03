@@ -73,7 +73,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			updateState(ATTACKING, ST_L); 
 		else if (inputs[HEAVY_ATTACK]) 
 			updateState(ATTACKING, ST_H);
-		else if (inputs[SPECIAL_1] && !projectile) 
+		else if (inputs[SPECIAL_1] && standingSpecial1Condition()) 
 			updateState(ATTACKING, ST_S1);
 		else if (inputs[SPECIAL_2]) 
 			updateState(ATTACKING, ST_S2);
@@ -116,7 +116,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			updateState(ATTACKING, ST_L);
 		else if (inputs[HEAVY_ATTACK]) 
 			updateState(ATTACKING, ST_H);
-		else if (inputs[SPECIAL_1] && !projectile)
+		else if (inputs[SPECIAL_1] && standingSpecial1Condition())
 			updateState(ATTACKING, ST_S1);
 		else if (inputs[SPECIAL_2]) 
 			updateState(ATTACKING, ST_S2);
@@ -156,7 +156,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			updateState(ATTACKING, ST_L);
 		else if (inputs[HEAVY_ATTACK]) 
 			updateState(ATTACKING, ST_H);
-		else if (inputs[SPECIAL_1] && !projectile) 
+		else if (inputs[SPECIAL_1] && standingSpecial1Condition())
 			updateState(ATTACKING, ST_S1);
 		else if (inputs[SPECIAL_2]) 
 			updateState(ATTACKING, ST_S2);
@@ -225,9 +225,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			updateState(ATTACKING, JM_L);
 		else if (inputs[HEAVY_ATTACK])
 			updateState(ATTACKING, JM_H);
-		else if (inputs[SPECIAL_1] && checkDiveKickHeight())
+		else if (inputs[SPECIAL_1] && jumpingSpecial1Condition())
 			updateState(ATTACKING, JM_S1);
-		else if (inputs[SPECIAL_2] && checkDiveKickHeight())
+		else if (inputs[SPECIAL_2] && jumpingSpecial2Condition())
 			updateState(ATTACKING, JM_S2);
 		break;
 
@@ -258,6 +258,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			state_first_tick = true;
 		}
 		if (hit) {
+			playCurrentSFX();
+			emmitCurrentParticle();
 			hit = false;
 			current_super_gauge += super_gauge_gain_block;
 		}
@@ -281,6 +283,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			state_first_tick = true;
 		}
 		if (hit) {
+			playCurrentSFX();
+			emmitCurrentParticle();
 			hit = false;
 			current_super_gauge += super_gauge_gain_block;
 		}
@@ -304,6 +308,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		if (hit) { 
 			playCurrentSFX();
+			emmitCurrentParticle();
 			if (attack_recieving.knockdown)
 				updateState(JUGGLE);
 			else
@@ -311,8 +316,11 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_life -= attack_recieving.damage;
 			current_super_gauge += super_gauge_gain_hit;
 		}
-		else if(SDL_GetTicks()- moment_hit > attack_recieving.hitstun) 
+		else if (SDL_GetTicks() - moment_hit > attack_recieving.hitstun) {
 			updateState(IDLE);
+			setCrouchingHurtbox(false);
+		}
+		
 		// Continuous
 		if (!fliped)
 			logic_position.x -= attack_recieving.pushhit;
@@ -323,24 +331,34 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	case JUGGLE:
 		if (!state_first_tick) {
+			emmitCurrentParticle();
 			updateAnimation(standing_hit);
 			state_first_tick = true;
 		}
 		if (hit) {
 			playCurrentSFX();
-			if (!fliped)
-				velocity.x -= attack_recieving.juggle_speed.x;
-			else
-				velocity.x += attack_recieving.juggle_speed.x;
+			emmitCurrentParticle();
+			juggle_attacks_recieved.push_back(attack_recieving.type);
+			iPoint current_juggle_speed = { 0,0 };
+			if (!juggleLimit(attack_recieving.type)) {
+				if (!fliped)
+					current_juggle_speed.x = -attack_recieving.juggle_speed.x;
+				else
+					current_juggle_speed.x = attack_recieving.juggle_speed.x;
 
-			velocity.y -= attack_recieving.juggle_speed.y;
+				current_juggle_speed.y = -attack_recieving.juggle_speed.y;
+			}
+
+			velocity.create((float)current_juggle_speed.x, (float)current_juggle_speed.y);
 			
 			current_life -= attack_recieving.damage;
 			hit = false;
 			grounded = false;
 		}
-		if (grounded)
+		if (grounded){
+			juggle_attacks_recieved.clear();
 			updateState(KNOCKDOWN);
+		}
 		break;
 
 	case KNOCKDOWN:
@@ -427,12 +445,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		applyGravity();
 		setIfGrounded();
 	}
+
+	characterSpecificUpdates();
 	// Delete out of life colliders
 	deleteDeadHitboxes();
-
-	//App->render->drawQuad(10, { logic_position.x - 25, logic_position.y - 25, 50, 50 }, 0, 0, 0, 255, true, true);
-
-
 }
 
 void Character::onCollision(collider* c1, collider* c2) {
@@ -443,7 +459,7 @@ void Character::onCollision(collider* c1, collider* c2) {
 		moment_hit = SDL_GetTicks();
 		deleteAllMeleeHitboxes(); // When you get hit all your melee  hitboxes are deleted
 	}
-	else if (c1->type == PUSHBOX && c2->type == PUSHBOX && !App->entities->paused) { // PROVISIONAL
+	else if (c1->type == PUSHBOX && c2->type == PUSHBOX && !App->entities->paused) { 
 		if (!fliped)
 			logic_position.x -= walk_speed;
 		else
@@ -451,14 +467,16 @@ void Character::onCollision(collider* c1, collider* c2) {
 	}
 	else if ((c1->type == HITBOX || c1->type == PROJECTILE_HITBOX) && (c2->type == HURTBOX || c2->type == PROJECTILE_INVENCIBLE_HURTBOX)) {
 		// Allways delete hitboxes on collision
-		deleteAttackHitbox(c1->attack_type);
+		deleteAttackHitbox(c1->attack_type, c1);
 	}
 	
 }
 void Character::applyGravity() {
+	if(current_state != JUGGLE)
+		velocity.y += gravity; // Maybe it shuld apply other gravity on juggle state
+	else
+		velocity.y += 1.0;
 
-	velocity.y += gravity;
-	
 	if (velocity.y > 0) {
 		if (logic_position.y < ground_position)
 			logic_position.y += velocity.y;
@@ -482,7 +500,7 @@ void Character::setIfGrounded() {
 }
 
 void Character::draw(SDL_Texture* graphic){
-	if (current_animation != nullptr){ // PROVISIONAL
+	if (current_animation != nullptr){ 
 		int hardcoded_offset = 0;
 		if (fliped)
 			hardcoded_offset = 15;
@@ -659,7 +677,7 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 			updateAnimation(standing_special1);
 			state_first_tick = true;
 		}
-		standingSpecial1(); 
+		standingSpecial1(inputs); 
 		break;
 	case ST_S2:
 		if (!state_first_tick) {
@@ -679,17 +697,9 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 		crouchingSpecial2();
 		break;
 	case JM_S1:
-		if (!state_first_tick) {
-			updateAnimation(jumping_special1);
-			state_first_tick = true;
-		}
 		jumpingSpecial1(inputs);
 		break;
 	case JM_S2:
-		if (!state_first_tick) {
-			updateAnimation(jumping_special2);
-			state_first_tick = true;
-		}
 		jumpingSpecial2(inputs);
 		break;
 	case SUPER:
@@ -827,17 +837,14 @@ int Character::calculateDrawPosition(int offset, int size, bool x) 	{
 		return logic_position.y + offset - size/2;
 }
 
-iPoint Character::getPos() const	{
-	return logic_position;
+iPoint Character::getPos() const{
+	return { (int)logic_position.x, (int)logic_position.y };
 }
 int Character::getLateralLimit() const {
 	return lateral_limit;
 }
 void Character::setFlip(bool flip) {
 	fliped = flip;
-}
-void Character::setProjectile(bool _projectile) {
-	projectile = _projectile;
 }
 void Character::updateInvecibility() {
 	if(invencible_timer.isActive())
@@ -874,11 +881,27 @@ int Character::getMaxSuperGauge() const{
 
 	return max_super_gauge;
 }
+
+bool Character::notAllowFlip() {
+	if (current_state != ATTACKING)
+		return false;
+	for (std::list<CHAR_ATT_TYPE>::iterator it = non_flip_attacks.begin(); it != non_flip_attacks.end(); ++it) {
+		CHAR_ATT_TYPE att = *it;
+		if (att == attack_doing) 
+			return true;
+	}
+	return false;
+}
+
+CHAR_TYPE Character::getType() const {
+	return type;
+}
 void Character::resetCharacter()	{
 	current_life = max_life;
 	current_state = CHAR_STATE::IDLE;
 	logic_position.x = starting_position.x;
 	logic_position.y = bottom_lane;
+	hurtbox->type = HURTBOX;
 	hurtbox->active = true;
 	death = false;
 	hit = false;
@@ -888,7 +911,6 @@ void Character::resetCharacter()	{
 	App->entities->paused = false;
 	App->render->camera.x = (App->render->resolution.first - App->render->camera.w) / 2; //This should be done from the scene manager
 	velocity.x = velocity.y = 0;//This should be done from the scene manager
-	projectile = false;
 	instanciated_hitbox = false;
 
 }
@@ -899,7 +921,7 @@ void Character::deleteDeadHitboxes() 	{
 
 	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
 		collider* c = *it;
-		if (c->life != -1 && SDL_GetTicks() - c->born > c->life)/*PROVISIONAL: Maybe it should use a timer*/ {
+		if (c->life != -1 && SDL_GetTicks() - c->born > c->life){
 			c->to_delete = true;
 			hitboxes_to_delete.push_back(c);
 		}
@@ -923,14 +945,14 @@ collider* Character::getCurrentAttackHitbox() 	{
 	}
 	return nullptr;
 }
-void Character::deleteAttackHitbox(CHAR_ATT_TYPE type) 	{
+void Character::deleteAttackHitbox(CHAR_ATT_TYPE type, collider* hitbox) 	{
 	// Compute what hitboxes need to be deleted
 
 	std::list<collider*> hitboxes_to_delete;
 
 	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
 		collider* c = *it;
-		if (c->attack_type == type) {
+		if (c->attack_type == type && (c == hitbox || hitbox ==nullptr)) {
 			c->to_delete = true;
 			hitboxes_to_delete.push_back(c);
 		}
@@ -1115,7 +1137,7 @@ void Character::manageCancel(const bool(&inputs)[MAX_INPUTS]) {
 		updateState(ATTACKING, SUPER);
 		instanciated_hitbox = false;
 	}
-	else if (lookInBuffer(SPECIAL_1, cancelability_window) && !inputs[DOWN] && !projectile) {
+	else if (lookInBuffer(SPECIAL_1, cancelability_window) && !inputs[DOWN] && standingSpecial1Condition()) {
 		updateState(ATTACKING, ST_S1);
 		instanciated_hitbox = false;
 	}
@@ -1129,7 +1151,7 @@ void Character::manageCancel(const bool(&inputs)[MAX_INPUTS]) {
 	}
 	else if (lookInBuffer(SPECIAL_2, cancelability_window) && inputs[DOWN]) {
 		updateState(ATTACKING, CR_S2);
-		instanciated_hitbox = false;
+instanciated_hitbox = false;
 	}
 }
 bool Character::checkForSuper(int window) {
@@ -1156,77 +1178,88 @@ bool Character::checkForSuper(int window) {
 	else
 		return false;
 }
-bool Character::checkDiveKickHeight() {
-	return logic_position.y <= dive_kick_max_height;
-}
 void Character::emmitCurrentParticle() {
 	int offset_x = 80;
 	int offset_y = 380;
 	switch (attack_recieving.type) {
-		case ST_L:
-		case CR_L:
-		case JM_L:
-		case ST_S1:
-			switch (current_state) {
-			case STAND_BLOCKING:
-				offset_x = 0;
-				offset_y = 0;
-				if (fliped)
-					App->particle_system->createEmitter({ (float)logic_position.x - offset_x,(float)logic_position.y - offset_y }, "particles/heavy-block.xml");
-				else
-					App->particle_system->createEmitter({ (float)logic_position.x + offset_x,(float)logic_position.y - offset_y }, "particles/heavy-block.xml");
-				break;
-			case CROUCH_BLOCKING:
-				offset_x = 0;
-				offset_y = 0;
-				if (fliped)
-					App->particle_system->createEmitter({ (float)logic_position.x - offset_x,(float)logic_position.y - offset_y }, "particles/heavy-block.xml");
-				else
-					App->particle_system->createEmitter({ (float)logic_position.x + offset_x,(float)logic_position.y - offset_y }, "particles/heavy-block.xml");
-				break;
-			case HIT:
-				offset_x = 10;
-				offset_y = 0;
-				if (fliped)
-					App->particle_system->createEmitter({ (float)logic_position.x - offset_x,(float)logic_position.y - offset_y }, "particles/hit-light-l.xml");
-				else{
-					App->particle_system->createEmitter({ (float)logic_position.x + offset_x,(float)logic_position.y - offset_y }, "particles/hit-light-r.xml");
-
-				}
-			case JUGGLE:
-				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/light-hit.xml");
-				break;
-			}
-
+	case ST_L:
+	case CR_L:
+	case JM_L:
+	case ST_S1:
+		switch (current_state) {
+		case STAND_BLOCKING:
+			offset_x = 0;
+			offset_y = 0;
+			if (fliped)
+				App->particle_system->createEmitter({ (float)logic_position.x - offset_x,(float)logic_position.y - offset_y }, "particles/heavy-block.xml");
+			else
+				App->particle_system->createEmitter({ (float)logic_position.x + offset_x,(float)logic_position.y - offset_y }, "particles/heavy-block.xml");
 			break;
-		case ST_H:
-		case CR_H:
-		case JM_H:
-		case ST_S2:
-		case CR_S2:
-		case CR_S1:
-			switch (current_state) {
-			case STAND_BLOCKING:
-				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/heavy-block.xml");
-				break;
-			case CROUCH_BLOCKING:
-				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/heavy-block.xml");
-				break;
-			case HIT:
-				offset_x = 10;
-				offset_y = 0;
-				if (fliped)
-					App->particle_system->createEmitter({ (float)logic_position.x - offset_x,(float)logic_position.y - offset_y }, "particles/hit-light-r.xml");
-				else {
-					App->particle_system->createEmitter({ (float)logic_position.x + offset_x,(float)logic_position.y - offset_y }, "particles/hit-light-r.xml");
+		case CROUCH_BLOCKING:
+			offset_x = 0;
+			offset_y = 0;
+			if (fliped)
+				App->particle_system->createEmitter({ (float)logic_position.x - offset_x,(float)logic_position.y - offset_y }, "particles/heavy-block.xml");
+			else
+				App->particle_system->createEmitter({ (float)logic_position.x + offset_x,(float)logic_position.y - offset_y }, "particles/heavy-block.xml");
+			break;
+		case HIT:
+			offset_x = 10;
+			offset_y = 0;
+			if (fliped)
+				App->particle_system->createEmitter({ (float)logic_position.x - offset_x,(float)logic_position.y - offset_y }, "particles/hit-light-l.xml");
+			else {
+				App->particle_system->createEmitter({ (float)logic_position.x + offset_x,(float)logic_position.y - offset_y }, "particles/hit-light-r.xml");
 
-				}
-				break;
-			case JUGGLE:
-				//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/heavy-hit.xml");
-				break;
+			}
+		case JUGGLE:
+			App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/hit-light-r.xml");
+			break;
+		}
+
+		break;
+	case ST_H:
+	case CR_H:
+	case JM_H:
+	case ST_S2:
+	case CR_S2:
+	case CR_S1:
+		switch (current_state) {
+		case STAND_BLOCKING:
+			App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/heavy-block.xml");
+			break;
+		case CROUCH_BLOCKING:
+			App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/heavy-block.xml");
+			break;
+		case HIT:
+			offset_x = 10;
+			offset_y = 0;
+			if (fliped)
+				App->particle_system->createEmitter({ (float)logic_position.x - offset_x,(float)logic_position.y - offset_y }, "particles/hit-light-r.xml");
+			else {
+				App->particle_system->createEmitter({ (float)logic_position.x + offset_x,(float)logic_position.y - offset_y }, "particles/hit-light-r.xml");
+
 			}
 			break;
+		case JUGGLE:
+			App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + crouch_particle_offset }, "particles/hit-light-r.xml");
+			break;
+		}
+		break;
 	}
 }
 
+bool Character::juggleLimit(CHAR_ATT_TYPE type) {
+	int counter = 0;
+	for (auto it = juggle_attacks_recieved.begin(); it != juggle_attacks_recieved.end(); it++) {
+		if (type == *it)
+			counter++;
+	}
+
+	if (counter >= 3) // 3 is the juggle limit
+		return true;
+	else
+		return false;
+		
+
+}

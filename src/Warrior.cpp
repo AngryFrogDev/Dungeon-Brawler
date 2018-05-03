@@ -270,17 +270,6 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	jm_s2 = character.jm_s2;
 	super = character.super;
 
-	// PROVISIONAL: Should be loaded from xml
-	super_attack_list.push_back(ST_L);
-	super_attack_list.push_back(ST_L);
-	super_attack_list.push_back(ST_H);
-	super_attack_list.push_back(CR_H);
-	super_attack_list.push_back(CR_S2);
-
-	super_last_attack = CR_S2;
-
-	super_advance_speed = 5;
-
 	// XML inicialization
 	draw_size.x = 195;
 	draw_size.y = 158;
@@ -298,30 +287,38 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	gravity = character.gravity;
 	invencibility_on_wakeup = character.invencibility_on_wakeup;
 	scale = character.scale;
+	non_flip_attacks = character.non_flip_attacks;
 	shadow_rect = { 452, 3719, 68, 14 };
 	shadow_offset = 105;
-		// WARRIOR EXCLUSIVE VARS
-	spin_speed = character.spin_speed;
-	improved_spin_speed = character.improved_spin_speed;
-	improved_spin_recovery = character.improved_spin_recovery;
-	spin_object.item_type = character.spin_object;
-	jm_s1_angle = character.jm_s1_angle;
-	jm_s1_speed = character.jm_s1_speed;
-	dive_kick_max_height = character.dive_kick_max_height; // PROVISIONAL: This should be loaded and modified depending on the current lane
-	jm_s2_angle = character.jm_s2_angle;
-	jm_s2_speed = character.jm_s2_speed;
-	dive_kick_object.item_type = character.dive_kick_object;
-	projectile_duration = character.projectile_duration;
-	projectile_speed = character.projectile_speed;
-	projectile_scale = character.projectile_scale;
-	swordyuken_invencivility = character.swordyuken_invencivility;
-	swordyuken_jump_power = character.swordyuken_jump_power;
-	super_invencibility = 300;
-
 	// Constructor inicialization
 	fliped = _fliped;
 	logic_position.x = x_pos;
 	type = CHAR_TYPE::WARRIOR;
+
+	// WARRIOR EXCLUSIVE VARS
+	spin_speed = character.spin_speed;
+	improved_spin_speed = character.improved_spin_speed;
+	improved_spin_recovery = character.improved_spin_recovery;
+	jm_s1_angle = character.jm_s1_angle;
+	jm_s1_speed = character.jm_s1_speed;
+	dive_kick_max_height = character.dive_kick_max_height; 
+	jm_s2_angle = character.jm_s2_angle;
+	jm_s2_speed = character.jm_s2_speed;
+	projectile_duration = character.projectile_duration;
+	projectile_speed = character.projectile_speed;
+	swordyuken_invencivility = character.swordyuken_invencivility;
+	swordyuken_jump_power = character.swordyuken_jump_power;
+	super_invencibility = 300;
+	// PROVISIONAL: Should be loaded from xml
+	super_attack_list.push_back(ST_L);
+	super_attack_list.push_back(ST_L);
+	super_attack_list.push_back(ST_H);
+	super_attack_list.push_back(CR_H);
+	super_attack_list.push_back(CR_S2);
+
+	super_last_attack = CR_S2;
+
+	super_advance_speed = 5;
 	// Runtime inicialization
 	grounded = false;
 	instanciated_hitbox = false;
@@ -337,8 +334,8 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : 
 	starting_position.x = logic_position.x;
 	starting_position.y = -1000;
 	state_first_tick = false;
-	spin_object.active = false; 
-	dive_kick_object.active = false;
+	spin_object = false; 
+	dive_kick_object = false;
 	// Others
 	bottom_lane = 800;
 	upper_lane = 450;
@@ -374,9 +371,10 @@ Warrior::~Warrior() {
 
 }
 
-void Warrior::standingSpecial1() 	{
-		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-			collider* projectile_collider = App->collision->AddCollider({ logic_position.x, logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
+void Warrior::standingSpecial1(const bool(&inputs)[MAX_INPUTS]){
+
+		if (current_animation->GetState() == ACTIVE) {
+			collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
 			hitboxes.push_back(projectile_collider);
 			iPoint speed;
 			if (!fliped)
@@ -385,18 +383,14 @@ void Warrior::standingSpecial1() 	{
 				speed.x = -projectile_speed;
 			speed.y = 0;
 
-			ParticleEmitter* emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y}, "particles/fire-ball.xml");
-			App->projectiles->addProjectile(WARRIOR_KNIFE, { logic_position.x, logic_position.y }, speed, projectile_collider, -1, fliped , scale, emitter);
-
+			App->projectiles->addProjectile(WARRIOR_KNIFE, { calculateDrawPosition(0,st_s1.hitbox.w,true), calculateDrawPosition(0,st_s1.hitbox.h,false) }, speed, projectile_collider, -1, fliped, scale, nullptr);
 			askRecovery(st_s1.recovery);
-			projectile = true;
 		}
 }
 void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
-	App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-column.xml");
 	hurtbox->type = PROJECTILE_INVENCIBLE_HURTBOX;
 
-	if(!spin_object.active){
+	if(!spin_object){
 		if(!fliped)
 			logic_position.x += spin_speed; 
 		else
@@ -425,7 +419,7 @@ void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
 		if (hitbox != nullptr) { // Just for safety
 			deleteAttackHitbox(ST_S2);
 		}
-		if(!spin_object.active)
+		if(!spin_object)
 			askRecovery(st_s2.recovery);
 		else
 			askRecovery(improved_spin_recovery);
@@ -441,9 +435,9 @@ void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
 void Warrior::crouchingSpecial1() {
 
 	if (!fliped)
-		logic_position.x += spin_speed; // Provisional
+		logic_position.x += spin_speed; 
 	else
-		logic_position.x -= spin_speed; // Provisional
+		logic_position.x -= spin_speed; 
 
 	if (current_animation->Finished()) {
 		instanciated_hitbox = false;
@@ -469,7 +463,7 @@ void Warrior::crouchingSpecial2()	{ // Should have recovery
 
 	if (!state_first_tick) {
 		updateAnimation(crouching_special2);
-		velocity.y -= swordyuken_jump_power;// jump_power.y / 1.25; // Provisional
+		velocity.y -= swordyuken_jump_power;
 		grounded = false;
 		makeInvencibleFor(swordyuken_invencivility);
 		state_first_tick = true;
@@ -495,7 +489,10 @@ void Warrior::crouchingSpecial2()	{ // Should have recovery
 }
 
 void Warrior::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
-	updateAnimation(jumping_special1);
+	if (!state_first_tick) {
+		updateAnimation(jumping_special1);
+		state_first_tick = true;
+	}
 	if (!grounded) {
 		if (!fliped) {
 			velocity.x = jm_s1_speed.x; 
@@ -515,7 +512,7 @@ void Warrior::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		hitbox->SetPos(calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false));
 
 
-	if(dive_kick_object.active){
+	if(dive_kick_object){
 		if (inputs[LIGHT_ATTACK]) {
 			collider* hitbox = getCurrentAttackHitbox();
 			if (hitbox != nullptr) { // Just for safety
@@ -545,7 +542,10 @@ void Warrior::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 }
 
 void Warrior::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
-	updateAnimation(jumping_special2);
+	if (!state_first_tick) {
+		updateAnimation(jumping_special2);
+		state_first_tick = true;
+	}
 	if (!grounded) {
 		if (!fliped) {
 			velocity.x = jm_s2_speed.x; 
@@ -564,7 +564,7 @@ void Warrior::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 	if (hitbox != nullptr)
 		hitbox->SetPos(calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false));
 
-	if (dive_kick_object.active) {
+	if (dive_kick_object) {
 		if (inputs[LIGHT_ATTACK]) {
 			collider* hitbox = getCurrentAttackHitbox();
 			if (hitbox != nullptr) { // Just for safety
@@ -635,13 +635,27 @@ void Warrior::updateAnimationOnBasicAttack(CHAR_ATT_TYPE type) {
 	
 }
 void Warrior::giveItem(ITEMS type) {
-
-	if (type == dive_kick_object.item_type)
-		dive_kick_object.active = true;
-	else if (type == spin_object.item_type)
-		spin_object.active = true;
+	switch (type) {
+	case SPECIAL_ITEM_1:
+		dive_kick_object = true;
+		break;
+	case SPECIAL_ITEM_2:
+		spin_object = true;
+		break;
+	}
 }
+
+
 void Warrior::takeAllItems() {
-	dive_kick_object.active = false;
-	spin_object.active = false;
+	dive_kick_object = false;
+	spin_object = false;
+}
+bool Warrior::jumpingSpecial1Condition() {
+	return logic_position.y <= dive_kick_max_height;
+}
+bool Warrior::jumpingSpecial2Condition() {
+	return logic_position.y <= dive_kick_max_height;
+}
+bool Warrior::standingSpecial1Condition() {
+	return App->projectiles->lookForProjectileType(WARRIOR_KNIFE, (Character*)this) == 0;
 }

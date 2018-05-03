@@ -16,8 +16,6 @@
     super_gauge_gain_block ="10"
     super_gauge_gain_strike ="10"
    
-    left_x_limit ="50"
-    right_x_limit ="1870"
    
     standing_hurtbox_size_x ="100"
     standing_hurtbox_size_y ="200"
@@ -26,31 +24,30 @@
     invencibility_on_wakeup ="30"
     super_window ="20"
     cancelability_window ="30"
-    
-    
-    dive_kick_max_height ="520"
-    
+
     spin_speed ="6"
     improved_spin_speed ="10"
     improved_spin_recovery ="250"
-    spin_object ="special_item_1"
     
+    dive_kick_max_height ="520"
     jm_s1_angle ="20"
     jm_s1_speed_x ="10"
     jm_s1_speed_y ="10"
-    
     jm_s2_angle ="40"
     jm_s2_speed_x ="5"
     jm_s2_speed_y ="10"
-    dive_kick_object ="special_item_2"
     
     projectile_duration ="2000"
     projectile_speed ="15"
-    projectile_scale ="3"
     
     swordyuken_invencivility ="300"
     swordyuken_jump_power ="20"
     >
+      <non_flip_attacks>
+        <attack value="jm_s1"/>
+        <attack value="jm_s2"/>
+        <attack value="cr_s1"/>
+      </non_flip_attacks>
       <attack_data>
         <st_l 
           pos_rel_char_x ="110" 
@@ -94,7 +91,7 @@
           hitbox_w ="70"
           hitbox_h ="30"
           active_time ="70"
-          hitstun ="200"
+          hitstun ="250"
           blockstun ="50"
           pushhit ="2"
           pushblock ="2"
@@ -105,7 +102,7 @@
           block_type ="low"
           type ="cr_l"
           recovery ="50"
-          animation_speed ="0.2"/>
+          animation_speed ="0.25"/>
         <cr_h
           pos_rel_char_x ="190"
           pos_rel_char_y ="80"
@@ -123,7 +120,7 @@
           block_type ="low"
           type ="cr_h"
           recovery ="350"
-          animation_speed ="0.2"/>
+          animation_speed ="0.18"/>
         <jm_l
           pos_rel_char_x ="150"
           pos_rel_char_y ="70"
@@ -208,7 +205,7 @@
           pushblock ="2"
           damage ="10"
           knockdown ="true"
-          juggle_speed_x ="2"
+          juggle_speed_x ="5"
           juggle_speed_y ="25"
           block_type ="mid"
           type ="cr_s1"
@@ -287,4 +284,296 @@
           recovery ="0"/>
       </attack_data>
     </warrior>
+  <mage
+    type ="mage"
+    scale ="3"
+   
+    gravity ="0.5"
+    walk_speed ="4"
+    jump_power_y ="15"
+    jump_power_x ="5"
+   
+    max_life ="250"
+   
+    max_super_gauge ="100"
+    super_gauge_gain_hit ="30"
+    super_gauge_gain_block ="10"
+    super_gauge_gain_strike ="10"
+
+   
+    standing_hurtbox_size_x ="100"
+    standing_hurtbox_size_y ="200"
+    crouching_hurtbox_offset ="40"
+    
+    invencibility_on_wakeup ="30"
+    super_window ="20"
+    cancelability_window ="30"
+    
+    fireball_speed ="10"
+    fireball_duration ="2000"
+    fireball_emitter_offset_x ="50"
+    fireball_emitter_offset_y ="0"
+    
+    air_fireball_angle ="30"
+    air_fireball_max_height ="600"
+    air_fireball_backfire_x ="-7"
+    air_fireball_backfire_y ="-10"
+    air_fireball_speed_x ="10"
+    air_fireball_speed_y ="5"
+    
+    double_jump_power_x ="5"
+    double_jump_power_y ="15"
+    
+    meteorits="6"
+    meteorits_life="10000"
+    first_meteorit_height ="-200"
+    meteorits_offset_x="200"
+    meteorits_offset_y="100"
+    meteorits_speed_x="3"
+    meteorits_speed_y="6"
+    meteorits_rows="3"
+    meteorits_rows_offset="-300"
+    >
+    <non_flip_attacks>
+      <attack value="jm_s1"/>
+      <attack value="st_s2"/>
+      <attack value="st_s1"/>
+    </non_flip_attacks>
+    <attack_data>
+      <st_l
+        pos_rel_char_x ="110"
+        pos_rel_char_y ="45"
+        hitbox_w ="150"
+        hitbox_h ="20"
+        active_time ="100"
+        hitstun ="200"
+        blockstun ="80"
+        pushhit ="5"
+        pushblock ="2"
+        damage ="5"
+        knockdown ="false"
+        juggle_speed_x ="5"
+        juggle_speed_y ="5"
+        block_type ="mid"
+        type ="st_l"
+        recovery ="100"
+        animation_speed ="0.25"/>
+      <st_h
+        pos_rel_char_x ="220"
+        pos_rel_char_y ="-35"
+        hitbox_w ="190"
+        hitbox_h ="80"
+        active_time ="200"
+        hitstun ="500"
+        blockstun ="200"
+        pushhit ="5"
+        pushblock ="3"
+        damage ="15"
+        knockdown ="false"
+        juggle_speed_x ="10"
+        juggle_speed_y ="20"
+        block_type ="mid"
+        type ="st_h"
+        recovery ="300"
+        animation_speed ="0.1"/>
+      <cr_l
+        pos_rel_char_x ="110"
+        pos_rel_char_y ="100"
+        hitbox_w ="150"
+        hitbox_h ="50"
+        active_time ="70"
+        hitstun ="250"
+        blockstun ="50"
+        pushhit ="2"
+        pushblock ="2"
+        damage ="3"
+        knockdown ="false"
+        juggle_speed_x ="0"
+        juggle_speed_y ="0"
+        block_type ="low"
+        type ="cr_l"
+        recovery ="50"
+        animation_speed ="0.15"/>
+      <cr_h
+        pos_rel_char_x ="160"
+        pos_rel_char_y ="80"
+        hitbox_w ="180"
+        hitbox_h ="50"
+        active_time ="200"
+        hitstun ="500"
+        blockstun ="200"
+        pushhit ="-1"
+        pushblock ="2"
+        damage ="15"
+        knockdown ="true"
+        juggle_speed_x ="5"
+        juggle_speed_y ="20"
+        block_type ="low"
+        type ="cr_h"
+        recovery ="350"
+        animation_speed ="0.15"/>
+      <jm_l
+        pos_rel_char_x ="150"
+        pos_rel_char_y ="0"
+        hitbox_w ="300"
+        hitbox_h ="50"
+        active_time ="-1"
+        hitstun ="200"
+        blockstun ="150"
+        pushhit ="1"
+        pushblock ="1"
+        damage ="6"
+        knockdown ="false"
+        juggle_speed_x ="5"
+        juggle_speed_y ="20"
+        block_type ="overhead"
+        type ="jm_l"
+        recovery ="30"
+        animation_speed ="0.2"/>
+      <jm_h
+        pos_rel_char_x ="42"
+        pos_rel_char_y ="110"
+        hitbox_w ="80"
+        hitbox_h ="220"
+        active_time ="-1"
+        hitstun ="500"
+        blockstun ="450"
+        pushhit ="1"
+        pushblock ="1"
+        damage ="10"
+        knockdown ="false"
+        juggle_speed_x ="0"
+        juggle_speed_y ="10"
+        block_type ="overhead"
+        type ="jm_h"
+        recovery ="30"
+        animation_speed ="0.2"/>
+      <st_s1
+       pos_rel_char_x ="100"
+       pos_rel_char_y ="-25"
+       hitbox_w ="130"
+       hitbox_h ="90"
+       active_time ="-1"
+       hitstun ="-1"
+       blockstun ="200"
+       pushhit ="-1"
+       pushblock ="4"
+       damage ="15"
+       knockdown ="true"
+       juggle_speed_x ="10"
+       juggle_speed_y ="15"
+       block_type ="mid"
+       type ="st_s1"
+       recovery ="350"
+       animation_speed ="0.1"/>
+      <st_s2
+        pos_rel_char_x ="500"
+        pos_rel_char_y ="-100"
+        hitbox_w ="200"
+        hitbox_h ="400"
+        active_time ="500"
+        hitstun ="-1"
+        blockstun ="400"
+        pushhit ="-1"
+        pushblock ="3"
+        damage ="25"
+        knockdown ="true"
+        juggle_speed_x ="5"
+        juggle_speed_y ="15"
+        block_type ="mid"
+        type ="st_s2"
+        recovery ="800"
+        animation_speed ="0.1"/>
+      <cr_s1
+        pos_rel_char_x ="200"
+        pos_rel_char_y ="-160"
+        hitbox_w ="250"
+        hitbox_h ="150"
+        active_time ="150"
+        hitstun ="-1"
+        blockstun ="100"
+        pushhit ="-1"
+        pushblock ="2"
+        damage ="15"
+        knockdown ="true"
+        juggle_speed_x ="5"
+        juggle_speed_y ="25"
+        block_type ="mid"
+        type ="cr_s1"
+        recovery ="150"
+        animation_speed ="0.15"/>
+      <cr_s2
+        pos_rel_char_x ="200"
+        pos_rel_char_y ="125"
+        hitbox_w ="200"
+        hitbox_h ="300"
+        active_time ="100"
+        hitstun ="-1"
+        blockstun ="500"
+        pushhit ="-1"
+        pushblock ="2"
+        damage ="17"
+        knockdown ="true"
+        juggle_speed_x ="-6"
+        juggle_speed_y ="30"
+        block_type ="mid"
+        type ="cr_s2"
+        recovery ="200"
+        animation_speed ="0.1"/>
+      <jm_s1
+         pos_rel_char_x ="-50"
+         pos_rel_char_y ="50"
+         hitbox_w ="130"
+         hitbox_h ="90"
+         active_time ="-1"
+         hitstun ="-1"
+         blockstun ="200"
+         pushhit ="-1"
+         pushblock ="4"
+         damage ="15"
+         knockdown ="true"
+         juggle_speed_x ="10"
+         juggle_speed_y ="15"
+         block_type ="overhead"
+         type ="jm_s1"
+         recovery ="150"
+         animation_speed ="0.1"/>
+      <jm_s2
+        pos_rel_char_x ="60"
+        pos_rel_char_y ="50"
+        hitbox_w ="80"
+        hitbox_h ="100"
+        active_time ="-1"
+        hitstun ="300"
+        blockstun ="300"
+        pushhit ="1"
+        pushblock ="1"
+        damage ="10"
+        knockdown ="false"
+        juggle_speed_x ="0"
+        juggle_speed_y ="0"
+        block_type ="overhead"
+        type ="jm_s2"
+        recovery ="100"
+        animation_speed ="0.3"/>
+      <super
+        pos_rel_char_x ="0"
+        pos_rel_char_y ="0"
+        hitbox_w ="0"
+        hitbox_h ="0"
+        active_time ="-1"
+        hitstun ="0"
+        blockstun ="0"
+        pushhit ="0"
+        pushblock ="0"
+        damage ="0"
+        knockdown ="false"
+        juggle_speed_x ="0"
+        juggle_speed_y ="0"
+        block_type ="mid"
+        type ="super"
+        recovery ="0"
+        animation_speed ="0.2"/>
+    </attack_data>
+  </mage>
 </config>

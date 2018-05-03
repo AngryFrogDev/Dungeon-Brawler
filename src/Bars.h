@@ -5,6 +5,7 @@
 #include "mdGuiManager.h"
 #include "SDL/include/SDL.h"
 #include "p2Point.h"
+#include "Animation.h"
 
 class Bars : public Widgets {
 public:
@@ -16,6 +17,8 @@ public:
 	void updateBarGauge();
 	void calculateBarGauge();
 	void loadGuiFromAtlas();
+	void setAnimation();
+
 
 private:
 	bar_types bar_type = NO_BAR;
@@ -23,6 +26,9 @@ private:
 	SDL_Rect gauge_rect;
 	SDL_Rect bar_rect;
 	SDL_Rect current_gauge_rect;
+	SDL_Rect full_gauge; 
+	Animation* curr_anim = nullptr;
+	Animation super_anim; 
 
 	int current_gauge = 0;
 	int max_gauge = 0;
