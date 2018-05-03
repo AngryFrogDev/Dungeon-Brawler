@@ -145,7 +145,7 @@ void combatScene::assignFocus()	{
 }
 
 void combatScene::checkSceneInput()	{
-	//Check if pause menu is opened.
+	
 	if (App->entities->players[0]->getController()->isPressed(BUTTON_START))
 		popUpP1Window();
 	if (App->entities->players[1]->getController()->isPressed(BUTTON_START))
@@ -153,7 +153,23 @@ void combatScene::checkSceneInput()	{
 }
 
 void combatScene::popUpP1Window()	{
+	if (!p1_window)
+	{
+		p1_window = (UiWindow*)App->gui->createWindow(PAUSE, { 625, 400 }, this);
+		p1_pause_label = (Labels*)App->gui->createLabel("P1 PAUSE", { 255,255,255,255 }, App->fonts->large_size, { 850, 420 }, this);
+		p1_resume_button = (Buttons*)App->gui->createButton(IN_GAME_RESTART, MEDIUM, 0, { 775, 500 }, this);
+		p1_resume_label = (Labels*)App->gui->createLabel("RESUME", { 33,33,33,255 }, App->fonts->medium_size, { 850, 515 }, this);
+		p1_char_sel_button = (Buttons*)App->gui->createButton(IN_GAME_CHAR_SEL, MEDIUM, 0, { 775, 550 }, this);
+		p1_char_sel_label = (Labels*)App->gui->createLabel("CHAR. SELEC.", { 33,33,33,255 }, App->fonts->medium_size, { 800, 615 }, this);
+		p1_stage_sel_button = (Buttons*)App->gui->createButton(IN_GAME_STAGE_SEL, MEDIUM, 0, { 775, 600 }, this);
+		p1_stage_sel_label = (Labels*)App->gui->createLabel("STAGE SEL.", { 33,33,33,255 }, App->fonts->medium_size, { 800, 715 }, this);
+		p1_settings_button = (Buttons*)App->gui->createButton(IN_GAME_SETTINGS, MEDIUM, 0, { 775, 650 }, this);
+		p1_settings_label = (Labels*)App->gui->createLabel("SETTINGS", { 33,33,33,255 }, App->fonts->medium_size, { 830, 815 }, this);
+		p1_main_menu_button = (Buttons*)App->gui->createButton(IN_GAME_MAIN_MENU, MEDIUM, 0, { 775, 700 }, this);
+		p1_main_menu_label = (Labels*)App->gui->createLabel("MAIN MENU", { 33,33,33,255 }, App->fonts->medium_size, { 815, 915 }, this);
 
+		assignFocus();
+	}
 }
 
 void combatScene::popUpP2Window()	{
@@ -166,21 +182,7 @@ void combatScene::closeP2Window()	{
 }
 
 void combatScene::popUpGeneralWindow()	{
-	//WINDOWS AND RELATED UI
-	//BUTTONS
-//	rematch = (Buttons*)App->gui->createButton(IN_GAME_REMATCH, MEDIUM, { buttons_node.child("rematch").child("pos").attribute("x").as_int(), buttons_node.child("rematch").child("pos").attribute("y").as_int() }, this);
-
-//	to_main_menu = (Buttons*)App->gui->createButton(IN_GAME_MAIN_MENU, MEDIUM, { 780,680 }, this);
-
-	//LABELS
-	rematch_l = (Labels*)App->gui->createLabel("REMATCH", { 0,0,0,255 }, App->fonts->large_size, { 820, 615 }, this);
-
-	to_main_menu_l = (Labels*)App->gui->createLabel("MAIN MENU", { 0,0,0,255 }, App->fonts->large_size, { 795, 695 }, this);
-
-	end_label = (Labels*)App->gui->createLabel("WE HAVE A WINNER!", { 255,255,255,255 }, App->fonts->large_size, { 725, 420 }, this);
-
-	//WINDOW
-	window = (UiWindow*)App->gui->createWindow(MATCH_END, { 600,400 }, this);
+	
 }
 
 void combatScene::closeGeneralWindow()	{
