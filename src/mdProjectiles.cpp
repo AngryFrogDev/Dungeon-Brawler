@@ -3,6 +3,8 @@
 #include "mdRender.h"
 #include "mdTextures.h"
 #include "mdCollision.h"
+#include "mdParticleSystem.h"
+#include "ParticleEmitter.h"
 #include "DebLog.h"
 
 
@@ -42,6 +44,7 @@ bool mdProjectiles::preUpdate() {
 		projectile* p = *it;
 		//p->collider->character->setProjectile(false);
 		projectiles.remove(p);
+		p->emitter->active = false;
 		delete p;
 	}
 
@@ -84,19 +87,19 @@ bool mdProjectiles::cleanUp() {
 	return true;
 }
 
-projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, iPoint speed,collider* collider,int life, bool fliped, int scale) {
+projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, iPoint speed,collider* collider,int life, bool fliped, int scale, ParticleEmitter* emitter) {
 
 	projectile* new_projectile;
 	switch (type) {
 		case WARRIOR_KNIFE:
-			new_projectile = new projectile(warrior_knife,position, speed, collider,life, fliped, scale, WARRIOR_KNIFE); 
+			new_projectile = new projectile(warrior_knife,position, speed, collider,life, fliped, scale, emitter); 
 	}	
 
 	projectiles.push_back(new_projectile);
 	return new_projectile;
 }
 
-bool mdProjectiles::lookForProjectileType(PROJECTILE_TYPE type, Character* character ) {
+int mdProjectiles::lookForProjectileType(PROJECTILE_TYPE type, Character* character ) {
 	for (std::list<projectile*>::iterator it = projectiles.begin(); it != projectiles.end(); ++it) {
 		projectile* p = *it;
 		if (p->type == type && p->collider->character == character) { // Projectiles are deleted with their colliders
@@ -110,6 +113,11 @@ void projectile::update() {
 	position += speed;
 	if (collider != nullptr) {
 		collider->SetPos(position.x, position.y);
+
+		if (emitter) {
+			emitter->start_pos.x = (float)position.x;
+			emitter->start_pos.y = (float)position.y;
+		}
 	}
 }
 void projectile::draw(SDL_Texture* graphics) {

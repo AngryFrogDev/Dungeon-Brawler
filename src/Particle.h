@@ -37,6 +37,8 @@ struct ParticleInfo {
 	std::string texture_path;
 
 	int draw_priority;
+
+	bool use_gravity = true;
 };
 
 
@@ -96,6 +98,8 @@ private:
 	int draw_priority = 1;
 
 	SDL_Texture* texture = nullptr;
+
+	bool use_gravity = true;
 
 };
 

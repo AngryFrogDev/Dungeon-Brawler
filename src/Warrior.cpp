@@ -3,6 +3,7 @@
 #include "mdProjectiles.h"
 #include "mdAudio.h"
 #include "mdEntities.h"
+#include "mdParticleSystem.h"
 
 Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : Character() {
 
@@ -383,11 +384,14 @@ void Warrior::standingSpecial1() 	{
 			else
 				speed.x = -projectile_speed;
 			speed.y = 0;
-			App->projectiles->addProjectile(WARRIOR_KNIFE, {calculateDrawPosition(0,st_s1.hitbox.w,true), calculateDrawPosition(0,st_s1.hitbox.h,false) }, speed, projectile_collider, -1, fliped , projectile_scale);
+
+			App->projectiles->addProjectile(WARRIOR_KNIFE, { calculateDrawPosition(0, st_s1.hitbox.w, true), calculateDrawPosition(0, st_s1.hitbox.h, false) }, speed, projectile_collider, -1, fliped, scale, nullptr);
 			askRecovery(st_s1.recovery);
 		}
 }
+
 void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
+	App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-column.xml");
 	hurtbox->type = PROJECTILE_INVENCIBLE_HURTBOX;
 
 	if(!spin_object.active){
@@ -433,6 +437,7 @@ void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
 }
 
 void Warrior::crouchingSpecial1() {
+
 	if (!fliped)
 		logic_position.x += spin_speed; 
 	else
@@ -453,6 +458,8 @@ void Warrior::crouchingSpecial1() {
 	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
 		hitbox->SetPos(calculateDrawPosition(cr_s1.pos_rel_char.x, cr_s1.hitbox.w, true), calculateDrawPosition(cr_s1.pos_rel_char.y, cr_s1.hitbox.h, false));
+
+
 
 }
 
