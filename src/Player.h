@@ -31,6 +31,7 @@ public:
 	bool getInput(CHARACTER_INPUTS input, KEY_STATE state);
 
 	Character* getCurrCharacter();
+	void removeCharacters();//Destroy current character from each player
 
 	void setFlip(bool flip);
 

@@ -6,6 +6,7 @@
 #include "mdFonts.h"
 #include "Player.h"
 #include "DebLog.h"
+#include "mdSceneManager.h"
 
 
 
@@ -60,12 +61,19 @@ bool combatScene::onEvent(Buttons * button)	{
 	case IN_GAME_REMATCH:
 		break;
 	case IN_GAME_CHAR_SEL:
+		App->scene_manager->changeScene(App->scene_manager->char_sel_scene, this);
 		break;
 	case IN_GAME_MAIN_MENU:
+		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
 		break;
 	case IN_GAME_RESTART:
+		if (button->focus_id == 0)
+			closeP1Window();
+		else
+			closeP2Window();
 		break;
 	case IN_GAME_SETTINGS:
+		App->scene_manager->changeScene(App->scene_manager->settings_scene, this);
 		break;
 	case IN_GAME_STAGE_SEL:
 		break;	
@@ -145,10 +153,10 @@ void combatScene::assignFocus()	{
 }
 
 void combatScene::checkSceneInput()	{
-	//if (App->entities->players[0]->getController()->isPressed(BUTTON_START))
-	//	popUpP1Window();
-	//if (App->entities->players[1]->getController()->isPressed(BUTTON_START))
-	//	popUpP2Window();
+	if (App->entities->players[0]->getController()->isPressed(BUTTON_START))
+		popUpP1Window();
+	if (App->entities->players[1]->getController()->isPressed(BUTTON_START))
+		popUpP2Window();
 }
 
 void combatScene::popUpP1Window()	{
@@ -158,26 +166,78 @@ void combatScene::popUpP1Window()	{
 		p1_pause_label = (Labels*)App->gui->createLabel("P1 PAUSE", { 255,255,255,255 }, App->fonts->large_size, { 850, 420 }, this);
 		p1_resume_button = (Buttons*)App->gui->createButton(IN_GAME_RESTART, MEDIUM, 0, { 775, 500 }, this);
 		p1_resume_label = (Labels*)App->gui->createLabel("RESUME", { 33,33,33,255 }, App->fonts->medium_size, { 850, 515 }, this);
-		p1_char_sel_button = (Buttons*)App->gui->createButton(IN_GAME_CHAR_SEL, MEDIUM, 0, { 775, 550 }, this);
-		p1_char_sel_label = (Labels*)App->gui->createLabel("CHAR. SELEC.", { 33,33,33,255 }, App->fonts->medium_size, { 800, 615 }, this);
-		p1_stage_sel_button = (Buttons*)App->gui->createButton(IN_GAME_STAGE_SEL, MEDIUM, 0, { 775, 600 }, this);
-		p1_stage_sel_label = (Labels*)App->gui->createLabel("STAGE SEL.", { 33,33,33,255 }, App->fonts->medium_size, { 800, 715 }, this);
-		p1_settings_button = (Buttons*)App->gui->createButton(IN_GAME_SETTINGS, MEDIUM, 0, { 775, 650 }, this);
-		p1_settings_label = (Labels*)App->gui->createLabel("SETTINGS", { 33,33,33,255 }, App->fonts->medium_size, { 830, 815 }, this);
-		p1_main_menu_button = (Buttons*)App->gui->createButton(IN_GAME_MAIN_MENU, MEDIUM, 0, { 775, 700 }, this);
-		p1_main_menu_label = (Labels*)App->gui->createLabel("MAIN MENU", { 33,33,33,255 }, App->fonts->medium_size, { 815, 915 }, this);
-
+		p1_char_sel_button = (Buttons*)App->gui->createButton(IN_GAME_CHAR_SEL, MEDIUM, 0, { 775, 575 }, this);
+		p1_char_sel_label = (Labels*)App->gui->createLabel("CHAR. SELEC.", { 33,33,33,255 }, App->fonts->medium_size, { 800, 590 }, this);
+		p1_stage_sel_button = (Buttons*)App->gui->createButton(IN_GAME_STAGE_SEL, MEDIUM, 0, { 775, 650 }, this);
+		p1_stage_sel_label = (Labels*)App->gui->createLabel("STAGE SEL.", { 33,33,33,255 }, App->fonts->medium_size, { 800, 665 }, this);
+		p1_settings_button = (Buttons*)App->gui->createButton(IN_GAME_SETTINGS, MEDIUM, 0, { 775, 725 }, this);
+		p1_settings_label = (Labels*)App->gui->createLabel("SETTINGS", { 33,33,33,255 }, App->fonts->medium_size, { 830, 740 }, this);
+		p1_main_menu_button = (Buttons*)App->gui->createButton(IN_GAME_MAIN_MENU, MEDIUM, 0, { 775, 800 }, this);
+		p1_main_menu_label = (Labels*)App->gui->createLabel("MAIN MENU", { 33,33,33,255 }, App->fonts->medium_size, { 815, 815 }, this);
+		
 		assignFocus();
 	}
 }
 
 void combatScene::popUpP2Window()	{
+	if (!p2_window)
+	{
+		p2_window = (UiWindow*)App->gui->createWindow(PAUSE, { 625, 400 }, this);
+		p2_pause_label = (Labels*)App->gui->createLabel("P2 PAUSE", { 255,255,255,255 }, App->fonts->large_size, { 850, 420 }, this);
+		p2_resume_button = (Buttons*)App->gui->createButton(IN_GAME_RESTART, MEDIUM, 1, { 775, 500 }, this);
+		p2_resume_label = (Labels*)App->gui->createLabel("RESUME", { 33,33,33,255 }, App->fonts->medium_size, { 850, 515 }, this);
+		p2_char_sel_button = (Buttons*)App->gui->createButton(IN_GAME_CHAR_SEL, MEDIUM, 1, { 775, 575 }, this);
+		p2_char_sel_label = (Labels*)App->gui->createLabel("CHAR. SELEC.", { 33,33,33,255 }, App->fonts->medium_size, { 800, 590 }, this);
+		p2_stage_sel_button = (Buttons*)App->gui->createButton(IN_GAME_STAGE_SEL, MEDIUM, 1, { 775, 650 }, this);
+		p2_stage_sel_label = (Labels*)App->gui->createLabel("STAGE SEL.", { 33,33,33,255 }, App->fonts->medium_size, { 800, 665 }, this);
+		p2_settings_button = (Buttons*)App->gui->createButton(IN_GAME_SETTINGS, MEDIUM, 1, { 775, 725 }, this);
+		p2_settings_label = (Labels*)App->gui->createLabel("SETTINGS", { 33,33,33,255 }, App->fonts->medium_size, { 830, 740 }, this);
+		p2_main_menu_button = (Buttons*)App->gui->createButton(IN_GAME_MAIN_MENU, MEDIUM, 1, { 775, 800 }, this);
+		p2_main_menu_label = (Labels*)App->gui->createLabel("MAIN MENU", { 33,33,33,255 }, App->fonts->medium_size, { 815, 815 }, this);
+
+		assignFocus();
+	}
 }
 
 void combatScene::closeP1Window()	{
+	//Deleting buttons
+	std::list<Widgets*>::reverse_iterator it = App->gui->p1_focus_elements.rbegin();
+	Widgets* object = nullptr;
+	for (it; it != App->gui->p1_focus_elements.rend(); it++)
+	{
+		object = *it;
+		object->to_delete = true;
+	}
+	p1_window->to_delete = true;
+	p1_pause_label->to_delete = true;
+	p1_resume_label->to_delete = true;
+	p1_char_sel_label->to_delete = true;
+	p1_stage_sel_label->to_delete = true;
+	p1_settings_label->to_delete = true;
+	p1_main_menu_label->to_delete = true;
+
+	App->entities->players[0]->focus = nullptr;
+		
 }
 
 void combatScene::closeP2Window()	{
+	//Deleting buttons
+	std::list<Widgets*>::reverse_iterator it = App->gui->p2_focus_elements.rbegin();
+	Widgets* object = nullptr;
+	for (it; it != App->gui->p2_focus_elements.rend(); it++)
+	{
+		object = *it;
+		object->to_delete = true;
+	}
+	p2_window->to_delete = true;
+	p2_pause_label->to_delete = true;
+	p2_resume_label->to_delete = true;
+	p2_char_sel_label->to_delete = true;
+	p2_stage_sel_label->to_delete = true;
+	p2_settings_label->to_delete = true;
+	p2_main_menu_label->to_delete = true;
+
+	App->entities->players[1]->focus = nullptr;
 }
 
 void combatScene::popUpGeneralWindow()	{

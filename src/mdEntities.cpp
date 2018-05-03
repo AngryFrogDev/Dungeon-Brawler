@@ -127,8 +127,8 @@ bool mdEntities::postUpdate()
 	for (int i = 0; i < 4; i++) {
 		if (players[i] == nullptr)
 			continue;
-		if (players[i]->getCurrCharacter() != nullptr && players[i]->getCurrCharacter()->readyToSwap == true) //no flip if characters are swapping
-			return true;
+	//	if (players[i]->getCurrCharacter() != nullptr && players[i]->getCurrCharacter()->readyToSwap == true) //no flip if characters are swapping
+	//		return true;
 	}
 
 	if(allowFlip()) 
@@ -156,12 +156,6 @@ void mdEntities::destroyCharacters() {
 	for (int i = 0; i < 4; i++) {
 		delete players[i];
 		players[i] = nullptr;
-	}
-}
-
-void mdEntities::removeCharacters()	{
-	for (int i = 0; i < 2; i++) {
-		delete players[i]->getCurrCharacter();
 	}
 }
 

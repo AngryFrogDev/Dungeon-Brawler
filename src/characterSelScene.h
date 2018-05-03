@@ -39,11 +39,11 @@ private:
 	void assignCharacterToPlayer();
 	void setRects();
 	void setCurrentCharDisplay();
-	void closeWindow();
 	void popUpP1Window();
 	void popUpP2Window();
 	void closeP1Window();
 	void closeP2Window();
+	void resetSceneValues();
 
 	void startingTransition();
 

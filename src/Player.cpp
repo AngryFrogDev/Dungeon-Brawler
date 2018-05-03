@@ -85,8 +85,7 @@ void Player::createAndAssignCharacter(CHAR_TYPE type, ITEMS item, bool player, i
 		//}
 	}
 	curr_character->giveItem(item);
-//	curr_character->manageOponent();
-			
+		
 }
 
 void Player::assignControlScheme(const controller_scheme& new_scheme) {
@@ -112,6 +111,14 @@ Character * Player::getCurrCharacter()
 {
 	return this->curr_character;
 }
+
+void Player::removeCharacters()	{
+	for (int i = 0; i < 2; i++) {
+		delete App->entities->players[i]->getCurrCharacter();
+		App->entities->players[i]->curr_character = nullptr;
+	}
+}
+
 void Player::setFlip(bool flip) {
 	curr_character->setFlip(flip);
 }

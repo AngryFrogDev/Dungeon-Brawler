@@ -21,6 +21,9 @@ characterSelScene::characterSelScene(bool active) : scene(CHAR_SEL_SCENE)	{
 characterSelScene::~characterSelScene()	{}
 
 bool characterSelScene::start()	{
+	//Reseting player values
+	resetSceneValues();
+
 	character_potraits = App->textures->load(textures_node.child("portraits_tex").attribute("path").as_string());
 	vs_tex = App->textures->load(textures_node.child("vs_tex").attribute("path").as_string());
 	character_names = App->textures->load(textures_node.child("char_name_tex").attribute("path").as_string());
@@ -492,16 +495,6 @@ void characterSelScene::setCurrentCharDisplay()	{
 	}
 }
 
-void characterSelScene::closeWindow()	{
-	//This function has to receive which player is actually closing the window
-	//By calling createCharacterButtons always, the buttons of the player that has not selected character are created again
-
-	object_win_p1->to_delete = true;
-	player1.has_selected_character = false;
-
-	assignFocus();
-}
-
 void characterSelScene::popUpP1Window() {
 	//First we destroy the already created buttons and clean the corresponding list
 	std::list<Widgets*>::reverse_iterator it = App->gui->p1_focus_elements.rbegin();
@@ -768,10 +761,20 @@ void characterSelScene::closeP2Window()	{
 	}
 }
 
-void characterSelScene::startingTransition()	{
+void characterSelScene::resetSceneValues()	{
+	player1.has_selected_character = false;
+	player1.has_selected_item = false;
+	
+	player2.has_selected_character = false;
+	player2.has_selected_item = false;
 
+	transition_timer.stop();
+}
+
+void characterSelScene::startingTransition()	{
 	if (transition_timer.readSec() >= 2)
-		App->scene_manager->changeScene(App->scene_manager->combat_scene, this);
+		App->scene_manager->changeScene(App->scene_manager->combat_scene, this); 
+
 
 }
 

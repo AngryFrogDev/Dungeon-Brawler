@@ -113,7 +113,10 @@ void mdSceneManager::startSwitch()	{
 			if (to_disable->name == "Combat Scene")
 			{
 				App->collision->cleanUp();
-				App->entities->removeCharacters();
+				for (int i = 0; i < 2; i++)
+				{
+					App->entities->players[i]->removeCharacters();
+				}
 			}
 
 			App->gui->cleanUp();
