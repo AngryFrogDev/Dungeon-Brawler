@@ -38,6 +38,7 @@ bool combatScene::start()	{
 }
 
 bool combatScene::update(float dt)	{
+	checkSceneInput();
 	loadSceneTextures();	
 	updateTimer();
 //	checkPlayers(); //Check if both player are still alive
@@ -110,7 +111,7 @@ void combatScene::updateTimer()	{
 	if (current_time == 0)
 	{
 		current_time = max_time;
-		popUpWindow();
+		popUpGeneralWindow();
 	}
 	if (current_time > 0)
 	{
@@ -136,14 +137,35 @@ void combatScene::loadSceneTextures()	{
 }
 
 void combatScene::assignFocus()	{
-	
+	if (!App->gui->p1_focus_elements.empty() && !App->entities->players[0]->focus)
+		App->entities->players[0]->focus = *App->gui->p1_focus_elements.begin();
+
+	if (!App->gui->p2_focus_elements.empty() && !App->entities->players[1]->focus)
+		App->entities->players[1]->focus = *App->gui->p2_focus_elements.begin();
 }
 
 void combatScene::checkSceneInput()	{
 	//Check if pause menu is opened.
+	if (App->entities->players[0]->getController()->isPressed(BUTTON_START))
+		popUpP1Window();
+	if (App->entities->players[1]->getController()->isPressed(BUTTON_START))
+		popUpP2Window();
 }
 
-void combatScene::popUpWindow()	{
+void combatScene::popUpP1Window()	{
+
+}
+
+void combatScene::popUpP2Window()	{
+}
+
+void combatScene::closeP1Window()	{
+}
+
+void combatScene::closeP2Window()	{
+}
+
+void combatScene::popUpGeneralWindow()	{
 	//WINDOWS AND RELATED UI
 	//BUTTONS
 //	rematch = (Buttons*)App->gui->createButton(IN_GAME_REMATCH, MEDIUM, { buttons_node.child("rematch").child("pos").attribute("x").as_int(), buttons_node.child("rematch").child("pos").attribute("y").as_int() }, this);
@@ -161,5 +183,5 @@ void combatScene::popUpWindow()	{
 	window = (UiWindow*)App->gui->createWindow(MATCH_END, { 600,400 }, this);
 }
 
-void combatScene::closeWindow()	{
+void combatScene::closeGeneralWindow()	{
 }

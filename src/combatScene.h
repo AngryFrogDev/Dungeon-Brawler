@@ -25,8 +25,12 @@ private:
 
 	void assignFocus();
 	void checkSceneInput();
-	void popUpWindow();
-	void closeWindow();
+	void popUpP1Window();
+	void popUpP2Window();
+	void closeP1Window();
+	void closeP2Window();
+	void popUpGeneralWindow();
+	void closeGeneralWindow();
 
 public:
 	uint	current_time = 0;
@@ -51,18 +55,37 @@ private:
 
 
 	//WINDOWS && RELATED UI
-	UiWindow* window = nullptr;
-	Buttons* rematch = nullptr;
-	Buttons* restart = nullptr;
-	Buttons* resume = nullptr;
-	Buttons* in_game_settings = nullptr;
-	Buttons* char_sel = nullptr;
-	Buttons* stage_sel = nullptr;
-	Buttons* to_main_menu = nullptr;
-	Labels* pause_label = nullptr;
-	Labels* end_label = nullptr;
-	Labels* rematch_l = nullptr;
-	Labels* to_main_menu_l = nullptr;
+	//P1
+	UiWindow* p1_window = nullptr;
+	Labels* p1_pause_label = nullptr;
+	Labels* p1_resume_label = nullptr;
+	Labels* p1_char_sel_label = nullptr;
+	Labels* p1_stage_sel_label = nullptr;
+	Labels* p1_settings_label = nullptr;
+	Labels* p1_main_menu_label = nullptr;
+	Labels* p1_rematch_label = nullptr;
+	
+	Buttons* p1_resume_button = nullptr;
+	Buttons* p1_char_sel_button = nullptr;
+	Buttons* p1_stage_sel_button = nullptr;
+	Buttons* p1_settings_button = nullptr;
+	Buttons* p1_main_menu_button = nullptr;
+	Buttons* p1_rematch_button = nullptr;
+	//P2
+	UiWindow* p2_window = nullptr;
+	Labels* p2_pause_label = nullptr;
+	Labels* p2_resume_label = nullptr;
+	Labels* p2_char_sel_label = nullptr;
+	Labels* p2_stage_sel_label = nullptr;
+	Labels* p2_settings_label = nullptr;
+	Labels* p2_main_menu_label = nullptr;
+
+	Buttons* p2_resume_button = nullptr;
+	Buttons* p2_char_sel_button = nullptr;
+	Buttons* p2_stage_sel_button = nullptr;
+	Buttons* p2_settings_button = nullptr;
+	Buttons* p2_main_menu_button = nullptr;
+	Buttons* p2_rematch_button = nullptr;
 
 	//Combat scene timer
 	Timer	scene_timer;

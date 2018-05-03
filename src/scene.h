@@ -33,8 +33,10 @@ public:
 	virtual void loadSceneTextures() { return; };
 	virtual void assignFocus() { return; };
 	virtual void checkSceneInput() { return; };
-	virtual void popUpWindow() { return; };
-	virtual void closeWindow() { return; };
+	virtual void popUpP1Window() { return; };
+	virtual void popUpP2Window() { return; };
+	virtual void closeP1Window() { return; };
+	virtual void closeP2Window() { return; };
 
 public:
 	bool scene_active = false;
