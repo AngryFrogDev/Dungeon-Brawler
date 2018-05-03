@@ -20,7 +20,7 @@ public:
 	// Function to assign a controller to the player								 
 	void assignController(Controller* controller);
 	// Function so assign a certain character to the player		     
-	void createAndAssignCharacter(CHAR_TYPE type, bool player, int skin); 
+	void createAndAssignCharacter(CHAR_TYPE type, ITEMS item, bool player, int skin); 
 	
 	void assignControlScheme(const controller_scheme& new_scheme);
 

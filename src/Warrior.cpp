@@ -638,10 +638,10 @@ void Warrior::updateAnimationOnBasicAttack(CHAR_ATT_TYPE type) {
 void Warrior::giveItem(ITEMS type) {
 	switch (type) {
 	case SPECIAL_ITEM_1:
-		dive_kick_object = true;
+		spin_object = true;
 		break;
 	case SPECIAL_ITEM_2:
-		spin_object = true;
+		dive_kick_object = true;
 		break;
 	}
 }

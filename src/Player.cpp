@@ -50,7 +50,7 @@ void Player::assignController(Controller* controller) {
 	Player::controller = controller;
 }
 
-void Player::createAndAssignCharacter(CHAR_TYPE type, bool player, int skin) {
+void Player::createAndAssignCharacter(CHAR_TYPE type, ITEMS item, bool player, int skin) {
 	int x_pos = 0;
 	bool fliped = false;
 	if (player) 
@@ -84,6 +84,7 @@ void Player::createAndAssignCharacter(CHAR_TYPE type, bool player, int skin) {
 		//	break;
 		//}
 	}
+	curr_character->giveItem(item);
 //	curr_character->manageOponent();
 			
 }
