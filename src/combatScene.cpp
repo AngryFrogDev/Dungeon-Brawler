@@ -160,7 +160,9 @@ void combatScene::checkSceneInput()	{
 }
 
 void combatScene::popUpP1Window()	{
-	if (!p1_window)
+	App->entities->paused = true;
+
+	if (!p1_window && !p2_window)
 	{
 		p1_window = (UiWindow*)App->gui->createWindow(PAUSE, { 625, 400 }, this);
 		p1_pause_label = (Labels*)App->gui->createLabel("P1 PAUSE", { 255,255,255,255 }, App->fonts->large_size, { 850, 420 }, this);
@@ -180,7 +182,9 @@ void combatScene::popUpP1Window()	{
 }
 
 void combatScene::popUpP2Window()	{
-	if (!p2_window)
+	App->entities->paused = true;
+
+	if (!p2_window && !p1_window)
 	{
 		p2_window = (UiWindow*)App->gui->createWindow(PAUSE, { 625, 400 }, this);
 		p2_pause_label = (Labels*)App->gui->createLabel("P2 PAUSE", { 255,255,255,255 }, App->fonts->large_size, { 850, 420 }, this);
@@ -217,7 +221,8 @@ void combatScene::closeP1Window()	{
 	p1_main_menu_label->to_delete = true;
 
 	App->entities->players[0]->focus = nullptr;
-		
+	
+	App->entities->paused = false;
 }
 
 void combatScene::closeP2Window()	{
@@ -238,6 +243,9 @@ void combatScene::closeP2Window()	{
 	p2_main_menu_label->to_delete = true;
 
 	App->entities->players[1]->focus = nullptr;
+
+	App->entities->paused = false;
+
 }
 
 void combatScene::popUpGeneralWindow()	{

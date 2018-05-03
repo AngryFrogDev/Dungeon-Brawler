@@ -113,9 +113,9 @@ bool characterSelScene::onEvent(Buttons* button)	{
 		if (button->focus_id == 0)
 		{
 			if (App->entities->players[0]->getInput(LIGHT_ATTACK, KEY_DOWN))
-				player1.skin = 0;
-			if (App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))
 				player1.skin = 1;
+			if (App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))
+				player1.skin = 0;
 			if (App->entities->players[0]->getInput(SPECIAL_1, KEY_DOWN))
 				player1.skin = 2;
 			if (App->entities->players[0]->getInput(SPECIAL_2, KEY_DOWN))
@@ -128,9 +128,9 @@ bool characterSelScene::onEvent(Buttons* button)	{
 		else
 		{
 			if (App->entities->players[1]->getInput(LIGHT_ATTACK, KEY_DOWN))
-				player2.skin = 0;
-			if (App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN))
 				player2.skin = 1;
+			if (App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN))
+				player2.skin = 0;
 			if (App->entities->players[1]->getInput(SPECIAL_1, KEY_DOWN))
 				player2.skin = 2;
 			if (App->entities->players[1]->getInput(SPECIAL_2, KEY_DOWN))
