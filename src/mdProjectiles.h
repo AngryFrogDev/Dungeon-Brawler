@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _MDPROJECTILES_
+#define _MDPROJECTILES_
+
 #include "Module.h"
 #include <list>
 #include "p2Point.h"
@@ -21,9 +23,9 @@ enum PROJECTILE_TYPE {
 };
 
 struct projectile {
-
 	projectile(Animation* animation, iPoint position,iPoint speed, collider* collider, int life,bool fliped, int scale, PROJECTILE_TYPE type, ParticleEmitter* emitter, iPoint emitter_offset):
 		animation(animation), position(position),speed(speed), collider(collider), life(life),fliped(fliped), scale(scale), type(type), emitter(emitter), emitter_offset(emitter_offset) {
+
 		born = SDL_GetTicks();
 	}
 	void update();
@@ -40,6 +42,7 @@ struct projectile {
 	PROJECTILE_TYPE type;
 	ParticleEmitter* emitter = nullptr;
 	iPoint emitter_offset;
+
 };
 
 class mdProjectiles :
@@ -64,4 +67,4 @@ public:
 
 	std::list<projectile*> projectiles;
 };
-
+#endif

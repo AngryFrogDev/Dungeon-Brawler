@@ -6,9 +6,10 @@
 #include "mdEntities.h"
 #include "Player.h"
 #include "Character.h"
+#include "mdGuiManager.h"
 
 
-Bars::Bars(bar_types type, std::pair<int, int> pos, bool _flipped, int target, Module* callback) : Widgets(ui_elem_type::BAR, pos, callback) {
+Bars::Bars(bar_types type, std::pair<int, int> pos, bool _flipped, int target, scene* callback) : Widgets(ui_elem_type::BAR, pos, callback) {
 	
 	bar_type = type;
 	flipped = _flipped;

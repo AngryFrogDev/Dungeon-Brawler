@@ -2,26 +2,15 @@
 #define _MDGUIMANAGER_
 
 #include "Module.h"
+#include "scene.h"
 #include "Widgets.h"
 #include "ProjDefs.h"
 #include <list>
 
 #include "SDL/include/SDL.h"
 
-struct Buttons;
-struct Labels;
-struct Bars;
-struct UiWindow;
 
 struct _TTF_Font;
-
-//Some events may be missing
-enum controller_events {
-	NO_EVENT = 0,
-	STILL,
-	FOCUSED,
-	CLICK,
-};
 
 class mdGuiManager : public Module {
 public:
@@ -33,15 +22,16 @@ public:
 	bool update(float dt);
 	bool postUpdate();
 	bool cleanUp();
-	bool cleanUI();
 	
-	Widgets* createButton(button_types type, button_size size, std::pair<int, int> pos, Module* callback = nullptr);
-	Widgets* createLabel(const char* content, const SDL_Color& color, _TTF_Font* font_size, std::pair<int, int> pos, Module* callback = nullptr);
-	Widgets* createBar(bar_types type, std::pair<int, int> pos, bool flipped, int target_player, Module* callback = nullptr);
-	Widgets* createWindow(window_type type, std::pair<int, int> pos, Module* callback = nullptr);
+	Widgets* createButton(button_types type, button_size size, int id, std::pair<int, int> pos, scene* callback = nullptr);
+	Widgets* createLabel(const char* content, const SDL_Color& color, _TTF_Font* font_size, std::pair<int, int> pos, scene* callback = nullptr);
+	Widgets* createBar(bar_types type, std::pair<int, int> pos, bool flipped, int target_player, scene* callback = nullptr);
+	Widgets* createWindow(window_type type, std::pair<int, int> pos, scene* callback = nullptr);
 	bool destroyWidget(Widgets* widget);
 
 	void manageFocus();
+	void assignP1Focus();
+	void assignP2Focus();
 	SDL_Texture* getAtlas() const;
 	void draw();
 	void debugUi();
@@ -49,10 +39,11 @@ public:
 public:
 	std::list<Widgets*> ui_elements;
 	std::list<Widgets*> temp_list; //Temporary list to delete elements
-	std::list<Widgets*> focus_elements; //Button list to store elements to be affected by focus
+	std::list<Widgets*> p1_focus_elements; //Button list to store elements to be affected by player 1 focus
+	std::list<Widgets*> p2_focus_elements; //Button list to store elements to be affected by player 2 focus
+
 	SDL_Texture* atlas;
 	std::string atlas_file_name;
-	Widgets* focus = nullptr;
 
 private:
 	bool debug = false;

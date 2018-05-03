@@ -5,6 +5,8 @@
 #include "mdEntities.h"
 
 class Character;
+class Widgets;
+enum CHARACTER_INPUTS;
 
 class Player {
 public:
@@ -26,12 +28,17 @@ public:
 
 	int getLane();
 	iPoint getPos();
+	bool getInput(CHARACTER_INPUTS input, KEY_STATE state);
 
 	Character* getCurrCharacter();
 
 	void setFlip(bool flip);
 
 	Controller* getController() const;
+
+public:
+	Widgets* focus = nullptr;
+
 private:
 	// Number of the controller being used by the player
 	Controller* controller;

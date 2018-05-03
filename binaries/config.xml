@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+ <?xml version="1.0"?>
 <config>
   <items player_1_item ="false" player_2_item ="true"/>
 	<application>
@@ -39,6 +39,16 @@
 			</medium>
 			<small>
 			</small>
+			<char_sel>
+				<still x="6" y="372" w="62" h="30"/>
+				<focused x="6" y="301" w="64" h="32"/>
+				<clicked x="6" y="335" w="64" h="32"/>	
+			</char_sel>
+			<obj_sel>
+				<still x="340" y="373" w="197" h="71"/>
+				<focused x="340" y="219" w="199" h="73"/>
+				<clicked x="340" y="294" w="199" h="73"/>	
+			</obj_sel>
 		</button_section>
 		<bar_section>
 			<hp>

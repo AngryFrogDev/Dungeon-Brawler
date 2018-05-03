@@ -907,7 +907,7 @@ void Character::resetCharacter()	{
 	hit = false;
 	state_first_tick = false;
 	current_super_gauge = 0;
-	App->scene_manager->current_time = App->scene_manager->max_time;	//This should be done from the scene manager
+//	App->scene_manager->current_time = App->scene_manager->max_time;	//This should be done from the scene manager
 	App->entities->paused = false;
 	App->render->camera.x = (App->render->resolution.first - App->render->camera.w) / 2; //This should be done from the scene manager
 	velocity.x = velocity.y = 0;//This should be done from the scene manager

@@ -2,7 +2,7 @@
 #include "SDL\include\SDL_timer.h"
 
 Timer::Timer() {
-	start();
+	//start();
 }
 
 void Timer::start() {

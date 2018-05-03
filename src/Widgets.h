@@ -6,6 +6,9 @@
 
 #include "SDL\include\SDL.h"
 
+class scene;
+
+
 enum ui_elem_type {
 	NO_ELEM = 0,
 	BUTTON,
@@ -18,8 +21,7 @@ enum ui_elem_type {
 enum button_types {
 	NO_BUTTON = 0,
 	ONE_V_ONE,
-	TWO_V_TWO,
-	TRANING,
+	TRAINING,
 	SETTINGS,
 	CREDITS,
 	GAME_EXIT,
@@ -33,6 +35,14 @@ enum button_types {
 	IN_GAME_CHAR_SEL,
 	IN_GAME_STAGE_SEL,
 	IN_GAME_MAIN_MENU,
+	SELECT_WARRIOR,
+	SELECT_MAGE,
+	SELECT_ROGUE,
+	SELECT_PALADIN,
+	SELECT_ITEM1,
+	SELECT_ITEM2,
+	SHOW_COLLIDERS,
+	HIDE_COLLIDERS,
 	BACK,
 };
 
@@ -40,7 +50,9 @@ enum button_size {
 	NO_SIZE = 0,
 	SMALL,
 	MEDIUM,
-	LARGE
+	LARGE,
+	CHARACTER_SELECTION,
+	OBJECT_SELECTION
 };
 
 enum bar_types {
@@ -53,12 +65,13 @@ enum bar_types {
 enum window_type {
 	NO_WINDOW = 0,
 	PAUSE,
-	MATCH_END
+	MATCH_END, 
+	OBJ_SELECTION,
 };
 
 class Widgets {
 public:
-	Widgets(ui_elem_type type, std::pair<int, int> pos, Module* callback);
+	Widgets(ui_elem_type type, std::pair<int, int> pos, scene* callback);
 	virtual ~Widgets();
 
 	virtual bool preUpdate() { return true; };
@@ -73,11 +86,10 @@ public:
 	SDL_Rect world_area;
 	std::pair<int, int> position;
 	bool to_delete = false;
-	bool active = false;
-	bool visible = false;
+	int focus_id = 0;
 
 protected:
-	Module* callback = nullptr;
+	scene* callback = nullptr;
 
 	//Nodes
 	pugi::xml_document config_doc;

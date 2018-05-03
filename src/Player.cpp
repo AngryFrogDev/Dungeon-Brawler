@@ -6,7 +6,7 @@
 #include "mdSceneManager.h"
 
 Player::Player(){
-	
+	curr_character = nullptr;
 }
 
 Player::Player(Controller* controller) : controller(controller){
@@ -75,7 +75,7 @@ void Player::createAndAssignCharacter(int x_pos, CHAR_TYPE type, bool fliped, in
 		//	break;
 		//}
 	}
-	curr_character->manageOponent();
+//	curr_character->manageOponent();
 			
 }
 
@@ -104,4 +104,16 @@ Character * Player::getCurrCharacter()
 }
 void Player::setFlip(bool flip) {
 	curr_character->setFlip(flip);
+}
+
+bool Player::getInput(CHARACTER_INPUTS input, KEY_STATE state) {
+	bool ret = false;
+
+	if (controller != nullptr) 
+		ret = controller->isPressed(player_controller_scheme.scheme[(int)input], state);
+	else 
+		ret = App->input->getKey(player_keyboard_scheme.scheme[(int)input]) == state;
+
+	return ret;
+
 }

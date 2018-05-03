@@ -93,7 +93,6 @@ projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, i
 		case MAGE_METEORIT:
 			new_projectile = new projectile(nullptr, position, speed, collider, life, fliped, scale, MAGE_METEORIT, emitter, emitter_offset);
 			break;
-
 	}	
 
 	projectiles.push_back(new_projectile);
@@ -101,6 +100,7 @@ projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, i
 }
 
 int mdProjectiles::lookForProjectileType(PROJECTILE_TYPE type, Character* character ) {
+
 	int counter = 0;
 	for (std::list<projectile*>::iterator it = projectiles.begin(); it != projectiles.end(); ++it) {
 		projectile* p = *it;

@@ -75,11 +75,11 @@ public:
 	std::list<COLLIDER_TYPE> hurtbox, projectile_invencible_hurtbox, pushbox, hitbox, projectile_hitbox;
 	bool isInteractive(COLLIDER_TYPE type1, COLLIDER_TYPE type2);
 	bool lookForColliderType(std::list<COLLIDER_TYPE>* list, COLLIDER_TYPE type);
+	bool debug = false;						 // PROVISIONAL: Loaded from the xml
 
 private:
 
 	std::list<collider*> colliders;      
-	bool debug = false;						 // PROVISIONAL: Loaded from the xml
 };
 
 #endif // __ModuleCollision_H__

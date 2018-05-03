@@ -1,78 +1,52 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Modules">
-      <UniqueIdentifier>{7404d190-891f-4aaa-bf28-0609a67dd892}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core">
-      <UniqueIdentifier>{8747874e-3387-420f-9a3f-b26fc157a533}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utilities">
-      <UniqueIdentifier>{cbba00b4-48e2-4547-8697-093bcb89a9f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utilities\PugiXML">
-      <UniqueIdentifier>{f4b42e4d-470f-4ed4-991e-5e89c1870b31}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI">
-      <UniqueIdentifier>{336ef45f-5c99-4f92-9e84-a5722bf3e5bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entities">
-      <UniqueIdentifier>{3db40ce5-4970-4393-9b25-fd42c9a18ba3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entities\Characters">
-      <UniqueIdentifier>{31c555d3-371d-4a88-991f-ea45196598fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entities\Characters\Warrior">
-      <UniqueIdentifier>{f338f467-b14e-430d-8036-1adb35f43673}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entities\Player">
-      <UniqueIdentifier>{b14fe0f2-f8df-4d41-b258-91a5b71ec428}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entities\Characters\Mage">
-      <UniqueIdentifier>{82a00218-b0e5-44f2-98fa-14c6ee1ed37c}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Application.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="PerfTimer.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="ProjDefs.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="mdWindow.cpp">
+    <ClCompile Include="mdAudio.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="DebLog.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="mdFilesystem.cpp">
+    <ClCompile Include="mdGuiManager.cpp">
       <Filter>Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="pugixml\pugixml.cpp">
-      <Filter>Utilities\PugiXML</Filter>
     </ClCompile>
     <ClCompile Include="mdInput.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="mdMap.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="mdParticleSystem.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="mdProjectiles.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="mdRender.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="mdSceneManager.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
     <ClCompile Include="mdTextures.cpp">
       <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="mdWindow.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="mdCollision.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="mdEntities.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="mdFilesystem.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="mdFonts.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
@@ -81,96 +55,114 @@
     <ClCompile Include="Warrior.cpp">
       <Filter>Entities\Characters\Warrior</Filter>
     </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Entities\Characters</Filter>
+    <ClCompile Include="Mage.cpp">
+      <Filter>Entities\Characters\Mage</Filter>
     </ClCompile>
-    <ClCompile Include="mdAudio.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="mdGuiManager.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="mdFonts.cpp">
-      <Filter>Modules</Filter>
+    <ClCompile Include="scene.cpp">
+      <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Widgets.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
-    <ClCompile Include="Labels.cpp">
-      <Filter>GUI</Filter>
+    <ClCompile Include="Bars.cpp">
+      <Filter>GUI\Bars</Filter>
     </ClCompile>
     <ClCompile Include="Buttons.cpp">
-      <Filter>GUI</Filter>
+      <Filter>GUI\Buttons</Filter>
     </ClCompile>
-    <ClCompile Include="Bars.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="mdMap.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="mdProjectiles.cpp">
-      <Filter>Modules</Filter>
+    <ClCompile Include="Labels.cpp">
+      <Filter>GUI\Labels</Filter>
     </ClCompile>
     <ClCompile Include="UiWindow.cpp">
-      <Filter>GUI</Filter>
+      <Filter>GUI\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="mdSceneManager.cpp">
-      <Filter>Modules</Filter>
+    <ClCompile Include="characterSelScene.cpp">
+      <Filter>Scenes\Character Selec Scene</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleEmitter.cpp">
+    <ClCompile Include="combatScene.cpp">
+      <Filter>Scenes\Combat Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="mainScene.cpp">
+      <Filter>Scenes\Main Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="startScene.cpp">
+      <Filter>Scenes\Start Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="DebLog.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Particle.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="mdParticleSystem.cpp">
-      <Filter>Modules</Filter>
+    <ClCompile Include="ParticleEmitter.cpp">
+      <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Mage.cpp">
-      <Filter>Entities\Characters\Mage</Filter>
+    <ClCompile Include="PerfTimer.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjDefs.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="pugixml\pugixml.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Entities\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="settingsScene.cpp">
+      <Filter>Scenes\Settings Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="mdAudio.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdFonts.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdGuiManager.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdInput.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdMap.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdParticleSystem.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdProjectiles.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdRender.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdSceneManager.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdTextures.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdWindow.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
     <ClInclude Include="Application.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Module.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="ProjDefs.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="DebLog.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="PerfTimer.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="mdWindow.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="mdFilesystem.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="pugixml\pugiconfig.hpp">
-      <Filter>Utilities\PugiXML</Filter>
-    </ClInclude>
-    <ClInclude Include="pugixml\pugixml.hpp">
-      <Filter>Utilities\PugiXML</Filter>
-    </ClInclude>
-    <ClInclude Include="mdInput.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="mdRender.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="mdTextures.h">
+    <ClInclude Include="mdCollision.h">
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="mdEntities.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="mdFilesystem.h">
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
@@ -179,59 +171,130 @@
     <ClInclude Include="Warrior.h">
       <Filter>Entities\Characters\Warrior</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Utilities</Filter>
+    <ClInclude Include="Mage.h">
+      <Filter>Entities\Characters\Mage</Filter>
     </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Entities\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="mdAudio.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="mdGuiManager.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="mdFonts.h">
-      <Filter>Modules</Filter>
+    <ClInclude Include="scene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Widgets.h">
       <Filter>GUI</Filter>
     </ClInclude>
-    <ClInclude Include="Labels.h">
-      <Filter>GUI</Filter>
+    <ClInclude Include="Bars.h">
+      <Filter>GUI\Bars</Filter>
     </ClInclude>
     <ClInclude Include="Buttons.h">
-      <Filter>GUI</Filter>
+      <Filter>GUI\Buttons</Filter>
     </ClInclude>
-    <ClInclude Include="Bars.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="mdMap.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="mdCollision.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="mdProjectiles.h">
-      <Filter>Modules</Filter>
+    <ClInclude Include="Labels.h">
+      <Filter>GUI\Labels</Filter>
     </ClInclude>
     <ClInclude Include="UiWindow.h">
-      <Filter>GUI</Filter>
+      <Filter>GUI\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="mdSceneManager.h">
-      <Filter>Modules</Filter>
+    <ClInclude Include="characterSelScene.h">
+      <Filter>Scenes\Character Selec Scene</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleEmitter.h">
+    <ClInclude Include="combatScene.h">
+      <Filter>Scenes\Combat Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="mainScene.h">
+      <Filter>Scenes\Main Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="startScene.h">
+      <Filter>Scenes\Start Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="DebLog.h">
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="mdParticleSystem.h">
-      <Filter>Modules</Filter>
+    <ClInclude Include="ParticleEmitter.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Mage.h">
-      <Filter>Entities\Characters\Mage</Filter>
+    <ClInclude Include="PerfTimer.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="ProjDefs.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="pugixml\pugiconfig.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="pugixml\pugixml.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Entities\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="settingsScene.h">
+      <Filter>Scenes\Settings Scene</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{cf52f56f-49df-40fb-bc75-834c2965e484}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modules">
+      <UniqueIdentifier>{e50d30f1-38c8-4cea-8f52-0e77ac364cb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{cdd595ee-da44-4001-9353-7c6b63068507}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{bdd230aa-2eba-4dfe-a32a-8da4c5581920}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Characters">
+      <UniqueIdentifier>{5ba0d3eb-7cec-41d3-8651-550611c1d076}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Player">
+      <UniqueIdentifier>{cf7a7e40-7dde-41bc-9ffb-9bd022a25fd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Characters\Mage">
+      <UniqueIdentifier>{db3318ac-766d-414a-900f-3cac50465cea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Characters\Warrior">
+      <UniqueIdentifier>{246e8a26-e584-43df-aeaf-b76546b3d1d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{cd7f3a74-be96-492d-8909-0ca78b392089}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Buttons">
+      <UniqueIdentifier>{5750c2fb-8d31-4b11-aaf8-19cdccb678fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Labels">
+      <UniqueIdentifier>{6537a68d-5d4c-4c92-a4f9-484a322ea95c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Windows">
+      <UniqueIdentifier>{c723a367-b98b-490a-b953-1d74b2fe9be0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Bars">
+      <UniqueIdentifier>{ea22297d-3790-4584-abd6-380ac73f0312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Start Scene">
+      <UniqueIdentifier>{95aa2159-b46c-4b91-9638-5649d665c68c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Main Scene">
+      <UniqueIdentifier>{5e7195e3-7cdc-4cf2-a093-eeeb98e62373}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Character Selec Scene">
+      <UniqueIdentifier>{d8d8e867-2f8c-444d-98cc-3924b13fe73b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Combat Scene">
+      <UniqueIdentifier>{16204b37-01ce-4adb-81df-70862bbdac76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{a2b99a2a-7f93-4992-bafb-3353e4d2bd35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Settings Scene">
+      <UniqueIdentifier>{ee99b702-0fe7-46a3-bf5b-90f2bf0410b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

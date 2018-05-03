@@ -88,9 +88,10 @@ public:
 	bool cleanUp();
 
 	// Creates a character and assigns it to a player
-	void createPlayer(int player,int x_pos, CHAR_TYPE type, bool fliped, int lane);
+	void createPlayer(int player);
 
 	void destroyCharacters();
+	void removeCharacters();//Destroy current character from each player
 
 	void assignControls();
 	void assignControllers();

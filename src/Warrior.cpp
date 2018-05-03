@@ -383,10 +383,11 @@ void Warrior::standingSpecial1(const bool(&inputs)[MAX_INPUTS]){
 				speed.x = -projectile_speed;
 			speed.y = 0;
 
-			App->projectiles->addProjectile(WARRIOR_KNIFE, { calculateDrawPosition(0,st_s1.hitbox.w,true), calculateDrawPosition(0,st_s1.hitbox.h,false) }, speed, projectile_collider, -1, fliped, scale, nullptr);
+			App->projectiles->addProjectile(WARRIOR_KNIFE, { calculateDrawPosition(0, st_s1.hitbox.w, true), calculateDrawPosition(0, st_s1.hitbox.h, false) }, speed, projectile_collider, -1, fliped, scale, nullptr);
 			askRecovery(st_s1.recovery);
 		}
 }
+
 void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
 	hurtbox->type = PROJECTILE_INVENCIBLE_HURTBOX;
 

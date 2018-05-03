@@ -65,8 +65,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	//players[2]->getCurrCharacter()->partner = players[3];
 	//players[3]->getCurrCharacter()->partner = players[2];
 
-	//players[0]->assignControlScheme(controller_schemes.front());
-	//players[1]->assignKeyboardScheme(keyboard_schemes.front());
+
 
 
 	return ret;
@@ -83,7 +82,7 @@ bool mdEntities::preUpdate() {
 	}
 
 	for (int i = 0; i < 4; i++) { 
-		if (players[i] != nullptr){
+		if (players[i] != nullptr && players[i]->getCurrCharacter() != nullptr){
 
 			switch (players[i]->getCurrCharacter()->getType()) {
 				case WARRIOR:
@@ -110,7 +109,7 @@ bool mdEntities::postUpdate()
 	for (int i = 0; i < 4; i++) {
 		if (players[i] == nullptr)
 			continue;
-		if (players[i]->getCurrCharacter()->readyToSwap == true) //no flip if characters are swapping
+		if (players[i]->getCurrCharacter() != nullptr && players[i]->getCurrCharacter()->readyToSwap == true) //no flip if characters are swapping
 			return true;
 	}
 
@@ -125,12 +124,13 @@ bool mdEntities::cleanUp() {
 	destroyCharacters();
 	return ret;
 }
-void mdEntities::createPlayer(int player,int x_pos, CHAR_TYPE type, bool fliped, int lane) {
+void mdEntities::createPlayer(int player) {
 
-	if (players[player] == nullptr)
+	if (players[player] == nullptr){
 		players[player] = new Player();
-
-	players[player]->createAndAssignCharacter(x_pos,type,fliped, lane);
+		players[player]->assignControlScheme(controller_schemes.front());
+		players[player]->assignKeyboardScheme(keyboard_schemes.front());
+	}
 }
 
 void mdEntities::destroyCharacters() {
@@ -138,6 +138,12 @@ void mdEntities::destroyCharacters() {
 	for (int i = 0; i < 4; i++) {
 		delete players[i];
 		players[i] = nullptr;
+	}
+}
+
+void mdEntities::removeCharacters()	{
+	for (int i = 0; i < 2; i++) {
+		delete players[i]->getCurrCharacter();
 	}
 }
 
@@ -223,7 +229,7 @@ bool mdEntities::automaticFlip() {
 
 		int counter = 0;
 		for (int i = 0; i < 4; i++) {
-			if (players[i] == nullptr)
+			if (players[i] == nullptr || players[i]->getCurrCharacter() == nullptr)
 				continue;
 			
 			int lane_of_player = players[i]->getLane();
@@ -267,8 +273,12 @@ bool mdEntities::allowFlip() 	{
 		if (players[i] == nullptr)
 			continue;
 		Character* character = players[i]->getCurrCharacter();
-		if (character->notAllowFlip())
-			do_flip = false;
+		if (character)
+		{
+			if (character->notAllowFlip())
+				do_flip = false;
+		}
+
 	}
 
 	return do_flip;
