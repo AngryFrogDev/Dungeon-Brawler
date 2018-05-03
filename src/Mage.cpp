@@ -557,20 +557,20 @@ void Mage::doSuper() {
 	if (current_animation->GetState() == ACTIVE && !meteorits_spawned) {
 		iPoint meteorits_current_offset = { 0,0 };
 		int x_pos = 0; // Projectiles should spawn on the camera limit
-		if (!fliped) {
-			meteorits_current_offset.x = meteorits_offset.x;
-			//x_pos = App->render->camera.x + App->render->camera.w;
+		if (fliped) {
+			meteorits_current_offset.x = -meteorits_offset.x;
+			x_pos = App->render->camera.x + App->render->camera.w;
 		}
 		else {
-			meteorits_current_offset.x = -meteorits_offset.x;
-			//x_pos = App->render->camera.x;
+			meteorits_current_offset.x = meteorits_offset.x;
+			x_pos = App->render->camera.x;
 		}
 
 		meteorits_current_offset.y = meteorits_offset.y;
 
 		for(int a = 0; a < meteorits_rows; a++){
 			for (int i = 0; i < meteorits; i++) {
-				iPoint meteorit_spawn_position = { (int)logic_position.x + meteorits_current_offset.x*i, first_meteorit_height + meteorits_current_offset.y *i + meteorits_rows_offset*a };
+				iPoint meteorit_spawn_position = { (int)x_pos/*maybe player pos here?*/ + meteorits_current_offset.x*i, first_meteorit_height + meteorits_current_offset.y *i + meteorits_rows_offset*a };
 				collider* projectile_collider = App->collision->AddCollider({ meteorit_spawn_position.x, (int)meteorit_spawn_position.y, jm_s1.hitbox.w,jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, meteorits_life, CHAR_ATT_TYPE::JM_S1, (Module*)App->entities, this);
 				hitboxes.push_back(projectile_collider);
 				iPoint speed = { 0,0 };
