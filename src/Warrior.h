@@ -9,7 +9,7 @@ public:
 	Warrior(character_deff character,int x_pos, bool _fliped, int lane);
 	~Warrior();
 
-	void standingSpecial1();
+	void standingSpecial1(const bool(&inputs)[MAX_INPUTS]);
 	void standingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	void crouchingSpecial1();
 	void crouchingSpecial2();
@@ -26,7 +26,7 @@ public:
 	void updateAnimationOnBasicAttack(CHAR_ATT_TYPE type); // Just to use for super
 
 private:
-	// -To load from xml-
+
 	int spin_speed;
 	int improved_spin_speed;
 	int improved_spin_recovery;
@@ -46,8 +46,7 @@ private:
 
 	int super_invencibility;
 
-	item dive_kick_object, spin_object, swap_object; // Swap object is not being used
-	// -To load from xml-
+	bool dive_kick_object, spin_object;
 
 	// I would leave it hardcoded for now
 	std::list<CHAR_ATT_TYPE> super_attack_list;

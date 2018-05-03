@@ -8,7 +8,7 @@
   <vel_mag value="0" variation="0"></vel_mag>
   <pos_var x="10" y="10"></pos_var>
   <lifetime value = "15" variation="3"></lifetime>
-  <initial_scale value="15" variation="0.1"></initial_scale>
+  <initial_scale value="23" variation="0.1"></initial_scale>
   <final_scale value="0.3f" variation="0"></final_scale>
   <initial_color r="255" g="200" b="0"></initial_color>
   <final_color r="255" g="0" b="0" a ="255"></final_color>

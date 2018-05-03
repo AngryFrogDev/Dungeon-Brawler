@@ -46,18 +46,32 @@ struct character_deff {
 	int spin_speed;
 	int improved_spin_speed;
 	int improved_spin_recovery;
-	ITEMS spin_object;
 	int jm_s1_angle;
 	iPoint jm_s1_speed;
 	int jm_s2_angle;
 	iPoint jm_s2_speed;
 	int dive_kick_max_height;
-	ITEMS dive_kick_object;
 	int projectile_duration;
 	int projectile_speed;
-	int projectile_scale;
 	int swordyuken_invencivility;
 	int swordyuken_jump_power;
+
+	// Mage variables
+	int fireball_speed;
+	int fireball_duration;
+	iPoint fireball_emitter_offset;
+	int air_fireball_angle;
+	int air_fireball_max_height;
+	iPoint air_fireball_backfire;
+	iPoint air_fireball_speed;
+	iPoint double_jump_power;
+	int meteorits_life;
+	int first_meteorit_height;
+	iPoint meteorits_offset;
+	int meteorits;
+	int meteorits_rows;
+	int meteorits_rows_offset;
+	iPoint meteorits_speed;
 };
 
 class Player;
@@ -101,6 +115,7 @@ public:
 	std::list<controller_scheme> controller_schemes;
 	std::list<keyboard_scheme>	 keyboard_schemes;
 	KEY_STATE attack_input; 
+	SDL_Texture* mage_graphics; // So mage can blit arcane symbol
 
 private:
 	//if it returns false something wrong happened
@@ -110,13 +125,12 @@ private:
 	void fillFromXML(const pugi::xml_node& md_config, character_deff& character);	
 	void loadAttackListFromXML(const pugi::xml_node& md_config, std::list<CHAR_ATT_TYPE>& attack_list);
 	void loadAttackDeffFromXML(const pugi::xml_node& md_config, basic_attack_deff& attack);
-
 private:
 	int camera_movement;
 	//Graphics of the warrior
 	SDL_Texture* warrior_graphics;
 	SDL_Texture* warrior_graphics2;
-	SDL_Texture* mage_graphics;
+
 
 	pugi::xml_document entities_config_doc;
 };
