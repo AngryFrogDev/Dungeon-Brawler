@@ -107,9 +107,6 @@ bool mdInput::awake(const pugi::xml_node & md_config) {
 
 bool mdInput::preUpdate() {
 	bool ret = true;
-
-	SDL_Event event;
-
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
 
 	for (int i = 0; i < MAX_KEYS; ++i) {
@@ -137,6 +134,7 @@ bool mdInput::preUpdate() {
 		}
 	}
 
+	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
 		case SDL_QUIT:
@@ -206,7 +204,7 @@ void mdInput::handleAxes(const SDL_Event & event) {
 	uint device_index = event.caxis.which;
 	for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
 		if ((*it)->getControllerID() == device_index) {
-			float axis_value = event.caxis.value / 32767; //32767 is the max value for an SDL axis
+			float axis_value = event.caxis.value / 16000; //32767 is the max value for an SDL axis
 			float prior_value = (*it)->axes[event.caxis.axis];
 			(*it)->axes[event.caxis.axis] = axis_value;
 			switch (event.caxis.axis) {
@@ -218,7 +216,7 @@ void mdInput::handleAxes(const SDL_Event & event) {
 						(*it)->addInput(AXIS_LEFTX_NEGATIVE, event.caxis.timestamp);
 				}
 				else {
-					if (prior_value <= -axis_tolerance && axis_value > axis_tolerance)
+					if (prior_value >= -axis_tolerance && axis_value < axis_tolerance)
 						(*it)->buttons[AXIS_LEFTX_NEGATIVE] = KEY_UP;
 					else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
 						(*it)->addInput(AXIS_LEFTX_POSITIVE, event.caxis.timestamp);
@@ -232,54 +230,13 @@ void mdInput::handleAxes(const SDL_Event & event) {
 						(*it)->addInput(AXIS_LEFTY_NEGATIVE, event.caxis.timestamp);
 				}
 				else {
-					if (prior_value <= -axis_tolerance && axis_value > axis_tolerance)
+					if (prior_value >= -axis_tolerance && axis_value < axis_tolerance)
 						(*it)->buttons[AXIS_LEFTY_NEGATIVE] = KEY_UP;
 					else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
 						(*it)->addInput(AXIS_LEFTY_POSITIVE, event.caxis.timestamp);
 				}
 				break;
-			case SDL_CONTROLLER_AXIS_RIGHTX:
-				if (axis_value < prior_value) {
-					if (prior_value >= axis_tolerance && axis_value < axis_tolerance)
-						(*it)->buttons[AXIS_RIGHTX_POSITIVE] = KEY_UP;
-					else if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
-						(*it)->addInput(AXIS_RIGHTX_NEGATIVE, event.caxis.timestamp);
-				}
-				else {
-					if (prior_value <= -axis_tolerance && axis_value > axis_tolerance)
-						(*it)->buttons[AXIS_RIGHTX_NEGATIVE] = KEY_UP;
-					else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
-						(*it)->addInput(AXIS_RIGHTX_POSITIVE, event.caxis.timestamp);
-				}
-				break;
-			case SDL_CONTROLLER_AXIS_RIGHTY:
-				if (axis_value < prior_value) {
-					if (prior_value <= -axis_tolerance && axis_value > axis_tolerance)
-						(*it)->buttons[AXIS_RIGHTY_POSITIVE] = KEY_UP;
-					else if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
-						(*it)->addInput(AXIS_RIGHTY_NEGATIVE, event.caxis.timestamp);
-				}
-				else {
-					if (prior_value <= -axis_tolerance && axis_value > axis_tolerance)
-						(*it)->buttons[AXIS_RIGHTY_NEGATIVE] = KEY_UP;
-					else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
-						(*it)->addInput(AXIS_RIGHTY_POSITIVE, event.caxis.timestamp);
-				}
-				break;
-			case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
-				if (prior_value >= axis_tolerance && axis_value < axis_tolerance)
-					(*it)->buttons[AXIS_TRIGGERLEFT] = KEY_UP;
-				else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
-					(*it)->addInput(AXIS_TRIGGERLEFT, event.caxis.timestamp);
-				break;
-			case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
-				if (prior_value >= axis_tolerance && axis_value < axis_tolerance)
-					(*it)->buttons[AXIS_TRIGGERRIGHT] = KEY_UP;
-				else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
-					(*it)->addInput(AXIS_TRIGGERRIGHT, event.caxis.timestamp);
-				break;
 			}
-			break;
 		}
 	}
 }

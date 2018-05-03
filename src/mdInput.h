@@ -103,7 +103,7 @@ private:
 	std::list<Controller*> controllers;
 	KEY_STATE* keyboard = nullptr;
 	uint controller_buffer_timeout = 0;
-	float axis_tolerance = 0.2f;
+	float axis_tolerance = 0.1f;
 };
 
 #endif
