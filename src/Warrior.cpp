@@ -5,10 +5,10 @@
 #include "mdEntities.h"
 #include "mdParticleSystem.h"
 
-Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : Character() {
+Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : Character() {
 
-	this->lane = lane;
-
+	lane = 1;
+	skin_id = skin;
 	
 	//PROVISIONAL: Animations should be loaded from the xml
 
@@ -638,10 +638,10 @@ void Warrior::updateAnimationOnBasicAttack(CHAR_ATT_TYPE type) {
 void Warrior::giveItem(ITEMS type) {
 	switch (type) {
 	case SPECIAL_ITEM_1:
-		dive_kick_object = true;
+		spin_object = true;
 		break;
 	case SPECIAL_ITEM_2:
-		spin_object = true;
+		dive_kick_object = true;
 		break;
 	}
 }

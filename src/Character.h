@@ -318,14 +318,11 @@ protected:
 public:
 	//Swap variables
 	int lane; // 1 = bottom  2 = top This is important
+	int skin_id; // 0 = normal, 1 = recolor 1, 2 = recolor 2...
 	bool readyToSwap = false;
 	bool swapRequested = false;
 	bool swapDone = false;
 
-protected:
-	pugi::xml_document config_doc;
-	pugi::xml_node config;
-	pugi::xml_node data;
 };
 
 #endif //__CHARACTER__

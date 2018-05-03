@@ -7,9 +7,10 @@
 #include "Player.h"
 #include "ParticleEmitter.h"
 
-Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Character() {
+Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Character() {
 
-	this->lane = lane;
+	lane = 1;
+	skin_id = skin;
 
 	//PROVISIONAL: Animations should be loaded from the xml
 
@@ -309,7 +310,7 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	fireball_level = 0;
 	fireball_max_charge = false;
 	charge_fireball_item = false; 
-	double_fireball_item = true;
+	double_fireball_item = false;
 
 
 
@@ -332,7 +333,6 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int lane) : Charac
 	bottom_lane = 800;
 	upper_lane = 450;
 	lateral_limit = 50;
-	lane = 0;
 
 
 	// PROVISIONAL: This should belong to entities, if not fx are loaded twice
@@ -623,4 +623,21 @@ void Mage::characterSpecificUpdates() {
 	if (mine_placed) 
 		App->render->drawSprite(3, App->entities->mage_graphics, mine_position.x - 67 * 3 / 2, mine_position.y - 17 * 3 / 2, &arcane_symbol.GetCurrentFrame(), scale, fliped, 1, 0, 0, 0, true);
 	
+}
+
+void Mage::giveItem(ITEMS type) {
+	switch (type) {
+	case SPECIAL_ITEM_1:
+		charge_fireball_item = true;
+		break;
+	case SPECIAL_ITEM_2:
+		double_fireball_item = true;
+		break;
+	}
+}
+
+
+void Mage::takeAllItems() {
+	charge_fireball_item = false;
+	double_fireball_item = false;
 }

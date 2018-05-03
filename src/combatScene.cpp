@@ -145,11 +145,10 @@ void combatScene::assignFocus()	{
 }
 
 void combatScene::checkSceneInput()	{
-	
-	if (App->entities->players[0]->getController()->isPressed(BUTTON_START))
-		popUpP1Window();
-	if (App->entities->players[1]->getController()->isPressed(BUTTON_START))
-		popUpP2Window();
+	//if (App->entities->players[0]->getController()->isPressed(BUTTON_START))
+	//	popUpP1Window();
+	//if (App->entities->players[1]->getController()->isPressed(BUTTON_START))
+	//	popUpP2Window();
 }
 
 void combatScene::popUpP1Window()	{
