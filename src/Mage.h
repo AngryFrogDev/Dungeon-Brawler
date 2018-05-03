@@ -5,7 +5,7 @@ struct character_deff;
 
 class Mage : public Character {
 public:
-	Mage(character_deff character, int x_pos, bool _fliped, int lane);
+	Mage(character_deff character, int x_pos, bool _fliped, int skin);
 	~Mage();
 
 	void standingSpecial1(const bool(&inputs)[MAX_INPUTS]);
@@ -21,8 +21,8 @@ public:
 
 	void characterSpecificUpdates();
 
-	//void giveItem(ITEMS type);
-	//void takeAllItems();
+	void giveItem(ITEMS type);
+	void takeAllItems();
 
 private:
 	int fireball_speed;

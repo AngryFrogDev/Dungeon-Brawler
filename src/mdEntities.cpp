@@ -46,6 +46,9 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	warrior_graphics = App->textures->load("Assets/warrior.png");
 	warrior_graphics2 = App->textures->load("Assets/warrior_2.png");
 	mage_graphics = App->textures->load("Assets/mage.png");
+	mage_graphics2 = App->textures->load("Assets/mage_2.png");
+	mage_graphics3 = App->textures->load("Assets/mage_3.png");
+	mage_graphics4 = App->textures->load("Assets/mage_4.png");
 
 	traning = false;
 	show = true;
@@ -83,18 +86,33 @@ bool mdEntities::preUpdate() {
 
 	for (int i = 0; i < 4; i++) { 
 		if (players[i] != nullptr && players[i]->getCurrCharacter() != nullptr){
-
 			switch (players[i]->getCurrCharacter()->getType()) {
 				case WARRIOR:
-					//if(pallete == 0) // PROVISIONAL: Super hardcode
-						players[i]->update(warrior_graphics); 
-					//else
-					//	players[i]->update(warrior_graphics2);
-						break;
-				case MAGE:
-					players[i]->update(mage_graphics);
+					switch (players[i]->getCurrCharacter()->skin_id){
+						case 0:
+							players[i]->update(warrior_graphics); 
+							break;
+						case 1:
+							players[i]->update(warrior_graphics2);
+							break;
+					}
 					break;
-
+				case MAGE:
+					switch (players[i]->getCurrCharacter()->skin_id) {
+					case 0:
+						players[i]->update(mage_graphics);
+						break;
+					case 1:
+						players[i]->update(mage_graphics2);
+						break;
+					case 2:
+						players[i]->update(mage_graphics3);
+						break;
+					case 3:
+						players[i]->update(mage_graphics4);
+						break;
+					}
+					break;
 			}
 
 		}

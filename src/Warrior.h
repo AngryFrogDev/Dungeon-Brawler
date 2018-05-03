@@ -6,7 +6,7 @@ struct character_deff;
 
 class Warrior : public Character {
 public:
-	Warrior(character_deff character,int x_pos, bool _fliped, int lane);
+	Warrior(character_deff character,int x_pos, bool _fliped, int skin);
 	~Warrior();
 
 	void standingSpecial1(const bool(&inputs)[MAX_INPUTS]);

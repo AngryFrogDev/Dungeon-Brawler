@@ -50,18 +50,27 @@ void Player::assignController(Controller* controller) {
 	Player::controller = controller;
 }
 
-void Player::createAndAssignCharacter(int x_pos, CHAR_TYPE type, bool fliped, int lane) {
+void Player::createAndAssignCharacter(CHAR_TYPE type, bool player, int skin) {
+	int x_pos = 0;
+	bool fliped = false;
+	if (player) 
+		x_pos = 400;
+	else {
+		fliped = true;
+		x_pos = 1500;
+	}
+
 
 	switch(type)
 	{
 		case WARRIOR:
 		{
-			curr_character = new Warrior(App->entities->warrior,x_pos, fliped, lane);
+			curr_character = new Warrior(App->entities->warrior,x_pos, fliped, skin);
 			break;
 		}
 		case MAGE:
 		{
-			curr_character = new Mage(App->entities->mage, x_pos, fliped, lane);
+			curr_character = new Mage(App->entities->mage, x_pos, fliped, skin);
 			break;
 		}
 		//case ROGUE:

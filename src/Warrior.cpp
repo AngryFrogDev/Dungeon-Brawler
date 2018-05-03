@@ -5,10 +5,10 @@
 #include "mdEntities.h"
 #include "mdParticleSystem.h"
 
-Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int lane) : Character() {
+Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : Character() {
 
-	this->lane = lane;
-
+	lane = 1;
+	skin_id = skin;
 	
 	//PROVISIONAL: Animations should be loaded from the xml
 

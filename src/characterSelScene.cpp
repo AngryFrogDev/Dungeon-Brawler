@@ -313,8 +313,8 @@ void characterSelScene::checkSceneInput()	{
 
 void characterSelScene::assignCharacterToPlayer()	{
 	//Creating players
-	App->entities->players[0]->createAndAssignCharacter(200, player1.character, false, 1);
-	App->entities->players[1]->createAndAssignCharacter(700, player2.character, true, 1);
+	App->entities->players[0]->createAndAssignCharacter(player1.character, false, 1);
+	App->entities->players[1]->createAndAssignCharacter(player2.character, true, 1);
 
 	//Hidding them
 	App->entities->paused = true;

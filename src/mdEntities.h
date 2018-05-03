@@ -130,6 +130,10 @@ private:
 	//Graphics of the warrior
 	SDL_Texture* warrior_graphics;
 	SDL_Texture* warrior_graphics2;
+	
+	SDL_Texture* mage_graphics2;
+	SDL_Texture* mage_graphics3;
+	SDL_Texture* mage_graphics4;
 
 
 	pugi::xml_document entities_config_doc;
