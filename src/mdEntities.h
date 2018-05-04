@@ -98,7 +98,7 @@ public:
 
 	bool moveCamera(bool movingLeft);
 
-	character_deff warrior, mage;
+	character_deff warrior, mage, rogue;
 	bool traning;
 	bool paused;
 	bool show;
@@ -134,7 +134,7 @@ private:
 	SDL_Texture* mage_graphics3;
 	SDL_Texture* mage_graphics4;
 
-
+	SDL_Texture* rogue_graphics;
 	pugi::xml_document entities_config_doc;
 };
 

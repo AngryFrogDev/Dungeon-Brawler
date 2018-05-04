@@ -115,6 +115,9 @@
     <ClCompile Include="settingsScene.cpp">
       <Filter>Scenes\Settings Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Rogue.cpp">
+      <Filter>Entities\Characters\Rogue</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mdAudio.h">
@@ -237,6 +240,9 @@
     <ClInclude Include="settingsScene.h">
       <Filter>Scenes\Settings Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Rogue.h">
+      <Filter>Entities\Characters\Rogue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scenes">
@@ -295,6 +301,9 @@
     </Filter>
     <Filter Include="Scenes\Settings Scene">
       <UniqueIdentifier>{ee99b702-0fe7-46a3-bf5b-90f2bf0410b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Characters\Rogue">
+      <UniqueIdentifier>{64cd2c9a-7af9-45ef-a274-04999f60853a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

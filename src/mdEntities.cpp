@@ -49,6 +49,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	mage_graphics2 = App->textures->load("Assets/mage_2.png");
 	mage_graphics3 = App->textures->load("Assets/mage_3.png");
 	mage_graphics4 = App->textures->load("Assets/mage_4.png");
+	rogue_graphics = App->textures->load("Assets/rogue.png");
 
 	traning = false;
 	show = true;
@@ -110,6 +111,13 @@ bool mdEntities::preUpdate() {
 						break;
 					case 3:
 						players[i]->update(mage_graphics4);
+						break;
+					}
+					break;
+				case ROGUE:
+					switch (players[i]->getCurrCharacter()->skin_id) {
+					case 0:
+						players[i]->update(rogue_graphics);
 						break;
 					}
 					break;
@@ -381,6 +389,7 @@ CHAR_ATT_TYPE mdEntities::stringToCharAttType(std::string string) {
 void mdEntities::loadCharactersFromXML(const pugi::xml_node& md_config) {
 	fillFromXML(md_config.child("warrior"), warrior);
 	fillFromXML(md_config.child("mage"), mage);
+	fillFromXML(md_config.child("rogue"), rogue);
 }
 void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& character) {
 	std::string tmp;

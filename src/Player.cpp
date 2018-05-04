@@ -2,6 +2,7 @@
 #include "Character.h"
 #include "Warrior.h"
 #include "Mage.h"
+#include "Rogue.h"
 #include "Application.h"
 #include "mdSceneManager.h"
 
@@ -73,11 +74,11 @@ void Player::createAndAssignCharacter(CHAR_TYPE type, ITEMS item, bool player, i
 			curr_character = new Mage(App->entities->mage, x_pos, fliped, skin);
 			break;
 		}
-		//case ROGUE:
-		//{
-		//	curr_character = Character(ROGUE);
-		//	break;
-		//}
+		case ROGUE:
+		{
+			curr_character = new Rogue(App->entities->rogue, x_pos, fliped, skin);
+			break;
+		}
 		//case PALADIN:
 		//{
 		//	curr_character = Character(PALADIN);

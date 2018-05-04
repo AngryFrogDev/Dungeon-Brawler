@@ -154,6 +154,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ProjDefs.cpp" />
     <ClCompile Include="pugixml\pugixml.cpp" />
+    <ClCompile Include="Rogue.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="settingsScene.cpp" />
     <ClCompile Include="startScene.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Module.h" />
     <ClInclude Include="pugixml\pugiconfig.hpp" />
     <ClInclude Include="pugixml\pugixml.hpp" />
+    <ClInclude Include="Rogue.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="settingsScene.h" />
     <ClInclude Include="startScene.h" />
