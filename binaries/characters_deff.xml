@@ -31,11 +31,11 @@
     
     dive_kick_max_height ="520"
     jm_s1_angle ="20"
-    jm_s1_speed_x ="20"
-    jm_s1_speed_y ="20"
+    jm_s1_speed_x ="10"
+    jm_s1_speed_y ="10"
     jm_s2_angle ="40"
-    jm_s2_speed_x ="10"
-    jm_s2_speed_y ="20"
+    jm_s2_speed_x ="5"
+    jm_s2_speed_y ="10"
     
     projectile_duration ="2000"
     projectile_speed ="15"
