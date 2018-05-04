@@ -46,7 +46,7 @@ enum CHAR_STATE {
 	CROUCHING,
 	JUMPING,
 	ATTACKING,
-	SWAPPING,
+	PAUSED,
 	RECOVERY,
 
 	STAND_BLOCKING, 
@@ -68,7 +68,7 @@ enum CHARACTER_INPUTS {
 	SPECIAL_1,
 	SPECIAL_2,
 	GRAB,
-	SWITCH,
+	START,
 	MAX_INPUTS
 };
 
@@ -128,10 +128,6 @@ public:
 	void setIfGrounded();
 
 	void draw(SDL_Texture* graphic);
-
-	bool manageSwap();
-
-	void manageOponent();
 
 
 	basic_attack_deff getAttackData(CHAR_ATT_TYPE attack_type) const;

@@ -49,10 +49,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		// Input dependent
 		if (checkForSuper(super_window))
 			updateState(ATTACKING, SUPER);
-		else if (inputs[SWITCH]) {
-			updateState(SWAPPING);				// Is this necessary?
-			swapRequested = true;						//Important!
-		}
 		else if (inputs[RIGHT] && !fliped || inputs[LEFT] && fliped)
 			updateState(WALKING_FORWARD);
 		else if (inputs[LEFT] && !fliped || inputs[RIGHT] && fliped)
@@ -178,10 +174,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			updateState(HIT, NO_ATT);
 		if (!inputs[DOWN]) {
 			updateState(IDLE, NO_ATT);
-			setCrouchingHurtbox(false);
-		}
-		else if (inputs[SWITCH]) {
-			swapRequested = true;		//Important!
 			setCrouchingHurtbox(false);
 		}
 		else if (inputs[UP]) {
@@ -371,9 +363,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			hurtbox->active = true;
 		}
 		break;
-	case SWAPPING:
-		//TODO: Define swapping
-		//manageSwap();
+	case PAUSED:
 		updateState(IDLE);
 		break;
 	case RECOVERY:
@@ -505,61 +495,6 @@ void Character::draw(SDL_Texture* graphic){
 		App->render->drawSprite(4,graphic, draw_position.x, draw_position.y, &current_animation->GetCurrentFrame(),scale, fliped, 1.0f, current_animation->angle);
 	}
 
-}
-
-bool Character::manageSwap()
-{
-	if (partner == nullptr)
-		return false;
-
-	swapDone = false;
-	velocity.y = -40;
-	applyGravity();
-
-	if (swapRequested) {
-		partner->getCurrCharacter()->current_state = SWAPPING;
-		swapRequested = false;
-	}
-
-	if (logic_position.y < -200) { //margin to make it go out of the screen
-		readyToSwap = true;
-		if (partner->getCurrCharacter()->readyToSwap) {
-			updateState(JUMPING);
-			grounded = false;
-			if (lane == 1)
-				lane = 2;
-			else
-				lane = 1;
-
-			swapDone = true;
-
-			if (partner->getCurrCharacter()->swapDone)
-				readyToSwap = false;
-			partner->getCurrCharacter()->readyToSwap = false;
-		}
-	}
-		
-	return true;
-}
-
-void Character::manageOponent()
-{
-	for (int i = 0; i < 4; i++) {
-		Player* curr_player = nullptr;
-
-		curr_player = App->entities->players[i];
-
-		if (curr_player == nullptr)
-			continue;
-
-		if (curr_player->getCurrCharacter() == this)
-			continue;
-
-		if (curr_player->getLane() == this->lane) {
-			oponent = curr_player->getCurrCharacter();
-		}
-
-	}
 }
 
 void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
@@ -1092,7 +1027,7 @@ void Character::playCurrentSFX() {
 		break;
 	case KNOCKDOWN:
 		break;
-	case SWAPPING:
+	case PAUSED:
 		break;
 	case DEAD:
 		App->audio->playSFX(s_man_death);
