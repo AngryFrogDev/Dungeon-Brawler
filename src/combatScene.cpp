@@ -39,6 +39,7 @@ bool combatScene::start()	{
 }
 
 bool combatScene::update(float dt)	{
+	
 	checkSceneInput();
 	loadSceneTextures();	
 	updateTimer();
@@ -61,9 +62,17 @@ bool combatScene::onEvent(Buttons * button)	{
 	case IN_GAME_REMATCH:
 		break;
 	case IN_GAME_CHAR_SEL:
+		if (button->focus_id == 0)
+			closeP1Window();
+		else
+			closeP2Window();
 		App->scene_manager->changeScene(App->scene_manager->char_sel_scene, this);
 		break;
 	case IN_GAME_MAIN_MENU:
+		if (button->focus_id == 0)
+			closeP1Window();
+		else
+			closeP2Window();
 		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
 		break;
 	case IN_GAME_RESTART:
@@ -73,6 +82,10 @@ bool combatScene::onEvent(Buttons * button)	{
 			closeP2Window();
 		break;
 	case IN_GAME_SETTINGS:
+		if (button->focus_id == 0)
+			closeP1Window();
+		else
+			closeP2Window();
 		App->scene_manager->changeScene(App->scene_manager->settings_scene, this);
 		break;
 	case IN_GAME_STAGE_SEL:
@@ -213,6 +226,7 @@ void combatScene::closeP1Window()	{
 		object->to_delete = true;
 	}
 	p1_window->to_delete = true;
+	p1_window = nullptr;
 	p1_pause_label->to_delete = true;
 	p1_resume_label->to_delete = true;
 	p1_char_sel_label->to_delete = true;
@@ -235,6 +249,7 @@ void combatScene::closeP2Window()	{
 		object->to_delete = true;
 	}
 	p2_window->to_delete = true;
+	p2_window = nullptr;
 	p2_pause_label->to_delete = true;
 	p2_resume_label->to_delete = true;
 	p2_char_sel_label->to_delete = true;
@@ -245,7 +260,6 @@ void combatScene::closeP2Window()	{
 	App->entities->players[1]->focus = nullptr;
 
 	App->entities->paused = false;
-
 }
 
 void combatScene::popUpGeneralWindow()	{
