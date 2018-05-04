@@ -37,8 +37,7 @@ public:
 	uint	max_time = 0;
 
 private:
-//	CharacterInfo player1;
-//	CharacterInfo player2;
+	bool to_resume = false;
 
 	//COMBAT UI
 	Bars* health_bar1 = nullptr;
@@ -89,7 +88,7 @@ private:
 
 	//Combat scene timer
 	Timer	scene_timer;
-
+	
 	pugi::xml_node window_node;
 };
 #endif
