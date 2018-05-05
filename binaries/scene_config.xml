@@ -138,7 +138,7 @@
 					<pos x="390" y="525"/>
 				</warrior_obj1_desc>
 				<warrior_obj2_desc>
-					<content value="Dagger Throw (ST SP2)"/>
+					<content value="Divekick (JM SP)"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="390" y="750"/>
 				</warrior_obj2_desc>
