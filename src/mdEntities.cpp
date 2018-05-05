@@ -50,6 +50,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	mage_graphics3 = App->textures->load("Assets/mage_3.png");
 	mage_graphics4 = App->textures->load("Assets/mage_4.png");
 	rogue_graphics = App->textures->load("Assets/rogue.png");
+	paladin_graphics = App->textures->load("Assets/paladin.png");
 
 	traning = false;
 	show = true;
@@ -106,6 +107,14 @@ bool mdEntities::preUpdate() {
 						break;
 					}
 					break;
+				case PALADIN:
+					switch (players[i]->getCurrCharacter()->skin_id) {
+					case 0:
+						players[i]->update(paladin_graphics);
+						break;
+					}
+					break;
+
 			}
 
 		}

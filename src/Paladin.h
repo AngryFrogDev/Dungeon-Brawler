@@ -10,7 +10,7 @@ public:
 	//void standingSpecial1(const bool(&inputs)[MAX_INPUTS]);
 	//void standingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	//void crouchingSpecial1();
-	//void crouchingSpecial2();
+	void crouchingSpecial2();
 	//void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]);
 	//void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	//bool standingSpecial1Condition();
@@ -24,4 +24,12 @@ public:
 	//void takeAllItems();
 
 private:
+	Animation parry_reaction;
+	int parry_reaction_invencivility;
+	bool parry_reacting;
+	int parry_healing;
+
+	int parry_duration;
+	int parry_start;
+	int miss_parry_recovery;
 };

@@ -371,6 +371,8 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 			standing_special1.paused = true;
 			if (fireball_level >= 2)
 				fireball_max_charge = true;
+			if (hit)
+				standing_special1.paused = false;
 		}
 		else if (!instanciated_hitbox) {
 			standing_special1.paused = false;

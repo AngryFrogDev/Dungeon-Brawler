@@ -135,6 +135,8 @@ private:
 	SDL_Texture* mage_graphics4;
 
 	SDL_Texture* rogue_graphics;
+
+	SDL_Texture* paladin_graphics;
 	pugi::xml_document entities_config_doc;
 };
 
