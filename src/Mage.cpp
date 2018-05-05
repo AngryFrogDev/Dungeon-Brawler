@@ -9,7 +9,7 @@
 
 Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Character() {
 
-	lane = 1;
+	//lane = 1;
 	skin_id = skin;
 
 	//PROVISIONAL: Animations should be loaded from the xml
@@ -330,8 +330,7 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Charac
 	starting_position.y = -1000;
 	state_first_tick = false;
 	// Others
-	bottom_lane = 800;
-	upper_lane = 450;
+	ground_position = 800;
 	lateral_limit = 50;
 
 

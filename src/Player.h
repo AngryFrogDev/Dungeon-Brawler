@@ -26,7 +26,6 @@ public:
 
 	void assignKeyboardScheme(const keyboard_scheme& new_scheme);
 
-	int getLane();
 	iPoint getPos();
 	bool getInput(CHARACTER_INPUTS input, KEY_STATE state);
 

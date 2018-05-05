@@ -57,21 +57,6 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 
 	camera_movement = 4; //Should be loaded from XML
 
-	//createPlayer(0,100, CHAR_TYPE::WARRIOR, false, 1 );
-	//createPlayer(1,1000, CHAR_TYPE::WARRIOR, true, 1); //play with the lane (last argument) for 2v2
-	//createPlayer(2, 1200, CHAR_TYPE::WARRIOR, true, 1);
-	//createPlayer(3, 300, CHAR_TYPE::WARRIOR, true, 2);
-
-	// PROVISIONAL: Very dangerous hardcode to set the partners: 
-
-	//players[0]->getCurrCharacter()->partner = players[1];
-	//players[1]->getCurrCharacter()->partner = players[0];
-	//players[2]->getCurrCharacter()->partner = players[3];
-	//players[3]->getCurrCharacter()->partner = players[2];
-
-
-
-
 	return ret;
 }
 
@@ -132,15 +117,12 @@ bool mdEntities::preUpdate() {
 
 bool mdEntities::postUpdate()
 {
-	for (int i = 0; i < 4; i++) {
-		if (players[i] == nullptr)
-			continue;
-	//	if (players[i]->getCurrCharacter() != nullptr && players[i]->getCurrCharacter()->readyToSwap == true) //no flip if characters are swapping
-	//		return true;
-	}
+	if (players[0] == nullptr) 
+		return true;
 
-	if(allowFlip()) 
+	if(players[0]->getCurrCharacter() != nullptr && players[0]->getCurrCharacter() != nullptr && allowFlip()){ 
 		automaticFlip();
+	}
 
 	return true;
 }
@@ -233,54 +215,19 @@ bool mdEntities::moveCamera(bool movingLeft) {
 bool mdEntities::automaticFlip() {
 	bool ret = true;
 
-	Player* players_on_curr_lane[2];
-	players_on_curr_lane[0] = nullptr;
-	players_on_curr_lane[1] = nullptr;
-
-	//Whatch the fuck out with this method
-
-	bool lane1_flip[2];
-
-
-	int lanes = 2;
-
-	for (int curr_lane = 1; curr_lane < lanes +1; curr_lane++)
-	{
-
-		int counter = 0;
-		for (int i = 0; i < 4; i++) {
-			if (players[i] == nullptr || players[i]->getCurrCharacter() == nullptr)
-				continue;
-			
-			int lane_of_player = players[i]->getLane();
-
-			if (lane_of_player == 0)
-				return false;
-
-			if (lane_of_player == curr_lane) {
-				players_on_curr_lane[counter] = players[i];
-				counter++;
-			}
-		}
-
-		if (players_on_curr_lane[1] == nullptr) { 
-			return false;
-		}
-
-		if (players_on_curr_lane[0]->getPos().x < players_on_curr_lane[1]->getPos().x) {
-			lane1_flip[0] = false;
-			lane1_flip[1] = true;
-		}
-		else {
-			lane1_flip[0] = true;
-			lane1_flip[1] = false;
-		}
-
-		for (int i = 0; i < 2; i++) {
-			players_on_curr_lane[i]->setFlip(lane1_flip[i]);
-			players_on_curr_lane[i] = nullptr;
-		}
+	bool flip[2];
+	if (players[0]->getPos().x < players[1]->getPos().x) {
+		flip[0] = false;
+		flip[1] = true;
 	}
+	else {
+		flip[0] = true;
+		flip[1] = false;
+	}
+
+	for (int i = 0; i < 2; i++) 
+		players[i]->setFlip(flip[i]);
+	
 
 	return ret;
 }

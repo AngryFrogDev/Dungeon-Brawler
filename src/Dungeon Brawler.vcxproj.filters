@@ -118,6 +118,9 @@
     <ClCompile Include="Rogue.cpp">
       <Filter>Entities\Characters\Rogue</Filter>
     </ClCompile>
+    <ClCompile Include="Paladin.cpp">
+      <Filter>Entities\Characters\Paladin</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mdAudio.h">
@@ -243,6 +246,9 @@
     <ClInclude Include="Rogue.h">
       <Filter>Entities\Characters\Rogue</Filter>
     </ClInclude>
+    <ClInclude Include="Paladin.h">
+      <Filter>Entities\Characters\Paladin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scenes">
@@ -304,6 +310,9 @@
     </Filter>
     <Filter Include="Entities\Characters\Rogue">
       <UniqueIdentifier>{64cd2c9a-7af9-45ef-a274-04999f60853a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Characters\Paladin">
+      <UniqueIdentifier>{5c49879f-196d-4a3f-b63e-723a37137bdb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

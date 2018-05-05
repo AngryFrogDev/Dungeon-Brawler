@@ -62,8 +62,7 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin)
 	starting_position.y = -1000;
 	state_first_tick = false;
 	// Others
-	bottom_lane = 800;
-	upper_lane = 450;
+	ground_position = 800;
 	lateral_limit = 50;
 
 

@@ -403,8 +403,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	}
 
-	manageGroundPosition();
-
 	// State independent actions
 	updateInvecibility();
 
@@ -701,15 +699,6 @@ void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
 }
 
 
-void Character::manageGroundPosition() {
-	if (lane == 1)
-		ground_position = bottom_lane;
-	if (lane == 2)
-		ground_position = upper_lane;
-}
-
-
-
 basic_attack_deff Character::getAttackData(CHAR_ATT_TYPE attack_type) const {
 	switch (attack_type) {
 		case ST_L:
@@ -830,7 +819,7 @@ void Character::resetCharacter()	{
 	current_life = max_life;
 	current_state = CHAR_STATE::IDLE;
 	logic_position.x = starting_position.x;
-	logic_position.y = bottom_lane;
+	logic_position.y = ground_position;
 	hurtbox->type = HURTBOX;
 	hurtbox->active = true;
 	death = false;

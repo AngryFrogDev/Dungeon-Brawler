@@ -157,9 +157,6 @@ protected:
 	void deleteAttackHitbox(CHAR_ATT_TYPE type, collider* hitbox = nullptr);
 	void deleteAllMeleeHitboxes();
 
-	// Swap related functions
-	void manageGroundPosition();
-
 	void updateAnimation(Animation& new_animation);
 
 	void updateState(CHAR_STATE state, CHAR_ATT_TYPE attack = NO_ATT);
@@ -258,8 +255,6 @@ protected:
 
 	// Variables to load from constructor
 	iPoint starting_position;
-	int bottom_lane;
-	int upper_lane;
 	Player* owner;
 
 	// Variables to modify in runtime
@@ -313,7 +308,7 @@ protected:
 	CHARACTER_INPUTS input_buffer[MAX_INPUT_BUFFER];
 public:
 	//Swap variables
-	int lane; // 1 = bottom  2 = top This is important
+	//int lane; // 1 = bottom  2 = top This is important
 	int skin_id; // 0 = normal, 1 = recolor 1, 2 = recolor 2...
 	bool readyToSwap = false;
 	bool swapRequested = false;

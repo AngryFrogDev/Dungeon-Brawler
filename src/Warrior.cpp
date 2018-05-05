@@ -6,8 +6,8 @@
 #include "mdParticleSystem.h"
 
 Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : Character() {
+	
 
-	lane = 1;
 	skin_id = skin;
 	
 	//PROVISIONAL: Animations should be loaded from the xml
@@ -338,8 +338,7 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : 
 	spin_object = false; 
 	dive_kick_object = false;
 	// Others
-	bottom_lane = 800;
-	upper_lane = 450;
+	ground_position = 800;
 	lateral_limit = 50;
 
 

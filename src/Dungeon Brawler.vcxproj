@@ -148,6 +148,7 @@
     <ClCompile Include="mdTextures.cpp" />
     <ClCompile Include="mdWindow.cpp" />
     <ClCompile Include="mdCollision.cpp" />
+    <ClCompile Include="Paladin.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleEmitter.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="mdTextures.h" />
     <ClInclude Include="mdWindow.h" />
     <ClInclude Include="mdCollision.h" />
+    <ClInclude Include="Paladin.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleEmitter.h" />
     <ClInclude Include="PerfTimer.h" />

@@ -73,7 +73,7 @@ bool mdCollision::update(float dt)
 
 			if (c1->checkCollision(c2->rect) == true) {
 				//Character check
-				if (c1->character != c2->character && c1->character->lane == c2->character->lane) {
+				if (c1->character != c2->character/* && c1->character->lane == c2->character->lane*/) {
 					if(isInteractive(c1->type,c2->type))
 						c1->character->onCollision(c1,c2);
 					if(isInteractive(c2->type, c1->type))

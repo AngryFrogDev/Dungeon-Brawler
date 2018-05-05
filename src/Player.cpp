@@ -102,9 +102,6 @@ Controller * Player::getController() const {
 	return controller;
 }
 
-int Player::getLane() {
-	return curr_character->lane;
-}
 iPoint Player::getPos() {
 	return curr_character->getPos();
 }
