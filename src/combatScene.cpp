@@ -176,14 +176,13 @@ void combatScene::assignFocus()	{
 void combatScene::checkSceneInput()	{
 	if (App->entities->players[0]->getInput(START, KEY_DOWN))	{
 		if (p1_window)
-			closeP1Window();
+			closeP1Window(), App->entities->paused = false;
 		else
 			popUpP1Window();
-
 	}
 	if (App->entities->players[1]->getInput(START, KEY_DOWN))	{
 		if (p2_window)
-			closeP2Window();
+			closeP2Window(), App->entities->paused = false;
 		else
 			popUpP2Window();
 	}
@@ -248,7 +247,6 @@ void combatScene::closeP1Window()	{
 
 	App->entities->players[0]->focus = nullptr;
 	
-	App->entities->paused = false;
 }
 
 void combatScene::closeP2Window()	{
