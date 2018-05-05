@@ -30,7 +30,6 @@ enum button_types {
 	SFX_VOL_UP,
 	SFX_VOL_DOWN,
 	IN_GAME_REMATCH,
-	IN_GAME_RESTART,
 	IN_GAME_SETTINGS,
 	IN_GAME_CHAR_SEL,
 	IN_GAME_STAGE_SEL,
@@ -87,6 +86,7 @@ public:
 	std::pair<int, int> position;
 	bool to_delete = false;
 	int focus_id = 0;
+	bool stop_focus = false;
 
 protected:
 	scene* callback = nullptr;

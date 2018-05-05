@@ -57,14 +57,12 @@ private:
 	//P1
 	UiWindow* p1_window = nullptr;
 	Labels* p1_pause_label = nullptr;
-	Labels* p1_resume_label = nullptr;
 	Labels* p1_char_sel_label = nullptr;
 	Labels* p1_stage_sel_label = nullptr;
 	Labels* p1_settings_label = nullptr;
 	Labels* p1_main_menu_label = nullptr;
 	Labels* p1_rematch_label = nullptr;
 	
-	Buttons* p1_resume_button = nullptr;
 	Buttons* p1_char_sel_button = nullptr;
 	Buttons* p1_stage_sel_button = nullptr;
 	Buttons* p1_settings_button = nullptr;
@@ -73,13 +71,11 @@ private:
 	//P2
 	UiWindow* p2_window = nullptr;
 	Labels* p2_pause_label = nullptr;
-	Labels* p2_resume_label = nullptr;
 	Labels* p2_char_sel_label = nullptr;
 	Labels* p2_stage_sel_label = nullptr;
 	Labels* p2_settings_label = nullptr;
 	Labels* p2_main_menu_label = nullptr;
 
-	Buttons* p2_resume_button = nullptr;
 	Buttons* p2_char_sel_button = nullptr;
 	Buttons* p2_stage_sel_button = nullptr;
 	Buttons* p2_settings_button = nullptr;
