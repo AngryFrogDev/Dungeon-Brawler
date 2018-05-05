@@ -304,6 +304,7 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : 
 	dive_kick_max_height = character.dive_kick_max_height; 
 	jm_s2_angle = character.jm_s2_angle;
 	jm_s2_speed = character.jm_s2_speed;
+	dive_kick_object_mult = character.dive_kick_object_mult;
 	projectile_duration = character.projectile_duration;
 	projectile_speed = character.projectile_speed;
 	swordyuken_invencivility = character.swordyuken_invencivility;
@@ -495,15 +496,22 @@ void Warrior::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		state_first_tick = true;
 	}
 	if (!grounded) {
+		iPoint speed = { 0,0 };
+		if (dive_kick_object) {
+			speed.create(jm_s1_speed.x * dive_kick_object_mult, jm_s1_speed.y * dive_kick_object_mult);
+		}
+		else
+			speed = jm_s1_speed;
+
 		if (!fliped) {
-			velocity.x = jm_s1_speed.x; 
+			velocity.x = speed.x; 
 			jumping_special1.angle = jm_s1_angle;
 		}
 		else {
-			velocity.x = -jm_s1_speed.x; 
+			velocity.x = -speed.x; 
 			jumping_special1.angle = -jm_s1_angle;
 		}
-		velocity.y = jm_s1_speed.y;
+		velocity.y = speed.y;
 
 		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
 			instanciateHitbox(JM_S1);
@@ -548,15 +556,22 @@ void Warrior::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 		state_first_tick = true;
 	}
 	if (!grounded) {
+		iPoint speed = { 0,0 };
+		if (dive_kick_object) {
+			speed.create(jm_s2_speed.x * dive_kick_object_mult, jm_s2_speed.y * dive_kick_object_mult);
+		}
+		else
+			speed = jm_s2_speed;
+
 		if (!fliped) {
-			velocity.x = jm_s2_speed.x; 
+			velocity.x = speed.x; 
 			jumping_special2.angle = jm_s2_angle;
 		}
 		else {
-			velocity.x = -jm_s2_speed.x; 
+			velocity.x = -speed.x; 
 			jumping_special2.angle = -jm_s2_angle;
 		}
-		velocity.y = jm_s2_speed.y; 
+		velocity.y = speed.y; 
 
 		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
 			instanciateHitbox(JM_S2);
