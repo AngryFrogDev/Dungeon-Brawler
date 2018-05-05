@@ -37,8 +37,7 @@ public:
 	uint	max_time = 0;
 
 private:
-	bool to_resume = false;
-
+	
 	//COMBAT UI
 	Bars* health_bar1 = nullptr;
 	Bars* health_bar2 = nullptr;
@@ -81,6 +80,20 @@ private:
 	Buttons* p2_settings_button = nullptr;
 	Buttons* p2_main_menu_button = nullptr;
 	Buttons* p2_rematch_button = nullptr;
+	//GENERAL
+	UiWindow* general_window = nullptr;
+	Labels* match_end_label = nullptr;
+	Labels* rematch_label = nullptr;
+	Labels* char_sel_label = nullptr;
+	Labels* stage_sel_label = nullptr;
+	Labels* settings_label = nullptr;
+	Labels* main_menu_label = nullptr;
+
+	Buttons* rematch_button = nullptr;
+	Buttons* char_sel_button = nullptr;
+	Buttons* stage_sel_button = nullptr;
+	Buttons* settings_button = nullptr;
+	Buttons* main_menu_button = nullptr;
 
 	//Combat scene timer
 	Timer	scene_timer;
