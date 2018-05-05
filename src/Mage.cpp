@@ -468,12 +468,12 @@ void Mage::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		if (!fliped) {
 			speed.x = air_fireball_speed.x;
 			offset.x = jm_s1.pos_rel_char.x;
-			emitter_offset.x = fireball_emitter_offset.x;
+			emitter_offset.x = 50;
 		}
 		else {
 			speed.x = -air_fireball_speed.x;
 			offset.x = -jm_s1.pos_rel_char.x;
-			emitter_offset.x = -fireball_emitter_offset.x;
+			emitter_offset.x = -50; //Air fireball emmiter offset
 		}
 		speed.y = air_fireball_speed.y;
 		offset.y = jm_s1.pos_rel_char.y;

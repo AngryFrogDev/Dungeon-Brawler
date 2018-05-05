@@ -116,10 +116,6 @@ public:
 						
 	virtual void update(const bool (&inputs)[MAX_INPUTS]);	
 
-	Character* oponent = nullptr;
-
-	Player* partner = nullptr;
-
     // The first one is the collider belonging to this character
 	void onCollision(collider* c1, collider* c2);
 

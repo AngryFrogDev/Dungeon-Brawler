@@ -95,7 +95,6 @@ public:
 	
 	void assignControls();
 	void assignControllers();
-	void assignPartners();
 
 	bool moveCamera(bool movingLeft);
 
@@ -111,7 +110,7 @@ public:
 	CHAR_ATT_TYPE stringToCharAttType(std::string string);
 
 public:
-	Player * players[4]; //I made it public to make the partner system work
+	Player * players[2]; 
 	std::list<controller_scheme> controller_schemes;
 	std::list<keyboard_scheme>	 keyboard_schemes;
 	KEY_STATE attack_input; 

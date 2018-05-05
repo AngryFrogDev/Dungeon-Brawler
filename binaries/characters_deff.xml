@@ -290,7 +290,7 @@
     scale ="3"
    
     gravity ="0.5"
-    walk_speed ="4"
+    walk_speed ="3"
     jump_power_y ="15"
     jump_power_x ="5"
    
@@ -312,7 +312,7 @@
     
     fireball_speed ="10"
     fireball_duration ="2000"
-    fireball_emitter_offset_x ="50"
+    fireball_emitter_offset_x ="10"
     fireball_emitter_offset_y ="0"
     
     air_fireball_angle ="30"
@@ -452,7 +452,7 @@
       <st_s1
        pos_rel_char_x ="100"
        pos_rel_char_y ="-25"
-       hitbox_w ="130"
+       hitbox_w ="90"
        hitbox_h ="90"
        active_time ="-1"
        hitstun ="-1"

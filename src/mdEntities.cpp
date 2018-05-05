@@ -16,7 +16,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	bool ret = true;
 
 	// Empty the array
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 2; i++)
 		players[i] = nullptr;
 
 	//Load controller schemes
@@ -70,7 +70,7 @@ bool mdEntities::preUpdate() {
 		assignControllers();
 	}
 
-	for (int i = 0; i < 4; i++) { 
+	for (int i = 0; i < 2; i++) { 
 		if (players[i] != nullptr && players[i]->getCurrCharacter() != nullptr){
 			switch (players[i]->getCurrCharacter()->getType()) {
 				case WARRIOR:
@@ -143,7 +143,7 @@ void mdEntities::createPlayer(int player) {
 
 void mdEntities::destroyCharacters() {
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 2; i++) {
 		delete players[i];
 		players[i] = nullptr;
 	}
@@ -163,22 +163,13 @@ void mdEntities::assignControls()
 	}
 }
 
-void mdEntities::assignPartners()
-{
-	// PROVISIONAL: Very dangerous hardcode to set the partners: 
-	players[0]->getCurrCharacter()->partner = players[1];
-	players[1]->getCurrCharacter()->partner = players[0];
-	players[2]->getCurrCharacter()->partner = players[3];
-	players[3]->getCurrCharacter()->partner = players[2];
-}
-
 bool mdEntities::moveCamera(bool movingLeft) {
 	bool ret = true;
 	if (movingLeft) {
 		if (App->render->camera.x == 0) ret = false;
 		else {
 			int target_x = std::max(App->render->camera.x - camera_movement, 0);
-			for (int i = 0; i < 4 && ret; ++i) {
+			for (int i = 0; i < 2 && ret; ++i) {
 				if (players[i] != nullptr && players[i]->getCurrCharacter() != nullptr) {
 					Character* temp = players[i]->getCurrCharacter();
 					int future_limit = target_x + App->render->camera.w - temp->getLateralLimit();
@@ -195,7 +186,7 @@ bool mdEntities::moveCamera(bool movingLeft) {
 		if (App->render->camera.x + App->render->camera.w == map_limit) ret = false;
 		else {
 			int target_x = std::min(App->render->camera.x + camera_movement + App->render->camera.w, map_limit) - App->render->camera.w;
-			for (int i = 0; i < 4 && ret; ++i) {
+			for (int i = 0; i < 2 && ret; ++i) {
 				if (players[i] != nullptr && players[i]->getCurrCharacter() != nullptr) {
 					Character* temp = players[i]->getCurrCharacter();
 					int future_limit = target_x + temp->getLateralLimit();
@@ -236,7 +227,7 @@ bool mdEntities::allowFlip() 	{
 
 	// PROVISIONAL: Every character should have specified with which states flip should not be executed
 	bool do_flip = true;
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 2; i++) {
 		if (players[i] == nullptr)
 			continue;
 		Character* character = players[i]->getCurrCharacter();
