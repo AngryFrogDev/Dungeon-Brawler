@@ -328,6 +328,7 @@ void mdEntities::loadCharactersFromXML(const pugi::xml_node& md_config) {
 	fillFromXML(md_config.child("warrior"), warrior);
 	fillFromXML(md_config.child("mage"), mage);
 	fillFromXML(md_config.child("rogue"), rogue);
+	fillFromXML(md_config.child("paladin"), paladin);
 }
 void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& character) {
 	std::string tmp;

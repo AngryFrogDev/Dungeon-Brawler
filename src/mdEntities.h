@@ -98,7 +98,7 @@ public:
 
 	bool moveCamera(bool movingLeft);
 
-	character_deff warrior, mage, rogue;
+	character_deff warrior, mage, rogue, paladin;
 	bool traning;
 	bool paused;
 	bool show;
