@@ -60,6 +60,7 @@ bool Buttons::preUpdate()
 		{
 			changeVisualState(CLICK);
 			being_clicked = true;
+			stop_focus = true;
 			ret = callback->onEvent(this);
 		}
 		hovering = false;
