@@ -26,6 +26,8 @@ combatScene::combatScene(bool active) : scene(COMBAT_SCENE)	{
 combatScene::~combatScene()	{}
 
 bool combatScene::start()	{
+	//Resetting camera
+	App->render->camera.x = (App->render->resolution.first - App->render->camera.w) / 2;
 	max_time = 99;
 	current_time = max_time;
 	App->map->map_loaded = true;
@@ -176,14 +178,13 @@ void combatScene::assignFocus()	{
 void combatScene::checkSceneInput()	{
 	if (App->entities->players[0]->getInput(START, KEY_DOWN))	{
 		if (p1_window)
-			closeP1Window();
+			closeP1Window(), App->entities->paused = false;
 		else
 			popUpP1Window();
-
 	}
 	if (App->entities->players[1]->getInput(START, KEY_DOWN))	{
 		if (p2_window)
-			closeP2Window();
+			closeP2Window(), App->entities->paused = false;
 		else
 			popUpP2Window();
 	}
@@ -248,7 +249,6 @@ void combatScene::closeP1Window()	{
 
 	App->entities->players[0]->focus = nullptr;
 	
-	App->entities->paused = false;
 }
 
 void combatScene::closeP2Window()	{
@@ -334,6 +334,7 @@ void combatScene::closeGeneralWindow()	{
 	general_window->to_delete = true;
 	general_window = nullptr;
 	match_end_label->to_delete = true;
+	rematch_label->to_delete = true;
 	char_sel_label->to_delete = true;
 	stage_sel_label->to_delete = true;
 	settings_label->to_delete = true;

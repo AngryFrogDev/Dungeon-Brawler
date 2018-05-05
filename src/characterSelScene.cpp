@@ -772,7 +772,7 @@ void characterSelScene::resetSceneValues()	{
 }
 
 void characterSelScene::startingTransition()	{
-	if (transition_timer.readSec() >= 2)
+	if (transition_timer.readSec() >= 1)
 		App->scene_manager->changeScene(App->scene_manager->combat_scene, this); 
 
 
