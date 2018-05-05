@@ -26,6 +26,8 @@ combatScene::combatScene(bool active) : scene(COMBAT_SCENE)	{
 combatScene::~combatScene()	{}
 
 bool combatScene::start()	{
+	//Resetting camera
+	App->render->camera.x = (App->render->resolution.first - App->render->camera.w) / 2;
 	max_time = 99;
 	current_time = max_time;
 	App->map->map_loaded = true;
@@ -332,6 +334,7 @@ void combatScene::closeGeneralWindow()	{
 	general_window->to_delete = true;
 	general_window = nullptr;
 	match_end_label->to_delete = true;
+	rematch_label->to_delete = true;
 	char_sel_label->to_delete = true;
 	stage_sel_label->to_delete = true;
 	settings_label->to_delete = true;

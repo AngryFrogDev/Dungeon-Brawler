@@ -188,8 +188,6 @@ void mdGuiManager::assignP1Focus()	{
 		for (temp_iterator; temp_iterator != p1_focus_elements.end(); temp_iterator++)
 		{
 			object = *temp_iterator;
-			if (object->stop_focus)
-				continue;
 			if (object == App->entities->players[0]->focus)
 			{
 				if (temp_iterator != p1_focus_elements.begin())
@@ -211,8 +209,6 @@ void mdGuiManager::assignP1Focus()	{
 		for (temp_iterator; temp_iterator != p1_focus_elements.rend(); temp_iterator++)
 		{
 			object = *temp_iterator;
-			if (object->stop_focus)
-				continue;
 			if (object == App->entities->players[0]->focus)
 			{
 				if (temp_iterator != p1_focus_elements.rbegin())
