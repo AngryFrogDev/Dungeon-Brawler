@@ -43,6 +43,7 @@ private:
 	iPoint jm_s1_speed;
 	iPoint jm_s2_speed;
 	int dive_kick_max_height; 
+	float dive_kick_object_mult;
 
 	int super_invencibility;
 

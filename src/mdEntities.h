@@ -51,6 +51,7 @@ struct character_deff {
 	int jm_s2_angle;
 	iPoint jm_s2_speed;
 	int dive_kick_max_height;
+	float dive_kick_object_mult;
 	int projectile_duration;
 	int projectile_speed;
 	int swordyuken_invencivility;
