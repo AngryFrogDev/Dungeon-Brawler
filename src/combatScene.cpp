@@ -26,6 +26,8 @@ combatScene::combatScene(bool active) : scene(COMBAT_SCENE)	{
 combatScene::~combatScene()	{}
 
 bool combatScene::start()	{
+	App->entities->players[0]->getCurrCharacter()->resetCharacter();
+	App->entities->players[1]->getCurrCharacter()->resetCharacter();
 	//Resetting camera
 	App->render->camera.x = (App->render->resolution.first - App->render->camera.w) / 2;
 	max_time = 99;
@@ -35,6 +37,7 @@ bool combatScene::start()	{
 
 	App->entities->paused = false;
 	App->entities->show = true;
+	rematching = false;
 
 	scene_timer.start();
 	return true;
@@ -93,6 +96,9 @@ bool combatScene::onEvent(Buttons * button)	{
 		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
 		break;
 	case MATCH_END_REMATCH:
+		closeGeneralWindow();
+		rematching = true;
+		App->scene_manager->changeScene(App->scene_manager->combat_scene, this);
 		break;
 	case MATCH_END_STAGE_SEL:
 		break;
@@ -340,3 +346,4 @@ void combatScene::closeGeneralWindow()	{
 	settings_label->to_delete = true;
 	main_menu_label->to_delete = true;
 }
+

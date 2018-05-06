@@ -110,7 +110,7 @@ void mdSceneManager::startSwitch()	{
 		{
 			to_disable->scene_active = false;
 
-			if (to_disable->name == "Combat Scene")
+			if (to_disable->name == "Combat Scene" && !to_disable->rematching)
 			{
 				App->collision->cleanUp();
 				for (int i = 0; i < 2; i++)
