@@ -40,6 +40,7 @@ public:
 
 public:
 	bool scene_active = false;
+	bool rematching = false;
 	scene_type type = NO_SCENE;
 	const char* name = nullptr;
 
