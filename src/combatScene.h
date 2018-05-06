@@ -22,6 +22,7 @@ private:
 	void updateTimer();
 	void checkPlayers();
 	void loadSceneTextures();
+	void setRects();
 
 	void assignFocus();
 	void checkSceneInput();
@@ -31,6 +32,7 @@ private:
 	void closeP2Window();
 	void popUpGeneralWindow();
 	void closeGeneralWindow();
+	void resetSceneValues();
 
 public:
 	uint	current_time = 0;
@@ -50,7 +52,10 @@ private:
 	SDL_Rect character2_rect;
 	SDL_Rect character1_image;
 	SDL_Rect character2_image;
-
+	SDL_Rect warrior_rect;
+	SDL_Rect mage_rect;
+	SDL_Rect rogue_rect;
+	SDL_Rect paladin_rect;
 
 	//WINDOWS && RELATED UI
 	//P1
@@ -98,6 +103,10 @@ private:
 	//Combat scene timer
 	Timer	scene_timer;
 	
+	//Player info
+	CHAR_TYPE char1, char2;
+	ITEMS char1_item, char2_item;
+
 	pugi::xml_node window_node;
 };
 #endif

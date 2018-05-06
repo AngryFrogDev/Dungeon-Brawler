@@ -31,12 +31,14 @@ public:
 	virtual bool onEvent(Buttons* button) { return true; };
 	virtual void loadSceneUi() { return; };
 	virtual void loadSceneTextures() { return; };
+	virtual void setRects() { return; };
 	virtual void assignFocus() { return; };
 	virtual void checkSceneInput() { return; };
 	virtual void popUpP1Window() { return; };
 	virtual void popUpP2Window() { return; };
 	virtual void closeP1Window() { return; };
 	virtual void closeP2Window() { return; };
+	virtual void resetSceneValues() { return; };
 
 public:
 	bool scene_active = false;
