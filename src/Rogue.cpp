@@ -86,7 +86,7 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	jumping_heavy.loop = false;
 	jumping_heavy.speed = 0.2;
 
-	//DAMAGE
+	//HIT
 
 	for (int i = 0; i < 4; i++)
 		standing_hit.PushBack({ i * x_space, height * 10,width,height });
@@ -99,6 +99,29 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 
 	knockdown.loop = false;
 	knockdown.speed = 0.2;
+
+	//BLOCK
+
+
+	standing_block.PushBack({ 10 * x_space, height * 15,width,height });
+
+	standing_block.loop = false;
+	standing_block.speed = 0.2;
+
+	for (int i = 0; i < 4; i++)
+		crouching_block.PushBack({ i * x_space, height * 10,width,height });
+
+	crouching_block.loop = false;
+	crouching_block.speed = 0.2;
+
+	//STANDING SPECIALS
+
+	for (int i = 0; i < 4; i++)
+		standing_special1.PushBack({ i * x_space, height * 10,width,height });
+
+	standing_special1.loop = false;
+	standing_special1.speed = 0.2;
+
 
 	type = CHAR_TYPE::ROGUE;
 	skin_id = 0;
