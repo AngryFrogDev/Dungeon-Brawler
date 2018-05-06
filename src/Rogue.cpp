@@ -10,18 +10,19 @@
 
 
 Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Character(character, x_pos, _fliped, skin) {
-	idle.PushBack({ 0,0,195,158 });
-	idle.PushBack({ 195,0,195,158 });
-	idle.PushBack({ 195 * 2,0,195,158 });
-	idle.PushBack({ 195 * 3,0,195,158 });
-	idle.PushBack({ 195 * 4,0,195,158 });
-	idle.PushBack({ 195 * 5,0,195,158 });
-	idle.PushBack({ 195 * 6,0,195,158 });
+
+	idle.PushBack({ 0,158,195,158 });
+	idle.PushBack({ 195,158,195,158 });
+	idle.PushBack({ 195 * 2,158,195,158 });
+	idle.PushBack({ 195 * 3,158,195,158 });
+	idle.PushBack({ 195 * 4,158,195,158 });
+	idle.PushBack({ 195 * 5,158,195,158 });
 
 	idle.loop = true;
 	idle.speed = 0.2;
 
 	type = CHAR_TYPE::ROGUE;
+	skin_id = 0;
 
 }
 
