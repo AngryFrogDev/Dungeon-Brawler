@@ -8,7 +8,7 @@
 #include "ParticleEmitter.h"
 
 
-Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin) {
+Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): Character(character) {
 
 	skin_id = skin;
 
@@ -167,26 +167,6 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin) {
 	dead.speed = 0.1;
 
 
-
-	// XML inicialization
-	draw_size.x = 195;
-	draw_size.y = 158;
-	max_life = character.max_life;
-	max_super_gauge = character.max_super_gauge;
-	super_window = character.super_window;
-	cancelability_window = character.cancelability_window;
-	super_gauge_gain_hit = character.super_gauge_gain_hit;
-	super_gauge_gain_block = character.super_gauge_gain_block;
-	super_gauge_gain_strike = character.super_gauge_gain_strike;
-	crouching_hurtbox_offset = character.crouching_hurtbox_offset;
-	standing_hurtbox_size = character.standing_hurtbox_size;
-	jump_power = character.jump_power;
-	walk_speed = character.walk_speed;
-	gravity = character.gravity;
-	invencibility_on_wakeup = character.invencibility_on_wakeup;
-	scale = character.scale;
-	shadow_rect = { 452, 3719, 68, 14 };
-	shadow_offset = 105;
 	// Constructor inicialization
 	fliped = _fliped;
 	logic_position.x = x_pos;
@@ -205,49 +185,6 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin) {
 	// Runtime inicialization
 	parry_start = 0;
 	parry_reacting = false;
-	// Basic attack definitions
-
-	st_l = character.st_l;
-	st_h = character.st_h;
-	cr_l = character.cr_l;
-	cr_h = character.cr_h;
-	jm_l = character.jm_l;
-	jm_h = character.jm_h;
-	st_s1 = character.st_s1;
-	st_s2 = character.st_s2;
-	cr_s1 = character.cr_s1;
-	cr_s2 = character.cr_s2;
-	jm_s1 = character.jm_s1;
-	jm_s2 = character.jm_s2;
-	super = character.super;
-
-
-	// Runtime inicialization
-	grounded = false;
-	instanciated_hitbox = false;
-	hit = false;
-	crouching_hurtbox = false;
-	death = false;
-	current_life = max_life;
-	current_super_gauge = 0;
-	velocity.y = 0;
-	velocity.x = 0;
-	current_state = CHAR_STATE::IDLE;
-	logic_position.y = 1000;
-	starting_position.x = logic_position.x;
-	starting_position.y = -1000;
-	state_first_tick = false;
-	// Others
-	ground_position = 800;
-	lateral_limit = 50;
-
-
-
-	current_animation = &idle;
-
-	// Collider creation
-	hurtbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
-	pushbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y / 2 }, PUSHBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
 }
 
 

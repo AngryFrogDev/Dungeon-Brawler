@@ -7,8 +7,72 @@
 #include "mdInput.h"
 #include "mdSceneManager.h"
 #include "mdParticleSystem.h"
+#include "mdEntities.h"
 
-Character::Character() {
+Character::Character(character_deff character) {
+	// Basic attack definitions
+	st_l = character.st_l;
+	st_h = character.st_h;
+	cr_l = character.cr_l;
+	cr_h = character.cr_h;
+	jm_l = character.jm_l;
+	jm_h = character.jm_h;
+	st_s1 = character.st_s1;
+	st_s2 = character.st_s2;
+	cr_s1 = character.cr_s1;
+	cr_s2 = character.cr_s2;
+	jm_s1 = character.jm_s1;
+	jm_s2 = character.jm_s2;
+	super = character.super;
+	// XML inicialization
+	draw_size.x = 195;
+	draw_size.y = 158;
+	max_life = character.max_life;
+	max_super_gauge = character.max_super_gauge;
+	super_window = character.super_window;
+	cancelability_window = character.cancelability_window;
+	super_gauge_gain_hit = character.super_gauge_gain_hit;
+	super_gauge_gain_block = character.super_gauge_gain_block;
+	super_gauge_gain_strike = character.super_gauge_gain_strike;
+	crouching_hurtbox_offset = character.crouching_hurtbox_offset;
+	standing_hurtbox_size = character.standing_hurtbox_size;
+	jump_power = character.jump_power;
+	walk_speed = character.walk_speed;
+	gravity = character.gravity;
+	invencibility_on_wakeup = character.invencibility_on_wakeup;
+	scale = character.scale;
+	non_flip_attacks = character.non_flip_attacks;
+	normal_taunt_duration = 500;
+	shadow_rect = { 452, 3719, 68, 14 };
+	shadow_offset = 105;
+	// Runtime inicialization
+	grounded = false;
+	instanciated_hitbox = false;
+	hit = false;
+	crouching_hurtbox = false;
+	death = false;
+	current_life = max_life;
+	current_super_gauge = 0;
+	velocity.y = 0;
+	velocity.x = 0;
+	current_state = CHAR_STATE::IDLE;
+	logic_position.y = 1000;
+	starting_position.x = logic_position.x;
+	starting_position.y = -1000;
+	state_first_tick = false;
+	taunt_start = 0;
+	taunt_duration = 0;
+	// Others
+	ground_position = 800;
+	lateral_limit = 50;
+
+
+	current_animation = &idle;
+	current_state = IDLE;
+
+	// Collider creation
+	hurtbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
+	pushbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y / 2 }, PUSHBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
 }
 
 
@@ -385,6 +449,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			state_first_tick = true;
 		}
 		break;
+	case TAUNT:
+		break;
+
 
 	}
 

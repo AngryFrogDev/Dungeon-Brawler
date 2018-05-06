@@ -48,6 +48,7 @@ enum CHAR_STATE {
 	ATTACKING,
 	PAUSED,
 	RECOVERY,
+	TAUNT,
 
 	STAND_BLOCKING, 
 	CROUCH_BLOCKING,
@@ -108,10 +109,11 @@ enum ITEMS {
 };
 
 class Player;
+struct character_deff;
 
 class Character {
 public:
-	Character();
+	Character(character_deff character);
 	~Character();
 						
 	virtual void update(const bool (&inputs)[MAX_INPUTS]);	
@@ -201,7 +203,7 @@ protected:
 	int crouching_hurtbox_offset;
 	iPoint standing_hurtbox_size;
 
-	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_special1, standing_special2, jumping_special1, jumping_special2, crouching_special1, crouching_special2, standing_hit, standing_block, crouching_block, knockdown, dead, super_anim;
+	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_special1, standing_special2, jumping_special1, jumping_special2, crouching_special1, crouching_special2, standing_hit, standing_block, crouching_block, knockdown, dead, super_anim, taunt;
 
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2, super;
 
@@ -222,6 +224,10 @@ protected:
 	int walk_speed;
 
 	int crouch_particle_offset;
+
+	int taunt_start;
+	int taunt_duration;
+	int normal_taunt_duration;
 
 	// In miliseconds
 	int invencibility_on_wakeup;

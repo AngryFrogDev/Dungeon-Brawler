@@ -5,13 +5,10 @@
 #include "mdEntities.h"
 #include "mdParticleSystem.h"
 
-Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : Character() {
-	
+Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : Character(character) {
 
 	skin_id = skin;
-	
 	//PROVISIONAL: Animations should be loaded from the xml
-
 	//Animations
 	idle.PushBack({ 0,0,195,158 });
 	idle.PushBack({ 195,0,195,158 });
@@ -254,48 +251,13 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : 
 	jumping_special2.speed = character.jm_s2.animation_speed;
 	jumping_special2.angle = 30;
 
-	// Basic attack definitions
-
-	st_l = character.st_l;
-	st_h = character.st_h;
-	cr_l = character.cr_l;
-	cr_h = character.cr_h;
-	jm_l = character.jm_l;
-	jm_h = character.jm_h;
-	st_s1 = character.st_s1;
-	st_s2 = character.st_s2;
-	cr_s1 = character.cr_s1;
-	cr_s2 = character.cr_s2;
-	jm_s1 = character.jm_s1;
-	jm_s2 = character.jm_s2;
-	super = character.super;
-
-	// XML inicialization
-	draw_size.x = 195;
-	draw_size.y = 158;
-	max_life = character.max_life;
-	max_super_gauge = character.max_super_gauge;
-	super_window = character.super_window;
-	cancelability_window = character.cancelability_window;
-	super_gauge_gain_hit = character.super_gauge_gain_hit;
-	super_gauge_gain_block = character.super_gauge_gain_block;
-	super_gauge_gain_strike = character.super_gauge_gain_strike;
-	crouching_hurtbox_offset = character.crouching_hurtbox_offset;
-	standing_hurtbox_size = character.standing_hurtbox_size;
-	jump_power = character.jump_power;
-	walk_speed = character.walk_speed;
-	gravity = character.gravity;
-	invencibility_on_wakeup = character.invencibility_on_wakeup;
-	scale = character.scale;
-	non_flip_attacks = character.non_flip_attacks;
-	shadow_rect = { 452, 3719, 68, 14 };
-	shadow_offset = 105;
 	// Constructor inicialization
 	fliped = _fliped;
 	logic_position.x = x_pos;
 	type = CHAR_TYPE::WARRIOR;
 
 	// WARRIOR EXCLUSIVE VARS
+	//XML inicialization
 	spin_speed = character.spin_speed;
 	improved_spin_speed = character.improved_spin_speed;
 	improved_spin_recovery = character.improved_spin_recovery;
@@ -310,6 +272,9 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : 
 	swordyuken_invencivility = character.swordyuken_invencivility;
 	swordyuken_jump_power = character.swordyuken_jump_power;
 	super_invencibility = 300;
+	//Runtime inicialization
+	spin_object = false;
+	dive_kick_object = false;
 	// PROVISIONAL: Should be loaded from xml
 	super_attack_list.push_back(ST_L);
 	super_attack_list.push_back(ST_L);
@@ -320,26 +285,7 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : 
 	super_last_attack = CR_S2;
 
 	super_advance_speed = 5;
-	// Runtime inicialization
-	grounded = false;
-	instanciated_hitbox = false;
-	hit = false;
-	crouching_hurtbox = false;
-	death = false;
-	current_life = max_life;
-	current_super_gauge = 0;
-	velocity.y = 0;
-	velocity.x = 0;
-	current_state = CHAR_STATE::IDLE;
-	logic_position.y = 1000;
-	starting_position.x = logic_position.x;
-	starting_position.y = -1000;
-	state_first_tick = false;
-	spin_object = false; 
-	dive_kick_object = false;
-	// Others
-	ground_position = 800;
-	lateral_limit = 50;
+
 
 
 	// PROVISIONAL: This should belong to entities, if not fx are loaded twice
@@ -357,13 +303,6 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : 
 	s_crouching_special_2 = App->audio->loadSFX("SFX/crouching_special_2.wav");;
 	s_man_death = App->audio->loadSFX("SFX/man_death.wav");
 	s_super = App->audio->loadSFX("SFX/super.wav");
-
-
-	current_animation = &idle;
-
-	// Collider creation
-	hurtbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
-	pushbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y / 2 }, PUSHBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
 }
 
 
