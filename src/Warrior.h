@@ -22,6 +22,7 @@ public:
 
 	void giveItem(ITEMS type);
 	void takeAllItems();
+	ITEMS getItem();
 
 	void updateAnimationOnBasicAttack(CHAR_ATT_TYPE type); // Just to use for super
 

@@ -7,7 +7,7 @@
 #include "Player.h"
 #include "ParticleEmitter.h"
 
-Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Character(character) {
+Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Character(character, x_pos, _fliped, skin) {
 
 	//PROVISIONAL: Animations should be loaded from the xml
 	//Animations
@@ -223,10 +223,6 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Charac
 
 	super_anim.loop = false;
 	super_anim.speed = character.super.animation_speed;
-	// Constructor inicialization
-	fliped = _fliped;
-	logic_position.x = x_pos;
-	skin_id = skin;
 	type = CHAR_TYPE::MAGE;
 
 	//MAGE EXCLUSIVE VARS
@@ -571,4 +567,14 @@ void Mage::giveItem(ITEMS type) {
 void Mage::takeAllItems() {
 	charge_fireball_item = false;
 	double_fireball_item = false;
+}
+
+ITEMS Mage::getItem() {
+	if (charge_fireball_item)
+		return SPECIAL_ITEM_1;
+	if (charge_fireball_item)
+		return SPECIAL_ITEM_2;
+
+	return NO_ITEM;
+
 }

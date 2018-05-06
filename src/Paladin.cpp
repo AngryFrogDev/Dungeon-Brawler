@@ -8,9 +8,7 @@
 #include "ParticleEmitter.h"
 
 
-Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): Character(character) {
-
-	skin_id = skin;
+Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): Character(character, x_pos, _fliped, skin) {
 
 	idle.PushBack({ 0,0,195,158 });
 	idle.PushBack({ 195,0,195,158 });
@@ -166,12 +164,7 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	dead.loop = false;
 	dead.speed = 0.1;
 
-
-	// Constructor inicialization
-	fliped = _fliped;
-	logic_position.x = x_pos;
 	type = CHAR_TYPE::PALADIN;
-
 
 	//PALADIN EXCLUSIVE BARS
 	// XML inicialization

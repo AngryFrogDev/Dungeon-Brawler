@@ -113,7 +113,7 @@ struct character_deff;
 
 class Character {
 public:
-	Character(character_deff character);
+	Character(character_deff character, int x_pos, int _fliped, int skin);
 	~Character();
 						
 	virtual void update(const bool (&inputs)[MAX_INPUTS]);	
@@ -138,6 +138,7 @@ public:
 	int getMaxLife() const;
 	int getCurrentSuperGauge() const;
 	int getMaxSuperGauge() const;
+	virtual ITEMS getItem() const { return NO_ITEM; };
 	bool notAllowFlip();
 	CHAR_TYPE getType() const;
 	void resetCharacter();
@@ -145,6 +146,9 @@ public:
 	// Item management
 	virtual void giveItem(ITEMS type) { return; }
 	virtual void takeAllItems() { return; }
+
+	// Taunt management
+	void tauntFor(int _taunt_duration);
 protected:	
 	// Execute attack, rewritable for every type of character
 	virtual void doAttack(const bool(&inputs)[MAX_INPUTS]);

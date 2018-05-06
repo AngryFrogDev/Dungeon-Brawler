@@ -9,7 +9,11 @@
 #include "mdParticleSystem.h"
 #include "mdEntities.h"
 
-Character::Character(character_deff character) {
+Character::Character(character_deff character, int x_pos, int _fliped, int skin) {
+	// Constructor inicialization
+	fliped = _fliped;
+	logic_position.x = x_pos;
+	skin_id = skin;
 	// Basic attack definitions
 	st_l = character.st_l;
 	st_h = character.st_h;
@@ -42,7 +46,7 @@ Character::Character(character_deff character) {
 	invencibility_on_wakeup = character.invencibility_on_wakeup;
 	scale = character.scale;
 	non_flip_attacks = character.non_flip_attacks;
-	normal_taunt_duration = 500;
+	normal_taunt_duration = 1500;
 	shadow_rect = { 452, 3719, 68, 14 };
 	shadow_offset = 105;
 	// Runtime inicialization
@@ -124,14 +128,16 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		else if (inputs[DOWN])
 			updateState(CROUCHING);
-		else if (inputs[LIGHT_ATTACK]) 
-			updateState(ATTACKING, ST_L); 
-		else if (inputs[HEAVY_ATTACK]) 
+		else if (inputs[LIGHT_ATTACK])
+			updateState(ATTACKING, ST_L);
+		else if (inputs[HEAVY_ATTACK])
 			updateState(ATTACKING, ST_H);
-		else if (inputs[SPECIAL_1] && standingSpecial1Condition()) 
+		else if (inputs[SPECIAL_1] && standingSpecial1Condition())
 			updateState(ATTACKING, ST_S1);
-		else if (inputs[SPECIAL_2]) 
+		else if (inputs[SPECIAL_2])
 			updateState(ATTACKING, ST_S2);
+		else if (inputs[GRAB])
+			tauntFor(normal_taunt_duration);
 
 		break;
 
@@ -450,6 +456,13 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		break;
 	case TAUNT:
+		if (!state_first_tick) {
+			updateAnimation(taunt);
+			playCurrentSFX();
+			state_first_tick = true;
+		}
+		if (taunt_duration < (SDL_GetTicks() - taunt_start))
+			updateState(IDLE);
 		break;
 
 
@@ -1243,6 +1256,10 @@ bool Character::juggleLimit(CHAR_ATT_TYPE type) {
 		return true;
 	else
 		return false;
-		
+}
 
+void Character::tauntFor(int _taunt_duration) {
+	taunt_start = SDL_GetTicks();
+	taunt_duration = _taunt_duration;
+	updateState(TAUNT);
 }

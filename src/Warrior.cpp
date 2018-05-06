@@ -5,9 +5,9 @@
 #include "mdEntities.h"
 #include "mdParticleSystem.h"
 
-Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : Character(character) {
+Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : Character(character, x_pos, _fliped, skin) {
 
-	skin_id = skin;
+
 	//PROVISIONAL: Animations should be loaded from the xml
 	//Animations
 	idle.PushBack({ 0,0,195,158 });
@@ -251,9 +251,23 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : 
 	jumping_special2.speed = character.jm_s2.animation_speed;
 	jumping_special2.angle = 30;
 
-	// Constructor inicialization
-	fliped = _fliped;
-	logic_position.x = x_pos;
+	taunt.PushBack({ 0		, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195    , 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 2, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 3, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 4, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 5, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 6, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 7, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 8, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 9, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 10, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 11, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 12, 158 * 10, 195, 158 });
+
+	taunt.loop = false;
+	taunt.speed = 0.2;
+
 	type = CHAR_TYPE::WARRIOR;
 
 	// WARRIOR EXCLUSIVE VARS
@@ -612,4 +626,14 @@ bool Warrior::jumpingSpecial2Condition() {
 }
 bool Warrior::standingSpecial1Condition() {
 	return App->projectiles->lookForProjectileType(WARRIOR_KNIFE, (Character*)this) == 0;
+}
+
+ITEMS Warrior::getItem() {
+	if (spin_object)
+		return SPECIAL_ITEM_1;
+	if (dive_kick_object)
+		return SPECIAL_ITEM_2;
+
+	return NO_ITEM;
+
 }

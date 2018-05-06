@@ -23,6 +23,7 @@ public:
 
 	void giveItem(ITEMS type);
 	void takeAllItems();
+	ITEMS getItem();
 
 private:
 	int fireball_speed;
