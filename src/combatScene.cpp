@@ -20,31 +20,27 @@ combatScene::combatScene(bool active) : scene(COMBAT_SCENE)	{
 	buttons_node = scene_config.child("combat").child("buttons");
 	textures_node = scene_config.child("combat").child("textures");
 	window_node = scene_config.child("combat").child("window");
+
+	setRects();
 }
 
 
 combatScene::~combatScene()	{}
 
 bool combatScene::start()	{
-	App->entities->players[0]->getCurrCharacter()->resetCharacter();
-	App->entities->players[1]->getCurrCharacter()->resetCharacter();
-	//Resetting camera
-	App->render->camera.x = (App->render->resolution.first - App->render->camera.w) / 2;
-	max_time = 99;
-	current_time = max_time;
-	App->map->map_loaded = true;
-	loadSceneUi();
+	char1 = App->entities->players[0]->getCurrCharacter()->getType();
+	char2 = App->entities->players[1]->getCurrCharacter()->getType();
+	//char1_item = App->entities->players[0]->getCurrCharacter()->getItem(); //Someday
+	//char2_item = App->entities->players[1]->getCurrCharacter()->getItem();
 
-	App->entities->paused = false;
-	App->entities->show = true;
-	rematching = false;
+	loadSceneUi();
+	resetSceneValues();
 
 	scene_timer.start();
 	return true;
 }
 
 bool combatScene::update(float dt)	{
-	
 	checkSceneInput();
 	loadSceneTextures();	
 	updateTimer();
@@ -112,14 +108,6 @@ bool combatScene::onEvent(Buttons * button)	{
 }
 
 void combatScene::loadSceneUi() {
-	//TEXTURES
-	timer_rect = { 421, 142, 59, 59 };
-	character1_rect = { 6,175,66,34 };
-	character1_image = { 82,175,60,28 };
-	character2_rect = character1_rect;
-	//PROVISIONAL: When we have more than one playable characters, this should be checked with the selected characters. 
-	character2_image = character1_image;
-
 	//LABELS
 	auto label_string = std::to_string(current_time);
 	timer = (Labels*)App->gui->createLabel(label_string.data(), { (Uint8)labels_node.child("timer").child("color").attribute("r").as_int(),(Uint8)labels_node.child("timer").child("color").attribute("g").as_int(),(Uint8)labels_node.child("timer").child("color").attribute("b").as_int(),(Uint8)labels_node.child("timer").child("color").attribute("a").as_int() },
@@ -166,11 +154,78 @@ void combatScene::checkPlayers()	{
 }
 
 void combatScene::loadSceneTextures()	{
+	switch (char1)
+	{
+	case WARRIOR:
+		character1_image = warrior_rect;
+		break;
+	case MAGE:
+		character1_image = mage_rect;
+		break;
+	case ROGUE:
+		character1_image = rogue_rect;
+		break;
+	case PALADIN:
+		character1_image = paladin_rect;
+		break;
+	default:
+		break;
+	}
+
+	switch (char2)
+	{
+	case WARRIOR:
+		character2_image = warrior_rect;
+		break;
+	case MAGE:
+		character2_image = mage_rect;
+		break;
+	case ROGUE:
+		character2_image = rogue_rect;
+		break;
+	case PALADIN:
+		character2_image = paladin_rect;
+		break;
+	default:
+		break;
+	}
+
 	App->render->drawSprite(4, App->gui->atlas, 567, 70, &timer_rect, 2, 0, 0, 0, 0, false);
 	App->render->drawSprite(3, App->gui->atlas, 110, 100, &character1_rect, 3, false, 0, 0, 0, 0, false);
-	App->render->drawSprite(4, App->gui->atlas, 119, 109, &character1_image, 3, false, 0, 0, 0, 0, false);
 	App->render->drawSprite(3, App->gui->atlas, 1570, 100, &character2_rect, 3, false, 0, 0, 0, 0, false);
+	App->render->drawSprite(4, App->gui->atlas, 119, 109, &character1_image, 3, false, 0, 0, 0, 0, false);
 	App->render->drawSprite(4, App->gui->atlas, 1579, 109, &character2_image, 3, true, 0, 0, 0, 0, false);
+}
+
+void combatScene::setRects()	{
+	timer_rect = { 421, 142, 59, 59 };
+	character1_rect = { 6,175,66,34 };
+	character2_rect = character1_rect;
+
+	pugi::xml_node warrior = textures_node.child("warrior_image");
+	pugi::xml_node mage = textures_node.child("mage_image");
+	pugi::xml_node rogue = textures_node.child("rogue_image");
+	pugi::xml_node paladin = textures_node.child("paladin_image");
+
+	warrior_rect.x = warrior.attribute("x").as_int();
+	warrior_rect.y = warrior.attribute("y").as_int();
+	warrior_rect.w = warrior.attribute("w").as_int();
+	warrior_rect.h = warrior.attribute("h").as_int();
+
+	mage_rect.x = mage.attribute("x").as_int();
+	mage_rect.y = mage.attribute("y").as_int();
+	mage_rect.w = mage.attribute("w").as_int();
+	mage_rect.h = mage.attribute("h").as_int();
+
+	rogue_rect.x = rogue.attribute("x").as_int();
+	rogue_rect.y = rogue.attribute("y").as_int();
+	rogue_rect.w = rogue.attribute("w").as_int();
+	rogue_rect.h = rogue.attribute("h").as_int();
+
+	paladin_rect.x = paladin.attribute("x").as_int();
+	paladin_rect.y = paladin.attribute("y").as_int();
+	paladin_rect.w = paladin.attribute("w").as_int();
+	paladin_rect.h = paladin.attribute("h").as_int();
 }
 
 void combatScene::assignFocus()	{
@@ -275,8 +330,6 @@ void combatScene::closeP2Window()	{
 	p2_main_menu_label->to_delete = true;
 
 	App->entities->players[1]->focus = nullptr;
-
-	App->entities->paused = false;
 }
 
 void combatScene::popUpGeneralWindow()	{
@@ -345,5 +398,21 @@ void combatScene::closeGeneralWindow()	{
 	stage_sel_label->to_delete = true;
 	settings_label->to_delete = true;
 	main_menu_label->to_delete = true;
+}
+
+void combatScene::resetSceneValues()	{
+	//Resetting characters
+	App->entities->players[0]->getCurrCharacter()->resetCharacter();
+	App->entities->players[1]->getCurrCharacter()->resetCharacter();
+	//Resetting camera
+	App->render->camera.x = (App->render->resolution.first - App->render->camera.w) / 2;
+	//Timer
+	max_time = 99;
+	current_time = max_time;
+	//Bools
+	App->map->map_loaded = true;
+	App->entities->paused = false;
+	App->entities->show = true;
+	rematching = false;
 }
 

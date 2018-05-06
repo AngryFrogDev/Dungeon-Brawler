@@ -360,6 +360,10 @@
 			</rematch>
 		</buttons>
 		<textures>
+			<warrior_image x="82" y="175" w="60" h="28"/>
+			<mage_image x="143" y="175" w="60" h="28"/>
+			<rogue_image x="204" y="175" w="60" h="28"/>
+			<paladin_image x="265" y="175" w="60" h="28"/>
 		</textures>
 	</combat>
 </config>
