@@ -23,6 +23,11 @@ bool mdProjectiles::awake(const pugi::xml_node& md_config) {
 
 	warrior_knife.speed = 0.2;
 	warrior_knife.loop = false;
+
+	rogue_arrow.PushBack({ 1,18,38,8 });
+
+	rogue_arrow.speed = 0.2;
+	rogue_arrow.loop = false;
 	return true;
 }
 
@@ -95,6 +100,9 @@ projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, i
 			break;
 		case ROGUE_DAGGER:
 			new_projectile = new projectile(&warrior_knife, position, speed, collider, life, fliped, scale, ROGUE_DAGGER, emitter, emitter_offset);
+			break;
+		case ROGUE_ARROW:
+			new_projectile = new projectile(&rogue_arrow, position, speed, collider, life, fliped, scale, ROGUE_ARROW, emitter, emitter_offset);
 			break;
 	}	
 	new_projectile->angular_velocity = angular_velocity;

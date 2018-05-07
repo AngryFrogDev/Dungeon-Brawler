@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config>
+  <draw_priority value="3"></draw_priority>
+  <type value="0"></type>
+  <frequency value="10000"></frequency>
+  <max_emissions value="20"></max_emissions>
+  <angle value="0" variation="360"></angle>
+  <vel_mag value="2.0f" variation="1.0"></vel_mag>
+  <pos_var x="0" y="0"></pos_var>
+  <lifetime value = "15" variation="3"></lifetime>
+  <initial_scale value="3.0f" variation="0.1"></initial_scale>
+  <final_scale value="10.0f" variation="0"></final_scale>
+  <initial_color r="255" g="255" b="255" a ="200"></initial_color>
+  <final_color r="100" g="100" b="100" a ="0"></final_color>
+  <blend_mode value="1"></blend_mode>
+  <texture_path value="particles/smoke-pixel.png"></texture_path>
+</config>

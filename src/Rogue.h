@@ -3,6 +3,8 @@
 
 struct character_deff;
 
+class ParticleEmitter;
+
 class Rogue :
 	public Character
 {
@@ -11,8 +13,10 @@ public:
 
 	void standingSpecial1(const bool(&inputs)[MAX_INPUTS]);
 
+	void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]);
 	void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 
+	void characterSpecificUpdates();
 
 	~Rogue();
 
@@ -21,9 +25,16 @@ private:
 	int projectile_speed = 7;
 	int projectile_duration = 2000;
 
-	int dash_speed = 10;
+	int dash_speed = 20;
 	bool grounded = true;
 	bool has_airdash = true;
+	int max_dash_frames = 5;
+	int current_dash_frames = 0;
 
+	int crossbow_recoil = 10;
+	int crossbow_angle = 30;
+	iPoint crossbow_speed = { 30, 10 };
+
+	ParticleEmitter* airdash_emitter = nullptr;
 };
 
