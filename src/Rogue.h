@@ -12,7 +12,7 @@ public:
 	Rogue(character_deff character, int x_pos, bool _fliped, int skin);
 
 	void standingSpecial1(const bool(&inputs)[MAX_INPUTS]);
-
+	void crouchingSpecial1();
 	void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]);
 	void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 
