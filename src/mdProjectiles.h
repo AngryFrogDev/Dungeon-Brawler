@@ -19,7 +19,8 @@ enum PROJECTILE_TYPE {
 	DEFF_PROJECTILE,
 	WARRIOR_KNIFE,
 	MAGE_FIREBALL,
-	MAGE_METEORIT
+	MAGE_METEORIT,
+	ROGUE_DAGGER
 };
 
 struct projectile {
@@ -42,7 +43,7 @@ struct projectile {
 	PROJECTILE_TYPE type;
 	ParticleEmitter* emitter = nullptr;
 	iPoint emitter_offset;
-
+	int gravity = 1;
 };
 
 class mdProjectiles :
@@ -66,5 +67,7 @@ public:
 	Animation warrior_knife;
 
 	std::list<projectile*> projectiles;
+
+
 };
 #endif

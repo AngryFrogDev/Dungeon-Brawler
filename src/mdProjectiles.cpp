@@ -93,6 +93,9 @@ projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, i
 		case MAGE_METEORIT:
 			new_projectile = new projectile(nullptr, position, speed, collider, life, fliped, scale, MAGE_METEORIT, emitter, emitter_offset);
 			break;
+		case ROGUE_DAGGER:
+			new_projectile = new projectile(&warrior_knife, position, speed, collider, life, fliped, scale, ROGUE_DAGGER, emitter, emitter_offset);
+			break;
 	}	
 
 	projectiles.push_back(new_projectile);
@@ -112,7 +115,7 @@ int mdProjectiles::lookForProjectileType(PROJECTILE_TYPE type, Character* charac
 }
 
 void projectile::update() {
-	position += speed;
+
 	if (collider != nullptr) {
 		collider->SetPos(position.x, position.y);
 
@@ -122,6 +125,11 @@ void projectile::update() {
 			//App->render->drawQuad(100, { (int)emitter->start_pos.x - 10, (int)emitter->start_pos.y - 10, 20,20 }, 255, 255, 255, 255, true, true);
 		}
 	}
+	if (type == ROGUE_DAGGER) {
+		speed.y += gravity;
+	}
+
+	position += speed;
 }
 void projectile::draw(SDL_Texture* graphics) {
 	if(animation)

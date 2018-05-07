@@ -116,8 +116,10 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 
 	//STANDING SPECIALS
 
-	for (int i = 0; i < 4; i++)
-		standing_special1.PushBack({ i * x_space, height * 10,width,height });
+	standing_special1.PushBack({ 0 * x_space, height * 18,width,height });
+	standing_special1.PushBack({ 1 * x_space, height * 18,width,height });
+	standing_special1.PushBack({ 2 * x_space, height * 18,width,height });
+	standing_special1.PushBack({ 3 * x_space, height * 18,width,height },ACTIVE);
 
 	standing_special1.loop = false;
 	standing_special1.speed = 0.2;
@@ -126,6 +128,23 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	type = CHAR_TYPE::ROGUE;
 	skin_id = 0;
 
+}
+
+void Rogue::standingSpecial1(const bool(&inputs)[MAX_INPUTS])
+{
+	if (current_animation->GetState() == ACTIVE) {
+		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
+		hitboxes.push_back(projectile_collider);
+		iPoint speed;
+		if (!fliped)
+			speed.x = projectile_speed;
+		else
+			speed.x = -projectile_speed;
+		speed.y = -30;
+
+		App->projectiles->addProjectile(ROGUE_DAGGER, { calculateDrawPosition(0, st_s1.hitbox.w, true), calculateDrawPosition(0, st_s1.hitbox.h, false) }, speed, projectile_collider, -1, fliped, scale, nullptr);
+		askRecovery(st_s1.recovery);
+	}
 }
 
 
