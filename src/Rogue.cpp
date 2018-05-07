@@ -139,6 +139,13 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	jumping_special2.loop = false;
 	jumping_special2.speed = 0.2;
 
+
+	jumping_special1.PushBack({ 0, height * 19,width,height },ACTIVE);
+
+	
+	jumping_special1.loop = false;
+	jumping_special1.speed = 0.2;
+
 	type = CHAR_TYPE::ROGUE;
 	skin_id = 0;
 
@@ -161,21 +168,94 @@ void Rogue::standingSpecial1(const bool(&inputs)[MAX_INPUTS])
 	}
 }
 
+void Rogue::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS])
+{
+	if (!state_first_tick) {
+		updateAnimation(jumping_special1);
+		if (!fliped) {
+			velocity.x = -crossbow_recoil;
+			jumping_special1.angle = crossbow_angle;
+		}
+		else {
+			velocity.x = crossbow_recoil;
+			jumping_special1.angle = -crossbow_angle;
+		};
+		state_first_tick = true;
+	}
+	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, jm_s1.hitbox.w,10 }, COLLIDER_TYPE::PROJECTILE_HITBOX, 1000, CHAR_ATT_TYPE::JM_S1, (Module*)App->entities, this);
+		hitboxes.push_back(projectile_collider);
+		iPoint speed = { 0,0 };
+		iPoint offset = { 0,0 };
+		iPoint emitter_offset = { 0,0 };
+		if (!fliped) {
+			speed.x = crossbow_speed.x;
+			offset.x = jm_s1.pos_rel_char.x;
+			emitter_offset.x = 50;
+		}
+		else {
+			speed.x = -crossbow_speed.x;
+			offset.x = -jm_s1.pos_rel_char.x;
+			emitter_offset.x = -50; //Air fireball emmiter offset
+		}
+		speed.y = crossbow_speed.y;
+		offset.y = jm_s1.pos_rel_char.y;
+
+		App->projectiles->addProjectile(ROGUE_ARROW, { calculateDrawPosition(0,jm_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,jm_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, nullptr, emitter_offset);
+		instanciated_hitbox = true;
+	}
+
+	if (grounded) {
+		instanciated_hitbox = false;
+		askRecovery(jm_s1.recovery);
+	}
+}
+
 void Rogue::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS])
 {
-	has_airdash = false;
-	fPoint speed = { 0,0 };
-	if (inputs[RIGHT]) {
-		speed.x = dash_speed;
-	}
-	else if (inputs[LEFT]) {
-		speed.x = -dash_speed;
+	if (!has_airdash)
+		return;
+
+	if (current_dash_frames == 0) {
+		airdash_emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/air-dash.xml");
+		fPoint speed = { 0,0 };
+
+		if (inputs[RIGHT]) {
+			speed.x = dash_speed;
+		}
+		else if (inputs[LEFT]) {
+			speed.x = -dash_speed;
+		}
+		else if (fliped)
+			speed.x = -dash_speed;
+		else 
+			speed.x = dash_speed;
+		speed.y = -5;
+		velocity = speed;
 	}
 
-	velocity = speed;
-	//current_animation->Reset();
-	updateState(JUMPING);
 
+
+	if (current_dash_frames < max_dash_frames) {
+		current_dash_frames++;
+	}
+	else {
+		updateState(JUMPING);
+		current_dash_frames = 0;
+		has_airdash = false;
+	}
+
+}
+
+void Rogue::characterSpecificUpdates()
+{
+	if (airdash_emitter) {
+		airdash_emitter->start_pos.x = (float)logic_position.x;
+		airdash_emitter->start_pos.y = (float)logic_position.y;
+	}
+
+	if (logic_position.y >= ground_position)
+		has_airdash = true;
 }
 
 

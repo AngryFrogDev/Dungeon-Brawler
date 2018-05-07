@@ -22,6 +22,7 @@ enum PROJECTILE_TYPE {
 	MAGE_METEORIT,
 	ROGUE_DAGGER, 
 	PALADIN_HAMMER,
+	ROGUE_ARROW
 };
 
 struct projectile {
@@ -69,6 +70,8 @@ public:
 	SDL_Texture* graphics;
 	Animation warrior_knife;
 	Animation paladin_hammer;
+	Animation rogue_arrow;
+
 
 	std::list<projectile*> projectiles;
 

@@ -684,7 +684,7 @@
         pos_rel_char_x ="150"
         pos_rel_char_y ="0"
         hitbox_w ="300"
-        hitbox_h ="50"
+        hitbox_h ="10"
         active_time ="-1"
         hitstun ="200"
         blockstun ="150"
