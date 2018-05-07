@@ -347,6 +347,12 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 }
 
 void Mage::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
+
+	if (!state_first_tick) {
+		updateAnimation(standing_special2);
+		state_first_tick = true;
+	}
+
 	if (current_animation->GetState() == ACTIVE ) {
 		if(!instanciated_hitbox) {
 			instanciated_hitbox = true;
