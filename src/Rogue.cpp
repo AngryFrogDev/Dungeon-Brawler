@@ -23,13 +23,13 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	idle.loop = true;
 	idle.speed = 0.2;
 
-	for (int i = 0; i < 13; i++)
+	for (int i = 1; i < 11; i++)
 		walk_forward.PushBack({ i * x_space,height * 1,width,height });
 
 	walk_forward.loop = true;
 	walk_forward.speed = 0.2;
 
-	for (int i = 12; i > 0; i--)
+	for (int i = 11; i > 0; i--)
 		walk_back.PushBack({ i * x_space,height * 1 ,width,height });
 
 	walk_back.loop = true;
