@@ -80,7 +80,7 @@ bool mdProjectiles::cleanUp() {
 	return true;
 }
 
-projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, iPoint speed,collider* collider, int life, bool fliped, int scale, ParticleEmitter* emitter, iPoint emitter_offset) {
+projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, iPoint speed,collider* collider, int life, bool fliped, int scale, ParticleEmitter* emitter, iPoint emitter_offset, float angular_velocity) {
 
 	projectile* new_projectile = nullptr;
 	switch (type) {
@@ -97,7 +97,7 @@ projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, i
 			new_projectile = new projectile(&warrior_knife, position, speed, collider, life, fliped, scale, ROGUE_DAGGER, emitter, emitter_offset);
 			break;
 	}	
-
+	new_projectile->angular_velocity = angular_velocity;
 	projectiles.push_back(new_projectile);
 	return new_projectile;
 }
@@ -129,9 +129,11 @@ void projectile::update() {
 		speed.y += gravity;
 	}
 
+	angle += angular_velocity;
+
 	position += speed;
 }
 void projectile::draw(SDL_Texture* graphics) {
 	if(animation)
-		App->render->drawSprite(3, graphics, position.x, position.y, &animation->GetCurrentFrame(),scale, fliped); 
+		App->render->drawSprite(3, graphics, position.x, position.y, &animation->GetCurrentFrame(),scale, fliped,1.0f,angle); 
 }

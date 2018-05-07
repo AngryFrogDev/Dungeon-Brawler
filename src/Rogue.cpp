@@ -35,10 +35,16 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	walk_back.loop = true;
 	walk_back.speed = 0.2;
 
-	for (int i = 0; i < 6; i++)
-		light_attack.PushBack({ i * x_space, height * 5,width,height });
 
 	//STANDING
+
+	for (int i = 0; i < 6; i++) {
+		if (i == 4)
+			light_attack.PushBack({ i * x_space, height * 5,width,height }, ACTIVE);
+		else
+			light_attack.PushBack({ i * x_space, height * 5,width,height });
+	}
+
 	light_attack.loop = true;
 	light_attack.speed = 0.2;
 
@@ -49,8 +55,9 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	heavy_attack.speed = 0.2;
 
 	//CROUCHING
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 2; i++) {
 		crouch.PushBack({ i * x_space, height * 3,width,height });
+	}
 
 	crouch.loop = false;
 	crouch.speed = 0.2;
@@ -124,6 +131,13 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	standing_special1.loop = false;
 	standing_special1.speed = 0.2;
 
+	//AIR 
+
+	for (int i = 0; i < 4; i++)
+		jumping_special2.PushBack({ i * x_space, height * 13,width,height });
+
+	jumping_special2.loop = false;
+	jumping_special2.speed = 0.2;
 
 	type = CHAR_TYPE::ROGUE;
 	skin_id = 0;
@@ -142,10 +156,29 @@ void Rogue::standingSpecial1(const bool(&inputs)[MAX_INPUTS])
 			speed.x = -projectile_speed;
 		speed.y = -30;
 
-		App->projectiles->addProjectile(ROGUE_DAGGER, { calculateDrawPosition(0, st_s1.hitbox.w, true), calculateDrawPosition(0, st_s1.hitbox.h, false) }, speed, projectile_collider, -1, fliped, scale, nullptr);
+		App->projectiles->addProjectile(ROGUE_DAGGER, { calculateDrawPosition(0, st_s1.hitbox.w, true), calculateDrawPosition(0, st_s1.hitbox.h, false) }, speed, projectile_collider, -1, fliped, scale, nullptr, { 0,0 },20.0f);
 		askRecovery(st_s1.recovery);
 	}
 }
+
+void Rogue::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS])
+{
+	has_airdash = false;
+	fPoint speed = { 0,0 };
+	if (inputs[RIGHT]) {
+		speed.x = dash_speed;
+	}
+	else if (inputs[LEFT]) {
+		speed.x = -dash_speed;
+	}
+
+	velocity = speed;
+	//current_animation->Reset();
+	updateState(JUMPING);
+
+}
+
+
 
 
 Rogue::~Rogue()
