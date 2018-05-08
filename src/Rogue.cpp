@@ -166,9 +166,10 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	jumping_special1.loop = false;
 	jumping_special1.speed = 0.2;
 
-	//JUMPING SPECIALS 
-
-	for (int i = 0; i < 8; i++)
+	//CROUCHING SPECIALS 
+	//int i = 7; i > 0; i--
+	//int i = 0; i < 8; i++
+	for (int i = 7; i > 0; i--)
 		crouching_special1.PushBack({ i * x_space, height * 16,width,height });
 
 	crouching_special1.loop = false;
@@ -198,28 +199,39 @@ void Rogue::standingSpecial1(const bool(&inputs)[MAX_INPUTS])
 
 void Rogue::crouchingSpecial1()
 {
+	int emitter_x_offset = 100; // because she moves fast, we'll create the emitter forward
 
-	if (current_dash_frames == 0) {
-		airdash_emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/air-dash.xml");
+	if (current_roll_frames == 0) {
+		makeInvencibleFor(500);
+		if (!fliped)
+			App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
+		else
+			App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
+	}
+
+	if (current_roll_frames == (4*(max_roll_frames / 5))) {
+		if (!fliped)
+			App->particle_system->createEmitter({ (float)logic_position.x + emitter_x_offset,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
+		else
+			App->particle_system->createEmitter({ (float)logic_position.x - emitter_x_offset,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
+	}
+
+	if (current_roll_frames < max_roll_frames) {
+		current_roll_frames++;
+
 		fPoint speed = { 0,0 };
 
-
 		if (fliped)
-			speed.x = -dash_speed;
+			speed.x = -roll_speed;
 		else
-			speed.x = dash_speed;
-		speed.y = -5;
-		velocity = speed;
-	}
+			speed.x = roll_speed;
 
-
-
-	if (current_dash_frames < max_dash_frames) {
-		current_dash_frames++;
+		logic_position.x += speed.x;
 	}
 	else {
-		updateState(JUMPING);
-		current_dash_frames = 0;
+		//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/smoke-bomb.xml");
+		updateState(CROUCHING);
+		current_roll_frames = 0;
 		has_airdash = false;
 	}
 }
@@ -243,21 +255,18 @@ void Rogue::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS])
 		hitboxes.push_back(projectile_collider);
 		iPoint speed = { 0,0 };
 		iPoint offset = { 0,0 };
-		iPoint emitter_offset = { 0,0 };
 		if (!fliped) {
 			speed.x = crossbow_speed.x;
 			offset.x = jm_s1.pos_rel_char.x;
-			emitter_offset.x = 50;
 		}
 		else {
 			speed.x = -crossbow_speed.x;
 			offset.x = -jm_s1.pos_rel_char.x;
-			emitter_offset.x = -50; //Air fireball emmiter offset
 		}
 		speed.y = crossbow_speed.y;
 		offset.y = jm_s1.pos_rel_char.y;
 
-		App->projectiles->addProjectile(ROGUE_ARROW, { calculateDrawPosition(0,jm_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,jm_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, nullptr, emitter_offset);
+		App->projectiles->addProjectile(ROGUE_ARROW, { calculateDrawPosition(0,jm_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,jm_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, nullptr);
 		instanciated_hitbox = true;
 	}
 

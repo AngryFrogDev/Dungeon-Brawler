@@ -25,11 +25,17 @@ private:
 	int projectile_speed = 7;
 	int projectile_duration = 2000;
 
+	//Shit for airdash
 	int dash_speed = 20;
 	bool grounded = true;
 	bool has_airdash = true;
 	int max_dash_frames = 5;
 	int current_dash_frames = 0;
+
+	//Shit for roll
+	int roll_speed = 15;
+	int max_roll_frames = 30;
+	int current_roll_frames = 0;
 
 	int crossbow_recoil = 10;
 	int crossbow_angle = 30;
