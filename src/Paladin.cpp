@@ -246,7 +246,7 @@ void Paladin::crouchingSpecial2() {
 
 	if (parry_reacting) {
 		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
-			instanciateHitbox(CR_S2);
+			instanciateHitbox(cr_s2);
 		if (current_animation->Finished()){
 			parry_reacting = false;
 			instanciated_hitbox = false;
@@ -270,7 +270,7 @@ void Paladin::crouchingSpecial1() {
 		instanciated_hitbox = false;
 	}
 	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-		instanciateHitbox(CR_S1);
+		instanciateHitbox(cr_s1);
 	}
 }
 
@@ -296,7 +296,7 @@ void Paladin::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 		hurtbox->rect.h = standing_hurtbox_size.y;
 	}
 	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
-		instanciateHitbox(ST_S2);
+		instanciateHitbox(st_s2);
 
 	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
@@ -305,7 +305,7 @@ void Paladin::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 
 void Paladin::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 	if (current_animation->GetState() == ACTIVE) {
-		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
+		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, st_s1, this);
 		hitboxes.push_back(projectile_collider);
 		iPoint speed;
 		if (!fliped)
@@ -335,7 +335,7 @@ void Paladin::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 		velocity.y = jm_s2_speed.y;
 	}
 	else{
-		instanciateHitbox(JM_S2);
+		instanciateHitbox(jm_s2);
 		instanciated_hitbox = false;
 		askRecovery(jm_s2.recovery);
 	}
@@ -349,7 +349,7 @@ void Paladin::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		state_first_tick = true;
 	}
 	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, jm_s1.hitbox.w, jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, air_hammer_duration, CHAR_ATT_TYPE::JM_S1, (Module*)App->entities, this);
+		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, jm_s1.hitbox.w, jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, air_hammer_duration, jm_s1, this);
 		hitboxes.push_back(projectile_collider);
 		iPoint speed = { 0,0 };
 		iPoint offset = { 0,0 };

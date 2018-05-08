@@ -183,7 +183,7 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 void Rogue::standingSpecial1(const bool(&inputs)[MAX_INPUTS])
 {
 	if (current_animation->GetState() == ACTIVE) {
-		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
+		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, st_s1, this);
 		hitboxes.push_back(projectile_collider);
 		iPoint speed;
 		if (!fliped)
@@ -251,7 +251,7 @@ void Rogue::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS])
 		state_first_tick = true;
 	}
 	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, jm_s1.hitbox.w,jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, 1000, CHAR_ATT_TYPE::JM_S1, (Module*)App->entities, this);
+		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, jm_s1.hitbox.w,jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, 1000, jm_s1, this);
 		hitboxes.push_back(projectile_collider);
 		iPoint speed = { 0,0 };
 		iPoint offset = { 0,0 };
