@@ -23,13 +23,13 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	idle.loop = true;
 	idle.speed = 0.2;
 
-	for (int i = 0; i < 13; i++)
+	for (int i = 1; i < 11; i++)
 		walk_forward.PushBack({ i * x_space,height * 1,width,height });
 
 	walk_forward.loop = true;
 	walk_forward.speed = 0.2;
 
-	for (int i = 12; i > 0; i--)
+	for (int i = 11; i > 0; i--)
 		walk_back.PushBack({ i * x_space,height * 1 ,width,height });
 
 	walk_back.loop = true;
@@ -48,9 +48,12 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	light_attack.loop = true;
 	light_attack.speed = 0.2;
 
-	for (int i = 0; i < 12; i++)
-		heavy_attack.PushBack({ i * x_space, height * 4,width,height });
-
+	for (int i = 0; i < 12; i++) {
+		if (i == 8)
+			heavy_attack.PushBack({ i * x_space, height * 4,width,height }, ACTIVE);
+				else
+			heavy_attack.PushBack({ i * x_space, height * 4,width,height });
+	}
 	heavy_attack.loop = true;
 	heavy_attack.speed = 0.2;
 
@@ -62,33 +65,50 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	crouch.loop = false;
 	crouch.speed = 0.2;
 
-	for (int i = 0; i < 4; i++)
-		crouching_light.PushBack({ i * x_space, height * 6,width,height });
+	for (int i = 0; i < 4; i++) {
+		if (i == 2)
+			crouching_light.PushBack({ i * x_space, height * 6,width,height }, ACTIVE);
+		else
+			crouching_light.PushBack({ i * x_space, height * 6,width,height });
+	}
 
 	crouching_light.loop = false;
 	crouching_light.speed = 0.2;
 
-	for (int i = 0; i < 3; i++)
-		crouching_heavy.PushBack({ i * x_space, height * 7,width,height });
+	for (int i = 0; i < 3; i++) {
+		if ( i == 2 )
+			crouching_heavy.PushBack({ i * x_space, height * 7,width,height }, ACTIVE);
+		else
+			crouching_heavy.PushBack({ i * x_space, height * 7,width,height });
+	}
 
 	crouching_heavy.loop = false;
 	crouching_heavy.speed = 0.2;
 
+
+	//JUMPING
 	for (int i = 0; i < 10; i++)
 		jump.PushBack({ i * x_space, height * 2,width,height });
 
-	//JUMPING
 	jump.loop = false;
 	jump.speed = 0.2;
 
-	for (int i = 0; i < 4; i++)
-		jumping_light.PushBack({ i * x_space, height * 9,width,height });
+	for (int i = 0; i < 4; i++) {
+		if (i == 3)
+			jumping_light.PushBack({ i * x_space, height * 9,width,height },ACTIVE);
+		else
+			jumping_light.PushBack({ i * x_space, height * 9,width,height });
+	}
 
 	jumping_light.loop = false;
 	jumping_light.speed = 0.2;
 
-	for (int i = 0; i < 3; i++)
-		jumping_heavy.PushBack({ i * x_space, height * 8,width,height });
+	for (int i = 0; i < 3; i++) {
+		if ( i == 2)
+			jumping_heavy.PushBack({ i * x_space, height * 8,width,height },ACTIVE);
+		else
+			jumping_heavy.PushBack({ i * x_space, height * 8,width,height });
+	}
 
 	jumping_heavy.loop = false;
 	jumping_heavy.speed = 0.2;
@@ -131,13 +151,28 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	standing_special1.loop = false;
 	standing_special1.speed = 0.2;
 
-	//AIR 
+	//JUMPING SPECIALS 
 
 	for (int i = 0; i < 4; i++)
 		jumping_special2.PushBack({ i * x_space, height * 13,width,height });
 
 	jumping_special2.loop = false;
 	jumping_special2.speed = 0.2;
+
+
+	jumping_special1.PushBack({ 0, height * 19,width,height },ACTIVE);
+
+	
+	jumping_special1.loop = false;
+	jumping_special1.speed = 0.2;
+
+	//JUMPING SPECIALS 
+
+	for (int i = 0; i < 8; i++)
+		crouching_special1.PushBack({ i * x_space, height * 16,width,height });
+
+	crouching_special1.loop = false;
+	crouching_special1.speed = 0.2;
 
 	type = CHAR_TYPE::ROGUE;
 	skin_id = 0;
@@ -161,21 +196,122 @@ void Rogue::standingSpecial1(const bool(&inputs)[MAX_INPUTS])
 	}
 }
 
+void Rogue::crouchingSpecial1()
+{
+
+	if (current_dash_frames == 0) {
+		airdash_emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/air-dash.xml");
+		fPoint speed = { 0,0 };
+
+
+		if (fliped)
+			speed.x = -dash_speed;
+		else
+			speed.x = dash_speed;
+		speed.y = -5;
+		velocity = speed;
+	}
+
+
+
+	if (current_dash_frames < max_dash_frames) {
+		current_dash_frames++;
+	}
+	else {
+		updateState(JUMPING);
+		current_dash_frames = 0;
+		has_airdash = false;
+	}
+}
+
+void Rogue::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS])
+{
+	if (!state_first_tick) {
+		updateAnimation(jumping_special1);
+		if (!fliped) {
+			velocity.x = -crossbow_recoil;
+			jumping_special1.angle = crossbow_angle;
+		}
+		else {
+			velocity.x = crossbow_recoil;
+			jumping_special1.angle = -crossbow_angle;
+		};
+		state_first_tick = true;
+	}
+	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, jm_s1.hitbox.w,10 }, COLLIDER_TYPE::PROJECTILE_HITBOX, 1000, CHAR_ATT_TYPE::JM_S1, (Module*)App->entities, this);
+		hitboxes.push_back(projectile_collider);
+		iPoint speed = { 0,0 };
+		iPoint offset = { 0,0 };
+		iPoint emitter_offset = { 0,0 };
+		if (!fliped) {
+			speed.x = crossbow_speed.x;
+			offset.x = jm_s1.pos_rel_char.x;
+			emitter_offset.x = 50;
+		}
+		else {
+			speed.x = -crossbow_speed.x;
+			offset.x = -jm_s1.pos_rel_char.x;
+			emitter_offset.x = -50; //Air fireball emmiter offset
+		}
+		speed.y = crossbow_speed.y;
+		offset.y = jm_s1.pos_rel_char.y;
+
+		App->projectiles->addProjectile(ROGUE_ARROW, { calculateDrawPosition(0,jm_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,jm_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, nullptr, emitter_offset);
+		instanciated_hitbox = true;
+	}
+
+	if (grounded) {
+		instanciated_hitbox = false;
+		askRecovery(jm_s1.recovery);
+	}
+}
+
 void Rogue::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS])
 {
-	has_airdash = false;
-	fPoint speed = { 0,0 };
-	if (inputs[RIGHT]) {
-		speed.x = dash_speed;
-	}
-	else if (inputs[LEFT]) {
-		speed.x = -dash_speed;
+	if (!has_airdash)
+		return;
+
+	if (current_dash_frames == 0) {
+		airdash_emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/air-dash.xml");
+		fPoint speed = { 0,0 };
+
+		if (inputs[RIGHT]) {
+			speed.x = dash_speed;
+		}
+		else if (inputs[LEFT]) {
+			speed.x = -dash_speed;
+		}
+		else if (fliped)
+			speed.x = -dash_speed;
+		else 
+			speed.x = dash_speed;
+		speed.y = -5;
+		velocity = speed;
 	}
 
-	velocity = speed;
-	//current_animation->Reset();
-	updateState(JUMPING);
 
+
+	if (current_dash_frames < max_dash_frames) {
+		current_dash_frames++;
+	}
+	else {
+		updateState(JUMPING);
+		current_dash_frames = 0;
+		has_airdash = false;
+	}
+
+}
+
+void Rogue::characterSpecificUpdates()
+{
+	if (airdash_emitter) {
+		airdash_emitter->start_pos.x = (float)logic_position.x;
+		airdash_emitter->start_pos.y = (float)logic_position.y;
+	}
+
+	if (logic_position.y >= ground_position)
+		has_airdash = true;
 }
 
 

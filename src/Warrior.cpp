@@ -342,6 +342,10 @@ void Warrior::standingSpecial1(const bool(&inputs)[MAX_INPUTS]){
 }
 
 void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
+	if (!state_first_tick) {
+		updateAnimation(standing_special2);
+		state_first_tick = true;
+	}
 	hurtbox->type = PROJECTILE_INVENCIBLE_HURTBOX;
 
 	if(!spin_object){

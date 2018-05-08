@@ -23,6 +23,14 @@ bool mdProjectiles::awake(const pugi::xml_node& md_config) {
 
 	warrior_knife.speed = 0.2;
 	warrior_knife.loop = false;
+
+	paladin_hammer.PushBack({65, 0, 21, 20 });
+	paladin_hammer.speed = 0.2;
+	paladin_hammer.loop = false;
+
+	rogue_arrow.PushBack({ 1,18,38,8 });
+	rogue_arrow.speed = 0.2;
+	rogue_arrow.loop = false;
 	return true;
 }
 
@@ -96,6 +104,12 @@ projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, i
 		case ROGUE_DAGGER:
 			new_projectile = new projectile(&warrior_knife, position, speed, collider, life, fliped, scale, ROGUE_DAGGER, emitter, emitter_offset);
 			break;
+		case PALADIN_HAMMER:
+			new_projectile = new projectile(&paladin_hammer, position, speed, collider, life, fliped, scale, PALADIN_HAMMER, emitter, emitter_offset);
+			break;
+		case ROGUE_ARROW:
+			new_projectile = new projectile(&rogue_arrow, position, speed, collider, life, fliped, scale, ROGUE_ARROW, emitter, emitter_offset);
+			break;
 	}	
 	new_projectile->angular_velocity = angular_velocity;
 	projectiles.push_back(new_projectile);
@@ -125,7 +139,7 @@ void projectile::update() {
 			//App->render->drawQuad(100, { (int)emitter->start_pos.x - 10, (int)emitter->start_pos.y - 10, 20,20 }, 255, 255, 255, 255, true, true);
 		}
 	}
-	if (type == ROGUE_DAGGER) {
+	if (type == ROGUE_DAGGER || type == PALADIN_HAMMER) {
 		speed.y += gravity;
 	}
 
