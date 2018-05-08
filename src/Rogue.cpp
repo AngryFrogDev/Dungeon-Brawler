@@ -199,10 +199,11 @@ void Rogue::standingSpecial1(const bool(&inputs)[MAX_INPUTS])
 
 void Rogue::crouchingSpecial1()
 {
-	int emitter_x_offset = 100; // because she moves fast, we'll create the emitter forward
+	int emitter_x_offset = 70; // because she moves fast, we'll create the emitter forward
 
 	if (current_roll_frames == 0) {
-		makeInvencibleFor(500);
+		pushbox->active = false;
+		makeInvencibleFor(600);
 		if (!fliped)
 			App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
 		else
@@ -233,6 +234,7 @@ void Rogue::crouchingSpecial1()
 		updateState(CROUCHING);
 		current_roll_frames = 0;
 		has_airdash = false;
+		instanciated_hitbox = true;
 	}
 }
 
