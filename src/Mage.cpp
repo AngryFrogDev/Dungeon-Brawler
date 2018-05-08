@@ -291,6 +291,19 @@ Mage::~Mage() {
 }
 
 void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
+	int x_offset = 210;
+	int y_offset = 30;
+
+	if (fireball_first_update) {
+		if (!fliped) {
+			mage_charge = App->particle_system->createEmitter({ (float)logic_position.x + x_offset,(float)logic_position.y -y_offset }, "particles/mage-charge.xml");
+		}
+		else {
+			mage_charge = App->particle_system->createEmitter({ (float)logic_position.x - x_offset,(float)logic_position.y - y_offset }, "particles/mage-charge.xml");
+		}
+		fireball_first_update = false;
+	}
+
 	if (current_animation->GetState() == ACTIVE) {
 		// Item code
 		if (inputs[SPECIAL_1] && !fireball_max_charge && charge_fireball_item && !instanciated_hitbox) {
@@ -334,12 +347,20 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 					emitter = emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-ball-3.xml");
 					break;
 			}
-
-			App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,st_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,st_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, emitter, emitter_offset);
+			if (!fliped) {
+				App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,st_s1.hitbox.w,true) + offset.x + 30, calculateDrawPosition(0,st_s1.hitbox.h,false) + offset.y - 30 }, speed, projectile_collider, -1, fliped, scale, emitter, emitter_offset);
+			}
+			else {
+				App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,st_s1.hitbox.w,true) + offset.x - 30, calculateDrawPosition(0,st_s1.hitbox.h,false) + offset.y - 30 }, speed, projectile_collider, -1, fliped, scale, emitter, emitter_offset);
+			}
+			
 			instanciated_hitbox = true;
 		}
 	}
 	if(current_animation->Finished()){
+		mage_charge->active = false;
+		mage_charge = nullptr;
+		fireball_first_update = true;
 		askRecovery(st_s1.recovery);
 		instanciated_hitbox = false;
 		fireball_level = 0;
