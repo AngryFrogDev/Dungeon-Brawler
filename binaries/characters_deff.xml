@@ -606,6 +606,7 @@
       <attack value="jm_s1"/>
       <attack value="st_s2"/>
       <attack value="st_s1"/>
+      <attack value="cr_l"/>
     </non_flip_attacks>
     <attack_data>
       <st_l
@@ -649,7 +650,7 @@
         pos_rel_char_y ="-30"
         hitbox_w ="150"
         hitbox_h ="80"
-        active_time ="70"
+        active_time ="600"
         hitstun ="250"
         blockstun ="50"
         pushhit ="2"
