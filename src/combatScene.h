@@ -11,7 +11,6 @@ public:
 	combatScene(bool active);
 	virtual ~combatScene();
 	
-//	bool awake(const pugi::xml_node & md_config);
 	bool start();
 	bool update(float dt);
 

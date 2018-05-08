@@ -30,9 +30,7 @@ combatScene::~combatScene()	{}
 bool combatScene::start()	{
 	char1 = App->entities->players[0]->getCurrCharacter()->getType();
 	char2 = App->entities->players[1]->getCurrCharacter()->getType();
-	//char1_item = App->entities->players[0]->getCurrCharacter()->getItem(); //Someday
-	//char2_item = App->entities->players[1]->getCurrCharacter()->getItem();
-
+	
 	loadSceneUi();
 	resetSceneValues();
 
@@ -82,6 +80,11 @@ bool combatScene::onEvent(Buttons * button)	{
 		App->scene_manager->changeScene(App->scene_manager->settings_scene, this);
 		break;
 	case IN_GAME_STAGE_SEL:
+		if (button->focus_id == 0)
+			closeP1Window();
+		else
+			closeP2Window();
+		App->scene_manager->changeScene(App->scene_manager->stage_sel_scene, this);
 		break;
 	case MATCH_END_CHAR_SEL:
 		closeGeneralWindow();
@@ -97,6 +100,8 @@ bool combatScene::onEvent(Buttons * button)	{
 		App->scene_manager->changeScene(App->scene_manager->combat_scene, this);
 		break;
 	case MATCH_END_STAGE_SEL:
+		closeGeneralWindow();
+		App->scene_manager->changeScene(App->scene_manager->stage_sel_scene, this);
 		break;
 	case MATCH_END_SETTINGS:
 		closeGeneralWindow();
