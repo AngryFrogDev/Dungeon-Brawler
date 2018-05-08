@@ -15,6 +15,8 @@ public:
 	void crouchingSpecial1();
 	void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]);
 	void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]);
+	void crouchingSpecial2();
+	bool jumpingSpecial2Condition();
 
 	void characterSpecificUpdates();
 
@@ -32,13 +34,15 @@ private:
 	int current_dash_frames = 0;
 
 	//Shit for roll
-	int roll_speed = 7;
+	int roll_speed = 9;
 	int max_roll_frames = 40;
 	int current_roll_frames = 0;
 
 	int crossbow_recoil = 10;
 	int crossbow_angle = 30;
 	iPoint crossbow_speed = { 30, 10 };
+
+	float slide_speed = 9;
 
 	ParticleEmitter* airdash_emitter = nullptr;
 };

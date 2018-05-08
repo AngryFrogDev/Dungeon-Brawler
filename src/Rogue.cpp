@@ -75,15 +75,16 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	crouching_light.loop = false;
 	crouching_light.speed = 0.2;
 
-	for (int i = 0; i < 3; i++) {
-		if ( i == 2 )
-			crouching_heavy.PushBack({ i * x_space, height * 7,width,height }, ACTIVE);
+	for (int i = 0; i < 10; i++) {
+		if (i == 4)
+			crouching_heavy.PushBack({ i * x_space, height * 17,width,height }, ACTIVE);
 		else
-			crouching_heavy.PushBack({ i * x_space, height * 7,width,height });
+			crouching_heavy.PushBack({ i * x_space, height * 17,width,height });
 	}
 
 	crouching_heavy.loop = false;
-	crouching_heavy.speed = 0.2;
+	crouching_heavy.speed = character.cr_h.animation_speed;
+
 
 
 	//JUMPING
@@ -174,6 +175,19 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 
 	crouching_special1.loop = false;
 	crouching_special1.speed = 0.2;
+
+	for (int i = 0; i < 3; i++) {
+		if (i == 2)
+			crouching_special2.PushBack({ i * x_space, height * 7,width,height }, ACTIVE);
+		else
+			crouching_special2.PushBack({ i * x_space, height * 7,width,height });
+	}
+	crouching_special2.PushBack({ 2 * x_space, height * 7,width,height });
+	crouching_special2.PushBack({ 2 * x_space, height * 7,width,height });
+	crouching_special2.PushBack({ 2 * x_space, height * 7,width,height }); // This is for slide to last longer
+
+	crouching_special2.loop = false;
+	crouching_special2.speed = character.cr_s2.animation_speed;
 
 	type = CHAR_TYPE::ROGUE;
 	skin_id = 0;
@@ -279,9 +293,6 @@ void Rogue::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS])
 
 void Rogue::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS])
 {
-	if (!has_airdash)
-		return;
-
 	if (current_dash_frames == 0) {
 		airdash_emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/air-dash.xml");
 		fPoint speed = { 0,0 };
@@ -323,8 +334,36 @@ void Rogue::characterSpecificUpdates()
 	if (logic_position.y >= ground_position)
 		has_airdash = true;
 }
+void Rogue::crouchingSpecial2() {
+	if (!state_first_tick) {
+		updateAnimation(crouching_special2);
+		state_first_tick = true;
+	}
+	if (!fliped)
+		logic_position.x += slide_speed;
+	else
+		logic_position.x -= slide_speed;
 
+	if (current_animation->Finished()) {
+		instanciated_hitbox = false;
+		collider* hitbox = getCurrentAttackHitbox();
+		if (hitbox != nullptr) { // Just for safety
+			deleteAttackHitbox(CR_S2);
+		}
+		askRecovery(cr_s2.recovery);
+		hurtbox->rect.h = standing_hurtbox_size.y;
+	}
+	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
+		instanciateHitbox(cr_s2);
 
+	collider* hitbox = getCurrentAttackHitbox();
+	if (hitbox != nullptr)
+		hitbox->SetPos(calculateDrawPosition(cr_s2.pos_rel_char.x, cr_s2.hitbox.w, true), calculateDrawPosition(cr_s2.pos_rel_char.y, cr_s2.hitbox.h, false));
+}
+
+bool Rogue::jumpingSpecial2Condition() {
+	return has_airdash;
+}
 
 
 Rogue::~Rogue()
