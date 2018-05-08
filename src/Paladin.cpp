@@ -221,6 +221,10 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	jm_s2_speed.x = 3;
 	jm_s2_speed.y = 20;
 	jm_s2_max_height = 520;
+
+	air_hammer_speed = 7;
+	air_hammer_duration = 1700;
+	
 	// Runtime inicialization
 	parry_start = 0;
 	parry_reacting = false;
@@ -339,10 +343,44 @@ void Paladin::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 
 }
 
+void Paladin::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
+	if (!state_first_tick) {
+		updateAnimation(standing_special1);
+		state_first_tick = true;
+	}
+	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, jm_s1.hitbox.w, jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, air_hammer_duration, CHAR_ATT_TYPE::JM_S1, (Module*)App->entities, this);
+		hitboxes.push_back(projectile_collider);
+		iPoint speed = { 0,0 };
+		iPoint offset = { 0,0 };
+		if (!fliped) {
+			speed.x = air_hammer_speed;
+			offset.x = jm_s1.pos_rel_char.x;
+		}
+		else {
+			speed.x = -air_hammer_speed;
+			offset.x = -jm_s1.pos_rel_char.x;
+		}
+		offset.y = jm_s1.pos_rel_char.y;
+
+		App->projectiles->addProjectile(PALADIN_AIR_HAMMER, { calculateDrawPosition(0,jm_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,jm_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, nullptr, { 0,0 }, 30.0f);
+		instanciated_hitbox = true;
+	}
+
+	if (grounded) {
+		instanciated_hitbox = false;
+		askRecovery(jm_s1.recovery);
+	}
+}
+
 bool Paladin::standingSpecial1Condition() {
 	return App->projectiles->lookForProjectileType(PALADIN_HAMMER, (Character*)this) == 0;
 }
 
 bool Paladin::jumpingSpecial2Condition() {
 	return logic_position.y <= jm_s2_max_height;
+}
+
+bool Paladin::jumpingSpecial1Condition() {
+	return App->projectiles->lookForProjectileType(PALADIN_AIR_HAMMER, (Character*)this) == 0;
 }

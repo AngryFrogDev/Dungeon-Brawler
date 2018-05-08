@@ -11,10 +11,10 @@ public:
 	void standingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	void crouchingSpecial1();
 	void crouchingSpecial2();
-	//void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]);
+	void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]);
 	void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	bool standingSpecial1Condition();
-	//bool jumpingSpecial1Condition();
+	bool jumpingSpecial1Condition();
 	bool jumpingSpecial2Condition();
 	//void doSuper();
 
@@ -41,4 +41,7 @@ private:
 
 	iPoint jm_s2_speed;
 	int jm_s2_max_height;
+
+	int air_hammer_speed;
+	int air_hammer_duration;
 };

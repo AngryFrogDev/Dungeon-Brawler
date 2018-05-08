@@ -118,7 +118,7 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	for (int i = 0; i < 4; i++)
 		standing_hit.PushBack({ i * x_space, height * 10,width,height });
 
-	standing_hit.loop = false;
+	standing_hit.loop = true;
 	standing_hit.speed = 0.2;
 
 	for (int i = 0; i < 4; i++)
@@ -251,7 +251,7 @@ void Rogue::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS])
 		state_first_tick = true;
 	}
 	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, jm_s1.hitbox.w,10 }, COLLIDER_TYPE::PROJECTILE_HITBOX, 1000, CHAR_ATT_TYPE::JM_S1, (Module*)App->entities, this);
+		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, jm_s1.hitbox.w,jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, 1000, CHAR_ATT_TYPE::JM_S1, (Module*)App->entities, this);
 		hitboxes.push_back(projectile_collider);
 		iPoint speed = { 0,0 };
 		iPoint offset = { 0,0 };
