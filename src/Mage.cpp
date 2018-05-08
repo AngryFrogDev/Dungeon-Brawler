@@ -232,6 +232,7 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Charac
 	fireball_emitter_offset = character.fireball_emitter_offset;
 	fireball_size_grow = 60;
 	fireball_damage_boost = 10;
+	initial_fireball = character.st_s1;
 
 	air_fireball_angle = character.air_fireball_angle;
 	air_fireball_max_height = character.air_fireball_max_height;

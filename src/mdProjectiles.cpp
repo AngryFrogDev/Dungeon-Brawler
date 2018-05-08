@@ -110,6 +110,10 @@ projectile* mdProjectiles::addProjectile(PROJECTILE_TYPE type,iPoint position, i
 		case ROGUE_ARROW:
 			new_projectile = new projectile(&rogue_arrow, position, speed, collider, life, fliped, scale, ROGUE_ARROW, emitter, emitter_offset);
 			break;
+		case PALADIN_AIR_HAMMER:
+			new_projectile = new projectile(&paladin_hammer, position, speed, collider, life, fliped, scale, PALADIN_AIR_HAMMER, emitter, emitter_offset);
+			break;
+
 	}	
 	new_projectile->angular_velocity = angular_velocity;
 	projectiles.push_back(new_projectile);

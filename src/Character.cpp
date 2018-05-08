@@ -50,7 +50,7 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	shadow_rect = { 452, 3719, 68, 14 };
 	shadow_offset = 105;
 	// Runtime inicialization
-	grounded = false;
+	grounded = true;
 	instanciated_hitbox = false;
 	hit = false;
 	crouching_hurtbox = false;

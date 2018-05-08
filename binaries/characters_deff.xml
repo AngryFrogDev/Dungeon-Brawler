@@ -870,6 +870,7 @@
     >
     <non_flip_attacks>
       <attack value="jm_s1"/>
+      <attack value="jm_s2"/>
       <attack value="st_s2"/>
       <attack value="st_s1"/>
     </non_flip_attacks>
@@ -985,8 +986,8 @@
       <st_s1
        pos_rel_char_x ="0"
        pos_rel_char_y ="0"
-       hitbox_w ="100"
-       hitbox_h ="100"
+       hitbox_w ="60"
+       hitbox_h ="60"
        active_time ="-1"
        hitstun ="400"
        blockstun ="150"
@@ -1073,22 +1074,22 @@
         recovery ="100"
         animation_speed ="0.3"/>
       <jm_s2
-        pos_rel_char_x ="60"
-        pos_rel_char_y ="50"
-        hitbox_w ="80"
-        hitbox_h ="100"
-        active_time ="-1"
-        hitstun ="300"
+        pos_rel_char_x ="0"
+        pos_rel_char_y ="60"
+        hitbox_w ="400"
+        hitbox_h ="300"
+        active_time ="200"
+        hitstun ="-1"
         blockstun ="300"
         pushhit ="1"
-        pushblock ="1"
-        damage ="10"
-        knockdown ="false"
-        juggle_speed_x ="0"
-        juggle_speed_y ="0"
-        block_type ="overhead"
+        pushblock ="4"
+        damage ="15"
+        knockdown ="true"
+        juggle_speed_x ="5"
+        juggle_speed_y ="30"
+        block_type ="mid"
         type ="jm_s2"
-        recovery ="100"
+        recovery ="400"
         animation_speed ="0.3"/>
       <super
         pos_rel_char_x ="0"

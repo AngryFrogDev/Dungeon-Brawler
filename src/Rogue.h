@@ -27,7 +27,6 @@ private:
 
 	//Shit for airdash
 	int dash_speed = 20;
-	bool grounded = true;
 	bool has_airdash = true;
 	int max_dash_frames = 5;
 	int current_dash_frames = 0;
