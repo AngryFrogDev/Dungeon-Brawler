@@ -182,12 +182,14 @@ void mdGuiManager::assignP1Focus()	{
 
 	Widgets* object = nullptr;
 	
-	if (App->entities->players[0]->getInput(UP, KEY_DOWN))
+	if (App->entities->players[0]->getInput(UP, KEY_DOWN) || App->entities->players[0]->getInput(LEFT, KEY_DOWN))
 	{
 		std::list<Widgets*>::iterator temp_iterator = p1_focus_elements.begin();
 		for (temp_iterator; temp_iterator != p1_focus_elements.end(); temp_iterator++)
 		{
 			object = *temp_iterator;
+			if (object->stop_focus)
+				continue;
 			if (object == App->entities->players[0]->focus)
 			{
 				if (temp_iterator != p1_focus_elements.begin())
@@ -203,12 +205,14 @@ void mdGuiManager::assignP1Focus()	{
 	}
 
 
-	if (App->entities->players[0]->getInput(DOWN, KEY_DOWN))
+	if (App->entities->players[0]->getInput(DOWN, KEY_DOWN) || App->entities->players[0]->getInput(RIGHT, KEY_DOWN))
 	{
 		std::list<Widgets*>::reverse_iterator temp_iterator = p1_focus_elements.rbegin();
 		for (temp_iterator; temp_iterator != p1_focus_elements.rend(); temp_iterator++)
 		{
 			object = *temp_iterator;
+			if (object->stop_focus)
+				continue;
 			if (object == App->entities->players[0]->focus)
 			{
 				if (temp_iterator != p1_focus_elements.rbegin())
@@ -229,12 +233,14 @@ void mdGuiManager::assignP2Focus()	{
 	
 	Widgets* object = nullptr;
 	
-	if (App->entities->players[1]->getInput(UP, KEY_DOWN))
+	if (App->entities->players[1]->getInput(UP, KEY_DOWN) || App->entities->players[1]->getInput(LEFT, KEY_DOWN))
 	{
 		std::list<Widgets*>::iterator temp_iterator = p2_focus_elements.begin();
 		for (temp_iterator; temp_iterator != p2_focus_elements.end(); temp_iterator++)
 		{
 			object = *temp_iterator;
+			if (object->stop_focus)
+				continue;
 			if (object == App->entities->players[1]->focus)
 			{
 				if (temp_iterator != p2_focus_elements.begin())
@@ -250,12 +256,14 @@ void mdGuiManager::assignP2Focus()	{
 	}
 
 
-	if (App->entities->players[1]->getInput(DOWN, KEY_DOWN))
+	if (App->entities->players[1]->getInput(DOWN, KEY_DOWN) || App->entities->players[1]->getInput(RIGHT, KEY_DOWN))
 	{
 		std::list<Widgets*>::reverse_iterator temp_iterator = p2_focus_elements.rbegin();
 		for (temp_iterator; temp_iterator != p2_focus_elements.rend(); temp_iterator++)
 		{
 			object = *temp_iterator;
+			if (object->stop_focus)
+				continue;
 			if (object == App->entities->players[1]->focus)
 			{
 				if (temp_iterator != p2_focus_elements.rbegin())

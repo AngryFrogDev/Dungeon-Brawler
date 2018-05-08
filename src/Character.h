@@ -100,6 +100,23 @@ enum BLOCK_TYPE {
 	LOW
 };
 struct basic_attack_deff {
+	basic_attack_deff() {
+		damage = 0;
+		hitstun = 0;
+		blockstun = 0;
+		pushhit = 0;
+		pushblock = 0;
+		hitbox = { 0,0,0,0 };
+		pos_rel_char = { 0,0 };
+		active_time = 0;
+		type = NO_ATT;
+		knockdown = false;
+		juggle_speed = { 0,0 };
+		block_type = NO_BLOCK_TYPE;
+		recovery = 0;
+		animation_speed = 0;
+
+	}
 	int damage;
 	int hitstun; //in miliseconds
 	int blockstun; //in miliseconds
@@ -173,7 +190,7 @@ protected:
 	// Execute attack, rewritable for every type of character
 	virtual void doAttack(const bool(&inputs)[MAX_INPUTS]);
 	// Hitbox related functions
-	void instanciateHitbox(CHAR_ATT_TYPE type);
+	void instanciateHitbox(basic_attack_deff type);
 	void deleteDeadHitboxes();
 	collider* getCurrentAttackHitbox(); // Returns nullptr if no hitbox was found
 	void deleteAttackHitbox(CHAR_ATT_TYPE type, collider* hitbox = nullptr);

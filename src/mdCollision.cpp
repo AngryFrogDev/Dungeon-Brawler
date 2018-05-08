@@ -148,9 +148,9 @@ void mdCollision::onCollision(collider*c1, collider* c2) {
 }
 
 
-collider* mdCollision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type,int life,CHAR_ATT_TYPE attack_type, Module* callback, Character* character)
+collider* mdCollision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, int life, basic_attack_deff attack_type, Character* character)
 {
-	collider* ret = new collider(rect, type, life,attack_type, callback,character);
+	collider* ret = new collider(rect, type, life,attack_type,character);
 
 	colliders.push_back(ret);
 

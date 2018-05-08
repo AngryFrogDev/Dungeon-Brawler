@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{4A02FCC9-A402-402A-A846-EE691FD9099C}</ProjectGuid>
     <RootNamespace>DungeonBrawler</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -158,6 +158,7 @@
     <ClCompile Include="Rogue.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="settingsScene.cpp" />
+    <ClCompile Include="stageSelScene.cpp" />
     <ClCompile Include="startScene.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UiWindow.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="Rogue.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="settingsScene.h" />
+    <ClInclude Include="stageSelScene.h" />
     <ClInclude Include="startScene.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UiWindow.h" />

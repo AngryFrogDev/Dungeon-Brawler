@@ -21,8 +21,7 @@ mainScene::~mainScene()	{}
 bool mainScene::start()	{
 	loadSceneUi();
 	assignFocus();
-	App->map->map_loaded = true;
-
+	
 	return true;
 }
 
@@ -57,6 +56,10 @@ bool mainScene::onEvent(Buttons* button)	{
 		break;
 	case SETTINGS:
 		App->scene_manager->changeScene(App->scene_manager->settings_scene, this);
+		break;
+	case STAGE_SEL_SCENE:
+		App->scene_manager->changeScene(App->scene_manager->stage_sel_scene, this);
+		break;
 	}
 
 	return ret;

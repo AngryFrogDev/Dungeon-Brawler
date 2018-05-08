@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config>
+  <draw_priority value="10"></draw_priority>
+  <type value="1"></type>
+  <frequency value="10000"></frequency>
+  <max_emissions value="10"></max_emissions>
+  <angle value="90" variation="360"></angle>
+  <vel_mag value="1.5f" variation="0.5f"></vel_mag>
+  <pos_var x="0" y="0"></pos_var>
+  <lifetime value = "20" variation="3"></lifetime>
+  <initial_scale value="13.0f" variation="0.1"></initial_scale>
+  <final_scale value="15.0f" variation="0"></final_scale>
+  <initial_color r="255" g="255" b="100"></initial_color>
+  <final_color r="255" g="100" b="0" a ="200"></final_color>
+  <blend_mode value="1"></blend_mode>
+  <texture_path value="particles/fire-pixel.png"></texture_path>
+  <gravity value="0"></gravity>
+</config>
