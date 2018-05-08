@@ -21,8 +21,7 @@ mainScene::~mainScene()	{}
 bool mainScene::start()	{
 	loadSceneUi();
 	assignFocus();
-	App->map->map_loaded = true;
-
+	
 	return true;
 }
 
