@@ -14,6 +14,7 @@
 #include "combatScene.h"
 #include "characterSelScene.h"
 #include "settingsScene.h"
+#include "stageSelScene.h"
 
 
 mdSceneManager::mdSceneManager()	{
@@ -26,12 +27,14 @@ mdSceneManager::mdSceneManager()	{
 	settings_scene = new settingsScene(false);
 	char_sel_scene = new characterSelScene(false);
 	combat_scene = new combatScene(false);
+	stage_sel_scene = new stageSelScene(false);
 
 	scene_list.push_back(start_scene);
 	scene_list.push_back(main_scene);
 	scene_list.push_back(settings_scene);
 	scene_list.push_back(char_sel_scene);
 	scene_list.push_back(combat_scene);
+	scene_list.push_back(stage_sel_scene);
 }
 
 
@@ -110,14 +113,24 @@ void mdSceneManager::startSwitch()	{
 		{
 			to_disable->scene_active = false;
 
-			if (to_disable->name == "Combat Scene" && !to_disable->rematching)
+			//SPECIAL CASES
+			if (to_disable->name == "Combat Scene")
 			{
-				App->collision->cleanUp();
-				for (int i = 0; i < 2; i++)
+				if (to_enable->name == "Stage Selection Scene")
+					App->entities->show = false, App->entities->paused = true;
+
+				else if (!to_disable->rematching)
 				{
-					App->entities->players[i]->removeCharacters();
+					App->collision->cleanUp();
+					for (int i = 0; i < 2; i++)
+					{
+						App->entities->players[i]->removeCharacters();
+					}
 				}
 			}
+			//Resetting focus
+			App->entities->players[0]->focus = nullptr;
+			App->entities->players[1]->focus = nullptr;
 
 			App->gui->cleanUp();
 			App->render->cleanBlitQueue();

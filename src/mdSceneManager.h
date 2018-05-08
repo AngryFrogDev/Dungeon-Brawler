@@ -39,6 +39,7 @@ public:
 	scene* char_sel_scene = nullptr;
 	scene* settings_scene = nullptr;
 	scene* combat_scene = nullptr;
+	scene* stage_sel_scene = nullptr;
 
 private:
 	enum fade_step

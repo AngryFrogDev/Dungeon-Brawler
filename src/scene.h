@@ -15,7 +15,7 @@ enum scene_type {
 	START_SCENE,
 	SETTINGS_SCENE,
 	CHAR_SEL_SCENE,
-	OBJECT_SEL
+	STAGE_SEL_SCENE,
 };
 
 class scene
@@ -39,6 +39,7 @@ public:
 	virtual void closeP1Window() { return; };
 	virtual void closeP2Window() { return; };
 	virtual void resetSceneValues() { return; };
+	virtual void startingTransition() { return; };
 
 public:
 	bool scene_active = false;

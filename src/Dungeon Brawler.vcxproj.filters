@@ -121,6 +121,9 @@
     <ClCompile Include="Paladin.cpp">
       <Filter>Entities\Characters\Paladin</Filter>
     </ClCompile>
+    <ClCompile Include="stageSelScene.cpp">
+      <Filter>Scenes\Stage Selec Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mdAudio.h">
@@ -249,6 +252,9 @@
     <ClInclude Include="Paladin.h">
       <Filter>Entities\Characters\Paladin</Filter>
     </ClInclude>
+    <ClInclude Include="stageSelScene.h">
+      <Filter>Scenes\Stage Selec Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scenes">
@@ -313,6 +319,9 @@
     </Filter>
     <Filter Include="Entities\Characters\Paladin">
       <UniqueIdentifier>{5c49879f-196d-4a3f-b63e-723a37137bdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Stage Selec Scene">
+      <UniqueIdentifier>{b367ad16-c28d-493f-83ba-0b8dcb4ce199}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

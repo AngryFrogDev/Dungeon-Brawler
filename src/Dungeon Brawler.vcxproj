@@ -158,6 +158,7 @@
     <ClCompile Include="Rogue.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="settingsScene.cpp" />
+    <ClCompile Include="stageSelScene.cpp" />
     <ClCompile Include="startScene.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UiWindow.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="Rogue.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="settingsScene.h" />
+    <ClInclude Include="stageSelScene.h" />
     <ClInclude Include="startScene.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UiWindow.h" />
