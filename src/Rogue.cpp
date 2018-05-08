@@ -231,10 +231,9 @@ void Rogue::crouchingSpecial1()
 	}
 	else {
 		//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/smoke-bomb.xml");
-		updateState(CROUCHING);
+		askRecovery(cr_s1.recovery);
 		current_roll_frames = 0;
-		has_airdash = false;
-		instanciated_hitbox = true;
+		pushbox->active = true;
 	}
 }
 
