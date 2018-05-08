@@ -32,7 +32,7 @@ private:
 	int current_dash_frames = 0;
 
 	//Shit for roll
-	int roll_speed = 10;
+	int roll_speed = 7;
 	int max_roll_frames = 40;
 	int current_roll_frames = 0;
 

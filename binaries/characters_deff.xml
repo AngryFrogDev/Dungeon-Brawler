@@ -606,7 +606,7 @@
       <attack value="jm_s1"/>
       <attack value="st_s2"/>
       <attack value="st_s1"/>
-      <attack value="cr_l"/>
+      <attack value="cr_s1"/>
     </non_flip_attacks>
     <attack_data>
       <st_l
@@ -754,22 +754,22 @@
         recovery ="800"
         animation_speed ="0.1"/>
       <cr_s1
-        pos_rel_char_x ="200"
-        pos_rel_char_y ="-160"
-        hitbox_w ="250"
-        hitbox_h ="150"
+        pos_rel_char_x ="0"
+        pos_rel_char_y ="0"
+        hitbox_w ="0"
+        hitbox_h ="0"
         active_time ="150"
-        hitstun ="-1"
-        blockstun ="100"
-        pushhit ="-1"
-        pushblock ="2"
-        damage ="15"
-        knockdown ="true"
-        juggle_speed_x ="5"
-        juggle_speed_y ="25"
+        hitstun ="0"
+        blockstun ="0"
+        pushhit ="0"
+        pushblock ="0"
+        damage ="0"
+        knockdown ="0"
+        juggle_speed_x ="0"
+        juggle_speed_y ="0"
         block_type ="mid"
         type ="cr_s1"
-        recovery ="150"
+        recovery ="300"
         animation_speed ="0.15"/>
       <cr_s2
         pos_rel_char_x ="200"

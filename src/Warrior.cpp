@@ -327,7 +327,7 @@ Warrior::~Warrior() {
 void Warrior::standingSpecial1(const bool(&inputs)[MAX_INPUTS]){
 
 		if (current_animation->GetState() == ACTIVE) {
-			collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
+			collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, st_s1, this);
 			hitboxes.push_back(projectile_collider);
 			iPoint speed;
 			if (!fliped)
@@ -383,7 +383,7 @@ void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
 			askRecovery(improved_spin_recovery);
 	}
 	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) 
-		instanciateHitbox(ST_S2);
+		instanciateHitbox(st_s2);
 
 	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
@@ -407,7 +407,7 @@ void Warrior::crouchingSpecial1() {
 		hurtbox->rect.h = standing_hurtbox_size.y;
 	}
 	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
-		instanciateHitbox(CR_S1);
+		instanciateHitbox(cr_s1);
 
 	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
@@ -438,7 +438,7 @@ void Warrior::crouchingSpecial2()	{ // Should have recovery
 		askRecovery(cr_s2.recovery);
 
 	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
-		instanciateHitbox(CR_S2);
+		instanciateHitbox(cr_s2);
 
 	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
@@ -470,7 +470,7 @@ void Warrior::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		velocity.y = speed.y;
 
 		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
-			instanciateHitbox(JM_S1);
+			instanciateHitbox(jm_s1);
 	}
 	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
@@ -530,7 +530,7 @@ void Warrior::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 		velocity.y = speed.y; 
 
 		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
-			instanciateHitbox(JM_S2);
+			instanciateHitbox(jm_s2);
 	}
 	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
@@ -579,7 +579,13 @@ void Warrior::doSuper() {
 		logic_position.x += super_advance_speed;
 
 	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-		instanciateHitbox(*super_iterator);
+		basic_attack_deff super_part = getAttackData(*super_iterator);
+		super_part.hitstun = super.hitstun;
+		super_part.blockstun = super.blockstun;
+		super_part.pushhit = super.pushhit;
+		super_part.pushblock = super.pushblock;
+		super_part.damage= super.damage;
+		instanciateHitbox(super_part);
 		super_iterator++;
 		instanciated_hitbox = false;
 		if (*super_iterator != super_last_attack)

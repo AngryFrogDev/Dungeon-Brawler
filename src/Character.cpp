@@ -75,8 +75,8 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	current_state = IDLE;
 
 	// Collider creation
-	hurtbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
-	pushbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y / 2 }, PUSHBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
+	hurtbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1, basic_attack_deff(), (Character*)this);
+	pushbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y / 2 }, PUSHBOX, -1, basic_attack_deff(), (Character*)this);
 }
 
 
@@ -517,7 +517,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 void Character::onCollision(collider* c1, collider* c2) {
 
 	if ((c1->type == HURTBOX || c1->type == PROJECTILE_INVENCIBLE_HURTBOX) && (c2->type == HITBOX || c2->type == PROJECTILE_HITBOX)) {
-		attack_recieving = c2->character->getAttackData(c2->attack_type); 
+		attack_recieving = c2->attack_type; 
 		hit = true;
 		moment_hit = SDL_GetTicks();
 		deleteAllMeleeHitboxes(); // When you get hit all your melee  hitboxes are deleted
@@ -530,7 +530,7 @@ void Character::onCollision(collider* c1, collider* c2) {
 	}
 	else if ((c1->type == HITBOX || c1->type == PROJECTILE_HITBOX) && (c2->type == HURTBOX || c2->type == PROJECTILE_INVENCIBLE_HURTBOX)) {
 		// Allways delete hitboxes on collision
-		deleteAttackHitbox(c1->attack_type, c1);
+		deleteAttackHitbox(c1->attack_type.type, c1);
 	}
 	
 }
@@ -587,7 +587,7 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 			instanciated_hitbox = false;
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-			instanciateHitbox(ST_L);
+			instanciateHitbox(st_l);
 			manageCancel(inputs);
 		}
 		break;
@@ -601,7 +601,7 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 			instanciated_hitbox = false;
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-			instanciateHitbox(ST_H);
+			instanciateHitbox(st_h);
 			manageCancel(inputs);
 		}
 		break;
@@ -615,7 +615,7 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 			instanciated_hitbox = false;
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-			instanciateHitbox(CR_L);
+			instanciateHitbox(cr_l);
 			manageCancel(inputs);
 		}
 		break;
@@ -629,7 +629,7 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 			instanciated_hitbox = false;
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-			instanciateHitbox(CR_H);
+			instanciateHitbox(cr_h);
 			manageCancel(inputs);
 		}
 		break;
@@ -647,7 +647,7 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 			askRecovery(jm_l.recovery);
 		}	
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
-			instanciateHitbox(JM_L);	
+			instanciateHitbox(jm_l);	
 		{
 			collider* hitbox = getCurrentAttackHitbox();
 			// Set the hitbox to follow the player
@@ -670,7 +670,7 @@ void Character::doAttack(const bool(&inputs)[MAX_INPUTS]) {
 			askRecovery(jm_h.recovery);
 		}
 		else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-			instanciateHitbox(JM_H);
+			instanciateHitbox(jm_h);
 		}	
 		{
 			// Set the hitbox to follow the player
@@ -722,55 +722,14 @@ void Character::updateAnimation(Animation & new_animation) {
 	}
 }
 
-void Character::instanciateHitbox(CHAR_ATT_TYPE type) 	{
+void Character::instanciateHitbox(basic_attack_deff attack) 	{
 	SDL_Rect collider;
 	int life;
-	switch (type) 		{
-		case ST_L:
-			collider = { calculateDrawPosition(st_l.pos_rel_char.x,st_l.hitbox.w, true), calculateDrawPosition(st_l.pos_rel_char.y,st_l.hitbox.h, false),st_l.hitbox.w, st_l.hitbox.h };
-			life = st_l.active_time;
-			break;
-		case ST_H:
-			collider = { calculateDrawPosition(st_h.pos_rel_char.x,st_h.hitbox.w, true), calculateDrawPosition(st_h.pos_rel_char.y,st_h.hitbox.h, false),st_h.hitbox.w, st_h.hitbox.h };
-			life = st_h.active_time;
-			break;
-		case CR_L:
-			collider = { calculateDrawPosition(cr_l.pos_rel_char.x,cr_l.hitbox.w, true), calculateDrawPosition(cr_l.pos_rel_char.y,cr_l.hitbox.h, false),cr_l.hitbox.w, cr_l.hitbox.h };
-			life = cr_l.active_time;
-			break;
-		case CR_H:
-			collider = { calculateDrawPosition(cr_h.pos_rel_char.x,cr_h.hitbox.w, true), calculateDrawPosition(cr_h.pos_rel_char.y,cr_h.hitbox.h, false),cr_h.hitbox.w, cr_h.hitbox.h };
-			life = cr_h.active_time;
-			break;
-		case JM_L:
-			collider = { calculateDrawPosition(jm_l.pos_rel_char.x,jm_l.hitbox.w, true), calculateDrawPosition(jm_l.pos_rel_char.y,jm_l.hitbox.h, false),jm_l.hitbox.w, jm_l.hitbox.h };
-			life = jm_l.active_time;
-			break;
-		case JM_H:
-			collider = { calculateDrawPosition(jm_h.pos_rel_char.x,jm_h.hitbox.w, true), calculateDrawPosition(jm_h.pos_rel_char.y,jm_h.hitbox.h, false),jm_h.hitbox.w, jm_h.hitbox.h };
-			life = jm_h.active_time;
-			break;
-		case ST_S2:
-			collider = { calculateDrawPosition(st_s2.pos_rel_char.x, st_s2.hitbox.w, true), calculateDrawPosition(st_s2.pos_rel_char.y, st_s2.hitbox.h, false), st_s2.hitbox.w, st_s2.hitbox.h };
-			life = st_s2.active_time;
-			break;
-		case CR_S1:
-			collider = { calculateDrawPosition(cr_s1.pos_rel_char.x, cr_s1.hitbox.w, true), calculateDrawPosition(cr_s1.pos_rel_char.y, cr_s1.hitbox.h, false), cr_s1.hitbox.w, cr_s1.hitbox.h };
-			life = cr_s1.active_time;
-			break;
-		case CR_S2:
-			collider = { calculateDrawPosition(cr_s2.pos_rel_char.x, cr_s2.hitbox.w, true), calculateDrawPosition(cr_s2.pos_rel_char.y, cr_s2.hitbox.h, false), cr_s2.hitbox.w, cr_s2.hitbox.h };
-			life = cr_s2.active_time;
-			break;
-		case JM_S1:
-			collider = { calculateDrawPosition(jm_s1.pos_rel_char.x, jm_s1.hitbox.w, true), calculateDrawPosition(jm_s1.pos_rel_char.y, jm_s1.hitbox.h, false), jm_s1.hitbox.w, jm_s1.hitbox.h };
-			life = jm_s1.active_time;
-			break;
-		case JM_S2:
-			collider = { calculateDrawPosition(jm_s2.pos_rel_char.x, jm_s2.hitbox.w, true), calculateDrawPosition(jm_s2.pos_rel_char.y, jm_s2.hitbox.h, false), jm_s2.hitbox.w, jm_s2.hitbox.h };
-			life = jm_s2.active_time;
-	}
-	hitboxes.push_back(App->collision->AddCollider(collider, HITBOX,life ,type, App->entities, this));
+
+	collider = { calculateDrawPosition(attack.pos_rel_char.x,attack.hitbox.w, true), calculateDrawPosition(attack.pos_rel_char.y,attack.hitbox.h, false),attack.hitbox.w, attack.hitbox.h };
+	life = attack.active_time;
+			
+	hitboxes.push_back(App->collision->AddCollider(collider, HITBOX,life ,attack, this));
 	instanciated_hitbox = true;
 }
 
@@ -931,7 +890,7 @@ void Character::deleteDeadHitboxes() 	{
 collider* Character::getCurrentAttackHitbox() 	{
 	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
 		collider* c = *it;
-		if (c->attack_type == attack_doing){
+		if (c->attack_type.type == attack_doing){
 			return c;
 		}
 	}
@@ -944,7 +903,7 @@ void Character::deleteAttackHitbox(CHAR_ATT_TYPE type, collider* hitbox) 	{
 
 	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
 		collider* c = *it;
-		if (c->attack_type == type && (c == hitbox || hitbox ==nullptr)) {
+		if (c->attack_type.type == type && (c == hitbox || hitbox ==nullptr)) {
 			c->to_delete = true;
 			hitboxes_to_delete.push_back(c);
 		}

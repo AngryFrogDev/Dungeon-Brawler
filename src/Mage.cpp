@@ -320,7 +320,7 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 			st_s1.hitbox.h = initial_fireball.hitbox.h + fireball_size_grow*(int)fireball_level;
 			st_s1.damage = initial_fireball.damage + fireball_damage_boost*(int)fireball_level;
 		//Item code
-			collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, fireball_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
+			collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, fireball_duration, st_s1, this);
 			hitboxes.push_back(projectile_collider);
 			iPoint speed, offset, emitter_offset = { 0,0 };
 			if (!fliped) {
@@ -378,7 +378,7 @@ void Mage::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 	if (current_animation->GetState() == ACTIVE ) {
 		if(!instanciated_hitbox) {
 			instanciated_hitbox = true;
-			instanciateHitbox(ST_S2);
+			instanciateHitbox(st_s2);
 		}
 		fPoint emitter_player_offset = { 0,0 };
 		if (!fliped)
@@ -416,7 +416,7 @@ void Mage::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		state_first_tick = true;
 	}
 	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, jm_s1.hitbox.w,jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, fireball_duration, CHAR_ATT_TYPE::JM_S1, (Module*)App->entities, this);
+		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, jm_s1.hitbox.w,jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, fireball_duration, jm_s1, this);
 		hitboxes.push_back(projectile_collider);
 		iPoint speed = { 0,0 };
 		iPoint offset = { 0,0 };
@@ -468,7 +468,7 @@ void Mage::crouchingSpecial1() {
 		instanciated_hitbox = false;
 	}
 	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-		instanciateHitbox(CR_S1);
+		instanciateHitbox(cr_s1);
 	}
 }
 
@@ -492,7 +492,7 @@ void Mage::crouchingSpecial2() {
 	}
 	else {
 		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-			hitboxes.push_back(App->collision->AddCollider({ mine_position.x - cr_s2.hitbox.w / 2 , mine_position.y - cr_s2.hitbox.h / 2 ,cr_s2.hitbox.w, cr_s2.hitbox.h }, HITBOX, cr_s2.active_time, CR_S2, App->entities, this));
+			hitboxes.push_back(App->collision->AddCollider({ mine_position.x - cr_s2.hitbox.w / 2 , mine_position.y - cr_s2.hitbox.h / 2 ,cr_s2.hitbox.w, cr_s2.hitbox.h }, HITBOX, cr_s2.active_time, cr_s2, this));
 			mine_placed = false;
 			instanciated_hitbox = true;
 		}
@@ -526,7 +526,7 @@ void Mage::doSuper() {
 		for(int a = 0; a < meteorits_rows; a++){
 			for (int i = 0; i < meteorits; i++) {
 				iPoint meteorit_spawn_position = { (int)x_pos/*maybe player pos here?*/ + meteorits_current_offset.x*i, first_meteorit_height + meteorits_current_offset.y *i + meteorits_rows_offset*a };
-				collider* projectile_collider = App->collision->AddCollider({ meteorit_spawn_position.x, (int)meteorit_spawn_position.y, jm_s1.hitbox.w,jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, meteorits_life, CHAR_ATT_TYPE::JM_S1, (Module*)App->entities, this);
+				collider* projectile_collider = App->collision->AddCollider({ meteorit_spawn_position.x, (int)meteorit_spawn_position.y, jm_s1.hitbox.w,jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, meteorits_life, jm_s1, this);
 				hitboxes.push_back(projectile_collider);
 				iPoint speed = { 0,0 };
 				iPoint emitter_offset = { 0,0 };
