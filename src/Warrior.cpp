@@ -301,22 +301,6 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : 
 	super_advance_speed = 5;
 
 
-
-	// PROVISIONAL: This should belong to entities, if not fx are loaded twice
-	s_jump = App->audio->loadSFX("SFX/jump.wav");
-	s_light_sword_block = App->audio->loadSFX("SFX/light_sword_block.wav");
-	s_heavy_sword_block = App->audio->loadSFX("SFX/heavy_sword_block.wav");
-	s_light_sword_whiff = App->audio->loadSFX("SFX/light_sword_whiff.wav");
-	s_heavy_sword_whiff = App->audio->loadSFX("SFX/heavy_sword_whiff.wav");
-	s_light_sword_impact = App->audio->loadSFX("SFX/light_sword_impact.wav");
-	s_heavy_sword_impact = App->audio->loadSFX("SFX/heavy_sword_impact.wav");
-	s_standing_special_1 = App->audio->loadSFX("SFX/standing_special_1.wav");
-	s_standing_special_2 = App->audio->loadSFX("SFX/standing_special_2.wav");
-	s_jumping_special_1 = App->audio->loadSFX("SFX/jumping_special_1.wav");;
-	s_crouching_special_1 = App->audio->loadSFX("SFX/crouching_special_1.wav");;
-	s_crouching_special_2 = App->audio->loadSFX("SFX/crouching_special_2.wav");;
-	s_man_death = App->audio->loadSFX("SFX/man_death.wav");
-	s_super = App->audio->loadSFX("SFX/super.wav");
 }
 
 

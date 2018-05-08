@@ -13,11 +13,31 @@
 
 class Mix_Chunk;
 enum CHAR_TYPE {
-	DEF_CHAR,
+	DEF_CHAR = -1,
 	WARRIOR,
 	MAGE,
 	ROGUE,
-	PALADIN
+	PALADIN,
+	CHAR_TOTAL
+};
+
+// Sound effects
+enum CHAR_SOUNDS {
+	S_JUMP = 0,
+    S_LIGHT_SWORD_BLOCK,
+    S_HEAVY_SWORD_BLOCK,
+	S_LIGHT_SWORD_WHIFF,
+    S_HEAVY_SWORD_WHIFF,
+    S_LIGHT_SWORD_IMPACT,
+    S_HEAVY_SWORD_IMPACT,
+    S_STANDING_SPECIAL_1,
+    S_STANDING_SPECIAL_2,
+    S_JUMPING_SPECIAL_1,
+    S_CROUCHING_SPECIAL_1,
+    S_CROUCHING_SPECIAL_2,
+    S_DEATH,
+    S_SUPER,
+	MAX_SOUNDS
 };
 
 enum CHAR_ATT_TYPE {
@@ -243,22 +263,6 @@ protected:
 	SDL_Rect shadow_rect;
 
 
-	// Sound effects
-	Mix_Chunk* s_jump;
-	Mix_Chunk* s_light_sword_block;
-	Mix_Chunk* s_heavy_sword_block;
-	Mix_Chunk* s_light_sword_whiff;
-	Mix_Chunk* s_heavy_sword_whiff;
-	Mix_Chunk* s_light_sword_impact;
-	Mix_Chunk* s_heavy_sword_impact;
-	Mix_Chunk* s_standing_special_1; 
-	Mix_Chunk* s_standing_special_2;
-	Mix_Chunk* s_jumping_special_1; 
-	Mix_Chunk* s_crouching_special_1;
-	Mix_Chunk* s_crouching_special_2; 
-	Mix_Chunk* s_man_death;
-	Mix_Chunk* s_super;
-
 	// Variables to load from constructor
 	iPoint starting_position;
 	Player* owner;
@@ -319,6 +323,23 @@ public:
 	bool readyToSwap = false;
 	bool swapRequested = false;
 	bool swapDone = false;
+
+protected:
+	// Sound effects
+	Mix_Chunk * s_jump;
+	Mix_Chunk* s_light_sword_block;
+	Mix_Chunk* s_heavy_sword_block;
+	Mix_Chunk* s_light_sword_whiff;
+	Mix_Chunk* s_heavy_sword_whiff;
+	Mix_Chunk* s_light_sword_impact;
+	Mix_Chunk* s_heavy_sword_impact;
+	Mix_Chunk* s_standing_special_1;
+	Mix_Chunk* s_standing_special_2;
+	Mix_Chunk* s_jumping_special_1;
+	Mix_Chunk* s_crouching_special_1;
+	Mix_Chunk* s_crouching_special_2;
+	Mix_Chunk* s_death;
+	Mix_Chunk* s_super;
 
 };
 

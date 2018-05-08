@@ -1,5 +1,7 @@
 #include "mdEntities.h"
+#include "mdAudio.h";
 #include "mdMap.h"
+#include "Application.h"
 #include "Player.h"
 #include <algorithm>
 
@@ -15,7 +17,7 @@ mdEntities::~mdEntities(){
 bool mdEntities::awake(const pugi::xml_node & md_config) {
 	bool ret = true;
 
-	// Empty the array
+	//Empty the array
 	for (int i = 0; i < 2; i++)
 		players[i] = nullptr;
 
@@ -42,6 +44,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	attack_input = stringToKeystate(name);
 
 	loadCharactersFromXML(App->loadConfig("characters_deff.xml", entities_config_doc));
+
 	//PROVISIONAL: Should be loaded from an xml
 	warrior_graphics = App->textures->load("Assets/warrior.png");
 	warrior_graphics2 = App->textures->load("Assets/warrior_2.png");
@@ -51,6 +54,28 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	mage_graphics4 = App->textures->load("Assets/mage_4.png");
 	rogue_graphics = App->textures->load("Assets/rogue.png");
 	paladin_graphics = App->textures->load("Assets/paladin.png");
+
+	//Allocate space for character sounds
+	character_sounds = new Mix_Chunk*[CHAR_TYPE::CHAR_TOTAL * CHAR_SOUNDS::MAX_SOUNDS];
+	for (int i = 0; i < CHAR_TYPE::CHAR_TOTAL * CHAR_SOUNDS::MAX_SOUNDS; ++i)
+		character_sounds[i] = nullptr;
+
+	// PROVISIONAL: This should be loaded from XML
+	//Warrior
+	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_JUMP] = App->audio->loadSFX("SFX/jump.wav");
+	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_LIGHT_SWORD_BLOCK] = App->audio->loadSFX("SFX/light_sword_block.wav");
+	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_HEAVY_SWORD_BLOCK] = App->audio->loadSFX("SFX/heavy_sword_block.wav");
+	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_LIGHT_SWORD_WHIFF] = App->audio->loadSFX("SFX/light_sword_whiff.wav");
+	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_HEAVY_SWORD_WHIFF] = App->audio->loadSFX("SFX/heavy_sword_whiff.wav");
+	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_LIGHT_SWORD_IMPACT] = App->audio->loadSFX("SFX/light_sword_impact.wav");
+	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_HEAVY_SWORD_IMPACT] = App->audio->loadSFX("SFX/heavy_sword_impact.wav");
+	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_STANDING_SPECIAL_1] = App->audio->loadSFX("SFX/standing_special_1.wav");
+	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_STANDING_SPECIAL_2] = App->audio->loadSFX("SFX/standing_special_2.wav");
+	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_JUMPING_SPECIAL_1] = App->audio->loadSFX("SFX/jumping_special_1.wav");;
+	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_CROUCHING_SPECIAL_1] = App->audio->loadSFX("SFX/crouching_special_1.wav");;
+	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_CROUCHING_SPECIAL_2] = App->audio->loadSFX("SFX/crouching_special_2.wav");;
+	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_DEATH] = App->audio->loadSFX("SFX/man_death.wav");
+	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_SUPER] = App->audio->loadSFX("SFX/super.wav");
 
 	traning = false;
 	show = true;

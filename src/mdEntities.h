@@ -115,6 +115,7 @@ public:
 	std::list<keyboard_scheme>	 keyboard_schemes;
 	KEY_STATE attack_input; 
 	SDL_Texture* mage_graphics; // So mage can blit arcane symbol
+	Mix_Chunk** character_sounds;
 
 private:
 	//if it returns false something wrong happened
