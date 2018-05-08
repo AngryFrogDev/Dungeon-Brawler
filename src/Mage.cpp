@@ -495,6 +495,8 @@ void Mage::crouchingSpecial2() {
 			hitboxes.push_back(App->collision->AddCollider({ mine_position.x - cr_s2.hitbox.w / 2 , mine_position.y - cr_s2.hitbox.h / 2 ,cr_s2.hitbox.w, cr_s2.hitbox.h }, HITBOX, cr_s2.active_time, cr_s2, this));
 			mine_placed = false;
 			instanciated_hitbox = true;
+			App->particle_system->createEmitter({ (float)mine_position.x,(float)mine_position.y -60 }, "particles/mine-explosion.xml");
+			App->particle_system->createEmitter({ (float)mine_position.x,(float)mine_position.y -60}, "particles/mine-explosion-extra.xml");
 		}
 	}
 	if (current_animation->Finished()) {
