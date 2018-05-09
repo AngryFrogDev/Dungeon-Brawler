@@ -650,7 +650,7 @@
         pos_rel_char_y ="-30"
         hitbox_w ="150"
         hitbox_h ="80"
-        active_time ="600"
+        active_time ="100"
         hitstun ="250"
         blockstun ="50"
         pushhit ="2"
