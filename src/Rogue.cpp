@@ -293,6 +293,9 @@ void Rogue::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS])
 
 void Rogue::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS])
 {
+	if (!state_first_tick) {
+		state_first_tick = true;
+	}
 	if (current_dash_frames == 0) {
 		airdash_emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/air-dash.xml");
 		fPoint speed = { 0,0 };
