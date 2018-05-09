@@ -328,6 +328,9 @@ void Paladin::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 		instanciateHitbox(jm_s2);
 		instanciated_hitbox = false;
 		askRecovery(jm_s2.recovery);
+		App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y +150 }, "particles/dust-explosion.xml");
+		App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y +100 }, "particles/dust-cloud.xml");
+		App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 100 }, "particles/dust-cloud-front.xml");
 	}
 
 
@@ -352,8 +355,8 @@ void Paladin::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 			offset.x = -jm_s1.pos_rel_char.x;
 		}
 		offset.y = jm_s1.pos_rel_char.y;
-
-		App->projectiles->addProjectile(PALADIN_AIR_HAMMER, { calculateDrawPosition(0,jm_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,jm_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, nullptr, { 0,0 }, 30.0f);
+		ParticleEmitter* light_ball = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 150 }, "particles/ligh-ball.xml");
+		App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,jm_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,jm_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, light_ball, { 0,0 }, 30.0f);
 		instanciated_hitbox = true;
 	}
 
