@@ -284,6 +284,7 @@ void Paladin::crouchingSpecial2() {
 	}
 	if (hit) {
 		hit = false;
+		healing_emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y}, "particles/healing.xml");
 		current_life += parry_healing; // Maybe this should check that life is not exceded beyond the maximum
 		if (current_life > max_life)
 			current_life = max_life;
@@ -300,6 +301,9 @@ void Paladin::crouchingSpecial1() {
 	}
 	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 		instanciateHitbox(cr_s1);
+		int offset_x = 175;
+		App->particle_system->createEmitter({ (float)logic_position.x + offset_x,(float)logic_position.y + 150 }, "particles/dust-explosion.xml");
+		App->particle_system->createEmitter({ (float)logic_position.x + offset_x,(float)logic_position.y + 100 }, "particles/dust-cloud-front.xml");
 	}
 }
 
@@ -410,13 +414,20 @@ void Paladin::doSuper() {
 		updateAnimation(super_anim);
 		state_first_tick = true;
 		current_super_gauge = 0;
+		healing_emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/healing.xml");
 	}
 	if (current_animation->Finished()) {
+		App->particle_system->createEmitter({ (float)logic_position.x - 30 ,(float)logic_position.y - 100 }, "particles/super-healing.xml");
 		updateState(IDLE);
 		current_life += super_healing;
 		if (current_life > max_life)
 			current_life = max_life;
 	}
+}
+void Paladin::characterSpecificUpdates()
+{
+	if (healing_emitter)
+		healing_emitter->start_pos = { (float)logic_position.x -30,(float)logic_position.y -30 };
 }
 bool Paladin::standingSpecial1Condition() {
 	return App->projectiles->lookForProjectileType(PALADIN_HAMMER, (Character*)this) == 0;
