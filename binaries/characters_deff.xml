@@ -682,8 +682,8 @@
         recovery ="200"
         animation_speed ="0.1"/>
       <jm_l
-        pos_rel_char_x ="80"
-        pos_rel_char_y ="160"
+        pos_rel_char_x ="100"
+        pos_rel_char_y ="170"
         hitbox_w ="100"
         hitbox_h ="100"
         active_time ="-1"
@@ -701,7 +701,7 @@
         animation_speed ="0.2"/>
       <jm_h
         pos_rel_char_x ="42"
-        pos_rel_char_y ="110"
+        pos_rel_char_y ="100"
         hitbox_w ="80"
         hitbox_h ="100"
         active_time ="-1"
