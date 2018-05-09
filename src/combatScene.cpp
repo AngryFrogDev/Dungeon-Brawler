@@ -245,6 +245,9 @@ void combatScene::assignFocus()	{
 }
 
 void combatScene::checkSceneInput()	{
+	if (char1_hp <= 0 || char2_hp <= 0)
+		return;
+
 	if (App->entities->players[0]->getInput(START, KEY_DOWN))	{
 		if (p1_window)
 			closeP1Window(), App->entities->paused = false;
@@ -424,6 +427,10 @@ void combatScene::resetSceneValues()	{
 	App->entities->paused = false;
 	App->entities->show = true;
 	rematching = false;
+	//Setting windows to nullptr
+	general_window = nullptr;
+	p1_window = nullptr;
+	p2_window = nullptr;
 
 }
 
