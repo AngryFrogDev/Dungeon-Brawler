@@ -301,6 +301,9 @@ void Paladin::crouchingSpecial1() {
 	}
 	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 		instanciateHitbox(cr_s1);
+		int offset_x = 175;
+		App->particle_system->createEmitter({ (float)logic_position.x + offset_x,(float)logic_position.y + 150 }, "particles/dust-explosion.xml");
+		App->particle_system->createEmitter({ (float)logic_position.x + offset_x,(float)logic_position.y + 100 }, "particles/dust-cloud-front.xml");
 	}
 }
 
