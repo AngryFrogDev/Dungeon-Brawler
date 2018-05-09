@@ -189,7 +189,35 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	crouching_special2.loop = false;
 	crouching_special2.speed = character.cr_s2.animation_speed;
 
-	skin_id = 0;
+
+	taunt.PushBack({ 0 * width,height * 20, width, height });
+	taunt.PushBack({ 1 * width,height * 20, width, height });
+	taunt.PushBack({ 2 * width,height * 20, width, height });
+	taunt.PushBack({ 3 * width,height * 20, width, height });
+	taunt.PushBack({ 4 * width,height * 20, width, height });
+	taunt.PushBack({ 5 * width,height * 20, width, height });
+	taunt.PushBack({ 6 * width,height * 20, width, height });
+	taunt.PushBack({ 7 * width,height * 20, width, height });
+	taunt.PushBack({ 8 * width,height * 20, width, height });
+	taunt.PushBack({ 9 * width,height * 20, width, height });
+	taunt.PushBack({ 10 * width,height * 20, width, height });
+	taunt.PushBack({ 11 * width,height * 20, width, height });
+	taunt.PushBack({ 12 * width,height * 20, width, height });
+	taunt.PushBack({ 0 * width,height * 21, width, height });
+	taunt.PushBack({ 1 * width,height * 21, width, height });
+	taunt.PushBack({ 2 * width,height * 21, width, height });
+	taunt.PushBack({ 3 * width,height * 21, width, height });
+	taunt.PushBack({ 4 * width,height * 21, width, height });
+	taunt.PushBack({ 5 * width,height * 21, width, height });
+	taunt.PushBack({ 6 * width,height * 21, width, height });
+	taunt.PushBack({ 7 * width,height * 21, width, height });
+	taunt.PushBack({ 8 * width,height * 21, width, height });
+
+	taunt.speed = 0.4;
+	taunt.loop = false;
+
+
+	skin_id = 0; // Currently this has no more skins
 
 }
 

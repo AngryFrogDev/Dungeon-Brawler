@@ -254,6 +254,9 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	// Runtime inicialization
 	parry_start = 0;
 	parry_reacting = false;
+
+
+	skin_id = 0; // Currently this has no more skins
 }
 
 
