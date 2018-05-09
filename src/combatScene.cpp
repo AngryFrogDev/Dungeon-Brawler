@@ -34,15 +34,15 @@ bool combatScene::start()	{
 	loadSceneUi();
 	resetSceneValues();
 
-	scene_timer.start();
 	return true;
 }
 
 bool combatScene::update(float dt)	{
 	checkSceneInput();
 	loadSceneTextures();	
-	updateTimer();
+	updateSceneTimer();
 	checkPlayers(); //Check if both player are still alive
+	checkTimers();
 	App->gui->draw();
 	
 	return true;
@@ -132,18 +132,18 @@ void combatScene::loadSceneUi() {
 		bars_node.child("super_bar2").child("flip").attribute("value").as_bool(), bars_node.child("super_bar2").child("target_player").attribute("value").as_int(), this);
 }
 
-void combatScene::updateTimer()	{
-	if (App->entities->paused || App->entities->traning)
+void combatScene::updateSceneTimer()	{
+	if (App->entities->paused || App->entities->traning || !scene_timer.isActive())
 		return;
 
 	if (scene_timer.readSec() >= 1)
 		current_time--, scene_timer.start();
 	if (current_time == 0)
 	{
-		current_time = max_time;
-		popUpGeneralWindow();
+		current_time = 0;
+		taunt_timer.start();
 	}
-	if (current_time > 0)
+	if (current_time >= 0)
 	{
 		auto label_string = std::to_string(current_time);
 		timer->changeContent(label_string.data(), { 0,0,0,255 });
@@ -151,10 +151,13 @@ void combatScene::updateTimer()	{
 }
 
 void combatScene::checkPlayers()	{
-	int char1_hp = App->entities->players[0]->getCurrCharacter()->getCurrentLife();
-	int char2_hp = App->entities->players[1]->getCurrCharacter()->getCurrentLife();
+	if (taunt_timer.isActive())
+		return;
+	
+	char1_hp = App->entities->players[0]->getCurrCharacter()->getCurrentLife();
+	char2_hp = App->entities->players[1]->getCurrCharacter()->getCurrentLife();
 	if (char1_hp <= 0 && !App->entities->paused || char2_hp <= 0 && !App->entities->paused)
-		popUpGeneralWindow();
+		taunt_timer.start();
 		
 }
 
@@ -414,10 +417,32 @@ void combatScene::resetSceneValues()	{
 	//Timer
 	max_time = 99;
 	current_time = max_time;
+	taunt_timer.stop();
+	scene_timer.start();
 	//Bools
 	App->map->map_loaded = true;
 	App->entities->paused = false;
 	App->entities->show = true;
 	rematching = false;
+
+}
+
+void combatScene::checkTimers()	{
+	if (taunt_timer.isActive())
+		scene_timer.stop();
+
+	if (taunt_timer.readSec() >= 1.5 && !general_window)
+	{
+		if (char1_hp >= 0 && char2_hp <= 0)
+			App->entities->players[0]->getCurrCharacter()->tauntFor(1);
+		else if (char2_hp >= 0 && char1_hp <= 0)
+			App->entities->players[1]->getCurrCharacter()->tauntFor(1);
+		else
+			App->entities->players[0]->getCurrCharacter()->tauntFor(1), App->entities->players[1]->getCurrCharacter()->tauntFor(1);
+
+		//Starting taunt timer
+		if (taunt_timer.readSec() >= 2)
+			popUpGeneralWindow();
+	}
 }
 

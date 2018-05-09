@@ -18,7 +18,7 @@ private:
 	bool onEvent(Buttons* button);
 	void loadSceneUi();
 
-	void updateTimer();
+	void updateSceneTimer();
 	void checkPlayers();
 	void loadSceneTextures();
 	void setRects();
@@ -32,6 +32,7 @@ private:
 	void popUpGeneralWindow();
 	void closeGeneralWindow();
 	void resetSceneValues();
+	void checkTimers();
 
 public:
 	uint	current_time = 0;
@@ -101,10 +102,12 @@ private:
 
 	//Combat scene timer
 	Timer	scene_timer;
-	
+	Timer	taunt_timer; //support timer for different situations
+		
 	//Player info
 	CHAR_TYPE char1, char2;
 	ITEMS char1_item, char2_item;
+	int char1_hp = 0, char2_hp = 0;
 
 	pugi::xml_node window_node;
 };
