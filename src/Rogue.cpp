@@ -256,7 +256,7 @@ void Rogue::standingSpecial1(const bool(&inputs)[MAX_INPUTS])
 
 void Rogue::crouchingSpecial1()
 {
-	int emitter_x_offset = 70; // because she moves fast, we'll create the emitter forward
+	int emitter_x_offset = 70; // because she moves fast, we'll create the emitter forward //PROVISIONAL load in xml
 
 	if (current_roll_frames == 0) {
 		pushbox->active = false;
