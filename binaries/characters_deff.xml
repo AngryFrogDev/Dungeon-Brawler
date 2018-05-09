@@ -867,6 +867,26 @@
   invencibility_on_wakeup ="30"
   super_window ="20"
   cancelability_window ="30"
+  
+  parry_reaction_invencivility="500"
+	parry_healing="20"
+
+	parry_duration="400"
+	miss_parry_recovery ="500"
+
+	st_s2_speed ="4"
+	st_s2_invencivility ="500"
+
+	hammer_duration ="1000"
+	hammer_speed_x ="16"
+  hammer_speed_y ="-22"
+
+	slam_speed_x ="3"
+  slam_speed_y ="20"
+	slam_max_height="520"
+
+	air_hammer_speed="7"
+	air_hammer_duration="1700"
     
     >
     <non_flip_attacks>

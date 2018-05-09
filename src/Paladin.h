@@ -25,22 +25,23 @@ public:
 
 private:
 	Animation parry_reaction;
-	int parry_reaction_invencivility;
 	bool parry_reacting;
+	int parry_start;
+	// To load from XML
+	int parry_reaction_invencivility;
 	int parry_healing;
 
 	int parry_duration;
-	int parry_start;
 	int miss_parry_recovery;
 
 	int st_s2_speed;
 	int st_s2_invencivility;
 
-	int projectile_duration;
-	iPoint projectile_speed;
+	int hammer_duration;
+	iPoint hammer_speed;
 
-	iPoint jm_s2_speed;
-	int jm_s2_max_height;
+	iPoint slam_speed;
+	int slam_max_height;
 
 	int air_hammer_speed;
 	int air_hammer_duration;

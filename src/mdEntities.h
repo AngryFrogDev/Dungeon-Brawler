@@ -73,6 +73,25 @@ struct character_deff {
 	int meteorits_rows;
 	int meteorits_rows_offset;
 	iPoint meteorits_speed;
+
+	// Paladin 
+	int parry_reaction_invencivility;
+	int parry_healing;
+
+	int parry_duration;
+	int miss_parry_recovery;
+
+	int st_s2_speed;
+	int st_s2_invencivility;
+
+	int hammer_duration;
+	iPoint hammer_speed;
+
+	iPoint slam_speed;
+	int slam_max_height;
+
+	int air_hammer_speed;
+	int air_hammer_duration;
 };
 
 class Player;

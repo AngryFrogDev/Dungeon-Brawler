@@ -427,6 +427,23 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 	character.meteorits_rows = md_config.attribute("meteorits_rows").as_int(0);
 	character.meteorits_rows_offset = md_config.attribute("meteorits_rows_offset").as_int(0);
 
+	// Pladin
+	character.parry_reaction_invencivility = md_config.attribute("parry_reaction_invencivility").as_int(0);
+	character.parry_healing = md_config.attribute("parry_healing").as_int(0);
+	character.parry_duration = md_config.attribute("parry_duration").as_int(0);
+	character.miss_parry_recovery = md_config.attribute("miss_parry_recovery").as_int(0);
+	character.st_s2_speed = md_config.attribute("st_s2_speed").as_int(0);
+	character.st_s2_invencivility = md_config.attribute("st_s2_invencivility").as_int(0);
+	character.hammer_duration = md_config.attribute("hammer_duration").as_int(0);
+	character.hammer_speed.x = md_config.attribute("hammer_speed_x").as_int(0);
+	character.hammer_speed.y = md_config.attribute("hammer_speed_y").as_int(0);
+	character.slam_speed.x = md_config.attribute("slam_speed_x").as_int(0);
+	character.slam_speed.y = md_config.attribute("slam_speed_y").as_int(0);
+	character.slam_max_height = md_config.attribute("slam_max_height").as_int(0);
+	character.air_hammer_speed = md_config.attribute("air_hammer_speed").as_int(0);
+	character.air_hammer_duration = md_config.attribute("air_hammer_duration").as_int(0);
+	
+
 
 	pugi::xml_node attack_data = md_config.child("attack_data");
 	loadAttackDeffFromXML(attack_data.child("st_l"), character.st_l);

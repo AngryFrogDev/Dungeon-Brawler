@@ -205,25 +205,23 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	// XML inicialization
 	parry_reaction = light_attack;
 	parry_reaction.speed = character.cr_s2.animation_speed;
-	parry_duration = 400;
-	miss_parry_recovery = 500;
-	parry_healing = 20;
+	parry_duration = character.parry_duration;
+	miss_parry_recovery = character.miss_parry_recovery;
+	parry_healing = character.parry_healing;
 
-	parry_reaction_invencivility = 200;
+	parry_reaction_invencivility = character.parry_reaction_invencivility;
 
-	st_s2_speed = 4;
-	st_s2_invencivility = 500;
+	st_s2_speed = character.st_s2_speed;
+	st_s2_invencivility = character.st_s2_invencivility;
 
-	projectile_duration = 1000;
-	projectile_speed.x = 16;
-	projectile_speed.y = -22;
+	hammer_duration = character.hammer_duration;
+	hammer_speed = character.hammer_speed;
 
-	jm_s2_speed.x = 3;
-	jm_s2_speed.y = 20;
-	jm_s2_max_height = 520;
+	slam_speed = character.slam_speed;
+	slam_max_height = character.slam_max_height;
 
-	air_hammer_speed = 7;
-	air_hammer_duration = 1700;
+	air_hammer_speed = character.air_hammer_speed;
+	air_hammer_duration = character.air_hammer_duration;
 	
 	// Runtime inicialization
 	parry_start = 0;
@@ -305,14 +303,14 @@ void Paladin::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 
 void Paladin::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 	if (current_animation->GetState() == ACTIVE) {
-		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, st_s1, this);
+		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, hammer_duration, st_s1, this);
 		hitboxes.push_back(projectile_collider);
 		iPoint speed;
 		if (!fliped)
-			speed.x = projectile_speed.x;
+			speed.x = hammer_speed.x;
 		else
-			speed.x = -projectile_speed.x;
-		speed.y = projectile_speed.y;
+			speed.x = -hammer_speed.x;
+		speed.y = hammer_speed.y;
 
 		App->projectiles->addProjectile(PALADIN_HAMMER, { calculateDrawPosition(0, st_s1.hitbox.w, true), calculateDrawPosition(0, st_s1.hitbox.h, false) }, speed, projectile_collider, -1, fliped, scale, nullptr, { 0,0 }, 20.0f);
 		askRecovery(st_s1.recovery);
@@ -327,12 +325,12 @@ void Paladin::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 
 	if (!grounded) {
 		if (!fliped) {
-			velocity.x = jm_s2_speed.x;
+			velocity.x = slam_speed.x;
 		}
 		else {
-			velocity.x = -jm_s2_speed.x;
+			velocity.x = -slam_speed.x;
 		}
-		velocity.y = jm_s2_speed.y;
+		velocity.y = slam_speed.y;
 	}
 	else{
 		instanciateHitbox(jm_s2);
@@ -378,7 +376,7 @@ bool Paladin::standingSpecial1Condition() {
 }
 
 bool Paladin::jumpingSpecial2Condition() {
-	return logic_position.y <= jm_s2_max_height;
+	return logic_position.y <= slam_max_height;
 }
 
 bool Paladin::jumpingSpecial1Condition() {
