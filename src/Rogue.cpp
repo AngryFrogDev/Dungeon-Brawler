@@ -152,6 +152,14 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	standing_special1.loop = false;
 	standing_special1.speed = 0.2;
 
+	standing_special2.PushBack({ 0 * x_space, height * 15,width,height });
+	standing_special2.PushBack({ 1 * x_space, height * 15,width,height });
+	standing_special2.PushBack({ 2 * x_space, height * 15,width,height });
+	standing_special2.PushBack({ 3 * x_space, height * 15,width,height }, ACTIVE);
+
+	standing_special2.loop = false;
+	standing_special2.speed = character.st_s2.animation_speed;
+
 	//JUMPING SPECIALS 
 
 	for (int i = 0; i < 4; i++)
@@ -216,6 +224,14 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	taunt.speed = 0.4;
 	taunt.loop = false;
 
+	// REKKA HARDCODED STUFF
+	rekka_attack_list.push_back(ST_S2);
+	rekka_attack_list.push_back(CR_H);
+	rekka_attack_list.push_back(ST_H);
+
+	rekka_advance_speed = 3;
+	rekka_last_attack = ST_H;
+	rekka_cancelability_window = 15;
 
 	skin_id = 0; // Currently this has no more skins
 
@@ -391,10 +407,61 @@ void Rogue::crouchingSpecial2() {
 		hitbox->SetPos(calculateDrawPosition(cr_s2.pos_rel_char.x, cr_s2.hitbox.w, true), calculateDrawPosition(cr_s2.pos_rel_char.y, cr_s2.hitbox.h, false));
 }
 
+void Rogue::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
+	if (!state_first_tick) {
+		rekka_iterator = rekka_attack_list.begin();
+		state_first_tick = true;
+		updateAnimationOnBasicAttack(*rekka_iterator);
+	}
+
+	if (fliped)
+		logic_position.x -= rekka_advance_speed;
+	else
+		logic_position.x += rekka_advance_speed;
+
+	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+		basic_attack_deff current_attack = getAttackData(*rekka_iterator);
+		if (*rekka_iterator != rekka_last_attack)
+			current_attack.knockdown = false;
+		else
+			current_attack.knockdown = true;
+		instanciateHitbox(current_attack);
+		instanciated_hitbox = false;
+		if (*rekka_iterator == rekka_last_attack){
+			askRecovery(current_attack.recovery);
+		}
+		else if (lookInBuffer(SPECIAL_2, rekka_cancelability_window)) {
+			rekka_iterator++;
+			updateAnimationOnBasicAttack(*rekka_iterator);
+		}
+		else
+			askRecovery(current_attack.recovery);
+	
+	}
+
+}
+void Rogue::doSuper() {
+	current_super_gauge = 0;
+	updateState(IDLE);
+}
+
 bool Rogue::jumpingSpecial2Condition() {
 	return has_airdash;
 }
 
+void Rogue::updateAnimationOnBasicAttack(CHAR_ATT_TYPE type) {
+	switch (type) {
+	case ST_S2:
+		updateAnimation(standing_special2);
+		break;
+	case CR_H:
+		updateAnimation(crouching_heavy);
+		break;
+	case ST_H:
+		updateAnimation(heavy_attack);
+		break;
+	}
+}
 
 Rogue::~Rogue()
 {

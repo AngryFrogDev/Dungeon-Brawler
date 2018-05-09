@@ -12,12 +12,16 @@ public:
 	Rogue(character_deff character, int x_pos, bool _fliped, int skin);
 
 	void standingSpecial1(const bool(&inputs)[MAX_INPUTS]);
+	void standingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	void crouchingSpecial1();
+	void crouchingSpecial2();
 	void jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]);
 	void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]);
-	void crouchingSpecial2();
+	void doSuper();
 	bool jumpingSpecial2Condition();
 
+
+	void updateAnimationOnBasicAttack(CHAR_ATT_TYPE type); // Just to use for rekka
 	void characterSpecificUpdates();
 
 	~Rogue();
@@ -45,5 +49,12 @@ private:
 	float slide_speed = 9;
 
 	ParticleEmitter* airdash_emitter = nullptr;
+
+	// I would leave it hardcoded for now
+	std::list<CHAR_ATT_TYPE> rekka_attack_list;
+	CHAR_ATT_TYPE rekka_last_attack;
+	std::list<CHAR_ATT_TYPE>::iterator rekka_iterator;
+	int rekka_advance_speed;
+	int rekka_cancelability_window;
 };
 

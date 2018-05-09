@@ -1118,7 +1118,7 @@ void Character::manageCancel(const bool(&inputs)[MAX_INPUTS]) {
 	}
 	else if (lookInBuffer(SPECIAL_2, cancelability_window) && inputs[DOWN]) {
 		updateState(ATTACKING, CR_S2);
-instanciated_hitbox = false;
+		instanciated_hitbox = false;
 	}
 }
 bool Character::checkForSuper(int window) {
