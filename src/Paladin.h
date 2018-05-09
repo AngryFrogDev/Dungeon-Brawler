@@ -1,6 +1,7 @@
 #pragma once
 #include "Character.h"
 struct character_deff;
+class ParticleEmitter;
 
 class Paladin : public Character {
 public:
@@ -18,7 +19,7 @@ public:
 	bool jumpingSpecial2Condition();
 	void doSuper();
 
-	//void characterSpecificUpdates();
+	void characterSpecificUpdates();
 
 	//void giveItem(ITEMS type);
 	//void takeAllItems();
@@ -47,4 +48,6 @@ private:
 	int air_hammer_duration;
 
 	int super_healing;
+
+	ParticleEmitter* healing_emitter = nullptr;
 };

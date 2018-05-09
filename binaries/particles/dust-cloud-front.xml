@@ -11,7 +11,7 @@
   <initial_scale value="5.0f" variation="0.1"></initial_scale>
   <final_scale value="10.0f" variation="0"></final_scale>
   <initial_color r="205" g="133" b="63" a="200"></initial_color>
-  <final_color r="205" g="133" b="63" a="0"></final_color>
+  <final_color r="205" g="133" b="63" a="50"></final_color>
   <blend_mode value="1"></blend_mode>
   <texture_path value="particles/dust-light.png"></texture_path>
   <gravity value="0"></gravity>
