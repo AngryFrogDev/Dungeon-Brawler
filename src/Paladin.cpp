@@ -111,8 +111,8 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	jump.speed = 0.2;
 
 	jumping_light.PushBack({ 0      ,158 * 8,195,158 });
-	jumping_light.PushBack({ 195    ,158 * 8,195,158 });
-	jumping_light.PushBack({ 195 * 2,158 * 8,195,158 }, ACTIVE);
+	jumping_light.PushBack({ 195    ,158 * 8,195,158 }, ACTIVE);
+	jumping_light.PushBack({ 195 * 2,158 * 8,195,158 });
 
 	jumping_light.loop = false;
 	jumping_light.speed = character.jm_l.animation_speed;
@@ -192,6 +192,17 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	jumping_special2.loop = false;
 	jumping_special2.speed = character.jm_s1.animation_speed;
 
+	super_anim.PushBack({ 0		, 158 * 14, 195, 158 });
+	super_anim.PushBack({ 195		, 158 * 14, 195, 158 });
+	super_anim.PushBack({ 195 * 2		, 158 * 14, 195, 158 });
+	super_anim.PushBack({ 195 * 3		, 158 * 14, 195, 158 });
+	super_anim.PushBack({ 195 * 4		, 158 * 14, 195, 158 });
+	super_anim.PushBack({ 195 * 5		, 158 * 14, 195, 158 }, ACTIVE);
+
+
+	super_anim.loop = false;
+	super_anim.speed = character.super.animation_speed;
+
 
 	//PALADIN EXCLUSIVE BARS
 	// XML inicialization
@@ -214,6 +225,8 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 
 	air_hammer_speed = character.air_hammer_speed;
 	air_hammer_duration = character.air_hammer_duration;
+
+	super_healing = 50;
 	
 	// Runtime inicialization
 	parry_start = 0;
@@ -356,7 +369,7 @@ void Paladin::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		offset.y = jm_s1.pos_rel_char.y;
 		ParticleEmitter* light_ball = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 150 }, "particles/ligh-ball.xml");
-		App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,jm_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,jm_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, light_ball, { 0,0 }, 30.0f);
+		App->projectiles->addProjectile(PALADIN_AIR_HAMMER, { calculateDrawPosition(0,jm_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,jm_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, light_ball, { 0,0 }, 30.0f);
 		instanciated_hitbox = true;
 	}
 
@@ -366,6 +379,19 @@ void Paladin::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 	}
 }
 
+void Paladin::doSuper() {
+	if (!state_first_tick) {
+		updateAnimation(super_anim);
+		state_first_tick = true;
+		current_super_gauge = 0;
+	}
+	if (current_animation->Finished()) {
+		updateState(IDLE);
+		current_life += super_healing;
+		if (current_life > max_life)
+			current_life = max_life;
+	}
+}
 bool Paladin::standingSpecial1Condition() {
 	return App->projectiles->lookForProjectileType(PALADIN_HAMMER, (Character*)this) == 0;
 }
