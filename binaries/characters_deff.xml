@@ -915,10 +915,10 @@
         recovery ="100"
         animation_speed ="0.25"/>
       <st_h
-        pos_rel_char_x ="180"
-        pos_rel_char_y ="-50"
+        pos_rel_char_x ="150"
+        pos_rel_char_y ="-80"
         hitbox_w ="150"
-        hitbox_h ="150"
+        hitbox_h ="240"
         active_time ="200"
         hitstun ="500"
         blockstun ="200"
@@ -951,9 +951,9 @@
         recovery ="50"
         animation_speed ="0.2"/>
       <cr_h
-        pos_rel_char_x ="190"
+        pos_rel_char_x ="130"
         pos_rel_char_y ="80"
-        hitbox_w ="180"
+        hitbox_w ="130"
         hitbox_h ="50"
         active_time ="200"
         hitstun ="500"
@@ -966,13 +966,13 @@
         juggle_speed_y ="20"
         block_type ="low"
         type ="cr_h"
-        recovery ="350"
-        animation_speed ="0.18"/>
+        recovery ="225"
+        animation_speed ="0.13"/>
       <jm_l
-        pos_rel_char_x ="150"
-        pos_rel_char_y ="-40"
-        hitbox_w ="200"
-        hitbox_h ="140"
+        pos_rel_char_x ="110"
+        pos_rel_char_y ="-65"
+        hitbox_w ="160"
+        hitbox_h ="120"
         active_time ="-1"
         hitstun ="200"
         blockstun ="150"
@@ -987,7 +987,7 @@
         recovery ="30"
         animation_speed ="0.1"/>
       <jm_h
-        pos_rel_char_x ="90"
+        pos_rel_char_x ="105"
         pos_rel_char_y ="30"
         hitbox_w ="140"
         hitbox_h ="140"
@@ -1068,14 +1068,14 @@
         blockstun ="500"
         pushhit ="-1"
         pushblock ="0"
-        damage ="10"
+        damage ="15"
         knockdown ="true"
         juggle_speed_x ="10"
         juggle_speed_y ="25"
         block_type ="mid"
         type ="cr_s2"
         recovery ="400"
-        animation_speed ="0.4"/>
+        animation_speed ="0.25"/>
       <jm_s1
         pos_rel_char_x ="60"
         pos_rel_char_y ="50"

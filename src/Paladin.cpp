@@ -130,24 +130,25 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	standing_hit.loop = true; 
 	standing_hit.speed = 0.2;
 
-	standing_block.PushBack({ 195 * 2, 158 * 3, 195, 158 });
+	standing_block.PushBack({ 195 * 2, 158 * 20, 195, 158 });
 
 	standing_block.loop = false;
 	standing_block.speed = 0.2;
 
-	crouching_block.PushBack({ 0, 158 * 6, 195, 158 });
+	crouching_block.PushBack({ 0, 158 * 23, 195, 158 });
 
 	crouching_block.loop = false;
 	crouching_block.speed = 0.2;
 
-	knockdown.PushBack({ 0      , 158 * 21, 195, 158 });
-	knockdown.PushBack({ 0      , 158 * 21, 195, 158 });
-	knockdown.PushBack({ 0      , 158 * 21, 195, 158 });
-	knockdown.PushBack({ 0      , 158 * 21, 195, 158 });
-	knockdown.PushBack({ 0      , 158 * 21, 195, 158 }); // It works for me
-	knockdown.PushBack({ 195    , 158 * 21, 195, 158 });
-	knockdown.PushBack({ 195 * 2, 158 * 21, 195, 158 });
-	knockdown.PushBack({ 195 * 3, 158 * 21, 195, 158 });
+	knockdown.PushBack({ 0      , 158 * 22, 195, 158 }); // It works for me
+	knockdown.PushBack({ 195    , 158 * 22, 195, 158 });
+	knockdown.PushBack({ 195 * 2, 158 * 22, 195, 158 });
+	knockdown.PushBack({ 195 * 3, 158 * 22, 195, 158 });
+	knockdown.PushBack({ 195 * 4     , 158 * 22, 195, 158 });
+	knockdown.PushBack({ 195 * 5     , 158 * 22, 195, 158 });
+	knockdown.PushBack({ 195 * 6      , 158 * 22, 195, 158 });
+	knockdown.PushBack({ 195 * 7      , 158 * 22, 195, 158 });
+
 
 	knockdown.loop = false;
 	knockdown.speed = 0.1;
@@ -157,7 +158,12 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	dead.loop = true;
 	dead.speed = 0.1;
 
-	crouching_special2.PushBack({ 195 * 3, 158 * 10, 195, 158 });
+	crouching_special2.PushBack({ 195 * 1, 158 * 13, 195, 158 });
+	crouching_special2.PushBack({ 195 * 2, 158 * 13, 195, 158 });
+	crouching_special2.PushBack({ 195 * 3, 158 * 13, 195, 158 });
+
+	crouching_special2.loop = false;
+	crouching_special2.speed = 0.25;
 
 	crouching_special1.PushBack({ 195 * 0, 158 * 15, 195, 158 });
 	crouching_special1.PushBack({ 195 * 1, 158 * 15, 195, 158 }, ACTIVE);
@@ -203,11 +209,28 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	super_anim.loop = false;
 	super_anim.speed = character.super.animation_speed;
 
+	taunt.PushBack({ 0			, 158 * 21, 195, 158 });
+	taunt.PushBack({ 195		, 158 * 21, 195, 158 });
+	taunt.PushBack({ 195 * 2	, 158 * 21, 195, 158 });
+
+	taunt.loop = false;
+	taunt.speed = 0.2;
+
+	parry_reaction.PushBack({ 0			, 158 * 6, 195, 158 });
+	parry_reaction.PushBack({ 195		, 158 * 6, 195, 158 }, ACTIVE);
+	parry_reaction.PushBack({ 195 * 2	, 158 * 6, 195, 158 });
+	parry_reaction.PushBack({ 195 * 3	, 158 * 6, 195, 158 });
+	parry_reaction.PushBack({ 195 * 4	, 158 * 6, 195, 158 });
+	parry_reaction.PushBack({ 195 * 5	, 158 * 6, 195, 158 });
+	parry_reaction.PushBack({ 195 * 7	, 158 * 6, 195, 158 });
+	parry_reaction.PushBack({ 195 * 8	, 158 * 6, 195, 158 });
+
+	parry_reaction.speed = character.cr_s2.animation_speed;
 
 	//PALADIN EXCLUSIVE BARS
 	// XML inicialization
-	parry_reaction = light_attack;
-	parry_reaction.speed = character.cr_s2.animation_speed;
+	//parry_reaction = light_attack;
+	//parry_reaction.speed = character.cr_s2.animation_speed;
 	parry_duration = character.parry_duration;
 	miss_parry_recovery = character.miss_parry_recovery;
 	parry_healing = character.parry_healing;
