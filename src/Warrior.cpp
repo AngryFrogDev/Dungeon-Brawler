@@ -268,8 +268,6 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : 
 	taunt.loop = false;
 	taunt.speed = 0.2;
 
-	type = CHAR_TYPE::WARRIOR;
-
 	// WARRIOR EXCLUSIVE VARS
 	//XML inicialization
 	spin_speed = character.spin_speed;

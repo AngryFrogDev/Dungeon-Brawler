@@ -14,6 +14,7 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	idle.PushBack({ 195,0,195,158 });
 	idle.PushBack({ 195 * 2,0,195,158 });
 	idle.PushBack({ 195 * 3,0,195,158 });
+	idle.PushBack({ 195 * 4,0,195,158 });
 
 	idle.loop = true;
 	idle.speed = 0.2;
@@ -30,10 +31,12 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	walk_forward.PushBack({ 195 * 9,158,195,158 });
 	walk_forward.PushBack({ 195 * 10,158,195,158 });
 	walk_forward.PushBack({ 195 * 11,158,195,158 });
+	walk_forward.PushBack({ 195 * 12,158,195,158 });
 
 	walk_forward.loop = true;
 	walk_forward.speed = 0.2;
 
+	walk_back.PushBack({ 195 * 12,158,195,158 });
 	walk_back.PushBack({ 195 * 11,158,195,158 });
 	walk_back.PushBack({ 195 * 10,158,195,158 });
 	walk_back.PushBack({ 195 * 9,158,195,158 });
@@ -50,53 +53,43 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	walk_back.loop = true;
 	walk_back.speed = 0.2;
 
-	light_attack.PushBack({ 0,158 * 13,195, 158 });
-	light_attack.PushBack({ 195,158 * 13,195, 158 });
-	light_attack.PushBack({ 195 * 2,158 * 13,195, 158 });
-	light_attack.PushBack({ 195 * 3,158 * 13,195, 158 }, ACTIVE);
-	light_attack.PushBack({ 195 * 4,158 * 13,195, 158 });
-	light_attack.PushBack({ 195 * 5,158 * 13,195, 158 });
+	light_attack.PushBack({ 0,158 * 3,195, 158 });
+	light_attack.PushBack({ 195,158 * 3,195, 158 });
+	light_attack.PushBack({ 195 * 2,158 * 3,195, 158 });
+	light_attack.PushBack({ 195 * 3,158 * 3,195, 158 });
+	light_attack.PushBack({ 195 * 4,158 * 3,195, 158 });
+	light_attack.PushBack({ 195 * 5,158 * 3,195, 158 }, ACTIVE);
 
 	light_attack.loop = false;
 	light_attack.speed = character.st_l.animation_speed;
 
-	heavy_attack.PushBack({ 0,158 * 12,195, 158 });
-	heavy_attack.PushBack({ 195,158 * 12,195, 158 });
-	heavy_attack.PushBack({ 195 * 2,158 * 12,195, 158 });
-	heavy_attack.PushBack({ 195 * 3,158 * 12,195, 158 });
-	heavy_attack.PushBack({ 195 * 4,158 * 12,195, 158 });
-	heavy_attack.PushBack({ 195 * 5,158 * 12,195, 158 });
-	heavy_attack.PushBack({ 195 * 6,158 * 12,195, 158 });
-	heavy_attack.PushBack({ 195 * 7,158 * 12,195, 158 }, ACTIVE);
-	heavy_attack.PushBack({ 195 * 8,158 * 12,195, 158 });
-	heavy_attack.PushBack({ 195 * 9,158 * 12,195, 158 });
+	heavy_attack.PushBack({ 0,158 * 4,195, 158 });
+	heavy_attack.PushBack({ 195,158 * 4,195, 158 });
+	heavy_attack.PushBack({ 195 * 2,158 * 4,195, 158 });
+	heavy_attack.PushBack({ 195 * 3,158 * 4,195, 158 });
+	heavy_attack.PushBack({ 195 * 4,158 * 4,195, 158 }, ACTIVE);
+
 
 	heavy_attack.loop = false;
 	heavy_attack.speed = character.st_h.animation_speed;
 
-	crouch.PushBack({ 195 * 2	,158 * 19,195,158 });
+	crouch.PushBack({ 195 	,158 * 5,195,158 });
 
 	crouch.loop = false;
 	crouch.speed = 0.2;
 
-	crouching_light.PushBack({ 0,158 * 20,195,158 });
-	crouching_light.PushBack({ 195,158 * 20,195,158 });
-	crouching_light.PushBack({ 195 * 2,158 * 20,195,158 });
-	crouching_light.PushBack({ 195 * 3,158 * 20,195,158 });
-	crouching_light.PushBack({ 195 * 4,158 * 20,195,158 }, ACTIVE);
-	crouching_light.PushBack({ 195 * 5,158 * 20,195,158 });
-	crouching_light.PushBack({ 195 * 6,158 * 20,195,158 });
+	crouching_light.PushBack({ 0,158 * 16,195,158 });
+	crouching_light.PushBack({ 195,158 * 16,195,158 });
+	crouching_light.PushBack({ 195 * 2,158 * 16,195,158 }, ACTIVE);
 
 	crouching_light.loop = false;
 	crouching_light.speed = character.cr_l.animation_speed;
 
-	crouching_heavy.PushBack({ 0,158 * 8,195,158 });
-	crouching_heavy.PushBack({ 195,158 * 8,195,158 });
-	crouching_heavy.PushBack({ 195 * 2,158 * 8,195,158 });
-	crouching_heavy.PushBack({ 195 * 3,158 * 8,195,158 });
-	crouching_heavy.PushBack({ 195 * 4,158 * 8,195,158 }, ACTIVE);
-	crouching_heavy.PushBack({ 195 * 5,158 * 8,195,158 });
-	crouching_heavy.PushBack({ 195 * 6,158 * 8 ,195,158 });
+	crouching_heavy.PushBack({ 0,158 * 9,195,158 });
+	crouching_heavy.PushBack({ 195,158 * 9,195,158 });
+	crouching_heavy.PushBack({ 195 * 2,158 * 9,195,158 });
+	crouching_heavy.PushBack({ 195 * 3,158 * 9,195,158 }, ACTIVE);
+
 
 	crouching_heavy.loop = false;
 	crouching_heavy.speed = character.cr_h.animation_speed;
@@ -110,35 +103,39 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	jump.PushBack({ 195 * 6, 158 * 2, 195, 158 });
 	jump.PushBack({ 195 * 7, 158 * 2, 195, 158 });
 	jump.PushBack({ 195 * 8, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 9, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 10, 158 * 2, 195, 158 });
+	jump.PushBack({ 195 * 11, 158 * 2, 195, 158 });
 
 	jump.loop = false;
 	jump.speed = 0.2;
 
-	jumping_light.PushBack({ 0      ,158 * 15,195,158 });
-	jumping_light.PushBack({ 195    ,158 * 15,195,158 });
-	jumping_light.PushBack({ 195 * 2,158 * 15,195,158 }, ACTIVE);
+	jumping_light.PushBack({ 0      ,158 * 8,195,158 });
+	jumping_light.PushBack({ 195    ,158 * 8,195,158 });
+	jumping_light.PushBack({ 195 * 2,158 * 8,195,158 }, ACTIVE);
 
 	jumping_light.loop = false;
 	jumping_light.speed = character.jm_l.animation_speed;
 
-	jumping_heavy.PushBack({ 0      ,158 * 16,195,158 });
-	jumping_heavy.PushBack({ 195    ,158 * 16,195,158 }, ACTIVE);
+	jumping_heavy.PushBack({ 0      ,158 * 7,195,158 });
+	jumping_heavy.PushBack({ 195    ,158 * 7,195,158 }, ACTIVE);
 
 	jumping_heavy.loop = false;
 	jumping_heavy.speed = character.jm_h.animation_speed;
 
-	standing_hit.PushBack({ 0, 158 * 14, 195, 158 });
-	standing_hit.PushBack({ 195, 158 * 14, 195, 158 });
+	standing_hit.PushBack({ 0, 158 * 17, 195, 158 }); 
+	standing_hit.PushBack({ 195, 158 * 17, 195, 158 });
+	standing_hit.PushBack({ 195 * 2, 158 * 17, 195, 158 });
 
-	standing_hit.loop = true;
+	standing_hit.loop = true; 
 	standing_hit.speed = 0.2;
 
-	standing_block.PushBack({ 0, 158 * 23, 195, 158 });
+	standing_block.PushBack({ 195 * 2, 158 * 3, 195, 158 });
 
 	standing_block.loop = false;
 	standing_block.speed = 0.2;
 
-	crouching_block.PushBack({ 195, 158 * 23, 195, 158 });
+	crouching_block.PushBack({ 0, 158 * 6, 195, 158 });
 
 	crouching_block.loop = false;
 	crouching_block.speed = 0.2;
@@ -162,44 +159,39 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 
 	crouching_special2.PushBack({ 195 * 3, 158 * 10, 195, 158 });
 
-	crouching_special1.PushBack({ 195 * 0, 158 * 10, 195, 158 });
-	crouching_special1.PushBack({ 195 * 1, 158 * 10, 195, 158 });
-	crouching_special1.PushBack({ 195 * 2, 158 * 10, 195, 158 }, ACTIVE);
-	
+	crouching_special1.PushBack({ 195 * 0, 158 * 15, 195, 158 });
+	crouching_special1.PushBack({ 195 * 1, 158 * 15, 195, 158 }, ACTIVE);
+
 	crouching_special1.loop = false;
 	crouching_special1.speed = character.cr_s1.animation_speed;
 
-	standing_special1.PushBack({ 0		, 158 * 5, 195, 158 });
-	standing_special1.PushBack({ 195    , 158 * 5, 195, 158 });
-	standing_special1.PushBack({ 195 * 2, 158 * 5, 195, 158 });
-	standing_special1.PushBack({ 195 * 3, 158 * 5, 195, 158 });
-	standing_special1.PushBack({ 195 * 4, 158 * 5, 195, 158 });
-	standing_special1.PushBack({ 195 * 5, 158 * 5, 195, 158 }, ACTIVE);
-	standing_special1.PushBack({ 195 * 6, 158 * 5, 195, 158 });
+
+	standing_special1.PushBack({ 0		, 158 * 10, 195, 158 });
+	standing_special1.PushBack({ 195    , 158 * 10, 195, 158 });
+	standing_special1.PushBack({ 195 * 2, 158 * 10, 195, 158 });
+	standing_special1.PushBack({ 195 * 3, 158 * 10, 195, 158 });
+	standing_special1.PushBack({ 195 * 4, 158 * 10, 195, 158 }, ACTIVE);
 
 	standing_special1.loop = false;
 	standing_special1.speed = character.st_s1.animation_speed;
 
-	standing_special2.PushBack({ 0, 1738, 195, 158 });
-	standing_special2.PushBack({ 195, 1738, 195, 158 });
-	standing_special2.PushBack({ 390, 1738, 195, 158 });
-	standing_special2.PushBack({ 585, 1738, 195, 158 }, ACTIVE);
-	standing_special2.PushBack({ 780, 1738, 195, 158 });
-	standing_special2.PushBack({ 975, 1738, 195, 158 });
-	standing_special2.PushBack({ 1170, 1738, 195, 158 });
+	standing_special2.PushBack({ 0		, 158 * 11, 195, 158 });
+	standing_special2.PushBack({ 195		, 158 * 11, 195, 158 });
+	standing_special2.PushBack({ 195 * 2		, 158 * 11, 195, 158 }, ACTIVE);
+	standing_special2.PushBack({ 195 * 3		, 158 * 11, 195, 158 });
+	standing_special2.PushBack({ 195 * 4		, 158 * 11, 195, 158 });
+	standing_special2.PushBack({ 195 * 5		, 158 * 11, 195, 158 });
 
 
 	standing_special2.loop = false;
 	standing_special2.speed = character.st_s2.animation_speed;
 
-	jumping_special2.PushBack({ 195 * 2, 158 * 10, 195, 158 }, ACTIVE);
+	jumping_special2.PushBack({0        , 158 * 12, 195, 158 }, ACTIVE);
+	jumping_special2.PushBack({195 , 158 * 12, 195, 158 }, ACTIVE);
 
 	jumping_special2.loop = false;
 	jumping_special2.speed = character.jm_s1.animation_speed;
 
-
-
-	type = CHAR_TYPE::PALADIN;
 
 	//PALADIN EXCLUSIVE BARS
 	// XML inicialization
