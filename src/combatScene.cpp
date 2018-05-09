@@ -424,6 +424,10 @@ void combatScene::resetSceneValues()	{
 	App->entities->paused = false;
 	App->entities->show = true;
 	rematching = false;
+	//Setting windows to nullptr
+	general_window = nullptr;
+	p1_window = nullptr;
+	p2_window = nullptr;
 
 }
 
