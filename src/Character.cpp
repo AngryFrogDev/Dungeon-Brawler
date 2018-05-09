@@ -14,6 +14,7 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	fliped = _fliped;
 	logic_position.x = x_pos;
 	skin_id = skin;
+	type = character.type;
 	// Basic attack definitions
 	st_l = character.st_l;
 	st_h = character.st_h;

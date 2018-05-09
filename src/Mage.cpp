@@ -223,7 +223,6 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Charac
 
 	super_anim.loop = false;
 	super_anim.speed = character.super.animation_speed;
-	type = CHAR_TYPE::MAGE;
 
 	//MAGE EXCLUSIVE VARS
 	//Load from xml

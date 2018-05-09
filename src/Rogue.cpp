@@ -189,7 +189,6 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	crouching_special2.loop = false;
 	crouching_special2.speed = character.cr_s2.animation_speed;
 
-	type = CHAR_TYPE::ROGUE;
 	skin_id = 0;
 
 }
