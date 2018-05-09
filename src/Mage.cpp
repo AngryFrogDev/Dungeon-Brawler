@@ -224,6 +224,23 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Charac
 	super_anim.loop = false;
 	super_anim.speed = character.super.animation_speed;
 
+	taunt.PushBack({ 195 * 0 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 1 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 2 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 3 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 4 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 5 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 6 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 7, 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 8 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 9 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 10 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 11 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 12, 158 * 17 ,195, 158 });
+
+	taunt.loop = false;
+	taunt.speed = 0.2;
+
 	//MAGE EXCLUSIVE VARS
 	//Load from xml
 	fireball_speed = character.fireball_speed;
@@ -291,9 +308,9 @@ Mage::~Mage() {
 
 void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 	int x_offset = 210;
-	int y_offset = 30;
+	int y_offset = 30; // PROVISIONAL, THIS SHOULD BE LOADED FROM THE XML
 
-	if (fireball_first_update) {
+	if (fireball_first_update) { 
 		if (!fliped) {
 			mage_charge = App->particle_system->createEmitter({ (float)logic_position.x + x_offset,(float)logic_position.y -y_offset }, "particles/mage-charge.xml");
 		}
