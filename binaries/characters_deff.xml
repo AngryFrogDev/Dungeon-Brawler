@@ -897,10 +897,10 @@
     </non_flip_attacks>
     <attack_data>
       <st_l
-        pos_rel_char_x ="110"
-        pos_rel_char_y ="35"
-        hitbox_w ="250"
-        hitbox_h ="20"
+        pos_rel_char_x ="90"
+        pos_rel_char_y ="15"
+        hitbox_w ="230"
+        hitbox_h ="40"
         active_time ="100"
         hitstun ="300"
         blockstun ="100"
@@ -913,12 +913,12 @@
         block_type ="mid"
         type ="st_l"
         recovery ="100"
-        animation_speed ="0.2"/>
+        animation_speed ="0.25"/>
       <st_h
-        pos_rel_char_x ="210"
-        pos_rel_char_y ="20"
+        pos_rel_char_x ="180"
+        pos_rel_char_y ="-50"
         hitbox_w ="150"
-        hitbox_h ="50"
+        hitbox_h ="150"
         active_time ="200"
         hitstun ="500"
         blockstun ="200"
@@ -934,8 +934,8 @@
         animation_speed ="0.2"/>
       <cr_l
         pos_rel_char_x ="110"
-        pos_rel_char_y ="50"
-        hitbox_w ="70"
+        pos_rel_char_y ="-100"
+        hitbox_w ="120"
         hitbox_h ="30"
         active_time ="70"
         hitstun ="250"
@@ -949,7 +949,7 @@
         block_type ="low"
         type ="cr_l"
         recovery ="50"
-        animation_speed ="0.25"/>
+        animation_speed ="0.2"/>
       <cr_h
         pos_rel_char_x ="190"
         pos_rel_char_y ="80"
@@ -970,9 +970,9 @@
         animation_speed ="0.18"/>
       <jm_l
         pos_rel_char_x ="150"
-        pos_rel_char_y ="70"
-        hitbox_w ="140"
-        hitbox_h ="20"
+        pos_rel_char_y ="-40"
+        hitbox_w ="200"
+        hitbox_h ="140"
         active_time ="-1"
         hitstun ="200"
         blockstun ="150"
@@ -985,12 +985,12 @@
         block_type ="overhead"
         type ="jm_l"
         recovery ="30"
-        animation_speed ="0.2"/>
+        animation_speed ="0.1"/>
       <jm_h
-        pos_rel_char_x ="42"
-        pos_rel_char_y ="80"
-        hitbox_w ="120"
-        hitbox_h ="100"
+        pos_rel_char_x ="90"
+        pos_rel_char_y ="30"
+        hitbox_w ="140"
+        hitbox_h ="140"
         active_time ="-1"
         hitstun ="500"
         blockstun ="450"
@@ -1025,7 +1025,7 @@
       <st_s2
         pos_rel_char_x ="80"
         pos_rel_char_y ="0"
-        hitbox_w ="200"
+        hitbox_w ="160"
         hitbox_h ="100"
         active_time ="-1"
         hitstun ="500"
@@ -1057,7 +1057,7 @@
         block_type ="mid"
         type ="cr_s1"
         recovery ="350"
-        animation_speed ="0.1"/>
+        animation_speed ="0.05"/>
       <cr_s2
         pos_rel_char_x ="110"
         pos_rel_char_y ="35"
@@ -1128,7 +1128,8 @@
         juggle_speed_y ="10"
         block_type ="mid"
         type ="super"
-        recovery ="0"/>
+        recovery ="0"
+        animation_speed ="0.2"/>
     </attack_data>
   </paladin >
 </config>
