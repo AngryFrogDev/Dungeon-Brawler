@@ -104,8 +104,6 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	jump.PushBack({ 195 * 7, 158 * 2, 195, 158 });
 	jump.PushBack({ 195 * 8, 158 * 2, 195, 158 });
 	jump.PushBack({ 195 * 9, 158 * 2, 195, 158 });
-	jump.PushBack({ 195 * 10, 158 * 2, 195, 158 });
-	jump.PushBack({ 195 * 11, 158 * 2, 195, 158 });
 
 	jump.loop = false;
 	jump.speed = 0.2;
@@ -227,6 +225,11 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 
 	parry_reaction.speed = character.cr_s2.animation_speed;
 
+	dead.PushBack({ 0  , 158 * 22, 195, 158 });
+
+	dead.loop = false;
+	dead.speed = 0.2;
+
 	//PALADIN EXCLUSIVE BARS
 	// XML inicialization
 	//parry_reaction = light_attack;
@@ -250,11 +253,14 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	air_hammer_duration = character.air_hammer_duration;
 
 	super_healing = 50;
+
+	endurance_object_plus = 50;
 	
 	// Runtime inicialization
 	parry_start = 0;
 	parry_reacting = false;
-
+	teleport_object = false;
+	air_hammer_thrown = false;
 
 	skin_id = 0; // Currently this has no more skins
 }
@@ -388,7 +394,26 @@ void Paladin::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		updateAnimation(standing_special1);
 		state_first_tick = true;
 	}
-	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+	if (grounded) {
+		instanciated_hitbox = false;
+		askRecovery(jm_s1.recovery);
+		return;
+	}
+	// Item code
+	if (teleport_object && air_hammer_thrown) {
+		collider* air_hammer_coll = getAttackHitbox(JM_S1);
+		if(air_hammer_coll != nullptr){
+			// Particles
+			logic_position.x = air_hammer_coll->rect.x;
+			logic_position.y = air_hammer_coll->rect.y;
+			// Particles
+			deleteAttackHitbox(JM_S1);
+			updateState(JUMPING);
+			just_teleported = true;
+		}
+	}
+	// Item code
+	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox && !just_teleported) {
 		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, jm_s1.hitbox.w, jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, air_hammer_duration, jm_s1, this);
 		hitboxes.push_back(projectile_collider);
 		iPoint speed = { 0,0 };
@@ -405,11 +430,7 @@ void Paladin::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		ParticleEmitter* light_ball = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 150 }, "particles/ligh-ball.xml");
 		App->projectiles->addProjectile(PALADIN_AIR_HAMMER, { calculateDrawPosition(0,jm_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,jm_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, light_ball, { 0,0 }, 30.0f);
 		instanciated_hitbox = true;
-	}
-
-	if (grounded) {
-		instanciated_hitbox = false;
-		askRecovery(jm_s1.recovery);
+		air_hammer_thrown = false;
 	}
 }
 
@@ -432,6 +453,11 @@ void Paladin::characterSpecificUpdates()
 {
 	if (healing_emitter)
 		healing_emitter->start_pos = { (float)logic_position.x -30,(float)logic_position.y -30 };
+
+	if (grounded) {
+		air_hammer_thrown = true;
+		just_teleported = false;
+	}
 }
 bool Paladin::standingSpecial1Condition() {
 	return App->projectiles->lookForProjectileType(PALADIN_HAMMER, (Character*)this) == 0;
@@ -442,5 +468,30 @@ bool Paladin::jumpingSpecial2Condition() {
 }
 
 bool Paladin::jumpingSpecial1Condition() {
-	return App->projectiles->lookForProjectileType(PALADIN_AIR_HAMMER, (Character*)this) == 0;
+	if (!teleport_object)
+		return App->projectiles->lookForProjectileType(PALADIN_AIR_HAMMER, (Character*)this) == 0;
+	else
+		return !just_teleported;
+}
+
+void Paladin::giveItem(ITEMS type) {
+	switch (type) {
+	case SPECIAL_ITEM_1:
+		teleport_object = true;
+		break;
+	case SPECIAL_ITEM_2:
+		max_life += endurance_object_plus;
+		current_life = max_life;
+		break;
+	}
+}
+
+void Paladin::takeAllItems() {
+	teleport_object = false;
+}
+
+void Paladin::specificCharacterReset() {
+	parry_start = 0;
+	parry_reacting = false;
+	air_hammer_thrown = false;
 }

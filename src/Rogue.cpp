@@ -463,6 +463,12 @@ void Rogue::updateAnimationOnBasicAttack(CHAR_ATT_TYPE type) {
 	}
 }
 
+void Rogue::specificCharacterReset() {
+	has_airdash = true;
+	current_dash_frames = 0;
+	current_roll_frames = 0;
+}
+
 Rogue::~Rogue()
 {
 }

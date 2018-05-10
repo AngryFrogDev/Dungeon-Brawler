@@ -179,6 +179,7 @@ public:
 	bool notAllowFlip();
 	CHAR_TYPE getType() const;
 	void resetCharacter();
+	virtual void specificCharacterReset() {return;}
 
 	// Item management
 	virtual void giveItem(ITEMS type) { return; }
@@ -193,6 +194,7 @@ protected:
 	void instanciateHitbox(basic_attack_deff type);
 	void deleteDeadHitboxes();
 	collider* getCurrentAttackHitbox(); // Returns nullptr if no hitbox was found
+	collider* getAttackHitbox(CHAR_ATT_TYPE type);
 	void deleteAttackHitbox(CHAR_ATT_TYPE type, collider* hitbox = nullptr);
 	void deleteAllMeleeHitboxes();
 
