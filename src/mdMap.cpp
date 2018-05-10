@@ -26,24 +26,67 @@ bool mdMap::awake(const pugi::xml_node& md_config) {
 
 	// Load map characteristics, (Provisional, should be done thorugh xml)
 	data.camera_x_limit = 4236;
-	
+	data.width = 512 * 6;
 	
 	return ret;
 }
 
 void mdMap::draw() {
 	if (map_loaded) {
-		//Blit background
-		App->render->drawSprite(1, data.background_image, 0, 0, (const SDL_Rect*)0, 4,false,0.3);
-
-		//Blit map
-		App->render->drawSprite(2, data.map_image, 0, 0, (const SDL_Rect*)0,4,false);
+		if (selected_map == 1) {
+			//Blit background
+			App->render->drawSprite(1, data.background_image, 0, 0, (const SDL_Rect*)0, 4, false, 0.3);
+			//Blit map
+			App->render->drawSprite(2, data.map_image, 0, 0, (const SDL_Rect*)0, 4, false);
+		}
+		else if (selected_map == 2) {
+			//Blit background
+			App->render->drawSprite(1, data.background_image, mapx, 0, (const SDL_Rect*)0, 6, false, 0.3);
+			App->render->drawSprite(1, data.background_image, mapx2, 0, (const SDL_Rect*)0, 6, false, 0.3);
+			//Blit map
+			App->render->drawSprite(2, data.map_image, 0, mapy, (const SDL_Rect*)0, 4, false);
+		}
 	}
 }
 
 bool mdMap::update(float dt) {
 	if (map_loaded)
+	{
+		// Provisional: this is soooooo hardcoded
+		if (firstfront) {
+			mapx -= 5;
+			mapx2 = mapx + data.width;
+
+			if (mapx2 <= 0) {
+				mapx = data.width;
+				firstfront = false;
+			}
+		}
+		else {
+			mapx2 -= 5;
+			mapx = mapx2 + data.width;
+
+			if (mapx <= 0) {
+				mapx2 = data.width;
+				firstfront = true;
+			}
+		}
+
+		if (mapy >= 405)
+			up = false;
+		if (mapy <= 395)
+			up = true;
+		iterator++;
+
+		if (iterator % 10 == 0) {
+			if (up)
+				mapy += 2;
+			else
+				mapy -= 2;
+		}
+
 		draw();
+	}
 
 	return true;
 }
@@ -71,17 +114,22 @@ bool mdMap::loadMap(int mapIndex) {
 	//	ret = false;
 	//}
 	//else {
+		selected_map = mapIndex;
+
 		if (mapIndex == 1) {		// Load map characteristics, (Provisional, should be done thorugh xml)
 			data.map_image = App->textures->load("assets/village.png");
 			data.background_image = App->textures->load("assets/village_background.png");
+			selected_map = 1;
 		}
 		else if (mapIndex == 2) {
-			data.map_image = App->textures->load("assets/village2.png");
-			data.background_image = App->textures->load("assets/village_background2.png");
+			data.map_image = App->textures->load("assets/water.png");
+			data.background_image = App->textures->load("assets/water_background.png");
+			selected_map = mapIndex;;
 		}
 		else if (mapIndex == 3) {
 			data.map_image = App->textures->load("assets/village3.png");
 			data.background_image = App->textures->load("assets/village_background3.png");
+			selected_map = mapIndex;
 		}
 	//}
 	
