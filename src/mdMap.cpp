@@ -5,6 +5,7 @@
 #include "mdMap.h"
 #include <math.h>
 #include "Brofiler/Brofiler.h"
+#include "mdAudio.h"
 
 mdMap::mdMap() : Module(), map_loaded(false) {
 	name = "map";
@@ -156,6 +157,7 @@ bool mdMap::loadMap(int mapIndex) {
 			data.background_image = App->textures->load("assets/train_background.png");
 			selected_map = mapIndex;
 			parallax_speed = 10;
+			App->audio->playMusic(App->audio->loadMusic("SFX/BGM_2.ogg"));
 		}
 	//}
 	
