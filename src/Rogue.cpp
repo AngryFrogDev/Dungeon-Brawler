@@ -241,13 +241,13 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 void Rogue::standingSpecial1(const bool(&inputs)[MAX_INPUTS])
 {
 	if (current_animation->GetState() == ACTIVE) {
-		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, st_s1, this);
+		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, knife_duration, st_s1, this);
 		hitboxes.push_back(projectile_collider);
 		iPoint speed;
 		if (!fliped)
-			speed.x = projectile_speed;
+			speed.x = knife_speed;
 		else
-			speed.x = -projectile_speed;
+			speed.x = -knife_speed;
 		speed.y = -30;
 
 		App->projectiles->addProjectile(ROGUE_DAGGER, { calculateDrawPosition(0, st_s1.hitbox.w, true), calculateDrawPosition(0, st_s1.hitbox.h, false) }, speed, projectile_collider, -1, fliped, scale, nullptr, { 0,0 },20.0f);
@@ -448,13 +448,23 @@ void Rogue::resetRecoveries()
 		*recoveries_array[i] = original_recoveries_array[i];
 }
 
+void Rogue::addDamage()
+{
+	st_l.damage += item_damage_boost;
+	st_h.damage += item_damage_boost;
+	cr_l.damage += item_damage_boost;
+	cr_h.damage += item_damage_boost;
+	jm_l.damage += item_damage_boost;
+	jm_h.damage += item_damage_boost;
+}
+
 void Rogue::giveItem(ITEMS type) {
 		switch (type) {
 		case SPECIAL_ITEM_1:
 			teleport_object = true;
 			break;
 		case SPECIAL_ITEM_2:
-			damage_object = true;
+			addDamage();
 			break;
 		}
 	
