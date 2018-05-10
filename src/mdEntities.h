@@ -41,6 +41,8 @@ struct character_deff {
 	int cancelability_window;
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2, super;
 	std::list<CHAR_ATT_TYPE> non_flip_attacks;
+	Mix_Chunk* sfxs[MAX_SOUNDS];
+
 
 	// Warrior variables
 	int spin_speed;
@@ -134,7 +136,6 @@ public:
 	std::list<keyboard_scheme>	 keyboard_schemes;
 	KEY_STATE attack_input; 
 	SDL_Texture* mage_graphics; // So mage can blit arcane symbol
-	Mix_Chunk** character_sounds;
 
 private:
 	//if it returns false something wrong happened

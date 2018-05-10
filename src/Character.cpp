@@ -72,20 +72,20 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	lateral_limit = 50;
 
 	// Sound effects
-	s_jump					= App->entities->character_sounds[type * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_JUMP];
-	s_light_sword_block		= App->entities->character_sounds[type * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_LIGHT_SWORD_BLOCK];
-	s_heavy_sword_block		= App->entities->character_sounds[type * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_HEAVY_SWORD_BLOCK];
-	s_light_sword_whiff		= App->entities->character_sounds[type * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_LIGHT_SWORD_WHIFF];
-	s_heavy_sword_whiff		= App->entities->character_sounds[type * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_HEAVY_SWORD_WHIFF];
-	s_light_sword_impact	= App->entities->character_sounds[type * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_LIGHT_SWORD_IMPACT];
-	s_heavy_sword_impact	= App->entities->character_sounds[type * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_HEAVY_SWORD_IMPACT];
-	s_standing_special_1	= App->entities->character_sounds[type * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_STANDING_SPECIAL_1];
-	s_standing_special_2	= App->entities->character_sounds[type * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_STANDING_SPECIAL_2];
-	s_jumping_special_1		= App->entities->character_sounds[type * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_JUMPING_SPECIAL_1];
-	s_crouching_special_1	= App->entities->character_sounds[type * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_CROUCHING_SPECIAL_1];
-	s_crouching_special_2	= App->entities->character_sounds[type * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_CROUCHING_SPECIAL_2];
-	s_death					= App->entities->character_sounds[type * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_DEATH];
-	s_super					= App->entities->character_sounds[type * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_SUPER];
+	s_jump					= character.sfxs[CHAR_SOUNDS::S_JUMP];
+	s_light_sword_block		= character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_BLOCK];
+	s_heavy_sword_block		= character.sfxs[CHAR_SOUNDS::S_HEAVY_SWORD_BLOCK];
+	s_light_sword_whiff		= character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_WHIFF];
+	s_heavy_sword_whiff		= character.sfxs[CHAR_SOUNDS::S_HEAVY_SWORD_WHIFF];
+	s_light_sword_impact	= character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_IMPACT];
+	s_heavy_sword_impact	= character.sfxs[CHAR_SOUNDS::S_HEAVY_SWORD_IMPACT];
+	s_standing_special_1	= character.sfxs[CHAR_SOUNDS::S_STANDING_SPECIAL_1];
+	s_standing_special_2	= character.sfxs[CHAR_SOUNDS::S_STANDING_SPECIAL_2];
+	s_jumping_special_1		= character.sfxs[CHAR_SOUNDS::S_JUMPING_SPECIAL_1];
+	s_crouching_special_1	= character.sfxs[CHAR_SOUNDS::S_CROUCHING_SPECIAL_1];
+	s_crouching_special_2	= character.sfxs[CHAR_SOUNDS::S_CROUCHING_SPECIAL_2];
+	s_death					= character.sfxs[CHAR_SOUNDS::S_DEATH];
+	s_super					= character.sfxs[CHAR_SOUNDS::S_SUPER];
 
 	current_animation = &idle;
 	current_state = IDLE;

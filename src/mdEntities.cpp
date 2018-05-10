@@ -55,28 +55,6 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	rogue_graphics = App->textures->load("Assets/rogue.png");
 	paladin_graphics = App->textures->load("Assets/paladin.png");
 
-	//Allocate space for character sounds
-	character_sounds = new Mix_Chunk*[CHAR_TYPE::CHAR_TOTAL * CHAR_SOUNDS::MAX_SOUNDS];
-	for (int i = 0; i < CHAR_TYPE::CHAR_TOTAL * CHAR_SOUNDS::MAX_SOUNDS; ++i)
-		character_sounds[i] = nullptr;
-
-	// PROVISIONAL: This should be loaded from XML
-	//Warrior
-	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_JUMP] = App->audio->loadSFX("SFX/jump.wav");
-	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_LIGHT_SWORD_BLOCK] = App->audio->loadSFX("SFX/light_sword_block.wav");
-	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_HEAVY_SWORD_BLOCK] = App->audio->loadSFX("SFX/heavy_sword_block.wav");
-	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_LIGHT_SWORD_WHIFF] = App->audio->loadSFX("SFX/light_sword_whiff.wav");
-	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_HEAVY_SWORD_WHIFF] = App->audio->loadSFX("SFX/heavy_sword_whiff.wav");
-	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_LIGHT_SWORD_IMPACT] = App->audio->loadSFX("SFX/light_sword_impact.wav");
-	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_HEAVY_SWORD_IMPACT] = App->audio->loadSFX("SFX/heavy_sword_impact.wav");
-	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_STANDING_SPECIAL_1] = App->audio->loadSFX("SFX/standing_special_1.wav");
-	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_STANDING_SPECIAL_2] = App->audio->loadSFX("SFX/standing_special_2.wav");
-	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_JUMPING_SPECIAL_1] = App->audio->loadSFX("SFX/jumping_special_1.wav");;
-	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_CROUCHING_SPECIAL_1] = App->audio->loadSFX("SFX/crouching_special_1.wav");;
-	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_CROUCHING_SPECIAL_2] = App->audio->loadSFX("SFX/crouching_special_2.wav");;
-	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_DEATH] = App->audio->loadSFX("SFX/man_death.wav");
-	character_sounds[CHAR_TYPE::WARRIOR * CHAR_SOUNDS::MAX_SOUNDS + CHAR_SOUNDS::S_SUPER] = App->audio->loadSFX("SFX/super.wav");
-
 	traning = false;
 	show = true;
 	paused = false;
@@ -359,15 +337,19 @@ CHAR_ATT_TYPE mdEntities::stringToCharAttType(std::string string) {
 		return NO_ATT;
 }
 void mdEntities::loadCharactersFromXML(const pugi::xml_node& md_config) {
+	warrior.type = CHAR_TYPE::WARRIOR;
 	fillFromXML(md_config.child("warrior"), warrior);
+	mage.type = CHAR_TYPE::MAGE;
 	fillFromXML(md_config.child("mage"), mage);
+	rogue.type = CHAR_TYPE::ROGUE;
 	fillFromXML(md_config.child("rogue"), rogue);
+	paladin.type = CHAR_TYPE::PALADIN;
 	fillFromXML(md_config.child("paladin"), paladin);
 }
 void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& character) {
 	std::string tmp;
 	tmp = md_config.attribute("type").as_string("");
-	character.type = stringToCharType(tmp);
+	//character.type = stringToCharType(tmp);
 	character.scale = md_config.attribute("scale").as_int(0);
 	character.gravity = md_config.attribute("gravity").as_float(0);
 	character.walk_speed = md_config.attribute("walk_speed").as_int(0);
@@ -386,65 +368,103 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 	character.cancelability_window = md_config.attribute("cancelability_window").as_int(0);
 	loadAttackListFromXML(md_config.child("non_flip_attacks"), character.non_flip_attacks);
 
-	// Warrior
-	character.spin_speed = md_config.attribute("spin_speed").as_int(0);
-	character.improved_spin_speed = md_config.attribute("improved_spin_speed").as_int(0);
-	character.improved_spin_recovery = md_config.attribute("improved_spin_recovery").as_int(0);
-	character.jm_s1_angle = md_config.attribute("jm_s1_angle").as_int(0);
-	character.jm_s1_speed.x = md_config.attribute("jm_s1_speed_x").as_int(0);
-	character.jm_s1_speed.y = md_config.attribute("jm_s1_speed_y").as_int(0);
-	character.jm_s2_angle = md_config.attribute("jm_s2_angle").as_int(0);
-	character.jm_s2_speed.x = md_config.attribute("jm_s2_speed_x").as_int(0);
-	character.jm_s2_speed.y = md_config.attribute("jm_s2_speed_y").as_int(0);
-	character.dive_kick_object_mult = md_config.attribute("dive_kick_object_mult").as_float(0.0);
-	character.dive_kick_max_height = md_config.attribute("dive_kick_max_height").as_int(0);
-	tmp = md_config.attribute("dive_kick_object").as_string("");
-	character.projectile_speed = md_config.attribute("projectile_speed").as_int(0);
-	character.projectile_duration = md_config.attribute("projectile_duration").as_int(0);
-	character.swordyuken_invencivility = md_config.attribute("swordyuken_invencivility").as_int(0);
-	character.swordyuken_jump_power = md_config.attribute("swordyuken_jump_power").as_int(0);
+	switch (character.type) {
+	case CHAR_TYPE::WARRIOR:
+		// Warrior
+		character.spin_speed = md_config.attribute("spin_speed").as_int(0);
+		character.improved_spin_speed = md_config.attribute("improved_spin_speed").as_int(0);
+		character.improved_spin_recovery = md_config.attribute("improved_spin_recovery").as_int(0);
+		character.jm_s1_angle = md_config.attribute("jm_s1_angle").as_int(0);
+		character.jm_s1_speed.x = md_config.attribute("jm_s1_speed_x").as_int(0);
+		character.jm_s1_speed.y = md_config.attribute("jm_s1_speed_y").as_int(0);
+		character.jm_s2_angle = md_config.attribute("jm_s2_angle").as_int(0);
+		character.jm_s2_speed.x = md_config.attribute("jm_s2_speed_x").as_int(0);
+		character.jm_s2_speed.y = md_config.attribute("jm_s2_speed_y").as_int(0);
+		character.dive_kick_object_mult = md_config.attribute("dive_kick_object_mult").as_float(0.0);
+		character.dive_kick_max_height = md_config.attribute("dive_kick_max_height").as_int(0);
+		tmp = md_config.attribute("dive_kick_object").as_string("");
+		character.projectile_speed = md_config.attribute("projectile_speed").as_int(0);
+		character.projectile_duration = md_config.attribute("projectile_duration").as_int(0);
+		character.swordyuken_invencivility = md_config.attribute("swordyuken_invencivility").as_int(0);
+		character.swordyuken_jump_power = md_config.attribute("swordyuken_jump_power").as_int(0);
+		break;
 
-	// Mage
-	character.fireball_speed = md_config.attribute("fireball_speed").as_int(0);
-	character.fireball_duration = md_config.attribute("fireball_duration").as_int(0);
-	character.fireball_emitter_offset.x = md_config.attribute("fireball_emitter_offset_x").as_int(0);
-	character.fireball_emitter_offset.y = md_config.attribute("fireball_emitter_offset_y").as_int(0);
-	character.air_fireball_angle = md_config.attribute("air_fireball_angle").as_int(0);
-	character.air_fireball_max_height = md_config.attribute("air_fireball_max_height").as_int(0);
-	character.air_fireball_backfire.x = md_config.attribute("air_fireball_backfire_x").as_int(0);
-	character.air_fireball_backfire.y = md_config.attribute("air_fireball_backfire_y").as_int(0);
-	character.air_fireball_speed.x = md_config.attribute("air_fireball_speed_x").as_int(0);
-	character.air_fireball_speed.y = md_config.attribute("air_fireball_speed_y").as_int(0);
-	character.double_jump_power.x = md_config.attribute("double_jump_power_x").as_int(0);
-	character.double_jump_power.y = md_config.attribute("double_jump_power_y").as_int(0);
-	character.meteorits = md_config.attribute("meteorits").as_int(0);
-	character.meteorits_life = md_config.attribute("meteorits_life").as_int(0);
-	character.first_meteorit_height = md_config.attribute("first_meteorit_height").as_int(0);
-	character.meteorits_offset.x = md_config.attribute("meteorits_offset_x").as_int(0);
-	character.meteorits_offset.y = md_config.attribute("meteorits_offset_y").as_int(0);
-	character.meteorits_speed.x = md_config.attribute("meteorits_speed_x").as_int(0);
-	character.meteorits_speed.y = md_config.attribute("meteorits_speed_y").as_int(0);
-	character.meteorits_rows = md_config.attribute("meteorits_rows").as_int(0);
-	character.meteorits_rows_offset = md_config.attribute("meteorits_rows_offset").as_int(0);
+	case CHAR_TYPE::MAGE:
+		// Mage
+		character.fireball_speed = md_config.attribute("fireball_speed").as_int(0);
+		character.fireball_duration = md_config.attribute("fireball_duration").as_int(0);
+		character.fireball_emitter_offset.x = md_config.attribute("fireball_emitter_offset_x").as_int(0);
+		character.fireball_emitter_offset.y = md_config.attribute("fireball_emitter_offset_y").as_int(0);
+		character.air_fireball_angle = md_config.attribute("air_fireball_angle").as_int(0);
+		character.air_fireball_max_height = md_config.attribute("air_fireball_max_height").as_int(0);
+		character.air_fireball_backfire.x = md_config.attribute("air_fireball_backfire_x").as_int(0);
+		character.air_fireball_backfire.y = md_config.attribute("air_fireball_backfire_y").as_int(0);
+		character.air_fireball_speed.x = md_config.attribute("air_fireball_speed_x").as_int(0);
+		character.air_fireball_speed.y = md_config.attribute("air_fireball_speed_y").as_int(0);
+		character.double_jump_power.x = md_config.attribute("double_jump_power_x").as_int(0);
+		character.double_jump_power.y = md_config.attribute("double_jump_power_y").as_int(0);
+		character.meteorits = md_config.attribute("meteorits").as_int(0);
+		character.meteorits_life = md_config.attribute("meteorits_life").as_int(0);
+		character.first_meteorit_height = md_config.attribute("first_meteorit_height").as_int(0);
+		character.meteorits_offset.x = md_config.attribute("meteorits_offset_x").as_int(0);
+		character.meteorits_offset.y = md_config.attribute("meteorits_offset_y").as_int(0);
+		character.meteorits_speed.x = md_config.attribute("meteorits_speed_x").as_int(0);
+		character.meteorits_speed.y = md_config.attribute("meteorits_speed_y").as_int(0);
+		character.meteorits_rows = md_config.attribute("meteorits_rows").as_int(0);
+		character.meteorits_rows_offset = md_config.attribute("meteorits_rows_offset").as_int(0);
+		break;
 
-	// Pladin
-	character.parry_reaction_invencivility = md_config.attribute("parry_reaction_invencivility").as_int(0);
-	character.parry_healing = md_config.attribute("parry_healing").as_int(0);
-	character.parry_duration = md_config.attribute("parry_duration").as_int(0);
-	character.miss_parry_recovery = md_config.attribute("miss_parry_recovery").as_int(0);
-	character.st_s2_speed = md_config.attribute("st_s2_speed").as_int(0);
-	character.st_s2_invencivility = md_config.attribute("st_s2_invencivility").as_int(0);
-	character.hammer_duration = md_config.attribute("hammer_duration").as_int(0);
-	character.hammer_speed.x = md_config.attribute("hammer_speed_x").as_int(0);
-	character.hammer_speed.y = md_config.attribute("hammer_speed_y").as_int(0);
-	character.slam_speed.x = md_config.attribute("slam_speed_x").as_int(0);
-	character.slam_speed.y = md_config.attribute("slam_speed_y").as_int(0);
-	character.slam_max_height = md_config.attribute("slam_max_height").as_int(0);
-	character.air_hammer_speed = md_config.attribute("air_hammer_speed").as_int(0);
-	character.air_hammer_duration = md_config.attribute("air_hammer_duration").as_int(0);
-	
+	case CHAR_TYPE::PALADIN:
+		// Paladin
+		character.parry_reaction_invencivility = md_config.attribute("parry_reaction_invencivility").as_int(0);
+		character.parry_healing = md_config.attribute("parry_healing").as_int(0);
+		character.parry_duration = md_config.attribute("parry_duration").as_int(0);
+		character.miss_parry_recovery = md_config.attribute("miss_parry_recovery").as_int(0);
+		character.st_s2_speed = md_config.attribute("st_s2_speed").as_int(0);
+		character.st_s2_invencivility = md_config.attribute("st_s2_invencivility").as_int(0);
+		character.hammer_duration = md_config.attribute("hammer_duration").as_int(0);
+		character.hammer_speed.x = md_config.attribute("hammer_speed_x").as_int(0);
+		character.hammer_speed.y = md_config.attribute("hammer_speed_y").as_int(0);
+		character.slam_speed.x = md_config.attribute("slam_speed_x").as_int(0);
+		character.slam_speed.y = md_config.attribute("slam_speed_y").as_int(0);
+		character.slam_max_height = md_config.attribute("slam_max_height").as_int(0);
+		character.air_hammer_speed = md_config.attribute("air_hammer_speed").as_int(0);
+		character.air_hammer_duration = md_config.attribute("air_hammer_duration").as_int(0);
+		break;
+	}
+
+	//Load sfxs
+	pugi::xml_node sound_data = md_config.child("sound_effects");
+	std::string filepath = "SFX/";
+	std::string filename = sound_data.child("jump").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_JUMP] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("light_sword_block").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_BLOCK] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("heavy_sword_block").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_HEAVY_SWORD_BLOCK] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("light_sword_whiff").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_WHIFF] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("heavy_sword_whiff").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_HEAVY_SWORD_WHIFF] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("standing_special_1").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_STANDING_SPECIAL_1] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("standing_special_2").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_STANDING_SPECIAL_2] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("jumping_special_1").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_JUMPING_SPECIAL_1] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("crouching_special_1").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_CROUCHING_SPECIAL_1] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("crouching_special_2").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_CROUCHING_SPECIAL_2] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("death").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_DEATH] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("super").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_SUPER] = App->audio->loadSFX((filepath + filename).c_str());
 
 
+
+
+	//Load attacks
 	pugi::xml_node attack_data = md_config.child("attack_data");
 	loadAttackDeffFromXML(attack_data.child("st_l"), character.st_l);
 	loadAttackDeffFromXML(attack_data.child("st_h"), character.st_h);
