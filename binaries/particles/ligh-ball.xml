@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config>
-  <draw_priority value="10"></draw_priority>
+  <draw_priority value="3"></draw_priority>
   <type value="0"></type>
   <frequency value="1000"></frequency>
   <max_emissions value="500"></max_emissions>
