@@ -32,8 +32,6 @@ struct character_deff {
 	int super_gauge_gain_hit;
 	int super_gauge_gain_block;
 	int super_gauge_gain_strike;
-	//int left_x_limit;
-	//int right_x_limit;
 	iPoint standing_hurtbox_size;
 	int crouching_hurtbox_offset;
 	int invencibility_on_wakeup;
@@ -41,6 +39,7 @@ struct character_deff {
 	int cancelability_window;
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2, super;
 	std::list<CHAR_ATT_TYPE> non_flip_attacks;
+	std::list<CHAR_ATT_TYPE> crouching_hurtbox_attacks;
 
 	// Warrior variables
 	int spin_speed;

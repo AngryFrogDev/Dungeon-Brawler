@@ -205,6 +205,8 @@ protected:
 	void emmitCurrentParticle();
 	void setCrouchingHurtbox(bool crouch);
 	
+	// Hurtbox size management
+	void hurtboxSizeManagement();
 	// Invencivility management
 	void makeInvencibleFor(int invencible_time); // Variable in milliseconds
 	void updateInvecibility();
@@ -251,7 +253,8 @@ protected:
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2, super;
 
 	std::list<CHAR_ATT_TYPE> non_flip_attacks;
-	std::list<CHAR_ATT_TYPE> juggle_attacks_recieved;
+	std::list<CHAR_ATT_TYPE> crouching_hurtbox_attacks;
+
 
 
 	iPoint jump_power;
@@ -305,6 +308,8 @@ protected:
 
 	bool death;
 
+	std::list<CHAR_ATT_TYPE> juggle_attacks_recieved;
+
 	//If the hitbox of the attack has been already instanciated, it should,'t be instanciated again
 	bool instanciated_hitbox; 
 	bool state_first_tick;
@@ -339,9 +344,6 @@ public:
 	//Swap variables
 	//int lane; // 1 = bottom  2 = top This is important
 	int skin_id; // 0 = normal, 1 = recolor 1, 2 = recolor 2...
-	bool readyToSwap = false;
-	bool swapRequested = false;
-	bool swapDone = false;
 
 protected:
 	// Sound effects
