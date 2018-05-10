@@ -51,8 +51,8 @@
 			</obj_sel>
 			<stage_sel>
 				<still x="0" y="0" w="0" h="0"/>
-				<focused x="113" y="373" w="141" h="76"/>
-				<clicked x="113" y="453" w="141" h="76"/>
+				<focused x="113" y="373" w="126" h="68"/>
+				<clicked x="113" y="453" w="126" h="68"/>
 			</stage_sel>
 		</button_section>
 		<bar_section>
