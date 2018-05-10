@@ -72,10 +72,10 @@ void stageSelScene::loadSceneUi()	{
 }
 
 void stageSelScene::loadSceneTextures()	{
-	App->render->drawSprite(2, stage_1, 300, 800, 0, 1, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(2, stage_2, 750, 800, 0, 1, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(2, stage_3, 1200, 800, 0, 1, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(2, current_stage, 550, 250, 0, 2, false, 0, 0, 0, 0, false);
+	App->render->drawSprite(2, stage_1, 300, 800, 0, 2, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(2, stage_2, 750, 800, 0, 2, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(2, stage_3, 1200, 800, 0, 2, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(2, current_stage, 550, 250, 0, 5, false, 0, 0, 0, 0, false);
 
 
 }
