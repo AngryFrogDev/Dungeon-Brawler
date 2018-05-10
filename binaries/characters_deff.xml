@@ -44,6 +44,22 @@
   swordyuken_invencivility ="300"
   swordyuken_jump_power ="20"
     >
+	<sound_effects>
+		<jump filename = "jump.wav"/>
+		<light_sword_block filename = "light_sword_block.wav"/>
+		<heavy_sword_block filename = "heavy_sword_block.wav"/>
+		<light_sword_whiff filename = "light_sword_whiff.wav"/>
+		<heavy_sword_whiff filename = "heavy_sword_whiff.wav"/>
+		<light_sword_impact filename = "light_sword_impact.wav"/>
+		<heavy_sword_impact filename = "heavy_sword_impact.wav"/>
+		<standing_special_1 filename = "standing_special_1.wav"/>
+		<standing_special_2 filename = "standing_special_2.wav"/>
+		<jumping_special_1 filename = "jumping_special_1.wav"/>
+		<crouching_special_1 filename = "crouching_special_1.wav"/>
+		<crouching_special_2 filename = "crouching_special_2.wav"/>
+		<death filename = "man_death.wav"/>
+		<super filename = "super.wav"/>
+	</sound_effects>
     <non_flip_attacks>
       <attack value="jm_s1"/>
       <attack value="jm_s2"/>
