@@ -46,6 +46,13 @@ void mdMap::draw() {
 			//Blit map
 			App->render->drawSprite(2, data.map_image, 0, mapy, (const SDL_Rect*)0, 4, false);
 		}
+		else if (selected_map == 3) {
+			//Blit background
+			App->render->drawSprite(1, data.background_image, mapx, 100, (const SDL_Rect*)0, 6, false, 0.3);
+			App->render->drawSprite(1, data.background_image, mapx2, 100, (const SDL_Rect*)0, 6, false, 0.3);
+			//Blit map
+			App->render->drawSprite(2, data.map_image, -400, 750, (const SDL_Rect*)0, 4, false);
+		}
 	}
 }
 
@@ -54,7 +61,7 @@ bool mdMap::update(float dt) {
 	{
 		// Provisional: this is soooooo hardcoded
 		if (firstfront) {
-			mapx -= 5;
+			mapx -= parallax_speed;
 			mapx2 = mapx + data.width;
 
 			if (mapx2 <= 0) {
@@ -63,7 +70,7 @@ bool mdMap::update(float dt) {
 			}
 		}
 		else {
-			mapx2 -= 5;
+			mapx2 -= parallax_speed;
 			mapx = mapx2 + data.width;
 
 			if (mapx <= 0) {
@@ -125,11 +132,13 @@ bool mdMap::loadMap(int mapIndex) {
 			data.map_image = App->textures->load("assets/water.png");
 			data.background_image = App->textures->load("assets/water_background.png");
 			selected_map = mapIndex;;
+			parallax_speed = 5;
 		}
 		else if (mapIndex == 3) {
-			data.map_image = App->textures->load("assets/village3.png");
-			data.background_image = App->textures->load("assets/village_background3.png");
+			data.map_image = App->textures->load("assets/train.png");
+			data.background_image = App->textures->load("assets/train_background.png");
 			selected_map = mapIndex;
+			parallax_speed = 10;
 		}
 	//}
 	
