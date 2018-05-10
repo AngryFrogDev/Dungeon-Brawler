@@ -153,5 +153,5 @@ void projectile::update() {
 }
 void projectile::draw(SDL_Texture* graphics) {
 	if(animation)
-		App->render->drawSprite(3, graphics, position.x, position.y, &animation->GetCurrentFrame(),scale, fliped,1.0f,angle); 
+		App->render->drawSprite(4, graphics, position.x, position.y, &animation->GetCurrentFrame(),scale, fliped,1.0f,angle); 
 }

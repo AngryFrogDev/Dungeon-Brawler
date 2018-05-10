@@ -235,6 +235,7 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 
 	skin_id = 0; // Currently this has no more skins
 
+	fillRecoveriesArray();
 }
 
 void Rogue::standingSpecial1(const bool(&inputs)[MAX_INPUTS])
@@ -379,7 +380,59 @@ void Rogue::characterSpecificUpdates()
 
 	if (logic_position.y >= ground_position)
 		has_airdash = true;
+
+	if (on_super) {
+		if (current_super_frames < max_super_frames) {
+			current_super_frames++;
+		}
+		else {
+			on_super = false;
+			resetRecoveries();
+			current_super_frames = 0;
+			current_super_gauge = 0;
+			super_emitter->active = false;
+			walk_speed = walk_speed / 2;
+			jump_power.x = jump_power.x / 2;
+		}
+	}
+
+	if (super_emitter)
+		super_emitter->start_pos = { logic_position.x -30,logic_position.y +20};
 }
+
+void Rogue::fillRecoveriesArray()
+{
+	//	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2, super;
+	recoveries_array[0] = &st_l.recovery;
+	recoveries_array[1] = &st_h.recovery;
+	recoveries_array[2] = &cr_l.recovery;
+	recoveries_array[3] = &cr_h.recovery;
+	recoveries_array[4] = &jm_l.recovery;
+	recoveries_array[5] = &jm_h.recovery;
+	recoveries_array[6] = &st_s1.recovery;
+	recoveries_array[7] = &st_s2.recovery;
+	recoveries_array[8] = &cr_s1.recovery;
+	recoveries_array[9] = &cr_s2.recovery;
+	recoveries_array[10] = &jm_s1.recovery;
+	recoveries_array[11] = &jm_s2.recovery;
+
+	for (int i = 0; i < 12; i++) {
+		original_recoveries_array[i] = *recoveries_array[i];
+	}
+}
+
+void Rogue::setAllRecoveriesTo(int value)
+{
+	for (int i = 0; i < 12; i++) 
+		*recoveries_array[i] = value;
+}
+
+void Rogue::resetRecoveries()
+{
+	for (int i = 0; i < 12; i++) 
+		*recoveries_array[i] = original_recoveries_array[i];
+}
+
 void Rogue::crouchingSpecial2() {
 	if (!state_first_tick) {
 		updateAnimation(crouching_special2);
@@ -441,12 +494,28 @@ void Rogue::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 
 }
 void Rogue::doSuper() {
-	current_super_gauge = 0;
-	updateState(IDLE);
+	if (!state_first_tick) {
+		on_super = true;
+		setAllRecoveriesTo(1);
+		updateAnimation(taunt);
+		if (current_super_frames == 0) {
+			super_emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/rogue-super.xml");
+			walk_speed *= 2;
+			jump_power.x *= 2;
+		}
+		state_first_tick = true;
+	}
+	if (current_animation->Finished()) {
+		updateState(IDLE);
+	}
 }
 
 bool Rogue::jumpingSpecial2Condition() {
 	return has_airdash;
+}
+
+bool Rogue::standingSpecial1Condition() {
+	return App->projectiles->lookForProjectileType(ROGUE_DAGGER, (Character*)this) == 0;
 }
 
 void Rogue::updateAnimationOnBasicAttack(CHAR_ATT_TYPE type) {
@@ -461,6 +530,12 @@ void Rogue::updateAnimationOnBasicAttack(CHAR_ATT_TYPE type) {
 		updateAnimation(heavy_attack);
 		break;
 	}
+}
+
+void Rogue::specificCharacterReset() {
+	has_airdash = true;
+	current_dash_frames = 0;
+	current_roll_frames = 0;
 }
 
 Rogue::~Rogue()

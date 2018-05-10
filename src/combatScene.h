@@ -19,7 +19,6 @@ private:
 	void loadSceneUi();
 
 	void updateSceneTimer();
-	void checkPlayers();
 	void loadSceneTextures();
 	void setRects();
 
@@ -33,10 +32,13 @@ private:
 	void closeGeneralWindow();
 	void resetSceneValues();
 	void checkTimers();
+	void manageRounds();
 
 public:
 	uint	current_time = 0;
 	uint	max_time = 0;
+	uint	rounds_left = 0;
+	uint	max_rounds = 0;
 
 private:
 	
@@ -47,6 +49,8 @@ private:
 	Bars* super_bar2 = nullptr;
 	Labels* timer = nullptr;
 
+	SDL_Rect still_round_indicator;
+	SDL_Rect won_round_indicator;
 	SDL_Rect timer_rect;
 	SDL_Rect character1_rect;
 	SDL_Rect character2_rect;
@@ -102,13 +106,18 @@ private:
 
 	//Combat scene timer
 	Timer	scene_timer;
-	Timer	taunt_timer; //support timer for different situations
+	Timer	taunt_timer; 
+	Timer	round_timer;
 		
 	//Player info
 	CHAR_TYPE char1, char2;
 	ITEMS char1_item, char2_item;
 	int char1_hp = 0, char2_hp = 0;
+	uint p1_rounds_won = 0;
+	uint p2_rounds_won = 0;
+	bool extra_round = false;
 
+	bool next_round = false;
 	pugi::xml_node window_node;
 };
 #endif

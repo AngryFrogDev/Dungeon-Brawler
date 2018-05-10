@@ -20,14 +20,20 @@ public:
 	void doSuper();
 
 	void characterSpecificUpdates();
+	void specificCharacterReset();
 
-	//void giveItem(ITEMS type);
-	//void takeAllItems();
+	void giveItem(ITEMS type);
+	void takeAllItems();
 
 private:
 	Animation parry_reaction;
 	bool parry_reacting;
 	int parry_start;
+	bool air_hammer_thrown;
+	bool just_teleported;
+
+	bool teleport_object;
+
 	// To load from XML
 	int parry_reaction_invencivility;
 	int parry_healing;
@@ -48,6 +54,8 @@ private:
 	int air_hammer_duration;
 
 	int super_healing;
+
+	int endurance_object_plus;
 
 	ParticleEmitter* healing_emitter = nullptr;
 };

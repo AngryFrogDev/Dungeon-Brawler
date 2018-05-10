@@ -47,6 +47,7 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	invencibility_on_wakeup = character.invencibility_on_wakeup;
 	scale = character.scale;
 	non_flip_attacks = character.non_flip_attacks;
+	crouching_hurtbox_attacks = character.crouching_hurtbox_attacks;
 	normal_taunt_duration = 1500;
 	shadow_rect = { 452, 3719, 68, 14 };
 	shadow_offset = 105;
@@ -246,9 +247,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			updateAnimation(crouch);
 			state_first_tick = true;
 		}
-		if (!crouching_hurtbox) {
-			setCrouchingHurtbox(true);
-		}
 		// Input dependent actions
 		if (hit && inputs[LEFT] && !fliped || hit && inputs[RIGHT] && fliped) {
 			if (attack_recieving.block_type != BLOCK_TYPE::OVERHEAD)
@@ -258,12 +256,11 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		else if (hit)
 			updateState(HIT, NO_ATT);
-		if (!inputs[DOWN]) {
+
+		if (!inputs[DOWN]) 
 			updateState(IDLE, NO_ATT);
-			setCrouchingHurtbox(false);
-		}
+
 		else if (inputs[UP]) {
-			setCrouchingHurtbox(false);
 			velocity.y -= jump_power.y; // Put in the (one_tick thing)
 			grounded = false;
 			updateState(JUMPING);
@@ -272,14 +269,10 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			updateState(ATTACKING, CR_L);
 		else if (inputs[HEAVY_ATTACK])
 			updateState(ATTACKING, CR_H);
-		else if (inputs[SPECIAL_1]) {
+		else if (inputs[SPECIAL_1]) 
 			updateState(ATTACKING, CR_S1);
-			setCrouchingHurtbox(false);
-		}
-		else if (inputs[SPECIAL_2]) {
+		else if (inputs[SPECIAL_2])
 			updateState(ATTACKING, CR_S2);
-			setCrouchingHurtbox(false);
-		}
 		break;
 
 	case JUMPING:
@@ -389,10 +382,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			current_life -= attack_recieving.damage;
 			current_super_gauge += super_gauge_gain_hit;
 		}
-		else if (SDL_GetTicks() - moment_hit > attack_recieving.hitstun) {
+		else if (SDL_GetTicks() - moment_hit > attack_recieving.hitstun)
 			updateState(IDLE);
-			setCrouchingHurtbox(false);
-		}
+
 		
 		// Continuous
 		if (!fliped)
@@ -457,7 +449,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		if (!state_first_tick) {
 			updateAnimation(idle);
 			state_first_tick = true;
-			setCrouchingHurtbox(false);
 		}
 		if (hit) 
 			updateState(HIT);
@@ -524,7 +515,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		applyGravity();
 		setIfGrounded();
 	}
-
+	hurtboxSizeManagement();
 	characterSpecificUpdates();
 	// Delete out of life colliders
 	deleteDeadHitboxes();
@@ -873,12 +864,17 @@ void Character::resetCharacter()	{
 	logic_position.y = ground_position;
 	hurtbox->type = HURTBOX;
 	hurtbox->active = true;
+	pushbox->active = true;
 	death = false;
 	hit = false;
 	state_first_tick = false;
 	current_super_gauge = 0;
 	velocity.x = velocity.y = 0;//This should be done from the scene manager
 	instanciated_hitbox = false;
+	crouching_hurtbox = false;
+
+	specificCharacterReset();
+
 
 }
 void Character::deleteDeadHitboxes() 	{
@@ -907,6 +903,15 @@ collider* Character::getCurrentAttackHitbox() 	{
 	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
 		collider* c = *it;
 		if (c->attack_type.type == attack_doing){
+			return c;
+		}
+	}
+	return nullptr;
+}
+collider* Character::getAttackHitbox(CHAR_ATT_TYPE type) {
+	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
+		collider* c = *it;
+		if (c->attack_type.type == type) {
 			return c;
 		}
 	}
@@ -970,7 +975,7 @@ void Character::askRecovery(int recovery) 	{
 
 void Character::setCrouchingHurtbox(bool crouch) {
 	if (crouch) {
-		hurtbox->rect.h /= 2;
+		hurtbox->rect.h = standing_hurtbox_size.y / 2;
 		crouching_hurtbox = true;
 	}
 	else {
@@ -1233,4 +1238,31 @@ void Character::tauntFor(int _taunt_duration) {
 	taunt_start = SDL_GetTicks();
 	taunt_duration = _taunt_duration;
 	updateState(TAUNT);
+}
+
+void Character::hurtboxSizeManagement() {
+	switch (current_state) {
+		case CROUCHING:
+		case CROUCH_BLOCKING:
+			setCrouchingHurtbox(true);
+			break;
+		case ATTACKING:
+		{
+			bool hurtbox_set = false;
+			for (auto it = crouching_hurtbox_attacks.begin(); it != crouching_hurtbox_attacks.end(); it++){
+				if (*it == attack_doing){
+					setCrouchingHurtbox(true);
+					hurtbox_set = true;
+					break;
+				}
+			}
+			if(!hurtbox_set)
+				setCrouchingHurtbox(false);
+		}
+			 break;
+
+		default:
+			setCrouchingHurtbox(false);
+
+	}
 }
