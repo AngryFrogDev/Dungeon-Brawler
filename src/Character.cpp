@@ -873,12 +873,17 @@ void Character::resetCharacter()	{
 	logic_position.y = ground_position;
 	hurtbox->type = HURTBOX;
 	hurtbox->active = true;
+	pushbox->active = true;
 	death = false;
 	hit = false;
 	state_first_tick = false;
 	current_super_gauge = 0;
 	velocity.x = velocity.y = 0;//This should be done from the scene manager
 	instanciated_hitbox = false;
+	crouching_hurtbox = false;
+
+	specificCharacterReset();
+
 
 }
 void Character::deleteDeadHitboxes() 	{

@@ -622,5 +622,13 @@ ITEMS Mage::getItem() {
 		return SPECIAL_ITEM_2;
 
 	return NO_ITEM;
+}
 
+void Mage::specificCharacterReset() {
+	double_jump = false;
+	mine_placed = false;
+	meteorits_spawned = false;
+	mine_position = { 0,0 };
+	fireball_level = 0;
+	fireball_max_charge = false;
 }

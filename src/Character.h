@@ -179,6 +179,7 @@ public:
 	bool notAllowFlip();
 	CHAR_TYPE getType() const;
 	void resetCharacter();
+	virtual void specificCharacterReset() {return;}
 
 	// Item management
 	virtual void giveItem(ITEMS type) { return; }
