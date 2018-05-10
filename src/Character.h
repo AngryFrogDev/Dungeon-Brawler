@@ -193,6 +193,7 @@ protected:
 	void instanciateHitbox(basic_attack_deff type);
 	void deleteDeadHitboxes();
 	collider* getCurrentAttackHitbox(); // Returns nullptr if no hitbox was found
+	collider* getAttackHitbox(CHAR_ATT_TYPE type);
 	void deleteAttackHitbox(CHAR_ATT_TYPE type, collider* hitbox = nullptr);
 	void deleteAllMeleeHitboxes();
 

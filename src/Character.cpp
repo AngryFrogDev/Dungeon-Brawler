@@ -912,6 +912,15 @@ collider* Character::getCurrentAttackHitbox() 	{
 	}
 	return nullptr;
 }
+collider* Character::getAttackHitbox(CHAR_ATT_TYPE type) {
+	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
+		collider* c = *it;
+		if (c->attack_type.type == type) {
+			return c;
+		}
+	}
+	return nullptr;
+}
 void Character::deleteAttackHitbox(CHAR_ATT_TYPE type, collider* hitbox) 	{
 	// Compute what hitboxes need to be deleted
 
