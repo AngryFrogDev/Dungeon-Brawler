@@ -12,7 +12,7 @@
   max_life ="250"
    
   max_super_gauge ="100"
-  super_gauge_gain_hit ="30"
+  super_gauge_gain_hit ="15"
   super_gauge_gain_block ="10"
   super_gauge_gain_strike ="10"
    
@@ -300,8 +300,8 @@
    
     max_life ="250"
    
-    max_super_gauge ="100"
-    super_gauge_gain_hit ="30"
+    max_super_gauge ="150"
+    super_gauge_gain_hit ="15"
     super_gauge_gain_block ="10"
     super_gauge_gain_strike ="10"
 
@@ -596,8 +596,8 @@
    
     max_life ="250"
    
-    max_super_gauge ="100"
-    super_gauge_gain_hit ="30"
+    max_super_gauge ="120"
+    super_gauge_gain_hit ="15"
     super_gauge_gain_block ="10"
     super_gauge_gain_strike ="10"
 
@@ -867,8 +867,8 @@
    
   max_life ="250"
    
-  max_super_gauge ="100"
-  super_gauge_gain_hit ="30"
+  max_super_gauge ="200"
+  super_gauge_gain_hit ="15"
   super_gauge_gain_block ="10"
   super_gauge_gain_strike ="10"
 
