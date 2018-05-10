@@ -404,9 +404,11 @@ void Paladin::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		collider* air_hammer_coll = getAttackHitbox(JM_S1);
 		if(air_hammer_coll != nullptr){
 			// Particles
+			App->particle_system->createEmitter({ (float)logic_position.x - 30 ,(float)logic_position.y - 100 }, "particles/teleportation.xml");
 			logic_position.x = air_hammer_coll->rect.x;
 			logic_position.y = air_hammer_coll->rect.y;
 			// Particles
+			App->particle_system->createEmitter({ (float)logic_position.x - 30 ,(float)logic_position.y - 100 }, "particles/teleportation.xml");
 			deleteAttackHitbox(JM_S1);
 			updateState(JUMPING);
 			just_teleported = true;
@@ -428,7 +430,7 @@ void Paladin::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		offset.y = jm_s1.pos_rel_char.y;
 		ParticleEmitter* light_ball = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 150 }, "particles/ligh-ball.xml");
-		App->projectiles->addProjectile(PALADIN_AIR_HAMMER, { calculateDrawPosition(0,jm_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,jm_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, light_ball, { 0,0 }, 30.0f);
+		App->projectiles->addProjectile(PALADIN_AIR_HAMMER, { calculateDrawPosition(0,jm_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,jm_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, light_ball, { 0,0 }, 0.0f);
 		instanciated_hitbox = true;
 		air_hammer_thrown = false;
 	}

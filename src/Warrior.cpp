@@ -409,7 +409,6 @@ void Warrior::crouchingSpecial2()	{ // Should have recovery
 		state_first_tick = true;
 	}
 	if (velocity.y >= 0) { 
-		setCrouchingHurtbox(false);
 		instanciated_hitbox = false;
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr) {
