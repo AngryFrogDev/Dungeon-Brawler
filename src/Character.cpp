@@ -1259,7 +1259,7 @@ void Character::hurtboxSizeManagement() {
 			if(!hurtbox_set)
 				setCrouchingHurtbox(false);
 		}
-			break;
+			 break;
 
 		default:
 			setCrouchingHurtbox(false);
