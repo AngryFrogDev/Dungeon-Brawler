@@ -453,7 +453,7 @@ void combatScene::resetSceneValues()	{
 	//Resetting camera
 	App->render->camera.x = (App->render->resolution.first - App->render->camera.w) / 2;
 	//Timer
-	max_time = 99;
+	max_time = 5;
 	current_time = max_time;
 	taunt_timer.stop();
 	round_timer.stop();
@@ -470,10 +470,11 @@ void combatScene::resetSceneValues()	{
 	//Rounds (only if not going to next round)
 	if (!next_round)
 	{
-		max_rounds = 2;
+		max_rounds = 3;
 		rounds_left = max_rounds;
 		p1_rounds_won = 0;
 		p2_rounds_won = 0;
+		extra_round = false;
 	}
 	
 }
@@ -484,9 +485,9 @@ void combatScene::checkTimers()	{
 
 	if (taunt_timer.readSec() >= 1.5 && !general_window)
 	{
-		if (char1_hp >= 0 && char2_hp <= 0)
+		if (char1_hp >= 0 && char2_hp <= 0 || char1_hp > char2_hp)
 			App->entities->players[0]->getCurrCharacter()->tauntFor(2);
-		else if (char2_hp >= 0 && char1_hp <= 0)
+		else if (char2_hp >= 0 && char1_hp <= 0 || char2_hp > char1_hp)
 			App->entities->players[1]->getCurrCharacter()->tauntFor(2);
 		else
 			App->entities->players[0]->getCurrCharacter()->tauntFor(2), App->entities->players[1]->getCurrCharacter()->tauntFor(2);
@@ -515,7 +516,12 @@ void combatScene::manageRounds()	{
 			else if (char2_hp > 0 && char1_hp <= 0)//Player 1 dies
 				p2_rounds_won++, rounds_left--;
 			
-			if (rounds_left != 0)
+			if (p1_rounds_won == 1 && p2_rounds_won == 1)
+				extra_round = true;
+			else
+				extra_round = false;
+			
+			if (rounds_left > 1 || extra_round)
 				rematching = true, round_timer.start(), App->entities->paused = true;
 		}
 	}
@@ -523,14 +529,20 @@ void combatScene::manageRounds()	{
 	else
 	{
 		if (char1_hp > char2_hp) // Player 1 wins
-			p1_rounds_won++;
+			p1_rounds_won++, rounds_left--;
 		else if (char2_hp > char1_hp) // Player2 wins
-		{ }
-		else //Draw
-		{ }
+			p2_rounds_won++, rounds_left--;
+
+		if (p1_rounds_won == 1 && p2_rounds_won == 1)
+			extra_round = true;
+		else
+			extra_round = false;
+
+		if (rounds_left > 1 || extra_round)
+			rematching = true, round_timer.start(), App->entities->paused = true;
 	}
 
-	if (rounds_left == 0)
+	if (rounds_left >= 0 && rounds_left <= 1 && !extra_round)
 		taunt_timer.start(), next_round = false;
 	
 }
