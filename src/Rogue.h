@@ -24,6 +24,10 @@ public:
 	void updateAnimationOnBasicAttack(CHAR_ATT_TYPE type); // Just to use for rekka
 	void characterSpecificUpdates();
 
+	void fillRecoveriesArray();
+	void setAllRecoveriesTo(int value);
+	void resetRecoveries();
+
 	~Rogue();
 
 
@@ -48,7 +52,13 @@ private:
 
 	float slide_speed = 9;
 
+	bool on_super = false;
+	ParticleEmitter* super_emitter = nullptr;
 	ParticleEmitter* airdash_emitter = nullptr;
+	int original_recoveries_array[12];
+	int* recoveries_array[12];
+	int max_super_frames = 800;
+	int current_super_frames = 0;
 
 	// I would leave it hardcoded for now
 	std::list<CHAR_ATT_TYPE> rekka_attack_list;
