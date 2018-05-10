@@ -25,7 +25,7 @@ bool mdMap::awake(const pugi::xml_node& md_config) {
 	////map_loaded = true;
 
 	// Load map characteristics, (Provisional, should be done thorugh xml)
-	data.camera_x_limit = 4236;
+	data.camera_x_limit = 3500;
 	data.width = 512 * 6;
 	
 	return ret;
@@ -35,9 +35,10 @@ void mdMap::draw() {
 	if (map_loaded) {
 		if (selected_map == 1) {
 			//Blit background
-			App->render->drawSprite(1, data.background_image, 0, 0, (const SDL_Rect*)0, 4, false, 0.3);
+			App->render->drawSprite(1, data.background_image, mapx, 0, (const SDL_Rect*)0, 6, false, 0.3);
+			App->render->drawSprite(1, data.background_image, mapx2, 0, (const SDL_Rect*)0, 6, false, 0.3);
 			//Blit map
-			App->render->drawSprite(2, data.map_image, 0, 0, (const SDL_Rect*)0, 4, false);
+			App->render->drawSprite(2, data.map_image, 0, mapy2, (const SDL_Rect*)0, 5, false);
 		}
 		else if (selected_map == 2) {
 			//Blit background
@@ -92,6 +93,19 @@ bool mdMap::update(float dt) {
 				mapy -= 2;
 		}
 
+		if (mapy2 >= 205)
+			up = false;
+		if (mapy2 <= 195)
+			up = true;
+		iterator++;
+
+		if (iterator % 10 == 0) {
+			if (up)
+				mapy2 += 2;
+			else
+				mapy2 -= 2;
+		}
+
 		draw();
 	}
 
@@ -124,8 +138,9 @@ bool mdMap::loadMap(int mapIndex) {
 		selected_map = mapIndex;
 
 		if (mapIndex == 1) {		// Load map characteristics, (Provisional, should be done thorugh xml)
-			data.map_image = App->textures->load("assets/village.png");
-			data.background_image = App->textures->load("assets/village_background.png");
+			data.map_image = App->textures->load("assets/ship.png");
+			data.background_image = App->textures->load("assets/ship_background.png");
+			parallax_speed = 5;
 			selected_map = 1;
 		}
 		else if (mapIndex == 2) {
