@@ -30,12 +30,18 @@ public:
 	void setAllRecoveriesTo(int value);
 	void resetRecoveries();
 
+	void giveItem(ITEMS type);
+
+
 	~Rogue();
 
 
 private:
 	int projectile_speed = 7;
 	int projectile_duration = 1400;
+
+	bool teleport_object;
+	bool damage_object;
 
 	//Shit for airdash
 	int dash_speed = 20;
@@ -68,5 +74,7 @@ private:
 	std::list<CHAR_ATT_TYPE>::iterator rekka_iterator;
 	int rekka_advance_speed;
 	int rekka_cancelability_window;
+
+	int item_teleport_distance = 300;
 };
 

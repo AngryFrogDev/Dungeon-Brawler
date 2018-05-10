@@ -259,39 +259,54 @@ void Rogue::crouchingSpecial1()
 {
 	int emitter_x_offset = 70; // because she moves fast, we'll create the emitter forward //PROVISIONAL load in xml
 
-	if (current_roll_frames == 0) {
+	if (teleport_object) {
 		pushbox->active = false;
-		makeInvencibleFor(600);
+		App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
 		if (!fliped)
-			App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
+			logic_position.x += item_teleport_distance;
 		else
-			App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
-	}
+			logic_position.x -= item_teleport_distance;
 
-	if (current_roll_frames == (4*(max_roll_frames / 5))) {
-		if (!fliped)
-			App->particle_system->createEmitter({ (float)logic_position.x + emitter_x_offset,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
-		else
-			App->particle_system->createEmitter({ (float)logic_position.x - emitter_x_offset,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
-	}
-
-	if (current_roll_frames < max_roll_frames) {
-		current_roll_frames++;
-
-		fPoint speed = { 0,0 };
-
-		if (fliped)
-			speed.x = -roll_speed;
-		else
-			speed.x = roll_speed;
-
-		logic_position.x += speed.x;
+		// Particles
+		App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
+		pushbox->active = true;
+		askRecovery(cr_s1.recovery);
 	}
 	else {
-		//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/smoke-bomb.xml");
-		askRecovery(cr_s1.recovery);
-		current_roll_frames = 0;
-		pushbox->active = true;
+		if (current_roll_frames == 0) {
+			pushbox->active = false;
+			makeInvencibleFor(600);
+			if (!fliped)
+				App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
+			else
+				App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
+		}
+
+		if (current_roll_frames == (4 * (max_roll_frames / 5))) {
+			if (!fliped)
+				App->particle_system->createEmitter({ (float)logic_position.x + emitter_x_offset,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
+			else
+				App->particle_system->createEmitter({ (float)logic_position.x - emitter_x_offset,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
+		}
+
+		if (current_roll_frames < max_roll_frames) {
+			current_roll_frames++;
+
+			fPoint speed = { 0,0 };
+
+			if (fliped)
+				speed.x = -roll_speed;
+			else
+				speed.x = roll_speed;
+
+			logic_position.x += speed.x;
+		}
+		else {
+			//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/smoke-bomb.xml");
+			askRecovery(cr_s1.recovery);
+			current_roll_frames = 0;
+			pushbox->active = true;
+		}
 	}
 }
 
@@ -428,9 +443,21 @@ void Rogue::setAllRecoveriesTo(int value)
 }
 
 void Rogue::resetRecoveries()
-{
+{	
 	for (int i = 0; i < 12; i++) 
 		*recoveries_array[i] = original_recoveries_array[i];
+}
+
+void Rogue::giveItem(ITEMS type) {
+		switch (type) {
+		case SPECIAL_ITEM_1:
+			teleport_object = true;
+			break;
+		case SPECIAL_ITEM_2:
+			damage_object = true;
+			break;
+		}
+	
 }
 
 void Rogue::crouchingSpecial2() {
@@ -536,8 +563,12 @@ void Rogue::specificCharacterReset() {
 	has_airdash = true;
 	current_dash_frames = 0;
 	current_roll_frames = 0;
+	if (super_emitter)
+		super_emitter->active = false;
 }
 
 Rogue::~Rogue()
 {
+	if (super_emitter)
+		super_emitter->active = false;
 }
