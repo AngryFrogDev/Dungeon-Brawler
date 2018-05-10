@@ -42,41 +42,41 @@ private:
 
 	//XML
 	//Projectiles
-	int knife_speed = 7;
-	int knife_duration = 1400;
-	int crossbow_recoil = 10;
-	int crossbow_angle = 30;
-	iPoint crossbow_speed = { 30, 10 };
+	int knife_speed;
+	int knife_duration;
+	int crossbow_recoil;
+	int crossbow_angle;
+	iPoint crossbow_speed;
 	//ITEMS
-	int item_damage_boost = 3;
-	int item_teleport_distance = 400;
+	int item_damage_boost;
+	int item_teleport_distance;
 	//AIRDASH
-	int dash_speed = 20;
-	int max_dash_frames = 5;
+	int dash_speed;
+	int max_dash_frames;
 	//ROLL
-	int roll_speed = 9;
-	int max_roll_frames = 40;
+	int roll_speed;
+	int max_roll_frames;
 	//SLIDE
-	float slide_speed = 9;
+	float slide_speed;
 	//SUPER
-	int max_super_frames = 650;
+	int max_super_frames;
 
 
 	//RUNTIME
 	//ITEMS
 	bool teleport_object;
 	//Shit for airdash
-	bool has_airdash = true;
-	int current_dash_frames = 0;
+	bool has_airdash;
+	int current_dash_frames;
 	//Shit for roll
-	int current_roll_frames = 0;
+	int current_roll_frames;
 	//Super
 	bool on_super = false;
 	ParticleEmitter* super_emitter = nullptr;
 	ParticleEmitter* airdash_emitter = nullptr;
 	int original_recoveries_array[12];
 	int* recoveries_array[12];
-	int current_super_frames = 0;
+	int current_super_frames;
 
 	// I would leave it hardcoded for now
 	std::list<CHAR_ATT_TYPE> rekka_attack_list;

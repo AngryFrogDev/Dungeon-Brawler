@@ -625,7 +625,21 @@
     invencibility_on_wakeup ="30"
     super_window ="20"
     cancelability_window ="30"
-    
+          
+    knife_speed="7"
+    knife_duration = "1400"
+    crossbow_recoil = "10"
+    crossbow_angle = "30"
+    crossbow_speed_x= "30"
+    crossbow_speed_y= "10"
+    item_damage_boost="3"
+    item_teleport_distance ="400"
+    dash_speed="20"
+    max_dash_frames="5"
+    roll_speed ="9"
+    max_roll_frames ="40"
+    slide_speed ="9"
+    max_super_frames="650"
     >
     <non_flip_attacks>
       <attack value="jm_s1"/>
