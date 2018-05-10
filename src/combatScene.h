@@ -115,6 +115,7 @@ private:
 	int char1_hp = 0, char2_hp = 0;
 	uint p1_rounds_won = 0;
 	uint p2_rounds_won = 0;
+	bool extra_round = false;
 
 	bool next_round = false;
 	pugi::xml_node window_node;
