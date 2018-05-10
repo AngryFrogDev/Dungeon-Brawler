@@ -498,17 +498,24 @@ void Rogue::doSuper() {
 		on_super = true;
 		setAllRecoveriesTo(1);
 		updateAnimation(taunt);
-		updateState(IDLE);
 		if (current_super_frames == 0) {
 			super_emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/rogue-super.xml");
 			walk_speed *= 2;
 			jump_power.x *= 2;
 		}
+		state_first_tick = true;
+	}
+	if (current_animation->Finished()) {
+		updateState(IDLE);
 	}
 }
 
 bool Rogue::jumpingSpecial2Condition() {
 	return has_airdash;
+}
+
+bool Rogue::standingSpecial1Condition() {
+	return App->projectiles->lookForProjectileType(ROGUE_DAGGER, (Character*)this) == 0;
 }
 
 void Rogue::updateAnimationOnBasicAttack(CHAR_ATT_TYPE type) {

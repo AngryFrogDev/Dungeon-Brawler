@@ -19,6 +19,7 @@ public:
 	void jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]);
 	void doSuper();
 	bool jumpingSpecial2Condition();
+	bool standingSpecial1Condition();
 
 
 	void updateAnimationOnBasicAttack(CHAR_ATT_TYPE type); // Just to use for rekka
@@ -34,7 +35,7 @@ public:
 
 private:
 	int projectile_speed = 7;
-	int projectile_duration = 2000;
+	int projectile_duration = 1400;
 
 	//Shit for airdash
 	int dash_speed = 20;
@@ -58,7 +59,7 @@ private:
 	ParticleEmitter* airdash_emitter = nullptr;
 	int original_recoveries_array[12];
 	int* recoveries_array[12];
-	int max_super_frames = 800;
+	int max_super_frames = 650;
 	int current_super_frames = 0;
 
 	// I would leave it hardcoded for now
