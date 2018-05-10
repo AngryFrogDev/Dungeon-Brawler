@@ -23,6 +23,7 @@ public:
 
 	void updateAnimationOnBasicAttack(CHAR_ATT_TYPE type); // Just to use for rekka
 	void characterSpecificUpdates();
+	void specificCharacterReset();
 
 	void fillRecoveriesArray();
 	void setAllRecoveriesTo(int value);

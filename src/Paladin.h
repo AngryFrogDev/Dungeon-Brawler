@@ -20,6 +20,7 @@ public:
 	void doSuper();
 
 	void characterSpecificUpdates();
+	void specificCharacterReset();
 
 	void giveItem(ITEMS type);
 	void takeAllItems();

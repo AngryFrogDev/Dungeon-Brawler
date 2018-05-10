@@ -489,3 +489,9 @@ void Paladin::giveItem(ITEMS type) {
 void Paladin::takeAllItems() {
 	teleport_object = false;
 }
+
+void Paladin::specificCharacterReset() {
+	parry_start = 0;
+	parry_reacting = false;
+	air_hammer_thrown = false;
+}
