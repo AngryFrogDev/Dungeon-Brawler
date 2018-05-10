@@ -485,6 +485,10 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 	character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_BLOCK] = App->audio->loadSFX((filepath + filename).c_str());
 	filename = sound_data.child("heavy_sword_block").attribute("filename").as_string("silence.wav");
 	character.sfxs[CHAR_SOUNDS::S_HEAVY_SWORD_BLOCK] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("light_sword_impact").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_IMPACT] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("heavy_sword_impact").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_HEAVY_SWORD_IMPACT] = App->audio->loadSFX((filepath + filename).c_str());
 	filename = sound_data.child("light_sword_whiff").attribute("filename").as_string("silence.wav");
 	character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_WHIFF] = App->audio->loadSFX((filepath + filename).c_str());
 	filename = sound_data.child("heavy_sword_whiff").attribute("filename").as_string("silence.wav");
