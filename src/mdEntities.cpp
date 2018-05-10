@@ -53,7 +53,13 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	mage_graphics3 = App->textures->load("Assets/mage_3.png");
 	mage_graphics4 = App->textures->load("Assets/mage_4.png");
 	rogue_graphics = App->textures->load("Assets/rogue.png");
+	rogue_graphics2 = App->textures->load("Assets/rogue_2.png");
+	rogue_graphics3 = App->textures->load("Assets/rogue_3.png");
+	rogue_graphics4 = App->textures->load("Assets/rogue_4.png");
 	paladin_graphics = App->textures->load("Assets/paladin.png");
+	paladin_graphics2 = App->textures->load("Assets/paladin_2.png");
+	paladin_graphics3 = App->textures->load("Assets/paladin_3.png");
+	paladin_graphics4 = App->textures->load("Assets/paladin_4.png");
 
 	traning = false;
 	show = true;
@@ -83,6 +89,8 @@ bool mdEntities::preUpdate() {
 							players[i]->update(warrior_graphics); 
 							break;
 						case 1:
+						case 2:
+						case 3:
 							players[i]->update(warrior_graphics2);
 							break;
 					}
@@ -108,6 +116,15 @@ bool mdEntities::preUpdate() {
 					case 0:
 						players[i]->update(rogue_graphics);
 						break;
+					case 1:
+						players[i]->update(rogue_graphics2);
+						break;
+					case 2:
+						players[i]->update(rogue_graphics3);
+						break;
+					case 3:
+						players[i]->update(rogue_graphics4);
+						break;
 					}
 					break;
 				case PALADIN:
@@ -115,9 +132,17 @@ bool mdEntities::preUpdate() {
 					case 0:
 						players[i]->update(paladin_graphics);
 						break;
+					case 1:
+						players[i]->update(paladin_graphics2);
+						break;
+					case 2:
+						players[i]->update(paladin_graphics3);
+						break;
+					case 3:
+						players[i]->update(paladin_graphics4);
+						break;
 					}
 					break;
-
 			}
 
 		}

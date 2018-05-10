@@ -261,8 +261,6 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	parry_reacting = false;
 	teleport_object = false;
 	air_hammer_thrown = false;
-
-	skin_id = 0; // Currently this has no more skins
 }
 
 
