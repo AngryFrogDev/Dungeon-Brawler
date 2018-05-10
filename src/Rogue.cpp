@@ -233,8 +233,6 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	rekka_last_attack = ST_H;
 	rekka_cancelability_window = 15;
 
-	skin_id = 0; // Currently this has no more skins
-
 	fillRecoveriesArray();
 
 	// XML inicialization
