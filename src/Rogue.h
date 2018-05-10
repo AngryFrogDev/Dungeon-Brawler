@@ -30,6 +30,8 @@ public:
 	void setAllRecoveriesTo(int value);
 	void resetRecoveries();
 
+	void addDamage();
+
 	void giveItem(ITEMS type);
 
 
@@ -37,35 +39,43 @@ public:
 
 
 private:
-	int projectile_speed = 7;
-	int projectile_duration = 1400;
 
-	bool teleport_object;
-	bool damage_object;
-
-	//Shit for airdash
-	int dash_speed = 20;
-	bool has_airdash = true;
-	int max_dash_frames = 5;
-	int current_dash_frames = 0;
-
-	//Shit for roll
-	int roll_speed = 9;
-	int max_roll_frames = 40;
-	int current_roll_frames = 0;
-
+	//XML
+	//Projectiles
+	int knife_speed = 7;
+	int knife_duration = 1400;
 	int crossbow_recoil = 10;
 	int crossbow_angle = 30;
 	iPoint crossbow_speed = { 30, 10 };
-
+	//ITEMS
+	int item_damage_boost = 3;
+	int item_teleport_distance = 400;
+	//AIRDASH
+	int dash_speed = 20;
+	int max_dash_frames = 5;
+	//ROLL
+	int roll_speed = 9;
+	int max_roll_frames = 40;
+	//SLIDE
 	float slide_speed = 9;
+	//SUPER
+	int max_super_frames = 650;
 
+
+	//RUNTIME
+	//ITEMS
+	bool teleport_object;
+	//Shit for airdash
+	bool has_airdash = true;
+	int current_dash_frames = 0;
+	//Shit for roll
+	int current_roll_frames = 0;
+	//Super
 	bool on_super = false;
 	ParticleEmitter* super_emitter = nullptr;
 	ParticleEmitter* airdash_emitter = nullptr;
 	int original_recoveries_array[12];
 	int* recoveries_array[12];
-	int max_super_frames = 650;
 	int current_super_frames = 0;
 
 	// I would leave it hardcoded for now
@@ -74,7 +84,5 @@ private:
 	std::list<CHAR_ATT_TYPE>::iterator rekka_iterator;
 	int rekka_advance_speed;
 	int rekka_cancelability_window;
-
-	int item_teleport_distance = 300;
 };
 
