@@ -1158,6 +1158,8 @@ void Character::emmitCurrentParticle() {
 	case CR_L:
 	case JM_L:
 	case ST_S1:
+	case JM_S1:
+	case JM_S2:
 		switch (current_state) {
 		case STAND_BLOCKING:
 			offset_x = 0;
