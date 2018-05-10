@@ -58,6 +58,7 @@ private:
 	int mapy = 400;
 	bool up = true;
 	int iterator = 0;
+	int parallax_speed = 0;
 
 };
 
