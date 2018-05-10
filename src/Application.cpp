@@ -140,6 +140,16 @@ bool Application::finishUpdate() {
 		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
 	App->window->setWindowTitle(title);
 
+	int delay = 0;
+	if (maxfps > 0)
+		delay = (1000 / (float)maxfps) - (float)last_frame_ms;
+	else
+		delay = 0;
+
+
+	if (delay > 0) 
+		SDL_Delay(delay);
+
 	return ret;
 }
 
