@@ -53,7 +53,13 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	mage_graphics3 = App->textures->load("Assets/mage_3.png");
 	mage_graphics4 = App->textures->load("Assets/mage_4.png");
 	rogue_graphics = App->textures->load("Assets/rogue.png");
+	rogue_graphics2 = App->textures->load("Assets/rogue_2.png");
+	rogue_graphics3 = App->textures->load("Assets/rogue_3.png");
+	rogue_graphics4 = App->textures->load("Assets/rogue_4.png");
 	paladin_graphics = App->textures->load("Assets/paladin.png");
+	paladin_graphics2 = App->textures->load("Assets/paladin_2.png");
+	paladin_graphics3 = App->textures->load("Assets/paladin_3.png");
+	paladin_graphics4 = App->textures->load("Assets/paladin_4.png");
 
 	traning = false;
 	show = true;
@@ -83,6 +89,8 @@ bool mdEntities::preUpdate() {
 							players[i]->update(warrior_graphics); 
 							break;
 						case 1:
+						case 2:
+						case 3:
 							players[i]->update(warrior_graphics2);
 							break;
 					}
@@ -108,6 +116,15 @@ bool mdEntities::preUpdate() {
 					case 0:
 						players[i]->update(rogue_graphics);
 						break;
+					case 1:
+						players[i]->update(rogue_graphics2);
+						break;
+					case 2:
+						players[i]->update(rogue_graphics3);
+						break;
+					case 3:
+						players[i]->update(rogue_graphics4);
+						break;
 					}
 					break;
 				case PALADIN:
@@ -115,9 +132,17 @@ bool mdEntities::preUpdate() {
 					case 0:
 						players[i]->update(paladin_graphics);
 						break;
+					case 1:
+						players[i]->update(paladin_graphics2);
+						break;
+					case 2:
+						players[i]->update(paladin_graphics3);
+						break;
+					case 3:
+						players[i]->update(paladin_graphics4);
+						break;
 					}
 					break;
-
 			}
 
 		}
@@ -349,7 +374,7 @@ void mdEntities::loadCharactersFromXML(const pugi::xml_node& md_config) {
 void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& character) {
 	std::string tmp;
 	tmp = md_config.attribute("type").as_string("");
-	//character.type = stringToCharType(tmp);
+	character.type = stringToCharType(tmp);
 	character.scale = md_config.attribute("scale").as_int(0);
 	character.gravity = md_config.attribute("gravity").as_float(0);
 	character.walk_speed = md_config.attribute("walk_speed").as_int(0);
@@ -415,6 +440,22 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 		character.meteorits_rows_offset = md_config.attribute("meteorits_rows_offset").as_int(0);
 		break;
 
+	case CHAR_TYPE::ROGUE:
+		character.knife_speed = md_config.attribute("knife_speed").as_int(0);
+		character.knife_duration = md_config.attribute("knife_duration").as_int(0);
+		character.crossbow_recoil = md_config.attribute("crossbow_recoil").as_int(0);
+		character.crossbow_angle = md_config.attribute("crossbow_angle").as_int(0);
+		character.crossbow_speed.x = md_config.attribute("crossbow_speed_x").as_int(0);
+		character.crossbow_speed.y = md_config.attribute("crossbow_speed_y").as_int(0);
+		character.item_damage_boost = md_config.attribute("item_damage_boost").as_int(0);
+		character.item_teleport_distance = md_config.attribute("item_teleport_distance").as_int(0);
+		character.dash_speed = md_config.attribute("dash_speed").as_int(0);
+		character.max_dash_frames = md_config.attribute("max_dash_frames").as_int(0);
+		character.roll_speed = md_config.attribute("roll_speed").as_int(0);
+		character.max_roll_frames = md_config.attribute("max_roll_frames").as_int(0);
+		character.slide_speed = md_config.attribute("slide_speed").as_int(0);
+		character.max_super_frames = md_config.attribute("max_super_frames").as_int(0);
+		break;
 	case CHAR_TYPE::PALADIN:
 		// Paladin
 		character.parry_reaction_invencivility = md_config.attribute("parry_reaction_invencivility").as_int(0);
@@ -432,6 +473,7 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 		character.air_hammer_speed = md_config.attribute("air_hammer_speed").as_int(0);
 		character.air_hammer_duration = md_config.attribute("air_hammer_duration").as_int(0);
 		break;
+
 	}
 
 	//Load sfxs

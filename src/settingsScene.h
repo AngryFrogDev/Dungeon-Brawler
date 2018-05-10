@@ -27,6 +27,7 @@ private:
 	Buttons* sfx_down = nullptr;
 	Buttons* show_colliders = nullptr;
 	Buttons* hide_colliders = nullptr;
+	Buttons* parallax = nullptr;
 	Buttons* back = nullptr;
 
 	Labels* l_music_up = nullptr;
@@ -35,6 +36,7 @@ private:
 	Labels* l_sfx_down = nullptr;
 	Labels* l_show_colliders = nullptr;
 	Labels* l_hide_colliders = nullptr;
+	Labels* l_parallax = nullptr;
 	Labels* l_back = nullptr;
 
 	Mix_Chunk* s_crouching_special_2;

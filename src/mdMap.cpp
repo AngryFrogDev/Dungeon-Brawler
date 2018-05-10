@@ -5,6 +5,7 @@
 #include "mdMap.h"
 #include <math.h>
 #include "Brofiler/Brofiler.h"
+#include "mdAudio.h"
 
 mdMap::mdMap() : Module(), map_loaded(false) {
 	name = "map";
@@ -61,49 +62,51 @@ bool mdMap::update(float dt) {
 	if (map_loaded)
 	{
 		// Provisional: this is soooooo hardcoded
-		if (firstfront) {
-			mapx -= parallax_speed;
-			mapx2 = mapx + data.width;
+		if (parallax) {
+			if (firstfront) {
+				mapx -= parallax_speed;
+				mapx2 = mapx + data.width;
 
-			if (mapx2 <= 0) {
-				mapx = data.width;
-				firstfront = false;
+				if (mapx2 <= 0) {
+					mapx = data.width;
+					firstfront = false;
+				}
 			}
-		}
-		else {
-			mapx2 -= parallax_speed;
-			mapx = mapx2 + data.width;
+			else {
+				mapx2 -= parallax_speed;
+				mapx = mapx2 + data.width;
 
-			if (mapx <= 0) {
-				mapx2 = data.width;
-				firstfront = true;
+				if (mapx <= 0) {
+					mapx2 = data.width;
+					firstfront = true;
+				}
 			}
-		}
 
-		if (mapy >= 405)
-			up = false;
-		if (mapy <= 395)
-			up = true;
-		iterator++;
+			if (mapy >= 405)
+				up = false;
+			if (mapy <= 395)
+				up = true;
+			iterator++;
 
-		if (iterator % 10 == 0) {
-			if (up)
-				mapy += 2;
-			else
-				mapy -= 2;
-		}
+			if (iterator % 10 == 0) {
+				if (up)
+					mapy += 2;
+				else
+					mapy -= 2;
+			}
 
-		if (mapy2 >= 205)
-			up = false;
-		if (mapy2 <= 195)
-			up = true;
-		iterator++;
+			if (mapy2 >= 205)
+				up = false;
+			if (mapy2 <= 195)
+				up = true;
+			iterator++;
 
-		if (iterator % 10 == 0) {
-			if (up)
-				mapy2 += 2;
-			else
-				mapy2 -= 2;
+			if (iterator % 10 == 0) {
+				if (up)
+					mapy2 += 2;
+				else
+					mapy2 -= 2;
+			}
 		}
 
 		draw();
@@ -154,6 +157,7 @@ bool mdMap::loadMap(int mapIndex) {
 			data.background_image = App->textures->load("assets/train_background.png");
 			selected_map = mapIndex;
 			parallax_speed = 10;
+			App->audio->playMusic(App->audio->loadMusic("SFX/BGM_2.ogg"));
 		}
 	//}
 	

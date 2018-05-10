@@ -233,23 +233,45 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	rekka_last_attack = ST_H;
 	rekka_cancelability_window = 15;
 
-	skin_id = 0; // Currently this has no more skins
-
 	fillRecoveriesArray();
+
+	// XML inicialization
+	knife_speed = character.knife_speed;
+	knife_duration = character.knife_duration;
+	crossbow_recoil = character.crossbow_recoil;
+	crossbow_angle = character.crossbow_angle;
+	crossbow_speed = character.crossbow_speed;
+	item_damage_boost = character.item_damage_boost;
+	item_teleport_distance = character.item_teleport_distance;
+	dash_speed = character.dash_speed;
+	max_dash_frames = character.max_dash_frames;
+	roll_speed = character.roll_speed;
+	max_roll_frames = character.max_roll_frames;
+	slide_speed = character.slide_speed;
+	max_super_frames = character.max_super_frames;
+	// Runtime inicialization
+	teleport_object = false;
+	has_airdash = true;
+	current_dash_frames = 0;
+	current_roll_frames = 0;
+	on_super = false;
+	super_emitter = nullptr;
+	airdash_emitter = nullptr;
+	current_super_frames = 0;
 }
 
 void Rogue::standingSpecial1(const bool(&inputs)[MAX_INPUTS])
 {
 	if (current_animation->GetState() == ACTIVE) {
-		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, st_s1, this);
+		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, knife_duration, st_s1, this);
 		hitboxes.push_back(projectile_collider);
 		iPoint speed;
 		if (!fliped)
-			speed.x = projectile_speed;
+			speed.x = knife_speed;
 		else
-			speed.x = -projectile_speed;
+			speed.x = -knife_speed;
 		speed.y = -30;
-
+		makeInvencibleFor(120);
 		App->projectiles->addProjectile(ROGUE_DAGGER, { calculateDrawPosition(0, st_s1.hitbox.w, true), calculateDrawPosition(0, st_s1.hitbox.h, false) }, speed, projectile_collider, -1, fliped, scale, nullptr, { 0,0 },20.0f);
 		askRecovery(st_s1.recovery);
 	}
@@ -259,39 +281,54 @@ void Rogue::crouchingSpecial1()
 {
 	int emitter_x_offset = 70; // because she moves fast, we'll create the emitter forward //PROVISIONAL load in xml
 
-	if (current_roll_frames == 0) {
+	if (teleport_object) {
 		pushbox->active = false;
-		makeInvencibleFor(600);
+		App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
 		if (!fliped)
-			App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
+			logic_position.x += item_teleport_distance;
 		else
-			App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
-	}
+			logic_position.x -= item_teleport_distance;
 
-	if (current_roll_frames == (4*(max_roll_frames / 5))) {
-		if (!fliped)
-			App->particle_system->createEmitter({ (float)logic_position.x + emitter_x_offset,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
-		else
-			App->particle_system->createEmitter({ (float)logic_position.x - emitter_x_offset,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
-	}
-
-	if (current_roll_frames < max_roll_frames) {
-		current_roll_frames++;
-
-		fPoint speed = { 0,0 };
-
-		if (fliped)
-			speed.x = -roll_speed;
-		else
-			speed.x = roll_speed;
-
-		logic_position.x += speed.x;
+		// Particles
+		App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
+		pushbox->active = true;
+		askRecovery(cr_s1.recovery);
 	}
 	else {
-		//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/smoke-bomb.xml");
-		askRecovery(cr_s1.recovery);
-		current_roll_frames = 0;
-		pushbox->active = true;
+		if (current_roll_frames == 0) {
+			pushbox->active = false;
+			makeInvencibleFor(600);
+			if (!fliped)
+				App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
+			else
+				App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
+		}
+
+		if (current_roll_frames == (4 * (max_roll_frames / 5))) {
+			if (!fliped)
+				App->particle_system->createEmitter({ (float)logic_position.x + emitter_x_offset,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
+			else
+				App->particle_system->createEmitter({ (float)logic_position.x - emitter_x_offset,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
+		}
+
+		if (current_roll_frames < max_roll_frames) {
+			current_roll_frames++;
+
+			fPoint speed = { 0,0 };
+
+			if (fliped)
+				speed.x = -roll_speed;
+			else
+				speed.x = roll_speed;
+
+			logic_position.x += speed.x;
+		}
+		else {
+			//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/smoke-bomb.xml");
+			askRecovery(cr_s1.recovery);
+			current_roll_frames = 0;
+			pushbox->active = true;
+		}
 	}
 }
 
@@ -428,9 +465,31 @@ void Rogue::setAllRecoveriesTo(int value)
 }
 
 void Rogue::resetRecoveries()
-{
+{	
 	for (int i = 0; i < 12; i++) 
 		*recoveries_array[i] = original_recoveries_array[i];
+}
+
+void Rogue::addDamage()
+{
+	st_l.damage += item_damage_boost;
+	st_h.damage += item_damage_boost;
+	cr_l.damage += item_damage_boost;
+	cr_h.damage += item_damage_boost;
+	jm_l.damage += item_damage_boost;
+	jm_h.damage += item_damage_boost;
+}
+
+void Rogue::giveItem(ITEMS type) {
+		switch (type) {
+		case SPECIAL_ITEM_1:
+			teleport_object = true;
+			break;
+		case SPECIAL_ITEM_2:
+			addDamage();
+			break;
+		}
+	
 }
 
 void Rogue::crouchingSpecial2() {
@@ -536,8 +595,12 @@ void Rogue::specificCharacterReset() {
 	has_airdash = true;
 	current_dash_frames = 0;
 	current_roll_frames = 0;
+	if (super_emitter)
+		super_emitter->active = false;
 }
 
 Rogue::~Rogue()
 {
+	if (super_emitter)
+		super_emitter->active = false;
 }

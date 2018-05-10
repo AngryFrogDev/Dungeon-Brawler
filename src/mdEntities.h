@@ -74,24 +74,34 @@ struct character_deff {
 	int meteorits_rows_offset;
 	iPoint meteorits_speed;
 
-	// Paladin 
+	// Paladin variables
 	int parry_reaction_invencivility;
 	int parry_healing;
-
 	int parry_duration;
 	int miss_parry_recovery;
-
 	int st_s2_speed;
 	int st_s2_invencivility;
-
 	int hammer_duration;
 	iPoint hammer_speed;
-
 	iPoint slam_speed;
 	int slam_max_height;
-
 	int air_hammer_speed;
 	int air_hammer_duration;
+
+	// Rogue variables
+	int knife_speed;
+	int knife_duration;
+	int crossbow_recoil;
+	int crossbow_angle;
+	iPoint crossbow_speed;
+	int item_damage_boost;
+	int item_teleport_distance;
+	int dash_speed;
+	int max_dash_frames;
+	int roll_speed;
+	int max_roll_frames;
+	float slide_speed;
+	int max_super_frames;
 };
 
 class Player;
@@ -154,8 +164,14 @@ private:
 	SDL_Texture* mage_graphics4;
 
 	SDL_Texture* rogue_graphics;
+	SDL_Texture* rogue_graphics2;
+	SDL_Texture* rogue_graphics3;
+	SDL_Texture* rogue_graphics4;
 
 	SDL_Texture* paladin_graphics;
+	SDL_Texture* paladin_graphics2;
+	SDL_Texture* paladin_graphics3;
+	SDL_Texture* paladin_graphics4;
 	pugi::xml_document entities_config_doc;
 };
 
