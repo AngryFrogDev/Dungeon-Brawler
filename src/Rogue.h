@@ -49,7 +49,7 @@ private:
 	iPoint crossbow_speed = { 30, 10 };
 	//ITEMS
 	int item_damage_boost = 3;
-	int item_teleport_distance = 300;
+	int item_teleport_distance = 400;
 	//AIRDASH
 	int dash_speed = 20;
 	int max_dash_frames = 5;

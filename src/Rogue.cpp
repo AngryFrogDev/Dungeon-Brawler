@@ -249,7 +249,7 @@ void Rogue::standingSpecial1(const bool(&inputs)[MAX_INPUTS])
 		else
 			speed.x = -knife_speed;
 		speed.y = -30;
-
+		makeInvencibleFor(120);
 		App->projectiles->addProjectile(ROGUE_DAGGER, { calculateDrawPosition(0, st_s1.hitbox.w, true), calculateDrawPosition(0, st_s1.hitbox.h, false) }, speed, projectile_collider, -1, fliped, scale, nullptr, { 0,0 },20.0f);
 		askRecovery(st_s1.recovery);
 	}
