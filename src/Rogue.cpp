@@ -236,6 +236,30 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	skin_id = 0; // Currently this has no more skins
 
 	fillRecoveriesArray();
+
+	// XML inicialization
+	knife_speed = character.knife_speed;
+	knife_duration = character.knife_duration;
+	crossbow_recoil = character.crossbow_recoil;
+	crossbow_angle = character.crossbow_angle;
+	crossbow_speed = character.crossbow_speed;
+	item_damage_boost = character.item_damage_boost;
+	item_teleport_distance = character.item_teleport_distance;
+	dash_speed = character.dash_speed;
+	max_dash_frames = character.max_dash_frames;
+	roll_speed = character.roll_speed;
+	max_roll_frames = character.max_roll_frames;
+	slide_speed = character.slide_speed;
+	max_super_frames = character.max_super_frames;
+	// Runtime inicialization
+	teleport_object = false;
+	has_airdash = true;
+	current_dash_frames = 0;
+	current_roll_frames = 0;
+	on_super = false;
+	super_emitter = nullptr;
+	airdash_emitter = nullptr;
+	current_super_frames = 0;
 }
 
 void Rogue::standingSpecial1(const bool(&inputs)[MAX_INPUTS])
