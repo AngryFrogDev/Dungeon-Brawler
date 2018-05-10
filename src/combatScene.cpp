@@ -470,7 +470,7 @@ void combatScene::resetSceneValues()	{
 	//Rounds (only if not going to next round)
 	if (!next_round)
 	{
-		max_rounds = 3;
+		max_rounds = 2;
 		rounds_left = max_rounds;
 		p1_rounds_won = 0;
 		p2_rounds_won = 0;
@@ -485,14 +485,14 @@ void combatScene::checkTimers()	{
 	if (taunt_timer.readSec() >= 1.5 && !general_window)
 	{
 		if (char1_hp >= 0 && char2_hp <= 0)
-			App->entities->players[0]->getCurrCharacter()->tauntFor(1);
+			App->entities->players[0]->getCurrCharacter()->tauntFor(2);
 		else if (char2_hp >= 0 && char1_hp <= 0)
-			App->entities->players[1]->getCurrCharacter()->tauntFor(1);
+			App->entities->players[1]->getCurrCharacter()->tauntFor(2);
 		else
-			App->entities->players[0]->getCurrCharacter()->tauntFor(1), App->entities->players[1]->getCurrCharacter()->tauntFor(1);
+			App->entities->players[0]->getCurrCharacter()->tauntFor(2), App->entities->players[1]->getCurrCharacter()->tauntFor(2);
 
 		//Starting taunt timer
-		if (taunt_timer.readSec() >= 2)
+		if (taunt_timer.readSec() >= 3.5)
 			popUpGeneralWindow();
 	}
 
