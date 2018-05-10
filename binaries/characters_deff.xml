@@ -355,6 +355,22 @@
     meteorits_rows="3"
     meteorits_rows_offset="-300"
     >
+	<sound_effects>
+		<jump filename = "mage_jump.wav"/>
+		<light_sword_block filename = "mage_light_attack_block.wav"/>
+		<heavy_sword_block filename = "mage_heavy_attack_block.wav"/>
+		<!--<light_sword_whiff filename = "light_sword_whiff.wav"/>
+		<heavy_sword_whiff filename = "heavy_sword_whiff.wav"/>-->
+		<light_sword_impact filename = "mage_standing_light_impact.wav"/>
+		<heavy_sword_impact filename = "mage_heavy_attack_impact.wav"/>
+		<standing_special_1 filename = "mage_standing_special_1_standing_special_2_jumping_special_1.wav"/>
+		<standing_special_2 filename = "mage_standing_special_1_standing_special_2_jumping_special_1.wav"/>
+		<jumping_special_1 filename = "mage_standing_special_1_standing_special_2_jumping_special_1.wav"/>
+		<crouching_special_1 filename = "mage_crouching_special_1.wav"/>
+		<crouching_special_2 filename = "mage_crouching_special_2_1st_use.wav"/>
+		<death filename = "mage_death.wav"/>
+		<super filename = "mage_super.wav"/>
+	</sound_effects>
     <non_flip_attacks>
       <attack value="jm_s1"/>
       <attack value="st_s2"/>
