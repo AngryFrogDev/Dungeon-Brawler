@@ -948,6 +948,22 @@
 	air_hammer_duration="1700"
     
     >
+		<sound_effects>
+		<jump filename = "paladin/jump.wav"/>
+		<light_sword_block filename = "paladin/attack_blocked.wav"/>
+		<heavy_sword_block filename = "paladin/attack_blocked.wav"/>
+		<light_sword_whiff filename = "paladin/standing_light_standing_heavy_crouching_light_crouching_heavy_jumping_light_jumping_heavy.wav"/>
+		<heavy_sword_whiff filename = "paladin/standing_light_standing_heavy_crouching_light_crouching_heavy_jumping_light_jumping_heavy.wav"/>
+		<light_sword_impact filename = "paladin/attack_impact.wav"/>
+		<heavy_sword_impact filename = "paladin/attack_impact.wav"/>
+		<standing_special_1 filename = "paladin/standing_special_1.wav"/>
+		<standing_special_2 filename = "paladin/standing_special_1.wav"/>
+		<jumping_special_1 filename = "paladin/jumping_special_1.wav"/>
+		<crouching_special_1 filename = "paladin/standing_light_standing_heavy_crouching_light_crouching_heavy_jumping_light_jumping_heavy.wav"/>
+		<crouching_special_2 filename = "paladin/standing_light_standing_heavy_crouching_light_crouching_heavy_jumping_light_jumping_heavy.wav"/>
+		<death filename = "paladin/death.wav"/>
+		<super filename = "paladin/super.wav"/>
+	</sound_effects>
     <non_flip_attacks>
       <attack value="jm_s1"/>
       <attack value="jm_s2"/>
