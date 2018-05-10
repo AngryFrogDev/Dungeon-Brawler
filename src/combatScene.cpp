@@ -453,7 +453,7 @@ void combatScene::resetSceneValues()	{
 	//Resetting camera
 	App->render->camera.x = (App->render->resolution.first - App->render->camera.w) / 2;
 	//Timer
-	max_time = 5;
+	max_time = 99;
 	current_time = max_time;
 	taunt_timer.stop();
 	round_timer.stop();
