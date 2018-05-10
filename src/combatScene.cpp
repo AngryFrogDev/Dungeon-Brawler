@@ -38,10 +38,14 @@ bool combatScene::start()	{
 }
 
 bool combatScene::update(float dt)	{
+	//Temporary
+	char1_hp = App->entities->players[0]->getCurrCharacter()->getCurrentLife();
+	char2_hp = App->entities->players[1]->getCurrCharacter()->getCurrentLife();
+	
 	checkSceneInput();
 	loadSceneTextures();	
 	updateSceneTimer();
-	checkPlayers(); //Check if both player are still alive
+	manageRounds();
 	checkTimers();
 	App->gui->draw();
 	
@@ -140,8 +144,13 @@ void combatScene::updateSceneTimer()	{
 		current_time--, scene_timer.start();
 	if (current_time == 0)
 	{
-		current_time = 0;
-		taunt_timer.start();
+		if (rounds_left != 0)
+			manageRounds();
+		else
+		{
+			current_time = 0;
+			taunt_timer.start();
+		}
 	}
 	if (current_time >= 0)
 	{
@@ -150,18 +159,8 @@ void combatScene::updateSceneTimer()	{
 	}
 }
 
-void combatScene::checkPlayers()	{
-	if (taunt_timer.isActive())
-		return;
-	
-	char1_hp = App->entities->players[0]->getCurrCharacter()->getCurrentLife();
-	char2_hp = App->entities->players[1]->getCurrCharacter()->getCurrentLife();
-	if (char1_hp <= 0 && !App->entities->paused || char2_hp <= 0 && !App->entities->paused)
-		taunt_timer.start();
-		
-}
-
 void combatScene::loadSceneTextures()	{
+	//CHARACTER IMAGES
 	switch (char1)
 	{
 	case WARRIOR:
@@ -203,9 +202,42 @@ void combatScene::loadSceneTextures()	{
 	App->render->drawSprite(3, App->gui->atlas, 1570, 100, &character2_rect, 3, false, 0, 0, 0, 0, false);
 	App->render->drawSprite(4, App->gui->atlas, 119, 109, &character1_image, 3, false, 0, 0, 0, 0, false);
 	App->render->drawSprite(4, App->gui->atlas, 1579, 109, &character2_image, 3, true, 0, 0, 0, 0, false);
+
+	//ROUND INDICATORS
+	switch (p1_rounds_won)
+	{
+	case 0:
+		App->render->drawSprite(4, App->gui->atlas, 680, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 780, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		break;
+	case 1:
+		App->render->drawSprite(4, App->gui->atlas, 680, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 782, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		break;
+	case 2:
+		App->render->drawSprite(4, App->gui->atlas, 682, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 782, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		break;
+	}
+	switch (p2_rounds_won)
+	{
+	case 0:
+		App->render->drawSprite(4, App->gui->atlas, 1060, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 1160, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		break;
+	case 1:
+		App->render->drawSprite(4, App->gui->atlas, 1062, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 1160, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		break;
+	case 2:
+		App->render->drawSprite(4, App->gui->atlas, 1062, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 1162, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		break;
+	}
 }
 
 void combatScene::setRects()	{
+	//PROVISIONAL
 	timer_rect = { 421, 142, 59, 59 };
 	character1_rect = { 6,175,66,34 };
 	character2_rect = character1_rect;
@@ -234,6 +266,9 @@ void combatScene::setRects()	{
 	paladin_rect.y = paladin.attribute("y").as_int();
 	paladin_rect.w = paladin.attribute("w").as_int();
 	paladin_rect.h = paladin.attribute("h").as_int();
+
+	still_round_indicator = { 283, 132, 8, 5 };
+	won_round_indicator = { 293, 132, 12, 7 };
 }
 
 void combatScene::assignFocus()	{
@@ -353,9 +388,9 @@ void combatScene::popUpGeneralWindow()	{
 		const char* winner = nullptr;
 		int winner_id = 0;
 
-		if (App->entities->players[0]->getCurrCharacter()->getCurrentLife() > 0 && App->entities->players[1]->getCurrCharacter()->getCurrentLife() <= 0)
+		if (p1_rounds_won > p2_rounds_won) //Player 1 wins
 			winner = "PLAYER 1 WINS!";
-		else if (App->entities->players[1]->getCurrCharacter()->getCurrentLife() > 0 && App->entities->players[0]->getCurrCharacter()->getCurrentLife() <= 0)
+		else if (p1_rounds_won < p2_rounds_won)// Player 2 wins
 			winner = "PLAYER 2 WINS!", winner_id = 1;
 		else
 			winner = "IT'S A DRAW!";
@@ -421,6 +456,7 @@ void combatScene::resetSceneValues()	{
 	max_time = 99;
 	current_time = max_time;
 	taunt_timer.stop();
+	round_timer.stop();
 	scene_timer.start();
 	//Bools
 	App->map->map_loaded = true;
@@ -431,11 +467,19 @@ void combatScene::resetSceneValues()	{
 	general_window = nullptr;
 	p1_window = nullptr;
 	p2_window = nullptr;
-
+	//Rounds (only if not going to next round)
+	if (!next_round)
+	{
+		max_rounds = 3;
+		rounds_left = max_rounds;
+		p1_rounds_won = 0;
+		p2_rounds_won = 0;
+	}
+	
 }
 
 void combatScene::checkTimers()	{
-	if (taunt_timer.isActive())
+	if (taunt_timer.isActive() || round_timer.isActive())
 		scene_timer.stop();
 
 	if (taunt_timer.readSec() >= 1.5 && !general_window)
@@ -451,5 +495,43 @@ void combatScene::checkTimers()	{
 		if (taunt_timer.readSec() >= 2)
 			popUpGeneralWindow();
 	}
+
+	if (round_timer.readSec() >= 2 && !taunt_timer.isActive())
+		next_round = true, App->scene_manager->changeScene(App->scene_manager->combat_scene, this);
+}
+
+void combatScene::manageRounds()	{
+	if (taunt_timer.isActive() || App->entities->paused || round_timer.isActive())
+		return;
+
+	//case players die
+	if (current_time > 0)
+	{
+		if (char1_hp <= 0 || char2_hp <= 0)
+		{
+			if (char1_hp > 0 && char2_hp <= 0) //Player 2 dies
+				p1_rounds_won++, rounds_left--;
+
+			else if (char2_hp > 0 && char1_hp <= 0)//Player 1 dies
+				p2_rounds_won++, rounds_left--;
+			
+			if (rounds_left != 0)
+				rematching = true, round_timer.start(), App->entities->paused = true;
+		}
+	}
+	
+	else
+	{
+		if (char1_hp > char2_hp) // Player 1 wins
+			p1_rounds_won++;
+		else if (char2_hp > char1_hp) // Player2 wins
+		{ }
+		else //Draw
+		{ }
+	}
+
+	if (rounds_left == 0)
+		taunt_timer.start(), next_round = false;
+	
 }
 
