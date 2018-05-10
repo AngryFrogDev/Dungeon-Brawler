@@ -50,6 +50,7 @@ enum button_types {
 	SHOW_COLLIDERS,
 	HIDE_COLLIDERS,
 	BACK,
+	PARALLAX,
 };
 
 enum button_size {

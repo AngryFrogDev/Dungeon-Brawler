@@ -48,6 +48,7 @@ public:
 
 	MapData data;
 	bool map_loaded;
+	bool parallax = true;
 
 private:
 

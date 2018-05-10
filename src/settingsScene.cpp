@@ -7,6 +7,7 @@
 #include "mdCollision.h"
 #include "mdAudio.h"
 #include "Character.h"
+#include "mdMap.h"
 
 
 settingsScene::settingsScene(bool active) : scene(MAIN_SCENE) {
@@ -72,6 +73,9 @@ bool settingsScene::onEvent(Buttons* button) {
 	case SHOW_COLLIDERS:
 		App->collision->debug = true;
 		break;
+	case PARALLAX:
+		App->map->parallax = !App->map->parallax;
+		break;
 	case HIDE_COLLIDERS:
 		App->collision->debug = false;
 		break;
@@ -92,7 +96,8 @@ void settingsScene::loadSceneUi() {
 	sfx_down = (Buttons*)App->gui->createButton(SFX_VOL_DOWN, LARGE, 0, { 0, 300 }, this);
 	show_colliders = (Buttons*)App->gui->createButton(SHOW_COLLIDERS, LARGE, 0, { 0, 400 }, this);
 	hide_colliders = (Buttons*)App->gui->createButton(HIDE_COLLIDERS, LARGE, 0, { 0, 500 }, this);
-	back = (Buttons*)App->gui->createButton(BACK, LARGE, 0, { 0, 600 }, this);
+	parallax = (Buttons*)App->gui->createButton(PARALLAX, LARGE, 0, { 0, 600 }, this);
+	back = (Buttons*)App->gui->createButton(BACK, LARGE, 0, { 0, 700 }, this);
 	// Provisional: Data should be loaded from XML
 	l_music_up = (Labels*)App->gui->createLabel("Volume Up", { 255, 255, 255 }, App->fonts->large_size, { 0, 0 }, this);
 	l_music_down = (Labels*)App->gui->createLabel("Volume Down", { 255, 255, 255 }, App->fonts->large_size, { 0, 100 }, this);
@@ -100,7 +105,8 @@ void settingsScene::loadSceneUi() {
 	l_sfx_down = (Labels*)App->gui->createLabel("SFX Down", { 255, 255, 255 }, App->fonts->large_size, { 0, 300 }, this);
 	l_show_colliders = (Labels*)App->gui->createLabel("Show Colliders", { 255, 255, 255 }, App->fonts->large_size, { 0, 400 }, this);
 	l_hide_colliders = (Labels*)App->gui->createLabel("Hide Colliders", { 255, 255, 255 }, App->fonts->large_size, { 0, 500 }, this);
-	l_back = (Labels*)App->gui->createLabel("Back", { 255, 255, 255 }, App->fonts->large_size, { 0, 600 }, this);
+	l_parallax = (Labels*)App->gui->createLabel("Parallax", { 255, 255, 255 }, App->fonts->large_size, { 0, 600 }, this);
+	l_back = (Labels*)App->gui->createLabel("Back", { 255, 255, 255 }, App->fonts->large_size, { 0, 700 }, this);
 }
 
 void settingsScene::assignFocus() {
