@@ -555,6 +555,7 @@ void Rogue::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 void Rogue::doSuper() {
 	if (!state_first_tick) {
 		on_super = true;
+		current_super_gauge = 0;
 		setAllRecoveriesTo(1);
 		updateAnimation(taunt);
 		if (current_super_frames == 0) {
