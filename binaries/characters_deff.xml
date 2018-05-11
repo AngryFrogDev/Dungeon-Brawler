@@ -962,6 +962,10 @@
 
 	air_hammer_speed="7"
 	air_hammer_duration="1700"
+            
+  super_healing ="50"
+  endurance_object_plus ="50"
+  
     
     >
 		<sound_effects>

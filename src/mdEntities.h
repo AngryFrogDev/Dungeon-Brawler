@@ -87,6 +87,8 @@ struct character_deff {
 	int slam_max_height;
 	int air_hammer_speed;
 	int air_hammer_duration;
+	int super_healing;
+	int endurance_object_plus;
 
 	// Rogue variables
 	int knife_speed;

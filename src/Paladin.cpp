@@ -224,7 +224,7 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	parry_reaction.PushBack({ 195 * 8	, 158 * 6, 195, 158 });
 
 	parry_reaction.speed = character.cr_s2.animation_speed;
-
+ 
 	dead.PushBack({ 0  , 158 * 22, 195, 158 });
 
 	dead.loop = false;
@@ -252,9 +252,8 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	air_hammer_speed = character.air_hammer_speed;
 	air_hammer_duration = character.air_hammer_duration;
 
-	super_healing = 50;
-
-	endurance_object_plus = 50;
+	super_healing = character.super_healing;
+	endurance_object_plus = character.endurance_object_plus;
 	
 	// Runtime inicialization
 	parry_start = 0;

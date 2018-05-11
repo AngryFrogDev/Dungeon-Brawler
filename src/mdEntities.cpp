@@ -472,6 +472,8 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 		character.slam_max_height = md_config.attribute("slam_max_height").as_int(0);
 		character.air_hammer_speed = md_config.attribute("air_hammer_speed").as_int(0);
 		character.air_hammer_duration = md_config.attribute("air_hammer_duration").as_int(0);
+		character.super_healing = md_config.attribute("super_healing").as_int(0);
+		character.endurance_object_plus = md_config.attribute("endurance_object_plus").as_int(0);
 		break;
 
 	}
