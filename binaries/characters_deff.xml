@@ -874,11 +874,11 @@
          blockstun ="200"
          pushhit ="-1"
          pushblock ="4"
-         damage ="15"
+         damage ="8"
          knockdown ="true"
          juggle_speed_x ="10"
          juggle_speed_y ="15"
-         block_type ="overhead"
+         block_type ="mid"
          type ="jm_s1"
          recovery ="150"
          animation_speed ="0.1"/>

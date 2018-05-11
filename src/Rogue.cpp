@@ -131,13 +131,12 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	//BLOCK
 
 
-	standing_block.PushBack({ 10 * x_space, height * 15,width,height });
+	standing_block.PushBack({ 1 * x_space, height * 15,width,height });
 
 	standing_block.loop = false;
 	standing_block.speed = 0.2;
 
-	for (int i = 0; i < 4; i++)
-		crouching_block.PushBack({ i * x_space, height * 10,width,height });
+	crouching_block.PushBack({ 3 * x_space, height * 6,width,height });
 
 	crouching_block.loop = false;
 	crouching_block.speed = 0.2;
