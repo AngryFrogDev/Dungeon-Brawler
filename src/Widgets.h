@@ -29,21 +29,28 @@ enum button_types {
 	MUSIC_VOL_DOWN,
 	SFX_VOL_UP,
 	SFX_VOL_DOWN,
-	IN_GAME_REMATCH,
-	IN_GAME_RESTART,
+	MATCH_END_REMATCH,
 	IN_GAME_SETTINGS,
 	IN_GAME_CHAR_SEL,
 	IN_GAME_STAGE_SEL,
 	IN_GAME_MAIN_MENU,
+	MATCH_END_CHAR_SEL,
+	MATCH_END_STAGE_SEL,
+	MATCH_END_SETTINGS,
+	MATCH_END_MAIN_MENU,
 	SELECT_WARRIOR,
 	SELECT_MAGE,
 	SELECT_ROGUE,
 	SELECT_PALADIN,
 	SELECT_ITEM1,
 	SELECT_ITEM2,
+	SELECT_STAGE_1,
+	SELECT_STAGE_2, 
+	SELECT_STAGE_3,
 	SHOW_COLLIDERS,
 	HIDE_COLLIDERS,
 	BACK,
+	PARALLAX,
 };
 
 enum button_size {
@@ -52,7 +59,8 @@ enum button_size {
 	MEDIUM,
 	LARGE,
 	CHARACTER_SELECTION,
-	OBJECT_SELECTION
+	OBJECT_SELECTION,
+	STAGE_SELECTION,
 };
 
 enum bar_types {
@@ -87,6 +95,7 @@ public:
 	std::pair<int, int> position;
 	bool to_delete = false;
 	int focus_id = 0;
+	bool stop_focus = false;
 
 protected:
 	scene* callback = nullptr;

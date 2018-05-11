@@ -21,6 +21,9 @@ characterSelScene::characterSelScene(bool active) : scene(CHAR_SEL_SCENE)	{
 characterSelScene::~characterSelScene()	{}
 
 bool characterSelScene::start()	{
+	//Reseting player values
+	resetSceneValues();
+
 	character_potraits = App->textures->load(textures_node.child("portraits_tex").attribute("path").as_string());
 	vs_tex = App->textures->load(textures_node.child("vs_tex").attribute("path").as_string());
 	character_names = App->textures->load(textures_node.child("char_name_tex").attribute("path").as_string());
@@ -110,9 +113,9 @@ bool characterSelScene::onEvent(Buttons* button)	{
 		if (button->focus_id == 0)
 		{
 			if (App->entities->players[0]->getInput(LIGHT_ATTACK, KEY_DOWN))
-				player1.skin = 0;
-			if (App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))
 				player1.skin = 1;
+			if (App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))
+				player1.skin = 0;
 			if (App->entities->players[0]->getInput(SPECIAL_1, KEY_DOWN))
 				player1.skin = 2;
 			if (App->entities->players[0]->getInput(SPECIAL_2, KEY_DOWN))
@@ -125,9 +128,9 @@ bool characterSelScene::onEvent(Buttons* button)	{
 		else
 		{
 			if (App->entities->players[1]->getInput(LIGHT_ATTACK, KEY_DOWN))
-				player2.skin = 0;
-			if (App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN))
 				player2.skin = 1;
+			if (App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN))
+				player2.skin = 0;
 			if (App->entities->players[1]->getInput(SPECIAL_1, KEY_DOWN))
 				player2.skin = 2;
 			if (App->entities->players[1]->getInput(SPECIAL_2, KEY_DOWN))
@@ -313,8 +316,8 @@ void characterSelScene::checkSceneInput()	{
 
 void characterSelScene::assignCharacterToPlayer()	{
 	//Creating players
-	App->entities->players[0]->createAndAssignCharacter(player1.character, player1.item, false, player1.skin);
-	App->entities->players[1]->createAndAssignCharacter(player2.character, player2.item, true, player2.skin);
+	App->entities->players[0]->createAndAssignCharacter(player1.character, player1.item, true, player1.skin);
+	App->entities->players[1]->createAndAssignCharacter(player2.character, player2.item, false, player2.skin);
 
 	//Hidding them
 	App->entities->paused = true;
@@ -490,16 +493,6 @@ void characterSelScene::setCurrentCharDisplay()	{
 		player2.name_tex = &paladin_name_tex;
 		break;
 	}
-}
-
-void characterSelScene::closeWindow()	{
-	//This function has to receive which player is actually closing the window
-	//By calling createCharacterButtons always, the buttons of the player that has not selected character are created again
-
-	object_win_p1->to_delete = true;
-	player1.has_selected_character = false;
-
-	assignFocus();
 }
 
 void characterSelScene::popUpP1Window() {
@@ -768,10 +761,20 @@ void characterSelScene::closeP2Window()	{
 	}
 }
 
-void characterSelScene::startingTransition()	{
+void characterSelScene::resetSceneValues()	{
+	player1.has_selected_character = false;
+	player1.has_selected_item = false;
+	
+	player2.has_selected_character = false;
+	player2.has_selected_item = false;
 
-	if (transition_timer.readSec() >= 2)
-		App->scene_manager->changeScene(App->scene_manager->combat_scene, this);
+	transition_timer.stop();
+}
+
+void characterSelScene::startingTransition()	{
+	if (transition_timer.readSec() >= 1)
+		App->scene_manager->changeScene(App->scene_manager->stage_sel_scene, this); 
+
 
 }
 

@@ -133,12 +133,12 @@
 					<pos x="200" y="645"/>
 				</warrior_obj2>
 				<warrior_obj1_desc>
-					<content value="Bladestorm (ST SP1)"/>
+					<content value="Control Bladestorm"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="390" y="525"/>
 				</warrior_obj1_desc>
 				<warrior_obj2_desc>
-					<content value="Dagger Throw (ST SP2)"/>
+					<content value="Faster Divekicks"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="390" y="750"/>
 				</warrior_obj2_desc>
@@ -153,12 +153,12 @@
 					<pos x="200" y="645"/>
 				</mage_obj2>
 				<mage_obj1_desc>
-					<content value="Fireball (ST SP1)"/>
+					<content value="Charged Fireball"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="390" y="525"/>
 				</mage_obj1_desc>
 				<mage_obj2_desc>
-					<content value="Fireball (ST SP1)"/>
+					<content value="Double Fireball"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="390" y="750"/>
 				</mage_obj2_desc>
@@ -173,12 +173,12 @@
 					<pos x="200" y="645"/>
 				</rogue_obj2>
 				<rogue_obj1_desc>
-					<content value="Roll (CRH SP1)"/>
+					<content value="Teleport"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="390" y="525"/>
 				</rogue_obj1_desc>
 				<rogue_obj2_desc>
-					<content value="Airdash (JMP SP2)"/>
+					<content value="Improved damage"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="390" y="750"/>
 				</rogue_obj2_desc>
@@ -193,12 +193,12 @@
 					<pos x="200" y="645"/>
 				</paladin_obj2>
 				<paladin_obj1_desc>
-					<content value=""/>
+					<content value="Teleport to hammer"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="390" y="525"/>
 				</paladin_obj1_desc>
 				<paladin_obj2_desc>
-					<content value=""/>
+					<content value="Improved resistance"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="390" y="750"/>
 				</paladin_obj2_desc>
@@ -215,12 +215,12 @@
 					<pos x="1190" y="645"/>
 				</warrior_obj2>
 				<warrior_obj1_desc>
-					<content value="Bladestorm (ST SP1)"/>
+					<content value="Control Bladestorm"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="1380" y="525"/>
 				</warrior_obj1_desc>
 				<warrior_obj2_desc>
-					<content value="Dagger Throw (ST SP2)"/>
+					<content value="Faster Divekicks"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="1380" y="750"/>
 				</warrior_obj2_desc>
@@ -235,12 +235,12 @@
 					<pos x="1190" y="645"/>
 				</mage_obj2>
 				<mage_obj1_desc>
-					<content value="Fireball (ST SP1)"/>
+					<content value="Charged Fireball"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="1380" y="525"/>
 				</mage_obj1_desc>
 				<mage_obj2_desc>
-					<content value="Fireball (ST SP1)"/>
+					<content value="Double Fireball"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="1380" y="750"/>
 				</mage_obj2_desc>
@@ -255,12 +255,12 @@
 					<pos x="1190" y="645"/>
 				</rogue_obj2>
 				<rogue_obj1_desc>
-					<content value="Roll (CRH SP1)"/>
+					<content value="Teleport"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="1380" y="525"/>
 				</rogue_obj1_desc>
 				<rogue_obj2_desc>
-					<content value="Airdash (JMP SP2)"/>
+					<content value="Improved damage"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="1380" y="750"/>
 				</rogue_obj2_desc>
@@ -275,12 +275,12 @@
 					<pos x="1190" y="645"/>
 				</paladin_obj2>
 				<paladin_obj1_desc>
-					<content value=""/>
+					<content value="Teleport to hammer"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="1380" y="525"/>
 				</paladin_obj1_desc>
 				<paladin_obj2_desc>
-					<content value=""/>
+					<content value="Improved resistance"/>
 					<color r="255" g="255" b="255" a="255"/>
 					<pos x="1380" y="750"/>
 				</paladin_obj2_desc>
@@ -360,6 +360,10 @@
 			</rematch>
 		</buttons>
 		<textures>
+			<warrior_image x="82" y="175" w="60" h="28"/>
+			<mage_image x="143" y="175" w="60" h="28"/>
+			<rogue_image x="204" y="175" w="60" h="28"/>
+			<paladin_image x="265" y="175" w="60" h="28"/>
 		</textures>
 	</combat>
 </config>

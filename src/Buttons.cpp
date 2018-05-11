@@ -14,8 +14,8 @@ Buttons::Buttons(button_types type, button_size _size, int id, std::pair<int, in
 	button_type = type;
 	focus_id = id;
 	size = _size;
-	//click_sfx = App->audio->loadSFX(/*Path*/);
 	data = config.child("gui").child("button_section");
+	stop_focus = false;
 
 	loadGuiFromAtlas();
 	current_rect = &still_rect;
@@ -28,7 +28,7 @@ bool Buttons::preUpdate()
 {
 	bool ret = true;
 
-	if (current_rect == &click_rect && size == CHARACTER_SELECTION)
+	if (current_rect == &click_rect && size == CHARACTER_SELECTION || current_rect == &click_rect && size == STAGE_SELECTION)
 		return ret;
 		
 	world_area = { position.first, position.second, current_rect->w, current_rect->h };
@@ -42,7 +42,7 @@ bool Buttons::preUpdate()
 	{
 		changeVisualState(FOCUSED);
 		
-		if (size == CHARACTER_SELECTION)
+		if (size == CHARACTER_SELECTION || size == STAGE_SELECTION)
 			ret = callback->onEvent(this);
 		
 		//Temporary bools to optimize if below
@@ -58,6 +58,9 @@ bool Buttons::preUpdate()
 
 		if (p1_heavy_attack && focus_id == 0 || p1_light_attack && focus_id == 0 || p1_r1 && focus_id == 0 || p1_r2 && focus_id == 0 || p2_heavy_attack && focus_id == 1 || p2_light_attack && focus_id == 1 || p2_r1 && focus_id == 1 || p2_r2 && focus_id == 1)
 		{
+			if (size == STAGE_SELECTION)
+				stop_focus = true;
+
 			changeVisualState(CLICK);
 			being_clicked = true;
 			ret = callback->onEvent(this);
@@ -153,6 +156,15 @@ void Buttons::loadGuiFromAtlas() {
 		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
 		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
 		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
+		break;
+	case STAGE_SELECTION:
+		still = data.child("stage_sel").child("still");
+		focused = data.child("stage_sel").child("focused");
+		clicked = data.child("stage_sel").child("clicked");
+		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
+		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
+		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
+		break;
 	default:
 		break;
 	}

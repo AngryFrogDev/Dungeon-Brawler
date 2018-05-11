@@ -1,5 +1,7 @@
 #include "mdEntities.h"
+#include "mdAudio.h";
 #include "mdMap.h"
+#include "Application.h"
 #include "Player.h"
 #include <algorithm>
 
@@ -15,8 +17,8 @@ mdEntities::~mdEntities(){
 bool mdEntities::awake(const pugi::xml_node & md_config) {
 	bool ret = true;
 
-	// Empty the array
-	for (int i = 0; i < 4; i++)
+	//Empty the array
+	for (int i = 0; i < 2; i++)
 		players[i] = nullptr;
 
 	//Load controller schemes
@@ -42,6 +44,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	attack_input = stringToKeystate(name);
 
 	loadCharactersFromXML(App->loadConfig("characters_deff.xml", entities_config_doc));
+
 	//PROVISIONAL: Should be loaded from an xml
 	warrior_graphics = App->textures->load("Assets/warrior.png");
 	warrior_graphics2 = App->textures->load("Assets/warrior_2.png");
@@ -49,27 +52,20 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	mage_graphics2 = App->textures->load("Assets/mage_2.png");
 	mage_graphics3 = App->textures->load("Assets/mage_3.png");
 	mage_graphics4 = App->textures->load("Assets/mage_4.png");
+	rogue_graphics = App->textures->load("Assets/rogue.png");
+	rogue_graphics2 = App->textures->load("Assets/rogue_2.png");
+	rogue_graphics3 = App->textures->load("Assets/rogue_3.png");
+	rogue_graphics4 = App->textures->load("Assets/rogue_4.png");
+	paladin_graphics = App->textures->load("Assets/paladin.png");
+	paladin_graphics2 = App->textures->load("Assets/paladin_2.png");
+	paladin_graphics3 = App->textures->load("Assets/paladin_3.png");
+	paladin_graphics4 = App->textures->load("Assets/paladin_4.png");
 
 	traning = false;
 	show = true;
 	paused = false;
 
 	camera_movement = 4; //Should be loaded from XML
-
-	//createPlayer(0,100, CHAR_TYPE::WARRIOR, false, 1 );
-	//createPlayer(1,1000, CHAR_TYPE::WARRIOR, true, 1); //play with the lane (last argument) for 2v2
-	//createPlayer(2, 1200, CHAR_TYPE::WARRIOR, true, 1);
-	//createPlayer(3, 300, CHAR_TYPE::WARRIOR, true, 2);
-
-	// PROVISIONAL: Very dangerous hardcode to set the partners: 
-
-	//players[0]->getCurrCharacter()->partner = players[1];
-	//players[1]->getCurrCharacter()->partner = players[0];
-	//players[2]->getCurrCharacter()->partner = players[3];
-	//players[3]->getCurrCharacter()->partner = players[2];
-
-
-
 
 	return ret;
 }
@@ -84,7 +80,7 @@ bool mdEntities::preUpdate() {
 		assignControllers();
 	}
 
-	for (int i = 0; i < 4; i++) { 
+	for (int i = 0; i < 2; i++) { 
 		if (players[i] != nullptr && players[i]->getCurrCharacter() != nullptr){
 			switch (players[i]->getCurrCharacter()->getType()) {
 				case WARRIOR:
@@ -93,6 +89,8 @@ bool mdEntities::preUpdate() {
 							players[i]->update(warrior_graphics); 
 							break;
 						case 1:
+						case 2:
+						case 3:
 							players[i]->update(warrior_graphics2);
 							break;
 					}
@@ -113,6 +111,38 @@ bool mdEntities::preUpdate() {
 						break;
 					}
 					break;
+				case ROGUE:
+					switch (players[i]->getCurrCharacter()->skin_id) {
+					case 0:
+						players[i]->update(rogue_graphics);
+						break;
+					case 1:
+						players[i]->update(rogue_graphics2);
+						break;
+					case 2:
+						players[i]->update(rogue_graphics3);
+						break;
+					case 3:
+						players[i]->update(rogue_graphics4);
+						break;
+					}
+					break;
+				case PALADIN:
+					switch (players[i]->getCurrCharacter()->skin_id) {
+					case 0:
+						players[i]->update(paladin_graphics);
+						break;
+					case 1:
+						players[i]->update(paladin_graphics2);
+						break;
+					case 2:
+						players[i]->update(paladin_graphics3);
+						break;
+					case 3:
+						players[i]->update(paladin_graphics4);
+						break;
+					}
+					break;
 			}
 
 		}
@@ -124,15 +154,12 @@ bool mdEntities::preUpdate() {
 
 bool mdEntities::postUpdate()
 {
-	for (int i = 0; i < 4; i++) {
-		if (players[i] == nullptr)
-			continue;
-		if (players[i]->getCurrCharacter() != nullptr && players[i]->getCurrCharacter()->readyToSwap == true) //no flip if characters are swapping
-			return true;
-	}
+	if (players[0] == nullptr) 
+		return true;
 
-	if(allowFlip()) 
+	if(players[0]->getCurrCharacter() != nullptr && players[0]->getCurrCharacter() != nullptr && allowFlip()){ 
 		automaticFlip();
+	}
 
 	return true;
 }
@@ -153,15 +180,9 @@ void mdEntities::createPlayer(int player) {
 
 void mdEntities::destroyCharacters() {
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 2; i++) {
 		delete players[i];
 		players[i] = nullptr;
-	}
-}
-
-void mdEntities::removeCharacters()	{
-	for (int i = 0; i < 2; i++) {
-		delete players[i]->getCurrCharacter();
 	}
 }
 
@@ -179,22 +200,13 @@ void mdEntities::assignControls()
 	}
 }
 
-void mdEntities::assignPartners()
-{
-	// PROVISIONAL: Very dangerous hardcode to set the partners: 
-	players[0]->getCurrCharacter()->partner = players[1];
-	players[1]->getCurrCharacter()->partner = players[0];
-	players[2]->getCurrCharacter()->partner = players[3];
-	players[3]->getCurrCharacter()->partner = players[2];
-}
-
 bool mdEntities::moveCamera(bool movingLeft) {
 	bool ret = true;
 	if (movingLeft) {
 		if (App->render->camera.x == 0) ret = false;
 		else {
 			int target_x = std::max(App->render->camera.x - camera_movement, 0);
-			for (int i = 0; i < 4 && ret; ++i) {
+			for (int i = 0; i < 2 && ret; ++i) {
 				if (players[i] != nullptr && players[i]->getCurrCharacter() != nullptr) {
 					Character* temp = players[i]->getCurrCharacter();
 					int future_limit = target_x + App->render->camera.w - temp->getLateralLimit();
@@ -211,7 +223,7 @@ bool mdEntities::moveCamera(bool movingLeft) {
 		if (App->render->camera.x + App->render->camera.w == map_limit) ret = false;
 		else {
 			int target_x = std::min(App->render->camera.x + camera_movement + App->render->camera.w, map_limit) - App->render->camera.w;
-			for (int i = 0; i < 4 && ret; ++i) {
+			for (int i = 0; i < 2 && ret; ++i) {
 				if (players[i] != nullptr && players[i]->getCurrCharacter() != nullptr) {
 					Character* temp = players[i]->getCurrCharacter();
 					int future_limit = target_x + temp->getLateralLimit();
@@ -231,54 +243,19 @@ bool mdEntities::moveCamera(bool movingLeft) {
 bool mdEntities::automaticFlip() {
 	bool ret = true;
 
-	Player* players_on_curr_lane[2];
-	players_on_curr_lane[0] = nullptr;
-	players_on_curr_lane[1] = nullptr;
-
-	//Whatch the fuck out with this method
-
-	bool lane1_flip[2];
-
-
-	int lanes = 2;
-
-	for (int curr_lane = 1; curr_lane < lanes +1; curr_lane++)
-	{
-
-		int counter = 0;
-		for (int i = 0; i < 4; i++) {
-			if (players[i] == nullptr || players[i]->getCurrCharacter() == nullptr)
-				continue;
-			
-			int lane_of_player = players[i]->getLane();
-
-			if (lane_of_player == 0)
-				return false;
-
-			if (lane_of_player == curr_lane) {
-				players_on_curr_lane[counter] = players[i];
-				counter++;
-			}
-		}
-
-		if (players_on_curr_lane[1] == nullptr) { 
-			return false;
-		}
-
-		if (players_on_curr_lane[0]->getPos().x < players_on_curr_lane[1]->getPos().x) {
-			lane1_flip[0] = false;
-			lane1_flip[1] = true;
-		}
-		else {
-			lane1_flip[0] = true;
-			lane1_flip[1] = false;
-		}
-
-		for (int i = 0; i < 2; i++) {
-			players_on_curr_lane[i]->setFlip(lane1_flip[i]);
-			players_on_curr_lane[i] = nullptr;
-		}
+	bool flip[2];
+	if (players[0]->getPos().x < players[1]->getPos().x) {
+		flip[0] = false;
+		flip[1] = true;
 	}
+	else {
+		flip[0] = true;
+		flip[1] = false;
+	}
+
+	for (int i = 0; i < 2; i++) 
+		players[i]->setFlip(flip[i]);
+	
 
 	return ret;
 }
@@ -287,7 +264,7 @@ bool mdEntities::allowFlip() 	{
 
 	// PROVISIONAL: Every character should have specified with which states flip should not be executed
 	bool do_flip = true;
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 2; i++) {
 		if (players[i] == nullptr)
 			continue;
 		Character* character = players[i]->getCurrCharacter();
@@ -385,8 +362,14 @@ CHAR_ATT_TYPE mdEntities::stringToCharAttType(std::string string) {
 		return NO_ATT;
 }
 void mdEntities::loadCharactersFromXML(const pugi::xml_node& md_config) {
+	warrior.type = CHAR_TYPE::WARRIOR;
 	fillFromXML(md_config.child("warrior"), warrior);
+	mage.type = CHAR_TYPE::MAGE;
 	fillFromXML(md_config.child("mage"), mage);
+	rogue.type = CHAR_TYPE::ROGUE;
+	fillFromXML(md_config.child("rogue"), rogue);
+	paladin.type = CHAR_TYPE::PALADIN;
+	fillFromXML(md_config.child("paladin"), paladin);
 }
 void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& character) {
 	std::string tmp;
@@ -409,48 +392,128 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 	character.super_window = md_config.attribute("super_window").as_int(0);
 	character.cancelability_window = md_config.attribute("cancelability_window").as_int(0);
 	loadAttackListFromXML(md_config.child("non_flip_attacks"), character.non_flip_attacks);
+	loadAttackListFromXML(md_config.child("crouching_hurtbox_attacks"), character.crouching_hurtbox_attacks);
 
-	// Warrior
-	character.spin_speed = md_config.attribute("spin_speed").as_int(0);
-	character.improved_spin_speed = md_config.attribute("improved_spin_speed").as_int(0);
-	character.improved_spin_recovery = md_config.attribute("improved_spin_recovery").as_int(0);
-	character.jm_s1_angle = md_config.attribute("jm_s1_angle").as_int(0);
-	character.jm_s1_speed.x = md_config.attribute("jm_s1_speed_x").as_int(0);
-	character.jm_s1_speed.y = md_config.attribute("jm_s1_speed_y").as_int(0);
-	character.jm_s2_angle = md_config.attribute("jm_s2_angle").as_int(0);
-	character.jm_s2_speed.x = md_config.attribute("jm_s2_speed_x").as_int(0);
-	character.jm_s2_speed.y = md_config.attribute("jm_s2_speed_y").as_int(0);
-	character.dive_kick_max_height = md_config.attribute("dive_kick_max_height").as_int(0);
-	tmp = md_config.attribute("dive_kick_object").as_string("");
-	character.projectile_speed = md_config.attribute("projectile_speed").as_int(0);
-	character.projectile_duration = md_config.attribute("projectile_duration").as_int(0);
-	character.swordyuken_invencivility = md_config.attribute("swordyuken_invencivility").as_int(0);
-	character.swordyuken_jump_power = md_config.attribute("swordyuken_jump_power").as_int(0);
+	switch (character.type) {
+	case CHAR_TYPE::WARRIOR:
+		// Warrior
+		character.spin_speed = md_config.attribute("spin_speed").as_int(0);
+		character.improved_spin_speed = md_config.attribute("improved_spin_speed").as_int(0);
+		character.improved_spin_recovery = md_config.attribute("improved_spin_recovery").as_int(0);
+		character.jm_s1_angle = md_config.attribute("jm_s1_angle").as_int(0);
+		character.jm_s1_speed.x = md_config.attribute("jm_s1_speed_x").as_int(0);
+		character.jm_s1_speed.y = md_config.attribute("jm_s1_speed_y").as_int(0);
+		character.jm_s2_angle = md_config.attribute("jm_s2_angle").as_int(0);
+		character.jm_s2_speed.x = md_config.attribute("jm_s2_speed_x").as_int(0);
+		character.jm_s2_speed.y = md_config.attribute("jm_s2_speed_y").as_int(0);
+		character.dive_kick_object_mult = md_config.attribute("dive_kick_object_mult").as_float(0.0);
+		character.dive_kick_max_height = md_config.attribute("dive_kick_max_height").as_int(0);
+		tmp = md_config.attribute("dive_kick_object").as_string("");
+		character.projectile_speed = md_config.attribute("projectile_speed").as_int(0);
+		character.projectile_duration = md_config.attribute("projectile_duration").as_int(0);
+		character.swordyuken_invencivility = md_config.attribute("swordyuken_invencivility").as_int(0);
+		character.swordyuken_jump_power = md_config.attribute("swordyuken_jump_power").as_int(0);
+		break;
 
-	// Mage
-	character.fireball_speed = md_config.attribute("fireball_speed").as_int(0);
-	character.fireball_duration = md_config.attribute("fireball_duration").as_int(0);
-	character.fireball_emitter_offset.x = md_config.attribute("fireball_emitter_offset_x").as_int(0);
-	character.fireball_emitter_offset.y = md_config.attribute("fireball_emitter_offset_y").as_int(0);
-	character.air_fireball_angle = md_config.attribute("air_fireball_angle").as_int(0);
-	character.air_fireball_max_height = md_config.attribute("air_fireball_max_height").as_int(0);
-	character.air_fireball_backfire.x = md_config.attribute("air_fireball_backfire_x").as_int(0);
-	character.air_fireball_backfire.y = md_config.attribute("air_fireball_backfire_y").as_int(0);
-	character.air_fireball_speed.x = md_config.attribute("air_fireball_speed_x").as_int(0);
-	character.air_fireball_speed.y = md_config.attribute("air_fireball_speed_y").as_int(0);
-	character.double_jump_power.x = md_config.attribute("double_jump_power_x").as_int(0);
-	character.double_jump_power.y = md_config.attribute("double_jump_power_y").as_int(0);
-	character.meteorits = md_config.attribute("meteorits").as_int(0);
-	character.meteorits_life = md_config.attribute("meteorits_life").as_int(0);
-	character.first_meteorit_height = md_config.attribute("first_meteorit_height").as_int(0);
-	character.meteorits_offset.x = md_config.attribute("meteorits_offset_x").as_int(0);
-	character.meteorits_offset.y = md_config.attribute("meteorits_offset_y").as_int(0);
-	character.meteorits_speed.x = md_config.attribute("meteorits_speed_x").as_int(0);
-	character.meteorits_speed.y = md_config.attribute("meteorits_speed_y").as_int(0);
-	character.meteorits_rows = md_config.attribute("meteorits_rows").as_int(0);
-	character.meteorits_rows_offset = md_config.attribute("meteorits_rows_offset").as_int(0);
+	case CHAR_TYPE::MAGE:
+		// Mage
+		character.fireball_speed = md_config.attribute("fireball_speed").as_int(0);
+		character.fireball_duration = md_config.attribute("fireball_duration").as_int(0);
+		character.fireball_emitter_offset.x = md_config.attribute("fireball_emitter_offset_x").as_int(0);
+		character.fireball_emitter_offset.y = md_config.attribute("fireball_emitter_offset_y").as_int(0);
+		character.air_fireball_angle = md_config.attribute("air_fireball_angle").as_int(0);
+		character.air_fireball_max_height = md_config.attribute("air_fireball_max_height").as_int(0);
+		character.air_fireball_backfire.x = md_config.attribute("air_fireball_backfire_x").as_int(0);
+		character.air_fireball_backfire.y = md_config.attribute("air_fireball_backfire_y").as_int(0);
+		character.air_fireball_speed.x = md_config.attribute("air_fireball_speed_x").as_int(0);
+		character.air_fireball_speed.y = md_config.attribute("air_fireball_speed_y").as_int(0);
+		character.double_jump_power.x = md_config.attribute("double_jump_power_x").as_int(0);
+		character.double_jump_power.y = md_config.attribute("double_jump_power_y").as_int(0);
+		character.meteorits = md_config.attribute("meteorits").as_int(0);
+		character.meteorits_life = md_config.attribute("meteorits_life").as_int(0);
+		character.first_meteorit_height = md_config.attribute("first_meteorit_height").as_int(0);
+		character.meteorits_offset.x = md_config.attribute("meteorits_offset_x").as_int(0);
+		character.meteorits_offset.y = md_config.attribute("meteorits_offset_y").as_int(0);
+		character.meteorits_speed.x = md_config.attribute("meteorits_speed_x").as_int(0);
+		character.meteorits_speed.y = md_config.attribute("meteorits_speed_y").as_int(0);
+		character.meteorits_rows = md_config.attribute("meteorits_rows").as_int(0);
+		character.meteorits_rows_offset = md_config.attribute("meteorits_rows_offset").as_int(0);
+		break;
+
+	case CHAR_TYPE::ROGUE:
+		character.knife_speed = md_config.attribute("knife_speed").as_int(0);
+		character.knife_duration = md_config.attribute("knife_duration").as_int(0);
+		character.crossbow_recoil = md_config.attribute("crossbow_recoil").as_int(0);
+		character.crossbow_angle = md_config.attribute("crossbow_angle").as_int(0);
+		character.crossbow_speed.x = md_config.attribute("crossbow_speed_x").as_int(0);
+		character.crossbow_speed.y = md_config.attribute("crossbow_speed_y").as_int(0);
+		character.item_damage_boost = md_config.attribute("item_damage_boost").as_int(0);
+		character.item_teleport_distance = md_config.attribute("item_teleport_distance").as_int(0);
+		character.dash_speed = md_config.attribute("dash_speed").as_int(0);
+		character.max_dash_frames = md_config.attribute("max_dash_frames").as_int(0);
+		character.roll_speed = md_config.attribute("roll_speed").as_int(0);
+		character.max_roll_frames = md_config.attribute("max_roll_frames").as_int(0);
+		character.slide_speed = md_config.attribute("slide_speed").as_int(0);
+		character.max_super_frames = md_config.attribute("max_super_frames").as_int(0);
+		break;
+	case CHAR_TYPE::PALADIN:
+		// Paladin
+		character.parry_reaction_invencivility = md_config.attribute("parry_reaction_invencivility").as_int(0);
+		character.parry_healing = md_config.attribute("parry_healing").as_int(0);
+		character.parry_duration = md_config.attribute("parry_duration").as_int(0);
+		character.miss_parry_recovery = md_config.attribute("miss_parry_recovery").as_int(0);
+		character.st_s2_speed = md_config.attribute("st_s2_speed").as_int(0);
+		character.st_s2_invencivility = md_config.attribute("st_s2_invencivility").as_int(0);
+		character.hammer_duration = md_config.attribute("hammer_duration").as_int(0);
+		character.hammer_speed.x = md_config.attribute("hammer_speed_x").as_int(0);
+		character.hammer_speed.y = md_config.attribute("hammer_speed_y").as_int(0);
+		character.slam_speed.x = md_config.attribute("slam_speed_x").as_int(0);
+		character.slam_speed.y = md_config.attribute("slam_speed_y").as_int(0);
+		character.slam_max_height = md_config.attribute("slam_max_height").as_int(0);
+		character.air_hammer_speed = md_config.attribute("air_hammer_speed").as_int(0);
+		character.air_hammer_duration = md_config.attribute("air_hammer_duration").as_int(0);
+		character.super_healing = md_config.attribute("super_healing").as_int(0);
+		character.endurance_object_plus = md_config.attribute("endurance_object_plus").as_int(0);
+		break;
+
+	}
+
+	//Load sfxs
+	pugi::xml_node sound_data = md_config.child("sound_effects");
+	std::string filepath = "SFX/";
+	std::string filename = sound_data.child("jump").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_JUMP] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("light_sword_block").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_BLOCK] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("heavy_sword_block").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_HEAVY_SWORD_BLOCK] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("light_sword_impact").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_IMPACT] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("heavy_sword_impact").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_HEAVY_SWORD_IMPACT] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("light_sword_whiff").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_WHIFF] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("heavy_sword_whiff").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_HEAVY_SWORD_WHIFF] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("standing_special_1").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_STANDING_SPECIAL_1] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("standing_special_2").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_STANDING_SPECIAL_2] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("jumping_special_1").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_JUMPING_SPECIAL_1] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("crouching_special_1").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_CROUCHING_SPECIAL_1] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("crouching_special_2").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_CROUCHING_SPECIAL_2] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("death").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_DEATH] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("super").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_SUPER] = App->audio->loadSFX((filepath + filename).c_str());
 
 
+
+
+	//Load attacks
 	pugi::xml_node attack_data = md_config.child("attack_data");
 	loadAttackDeffFromXML(attack_data.child("st_l"), character.st_l);
 	loadAttackDeffFromXML(attack_data.child("st_h"), character.st_h);

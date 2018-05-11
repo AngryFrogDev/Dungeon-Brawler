@@ -22,6 +22,7 @@ public:
 
 	void giveItem(ITEMS type);
 	void takeAllItems();
+	ITEMS getItem();
 
 	void updateAnimationOnBasicAttack(CHAR_ATT_TYPE type); // Just to use for super
 
@@ -43,6 +44,7 @@ private:
 	iPoint jm_s1_speed;
 	iPoint jm_s2_speed;
 	int dive_kick_max_height; 
+	float dive_kick_object_mult;
 
 	int super_invencibility;
 

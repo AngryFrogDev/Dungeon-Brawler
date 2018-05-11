@@ -8,7 +8,7 @@
 	</application>
 	<window>
 		<resolution width="1600" height="900"/>
-		<fullscreen value="false" />
+		<fullscreen value="0" />
 		<borderless value="false" />
 		<resizable value="false" />
 		<fullscreen_window value="false" />
@@ -49,6 +49,11 @@
 				<focused x="340" y="219" w="199" h="73"/>
 				<clicked x="340" y="294" w="199" h="73"/>	
 			</obj_sel>
+			<stage_sel>
+				<still x="0" y="0" w="0" h="0"/>
+				<focused x="113" y="373" w="126" h="68"/>
+				<clicked x="113" y="453" w="126" h="68"/>
+			</stage_sel>
 		</button_section>
 		<bar_section>
 			<hp>
@@ -73,10 +78,10 @@
     <settings attack_type ="key_repeat"/>
 		<schemes>
       <controller_schemes>
-			  <default_controller up="17" down="18" left="15"   right="16"  light_attack="2" heavy_attack="0"  special_1="10" special_2="9"  grab="1"  switch="3" />
+			  <default_controller up="17" down="18" left="15"   right="16"  light_attack="2" heavy_attack="0"  special_1="10" special_2="9"  grab="1"  start="6" />
       </controller_schemes>
       <keyboard_schemes>
-       <default_keyboard   up="82" down="81" left="80"   right="79"  light_attack="4" heavy_attack="22" special_1="29" special_2="27" grab="7"  switch="6"/>
+       <default_keyboard   up="82" down="81" left="80"   right="79"  light_attack="4" heavy_attack="22" special_1="29" special_2="27" grab="7"  start="41"/>
       </keyboard_schemes>
 		</schemes>
 	</entities>

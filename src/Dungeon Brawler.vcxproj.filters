@@ -115,6 +115,15 @@
     <ClCompile Include="settingsScene.cpp">
       <Filter>Scenes\Settings Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Rogue.cpp">
+      <Filter>Entities\Characters\Rogue</Filter>
+    </ClCompile>
+    <ClCompile Include="Paladin.cpp">
+      <Filter>Entities\Characters\Paladin</Filter>
+    </ClCompile>
+    <ClCompile Include="stageSelScene.cpp">
+      <Filter>Scenes\Stage Selec Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mdAudio.h">
@@ -237,6 +246,15 @@
     <ClInclude Include="settingsScene.h">
       <Filter>Scenes\Settings Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Rogue.h">
+      <Filter>Entities\Characters\Rogue</Filter>
+    </ClInclude>
+    <ClInclude Include="Paladin.h">
+      <Filter>Entities\Characters\Paladin</Filter>
+    </ClInclude>
+    <ClInclude Include="stageSelScene.h">
+      <Filter>Scenes\Stage Selec Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scenes">
@@ -295,6 +313,15 @@
     </Filter>
     <Filter Include="Scenes\Settings Scene">
       <UniqueIdentifier>{ee99b702-0fe7-46a3-bf5b-90f2bf0410b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Characters\Rogue">
+      <UniqueIdentifier>{64cd2c9a-7af9-45ef-a274-04999f60853a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Characters\Paladin">
+      <UniqueIdentifier>{5c49879f-196d-4a3f-b63e-723a37137bdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Stage Selec Scene">
+      <UniqueIdentifier>{b367ad16-c28d-493f-83ba-0b8dcb4ce199}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

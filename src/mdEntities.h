@@ -32,8 +32,6 @@ struct character_deff {
 	int super_gauge_gain_hit;
 	int super_gauge_gain_block;
 	int super_gauge_gain_strike;
-	//int left_x_limit;
-	//int right_x_limit;
 	iPoint standing_hurtbox_size;
 	int crouching_hurtbox_offset;
 	int invencibility_on_wakeup;
@@ -41,6 +39,8 @@ struct character_deff {
 	int cancelability_window;
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2, super;
 	std::list<CHAR_ATT_TYPE> non_flip_attacks;
+	std::list<CHAR_ATT_TYPE> crouching_hurtbox_attacks;
+	Mix_Chunk* sfxs[MAX_SOUNDS];
 
 	// Warrior variables
 	int spin_speed;
@@ -51,6 +51,7 @@ struct character_deff {
 	int jm_s2_angle;
 	iPoint jm_s2_speed;
 	int dive_kick_max_height;
+	float dive_kick_object_mult;
 	int projectile_duration;
 	int projectile_speed;
 	int swordyuken_invencivility;
@@ -72,6 +73,37 @@ struct character_deff {
 	int meteorits_rows;
 	int meteorits_rows_offset;
 	iPoint meteorits_speed;
+
+	// Paladin variables
+	int parry_reaction_invencivility;
+	int parry_healing;
+	int parry_duration;
+	int miss_parry_recovery;
+	int st_s2_speed;
+	int st_s2_invencivility;
+	int hammer_duration;
+	iPoint hammer_speed;
+	iPoint slam_speed;
+	int slam_max_height;
+	int air_hammer_speed;
+	int air_hammer_duration;
+	int super_healing;
+	int endurance_object_plus;
+
+	// Rogue variables
+	int knife_speed;
+	int knife_duration;
+	int crossbow_recoil;
+	int crossbow_angle;
+	iPoint crossbow_speed;
+	int item_damage_boost;
+	int item_teleport_distance;
+	int dash_speed;
+	int max_dash_frames;
+	int roll_speed;
+	int max_roll_frames;
+	float slide_speed;
+	int max_super_frames;
 };
 
 class Player;
@@ -91,15 +123,13 @@ public:
 	void createPlayer(int player);
 
 	void destroyCharacters();
-	void removeCharacters();//Destroy current character from each player
-
+	
 	void assignControls();
 	void assignControllers();
-	void assignPartners();
 
 	bool moveCamera(bool movingLeft);
 
-	character_deff warrior, mage;
+	character_deff warrior, mage, rogue, paladin;
 	bool traning;
 	bool paused;
 	bool show;
@@ -111,7 +141,7 @@ public:
 	CHAR_ATT_TYPE stringToCharAttType(std::string string);
 
 public:
-	Player * players[4]; //I made it public to make the partner system work
+	Player * players[2]; 
 	std::list<controller_scheme> controller_schemes;
 	std::list<keyboard_scheme>	 keyboard_schemes;
 	KEY_STATE attack_input; 
@@ -135,7 +165,15 @@ private:
 	SDL_Texture* mage_graphics3;
 	SDL_Texture* mage_graphics4;
 
+	SDL_Texture* rogue_graphics;
+	SDL_Texture* rogue_graphics2;
+	SDL_Texture* rogue_graphics3;
+	SDL_Texture* rogue_graphics4;
 
+	SDL_Texture* paladin_graphics;
+	SDL_Texture* paladin_graphics2;
+	SDL_Texture* paladin_graphics3;
+	SDL_Texture* paladin_graphics4;
 	pugi::xml_document entities_config_doc;
 };
 

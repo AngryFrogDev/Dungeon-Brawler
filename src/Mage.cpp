@@ -7,13 +7,9 @@
 #include "Player.h"
 #include "ParticleEmitter.h"
 
-Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Character() {
-
-	lane = 1;
-	skin_id = skin;
+Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Character(character, x_pos, _fliped, skin) {
 
 	//PROVISIONAL: Animations should be loaded from the xml
-
 	//Animations
 	idle.PushBack({ 0,0,195,158 });
 	idle.PushBack({ 195,0,195,158 });
@@ -228,48 +224,22 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Charac
 	super_anim.loop = false;
 	super_anim.speed = character.super.animation_speed;
 
+	taunt.PushBack({ 195 * 0 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 1 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 2 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 3 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 4 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 5 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 6 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 7, 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 8 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 9 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 10 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 11 , 158 * 17 ,195, 158 });
+	taunt.PushBack({ 195 * 12, 158 * 17 ,195, 158 });
 
-
-	// Basic attack definitions
-
-	st_l = character.st_l;
-	st_h = character.st_h;
-	cr_l = character.cr_l;
-	cr_h = character.cr_h;
-	jm_l = character.jm_l;
-	jm_h = character.jm_h;
-	initial_fireball = st_s1 = character.st_s1;
-	st_s2 = character.st_s2;
-	cr_s1 = character.cr_s1;
-	cr_s2 = character.cr_s2;
-	jm_s1 = character.jm_s1;
-	jm_s2 = character.jm_s2;
-	super = character.super;
-
-
-	// XML inicialization
-	draw_size.x = 195;
-	draw_size.y = 158;
-	max_life = character.max_life;
-	max_super_gauge = character.max_super_gauge;
-	super_window = character.super_window;
-	cancelability_window = character.cancelability_window;
-	super_gauge_gain_hit = character.super_gauge_gain_hit;
-	super_gauge_gain_block = character.super_gauge_gain_block;
-	super_gauge_gain_strike = character.super_gauge_gain_strike;
-	crouching_hurtbox_offset = character.crouching_hurtbox_offset;
-	standing_hurtbox_size = character.standing_hurtbox_size;
-	jump_power = character.jump_power;
-	walk_speed = character.walk_speed;
-	gravity = character.gravity;
-	invencibility_on_wakeup = character.invencibility_on_wakeup;
-	scale = character.scale;
-	shadow_rect = { 452, 3719, 68, 14 };
-	shadow_offset = 105;
-	// Constructor inicialization
-	fliped = _fliped;
-	logic_position.x = x_pos;
-	type = CHAR_TYPE::MAGE;
+	taunt.loop = false;
+	taunt.speed = 0.2;
 
 	//MAGE EXCLUSIVE VARS
 	//Load from xml
@@ -278,6 +248,7 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Charac
 	fireball_emitter_offset = character.fireball_emitter_offset;
 	fireball_size_grow = 60;
 	fireball_damage_boost = 10;
+	initial_fireball = character.st_s1;
 
 	air_fireball_angle = character.air_fireball_angle;
 	air_fireball_max_height = character.air_fireball_max_height;
@@ -313,28 +284,6 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Charac
 	double_fireball_item = false;
 
 
-
-	// Runtime inicialization
-	grounded = false;
-	instanciated_hitbox = false;
-	hit = false;
-	crouching_hurtbox = false;
-	death = false;
-	current_life = max_life;
-	current_super_gauge = 0;
-	velocity.y = 0;
-	velocity.x = 0;
-	current_state = CHAR_STATE::IDLE;
-	logic_position.y = 1000;
-	starting_position.x = logic_position.x;
-	starting_position.y = -1000;
-	state_first_tick = false;
-	// Others
-	bottom_lane = 800;
-	upper_lane = 450;
-	lateral_limit = 50;
-
-
 	// PROVISIONAL: This should belong to entities, if not fx are loaded twice
 	//s_jump = App->audio->loadSFX("SFX/jump.wav");
 	//s_light_sword_block = App->audio->loadSFX("SFX/light_sword_block.wav");
@@ -351,13 +300,6 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Charac
 	//s_man_death = App->audio->loadSFX("SFX/man_death.wav");
 	//s_super = App->audio->loadSFX("SFX/super.wav");
 
-
-	current_animation = &idle;
-
-	// Collider creation
-	hurtbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
-	pushbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y / 2 }, PUSHBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
-
 }
 
 
@@ -365,6 +307,19 @@ Mage::~Mage() {
 }
 
 void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
+	int x_offset = 210;
+	int y_offset = 30; // PROVISIONAL, THIS SHOULD BE LOADED FROM THE XML
+
+	if (fireball_first_update) { 
+		if (!fliped) {
+			mage_charge = App->particle_system->createEmitter({ (float)logic_position.x + x_offset,(float)logic_position.y -y_offset }, "particles/mage-charge.xml");
+		}
+		else {
+			mage_charge = App->particle_system->createEmitter({ (float)logic_position.x - x_offset,(float)logic_position.y - y_offset }, "particles/mage-charge.xml");
+		}
+		fireball_first_update = false;
+	}
+
 	if (current_animation->GetState() == ACTIVE) {
 		// Item code
 		if (inputs[SPECIAL_1] && !fireball_max_charge && charge_fireball_item && !instanciated_hitbox) {
@@ -372,6 +327,8 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 			standing_special1.paused = true;
 			if (fireball_level >= 2)
 				fireball_max_charge = true;
+			if (hit)
+				standing_special1.paused = false;
 		}
 		else if (!instanciated_hitbox) {
 			standing_special1.paused = false;
@@ -379,7 +336,7 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 			st_s1.hitbox.h = initial_fireball.hitbox.h + fireball_size_grow*(int)fireball_level;
 			st_s1.damage = initial_fireball.damage + fireball_damage_boost*(int)fireball_level;
 		//Item code
-			collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, fireball_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
+			collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, fireball_duration, st_s1, this);
 			hitboxes.push_back(projectile_collider);
 			iPoint speed, offset, emitter_offset = { 0,0 };
 			if (!fliped) {
@@ -406,12 +363,20 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 					emitter = emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-ball-3.xml");
 					break;
 			}
-
-			App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,st_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,st_s1.hitbox.h,false) + offset.y }, speed, projectile_collider, -1, fliped, scale, emitter, emitter_offset);
+			if (!fliped) {
+				App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,st_s1.hitbox.w,true) + offset.x + 30, calculateDrawPosition(0,st_s1.hitbox.h,false) + offset.y - 30 }, speed, projectile_collider, -1, fliped, scale, emitter, emitter_offset);
+			}
+			else {
+				App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,st_s1.hitbox.w,true) + offset.x - 30, calculateDrawPosition(0,st_s1.hitbox.h,false) + offset.y - 30 }, speed, projectile_collider, -1, fliped, scale, emitter, emitter_offset);
+			}
+			
 			instanciated_hitbox = true;
 		}
 	}
 	if(current_animation->Finished()){
+		mage_charge->active = false;
+		mage_charge = nullptr;
+		fireball_first_update = true;
 		askRecovery(st_s1.recovery);
 		instanciated_hitbox = false;
 		fireball_level = 0;
@@ -420,10 +385,16 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 }
 
 void Mage::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
+
+	if (!state_first_tick) {
+		updateAnimation(standing_special2);
+		state_first_tick = true;
+	}
+
 	if (current_animation->GetState() == ACTIVE ) {
 		if(!instanciated_hitbox) {
 			instanciated_hitbox = true;
-			instanciateHitbox(ST_S2);
+			instanciateHitbox(st_s2);
 		}
 		fPoint emitter_player_offset = { 0,0 };
 		if (!fliped)
@@ -461,7 +432,7 @@ void Mage::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		state_first_tick = true;
 	}
 	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, jm_s1.hitbox.w,jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, fireball_duration, CHAR_ATT_TYPE::JM_S1, (Module*)App->entities, this);
+		collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, jm_s1.hitbox.w,jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, fireball_duration, jm_s1, this);
 		hitboxes.push_back(projectile_collider);
 		iPoint speed = { 0,0 };
 		iPoint offset = { 0,0 };
@@ -469,12 +440,12 @@ void Mage::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		if (!fliped) {
 			speed.x = air_fireball_speed.x;
 			offset.x = jm_s1.pos_rel_char.x;
-			emitter_offset.x = fireball_emitter_offset.x;
+			emitter_offset.x = 50;
 		}
 		else {
 			speed.x = -air_fireball_speed.x;
 			offset.x = -jm_s1.pos_rel_char.x;
-			emitter_offset.x = -fireball_emitter_offset.x;
+			emitter_offset.x = -50; //Air fireball emmiter offset
 		}
 		speed.y = air_fireball_speed.y;
 		offset.y = jm_s1.pos_rel_char.y;
@@ -513,7 +484,7 @@ void Mage::crouchingSpecial1() {
 		instanciated_hitbox = false;
 	}
 	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-		instanciateHitbox(CR_S1);
+		instanciateHitbox(cr_s1);
 	}
 }
 
@@ -537,9 +508,11 @@ void Mage::crouchingSpecial2() {
 	}
 	else {
 		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-			hitboxes.push_back(App->collision->AddCollider({ mine_position.x - cr_s2.hitbox.w / 2 , mine_position.y - cr_s2.hitbox.h / 2 ,cr_s2.hitbox.w, cr_s2.hitbox.h }, HITBOX, cr_s2.active_time, CR_S2, App->entities, this));
+			hitboxes.push_back(App->collision->AddCollider({ mine_position.x - cr_s2.hitbox.w / 2 , mine_position.y - cr_s2.hitbox.h / 2 ,cr_s2.hitbox.w, cr_s2.hitbox.h }, HITBOX, cr_s2.active_time, cr_s2, this));
 			mine_placed = false;
 			instanciated_hitbox = true;
+			App->particle_system->createEmitter({ (float)mine_position.x,(float)mine_position.y -60 }, "particles/mine-explosion.xml");
+			App->particle_system->createEmitter({ (float)mine_position.x,(float)mine_position.y -60}, "particles/mine-explosion-extra.xml");
 		}
 	}
 	if (current_animation->Finished()) {
@@ -557,21 +530,21 @@ void Mage::doSuper() {
 	if (current_animation->GetState() == ACTIVE && !meteorits_spawned) {
 		iPoint meteorits_current_offset = { 0,0 };
 		int x_pos = 0; // Projectiles should spawn on the camera limit
-		if (!fliped) {
-			meteorits_current_offset.x = meteorits_offset.x;
-			//x_pos = App->render->camera.x + App->render->camera.w;
+		if (fliped) {
+			meteorits_current_offset.x = -meteorits_offset.x;
+			x_pos = App->render->camera.x + App->render->camera.w;
 		}
 		else {
-			meteorits_current_offset.x = -meteorits_offset.x;
-			//x_pos = App->render->camera.x;
+			meteorits_current_offset.x = meteorits_offset.x;
+			x_pos = App->render->camera.x;
 		}
 
 		meteorits_current_offset.y = meteorits_offset.y;
 
 		for(int a = 0; a < meteorits_rows; a++){
 			for (int i = 0; i < meteorits; i++) {
-				iPoint meteorit_spawn_position = { (int)logic_position.x + meteorits_current_offset.x*i, first_meteorit_height + meteorits_current_offset.y *i + meteorits_rows_offset*a };
-				collider* projectile_collider = App->collision->AddCollider({ meteorit_spawn_position.x, (int)meteorit_spawn_position.y, jm_s1.hitbox.w,jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, meteorits_life, CHAR_ATT_TYPE::JM_S1, (Module*)App->entities, this);
+				iPoint meteorit_spawn_position = { (int)x_pos/*maybe player pos here?*/ + meteorits_current_offset.x*i, first_meteorit_height + meteorits_current_offset.y *i + meteorits_rows_offset*a };
+				collider* projectile_collider = App->collision->AddCollider({ meteorit_spawn_position.x, (int)meteorit_spawn_position.y, jm_s1.hitbox.w,jm_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, meteorits_life, jm_s1, this);
 				hitboxes.push_back(projectile_collider);
 				iPoint speed = { 0,0 };
 				iPoint emitter_offset = { 0,0 };
@@ -640,4 +613,22 @@ void Mage::giveItem(ITEMS type) {
 void Mage::takeAllItems() {
 	charge_fireball_item = false;
 	double_fireball_item = false;
+}
+
+ITEMS Mage::getItem() {
+	if (charge_fireball_item)
+		return SPECIAL_ITEM_1;
+	if (charge_fireball_item)
+		return SPECIAL_ITEM_2;
+
+	return NO_ITEM;
+}
+
+void Mage::specificCharacterReset() {
+	double_jump = false;
+	mine_placed = false;
+	meteorits_spawned = false;
+	mine_position = { 0,0 };
+	fireball_level = 0;
+	fireball_max_charge = false;
 }

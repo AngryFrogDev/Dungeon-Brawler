@@ -3,6 +3,8 @@
 
 struct character_deff;
 
+class ParticleEmitter;
+
 class Mage : public Character {
 public:
 	Mage(character_deff character, int x_pos, bool _fliped, int skin);
@@ -20,9 +22,11 @@ public:
 	void doSuper();
 
 	void characterSpecificUpdates();
+	void specificCharacterReset();
 
 	void giveItem(ITEMS type);
 	void takeAllItems();
+	ITEMS getItem();
 
 private:
 	int fireball_speed;
@@ -62,8 +66,9 @@ private:
 	bool charge_fireball_item;
 	bool double_fireball_item;
 
+	ParticleEmitter* mage_charge = nullptr;
 
-
+	bool fireball_first_update = true;
 
 
 };

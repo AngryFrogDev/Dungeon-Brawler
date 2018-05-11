@@ -42,15 +42,25 @@ private:
 
 	bool loadMapPropierties(pugi::xml_node& node);
 	bool unloadMap();
+	int selected_map = 0;
 
 public:
 
 	MapData data;
 	bool map_loaded;
+	bool parallax = true;
 
 private:
 
 	pugi::xml_document	map_file;
+	int mapx = 0;
+	int mapx2 = 0;
+	bool firstfront = true;
+	int mapy = 400;
+	int mapy2 = 200;
+	bool up = true;
+	int iterator = 0;
+	int parallax_speed = 0;
 
 };
 

@@ -5,13 +5,10 @@
 #include "mdEntities.h"
 #include "mdParticleSystem.h"
 
-Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : Character() {
+Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : Character(character, x_pos, _fliped, skin) {
 
-	lane = 1;
-	skin_id = skin;
-	
+
 	//PROVISIONAL: Animations should be loaded from the xml
-
 	//Animations
 	idle.PushBack({ 0,0,195,158 });
 	idle.PushBack({ 195,0,195,158 });
@@ -254,48 +251,25 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : 
 	jumping_special2.speed = character.jm_s2.animation_speed;
 	jumping_special2.angle = 30;
 
-	// Basic attack definitions
+	taunt.PushBack({ 0		, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195    , 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 2, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 3, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 4, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 5, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 6, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 7, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 8, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 9, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 10, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 11, 158 * 10, 195, 158 });
+	taunt.PushBack({ 195 * 12, 158 * 10, 195, 158 });
 
-	st_l = character.st_l;
-	st_h = character.st_h;
-	cr_l = character.cr_l;
-	cr_h = character.cr_h;
-	jm_l = character.jm_l;
-	jm_h = character.jm_h;
-	st_s1 = character.st_s1;
-	st_s2 = character.st_s2;
-	cr_s1 = character.cr_s1;
-	cr_s2 = character.cr_s2;
-	jm_s1 = character.jm_s1;
-	jm_s2 = character.jm_s2;
-	super = character.super;
-
-	// XML inicialization
-	draw_size.x = 195;
-	draw_size.y = 158;
-	max_life = character.max_life;
-	max_super_gauge = character.max_super_gauge;
-	super_window = character.super_window;
-	cancelability_window = character.cancelability_window;
-	super_gauge_gain_hit = character.super_gauge_gain_hit;
-	super_gauge_gain_block = character.super_gauge_gain_block;
-	super_gauge_gain_strike = character.super_gauge_gain_strike;
-	crouching_hurtbox_offset = character.crouching_hurtbox_offset;
-	standing_hurtbox_size = character.standing_hurtbox_size;
-	jump_power = character.jump_power;
-	walk_speed = character.walk_speed;
-	gravity = character.gravity;
-	invencibility_on_wakeup = character.invencibility_on_wakeup;
-	scale = character.scale;
-	non_flip_attacks = character.non_flip_attacks;
-	shadow_rect = { 452, 3719, 68, 14 };
-	shadow_offset = 105;
-	// Constructor inicialization
-	fliped = _fliped;
-	logic_position.x = x_pos;
-	type = CHAR_TYPE::WARRIOR;
+	taunt.loop = false;
+	taunt.speed = 0.2;
 
 	// WARRIOR EXCLUSIVE VARS
+	//XML inicialization
 	spin_speed = character.spin_speed;
 	improved_spin_speed = character.improved_spin_speed;
 	improved_spin_recovery = character.improved_spin_recovery;
@@ -304,11 +278,15 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : 
 	dive_kick_max_height = character.dive_kick_max_height; 
 	jm_s2_angle = character.jm_s2_angle;
 	jm_s2_speed = character.jm_s2_speed;
+	dive_kick_object_mult = character.dive_kick_object_mult;
 	projectile_duration = character.projectile_duration;
 	projectile_speed = character.projectile_speed;
 	swordyuken_invencivility = character.swordyuken_invencivility;
 	swordyuken_jump_power = character.swordyuken_jump_power;
 	super_invencibility = 300;
+	//Runtime inicialization
+	spin_object = false;
+	dive_kick_object = false;
 	// PROVISIONAL: Should be loaded from xml
 	super_attack_list.push_back(ST_L);
 	super_attack_list.push_back(ST_L);
@@ -319,51 +297,8 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : 
 	super_last_attack = CR_S2;
 
 	super_advance_speed = 5;
-	// Runtime inicialization
-	grounded = false;
-	instanciated_hitbox = false;
-	hit = false;
-	crouching_hurtbox = false;
-	death = false;
-	current_life = max_life;
-	current_super_gauge = 0;
-	velocity.y = 0;
-	velocity.x = 0;
-	current_state = CHAR_STATE::IDLE;
-	logic_position.y = 1000;
-	starting_position.x = logic_position.x;
-	starting_position.y = -1000;
-	state_first_tick = false;
-	spin_object = false; 
-	dive_kick_object = false;
-	// Others
-	bottom_lane = 800;
-	upper_lane = 450;
-	lateral_limit = 50;
 
 
-	// PROVISIONAL: This should belong to entities, if not fx are loaded twice
-	s_jump = App->audio->loadSFX("SFX/jump.wav");
-	s_light_sword_block = App->audio->loadSFX("SFX/light_sword_block.wav");
-	s_heavy_sword_block = App->audio->loadSFX("SFX/heavy_sword_block.wav");
-	s_light_sword_whiff = App->audio->loadSFX("SFX/light_sword_whiff.wav");
-	s_heavy_sword_whiff = App->audio->loadSFX("SFX/heavy_sword_whiff.wav");
-	s_light_sword_impact = App->audio->loadSFX("SFX/light_sword_impact.wav");
-	s_heavy_sword_impact = App->audio->loadSFX("SFX/heavy_sword_impact.wav");
-	s_standing_special_1 = App->audio->loadSFX("SFX/standing_special_1.wav");
-	s_standing_special_2 = App->audio->loadSFX("SFX/standing_special_2.wav");
-	s_jumping_special_1 = App->audio->loadSFX("SFX/jumping_special_1.wav");;
-	s_crouching_special_1 = App->audio->loadSFX("SFX/crouching_special_1.wav");;
-	s_crouching_special_2 = App->audio->loadSFX("SFX/crouching_special_2.wav");;
-	s_man_death = App->audio->loadSFX("SFX/man_death.wav");
-	s_super = App->audio->loadSFX("SFX/super.wav");
-
-
-	current_animation = &idle;
-
-	// Collider creation
-	hurtbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
-	pushbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y / 2 }, PUSHBOX, -1, CHAR_ATT_TYPE::NO_ATT, (Module*)App->entities, (Character*)this);
 }
 
 
@@ -374,7 +309,7 @@ Warrior::~Warrior() {
 void Warrior::standingSpecial1(const bool(&inputs)[MAX_INPUTS]){
 
 		if (current_animation->GetState() == ACTIVE) {
-			collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, CHAR_ATT_TYPE::ST_S1, (Module*)App->entities, this);
+			collider* projectile_collider = App->collision->AddCollider({ (int)logic_position.x, (int)logic_position.y, st_s1.hitbox.w,st_s1.hitbox.h }, COLLIDER_TYPE::PROJECTILE_HITBOX, projectile_duration, st_s1, this);
 			hitboxes.push_back(projectile_collider);
 			iPoint speed;
 			if (!fliped)
@@ -389,6 +324,10 @@ void Warrior::standingSpecial1(const bool(&inputs)[MAX_INPUTS]){
 }
 
 void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
+	if (!state_first_tick) {
+		updateAnimation(standing_special2);
+		state_first_tick = true;
+	}
 	hurtbox->type = PROJECTILE_INVENCIBLE_HURTBOX;
 
 	if(!spin_object){
@@ -426,7 +365,7 @@ void Warrior::standingSpecial2(const bool(&inputs)[MAX_INPUTS])	{
 			askRecovery(improved_spin_recovery);
 	}
 	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) 
-		instanciateHitbox(ST_S2);
+		instanciateHitbox(st_s2);
 
 	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
@@ -450,7 +389,7 @@ void Warrior::crouchingSpecial1() {
 		hurtbox->rect.h = standing_hurtbox_size.y;
 	}
 	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
-		instanciateHitbox(CR_S1);
+		instanciateHitbox(cr_s1);
 
 	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
@@ -470,7 +409,6 @@ void Warrior::crouchingSpecial2()	{ // Should have recovery
 		state_first_tick = true;
 	}
 	if (velocity.y >= 0) { 
-		setCrouchingHurtbox(false);
 		instanciated_hitbox = false;
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr) {
@@ -481,7 +419,7 @@ void Warrior::crouchingSpecial2()	{ // Should have recovery
 		askRecovery(cr_s2.recovery);
 
 	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
-		instanciateHitbox(CR_S2);
+		instanciateHitbox(cr_s2);
 
 	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
@@ -495,18 +433,25 @@ void Warrior::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		state_first_tick = true;
 	}
 	if (!grounded) {
+		iPoint speed = { 0,0 };
+		if (dive_kick_object) {
+			speed.create(jm_s1_speed.x * dive_kick_object_mult, jm_s1_speed.y * dive_kick_object_mult);
+		}
+		else
+			speed = jm_s1_speed;
+
 		if (!fliped) {
-			velocity.x = jm_s1_speed.x; 
+			velocity.x = speed.x; 
 			jumping_special1.angle = jm_s1_angle;
 		}
 		else {
-			velocity.x = -jm_s1_speed.x; 
+			velocity.x = -speed.x; 
 			jumping_special1.angle = -jm_s1_angle;
 		}
-		velocity.y = jm_s1_speed.y;
+		velocity.y = speed.y;
 
 		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
-			instanciateHitbox(JM_S1);
+			instanciateHitbox(jm_s1);
 	}
 	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
@@ -548,18 +493,25 @@ void Warrior::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 		state_first_tick = true;
 	}
 	if (!grounded) {
+		iPoint speed = { 0,0 };
+		if (dive_kick_object) {
+			speed.create(jm_s2_speed.x * dive_kick_object_mult, jm_s2_speed.y * dive_kick_object_mult);
+		}
+		else
+			speed = jm_s2_speed;
+
 		if (!fliped) {
-			velocity.x = jm_s2_speed.x; 
+			velocity.x = speed.x; 
 			jumping_special2.angle = jm_s2_angle;
 		}
 		else {
-			velocity.x = -jm_s2_speed.x; 
+			velocity.x = -speed.x; 
 			jumping_special2.angle = -jm_s2_angle;
 		}
-		velocity.y = jm_s2_speed.y; 
+		velocity.y = speed.y; 
 
 		if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
-			instanciateHitbox(JM_S2);
+			instanciateHitbox(jm_s2);
 	}
 	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
@@ -608,7 +560,13 @@ void Warrior::doSuper() {
 		logic_position.x += super_advance_speed;
 
 	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
-		instanciateHitbox(*super_iterator);
+		basic_attack_deff super_part = getAttackData(*super_iterator);
+		super_part.hitstun = super.hitstun;
+		super_part.blockstun = super.blockstun;
+		super_part.pushhit = super.pushhit;
+		super_part.pushblock = super.pushblock;
+		super_part.damage= super.damage;
+		instanciateHitbox(super_part);
 		super_iterator++;
 		instanciated_hitbox = false;
 		if (*super_iterator != super_last_attack)
@@ -659,4 +617,14 @@ bool Warrior::jumpingSpecial2Condition() {
 }
 bool Warrior::standingSpecial1Condition() {
 	return App->projectiles->lookForProjectileType(WARRIOR_KNIFE, (Character*)this) == 0;
+}
+
+ITEMS Warrior::getItem() {
+	if (spin_object)
+		return SPECIAL_ITEM_1;
+	if (dive_kick_object)
+		return SPECIAL_ITEM_2;
+
+	return NO_ITEM;
+
 }

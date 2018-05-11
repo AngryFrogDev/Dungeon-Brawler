@@ -73,7 +73,7 @@ bool mdCollision::update(float dt)
 
 			if (c1->checkCollision(c2->rect) == true) {
 				//Character check
-				if (c1->character != c2->character && c1->character->lane == c2->character->lane) {
+				if (c1->character != c2->character/* && c1->character->lane == c2->character->lane*/) {
 					if(isInteractive(c1->type,c2->type))
 						c1->character->onCollision(c1,c2);
 					if(isInteractive(c2->type, c1->type))
@@ -148,9 +148,9 @@ void mdCollision::onCollision(collider*c1, collider* c2) {
 }
 
 
-collider* mdCollision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type,int life,CHAR_ATT_TYPE attack_type, Module* callback, Character* character)
+collider* mdCollision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, int life, basic_attack_deff attack_type, Character* character)
 {
-	collider* ret = new collider(rect, type, life,attack_type, callback,character);
+	collider* ret = new collider(rect, type, life,attack_type,character);
 
 	colliders.push_back(ret);
 

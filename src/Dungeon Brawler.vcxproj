@@ -148,14 +148,17 @@
     <ClCompile Include="mdTextures.cpp" />
     <ClCompile Include="mdWindow.cpp" />
     <ClCompile Include="mdCollision.cpp" />
+    <ClCompile Include="Paladin.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleEmitter.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ProjDefs.cpp" />
     <ClCompile Include="pugixml\pugixml.cpp" />
+    <ClCompile Include="Rogue.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="settingsScene.cpp" />
+    <ClCompile Include="stageSelScene.cpp" />
     <ClCompile Include="startScene.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UiWindow.cpp" />
@@ -187,6 +190,7 @@
     <ClInclude Include="mdTextures.h" />
     <ClInclude Include="mdWindow.h" />
     <ClInclude Include="mdCollision.h" />
+    <ClInclude Include="Paladin.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleEmitter.h" />
     <ClInclude Include="PerfTimer.h" />
@@ -196,8 +200,10 @@
     <ClInclude Include="Module.h" />
     <ClInclude Include="pugixml\pugiconfig.hpp" />
     <ClInclude Include="pugixml\pugixml.hpp" />
+    <ClInclude Include="Rogue.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="settingsScene.h" />
+    <ClInclude Include="stageSelScene.h" />
     <ClInclude Include="startScene.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UiWindow.h" />

@@ -2,6 +2,8 @@
 #include "Character.h"
 #include "Warrior.h"
 #include "Mage.h"
+#include "Rogue.h"
+#include "Paladin.h"
 #include "Application.h"
 #include "mdSceneManager.h"
 
@@ -73,20 +75,19 @@ void Player::createAndAssignCharacter(CHAR_TYPE type, ITEMS item, bool player, i
 			curr_character = new Mage(App->entities->mage, x_pos, fliped, skin);
 			break;
 		}
-		//case ROGUE:
-		//{
-		//	curr_character = Character(ROGUE);
-		//	break;
-		//}
-		//case PALADIN:
-		//{
-		//	curr_character = Character(PALADIN);
-		//	break;
-		//}
+		case ROGUE:
+		{
+			curr_character = new Rogue(App->entities->rogue, x_pos, fliped, skin);
+			break;
+		}
+		case PALADIN:
+		{
+			curr_character = new Paladin(App->entities->paladin, x_pos, fliped, skin);
+			break;
+		}
 	}
 	curr_character->giveItem(item);
-//	curr_character->manageOponent();
-			
+		
 }
 
 void Player::assignControlScheme(const controller_scheme& new_scheme) {
@@ -102,9 +103,6 @@ Controller * Player::getController() const {
 	return controller;
 }
 
-int Player::getLane() {
-	return curr_character->lane;
-}
 iPoint Player::getPos() {
 	return curr_character->getPos();
 }
@@ -112,6 +110,14 @@ Character * Player::getCurrCharacter()
 {
 	return this->curr_character;
 }
+
+void Player::removeCharacters()	{
+	for (int i = 0; i < 2; i++) {
+		delete App->entities->players[i]->getCurrCharacter();
+		App->entities->players[i]->curr_character = nullptr;
+	}
+}
+
 void Player::setFlip(bool flip) {
 	curr_character->setFlip(flip);
 }

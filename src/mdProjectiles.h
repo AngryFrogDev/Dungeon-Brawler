@@ -19,7 +19,11 @@ enum PROJECTILE_TYPE {
 	DEFF_PROJECTILE,
 	WARRIOR_KNIFE,
 	MAGE_FIREBALL,
-	MAGE_METEORIT
+	MAGE_METEORIT,
+	ROGUE_DAGGER, 
+	PALADIN_HAMMER,
+	ROGUE_ARROW,
+	PALADIN_AIR_HAMMER,
 };
 
 struct projectile {
@@ -42,7 +46,9 @@ struct projectile {
 	PROJECTILE_TYPE type;
 	ParticleEmitter* emitter = nullptr;
 	iPoint emitter_offset;
-
+	int gravity = 1;
+	float angular_velocity;
+	float angle = 0.0f;
 };
 
 class mdProjectiles :
@@ -59,12 +65,17 @@ public:
 
 	int lookForProjectileType(PROJECTILE_TYPE type, Character* character);
 
-	projectile* addProjectile(PROJECTILE_TYPE type, iPoint position, iPoint speed, collider* collider, int life, bool fliped, int scale, ParticleEmitter* emitter = nullptr, iPoint emitter_offset = { 0,0 });
+	projectile* addProjectile(PROJECTILE_TYPE type, iPoint position, iPoint speed, collider* collider, int life, bool fliped, int scale, ParticleEmitter* emitter = nullptr, iPoint emitter_offset = { 0,0 }, float angular_velocity = 0);
 
 
 	SDL_Texture* graphics;
 	Animation warrior_knife;
+	Animation paladin_hammer;
+	Animation rogue_arrow;
+
 
 	std::list<projectile*> projectiles;
+
+
 };
 #endif

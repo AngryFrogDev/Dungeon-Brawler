@@ -13,11 +13,31 @@
 
 class Mix_Chunk;
 enum CHAR_TYPE {
-	DEF_CHAR,
+	DEF_CHAR = -1,
 	WARRIOR,
 	MAGE,
 	ROGUE,
-	PALADIN
+	PALADIN,
+	CHAR_TOTAL
+};
+
+// Sound effects
+enum CHAR_SOUNDS {
+	S_JUMP = 0,
+    S_LIGHT_SWORD_BLOCK,
+    S_HEAVY_SWORD_BLOCK,
+	S_LIGHT_SWORD_WHIFF,
+    S_HEAVY_SWORD_WHIFF,
+    S_LIGHT_SWORD_IMPACT,
+    S_HEAVY_SWORD_IMPACT,
+    S_STANDING_SPECIAL_1,
+    S_STANDING_SPECIAL_2,
+    S_JUMPING_SPECIAL_1,
+    S_CROUCHING_SPECIAL_1,
+    S_CROUCHING_SPECIAL_2,
+    S_DEATH,
+    S_SUPER,
+	MAX_SOUNDS
 };
 
 enum CHAR_ATT_TYPE {
@@ -46,8 +66,9 @@ enum CHAR_STATE {
 	CROUCHING,
 	JUMPING,
 	ATTACKING,
-	SWAPPING,
+	PAUSED,
 	RECOVERY,
+	TAUNT,
 
 	STAND_BLOCKING, 
 	CROUCH_BLOCKING,
@@ -68,7 +89,7 @@ enum CHARACTER_INPUTS {
 	SPECIAL_1,
 	SPECIAL_2,
 	GRAB,
-	SWITCH,
+	START,
 	MAX_INPUTS
 };
 
@@ -79,6 +100,23 @@ enum BLOCK_TYPE {
 	LOW
 };
 struct basic_attack_deff {
+	basic_attack_deff() {
+		damage = 0;
+		hitstun = 0;
+		blockstun = 0;
+		pushhit = 0;
+		pushblock = 0;
+		hitbox = { 0,0,0,0 };
+		pos_rel_char = { 0,0 };
+		active_time = 0;
+		type = NO_ATT;
+		knockdown = false;
+		juggle_speed = { 0,0 };
+		block_type = NO_BLOCK_TYPE;
+		recovery = 0;
+		animation_speed = 0;
+
+	}
 	int damage;
 	int hitstun; //in miliseconds
 	int blockstun; //in miliseconds
@@ -108,17 +146,14 @@ enum ITEMS {
 };
 
 class Player;
+struct character_deff;
 
 class Character {
 public:
-	Character();
+	Character(character_deff character, int x_pos, int _fliped, int skin);
 	~Character();
 						
 	virtual void update(const bool (&inputs)[MAX_INPUTS]);	
-
-	Character* oponent = nullptr;
-
-	Player* partner = nullptr;
 
     // The first one is the collider belonging to this character
 	void onCollision(collider* c1, collider* c2);
@@ -128,10 +163,6 @@ public:
 	void setIfGrounded();
 
 	void draw(SDL_Texture* graphic);
-
-	bool manageSwap();
-
-	void manageOponent();
 
 
 	basic_attack_deff getAttackData(CHAR_ATT_TYPE attack_type) const;
@@ -144,25 +175,28 @@ public:
 	int getMaxLife() const;
 	int getCurrentSuperGauge() const;
 	int getMaxSuperGauge() const;
+	virtual ITEMS getItem() const { return NO_ITEM; };
 	bool notAllowFlip();
 	CHAR_TYPE getType() const;
 	void resetCharacter();
+	virtual void specificCharacterReset() {return;}
 
 	// Item management
 	virtual void giveItem(ITEMS type) { return; }
 	virtual void takeAllItems() { return; }
+
+	// Taunt management
+	void tauntFor(int _taunt_duration);
 protected:	
 	// Execute attack, rewritable for every type of character
 	virtual void doAttack(const bool(&inputs)[MAX_INPUTS]);
 	// Hitbox related functions
-	void instanciateHitbox(CHAR_ATT_TYPE type);
+	void instanciateHitbox(basic_attack_deff type);
 	void deleteDeadHitboxes();
 	collider* getCurrentAttackHitbox(); // Returns nullptr if no hitbox was found
+	collider* getAttackHitbox(CHAR_ATT_TYPE type);
 	void deleteAttackHitbox(CHAR_ATT_TYPE type, collider* hitbox = nullptr);
 	void deleteAllMeleeHitboxes();
-
-	// Swap related functions
-	void manageGroundPosition();
 
 	void updateAnimation(Animation& new_animation);
 
@@ -171,6 +205,8 @@ protected:
 	void emmitCurrentParticle();
 	void setCrouchingHurtbox(bool crouch);
 	
+	// Hurtbox size management
+	void hurtboxSizeManagement();
 	// Invencivility management
 	void makeInvencibleFor(int invencible_time); // Variable in milliseconds
 	void updateInvecibility();
@@ -212,12 +248,13 @@ protected:
 	int crouching_hurtbox_offset;
 	iPoint standing_hurtbox_size;
 
-	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_special1, standing_special2, jumping_special1, jumping_special2, crouching_special1, crouching_special2, standing_hit, standing_block, crouching_block, knockdown, dead, super_anim;
+	Animation idle, walk_forward, walk_back, crouch, light_attack, heavy_attack, jump, crouching_light, crouching_heavy, jumping_light, jumping_heavy, standing_special1, standing_special2, jumping_special1, jumping_special2, crouching_special1, crouching_special2, standing_hit, standing_block, crouching_block, knockdown, dead, super_anim, taunt;
 
 	basic_attack_deff st_l, st_h, cr_l, cr_h, jm_l, jm_h, st_s1, st_s2, cr_s1, cr_s2, jm_s1, jm_s2, super;
 
 	std::list<CHAR_ATT_TYPE> non_flip_attacks;
-	std::list<CHAR_ATT_TYPE> juggle_attacks_recieved;
+	std::list<CHAR_ATT_TYPE> crouching_hurtbox_attacks;
+
 
 
 	iPoint jump_power;
@@ -234,6 +271,10 @@ protected:
 
 	int crouch_particle_offset;
 
+	int taunt_start;
+	int taunt_duration;
+	int normal_taunt_duration;
+
 	// In miliseconds
 	int invencibility_on_wakeup;
 
@@ -244,26 +285,8 @@ protected:
 	SDL_Rect shadow_rect;
 
 
-	// Sound effects
-	Mix_Chunk* s_jump;
-	Mix_Chunk* s_light_sword_block;
-	Mix_Chunk* s_heavy_sword_block;
-	Mix_Chunk* s_light_sword_whiff;
-	Mix_Chunk* s_heavy_sword_whiff;
-	Mix_Chunk* s_light_sword_impact;
-	Mix_Chunk* s_heavy_sword_impact;
-	Mix_Chunk* s_standing_special_1; 
-	Mix_Chunk* s_standing_special_2;
-	Mix_Chunk* s_jumping_special_1; 
-	Mix_Chunk* s_crouching_special_1;
-	Mix_Chunk* s_crouching_special_2; 
-	Mix_Chunk* s_man_death;
-	Mix_Chunk* s_super;
-
 	// Variables to load from constructor
 	iPoint starting_position;
-	int bottom_lane;
-	int upper_lane;
 	Player* owner;
 
 	// Variables to modify in runtime
@@ -284,6 +307,8 @@ protected:
 	bool fliped;
 
 	bool death;
+
+	std::list<CHAR_ATT_TYPE> juggle_attacks_recieved;
 
 	//If the hitbox of the attack has been already instanciated, it should,'t be instanciated again
 	bool instanciated_hitbox; 
@@ -317,11 +342,25 @@ protected:
 	CHARACTER_INPUTS input_buffer[MAX_INPUT_BUFFER];
 public:
 	//Swap variables
-	int lane; // 1 = bottom  2 = top This is important
+	//int lane; // 1 = bottom  2 = top This is important
 	int skin_id; // 0 = normal, 1 = recolor 1, 2 = recolor 2...
-	bool readyToSwap = false;
-	bool swapRequested = false;
-	bool swapDone = false;
+
+protected:
+	// Sound effects
+	Mix_Chunk * s_jump;
+	Mix_Chunk* s_light_sword_block;
+	Mix_Chunk* s_heavy_sword_block;
+	Mix_Chunk* s_light_sword_whiff;
+	Mix_Chunk* s_heavy_sword_whiff;
+	Mix_Chunk* s_light_sword_impact;
+	Mix_Chunk* s_heavy_sword_impact;
+	Mix_Chunk* s_standing_special_1;
+	Mix_Chunk* s_standing_special_2;
+	Mix_Chunk* s_jumping_special_1;
+	Mix_Chunk* s_crouching_special_1;
+	Mix_Chunk* s_crouching_special_2;
+	Mix_Chunk* s_death;
+	Mix_Chunk* s_super;
 
 };
 
