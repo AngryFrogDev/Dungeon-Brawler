@@ -1,4 +1,4 @@
- <?xml version="1.0"?>
+<?xml version="1.0"?>
 <config>
   <items player_1_item ="false" player_2_item ="true"/>
 	<application>
@@ -8,7 +8,7 @@
 	</application>
 	<window>
 		<resolution width="1600" height="900"/>
-		<fullscreen value="0" />
+		<fullscreen value="false" />
 		<borderless value="false" />
 		<resizable value="false" />
 		<fullscreen_window value="false" />
