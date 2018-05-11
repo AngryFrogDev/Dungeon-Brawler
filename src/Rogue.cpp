@@ -427,6 +427,7 @@ void Rogue::characterSpecificUpdates()
 			resetRecoveries();
 			current_super_frames = 0;
 			current_super_gauge = 0;
+			if(super_emitter != nullptr)
 			super_emitter->active = false;
 			walk_speed = walk_speed / 2;
 			jump_power.x = jump_power.x / 2;
@@ -595,12 +596,21 @@ void Rogue::specificCharacterReset() {
 	has_airdash = true;
 	current_dash_frames = 0;
 	current_roll_frames = 0;
+	if(on_super) {
+		on_super = false;
+		resetRecoveries();
+		current_super_frames = 0;
+		current_super_gauge = 0;
+		super_emitter->active = false;
+		walk_speed = walk_speed / 2;
+		jump_power.x = jump_power.x / 2;
+	}
 	if (super_emitter)
 		super_emitter->active = false;
 }
 
 Rogue::~Rogue()
 {
-	if (super_emitter)
+	if (super_emitter != nullptr)
 		super_emitter->active = false;
 }

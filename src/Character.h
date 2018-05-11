@@ -151,7 +151,7 @@ struct character_deff;
 class Character {
 public:
 	Character(character_deff character, int x_pos, int _fliped, int skin);
-	~Character();
+	virtual ~Character();
 						
 	virtual void update(const bool (&inputs)[MAX_INPUTS]);	
 
