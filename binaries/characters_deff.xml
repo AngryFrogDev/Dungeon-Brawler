@@ -978,9 +978,9 @@
 		<heavy_sword_impact filename = "paladin/attack_impact.wav"/>
 		<standing_special_1 filename = "paladin/standing_special_1.wav"/>
 		<standing_special_2 filename = "paladin/standing_special_1.wav"/>
-		<jumping_special_1 filename = "paladin/jumping_special_2_crouching_special_2.wav"/>
-		<crouching_special_1 filename = "paladin/standing_light_standing_heavy_crouching_light_crouching_heavy_jumping_light_jumping_heavy.wav"/>
-		<crouching_special_2 filename = "paladin/jumping_special_2_crouching_special_2.wav"/>
+		<jumping_special_1 filename = "paladin/jumping_special_1.wav"/>
+		<crouching_special_1 filename = "paladin/jumping_special_2_crouching_special_2.wav"/>
+		<crouching_special_2 filename = "paladin/standing_light_standing_heavy_crouching_light_crouching_heavy_jumping_light_jumping_heavy.wav"/>
 		<death filename = "paladin/death.wav"/>
 		<super filename = "paladin/super.wav"/>
 	</sound_effects>
