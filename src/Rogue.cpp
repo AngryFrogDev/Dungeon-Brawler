@@ -223,6 +223,11 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	taunt.speed = 0.4;
 	taunt.loop = false;
 
+	dead.PushBack({ 0* x_space, height * 11,width,height });
+
+	dead.speed = 0.2;
+	dead.loop = false;
+
 	// REKKA HARDCODED STUFF
 	rekka_attack_list.push_back(ST_S2);
 	rekka_attack_list.push_back(CR_H);
