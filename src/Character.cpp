@@ -469,6 +469,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		if (taunt_duration < (SDL_GetTicks() - taunt_start))
 			updateState(IDLE);
+		else if (hit)
+			updateState(HIT);
 		break;
 
 
