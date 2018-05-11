@@ -332,8 +332,8 @@
     
     fireball_speed ="10"
     fireball_duration ="2000"
-    fireball_emitter_offset_x ="10"
-    fireball_emitter_offset_y ="0"
+    fireball_emitter_offset_x ="0"
+    fireball_emitter_offset_y ="-30"
     
     air_fireball_angle ="30"
     air_fireball_max_height ="600"
@@ -492,7 +492,7 @@
         animation_speed ="0.2"/>
       <st_s1
        pos_rel_char_x ="100"
-       pos_rel_char_y ="-25"
+       pos_rel_char_y ="0"
        hitbox_w ="90"
        hitbox_h ="90"
        active_time ="-1"
