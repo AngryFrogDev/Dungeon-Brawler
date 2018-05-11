@@ -993,7 +993,7 @@ void Character::updateState(CHAR_STATE state, CHAR_ATT_TYPE attack) {
 void Character::playCurrentSFX() {
 	switch (current_state) {
 	case JUMPING:
-		App->audio->playSFX(s_jump);
+			App->audio->playSFX(s_jump);
 	case ATTACKING:
 		switch (attack_doing) {
 		case ST_L:
