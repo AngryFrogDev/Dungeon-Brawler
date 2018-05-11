@@ -280,7 +280,7 @@ void combatScene::assignFocus()	{
 }
 
 void combatScene::checkSceneInput()	{
-	if (char1_hp <= 0 || char2_hp <= 0)
+	if (char1_hp <= 0 || char2_hp <= 0 || round_timer.isActive() || taunt_timer.isActive())
 		return;
 
 	if (App->entities->players[0]->getInput(START, KEY_DOWN))	{
