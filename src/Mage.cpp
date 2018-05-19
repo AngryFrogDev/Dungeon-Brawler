@@ -592,7 +592,7 @@ void Mage::characterSpecificUpdates() {
 		double_jump = false;
 
 	if (mine_placed) 
-		App->render->drawSprite(3, App->entities->mage_graphics, mine_position.x - 67 * 3 / 2, mine_position.y - 17 * 3 / 2, &arcane_symbol.GetCurrentFrame(), scale, fliped, 1, 0, 0, 0, true);
+		App->render->drawSprite(3, App->entities->getGraphics(MAGE, skin_id), mine_position.x - 67 * 3 / 2, mine_position.y - 17 * 3 / 2, &arcane_symbol.GetCurrentFrame(), scale, fliped, 1, 0, 0, 0, true);
 	
 }
 

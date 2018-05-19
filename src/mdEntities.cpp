@@ -559,3 +559,70 @@ void mdEntities::loadAttackListFromXML(const pugi::xml_node& md_config, std::lis
  		iterator = iterator.next_sibling();
 	}
 }
+
+SDL_Texture* mdEntities::getGraphics(CHAR_TYPE type, int skin_id) {
+	switch (type) {
+	case WARRIOR:
+		switch (skin_id) {
+		case 0:
+			return warrior_graphics;
+			break;
+		case 1:
+		case 2:
+		case 3:
+			return warrior_graphics2;
+			break;
+		}
+		break;
+	case MAGE:
+		switch (skin_id) {
+		case 0:
+			return mage_graphics;
+			break;
+		case 1:
+			return mage_graphics2;
+			break;
+		case 2:
+			return mage_graphics3;
+			break;
+		case 3:
+			return mage_graphics4;
+			break;
+		}
+		break;
+	case ROGUE:
+		switch (skin_id) {
+		case 0:
+			return rogue_graphics;
+			break;
+		case 1:
+			return rogue_graphics2;
+			break;
+		case 2:
+			return rogue_graphics3;
+			break;
+		case 3:
+			return rogue_graphics4;
+			break;
+		}
+		break;
+	case PALADIN:
+		switch (skin_id) {
+		case 0:
+			return paladin_graphics;
+			break;
+		case 1:
+			return paladin_graphics2;
+			break;
+		case 2:
+			return paladin_graphics3;
+			break;
+		case 3:
+			return paladin_graphics4;
+			break;
+		}
+		break;
+	case DEF_CHAR:
+		return nullptr;
+	}
+}

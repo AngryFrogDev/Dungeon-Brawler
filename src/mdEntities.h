@@ -118,6 +118,7 @@ public:
 	bool preUpdate();
 	bool postUpdate() override;
 	bool cleanUp();
+	SDL_Texture* getGraphics(CHAR_TYPE type, int skin_id);
 
 	// Creates a character and assigns it to a player
 	void createPlayer(int player);
@@ -145,7 +146,6 @@ public:
 	std::list<controller_scheme> controller_schemes;
 	std::list<keyboard_scheme>	 keyboard_schemes;
 	KEY_STATE attack_input; 
-	SDL_Texture* mage_graphics; // So mage can blit arcane symbol
 
 private:
 	//if it returns false something wrong happened
@@ -161,6 +161,7 @@ private:
 	SDL_Texture* warrior_graphics;
 	SDL_Texture* warrior_graphics2;
 	
+	SDL_Texture* mage_graphics; 
 	SDL_Texture* mage_graphics2;
 	SDL_Texture* mage_graphics3;
 	SDL_Texture* mage_graphics4;
