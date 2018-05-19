@@ -111,34 +111,12 @@ bool characterSelScene::onEvent(Buttons* button)	{
 	if (button->being_clicked && button->size == CHARACTER_SELECTION)
 	{
 		if (button->focus_id == 0)
-		{
-			if (App->entities->players[0]->getInput(LIGHT_ATTACK, KEY_DOWN))
-				player1.skin = 1;
-			if (App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))
-				player1.skin = 0;
-			if (App->entities->players[0]->getInput(SPECIAL_1, KEY_DOWN))
-				player1.skin = 2;
-			if (App->entities->players[0]->getInput(SPECIAL_2, KEY_DOWN))
-				player1.skin = 3;
+			player1.has_selected_character = true, popUpP1Window();
 
-			player1.has_selected_character = true; 
-			popUpP1Window();
-
-		}
 		else
-		{
-			if (App->entities->players[1]->getInput(LIGHT_ATTACK, KEY_DOWN))
-				player2.skin = 1;
-			if (App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN))
-				player2.skin = 0;
-			if (App->entities->players[1]->getInput(SPECIAL_1, KEY_DOWN))
-				player2.skin = 2;
-			if (App->entities->players[1]->getInput(SPECIAL_2, KEY_DOWN))
-				player2.skin = 3;
-
-			player2.has_selected_character = true;
-			popUpP2Window();
-		}
+			player2.has_selected_character = true, popUpP2Window();
+		
+		assignSkins();
 	}
 
 	return true;
@@ -312,6 +290,67 @@ void characterSelScene::checkSceneInput()	{
 
 	if (player1.has_selected_character && player1.has_selected_item && player2.has_selected_character && player2.has_selected_item && !transition_timer.isActive())
 		assignCharacterToPlayer();
+}
+
+void characterSelScene::assignSkins()	{
+	//SKIN ASSIGNMENT
+	if (App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))//P1 Skin 1
+	{
+		if (player2.skin == 0)
+			player1.skin = 1;
+		else
+			player1.skin = 0;
+	}
+	if (App->entities->players[0]->getInput(LIGHT_ATTACK, KEY_DOWN))//P1 Skin 2
+	{
+		if (player2.skin == 1)
+			player1.skin = 2;
+		else
+			player1.skin = 1;
+	}
+	if (App->entities->players[0]->getInput(SPECIAL_1, KEY_DOWN))//P1 Skin 3
+	{
+		if (player2.skin == 2)
+			player1.skin = 3;
+		else
+			player1.skin = 2;
+	}
+	if (App->entities->players[0]->getInput(SPECIAL_2, KEY_DOWN))//P1 Skin 4
+	{
+		if (player2.skin == 3)
+			player1.skin = 0;
+		else
+			player1.skin = 3;
+	}
+
+	if (App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN))//P2 Skin 1
+	{
+		if (player1.skin == 0)
+			player2.skin = 1;
+		else
+			player2.skin = 0;
+	}
+	if (App->entities->players[1]->getInput(LIGHT_ATTACK, KEY_DOWN))//P2 Skin 2
+	{
+		if (player1.skin == 1)
+			player2.skin = 2;
+		else
+			player2.skin = 1;
+	}
+	if (App->entities->players[1]->getInput(SPECIAL_1, KEY_DOWN))//P2 Skin 3
+	{
+		if (player1.skin == 2)
+			player2.skin = 3;
+		else
+			player2.skin = 2;
+	}
+	if (App->entities->players[1]->getInput(SPECIAL_2, KEY_DOWN))//P2 Skin 4
+	{
+		if (player1.skin == 3)
+			player2.skin = 0;
+		else
+			player2.skin = 3;
+	}
 }
 
 void characterSelScene::assignCharacterToPlayer()	{
