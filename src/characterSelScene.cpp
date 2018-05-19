@@ -283,11 +283,12 @@ void characterSelScene::assignFocus()	{
 }
 
 void characterSelScene::checkSceneInput()	{
+	if (App->entities->players[0]->getInput(GRAB, KEY_DOWN) && !object_win_p1 && !object_win_p2 || App->entities->players[1]->getInput(GRAB, KEY_DOWN) && !object_win_p1 && !object_win_p2)
+		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
 	if (App->entities->players[0]->getInput(GRAB, KEY_DOWN) && object_win_p1)
 		closeP1Window();
 	if (App->entities->players[1]->getInput(GRAB, KEY_DOWN) && object_win_p2)
 		closeP2Window();
-
 	if (player1.has_selected_character && player1.has_selected_item && player2.has_selected_character && player2.has_selected_item && !transition_timer.isActive())
 		assignCharacterToPlayer();
 }

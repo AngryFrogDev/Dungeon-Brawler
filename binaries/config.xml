@@ -8,7 +8,7 @@
 	</application>
 	<window>
 		<resolution width="1600" height="900"/>
-		<fullscreen value="true" />
+		<fullscreen value="false" />
 		<borderless value="false" />
 		<resizable value="false" />
 		<fullscreen_window value="false" />
