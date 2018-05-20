@@ -160,7 +160,9 @@ private:
 	//Graphics of the warrior
 	SDL_Texture* warrior_graphics;
 	SDL_Texture* warrior_graphics2;
-	
+	SDL_Texture* warrior_graphics3;
+	SDL_Texture* warrior_graphics4;
+
 	SDL_Texture* mage_graphics; 
 	SDL_Texture* mage_graphics2;
 	SDL_Texture* mage_graphics3;

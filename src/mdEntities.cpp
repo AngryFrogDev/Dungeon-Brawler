@@ -48,6 +48,8 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	//PROVISIONAL: Should be loaded from an xml
 	warrior_graphics = App->textures->load("Assets/warrior.png");
 	warrior_graphics2 = App->textures->load("Assets/warrior_2.png");
+	warrior_graphics3 = App->textures->load("Assets/warrior_3.png");
+	warrior_graphics4 = App->textures->load("Assets/warrior_4.png");
 	mage_graphics = App->textures->load("Assets/mage.png");
 	mage_graphics2 = App->textures->load("Assets/mage_2.png");
 	mage_graphics3 = App->textures->load("Assets/mage_3.png");
@@ -89,9 +91,13 @@ bool mdEntities::preUpdate() {
 							players[i]->update(warrior_graphics); 
 							break;
 						case 1:
-						case 2:
-						case 3:
 							players[i]->update(warrior_graphics2);
+							break;
+						case 2:
+							players[i]->update(warrior_graphics3);
+							break;
+						case 3:
+							players[i]->update(warrior_graphics4);
 							break;
 					}
 					break;
@@ -568,9 +574,13 @@ SDL_Texture* mdEntities::getGraphics(CHAR_TYPE type, int skin_id) {
 			return warrior_graphics;
 			break;
 		case 1:
-		case 2:
-		case 3:
 			return warrior_graphics2;
+			break;
+		case 2:
+			return warrior_graphics3;
+			break;
+		case 3:
+			return warrior_graphics4;
 			break;
 		}
 		break;
