@@ -117,7 +117,7 @@ void mdSceneManager::startSwitch()	{
 			if (to_disable->name == "Combat Scene")
 			{
 				if (to_enable->name == "Stage Selection Scene")
-					App->entities->show = false, App->entities->paused = true;
+					App->entities->show = false, App->entities->setStopped(false);
 
 				else if (!to_disable->rematching)
 				{

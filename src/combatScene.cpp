@@ -33,7 +33,7 @@ bool combatScene::start()	{
 
 	char1 = App->entities->players[0]->getCurrCharacter()->getType();
 	char2 = App->entities->players[1]->getCurrCharacter()->getType();
-
+	
 	loadSceneUi();
 	resetSceneValues();
 
@@ -299,25 +299,25 @@ void combatScene::assignFocus()	{
 }
 
 void combatScene::checkSceneInput()	{
-	if (char1_hp <= 0 || char2_hp <= 0 || round_timer.isActive() || taunt_timer.isActive())
+	if (char1_hp <= 0 || char2_hp <= 0 || round_timer.isActive() || taunt_timer.isActive() || combat_start_timer.isActive())
 		return;
 
 	if (App->entities->players[0]->getInput(START, KEY_DOWN))	{
 		if (p1_window)
-			closeP1Window(), App->entities->paused = false;
+			closeP1Window(), App->entities->setPause(false);
 		else
 			popUpP1Window();
 	}
 	if (App->entities->players[1]->getInput(START, KEY_DOWN))	{
 		if (p2_window)
-			closeP2Window(), App->entities->paused = false;
+			closeP2Window(), App->entities->setPause(false);
 		else
 			popUpP2Window();
 	}
 }
 
 void combatScene::popUpP1Window()	{
-	App->entities->paused = true;
+	App->entities->setPause(true);
 
 	if (!p1_window && !p2_window)
 	{
@@ -337,7 +337,7 @@ void combatScene::popUpP1Window()	{
 }
 
 void combatScene::popUpP2Window()	{
-	App->entities->paused = true;
+	App->entities->setPause(true);
 
 	if (!p2_window && !p1_window)
 	{
@@ -398,7 +398,7 @@ void combatScene::closeP2Window()	{
 }
 
 void combatScene::popUpGeneralWindow()	{
-	App->entities->paused = true;
+	App->entities->setPause(true);
 
 	if (!general_window)
 	{
@@ -482,7 +482,8 @@ void combatScene::resetSceneValues()	{
 	combat_start_timer.start();
 	//Bools
 	App->map->map_loaded = true;
-	App->entities->paused = true;
+	App->entities->setPause(false);
+	App->entities->setStopped(true);
 	App->entities->show = true;
 	rematching = false;
 	//Setting windows to nullptr
@@ -516,7 +517,7 @@ void combatScene::checkTimers()	{
 			App->render->drawSprite(10, announcer_textures, 450, 450, current_round, 1, false, 1.0f, 0, 0, 0, false);
 	}
 	else if (combat_start_timer.readSec() >= 4.5 && combat_start_timer.readSec() <= 5.5)
-		App->render->drawSprite(10, announcer_textures, 650, 450, &fight_rect, 1, false, 1.0f, 0, 0, 0, false), App->entities->paused = false;
+		App->render->drawSprite(10, announcer_textures, 650, 450, &fight_rect, 1, false, 1.0f, 0, 0, 0, false), App->entities->setStopped(false);
 	else if (combat_start_timer.readSec() > 6)
 		combat_start_timer.stop(), scene_timer.start();
 
@@ -594,7 +595,7 @@ void combatScene::manageRounds()	{
 				extra_round = false;
 			
 			if (rounds_left > 1 || extra_round)
-				rematching = true, round_timer.start(), App->entities->paused = true;
+				rematching = true, round_timer.start(), App->entities->setPause(true);
 		}
 	}
 	
@@ -626,7 +627,7 @@ void combatScene::manageRounds()	{
 			extra_round = false;
 
 		if (rounds_left > 1 || extra_round)
-			rematching = true, round_timer.start(), App->entities->paused = true;
+			rematching = true, round_timer.start(), App->entities->setPause(true);
 	}
 
 	if (rounds_left >= 0 && rounds_left <= 1 && !extra_round)

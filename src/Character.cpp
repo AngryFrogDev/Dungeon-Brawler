@@ -62,7 +62,7 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	velocity.y = 0;
 	velocity.x = 0;
 	current_state = CHAR_STATE::IDLE;
-	logic_position.y = 1000;
+	logic_position.y = 800;
 	starting_position.x = logic_position.x;
 	starting_position.y = -1000;
 	state_first_tick = false;
@@ -94,6 +94,9 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	// Collider creation
 	hurtbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1, basic_attack_deff(), (Character*)this);
 	pushbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y / 2 }, PUSHBOX, -1, basic_attack_deff(), (Character*)this);
+
+	draw_position.x = calculateDrawPosition(0, draw_size.x* scale, true);
+	draw_position.y = calculateDrawPosition(0, draw_size.y * scale, false);
 }
 
 
@@ -441,7 +444,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		break;
 	case STOPPED:
 		if (!state_first_tick) {
-			updateState(IDLE);
+			updateAnimation(idle);
 			state_first_tick = true;
 		}
 		break;

@@ -653,7 +653,7 @@ void mdEntities::setStopped(bool active) {
 			if(active)
 				character_to_pause->setState(STOPPED);
 			else
-				character_to_pause->setAnimationPause(IDLE);
+				character_to_pause->setState(IDLE);
 		}
 	}
 }

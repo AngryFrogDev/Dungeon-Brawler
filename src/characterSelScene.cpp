@@ -360,7 +360,7 @@ void characterSelScene::assignCharacterToPlayer()	{
 	App->entities->players[1]->createAndAssignCharacter(player2.character, player2.item, false, player2.skin);
 
 	//Hidding them
-	App->entities->paused = true;
+	App->entities->setPause(true);
 	App->entities->show = false;
 	
 	transition_timer.start();
