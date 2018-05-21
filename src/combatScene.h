@@ -132,6 +132,7 @@ private:
 	uint p1_rounds_won = 0;
 	uint p2_rounds_won = 0;
 	bool extra_round = false;
+	bool entities_stopped = false; // Dirty bool to fix bug
 
 	bool next_round = false;
 	pugi::xml_node window_node;

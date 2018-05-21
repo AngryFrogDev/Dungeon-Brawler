@@ -509,17 +509,21 @@ void combatScene::checkTimers()	{
 
 	//ANNOUNCER TIMER
 	//Then round announcer
-	if (combat_start_timer.readSec() >= 2 && combat_start_timer.readSec() < 3.5)
-	{
+	if (combat_start_timer.readSec() >= 2 && combat_start_timer.readSec() < 3.5) {
 		if (current_round != &round3_rect)
 			App->render->drawSprite(10, announcer_textures, 650, 450, current_round, 1, false, 1.0f, 0, 0, 0, false);
 		else
 			App->render->drawSprite(10, announcer_textures, 450, 450, current_round, 1, false, 1.0f, 0, 0, 0, false);
 	}
-	else if (combat_start_timer.readSec() >= 4.5 && combat_start_timer.readSec() <= 5.5)
-		App->render->drawSprite(10, announcer_textures, 650, 450, &fight_rect, 1, false, 1.0f, 0, 0, 0, false), App->entities->setStopped(false);
+	else if (combat_start_timer.readSec() >= 4.5 && combat_start_timer.readSec() <= 5.5) {
+		App->render->drawSprite(10, announcer_textures, 650, 450, &fight_rect, 1, false, 1.0f, 0, 0, 0, false);
+		if (!entities_stopped){
+			App->entities->setStopped(false);
+			entities_stopped = true;
+		}
+	}
 	else if (combat_start_timer.readSec() > 6)
-		combat_start_timer.stop(), scene_timer.start();
+		combat_start_timer.stop(), scene_timer.start(), entities_stopped = false;
 
 	//TAUNT TIMER
 	if (taunt_timer.readSec() >= 0.5 && taunt_timer.readSec() < 2)
