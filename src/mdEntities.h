@@ -136,6 +136,7 @@ public:
 	bool show;
 
 	void setPause(bool active);
+	void setStopped(bool active);
 
 	KEY_STATE stringToKeystate(std::string string);
 	CHAR_TYPE stringToCharType(std::string string);
