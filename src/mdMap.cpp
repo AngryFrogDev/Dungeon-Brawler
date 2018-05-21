@@ -6,6 +6,7 @@
 #include <math.h>
 #include "Brofiler/Brofiler.h"
 #include "mdAudio.h"
+#include "mdEntities.h"
 
 mdMap::mdMap() : Module(), map_loaded(false) {
 	name = "map";
@@ -61,8 +62,9 @@ void mdMap::draw() {
 bool mdMap::update(float dt) {
 	if (map_loaded)
 	{
+		
 		// Provisional: this is soooooo hardcoded
-		if (parallax) {
+		if (parallax && !App->entities->paused) {
 			if (firstfront) {
 				mapx -= parallax_speed;
 				mapx2 = mapx + data.width;
