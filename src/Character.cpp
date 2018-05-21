@@ -428,7 +428,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	case KNOCKDOWN:
 		//Input independent actions
 		if (!state_first_tick) {
-			//playCurrentSFX(); Maybe knockdown should play something?
 			updateAnimation(knockdown);
 			state_first_tick = true;
 			hit = false;
@@ -1269,4 +1268,7 @@ void Character::hurtboxSizeManagement() {
 			setCrouchingHurtbox(false);
 
 	}
+}
+void Character::setAnimationPause(bool active) {
+	current_animation->paused = active;
 }

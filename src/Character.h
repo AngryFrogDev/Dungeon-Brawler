@@ -187,6 +187,8 @@ public:
 
 	// Taunt management
 	void tauntFor(int _taunt_duration);
+	// Animation pause
+	void setAnimationPause(bool active);
 protected:	
 	// Execute attack, rewritable for every type of character
 	virtual void doAttack(const bool(&inputs)[MAX_INPUTS]);
@@ -199,6 +201,7 @@ protected:
 	void deleteAllMeleeHitboxes();
 
 	void updateAnimation(Animation& new_animation);
+
 
 	void updateState(CHAR_STATE state, CHAR_ATT_TYPE attack = NO_ATT);
 	void playCurrentSFX();

@@ -135,6 +135,8 @@ public:
 	bool paused;
 	bool show;
 
+	void setPause(bool active);
+
 	KEY_STATE stringToKeystate(std::string string);
 	CHAR_TYPE stringToCharType(std::string string);
 	ITEMS stringToItem(std::string string);
