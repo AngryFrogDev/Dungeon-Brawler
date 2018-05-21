@@ -216,7 +216,7 @@ void mdInput::handleAxes(const SDL_Event & event) {
 						(*it)->addInput(AXIS_LEFTX_NEGATIVE, event.caxis.timestamp);
 				}
 				else {
-					if (prior_value >= -axis_tolerance && axis_value < axis_tolerance)
+					if (prior_value <= -axis_tolerance && axis_value > -axis_tolerance)
 						(*it)->buttons[AXIS_LEFTX_NEGATIVE] = KEY_UP;
 					if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
 						(*it)->addInput(AXIS_LEFTX_POSITIVE, event.caxis.timestamp);
@@ -226,13 +226,13 @@ void mdInput::handleAxes(const SDL_Event & event) {
 				if (axis_value < prior_value) {
 					if (prior_value >= axis_tolerance && axis_value < axis_tolerance)
 						(*it)->buttons[AXIS_LEFTY_POSITIVE] = KEY_UP;
-					else if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
+					if (prior_value > -axis_tolerance && axis_value <= -axis_tolerance)
 						(*it)->addInput(AXIS_LEFTY_NEGATIVE, event.caxis.timestamp);
 				}
 				else {
-					if (prior_value >= -axis_tolerance && axis_value < axis_tolerance)
+					if (prior_value <= -axis_tolerance && axis_value > -axis_tolerance)
 						(*it)->buttons[AXIS_LEFTY_NEGATIVE] = KEY_UP;
-					else if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
+					if (prior_value < axis_tolerance && axis_value >= axis_tolerance)
 						(*it)->addInput(AXIS_LEFTY_POSITIVE, event.caxis.timestamp);
 				}
 				break;
