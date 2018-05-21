@@ -41,7 +41,21 @@ public:
 	uint	max_rounds = 0;
 
 private:
-	
+	//PRE-COMBAT
+	SDL_Texture* announcer_textures = nullptr;
+	SDL_Rect round1_rect;
+	SDL_Rect round2_rect;
+	SDL_Rect round3_rect;
+	SDL_Rect fight_rect;
+	SDL_Rect ko_rect;
+	SDL_Rect perfect_rect;
+	SDL_Rect player1_wins_announcer_rect;
+	SDL_Rect player2_wins_announcer_rect;
+	SDL_Rect draw_announcer_rect;
+	SDL_Rect* current_round = nullptr;
+	SDL_Rect* round_end = nullptr;
+	SDL_Rect* combat_end = nullptr;
+
 	//COMBAT UI
 	Bars* health_bar1 = nullptr;
 	Bars* health_bar2 = nullptr;
@@ -105,6 +119,7 @@ private:
 	Buttons* main_menu_button = nullptr;
 
 	//Combat scene timer
+	Timer	combat_start_timer;
 	Timer	scene_timer;
 	Timer	taunt_timer; 
 	Timer	round_timer;
@@ -113,6 +128,7 @@ private:
 	CHAR_TYPE char1, char2;
 	ITEMS char1_item, char2_item;
 	int char1_hp = 0, char2_hp = 0;
+	int max_char1_hp = 0, max_char2_hp = 0;
 	uint p1_rounds_won = 0;
 	uint p2_rounds_won = 0;
 	bool extra_round = false;
