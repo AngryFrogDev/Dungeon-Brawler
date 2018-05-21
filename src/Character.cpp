@@ -428,7 +428,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	case KNOCKDOWN:
 		//Input independent actions
 		if (!state_first_tick) {
-			//playCurrentSFX(); Maybe knockdown should play something?
 			updateAnimation(knockdown);
 			state_first_tick = true;
 			hit = false;
@@ -440,8 +439,11 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			hurtbox->active = true;
 		}
 		break;
-	case PAUSED:
-		updateState(IDLE);
+	case STOPPED:
+		if (!state_first_tick) {
+			updateState(IDLE);
+			state_first_tick = true;
+		}
 		break;
 	case RECOVERY:
 		// One tick
@@ -1071,7 +1073,7 @@ void Character::playCurrentSFX() {
 		break;
 	case KNOCKDOWN:
 		break;
-	case PAUSED:
+	case STOPPED:
 		break;
 	case DEAD:
 		App->audio->playSFX(s_death);
@@ -1269,4 +1271,10 @@ void Character::hurtboxSizeManagement() {
 			setCrouchingHurtbox(false);
 
 	}
+}
+void Character::setAnimationPause(bool active) {
+	current_animation->paused = active;
+}
+void Character::setState(CHAR_STATE state) {
+	updateState(state);
 }

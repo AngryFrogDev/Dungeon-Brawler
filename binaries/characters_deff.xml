@@ -298,7 +298,7 @@
         pushblock ="1"
         damage ="10"
         knockdown ="false"
-        juggle_speed_x ="0"
+        juggle_speed_x ="1"
         juggle_speed_y ="10"
         block_type ="mid"
         type ="super"

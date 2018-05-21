@@ -636,3 +636,24 @@ SDL_Texture* mdEntities::getGraphics(CHAR_TYPE type, int skin_id) {
 		return nullptr;
 	}
 }
+void mdEntities::setPause(bool active) {
+	for (int i = 0; i < 2; i++) {
+		if (players[i] != nullptr && players[i]->getCurrCharacter() != nullptr) {
+			Character* character_to_pause = players[i]->getCurrCharacter();
+			character_to_pause->setAnimationPause(active);
+		}
+	}
+	App->entities->paused = active;
+}
+
+void mdEntities::setStopped(bool active) {
+	for (int i = 0; i < 2; i++) {
+		if (players[i] != nullptr && players[i]->getCurrCharacter() != nullptr) {
+			Character* character_to_pause = players[i]->getCurrCharacter();
+			if(active)
+				character_to_pause->setState(STOPPED);
+			else
+				character_to_pause->setAnimationPause(IDLE);
+		}
+	}
+}

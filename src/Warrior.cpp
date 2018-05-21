@@ -565,7 +565,8 @@ void Warrior::doSuper() {
 		super_part.blockstun = super.blockstun;
 		super_part.pushhit = super.pushhit;
 		super_part.pushblock = super.pushblock;
-		super_part.damage= super.damage;
+		super_part.damage = super.damage;
+		super_part.juggle_speed = super.juggle_speed;
 		instanciateHitbox(super_part);
 		super_iterator++;
 		instanciated_hitbox = false;

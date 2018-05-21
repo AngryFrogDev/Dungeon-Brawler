@@ -38,9 +38,8 @@ void Player::update(SDL_Texture* graphics)
 				player_inputs[i] = App->input->getKey(player_keyboard_scheme.scheme[i]) == App->entities->attack_input;
 		}
 	}
-
 	if (curr_character != nullptr) {
-		if(!App->entities->paused)
+		if (!App->entities->paused)
 			curr_character->update(player_inputs);
 		if(App->entities->show)
 			curr_character->draw(graphics);
