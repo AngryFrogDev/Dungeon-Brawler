@@ -301,7 +301,7 @@ void Rogue::crouchingSpecial1()
 	else {
 		if (current_roll_frames == 0) {
 			pushbox->active = false;
-			makeInvencibleFor(600);
+			makeInvencibleFor(650);
 			if (!fliped)
 				App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
 			else
@@ -328,7 +328,6 @@ void Rogue::crouchingSpecial1()
 			logic_position.x += speed.x;
 		}
 		else {
-			//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/smoke-bomb.xml");
 			askRecovery(cr_s1.recovery);
 			current_roll_frames = 0;
 			pushbox->active = true;
@@ -502,6 +501,7 @@ void Rogue::crouchingSpecial2() {
 		updateAnimation(crouching_special2);
 		state_first_tick = true;
 	}
+	hurtbox->type = PROJECTILE_INVENCIBLE_HURTBOX;
 	if (!fliped)
 		logic_position.x += slide_speed;
 	else
@@ -509,6 +509,7 @@ void Rogue::crouchingSpecial2() {
 
 	if (current_animation->Finished()) {
 		instanciated_hitbox = false;
+		hurtbox->type = HURTBOX;
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr) { // Just for safety
 			deleteAttackHitbox(CR_S2);
