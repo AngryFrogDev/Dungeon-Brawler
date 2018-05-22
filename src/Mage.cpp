@@ -310,13 +310,16 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 	int x_offset = 210;
 	int y_offset = 30; // PROVISIONAL, THIS SHOULD BE LOADED FROM THE XML
 
-	if (fireball_first_update) { 
+	if (fireball_first_update) {
+		mage_charge = nullptr;
 		if (!fliped) {
 			mage_charge = App->particle_system->createEmitter({ (float)logic_position.x + x_offset,(float)logic_position.y -y_offset }, "particles/mage-charge.xml");
 		}
 		else {
 			mage_charge = App->particle_system->createEmitter({ (float)logic_position.x - x_offset,(float)logic_position.y - y_offset }, "particles/mage-charge.xml");
 		}
+		if (mage_charge != nullptr)
+			mage_charge->active = true;
 		fireball_first_update = false;
 	}
 
@@ -569,6 +572,14 @@ void Mage::doSuper() {
 		meteorits_spawned = false;
 	}
 
+}
+
+void Mage::stopChargeEmitter()
+{
+	if (mage_charge != nullptr)
+	mage_charge->active = false;
+
+	fireball_first_update = true;
 }
 
 bool Mage::standingSpecial1Condition() {

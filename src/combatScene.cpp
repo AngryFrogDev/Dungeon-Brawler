@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "DebLog.h"
 #include "mdSceneManager.h"
+#include "Mage.h"
 
 
 
@@ -573,6 +574,7 @@ void combatScene::manageRounds()	{
 	{
 		if (char1_hp <= 0 || char2_hp <= 0)
 		{
+			makeSureMageChargeEmitterIsDeleted();
 			if (char1_hp > 0 && char2_hp <= 0) //Player 2 dies
 			{
 				p1_rounds_won++;
@@ -605,6 +607,7 @@ void combatScene::manageRounds()	{
 	
 	else
 	{
+		makeSureMageChargeEmitterIsDeleted();
 		if (char1_hp > char2_hp) // Player 1 wins
 		{
 			p1_rounds_won++;
@@ -637,5 +640,23 @@ void combatScene::manageRounds()	{
 	if (rounds_left >= 0 && rounds_left <= 1 && !extra_round)
 		taunt_timer.start(), next_round = false;
 	
+}
+
+void combatScene::makeSureMageChargeEmitterIsDeleted()
+{
+	Mage* mage_pointer = nullptr;
+
+	if (char1 == MAGE)
+		mage_pointer = (Mage*)App->entities->players[0]->getCurrCharacter();
+
+	else if (char2 == MAGE)
+		mage_pointer = (Mage*)App->entities->players[0]->getCurrCharacter();
+	else
+		return;
+
+	if (mage_pointer)
+		mage_pointer->stopChargeEmitter();
+
+	mage_pointer = nullptr;
 }
 

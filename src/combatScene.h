@@ -34,6 +34,8 @@ private:
 	void checkTimers();
 	void manageRounds();
 
+	void makeSureMageChargeEmitterIsDeleted();
+
 public:
 	uint	current_time = 0;
 	uint	max_time = 0;
