@@ -40,14 +40,14 @@ void mdMap::draw() {
 			App->render->drawSprite(1, data.background_image, mapx, 0, (const SDL_Rect*)0, 6, false, 0.3);
 			App->render->drawSprite(1, data.background_image, mapx2, 0, (const SDL_Rect*)0, 6, false, 0.3);
 			//Blit map
-			App->render->drawSprite(2, data.map_image, 0, mapy2, (const SDL_Rect*)0, 5, false);
+			App->render->drawSprite(2, data.map_image, 0, 200, (const SDL_Rect*)0, 5, false);
 		}
 		else if (selected_map == 2) {
 			//Blit background
 			App->render->drawSprite(1, data.background_image, mapx, 0, (const SDL_Rect*)0, 6, false, 0.3);
 			App->render->drawSprite(1, data.background_image, mapx2, 0, (const SDL_Rect*)0, 6, false, 0.3);
 			//Blit map
-			App->render->drawSprite(2, data.map_image, 0, mapy, (const SDL_Rect*)0, 4, false);
+			App->render->drawSprite(2, data.map_image, 0, 400, (const SDL_Rect*)0, 4, false);
 		}
 		else if (selected_map == 3) {
 			//Blit background
@@ -82,32 +82,6 @@ bool mdMap::update(float dt) {
 					mapx2 = data.width;
 					firstfront = true;
 				}
-			}
-
-			if (mapy >= 405)
-				up = false;
-			if (mapy <= 395)
-				up = true;
-			iterator++;
-
-			if (iterator % 10 == 0) {
-				if (up)
-					mapy += 2;
-				else
-					mapy -= 2;
-			}
-
-			if (mapy2 >= 205)
-				up = false;
-			if (mapy2 <= 195)
-				up = true;
-			iterator++;
-
-			if (iterator % 10 == 0) {
-				if (up)
-					mapy2 += 2;
-				else
-					mapy2 -= 2;
 			}
 		}
 

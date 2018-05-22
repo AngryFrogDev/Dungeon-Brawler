@@ -56,9 +56,6 @@ private:
 	int mapx = 0;
 	int mapx2 = 0;
 	bool firstfront = true;
-	int mapy = 400;
-	int mapy2 = 200;
-	bool up = true;
 	int iterator = 0;
 	int parallax_speed = 0;
 
