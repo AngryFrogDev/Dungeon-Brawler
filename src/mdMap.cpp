@@ -27,7 +27,7 @@ bool mdMap::awake(const pugi::xml_node& md_config) {
 	////map_loaded = true;
 
 	// Load map characteristics, (Provisional, should be done thorugh xml)
-	data.camera_x_limit = 3500;
+	data.camera_x_limit = 3400;
 	data.width = 512 * 6;
 	
 	return ret;
