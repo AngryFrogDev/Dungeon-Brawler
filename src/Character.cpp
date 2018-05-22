@@ -372,6 +372,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		if (!state_first_tick) {
 			updateAnimation(standing_hit);
 			emmitCurrentParticle();
+			App->delayFrame(attack_recieving.frame_delay);
 			state_first_tick = true;
 		}
 		if (hit) { 
@@ -404,6 +405,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		if (hit) {
 			playCurrentSFX();
+			App->delayFrame(attack_recieving.frame_delay);
 			emmitCurrentParticle();
 			juggle_attacks_recieved.push_back(attack_recieving.type);
 			iPoint current_juggle_speed = { 0,0 };
@@ -427,7 +429,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			updateState(KNOCKDOWN);
 		}
 		break;
-
 	case KNOCKDOWN:
 		//Input independent actions
 		if (!state_first_tick) {

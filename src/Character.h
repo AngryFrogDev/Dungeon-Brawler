@@ -131,6 +131,7 @@ struct basic_attack_deff {
 	BLOCK_TYPE block_type;
 	int recovery; //in milliseconds
 	float animation_speed;
+	int frame_delay;
 };
 
 enum ITEMS {

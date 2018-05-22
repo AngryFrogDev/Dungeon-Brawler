@@ -537,25 +537,26 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 }
 void mdEntities::loadAttackDeffFromXML(const pugi::xml_node& md_config, basic_attack_deff& attack) {
 	std::string tmp;
-	attack.pos_rel_char.x = md_config.attribute("pos_rel_char_x").as_int();
-	attack.pos_rel_char.y = md_config.attribute("pos_rel_char_y").as_int();
-	attack.hitbox.w = md_config.attribute("hitbox_w").as_int();
-	attack.hitbox.h = md_config.attribute("hitbox_h").as_int();
-	attack.active_time = md_config.attribute("active_time").as_int();
-	attack.hitstun = md_config.attribute("hitstun").as_int();
-	attack.blockstun = md_config.attribute("blockstun").as_int();
-	attack.pushhit = md_config.attribute("pushhit").as_int();
-	attack.pushblock = md_config.attribute("pushblock").as_int();
-	attack.damage = md_config.attribute("damage").as_int();
-	attack.knockdown = md_config.attribute("knockdown").as_bool();
-	attack.juggle_speed.x = md_config.attribute("juggle_speed_x").as_int();
-	attack.juggle_speed.y = md_config.attribute("juggle_speed_y").as_int();
-	tmp = md_config.attribute("block_type").as_string();
+	attack.pos_rel_char.x = md_config.attribute("pos_rel_char_x").as_int(0);
+	attack.pos_rel_char.y = md_config.attribute("pos_rel_char_y").as_int(0);
+	attack.hitbox.w = md_config.attribute("hitbox_w").as_int(0);
+	attack.hitbox.h = md_config.attribute("hitbox_h").as_int(0);
+	attack.active_time = md_config.attribute("active_time").as_int(0);
+	attack.hitstun = md_config.attribute("hitstun").as_int(0);
+	attack.blockstun = md_config.attribute("blockstun").as_int(0);
+	attack.pushhit = md_config.attribute("pushhit").as_int(0);
+	attack.pushblock = md_config.attribute("pushblock").as_int(0);
+	attack.damage = md_config.attribute("damage").as_int(0);
+	attack.knockdown = md_config.attribute("knockdown").as_bool(false);
+	attack.juggle_speed.x = md_config.attribute("juggle_speed_x").as_int(0);
+	attack.juggle_speed.y = md_config.attribute("juggle_speed_y").as_int(0);
+	tmp = md_config.attribute("block_type").as_string("");
 	attack.block_type = stringToBlockType(tmp);
-	tmp = md_config.attribute("type").as_string();
+	tmp = md_config.attribute("type").as_string("");
 	attack.type = stringToCharAttType(tmp);
-	attack.recovery = md_config.attribute("recovery").as_int();
-	attack.animation_speed = md_config.attribute("animation_speed").as_float();
+	attack.recovery = md_config.attribute("recovery").as_int(0);
+	attack.animation_speed = md_config.attribute("animation_speed").as_float(0);
+	attack.frame_delay = md_config.attribute("frame_delay").as_int(0);
 }
 void mdEntities::loadAttackListFromXML(const pugi::xml_node& md_config, std::list<CHAR_ATT_TYPE>& attack_list) {
 	pugi::xml_node iterator = md_config.first_child();

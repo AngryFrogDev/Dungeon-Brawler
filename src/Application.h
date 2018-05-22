@@ -54,6 +54,7 @@ public:
 	void addModule(Module* module);
 
 	pugi::xml_node loadConfig(const char* file_name, pugi::xml_document& config_file);
+	void delayFrame(int delay);
 
 private:
 	std::list<Module*>	modules;
@@ -63,6 +64,8 @@ private:
 	Timer				frame_time;
 	float				dt = 0.0f;
 	uint				maxfps = 60;
+	int                 frame_delay = 0;
+	bool				delayed_frame = false;
 
 	Timer				last_sec_frame_time;
 	uint32				last_sec_frame_count = 0;
