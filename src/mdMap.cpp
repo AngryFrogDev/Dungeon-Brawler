@@ -62,7 +62,17 @@ void mdMap::draw() {
 bool mdMap::update(float dt) {
 	if (map_loaded)
 	{
-		
+		if (change_music)
+		{
+			if (selected_map == 1)
+				App->audio->playMusic(App->audio->loadMusic("SFX/BGM_2.ogg"));
+			else if (selected_map == 2)
+				App->audio->playMusic(App->audio->loadMusic("SFX/BGM_2.ogg"));
+			else if (selected_map == 3)
+				App->audio->playMusic(App->audio->loadMusic("SFX/BGM_2.ogg"));
+			change_music = false;
+		}
+
 		// Provisional: this is soooooo hardcoded
 		if (parallax && !App->entities->paused) {
 			if (firstfront) {
@@ -86,6 +96,10 @@ bool mdMap::update(float dt) {
 		}
 
 		draw();
+	}
+	else if (!change_music) {
+		App->audio->playMusic(App->audio->loadMusic("SFX/BGM_1.ogg"));
+		change_music = true;
 	}
 
 	return true;
@@ -133,7 +147,6 @@ bool mdMap::loadMap(int mapIndex) {
 			data.background_image = App->textures->load("assets/train_background.png");
 			selected_map = mapIndex;
 			parallax_speed = 10;
-			App->audio->playMusic(App->audio->loadMusic("SFX/BGM_2.ogg"));
 		}
 	//}
 	

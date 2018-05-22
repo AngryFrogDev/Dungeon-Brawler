@@ -58,7 +58,7 @@ private:
 	bool firstfront = true;
 	int iterator = 0;
 	int parallax_speed = 0;
-
+	bool change_music = true;
 };
 
 #endif // __MDMAP_H__
