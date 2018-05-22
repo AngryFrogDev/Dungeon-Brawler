@@ -67,7 +67,8 @@ enum bar_types {
 	NO_BAR = 0,
 	HEALTH_BAR,
 	SUPER_BAR,
-	SWAP_BAR,
+	MUSIC_VOL_BAR,
+	SFX_VOL_BAR,
 };
 
 enum window_type {

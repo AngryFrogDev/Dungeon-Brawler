@@ -552,8 +552,8 @@ void characterSelScene::popUpP1Window() {
 
 		object_win_p1 = (UiWindow*)App->gui->createWindow(OBJ_SELECTION, { 150, 310 }, this);
 		select_object_p1 = (Labels*)App->gui->createLabel("Choose your Item", { 255,255,255,255 }, App->fonts->large_size, { 270, 330 }, this);
-		affects_special1_p1 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 390, 480 }, this);
-		affects_special2_p1 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 390,705 }, this);
+		affects_special1_p1 = (Labels*)App->gui->createLabel("Modifies:", { 40, 39, 39 }, App->fonts->medium_size, { 390, 480 }, this);
+		affects_special2_p1 = (Labels*)App->gui->createLabel("Modifies:", { 40, 39, 39 }, App->fonts->medium_size, { 390,705 }, this);
 		p1_select_item1 = (Buttons*)App->gui->createButton(SELECT_ITEM1, OBJECT_SELECTION, 0, { 170, 390 }, this);
 		p1_select_item2 = (Buttons*)App->gui->createButton(SELECT_ITEM2, OBJECT_SELECTION, 0, { 170, 610 }, this);
 
@@ -654,8 +654,8 @@ void characterSelScene::popUpP2Window()	{
 
 		object_win_p2 = (UiWindow*)App->gui->createWindow(OBJ_SELECTION, { 1140, 310 }, this);
 		select_object_p2 = (Labels*)App->gui->createLabel("Choose your Item", { 255,255,255,255 }, App->fonts->large_size, { 1260, 330 }, this);
-		affects_special1_p2 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 1380, 480 }, this);
-		affects_special2_p2 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 1380,705 }, this);
+		affects_special1_p2 = (Labels*)App->gui->createLabel("Modifies:", { 40, 39, 39 }, App->fonts->medium_size, { 1380, 480 }, this);
+		affects_special2_p2 = (Labels*)App->gui->createLabel("Modifies:", { 40, 39, 39 }, App->fonts->medium_size, { 1380,705 }, this);
 		p2_select_item1 = (Buttons*)App->gui->createButton(SELECT_ITEM1, OBJECT_SELECTION, 1, { 1160, 390 }, this);
 		p2_select_item2 = (Buttons*)App->gui->createButton(SELECT_ITEM2, OBJECT_SELECTION, 1, { 1160, 610 }, this);
 

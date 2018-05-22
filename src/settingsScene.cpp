@@ -107,9 +107,19 @@ void settingsScene::loadSceneUi() {
 	l_hide_colliders = (Labels*)App->gui->createLabel("Hide Colliders", { 255, 255, 255 }, App->fonts->large_size, { 0, 500 }, this);
 	l_parallax = (Labels*)App->gui->createLabel("Parallax", { 255, 255, 255 }, App->fonts->large_size, { 0, 600 }, this);
 	l_back = (Labels*)App->gui->createLabel("Back", { 255, 255, 255 }, App->fonts->large_size, { 0, 700 }, this);
+
+	b_music = (Bars*)App->gui->createBar(MUSIC_VOL_BAR, { 200, 200 }, false, 1, this);
 }
 
 void settingsScene::assignFocus() {
 	if (!App->gui->p1_focus_elements.empty())
 		App->entities->players[0]->focus = *App->gui->p1_focus_elements.begin();
+}
+
+int settingsScene::getMusicVol() {
+	return current_music_volume;
+}
+
+int settingsScene::getSfxVol() {
+	return current_sfx_volume;
 }
