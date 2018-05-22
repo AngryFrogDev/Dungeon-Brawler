@@ -127,6 +127,11 @@ private:
 	SDL_Rect paladin_item1;
 	SDL_Rect paladin_item2;
 
+	//SFX
+	Mix_Chunk* scene_sfx1 = nullptr;
+	Mix_Chunk* scene_sfx2 = nullptr;
+	uint random_sfx = 0;
+
 	currentCharacter player1, player2;
 
 	Timer transition_timer;

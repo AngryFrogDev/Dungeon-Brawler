@@ -120,6 +120,22 @@ private:
 	Buttons* settings_button = nullptr;
 	Buttons* main_menu_button = nullptr;
 
+	//SFX
+	Mix_Chunk* round_sfx1 = nullptr;
+	Mix_Chunk* round_sfx2 = nullptr;
+	Mix_Chunk* round_sfx3 = nullptr;
+	Mix_Chunk* round_sfx4 = nullptr;
+	Mix_Chunk* last_round_sfx = nullptr;
+	Mix_Chunk* fight_sfx = nullptr;
+	Mix_Chunk* player_dead_sfx1 = nullptr;
+	Mix_Chunk* player_dead_sfx2 = nullptr;
+	Mix_Chunk* ko_sfx = nullptr;
+	Mix_Chunk* perfect_sfx = nullptr;
+	Mix_Chunk* time_up_sfx = nullptr;
+	Mix_Chunk* player1_wins_sfx = nullptr;
+	Mix_Chunk* player2_wins_sfx = nullptr;
+	uint random_sfx = 0;
+
 	//Combat scene timer
 	Timer	combat_start_timer;
 	Timer	scene_timer;
@@ -133,10 +149,14 @@ private:
 	int max_char1_hp = 0, max_char2_hp = 0;
 	uint p1_rounds_won = 0;
 	uint p2_rounds_won = 0;
+
+	//Extra info
 	bool extra_round = false;
 	bool entities_stopped = false; // Dirty bool to fix bug
-
+	bool can_load_textures = true;
 	bool next_round = false;
+	bool sfx_played = false;
+
 	pugi::xml_node window_node;
 };
 #endif
