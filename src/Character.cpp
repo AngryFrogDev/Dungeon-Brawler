@@ -376,13 +376,14 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			state_first_tick = true;
 		}
 		if (hit) { 
-			playCurrentSFX();
 			App->delayFrame(attack_recieving.frame_delay);
 			emmitCurrentParticle();
 			if (attack_recieving.knockdown)
 				updateState(JUGGLE);
-			else
+			else {
+				playCurrentSFX();
 				hit = false;
+			}
 			current_life -= attack_recieving.damage;
 			current_super_gauge += super_gauge_gain_hit;
 		}
