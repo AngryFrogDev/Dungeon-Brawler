@@ -565,22 +565,36 @@ void combatScene::checkTimers()	{
 	if (taunt_timer.readSec() >= 0.5 && taunt_timer.readSec() < 2)
 	{
 		if (round_end == &ko_rect)
+		{
 			App->render->drawSprite(10, announcer_textures, 700, 500, round_end, 1, false, 1.0f, 0, 0, 0, false);
+			if (sfx_played)
+				App->audio->playSFX(ko_sfx), sfx_played = false;
+		}
 		else
+		{
 			App->render->drawSprite(10, announcer_textures, 500, 500, round_end, 1, false, 1.0f, 0, 0, 0, false);
+			if (sfx_played)
+				App->audio->playSFX(perfect_sfx), sfx_played = false;
+		}
 	}
 
 	if (taunt_timer.readSec() >= 1.5 && !general_window)
 	{
 		if (char1_hp > 0 && char2_hp <= 0 || char1_hp > char2_hp)
-			App->entities->players[0]->getCurrCharacter()->tauntFor(2), combat_end = &player1_wins_announcer_rect;
+			App->entities->players[0]->getCurrCharacter()->tauntFor(2), combat_end = &player1_wins_announcer_rect, victorious_player = player1_wins_sfx;
 		else if (char2_hp > 0 && char1_hp <= 0 || char2_hp > char1_hp)
-			App->entities->players[1]->getCurrCharacter()->tauntFor(2), combat_end = &player2_wins_announcer_rect;
+			App->entities->players[1]->getCurrCharacter()->tauntFor(2), combat_end = &player2_wins_announcer_rect, victorious_player = player2_wins_sfx;
 		else
 			App->entities->players[0]->getCurrCharacter()->tauntFor(2), App->entities->players[1]->getCurrCharacter()->tauntFor(2), combat_end = &draw_announcer_rect;
 
 		if (taunt_timer.readSec() >= 3.5)
+		{
 			App->render->drawSprite(10, announcer_textures, 450, 500, combat_end, 1, false, 1.0f, 0, 0, 0, false);
+			if (!sfx_played)
+				App->audio->playSFX(victorious_player), sfx_played = true;
+		}
+
+		
 
 		//Starting taunt timer
 		if (taunt_timer.readSec() >= 5.5)
@@ -591,9 +605,19 @@ void combatScene::checkTimers()	{
 	if (round_timer.readSec() >= 0.5 && round_timer.readSec() < 2)
 	{
 		if (round_end == &ko_rect)
+		{
 			App->render->drawSprite(10, announcer_textures, 700, 500, round_end, 1, false, 1.0f, 0, 0, 0, false);
+			if (random_sfx == 1 && sfx_played || random_sfx == 2 && sfx_played)
+				App->audio->playSFX(player_dead_sfx1), sfx_played = false;
+			else if (random_sfx == 3 && sfx_played || random_sfx == 4 && sfx_played)
+				App->audio->playSFX(player_dead_sfx2), sfx_played = false;	
+		}
 		else
+		{
 			App->render->drawSprite(10, announcer_textures, 500, 500, round_end, 1, false, 1.0f, 0, 0, 0, false);
+			if (sfx_played)
+				App->audio->playSFX(perfect_sfx), sfx_played = false;
+		}
 	}
 
 	if (round_timer.readSec() >= 2 && !taunt_timer.isActive())

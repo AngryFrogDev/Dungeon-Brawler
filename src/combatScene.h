@@ -134,6 +134,7 @@ private:
 	Mix_Chunk* time_up_sfx = nullptr;
 	Mix_Chunk* player1_wins_sfx = nullptr;
 	Mix_Chunk* player2_wins_sfx = nullptr;
+	Mix_Chunk* victorious_player = nullptr;
 	uint random_sfx = 0;
 
 	//Combat scene timer
