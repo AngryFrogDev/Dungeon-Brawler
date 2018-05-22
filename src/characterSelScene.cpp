@@ -2,6 +2,9 @@
 #include "characterSelScene.h"
 #include "mdGuiManager.h"
 #include "mdSceneManager.h"
+#include "mdAudio.h"
+#include <stdlib.h>
+#include <time.h>
 
 
 
@@ -31,6 +34,12 @@ bool characterSelScene::start()	{
 	ready_tex = App->textures->load(textures_node.child("ready_tex").attribute("path").as_string());
 
 	App->entities->players[0]->focus = App->entities->players[1]->focus = nullptr;
+	//PROVISIONAL
+	scene_sfx1 = App->audio->loadSFX("SFX/announcer/get-ready-to-brawl.wav");
+	scene_sfx2 = App->audio->loadSFX("SFX/announcer/get-ready-to-fight.wav");
+	//Setting random seed
+	srand(time(NULL));
+	random_sfx = 1 + rand() % (3 - 1);
 
 	loadSceneUi();
 	assignFocus();
@@ -290,7 +299,13 @@ void characterSelScene::checkSceneInput()	{
 	if (App->entities->players[1]->getInput(GRAB, KEY_DOWN) && object_win_p2)
 		closeP2Window();
 	if (player1.has_selected_character && player1.has_selected_item && player2.has_selected_character && player2.has_selected_item && !transition_timer.isActive())
+	{
+		if (random_sfx == 1)
+			App->audio->playSFX(scene_sfx1);
+		else
+			App->audio->playSFX(scene_sfx2);
 		assignCharacterToPlayer();
+	}
 }
 
 void characterSelScene::assignSkins()	{

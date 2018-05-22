@@ -7,7 +7,10 @@
 #include "Player.h"
 #include "DebLog.h"
 #include "mdSceneManager.h"
+#include "mdAudio.h"
 #include "Mage.h"
+#include <stdlib.h>
+#include <time.h>
 
 
 
@@ -29,12 +32,31 @@ combatScene::combatScene(bool active) : scene(COMBAT_SCENE)	{
 combatScene::~combatScene()	{}
 
 bool combatScene::start()	{
-	if (!next_round)
-		announcer_textures = App->textures->load("gui/Announcer_ui.png");
+	if (can_load_textures)
+		announcer_textures = App->textures->load("gui/Announcer_ui.png"), can_load_textures = false;
 
 	char1 = App->entities->players[0]->getCurrCharacter()->getType();
 	char2 = App->entities->players[1]->getCurrCharacter()->getType();
-	
+
+	//Setting random variable
+	srand(time(NULL));
+	random_sfx = 1 + rand() % (5 - 1);
+
+	//PROVISIONAL
+	round_sfx1 = App->audio->loadSFX("SFX/announcer/a-perfect-place.wav");
+	round_sfx2 = App->audio->loadSFX("SFX/announcer/it-is-do-or-die.wav");
+	round_sfx3 = App->audio->loadSFX("SFX/announcer/go-for-broke.wav");
+	round_sfx4 = App->audio->loadSFX("SFX/announcer/go-nuts-stage.wav");
+	last_round_sfx = App->audio->loadSFX("SFX/announcer/it-all-comes-down.wav");
+	fight_sfx = App->audio->loadSFX("SFX/announcer/fight.wav");
+	player_dead_sfx1 = App->audio->loadSFX("SFX/announcer/cool.wav");
+	player_dead_sfx2 = App->audio->loadSFX("SFX/announcer/down.wav");
+	ko_sfx = App->audio->loadSFX("SFX/announcer/KO(delay).wav");
+	perfect_sfx = App->audio->loadSFX("SFX/announcer/perfect.wav");
+	time_up_sfx = App->audio->loadSFX("SFX/announcer/time-up.wav");
+	player1_wins_sfx = App->audio->loadSFX("SFX/announcer/player-1-wins.wav");
+	player2_wins_sfx = App->audio->loadSFX("SFX/announcer/player-2-wins.wav");
+
 	loadSceneUi();
 	resetSceneValues();
 
@@ -71,7 +93,6 @@ bool combatScene::onEvent(Buttons * button)	{
 			closeP1Window();
 		else
 			closeP2Window();
-		next_round = false;
 		App->scene_manager->changeScene(App->scene_manager->char_sel_scene, this);
 		break;
 	case IN_GAME_MAIN_MENU:
@@ -79,7 +100,6 @@ bool combatScene::onEvent(Buttons * button)	{
 			closeP1Window();
 		else
 			closeP2Window();
-		next_round = false;
 		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
 		break;
 	case IN_GAME_SETTINGS:
@@ -94,7 +114,6 @@ bool combatScene::onEvent(Buttons * button)	{
 			closeP1Window();
 		else
 			closeP2Window();
-		next_round = false;
 		App->scene_manager->changeScene(App->scene_manager->stage_sel_scene, this);
 		break;
 	case MATCH_END_CHAR_SEL:
@@ -487,6 +506,7 @@ void combatScene::resetSceneValues()	{
 	App->entities->setStopped(true);
 	App->entities->show = true;
 	rematching = false;
+	sfx_played = false;
 	//Setting windows to nullptr
 	general_window = nullptr;
 	p1_window = nullptr;
@@ -507,20 +527,35 @@ void combatScene::resetSceneValues()	{
 void combatScene::checkTimers()	{
 	if (taunt_timer.isActive() || round_timer.isActive())
 		scene_timer.stop();
-
+	
 	//ANNOUNCER TIMER
 	//Then round announcer
 	if (combat_start_timer.readSec() >= 2 && combat_start_timer.readSec() < 3.5) {
 		if (current_round != &round3_rect)
+		{
 			App->render->drawSprite(10, announcer_textures, 650, 450, current_round, 1, false, 1.0f, 0, 0, 0, false);
+			if (random_sfx == 1 && !sfx_played)
+				App->audio->playSFX(round_sfx1), sfx_played = true;
+			else if (random_sfx == 2 && !sfx_played)
+				App->audio->playSFX(round_sfx2), sfx_played = true;
+			else if (random_sfx == 3 && !sfx_played)
+				App->audio->playSFX(round_sfx3), sfx_played = true;
+			else if (random_sfx == 4 && !sfx_played)
+				App->audio->playSFX(round_sfx4), sfx_played = true;
+		}
 		else
+		{
 			App->render->drawSprite(10, announcer_textures, 450, 450, current_round, 1, false, 1.0f, 0, 0, 0, false);
+			if (!sfx_played)
+				App->audio->playSFX(last_round_sfx), sfx_played = true;
+		}
 	}
 	else if (combat_start_timer.readSec() >= 4.5 && combat_start_timer.readSec() <= 5.5) {
 		App->render->drawSprite(10, announcer_textures, 650, 450, &fight_rect, 1, false, 1.0f, 0, 0, 0, false);
 		if (!entities_stopped){
 			App->entities->setStopped(false);
 			entities_stopped = true;
+			App->audio->playSFX(fight_sfx);
 		}
 	}
 	else if (combat_start_timer.readSec() > 6)
