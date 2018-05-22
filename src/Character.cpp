@@ -377,6 +377,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		if (hit) { 
 			playCurrentSFX();
+			App->delayFrame(attack_recieving.frame_delay);
 			emmitCurrentParticle();
 			if (attack_recieving.knockdown)
 				updateState(JUGGLE);

@@ -46,7 +46,7 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	}
 
 	light_attack.loop = true;
-	light_attack.speed = 0.2;
+	light_attack.speed = character.st_l.animation_speed;
 
 	for (int i = 0; i < 12; i++) {
 		if (i == 8)
@@ -55,7 +55,7 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 			heavy_attack.PushBack({ i * x_space, height * 4,width,height });
 	}
 	heavy_attack.loop = true;
-	heavy_attack.speed = 0.2;
+	heavy_attack.speed = character.st_h.animation_speed;
 
 	//CROUCHING
 	for (int i = 0; i < 2; i++) {
@@ -73,10 +73,10 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	}
 
 	crouching_light.loop = false;
-	crouching_light.speed = 0.2;
+	crouching_light.speed = character.cr_l.animation_speed;
 
 	for (int i = 0; i < 10; i++) {
-		if (i == 4)
+		if (i == 5)
 			crouching_heavy.PushBack({ i * x_space, height * 17,width,height }, ACTIVE);
 		else
 			crouching_heavy.PushBack({ i * x_space, height * 17,width,height });
@@ -542,11 +542,11 @@ void Rogue::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 			current_attack.knockdown = false;
 		else
 			current_attack.knockdown = true;
+		current_attack.frame_delay = st_s2.frame_delay;
 		instanciateHitbox(current_attack);
 		instanciated_hitbox = false;
-		if (*rekka_iterator == rekka_last_attack){
+		if (*rekka_iterator == rekka_last_attack)
 			askRecovery(current_attack.recovery);
-		}
 		else if (lookInBuffer(SPECIAL_2, rekka_cancelability_window)) {
 			rekka_iterator++;
 			updateAnimationOnBasicAttack(*rekka_iterator);
