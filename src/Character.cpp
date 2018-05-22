@@ -881,6 +881,7 @@ void Character::resetCharacter()	{
 	velocity.x = velocity.y = 0;//This should be done from the scene manager
 	instanciated_hitbox = false;
 	crouching_hurtbox = false;
+	juggle_attacks_recieved.clear();
 
 	specificCharacterReset();
 
