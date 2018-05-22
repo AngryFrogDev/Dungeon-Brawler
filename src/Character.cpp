@@ -372,15 +372,14 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		if (!state_first_tick) {
 			updateAnimation(standing_hit);
 			emmitCurrentParticle();
-			App->delayFrame(attack_recieving.frame_delay);
 			state_first_tick = true;
 		}
 		if (hit) { 
-			App->delayFrame(attack_recieving.frame_delay);
 			emmitCurrentParticle();
 			if (attack_recieving.knockdown)
 				updateState(JUGGLE);
 			else {
+				App->delayFrame(attack_recieving.frame_delay);
 				playCurrentSFX();
 				hit = false;
 			}
