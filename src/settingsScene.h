@@ -18,6 +18,8 @@ private:
 	bool onEvent(Buttons* button);
 	void loadSceneUi();
 	void assignFocus();
+	int getMusicVol();
+	int getSfxVol();
 
 private:
 
@@ -39,7 +41,13 @@ private:
 	Labels* l_parallax = nullptr;
 	Labels* l_back = nullptr;
 
+	Bars* b_music = nullptr;
+	Bars* b_sfx = nullptr;
+
 	Mix_Chunk* s_crouching_special_2;
+
+public:
+
 	int current_music_volume = 128;
 	int current_sfx_volume = 128;
 };

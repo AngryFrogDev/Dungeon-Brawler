@@ -7,6 +7,8 @@
 #include "Player.h"
 #include "Character.h"
 #include "mdGuiManager.h"
+#include "mdSceneManager.h"
+#include "settingsScene.h"
 
 
 Bars::Bars(bar_types type, std::pair<int, int> pos, bool _flipped, int target, scene* callback) : Widgets(ui_elem_type::BAR, pos, callback) {
@@ -64,7 +66,7 @@ void Bars::getSection(SDL_Rect rect, SDL_Rect gauge){
 
 void Bars::updateBarGauge() {
 		
-	if (bar_type == HEALTH_BAR || bar_type == SUPER_BAR) {
+	if (bar_type == HEALTH_BAR || bar_type == SUPER_BAR || bar_type == MUSIC_VOL_BAR || bar_type == SFX_VOL_BAR) {
 		calculateBarGauge();
 	}	
 
@@ -97,7 +99,27 @@ void Bars::loadGuiFromAtlas()	{
 		full_gauge.w = super.child("full_gauge").attribute("w").as_int();
 		setAnimation();
 		break;
-	case SWAP_BAR:
+	case MUSIC_VOL_BAR:
+		relative_pos = { 100, 400 };
+		border = super.child("border");
+		gauge = super.child("gauge");
+		getSection({ border.attribute("x").as_int(), border.attribute("y").as_int(), border.attribute("w").as_int(), border.attribute("h").as_int() },
+		{ gauge.attribute("x").as_int(),gauge.attribute("y").as_int(), gauge.attribute("w").as_int(), gauge.attribute("h").as_int() });
+		full_gauge.x = super.child("full_gauge").attribute("x").as_int();
+		full_gauge.y = super.child("full_gauge").attribute("y").as_int();
+		full_gauge.h = super.child("full_gauge").attribute("h").as_int();
+		full_gauge.w = super.child("full_gauge").attribute("w").as_int();
+		break;
+	case SFX_VOL_BAR:
+		relative_pos = { 100, 400 };
+		border = super.child("border");
+		gauge = super.child("gauge");
+		getSection({ border.attribute("x").as_int(), border.attribute("y").as_int(), border.attribute("w").as_int(), border.attribute("h").as_int() },
+		{ gauge.attribute("x").as_int(),gauge.attribute("y").as_int(), gauge.attribute("w").as_int(), gauge.attribute("h").as_int() });
+		full_gauge.x = super.child("full_gauge").attribute("x").as_int();
+		full_gauge.y = super.child("full_gauge").attribute("y").as_int();
+		full_gauge.h = super.child("full_gauge").attribute("h").as_int();
+		full_gauge.w = super.child("full_gauge").attribute("w").as_int();
 		break;
 	case NO_BAR:
 		LOG("Non valid Bar type");
@@ -141,8 +163,24 @@ void Bars::calculateBarGauge() {
 			 last_gauge = current_gauge;
 		 }
 	}
-	
-
+	else if (bar_type == MUSIC_VOL_BAR)
+	{
+		current_gauge = App->scene_manager->settings_scene->getMusicVol();
+		max_gauge = 128;
+		current_gauge_rect.w = (gauge_rect.w*current_gauge) / max_gauge;
+		current_gauge_rect.x = gauge_rect.x + (gauge_rect.w - current_gauge_rect.w);
+		aux_bar_pos = 2 * (gauge_rect.w - current_gauge_rect.w);
+		last_gauge = current_gauge;
+	}
+	else if (bar_type == SFX_VOL_BAR)
+	{
+		current_gauge = App->scene_manager->settings_scene->getSfxVol();
+		max_gauge = 128;
+		current_gauge_rect.w = (gauge_rect.w*current_gauge) / max_gauge;
+		current_gauge_rect.x = gauge_rect.x + (gauge_rect.w - current_gauge_rect.w);
+		aux_bar_pos = 2 * (gauge_rect.w - current_gauge_rect.w);
+		last_gauge = current_gauge;
+	}
 }
 
 void Bars::setAnimation() {

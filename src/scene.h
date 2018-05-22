@@ -40,6 +40,8 @@ public:
 	virtual void closeP2Window() { return; };
 	virtual void resetSceneValues() { return; };
 	virtual void startingTransition() { return; };
+	virtual int getMusicVol() { return 0; };
+	virtual int getSfxVol() { return 0; };
 
 public:
 	bool scene_active = false;
