@@ -36,8 +36,21 @@ bool combatScene::start()	{
 	{
 		announcer_textures = App->textures->load("gui/Announcer_ui.png");
 		timer_tex = App->textures->load("gui/timer.png");
+		round_sfx1 = App->audio->loadSFX("SFX/announcer/a-perfect-place.wav");
+		round_sfx2 = App->audio->loadSFX("SFX/announcer/it-is-do-or-die.wav");
+		round_sfx3 = App->audio->loadSFX("SFX/announcer/go-for-broke.wav");
+		round_sfx4 = App->audio->loadSFX("SFX/announcer/go-nuts-stage.wav");
+		last_round_sfx = App->audio->loadSFX("SFX/announcer/it-all-comes-down.wav");
+		fight_sfx = App->audio->loadSFX("SFX/announcer/fight.wav");
+		player_dead_sfx1 = App->audio->loadSFX("SFX/announcer/cool.wav");
+		player_dead_sfx2 = App->audio->loadSFX("SFX/announcer/down.wav");
+		ko_sfx = App->audio->loadSFX("SFX/announcer/KO(delay).wav");
+		perfect_sfx = App->audio->loadSFX("SFX/announcer/perfect.wav");
+		time_up_sfx = App->audio->loadSFX("SFX/announcer/time-up.wav");
+		player1_wins_sfx = App->audio->loadSFX("SFX/announcer/player-1-wins.wav");
+		player2_wins_sfx = App->audio->loadSFX("SFX/announcer/player-2-wins.wav");
+		danger = App->audio->loadSFX("SFX/announcer/danger(time-out).wav");
 		can_load_textures = false;
-
 	}
 
 	char1 = App->entities->players[0]->getCurrCharacter()->getType();
@@ -46,21 +59,6 @@ bool combatScene::start()	{
 	//Setting random variable
 	srand(time(NULL));
 	random_sfx = 1 + rand() % (5 - 1);
-
-	//PROVISIONAL
-	round_sfx1 = App->audio->loadSFX("SFX/announcer/a-perfect-place.wav");
-	round_sfx2 = App->audio->loadSFX("SFX/announcer/it-is-do-or-die.wav");
-	round_sfx3 = App->audio->loadSFX("SFX/announcer/go-for-broke.wav");
-	round_sfx4 = App->audio->loadSFX("SFX/announcer/go-nuts-stage.wav");
-	last_round_sfx = App->audio->loadSFX("SFX/announcer/it-all-comes-down.wav");
-	fight_sfx = App->audio->loadSFX("SFX/announcer/fight.wav");
-	player_dead_sfx1 = App->audio->loadSFX("SFX/announcer/cool.wav");
-	player_dead_sfx2 = App->audio->loadSFX("SFX/announcer/down.wav");
-	ko_sfx = App->audio->loadSFX("SFX/announcer/KO(delay).wav");
-	perfect_sfx = App->audio->loadSFX("SFX/announcer/perfect.wav");
-	time_up_sfx = App->audio->loadSFX("SFX/announcer/time-up.wav");
-	player1_wins_sfx = App->audio->loadSFX("SFX/announcer/player-1-wins.wav");
-	player2_wins_sfx = App->audio->loadSFX("SFX/announcer/player-2-wins.wav");
 
 	loadSceneUi();
 	resetSceneValues();
@@ -175,7 +173,13 @@ void combatScene::updateSceneTimer()	{
 		if (sec_count != 0)
 			right_number.x -= 20;
 		if (current_time <= 10 && !countdown)
-			left_number.y += 20, right_number.y += 20, countdown = true;
+		{
+			left_number.y += 20;
+			right_number.y += 20;
+			countdown = true;
+			if (sfx_played)
+				App->audio->playSFX(danger), sfx_played = false;
+		}
 		else if (current_time <= 10 && countdown)
 			left_number.y -= 20, right_number.y -= 20, countdown = false;
 
@@ -592,16 +596,16 @@ void combatScene::checkTimers()	{
 		if (round_end == &ko_rect)
 		{
 			App->render->drawSprite(10, announcer_textures, 700, 500, round_end, 1, false, 1.0f, 0, 0, 0, false);
-			if (sfx_played)
-				App->audio->playSFX(ko_sfx), sfx_played = false;
+			if (!sfx_played)
+				App->audio->playSFX(ko_sfx), sfx_played = true;
 		}
 		else
 		{
 			App->render->drawSprite(10, announcer_textures, 500, 500, round_end, 1, false, 1.0f, 0, 0, 0, false);
-			if (sfx_played && current_time > 0)
-				App->audio->playSFX(perfect_sfx), sfx_played = false;
-			else if (sfx_played && current_time <= 0)
-				App->audio->playSFX(time_up_sfx), sfx_played = false;
+			if (!sfx_played && current_time > 0)
+				App->audio->playSFX(perfect_sfx), sfx_played = true;
+			else if (!sfx_played && current_time <= 0)
+				App->audio->playSFX(time_up_sfx), sfx_played = true;
 		}
 	}
 
@@ -642,10 +646,10 @@ void combatScene::checkTimers()	{
 		else
 		{
 			App->render->drawSprite(10, announcer_textures, 500, 500, round_end, 1, false, 1.0f, 0, 0, 0, false);
-			if (sfx_played && current_time > 0)
-				App->audio->playSFX(perfect_sfx), sfx_played = false;
-			else if (sfx_played && current_time <= 0)
-				App->audio->playSFX(time_up_sfx), sfx_played = false;
+			if (!sfx_played && current_time > 0)
+				App->audio->playSFX(perfect_sfx), sfx_played = true;
+			else if (!sfx_played && current_time <= 0)
+				App->audio->playSFX(time_up_sfx), sfx_played = true;
 		}
 	}
 

@@ -37,6 +37,8 @@ private:
 	Buttons* stage_2_button = nullptr;
 	Buttons* stage_3_button = nullptr;
 
+	Mix_Chunk* scene_sfx = nullptr;
+
 	Timer transition_timer;
 };
 #endif

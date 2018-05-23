@@ -25,7 +25,12 @@ characterSelScene::~characterSelScene()	{}
 
 bool characterSelScene::start()	{
 	if (!loaded)
-		scene_music = App->audio->loadMusic("SFX/scene music/Character_Stage_Selection.ogg"), loaded = true;
+	{
+		scene_sfx1 = App->audio->loadSFX("SFX/announcer/get-ready-to-brawl.wav");
+		scene_sfx2 = App->audio->loadSFX("SFX/announcer/get-ready-to-fight.wav");
+		scene_music = App->audio->loadMusic("SFX/scene music/Character_Stage_Selection.ogg");
+		loaded = true;
+	}
 
 	App->audio->playMusic(scene_music);
 
@@ -39,9 +44,7 @@ bool characterSelScene::start()	{
 	ready_tex = App->textures->load(textures_node.child("ready_tex").attribute("path").as_string());
 
 	App->entities->players[0]->focus = App->entities->players[1]->focus = nullptr;
-	//PROVISIONAL
-	scene_sfx1 = App->audio->loadSFX("SFX/announcer/get-ready-to-brawl.wav");
-	scene_sfx2 = App->audio->loadSFX("SFX/announcer/get-ready-to-fight.wav");
+		
 	//Setting random seed
 	srand(time(NULL));
 	random_sfx = 1 + rand() % (3 - 1);

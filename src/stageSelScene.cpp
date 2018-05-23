@@ -14,9 +14,13 @@ stageSelScene::~stageSelScene(){}
 
 bool stageSelScene::start()	{
 	bool ret = true;
-	stage_1 = App->textures->load("assets/stage_1_prev.png");
-	stage_2 = App->textures->load("assets/stage_2_prev.png");
-	stage_3 = App->textures->load("assets/stage_3_prev.png");
+	if (!loaded)
+	{
+		stage_1 = App->textures->load("assets/stage_1_prev.png");
+		stage_2 = App->textures->load("assets/stage_2_prev.png");
+		stage_3 = App->textures->load("assets/stage_3_prev.png");
+		scene_sfx = App->audio->loadSFX("SFX/announcer/location-confirmed.wav");
+	}
 	transition_timer.stop();
 
 	loadSceneUi();
@@ -57,6 +61,7 @@ bool stageSelScene::onEvent(Buttons* button)	{
 
 	if (button->being_clicked)
 	{
+		App->audio->playSFX(scene_sfx);
 		App->map->loadMap(selected_map);
 		transition_timer.start();
 	}
