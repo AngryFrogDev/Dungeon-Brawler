@@ -27,8 +27,7 @@ private:
 	Buttons* music_down = nullptr;
 	Buttons* sfx_up = nullptr;
 	Buttons* sfx_down = nullptr;
-	Buttons* show_colliders = nullptr;
-	Buttons* hide_colliders = nullptr;
+	Buttons* colliders = nullptr;
 	Buttons* parallax = nullptr;
 	Buttons* back = nullptr;
 
@@ -36,8 +35,7 @@ private:
 	Labels* l_music_down = nullptr;
 	Labels* l_sfx_up = nullptr;
 	Labels* l_sfx_down = nullptr;
-	Labels* l_show_colliders = nullptr;
-	Labels* l_hide_colliders = nullptr;
+	Labels* l_colliders = nullptr;
 	Labels* l_parallax = nullptr;
 	Labels* l_back = nullptr;
 
