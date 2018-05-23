@@ -178,8 +178,8 @@ void combatScene::updateSceneTimer()	{
 			left_number.y += 20;
 			right_number.y += 20;
 			countdown = true;
-			if (sfx_played)
-				App->audio->playSFX(danger), sfx_played = false;
+			if (current_time == 10)
+				App->audio->playSFX(danger);
 		}
 		else if (current_time <= 10 && countdown)
 			left_number.y -= 20, right_number.y -= 20, countdown = false;
@@ -596,16 +596,16 @@ void combatScene::checkTimers()	{
 		if (round_end == &ko_rect)
 		{
 			App->render->drawSprite(10, announcer_textures, 700, 500, round_end, 1, false, 1.0f, 0, 0, 0, false);
-			if (!sfx_played)
-				App->audio->playSFX(ko_sfx), sfx_played = true;
+			if (sfx_played)
+				App->audio->playSFX(ko_sfx), sfx_played = false;
 		}
 		else
 		{
 			App->render->drawSprite(10, announcer_textures, 500, 500, round_end, 1, false, 1.0f, 0, 0, 0, false);
-			if (!sfx_played && current_time > 0)
-				App->audio->playSFX(perfect_sfx), sfx_played = true;
-			else if (!sfx_played && current_time <= 0)
-				App->audio->playSFX(time_up_sfx), sfx_played = true;
+			if (sfx_played && current_time > 0)
+				App->audio->playSFX(perfect_sfx), sfx_played = false;
+			else if (sfx_played && current_time <= 0)
+				App->audio->playSFX(time_up_sfx), sfx_played = false;
 		}
 	}
 
@@ -646,10 +646,10 @@ void combatScene::checkTimers()	{
 		else
 		{
 			App->render->drawSprite(10, announcer_textures, 500, 500, round_end, 1, false, 1.0f, 0, 0, 0, false);
-			if (!sfx_played && current_time > 0)
-				App->audio->playSFX(perfect_sfx), sfx_played = true;
-			else if (!sfx_played && current_time <= 0)
-				App->audio->playSFX(time_up_sfx), sfx_played = true;
+			if (sfx_played && current_time > 0)
+				App->audio->playSFX(perfect_sfx), sfx_played = false;
+			else if (sfx_played && current_time <= 0)
+				App->audio->playSFX(time_up_sfx), sfx_played = false;
 		}
 	}
 
