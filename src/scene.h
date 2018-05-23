@@ -7,6 +7,9 @@
 #include "Labels.h"
 #include "Bars.h"
 #include "UiWindow.h"
+#include "mdAudio.h"
+
+#include "SDL_mixer\include\SDL_mixer.h"
 
 enum scene_type {
 	NO_SCENE = 0,
@@ -48,7 +51,9 @@ public:
 	bool rematching = false;
 	scene_type type = NO_SCENE;
 	const char* name = nullptr;
-
+	Mix_Music* scene_music = nullptr;
+	bool loaded = false;
+	
 protected:
 	//Nodes
 	pugi::xml_document scene_config_doc;

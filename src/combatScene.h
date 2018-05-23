@@ -54,6 +54,7 @@ private:
 	SDL_Rect player1_wins_announcer_rect;
 	SDL_Rect player2_wins_announcer_rect;
 	SDL_Rect draw_announcer_rect;
+	SDL_Rect time_up_rect;
 	SDL_Rect* current_round = nullptr;
 	SDL_Rect* round_end = nullptr;
 	SDL_Rect* combat_end = nullptr;

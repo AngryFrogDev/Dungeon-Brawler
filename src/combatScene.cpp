@@ -307,6 +307,8 @@ void combatScene::setRects()	{
 	perfect_rect = { 0, 437, 1920, 437 };
 	player1_wins_announcer_rect = { 0, 2622, 1920, 437 };
 	player2_wins_announcer_rect = { 0, 3059, 1920, 437 };
+	time_up_rect = { 0, 3496, 1920, 437 };
+	draw_announcer_rect = { 0, 3933, 1920, 437 };
 	current_round = &round1_rect;
 }
 
@@ -494,7 +496,7 @@ void combatScene::resetSceneValues()	{
 	//Resetting camera
 	App->render->camera.x = (App->render->resolution.first - App->render->camera.w) / 2;
 	//Timer
-	max_time = 99;
+	max_time = 5;
 	current_time = max_time;
 	taunt_timer.stop();
 	round_timer.stop();
@@ -615,8 +617,10 @@ void combatScene::checkTimers()	{
 		else
 		{
 			App->render->drawSprite(10, announcer_textures, 500, 500, round_end, 1, false, 1.0f, 0, 0, 0, false);
-			if (sfx_played)
+			if (sfx_played && current_time > 0)
 				App->audio->playSFX(perfect_sfx), sfx_played = false;
+			else if (sfx_played && current_time <= 0)
+				App->audio->playSFX(time_up_sfx), sfx_played = false;
 		}
 	}
 
@@ -664,28 +668,21 @@ void combatScene::manageRounds()	{
 		}
 	}
 	
-	else
+	else//Time's up
 	{
 		makeSureMageChargeEmitterIsDeleted();
+		round_end = &time_up_rect;
 		if (char1_hp > char2_hp) // Player 1 wins
 		{
 			p1_rounds_won++;
 			rounds_left--;
 			current_round = &round2_rect;
-			if (char1_hp == max_char1_hp)
-				round_end = &perfect_rect;
-			else
-				round_end = &ko_rect;
 		}
 		else if (char2_hp > char1_hp) // Player2 wins
 		{
 			p2_rounds_won++;
 			rounds_left--;
 			current_round = &round2_rect;
-			if (char2_hp == max_char2_hp)
-				round_end = &perfect_rect;
-			else
-				round_end = &ko_rect;
 		}
 		if (p1_rounds_won == 1 && p2_rounds_won == 1)
 			extra_round = true, current_round = &round3_rect;

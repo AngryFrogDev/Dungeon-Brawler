@@ -24,6 +24,11 @@ characterSelScene::characterSelScene(bool active) : scene(CHAR_SEL_SCENE)	{
 characterSelScene::~characterSelScene()	{}
 
 bool characterSelScene::start()	{
+	if (!loaded)
+		scene_music = App->audio->loadMusic("SFX/scene music/Character_Stage_Selection.ogg"), loaded = true;
+
+	App->audio->playMusic(scene_music);
+
 	//Reseting player values
 	resetSceneValues();
 

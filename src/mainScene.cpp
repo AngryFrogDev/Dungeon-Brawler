@@ -19,6 +19,10 @@ mainScene::mainScene(bool active) : scene(MAIN_SCENE)	{
 mainScene::~mainScene()	{}
 
 bool mainScene::start()	{
+	if (!loaded)
+		scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg"), loaded = true;
+	App->audio->playMusic(scene_music);
+	
 	loadSceneUi();
 	assignFocus();
 	
