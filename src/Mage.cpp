@@ -383,6 +383,9 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		fireball_level = 0;
 		fireball_max_charge = 0;
 	}
+
+	if (hit)
+		stopChargeEmitter();
 }
 
 void Mage::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
