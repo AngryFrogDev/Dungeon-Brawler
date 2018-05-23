@@ -141,6 +141,7 @@ bool combatScene::onEvent(Buttons * button)	{
 		App->scene_manager->changeScene(App->scene_manager->settings_scene, this);
 		break;
 	}
+	next_round = false;
 
 	return ret;
 }
@@ -550,7 +551,6 @@ void combatScene::resetSceneValues()	{
 		extra_round = false;
 		current_round = &round1_rect;
 	}
-	
 }
 
 void combatScene::checkTimers()	{
