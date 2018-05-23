@@ -107,7 +107,7 @@
         type ="st_h"
         recovery ="300"
         animation_speed ="0.2"
-        frame_delay ="32"/>
+        frame_delay ="70"/>
       <cr_l
         pos_rel_char_x ="110"
         pos_rel_char_y ="50"
@@ -145,7 +145,7 @@
         type ="cr_h"
         recovery ="350"
         animation_speed ="0.18"
-        frame_delay ="32"/>
+        frame_delay ="70"/>
       <jm_l
         pos_rel_char_x ="150"
         pos_rel_char_y ="70"
@@ -221,7 +221,7 @@
         type ="st_s2"
         recovery ="500"
         animation_speed ="0.3"
-        frame_delay ="20"/>
+        frame_delay ="50"/>
       <cr_s1
         pos_rel_char_x ="175"
         pos_rel_char_y ="50"
@@ -240,7 +240,7 @@
         type ="cr_s1"
         recovery ="150"
         animation_speed ="0.15"
-        frame_delay ="20"/>
+        frame_delay ="50"/>
       <cr_s2
         pos_rel_char_x ="130"
         pos_rel_char_y ="0"
@@ -259,7 +259,7 @@
         type ="cr_s2"
         recovery ="600"
         animation_speed ="0.5"
-        frame_delay ="35"/>
+        frame_delay ="100"/>
       <jm_s1
         pos_rel_char_x ="60"
         pos_rel_char_y ="50"
@@ -432,7 +432,7 @@
         type ="st_h"
         recovery ="300"
         animation_speed ="0.1"
-        frame_delay ="32"/>
+        frame_delay ="100"/>
       <cr_l
         pos_rel_char_x ="110"
         pos_rel_char_y ="100"
@@ -469,7 +469,7 @@
         type ="cr_h"
         recovery ="350"
         animation_speed ="0.15"
-        frame_delay ="32"/>
+        frame_delay ="70"/>
       <jm_l
         pos_rel_char_x ="150"
         pos_rel_char_y ="0"
@@ -523,7 +523,8 @@
        block_type ="mid"
        type ="st_s1"
        recovery ="350"
-       animation_speed ="0.1"/>
+       animation_speed ="0.1"
+       frame_delay ="32"/>
       <st_s2
         pos_rel_char_x ="500"
         pos_rel_char_y ="-100"
@@ -542,7 +543,7 @@
         type ="st_s2"
         recovery ="800"
         animation_speed ="0.1"
-        frame_delay ="32"/>
+        frame_delay ="70"/>
       <cr_s1
         pos_rel_char_x ="200"
         pos_rel_char_y ="-160"
@@ -561,7 +562,7 @@
         type ="cr_s1"
         recovery ="150"
         animation_speed ="0.15"
-        frame_delay ="32"/>
+        frame_delay ="50"/>
       <cr_s2
         pos_rel_char_x ="200"
         pos_rel_char_y ="125"
@@ -580,7 +581,7 @@
         type ="cr_s2"
         recovery ="200"
         animation_speed ="0.1"
-        frame_delay ="35"/>
+        frame_delay ="70"/>
       <jm_s1
          pos_rel_char_x ="-50"
          pos_rel_char_y ="50"
@@ -741,7 +742,7 @@
         type ="st_h"
         recovery ="300"
         animation_speed ="0.3"
-        frame_delay ="32"/>
+        frame_delay ="70"/>
       <cr_l
         pos_rel_char_x ="150"
         pos_rel_char_y ="-30"
@@ -759,7 +760,8 @@
         block_type ="low"
         type ="cr_l"
         recovery ="50"
-        animation_speed ="0.15"/>
+        animation_speed ="0.15"
+        frame_delay ="0"/>
       <cr_h
         pos_rel_char_x ="200"
         pos_rel_char_y ="50"
@@ -778,7 +780,7 @@
         type ="cr_h"
         recovery ="200"
         animation_speed ="0.1"
-        frame_delay ="16"/>
+        frame_delay ="100"/>
       <jm_l
         pos_rel_char_x ="100"
         pos_rel_char_y ="170"
@@ -796,7 +798,8 @@
         block_type ="overhead"
         type ="jm_l"
         recovery ="30"
-        animation_speed ="0.2"/>
+        animation_speed ="0.2"
+        frame_delay ="0"/>
       <jm_h
         pos_rel_char_x ="42"
         pos_rel_char_y ="100"
@@ -832,7 +835,8 @@
        block_type ="mid"
        type ="st_s1"
        recovery ="350"
-       animation_speed ="0.1"/>
+       animation_speed ="0.1"
+       frame_delay ="0"/>
       <st_s2
         pos_rel_char_x ="175"
         pos_rel_char_y ="50"
@@ -851,7 +855,7 @@
         type ="st_s2"
         recovery ="400"
         animation_speed ="0.08"
-        frame_delay ="40"/>
+        frame_delay ="70"/>
       <cr_s1
         pos_rel_char_x ="0"
         pos_rel_char_y ="0"
@@ -889,7 +893,7 @@
         type ="cr_s2"
         recovery ="300"
         animation_speed ="0.1"
-        frame_delay ="32"/>
+        frame_delay ="50"/>
       <jm_s1
          pos_rel_char_x ="-50"
          pos_rel_char_y ="50"
@@ -994,8 +998,6 @@
             
   super_healing ="50"
   endurance_object_plus ="50"
-  
-    
     >
 		<sound_effects>
 		<jump filename = "paladin/jump.wav"/>
@@ -1062,7 +1064,7 @@
         type ="st_h"
         recovery ="300"
         animation_speed ="0.2"
-        frame_delay ="32"/>
+        frame_delay ="70"/>
       <cr_l
         pos_rel_char_x ="110"
         pos_rel_char_y ="-100"
@@ -1099,7 +1101,7 @@
         type ="cr_h"
         recovery ="225"
         animation_speed ="0.13"
-        frame_delay ="32"/>
+        frame_delay ="50"/>
       <jm_l
         pos_rel_char_x ="110"
         pos_rel_char_y ="-65"
@@ -1175,7 +1177,7 @@
         type ="st_s2"
         recovery ="200"
         animation_speed ="0.15"
-        frame_delay ="32"/>
+        frame_delay ="50"/>
       <cr_s1
         pos_rel_char_x ="175"
         pos_rel_char_y ="50"
@@ -1213,7 +1215,7 @@
         type ="cr_s2"
         recovery ="400"
         animation_speed ="0.25"
-        frame_delay ="40"/>
+        frame_delay ="100"/>
       <jm_s1
         pos_rel_char_x ="60"
         pos_rel_char_y ="50"
