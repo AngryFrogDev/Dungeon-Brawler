@@ -100,8 +100,7 @@ void Bars::loadGuiFromAtlas()	{
 		setAnimation();
 		break;
 	case MUSIC_VOL_BAR:
-		relative_pos = { 100, 400 };
-		border = super.child("border");
+		relative_pos = { -75, 50 };
 		gauge = super.child("gauge");
 		getSection({ border.attribute("x").as_int(), border.attribute("y").as_int(), border.attribute("w").as_int(), border.attribute("h").as_int() },
 		{ gauge.attribute("x").as_int(),gauge.attribute("y").as_int(), gauge.attribute("w").as_int(), gauge.attribute("h").as_int() });
@@ -111,8 +110,7 @@ void Bars::loadGuiFromAtlas()	{
 		full_gauge.w = super.child("full_gauge").attribute("w").as_int();
 		break;
 	case SFX_VOL_BAR:
-		relative_pos = { 100, 400 };
-		border = super.child("border");
+		relative_pos = { -75, 50 };
 		gauge = super.child("gauge");
 		getSection({ border.attribute("x").as_int(), border.attribute("y").as_int(), border.attribute("w").as_int(), border.attribute("h").as_int() },
 		{ gauge.attribute("x").as_int(),gauge.attribute("y").as_int(), gauge.attribute("w").as_int(), gauge.attribute("h").as_int() });
@@ -169,7 +167,6 @@ void Bars::calculateBarGauge() {
 		max_gauge = 128;
 		current_gauge_rect.w = (gauge_rect.w*current_gauge) / max_gauge;
 		current_gauge_rect.x = gauge_rect.x + (gauge_rect.w - current_gauge_rect.w);
-		aux_bar_pos = 2 * (gauge_rect.w - current_gauge_rect.w);
 		last_gauge = current_gauge;
 	}
 	else if (bar_type == SFX_VOL_BAR)
@@ -178,7 +175,6 @@ void Bars::calculateBarGauge() {
 		max_gauge = 128;
 		current_gauge_rect.w = (gauge_rect.w*current_gauge) / max_gauge;
 		current_gauge_rect.x = gauge_rect.x + (gauge_rect.w - current_gauge_rect.w);
-		aux_bar_pos = 2 * (gauge_rect.w - current_gauge_rect.w);
 		last_gauge = current_gauge;
 	}
 }

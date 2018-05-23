@@ -67,7 +67,7 @@ bool mdMap::update(float dt) {
 			if (selected_map == 1)
 				App->audio->playMusic(App->audio->loadMusic("SFX/BGM_2.ogg"));
 			else if (selected_map == 2)
-				App->audio->playMusic(App->audio->loadMusic("SFX/BGM_2.ogg"));
+				App->audio->playMusic(App->audio->loadMusic("SFX/BGM_1.ogg"));
 			else if (selected_map == 3)
 				App->audio->playMusic(App->audio->loadMusic("SFX/BGM_2.ogg"));
 			change_music = false;
