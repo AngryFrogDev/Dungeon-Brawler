@@ -33,7 +33,12 @@ combatScene::~combatScene()	{}
 
 bool combatScene::start()	{
 	if (can_load_textures)
-		announcer_textures = App->textures->load("gui/Announcer_ui.png"), can_load_textures = false;
+	{
+		announcer_textures = App->textures->load("gui/Announcer_ui.png");
+		timer_tex = App->textures->load("gui/timer.png");
+		can_load_textures = false;
+
+	}
 
 	char1 = App->entities->players[0]->getCurrCharacter()->getType();
 	char2 = App->entities->players[1]->getCurrCharacter()->getType();
@@ -143,11 +148,6 @@ bool combatScene::onEvent(Buttons * button)	{
 }
 
 void combatScene::loadSceneUi() {
-	//LABELS
-	auto label_string = std::to_string(current_time);
-	timer = (Labels*)App->gui->createLabel(label_string.data(), { (Uint8)labels_node.child("timer").child("color").attribute("r").as_int(),(Uint8)labels_node.child("timer").child("color").attribute("g").as_int(),(Uint8)labels_node.child("timer").child("color").attribute("b").as_int(),(Uint8)labels_node.child("timer").child("color").attribute("a").as_int() },
-		App->fonts->extra_large_size, { labels_node.child("timer").child("pos").attribute("x").as_int(),labels_node.child("timer").child("pos").attribute("y").as_int() }, this);
-
 	//BARS
 	health_bar1 = (Bars*)App->gui->createBar(HEALTH_BAR, { bars_node.child("health_bar1").child("pos").attribute("x").as_int(),bars_node.child("health_bar1").child("pos").attribute("y").as_int() },
 		bars_node.child("health_bar1").child("flip").attribute("value").as_bool(), bars_node.child("health_bar1").child("target_player").attribute("value").as_int(), this);
@@ -163,14 +163,24 @@ void combatScene::loadSceneUi() {
 }
 
 void combatScene::updateSceneTimer()	{
-	auto label_string = std::to_string(current_time);
-	timer->changeContent(label_string.data(), { 0,0,0,255 });
-
 	if (App->entities->paused || App->entities->traning || !scene_timer.isActive())
 		return;
 
 	if (scene_timer.readSec() >= 1)
-		current_time--, scene_timer.start();
+	{
+		current_time--;
+		sec_count++;
+		if (sec_count == 10)
+			left_number.x -= 20, right_number.x += 180, sec_count = 0;
+		if (sec_count != 0)
+			right_number.x -= 20;
+		if (current_time <= 10 && !countdown)
+			left_number.y += 20, right_number.y += 20, countdown = true;
+		else if (current_time <= 10 && countdown)
+			left_number.y -= 20, right_number.y -= 20, countdown = false;
+
+		scene_timer.start();
+	}
 	if (current_time == 0)
 	{
 		if (rounds_left != 0)
@@ -180,11 +190,6 @@ void combatScene::updateSceneTimer()	{
 			current_time = 0;
 			taunt_timer.start();
 		}
-	}
-	if (current_time >= 0)
-	{
-		auto label_string = std::to_string(current_time);
-		timer->changeContent(label_string.data(), { 0,0,0,255 });
 	}
 }
 
@@ -226,7 +231,7 @@ void combatScene::loadSceneTextures()	{
 		break;
 	}
 
-	App->render->drawSprite(4, App->gui->atlas, 567, 70, &timer_rect, 2, 0, 0, 0, 0, false);
+//	App->render->drawSprite(4, App->gui->atlas, 567, 70, &timer_rect, 2, 0, 0, 0, 0, false);
 	App->render->drawSprite(3, App->gui->atlas, 110, 100, &character1_rect, 3, false, 0, 0, 0, 0, false);
 	App->render->drawSprite(3, App->gui->atlas, 1570, 100, &character2_rect, 3, false, 0, 0, 0, 0, false);
 	App->render->drawSprite(4, App->gui->atlas, 119, 109, &character1_image, 3, false, 0, 0, 0, 0, false);
@@ -263,11 +268,21 @@ void combatScene::loadSceneTextures()	{
 		App->render->drawSprite(4, App->gui->atlas, 1162, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
 		break;
 	}
+
+	//TIMER 
+	App->render->drawSprite(5, timer_tex, 855, 105, &timer_rect, 5, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(5, timer_tex, 940, 170, &right_number, 6, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(5, timer_tex, 850, 170, &left_number, 6, false, 1.0f, 0, 0, 0, false);
 }
 
 void combatScene::setRects()	{
 	//PROVISIONAL
-	timer_rect = { 421, 142, 59, 59 };
+//	timer_rect = { 421, 142, 59, 59 };
+	timer_rect = { 0, 40, 40, 20 };
+	left_number = { 180, 0, 20, 20 };
+	right_number = { 180, 0, 20, 20 };
+	
+
 	character1_rect = { 6,175,66,34 };
 	character2_rect = character1_rect;
 
@@ -299,6 +314,7 @@ void combatScene::setRects()	{
 	still_round_indicator = { 283, 132, 8, 5 };
 	won_round_indicator = { 293, 132, 12, 7 };
 
+	//Announcer rounds
 	round1_rect = { 0, 1311, 1920, 437 };
 	round2_rect = { 0, 1748, 1920, 437 };
 	round3_rect = { 0, 2185, 1920, 437 };
@@ -310,6 +326,7 @@ void combatScene::setRects()	{
 	time_up_rect = { 0, 3496, 1920, 437 };
 	draw_announcer_rect = { 0, 3933, 1920, 437 };
 	current_round = &round1_rect;
+
 }
 
 void combatScene::assignFocus()	{
@@ -496,8 +513,13 @@ void combatScene::resetSceneValues()	{
 	//Resetting camera
 	App->render->camera.x = (App->render->resolution.first - App->render->camera.w) / 2;
 	//Timer
-	max_time = 5;
+	max_time = 99;
 	current_time = max_time;
+	left_number.x = 180;
+	right_number.x = 180;
+	left_number.y = 0;
+	right_number.y = 0;
+	sec_count = 0;
 	taunt_timer.stop();
 	round_timer.stop();
 	scene_timer.stop();
@@ -509,6 +531,7 @@ void combatScene::resetSceneValues()	{
 	App->entities->show = true;
 	rematching = false;
 	sfx_played = false;
+	countdown = false;
 	//Setting windows to nullptr
 	general_window = nullptr;
 	p1_window = nullptr;
@@ -575,8 +598,10 @@ void combatScene::checkTimers()	{
 		else
 		{
 			App->render->drawSprite(10, announcer_textures, 500, 500, round_end, 1, false, 1.0f, 0, 0, 0, false);
-			if (sfx_played)
+			if (sfx_played && current_time > 0)
 				App->audio->playSFX(perfect_sfx), sfx_played = false;
+			else if (sfx_played && current_time <= 0)
+				App->audio->playSFX(time_up_sfx), sfx_played = false;
 		}
 	}
 

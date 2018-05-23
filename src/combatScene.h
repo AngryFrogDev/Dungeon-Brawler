@@ -60,6 +60,7 @@ private:
 	SDL_Rect* combat_end = nullptr;
 
 	//COMBAT UI
+	SDL_Texture* timer_tex = nullptr;
 	Bars* health_bar1 = nullptr;
 	Bars* health_bar2 = nullptr;
 	Bars* super_bar1 = nullptr;
@@ -68,7 +69,10 @@ private:
 
 	SDL_Rect still_round_indicator;
 	SDL_Rect won_round_indicator;
+	//Timer numbers rects, i stands for inverse, n for normal
 	SDL_Rect timer_rect;
+	SDL_Rect left_number;
+	SDL_Rect right_number;
 	SDL_Rect character1_rect;
 	SDL_Rect character2_rect;
 	SDL_Rect character1_image;
@@ -158,6 +162,9 @@ private:
 	bool can_load_textures = true;
 	bool next_round = false;
 	bool sfx_played = false;
+	bool countdown = false;
+	int sec_count = 0;
+
 
 	pugi::xml_node window_node;
 };
