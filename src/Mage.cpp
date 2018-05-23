@@ -310,13 +310,16 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 	int x_offset = 210;
 	int y_offset = 30; // PROVISIONAL, THIS SHOULD BE LOADED FROM THE XML
 
-	if (fireball_first_update) { 
+	if (fireball_first_update) {
+		mage_charge = nullptr;
 		if (!fliped) {
 			mage_charge = App->particle_system->createEmitter({ (float)logic_position.x + x_offset,(float)logic_position.y -y_offset }, "particles/mage-charge.xml");
 		}
 		else {
 			mage_charge = App->particle_system->createEmitter({ (float)logic_position.x - x_offset,(float)logic_position.y - y_offset }, "particles/mage-charge.xml");
 		}
+		if (mage_charge != nullptr)
+			mage_charge->active = true;
 		fireball_first_update = false;
 	}
 
@@ -351,6 +354,7 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 			}
 			offset.y = st_s1.pos_rel_char.y;
 			speed.y = 0;
+			emitter_offset.y = fireball_emitter_offset.y;
 			ParticleEmitter* emitter = nullptr;
 			switch ((int)fireball_level) {
 				case 0:
@@ -363,12 +367,9 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 					emitter = emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-ball-3.xml");
 					break;
 			}
-			if (!fliped) {
-				App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,st_s1.hitbox.w,true) + offset.x + 30, calculateDrawPosition(0,st_s1.hitbox.h,false) + offset.y - 30 }, speed, projectile_collider, -1, fliped, scale, emitter, emitter_offset);
-			}
-			else {
-				App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,st_s1.hitbox.w,true) + offset.x - 30, calculateDrawPosition(0,st_s1.hitbox.h,false) + offset.y - 30 }, speed, projectile_collider, -1, fliped, scale, emitter, emitter_offset);
-			}
+
+				App->projectiles->addProjectile(MAGE_FIREBALL, { calculateDrawPosition(0,st_s1.hitbox.w,true) + offset.x, calculateDrawPosition(0,st_s1.hitbox.h,false) + offset.y}, speed, projectile_collider, -1, fliped, scale, emitter, emitter_offset);
+
 			
 			instanciated_hitbox = true;
 		}
@@ -382,6 +383,9 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		fireball_level = 0;
 		fireball_max_charge = 0;
 	}
+
+	if (hit)
+		stopChargeEmitter();
 }
 
 void Mage::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
@@ -573,6 +577,14 @@ void Mage::doSuper() {
 
 }
 
+void Mage::stopChargeEmitter()
+{
+	if (mage_charge != nullptr)
+	mage_charge->active = false;
+
+	fireball_first_update = true;
+}
+
 bool Mage::standingSpecial1Condition() {
 	bool ret = true;
 	if (!double_fireball_item)
@@ -594,7 +606,7 @@ void Mage::characterSpecificUpdates() {
 		double_jump = false;
 
 	if (mine_placed) 
-		App->render->drawSprite(3, App->entities->mage_graphics, mine_position.x - 67 * 3 / 2, mine_position.y - 17 * 3 / 2, &arcane_symbol.GetCurrentFrame(), scale, fliped, 1, 0, 0, 0, true);
+		App->render->drawSprite(3, App->entities->getGraphics(MAGE, skin_id), mine_position.x - 67 * 3 / 2, mine_position.y - 17 * 3 / 2, &arcane_symbol.GetCurrentFrame(), scale, fliped, 1, 0, 0, 0, true);
 	
 }
 

@@ -6,6 +6,7 @@
 #include <math.h>
 #include "Brofiler/Brofiler.h"
 #include "mdAudio.h"
+#include "mdEntities.h"
 
 mdMap::mdMap() : Module(), map_loaded(false) {
 	name = "map";
@@ -26,7 +27,7 @@ bool mdMap::awake(const pugi::xml_node& md_config) {
 	////map_loaded = true;
 
 	// Load map characteristics, (Provisional, should be done thorugh xml)
-	data.camera_x_limit = 3500;
+	data.camera_x_limit = 3400;
 	data.width = 512 * 6;
 	
 	return ret;
@@ -39,14 +40,14 @@ void mdMap::draw() {
 			App->render->drawSprite(1, data.background_image, mapx, 0, (const SDL_Rect*)0, 6, false, 0.3);
 			App->render->drawSprite(1, data.background_image, mapx2, 0, (const SDL_Rect*)0, 6, false, 0.3);
 			//Blit map
-			App->render->drawSprite(2, data.map_image, 0, mapy2, (const SDL_Rect*)0, 5, false);
+			App->render->drawSprite(2, data.map_image, 0, 200, (const SDL_Rect*)0, 5, false);
 		}
 		else if (selected_map == 2) {
 			//Blit background
 			App->render->drawSprite(1, data.background_image, mapx, 0, (const SDL_Rect*)0, 6, false, 0.3);
 			App->render->drawSprite(1, data.background_image, mapx2, 0, (const SDL_Rect*)0, 6, false, 0.3);
 			//Blit map
-			App->render->drawSprite(2, data.map_image, 0, mapy, (const SDL_Rect*)0, 4, false);
+			App->render->drawSprite(2, data.map_image, 0, 400, (const SDL_Rect*)0, 4, false);
 		}
 		else if (selected_map == 3) {
 			//Blit background
@@ -61,8 +62,19 @@ void mdMap::draw() {
 bool mdMap::update(float dt) {
 	if (map_loaded)
 	{
+		if (change_music)
+		{
+			if (selected_map == 1)
+				App->audio->playMusic(App->audio->loadMusic("SFX/BGM_2.ogg"));
+			else if (selected_map == 2)
+				App->audio->playMusic(App->audio->loadMusic("SFX/BGM_1.ogg"));
+			else if (selected_map == 3)
+				App->audio->playMusic(App->audio->loadMusic("SFX/BGM_2.ogg"));
+			change_music = false;
+		}
+
 		// Provisional: this is soooooo hardcoded
-		if (parallax) {
+		if (parallax && !App->entities->paused) {
 			if (firstfront) {
 				mapx -= parallax_speed;
 				mapx2 = mapx + data.width;
@@ -81,35 +93,13 @@ bool mdMap::update(float dt) {
 					firstfront = true;
 				}
 			}
-
-			if (mapy >= 405)
-				up = false;
-			if (mapy <= 395)
-				up = true;
-			iterator++;
-
-			if (iterator % 10 == 0) {
-				if (up)
-					mapy += 2;
-				else
-					mapy -= 2;
-			}
-
-			if (mapy2 >= 205)
-				up = false;
-			if (mapy2 <= 195)
-				up = true;
-			iterator++;
-
-			if (iterator % 10 == 0) {
-				if (up)
-					mapy2 += 2;
-				else
-					mapy2 -= 2;
-			}
 		}
 
 		draw();
+	}
+	else if (!change_music) {
+		App->audio->playMusic(App->audio->loadMusic("SFX/BGM_1.ogg"));
+		change_music = true;
 	}
 
 	return true;
@@ -157,7 +147,6 @@ bool mdMap::loadMap(int mapIndex) {
 			data.background_image = App->textures->load("assets/train_background.png");
 			selected_map = mapIndex;
 			parallax_speed = 10;
-			App->audio->playMusic(App->audio->loadMusic("SFX/BGM_2.ogg"));
 		}
 	//}
 	

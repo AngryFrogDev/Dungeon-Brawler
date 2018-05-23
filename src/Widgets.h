@@ -47,8 +47,7 @@ enum button_types {
 	SELECT_STAGE_1,
 	SELECT_STAGE_2, 
 	SELECT_STAGE_3,
-	SHOW_COLLIDERS,
-	HIDE_COLLIDERS,
+	COLLIDERS,
 	BACK,
 	PARALLAX,
 };
@@ -67,7 +66,8 @@ enum bar_types {
 	NO_BAR = 0,
 	HEALTH_BAR,
 	SUPER_BAR,
-	SWAP_BAR,
+	MUSIC_VOL_BAR,
+	SFX_VOL_BAR,
 };
 
 enum window_type {

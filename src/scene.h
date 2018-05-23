@@ -7,6 +7,9 @@
 #include "Labels.h"
 #include "Bars.h"
 #include "UiWindow.h"
+#include "mdAudio.h"
+
+#include "SDL_mixer\include\SDL_mixer.h"
 
 enum scene_type {
 	NO_SCENE = 0,
@@ -40,13 +43,17 @@ public:
 	virtual void closeP2Window() { return; };
 	virtual void resetSceneValues() { return; };
 	virtual void startingTransition() { return; };
+	virtual int getMusicVol() { return 0; };
+	virtual int getSfxVol() { return 0; };
 
 public:
 	bool scene_active = false;
 	bool rematching = false;
 	scene_type type = NO_SCENE;
 	const char* name = nullptr;
-
+	Mix_Music* scene_music = nullptr;
+	bool loaded = false;
+	
 protected:
 	//Nodes
 	pugi::xml_document scene_config_doc;

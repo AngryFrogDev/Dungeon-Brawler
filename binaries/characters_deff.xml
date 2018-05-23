@@ -87,7 +87,8 @@
         block_type ="mid"
         type ="st_l"
         recovery ="100"
-        animation_speed ="0.2"/>
+        animation_speed ="0.2"
+        frame_delay ="0"/>
       <st_h
         pos_rel_char_x ="210"
         pos_rel_char_y ="20"
@@ -105,7 +106,8 @@
         block_type ="mid"
         type ="st_h"
         recovery ="300"
-        animation_speed ="0.2"/>
+        animation_speed ="0.2"
+        frame_delay ="70"/>
       <cr_l
         pos_rel_char_x ="110"
         pos_rel_char_y ="50"
@@ -123,7 +125,8 @@
         block_type ="low"
         type ="cr_l"
         recovery ="50"
-        animation_speed ="0.25"/>
+        animation_speed ="0.25"
+        frame_delay ="0"/>
       <cr_h
         pos_rel_char_x ="190"
         pos_rel_char_y ="80"
@@ -141,7 +144,8 @@
         block_type ="low"
         type ="cr_h"
         recovery ="350"
-        animation_speed ="0.18"/>
+        animation_speed ="0.18"
+        frame_delay ="70"/>
       <jm_l
         pos_rel_char_x ="150"
         pos_rel_char_y ="70"
@@ -159,7 +163,8 @@
         block_type ="overhead"
         type ="jm_l"
         recovery ="30"
-        animation_speed ="0.2"/>
+        animation_speed ="0.2"
+        frame_delay ="0"/>
       <jm_h
         pos_rel_char_x ="42"
         pos_rel_char_y ="80"
@@ -177,7 +182,8 @@
         block_type ="overhead"
         type ="jm_h"
         recovery ="30"
-        animation_speed ="0.2"/>
+        animation_speed ="0.2"
+        frame_delay ="0"/>
       <st_s1
        pos_rel_char_x ="0"
        pos_rel_char_y ="0"
@@ -195,7 +201,8 @@
        block_type ="mid"
        type ="st_s1"
        recovery ="300"
-       animation_speed ="0.2"/>
+       animation_speed ="0.2"
+       frame_delay ="0"/>
       <st_s2
         pos_rel_char_x ="0"
         pos_rel_char_y ="0"
@@ -213,7 +220,8 @@
         block_type ="mid"
         type ="st_s2"
         recovery ="500"
-        animation_speed ="0.3"/>
+        animation_speed ="0.3"
+        frame_delay ="50"/>
       <cr_s1
         pos_rel_char_x ="175"
         pos_rel_char_y ="50"
@@ -231,7 +239,8 @@
         block_type ="mid"
         type ="cr_s1"
         recovery ="150"
-        animation_speed ="0.15"/>
+        animation_speed ="0.15"
+        frame_delay ="50"/>
       <cr_s2
         pos_rel_char_x ="130"
         pos_rel_char_y ="0"
@@ -249,7 +258,8 @@
         block_type ="mid"
         type ="cr_s2"
         recovery ="600"
-        animation_speed ="0.5"/>
+        animation_speed ="0.5"
+        frame_delay ="100"/>
       <jm_s1
         pos_rel_char_x ="60"
         pos_rel_char_y ="50"
@@ -262,12 +272,13 @@
         pushblock ="1"
         damage ="10"
         knockdown ="false"
-        juggle_speed_x ="0"
-        juggle_speed_y ="0"
+        juggle_speed_x ="5"
+        juggle_speed_y ="15"
         block_type ="overhead"
         type ="jm_s1"
         recovery ="100"
-        animation_speed ="0.3"/>
+        animation_speed ="0.3"
+        frame_delay ="0"/>
       <jm_s2
         pos_rel_char_x ="60"
         pos_rel_char_y ="50"
@@ -280,12 +291,13 @@
         pushblock ="1"
         damage ="10"
         knockdown ="false"
-        juggle_speed_x ="0"
-        juggle_speed_y ="0"
+        juggle_speed_x ="5"
+        juggle_speed_y ="15"
         block_type ="overhead"
         type ="jm_s2"
         recovery ="100"
-        animation_speed ="0.3"/>
+        animation_speed ="0.3"
+        frame_delay ="0"/>
       <super
         pos_rel_char_x ="0"
         pos_rel_char_y ="0"
@@ -298,11 +310,12 @@
         pushblock ="1"
         damage ="10"
         knockdown ="false"
-        juggle_speed_x ="0"
+        juggle_speed_x ="1"
         juggle_speed_y ="10"
         block_type ="mid"
         type ="super"
-        recovery ="0"/>
+        recovery ="0"
+        frame_delay ="40"/>
     </attack_data>
   </warrior>
   <mage
@@ -332,8 +345,8 @@
     
     fireball_speed ="10"
     fireball_duration ="2000"
-    fireball_emitter_offset_x ="10"
-    fireball_emitter_offset_y ="0"
+    fireball_emitter_offset_x ="0"
+    fireball_emitter_offset_y ="-30"
     
     air_fireball_angle ="30"
     air_fireball_max_height ="600"
@@ -399,7 +412,8 @@
         block_type ="mid"
         type ="st_l"
         recovery ="100"
-        animation_speed ="0.25"/>
+        animation_speed ="0.25"
+        frame_delay ="0"/>
       <st_h
         pos_rel_char_x ="220"
         pos_rel_char_y ="-35"
@@ -417,7 +431,8 @@
         block_type ="mid"
         type ="st_h"
         recovery ="300"
-        animation_speed ="0.1"/>
+        animation_speed ="0.1"
+        frame_delay ="100"/>
       <cr_l
         pos_rel_char_x ="110"
         pos_rel_char_y ="100"
@@ -453,7 +468,8 @@
         block_type ="low"
         type ="cr_h"
         recovery ="350"
-        animation_speed ="0.15"/>
+        animation_speed ="0.15"
+        frame_delay ="70"/>
       <jm_l
         pos_rel_char_x ="150"
         pos_rel_char_y ="0"
@@ -492,7 +508,7 @@
         animation_speed ="0.2"/>
       <st_s1
        pos_rel_char_x ="100"
-       pos_rel_char_y ="-25"
+       pos_rel_char_y ="0"
        hitbox_w ="90"
        hitbox_h ="90"
        active_time ="-1"
@@ -507,7 +523,8 @@
        block_type ="mid"
        type ="st_s1"
        recovery ="350"
-       animation_speed ="0.1"/>
+       animation_speed ="0.1"
+       frame_delay ="32"/>
       <st_s2
         pos_rel_char_x ="500"
         pos_rel_char_y ="-100"
@@ -525,7 +542,8 @@
         block_type ="mid"
         type ="st_s2"
         recovery ="800"
-        animation_speed ="0.1"/>
+        animation_speed ="0.1"
+        frame_delay ="70"/>
       <cr_s1
         pos_rel_char_x ="200"
         pos_rel_char_y ="-160"
@@ -543,7 +561,8 @@
         block_type ="mid"
         type ="cr_s1"
         recovery ="150"
-        animation_speed ="0.15"/>
+        animation_speed ="0.15"
+        frame_delay ="50"/>
       <cr_s2
         pos_rel_char_x ="200"
         pos_rel_char_y ="125"
@@ -561,7 +580,8 @@
         block_type ="mid"
         type ="cr_s2"
         recovery ="200"
-        animation_speed ="0.1"/>
+        animation_speed ="0.1"
+        frame_delay ="70"/>
       <jm_s1
          pos_rel_char_x ="-50"
          pos_rel_char_y ="50"
@@ -678,6 +698,7 @@
       <attack value="st_s2"/>
       <attack value="st_s1"/>
       <attack value="cr_s1"/>
+      <attack value="cr_s2"/>
     </non_flip_attacks>
     <crouching_hurtbox_attacks>
       <attack value="cr_l"/>
@@ -701,7 +722,8 @@
         block_type ="mid"
         type ="st_l"
         recovery ="100"
-        animation_speed ="0.25"/>
+        animation_speed ="0.25"
+        frame_delay ="0"/>
       <st_h
         pos_rel_char_x ="140"
         pos_rel_char_y ="35"
@@ -712,14 +734,15 @@
         blockstun ="200"
         pushhit ="5"
         pushblock ="3"
-        damage ="15"
+        damage ="20"
         knockdown ="false"
-        juggle_speed_x ="10"
+        juggle_speed_x ="4"
         juggle_speed_y ="20"
         block_type ="mid"
         type ="st_h"
         recovery ="300"
-        animation_speed ="0.1"/>
+        animation_speed ="0.3"
+        frame_delay ="70"/>
       <cr_l
         pos_rel_char_x ="150"
         pos_rel_char_y ="-30"
@@ -732,12 +755,13 @@
         pushblock ="2"
         damage ="3"
         knockdown ="false"
-        juggle_speed_x ="0"
-        juggle_speed_y ="0"
+        juggle_speed_x ="4"
+        juggle_speed_y ="15"
         block_type ="low"
         type ="cr_l"
         recovery ="50"
-        animation_speed ="0.15"/>
+        animation_speed ="0.15"
+        frame_delay ="0"/>
       <cr_h
         pos_rel_char_x ="200"
         pos_rel_char_y ="50"
@@ -755,7 +779,8 @@
         block_type ="overhead"
         type ="cr_h"
         recovery ="200"
-        animation_speed ="0.1"/>
+        animation_speed ="0.1"
+        frame_delay ="100"/>
       <jm_l
         pos_rel_char_x ="100"
         pos_rel_char_y ="170"
@@ -773,7 +798,8 @@
         block_type ="overhead"
         type ="jm_l"
         recovery ="30"
-        animation_speed ="0.2"/>
+        animation_speed ="0.2"
+        frame_delay ="0"/>
       <jm_h
         pos_rel_char_x ="42"
         pos_rel_char_y ="100"
@@ -809,7 +835,8 @@
        block_type ="mid"
        type ="st_s1"
        recovery ="350"
-       animation_speed ="0.1"/>
+       animation_speed ="0.1"
+       frame_delay ="0"/>
       <st_s2
         pos_rel_char_x ="175"
         pos_rel_char_y ="50"
@@ -827,7 +854,8 @@
         block_type ="mid"
         type ="st_s2"
         recovery ="400"
-        animation_speed ="0.08"/>
+        animation_speed ="0.08"
+        frame_delay ="70"/>
       <cr_s1
         pos_rel_char_x ="0"
         pos_rel_char_y ="0"
@@ -845,7 +873,8 @@
         block_type ="low"
         type ="cr_s1"
         recovery ="300"
-        animation_speed ="0.15"/>
+        animation_speed ="0.15"
+        frame_delay ="0"/>
       <cr_s2
         pos_rel_char_x ="80"
         pos_rel_char_y ="80"
@@ -859,11 +888,12 @@
         damage ="15"
         knockdown ="true"
         juggle_speed_x ="5"
-        juggle_speed_y ="20"
+        juggle_speed_y ="28"
         block_type ="low"
         type ="cr_s2"
-        recovery ="350"
-        animation_speed ="0.1"/>
+        recovery ="300"
+        animation_speed ="0.1"
+        frame_delay ="50"/>
       <jm_s1
          pos_rel_char_x ="-50"
          pos_rel_char_y ="50"
@@ -874,14 +904,15 @@
          blockstun ="200"
          pushhit ="-1"
          pushblock ="4"
-         damage ="15"
+         damage ="8"
          knockdown ="true"
          juggle_speed_x ="10"
          juggle_speed_y ="15"
-         block_type ="overhead"
+         block_type ="mid"
          type ="jm_s1"
          recovery ="150"
-         animation_speed ="0.1"/>
+         animation_speed ="0.1"
+         frame_delay ="0"/>
       <jm_s2
         pos_rel_char_x ="60"
         pos_rel_char_y ="50"
@@ -899,7 +930,8 @@
         block_type ="overhead"
         type ="jm_s2"
         recovery ="100"
-        animation_speed ="0.3"/>
+        animation_speed ="0.3"
+        frame_delay ="0"/>
       <super
         pos_rel_char_x ="0"
         pos_rel_char_y ="0"
@@ -917,7 +949,8 @@
         block_type ="mid"
         type ="super"
         recovery ="0"
-        animation_speed ="0.2"/>
+        animation_speed ="0.2"
+        frame_delay ="0"/>
     </attack_data>
   </rogue >
   <paladin  type ="paladin"
@@ -965,8 +998,6 @@
             
   super_healing ="50"
   endurance_object_plus ="50"
-  
-    
     >
 		<sound_effects>
 		<jump filename = "paladin/jump.wav"/>
@@ -974,8 +1005,8 @@
 		<heavy_sword_block filename = "paladin/attack_blocked.wav"/>
 		<light_sword_whiff filename = "paladin/standing_light_standing_heavy_crouching_light_crouching_heavy_jumping_light_jumping_heavy.wav"/>
 		<heavy_sword_whiff filename = "paladin/standing_light_standing_heavy_crouching_light_crouching_heavy_jumping_light_jumping_heavy.wav"/>
-		<light_sword_impact filename = "paladin/attack_impact.wav"/>
-		<heavy_sword_impact filename = "paladin/attack_impact.wav"/>
+		<light_sword_impact filename = "light_sword_impact.wav"/>
+		<heavy_sword_impact filename = "heavy_sword_impact.wav"/>
 		<standing_special_1 filename = "paladin/standing_special_1.wav"/>
 		<standing_special_2 filename = "paladin/standing_special_1.wav"/>
 		<jumping_special_1 filename = "paladin/jumping_special_1.wav"/>
@@ -1013,7 +1044,8 @@
         block_type ="mid"
         type ="st_l"
         recovery ="100"
-        animation_speed ="0.25"/>
+        animation_speed ="0.25"
+        frame_delay ="0"/>
       <st_h
         pos_rel_char_x ="150"
         pos_rel_char_y ="-80"
@@ -1031,7 +1063,8 @@
         block_type ="mid"
         type ="st_h"
         recovery ="300"
-        animation_speed ="0.2"/>
+        animation_speed ="0.2"
+        frame_delay ="70"/>
       <cr_l
         pos_rel_char_x ="110"
         pos_rel_char_y ="-100"
@@ -1067,7 +1100,8 @@
         block_type ="low"
         type ="cr_h"
         recovery ="225"
-        animation_speed ="0.13"/>
+        animation_speed ="0.13"
+        frame_delay ="50"/>
       <jm_l
         pos_rel_char_x ="110"
         pos_rel_char_y ="-65"
@@ -1085,7 +1119,8 @@
         block_type ="overhead"
         type ="jm_l"
         recovery ="30"
-        animation_speed ="0.1"/>
+        animation_speed ="0.1"
+        frame_delay ="0"/>
       <jm_h
         pos_rel_char_x ="105"
         pos_rel_char_y ="30"
@@ -1103,7 +1138,8 @@
         block_type ="overhead"
         type ="jm_h"
         recovery ="30"
-        animation_speed ="0.2"/>
+        animation_speed ="0.2"
+        frame_delay ="0"/>
       <st_s1
        pos_rel_char_x ="0"
        pos_rel_char_y ="0"
@@ -1121,7 +1157,8 @@
        block_type ="mid"
        type ="st_s1"
        recovery ="350"
-       animation_speed ="0.2"/>
+       animation_speed ="0.2"
+       frame_delay ="0"/>
       <st_s2
         pos_rel_char_x ="80"
         pos_rel_char_y ="0"
@@ -1139,12 +1176,13 @@
         block_type ="mid"
         type ="st_s2"
         recovery ="200"
-        animation_speed ="0.15"/>
+        animation_speed ="0.15"
+        frame_delay ="50"/>
       <cr_s1
         pos_rel_char_x ="175"
         pos_rel_char_y ="50"
-        hitbox_w ="175"
-        hitbox_h ="150"
+        hitbox_w ="220"
+        hitbox_h ="180"
         active_time ="100"
         hitstun ="-1"
         blockstun ="100"
@@ -1157,7 +1195,8 @@
         block_type ="mid"
         type ="cr_s1"
         recovery ="350"
-        animation_speed ="0.05"/>
+        animation_speed ="0.05"
+        frame_delay ="40"/>
       <cr_s2
         pos_rel_char_x ="110"
         pos_rel_char_y ="35"
@@ -1175,7 +1214,8 @@
         block_type ="mid"
         type ="cr_s2"
         recovery ="400"
-        animation_speed ="0.25"/>
+        animation_speed ="0.25"
+        frame_delay ="100"/>
       <jm_s1
         pos_rel_char_x ="60"
         pos_rel_char_y ="50"
@@ -1193,7 +1233,8 @@
         block_type ="mid"
         type ="jm_s1"
         recovery ="150"
-        animation_speed ="0.3"/>
+        animation_speed ="0.3"
+        frame_delay ="0"/>
       <jm_s2
         pos_rel_char_x ="0"
         pos_rel_char_y ="60"
@@ -1211,7 +1252,8 @@
         block_type ="mid"
         type ="jm_s2"
         recovery ="400"
-        animation_speed ="0.3"/>
+        animation_speed ="0.3"
+        frame_delay ="0"/>
       <super
         pos_rel_char_x ="0"
         pos_rel_char_y ="0"
@@ -1229,7 +1271,8 @@
         block_type ="mid"
         type ="super"
         recovery ="0"
-        animation_speed ="0.2"/>
+        animation_speed ="0.2"
+        frame_delay ="0"/>
     </attack_data>
   </paladin >
 </config>

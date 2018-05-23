@@ -117,7 +117,7 @@ void mdSceneManager::startSwitch()	{
 			if (to_disable->name == "Combat Scene")
 			{
 				if (to_enable->name == "Stage Selection Scene")
-					App->entities->show = false, App->entities->paused = true;
+					App->entities->show = false, App->entities->setStopped(false);
 
 				else if (!to_disable->rematching)
 				{
@@ -155,7 +155,7 @@ void mdSceneManager::startSwitch()	{
 
 	if (current_step != fade_step::NONE) {
 		SDL_SetRenderDrawColor(App->render->renderer, 0, 0, 0, (Uint8)(normalized * 255.0f));
-		SDL_RenderFillRect(App->render->renderer, &screen);
+		SDL_RenderFillRect(App->render->renderer, &screen); // Fade to black should happen over all the screen
 	}
 
 }

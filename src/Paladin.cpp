@@ -128,7 +128,7 @@ Paladin::Paladin(character_deff character, int x_pos, bool _fliped, int skin): C
 	standing_hit.loop = true; 
 	standing_hit.speed = 0.2;
 
-	standing_block.PushBack({ 195 * 2, 158 * 20, 195, 158 });
+	standing_block.PushBack({0, 158 * 20, 195, 158 });
 
 	standing_block.loop = false;
 	standing_block.speed = 0.2;

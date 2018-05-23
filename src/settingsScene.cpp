@@ -70,14 +70,11 @@ bool settingsScene::onEvent(Buttons* button) {
 		App->audio->sfxVolume(current_sfx_volume);
 		App->audio->playSFX(s_crouching_special_2);
 		break;
-	case SHOW_COLLIDERS:
-		App->collision->debug = true;
+	case COLLIDERS:
+		App->collision->debug = !App->collision->debug;
 		break;
 	case PARALLAX:
 		App->map->parallax = !App->map->parallax;
-		break;
-	case HIDE_COLLIDERS:
-		App->collision->debug = false;
 		break;
 	case BACK:
 		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
@@ -89,27 +86,42 @@ bool settingsScene::onEvent(Buttons* button) {
 
 void settingsScene::loadSceneUi() {
 
+	pugi::xml_document config_file;
+	pugi::xml_node config;
+	config = App->loadConfig("config.xml", config_file);
+	int mody = 35;
+	int modx = 40;
+
 	// Provisional: Positions should be loaded from XML
-	music_up = (Buttons*)App->gui->createButton(MUSIC_VOL_UP, LARGE, 0, { 0, 0 }, this);
-	music_down = (Buttons*)App->gui->createButton(MUSIC_VOL_DOWN, LARGE, 0, { 0, 100 }, this);
-	sfx_up = (Buttons*)App->gui->createButton(SFX_VOL_UP, LARGE, 0, { 0, 200 }, this);
-	sfx_down = (Buttons*)App->gui->createButton(SFX_VOL_DOWN, LARGE, 0, { 0, 300 }, this);
-	show_colliders = (Buttons*)App->gui->createButton(SHOW_COLLIDERS, LARGE, 0, { 0, 400 }, this);
-	hide_colliders = (Buttons*)App->gui->createButton(HIDE_COLLIDERS, LARGE, 0, { 0, 500 }, this);
-	parallax = (Buttons*)App->gui->createButton(PARALLAX, LARGE, 0, { 0, 600 }, this);
-	back = (Buttons*)App->gui->createButton(BACK, LARGE, 0, { 0, 700 }, this);
+	music_down = (Buttons*)App->gui->createButton(MUSIC_VOL_DOWN, LARGE, 0, { config.child("window").child("resolution").attribute("width").as_int() / 2 - 450, 250 }, this);
+	music_up = (Buttons*)App->gui->createButton(MUSIC_VOL_UP, LARGE, 0, { config.child("window").child("resolution").attribute("width").as_int() / 2 + 450, 250 }, this);
+	sfx_down = (Buttons*)App->gui->createButton(SFX_VOL_DOWN, LARGE, 0, { config.child("window").child("resolution").attribute("width").as_int() / 2 - 450, 400 }, this);
+	sfx_up = (Buttons*)App->gui->createButton(SFX_VOL_UP, LARGE, 0, { config.child("window").child("resolution").attribute("width").as_int() / 2 + 450, 400 }, this);
+	colliders = (Buttons*)App->gui->createButton(COLLIDERS, LARGE, 0, { config.child("window").child("resolution").attribute("width").as_int() / 2, 550 }, this);
+	parallax = (Buttons*)App->gui->createButton(PARALLAX, LARGE, 0, { config.child("window").child("resolution").attribute("width").as_int() / 2, 700 }, this);
+	back = (Buttons*)App->gui->createButton(BACK, LARGE, 0, { config.child("window").child("resolution").attribute("width").as_int() / 2, 850 }, this);
 	// Provisional: Data should be loaded from XML
-	l_music_up = (Labels*)App->gui->createLabel("Volume Up", { 255, 255, 255 }, App->fonts->large_size, { 0, 0 }, this);
-	l_music_down = (Labels*)App->gui->createLabel("Volume Down", { 255, 255, 255 }, App->fonts->large_size, { 0, 100 }, this);
-	l_sfx_up = (Labels*)App->gui->createLabel("SFX Up", { 255, 255, 255 }, App->fonts->large_size, { 0, 200 }, this);
-	l_sfx_down = (Labels*)App->gui->createLabel("SFX Down", { 255, 255, 255 }, App->fonts->large_size, { 0, 300 }, this);
-	l_show_colliders = (Labels*)App->gui->createLabel("Show Colliders", { 255, 255, 255 }, App->fonts->large_size, { 0, 400 }, this);
-	l_hide_colliders = (Labels*)App->gui->createLabel("Hide Colliders", { 255, 255, 255 }, App->fonts->large_size, { 0, 500 }, this);
-	l_parallax = (Labels*)App->gui->createLabel("Parallax", { 255, 255, 255 }, App->fonts->large_size, { 0, 600 }, this);
-	l_back = (Labels*)App->gui->createLabel("Back", { 255, 255, 255 }, App->fonts->large_size, { 0, 700 }, this);
+	l_music_down = (Labels*)App->gui->createLabel("Volume Down", { 255, 255, 255 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 - 450 + modx, 250 + mody }, this);
+	l_music_up = (Labels*)App->gui->createLabel("Volume Up", { 255, 255, 255 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + 450 + modx, 250 + mody}, this);
+	l_sfx_down = (Labels*)App->gui->createLabel("SFX Down", { 255, 255, 255 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 - 450 + modx, 400 + mody }, this);
+	l_sfx_up = (Labels*)App->gui->createLabel("SFX Up", { 255, 255, 255 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + 450 + modx, 400 + mody }, this);
+	l_colliders = (Labels*)App->gui->createLabel("Colliders", { 255, 255, 255 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + modx, 550 + mody }, this);
+	l_parallax = (Labels*)App->gui->createLabel("Parallax", { 255, 255, 255 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + modx, 700 + mody }, this);
+	l_back = (Labels*)App->gui->createLabel("Back", { 255, 255, 255 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + modx, 850 + mody }, this);
+
+	b_music = (Bars*)App->gui->createBar(MUSIC_VOL_BAR, { config.child("window").child("resolution").attribute("width").as_int() / 2, 250 }, false, 1, this);
+	b_sfx = (Bars*)App->gui->createBar(SFX_VOL_BAR, { config.child("window").child("resolution").attribute("width").as_int() / 2, 400 }, false, 1, this);
 }
 
 void settingsScene::assignFocus() {
 	if (!App->gui->p1_focus_elements.empty())
 		App->entities->players[0]->focus = *App->gui->p1_focus_elements.begin();
+}
+
+int settingsScene::getMusicVol() {
+	return current_music_volume;
+}
+
+int settingsScene::getSfxVol() {
+	return current_sfx_volume;
 }

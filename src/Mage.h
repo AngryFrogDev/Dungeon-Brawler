@@ -21,6 +21,8 @@ public:
 	bool jumpingSpecial2Condition();
 	void doSuper();
 
+	void stopChargeEmitter();
+
 	void characterSpecificUpdates();
 	void specificCharacterReset();
 

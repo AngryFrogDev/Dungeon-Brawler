@@ -48,6 +48,8 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	//PROVISIONAL: Should be loaded from an xml
 	warrior_graphics = App->textures->load("Assets/warrior.png");
 	warrior_graphics2 = App->textures->load("Assets/warrior_2.png");
+	warrior_graphics3 = App->textures->load("Assets/warrior_3.png");
+	warrior_graphics4 = App->textures->load("Assets/warrior_4.png");
 	mage_graphics = App->textures->load("Assets/mage.png");
 	mage_graphics2 = App->textures->load("Assets/mage_2.png");
 	mage_graphics3 = App->textures->load("Assets/mage_3.png");
@@ -89,9 +91,13 @@ bool mdEntities::preUpdate() {
 							players[i]->update(warrior_graphics); 
 							break;
 						case 1:
-						case 2:
-						case 3:
 							players[i]->update(warrior_graphics2);
+							break;
+						case 2:
+							players[i]->update(warrior_graphics3);
+							break;
+						case 3:
+							players[i]->update(warrior_graphics4);
 							break;
 					}
 					break;
@@ -531,25 +537,26 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 }
 void mdEntities::loadAttackDeffFromXML(const pugi::xml_node& md_config, basic_attack_deff& attack) {
 	std::string tmp;
-	attack.pos_rel_char.x = md_config.attribute("pos_rel_char_x").as_int();
-	attack.pos_rel_char.y = md_config.attribute("pos_rel_char_y").as_int();
-	attack.hitbox.w = md_config.attribute("hitbox_w").as_int();
-	attack.hitbox.h = md_config.attribute("hitbox_h").as_int();
-	attack.active_time = md_config.attribute("active_time").as_int();
-	attack.hitstun = md_config.attribute("hitstun").as_int();
-	attack.blockstun = md_config.attribute("blockstun").as_int();
-	attack.pushhit = md_config.attribute("pushhit").as_int();
-	attack.pushblock = md_config.attribute("pushblock").as_int();
-	attack.damage = md_config.attribute("damage").as_int();
-	attack.knockdown = md_config.attribute("knockdown").as_bool();
-	attack.juggle_speed.x = md_config.attribute("juggle_speed_x").as_int();
-	attack.juggle_speed.y = md_config.attribute("juggle_speed_y").as_int();
-	tmp = md_config.attribute("block_type").as_string();
+	attack.pos_rel_char.x = md_config.attribute("pos_rel_char_x").as_int(0);
+	attack.pos_rel_char.y = md_config.attribute("pos_rel_char_y").as_int(0);
+	attack.hitbox.w = md_config.attribute("hitbox_w").as_int(0);
+	attack.hitbox.h = md_config.attribute("hitbox_h").as_int(0);
+	attack.active_time = md_config.attribute("active_time").as_int(0);
+	attack.hitstun = md_config.attribute("hitstun").as_int(0);
+	attack.blockstun = md_config.attribute("blockstun").as_int(0);
+	attack.pushhit = md_config.attribute("pushhit").as_int(0);
+	attack.pushblock = md_config.attribute("pushblock").as_int(0);
+	attack.damage = md_config.attribute("damage").as_int(0);
+	attack.knockdown = md_config.attribute("knockdown").as_bool(false);
+	attack.juggle_speed.x = md_config.attribute("juggle_speed_x").as_int(0);
+	attack.juggle_speed.y = md_config.attribute("juggle_speed_y").as_int(0);
+	tmp = md_config.attribute("block_type").as_string("");
 	attack.block_type = stringToBlockType(tmp);
-	tmp = md_config.attribute("type").as_string();
+	tmp = md_config.attribute("type").as_string("");
 	attack.type = stringToCharAttType(tmp);
-	attack.recovery = md_config.attribute("recovery").as_int();
-	attack.animation_speed = md_config.attribute("animation_speed").as_float();
+	attack.recovery = md_config.attribute("recovery").as_int(0);
+	attack.animation_speed = md_config.attribute("animation_speed").as_float(0);
+	attack.frame_delay = md_config.attribute("frame_delay").as_int(0);
 }
 void mdEntities::loadAttackListFromXML(const pugi::xml_node& md_config, std::list<CHAR_ATT_TYPE>& attack_list) {
 	pugi::xml_node iterator = md_config.first_child();
@@ -557,5 +564,97 @@ void mdEntities::loadAttackListFromXML(const pugi::xml_node& md_config, std::lis
 	while (iterator != nullptr) {
 		attack_list.push_back(stringToCharAttType(iterator.attribute("value").as_string()));
  		iterator = iterator.next_sibling();
+	}
+}
+
+SDL_Texture* mdEntities::getGraphics(CHAR_TYPE type, int skin_id) {
+	switch (type) {
+	case WARRIOR:
+		switch (skin_id) {
+		case 0:
+			return warrior_graphics;
+			break;
+		case 1:
+			return warrior_graphics2;
+			break;
+		case 2:
+			return warrior_graphics3;
+			break;
+		case 3:
+			return warrior_graphics4;
+			break;
+		}
+		break;
+	case MAGE:
+		switch (skin_id) {
+		case 0:
+			return mage_graphics;
+			break;
+		case 1:
+			return mage_graphics2;
+			break;
+		case 2:
+			return mage_graphics3;
+			break;
+		case 3:
+			return mage_graphics4;
+			break;
+		}
+		break;
+	case ROGUE:
+		switch (skin_id) {
+		case 0:
+			return rogue_graphics;
+			break;
+		case 1:
+			return rogue_graphics2;
+			break;
+		case 2:
+			return rogue_graphics3;
+			break;
+		case 3:
+			return rogue_graphics4;
+			break;
+		}
+		break;
+	case PALADIN:
+		switch (skin_id) {
+		case 0:
+			return paladin_graphics;
+			break;
+		case 1:
+			return paladin_graphics2;
+			break;
+		case 2:
+			return paladin_graphics3;
+			break;
+		case 3:
+			return paladin_graphics4;
+			break;
+		}
+		break;
+	case DEF_CHAR:
+		return nullptr;
+	}
+}
+void mdEntities::setPause(bool active) {
+	for (int i = 0; i < 2; i++) {
+		if (players[i] != nullptr && players[i]->getCurrCharacter() != nullptr) {
+			Character* character_to_pause = players[i]->getCurrCharacter();
+			character_to_pause->setAnimationPause(active);
+		}
+	}
+	App->entities->paused = active;
+}
+
+void mdEntities::setStopped(bool active) {
+	for (int i = 0; i < 2; i++) {
+		if (players[i] != nullptr && players[i]->getCurrCharacter() != nullptr) {
+			Character* character_to_pause = players[i]->getCurrCharacter();
+			if(active)
+				character_to_pause->setState(STOPPED);
+			else
+				character_to_pause->setState(IDLE);
+		}
 	}
 }

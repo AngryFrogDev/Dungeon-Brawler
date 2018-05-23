@@ -66,7 +66,7 @@ enum CHAR_STATE {
 	CROUCHING,
 	JUMPING,
 	ATTACKING,
-	PAUSED,
+	STOPPED, // Does idle but can't move nor attack
 	RECOVERY,
 	TAUNT,
 
@@ -131,6 +131,7 @@ struct basic_attack_deff {
 	BLOCK_TYPE block_type;
 	int recovery; //in milliseconds
 	float animation_speed;
+	int frame_delay;
 };
 
 enum ITEMS {
@@ -151,7 +152,7 @@ struct character_deff;
 class Character {
 public:
 	Character(character_deff character, int x_pos, int _fliped, int skin);
-	~Character();
+	virtual ~Character();
 						
 	virtual void update(const bool (&inputs)[MAX_INPUTS]);	
 
@@ -187,6 +188,10 @@ public:
 
 	// Taunt management
 	void tauntFor(int _taunt_duration);
+	// Animation pause
+	void setAnimationPause(bool active);
+	// State update externally
+	void setState(CHAR_STATE state); // Just use it to set to stopped or idle, please
 protected:	
 	// Execute attack, rewritable for every type of character
 	virtual void doAttack(const bool(&inputs)[MAX_INPUTS]);
@@ -199,6 +204,7 @@ protected:
 	void deleteAllMeleeHitboxes();
 
 	void updateAnimation(Animation& new_animation);
+
 
 	void updateState(CHAR_STATE state, CHAR_ATT_TYPE attack = NO_ATT);
 	void playCurrentSFX();

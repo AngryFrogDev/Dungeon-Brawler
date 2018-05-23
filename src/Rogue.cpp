@@ -46,7 +46,7 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	}
 
 	light_attack.loop = true;
-	light_attack.speed = 0.2;
+	light_attack.speed = character.st_l.animation_speed;
 
 	for (int i = 0; i < 12; i++) {
 		if (i == 8)
@@ -55,7 +55,7 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 			heavy_attack.PushBack({ i * x_space, height * 4,width,height });
 	}
 	heavy_attack.loop = true;
-	heavy_attack.speed = 0.2;
+	heavy_attack.speed = character.st_h.animation_speed;
 
 	//CROUCHING
 	for (int i = 0; i < 2; i++) {
@@ -73,10 +73,10 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	}
 
 	crouching_light.loop = false;
-	crouching_light.speed = 0.2;
+	crouching_light.speed = character.cr_l.animation_speed;
 
 	for (int i = 0; i < 10; i++) {
-		if (i == 4)
+		if (i == 5)
 			crouching_heavy.PushBack({ i * x_space, height * 17,width,height }, ACTIVE);
 		else
 			crouching_heavy.PushBack({ i * x_space, height * 17,width,height });
@@ -131,13 +131,12 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	//BLOCK
 
 
-	standing_block.PushBack({ 10 * x_space, height * 15,width,height });
+	standing_block.PushBack({ 1 * x_space, height * 15,width,height });
 
 	standing_block.loop = false;
 	standing_block.speed = 0.2;
 
-	for (int i = 0; i < 4; i++)
-		crouching_block.PushBack({ i * x_space, height * 10,width,height });
+	crouching_block.PushBack({ 3 * x_space, height * 6,width,height });
 
 	crouching_block.loop = false;
 	crouching_block.speed = 0.2;
@@ -224,6 +223,11 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	taunt.speed = 0.4;
 	taunt.loop = false;
 
+	dead.PushBack({ 0* x_space, height * 11,width,height });
+
+	dead.speed = 0.2;
+	dead.loop = false;
+
 	// REKKA HARDCODED STUFF
 	rekka_attack_list.push_back(ST_S2);
 	rekka_attack_list.push_back(CR_H);
@@ -297,7 +301,7 @@ void Rogue::crouchingSpecial1()
 	else {
 		if (current_roll_frames == 0) {
 			pushbox->active = false;
-			makeInvencibleFor(600);
+			makeInvencibleFor(650);
 			if (!fliped)
 				App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 50 }, "particles/smoke-bomb.xml");
 			else
@@ -324,7 +328,6 @@ void Rogue::crouchingSpecial1()
 			logic_position.x += speed.x;
 		}
 		else {
-			//App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/smoke-bomb.xml");
 			askRecovery(cr_s1.recovery);
 			current_roll_frames = 0;
 			pushbox->active = true;
@@ -427,6 +430,7 @@ void Rogue::characterSpecificUpdates()
 			resetRecoveries();
 			current_super_frames = 0;
 			current_super_gauge = 0;
+			if(super_emitter != nullptr)
 			super_emitter->active = false;
 			walk_speed = walk_speed / 2;
 			jump_power.x = jump_power.x / 2;
@@ -497,6 +501,7 @@ void Rogue::crouchingSpecial2() {
 		updateAnimation(crouching_special2);
 		state_first_tick = true;
 	}
+	hurtbox->type = PROJECTILE_INVENCIBLE_HURTBOX;
 	if (!fliped)
 		logic_position.x += slide_speed;
 	else
@@ -504,6 +509,7 @@ void Rogue::crouchingSpecial2() {
 
 	if (current_animation->Finished()) {
 		instanciated_hitbox = false;
+		hurtbox->type = HURTBOX;
 		collider* hitbox = getCurrentAttackHitbox();
 		if (hitbox != nullptr) { // Just for safety
 			deleteAttackHitbox(CR_S2);
@@ -537,11 +543,11 @@ void Rogue::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 			current_attack.knockdown = false;
 		else
 			current_attack.knockdown = true;
+		current_attack.frame_delay = st_s2.frame_delay;
 		instanciateHitbox(current_attack);
 		instanciated_hitbox = false;
-		if (*rekka_iterator == rekka_last_attack){
+		if (*rekka_iterator == rekka_last_attack)
 			askRecovery(current_attack.recovery);
-		}
 		else if (lookInBuffer(SPECIAL_2, rekka_cancelability_window)) {
 			rekka_iterator++;
 			updateAnimationOnBasicAttack(*rekka_iterator);
@@ -555,6 +561,7 @@ void Rogue::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 void Rogue::doSuper() {
 	if (!state_first_tick) {
 		on_super = true;
+		current_super_gauge = 0;
 		setAllRecoveriesTo(1);
 		updateAnimation(taunt);
 		if (current_super_frames == 0) {
@@ -595,12 +602,21 @@ void Rogue::specificCharacterReset() {
 	has_airdash = true;
 	current_dash_frames = 0;
 	current_roll_frames = 0;
+	if(on_super) {
+		on_super = false;
+		resetRecoveries();
+		current_super_frames = 0;
+		current_super_gauge = 0;
+		super_emitter->active = false;
+		walk_speed = walk_speed / 2;
+		jump_power.x = jump_power.x / 2;
+	}
 	if (super_emitter)
 		super_emitter->active = false;
 }
 
 Rogue::~Rogue()
 {
-	if (super_emitter)
+	if (super_emitter != nullptr)
 		super_emitter->active = false;
 }

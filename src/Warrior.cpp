@@ -53,8 +53,8 @@ Warrior::Warrior(character_deff character, int x_pos, bool _fliped, int skin) : 
 	light_attack.PushBack({ 0,158 * 13,195, 158 });
 	light_attack.PushBack({ 195,158 * 13,195, 158 });
 	light_attack.PushBack({ 195 * 2,158 * 13,195, 158 });
-	light_attack.PushBack({ 195 * 3,158 * 13,195, 158 }, ACTIVE);
-	light_attack.PushBack({ 195 * 4,158 * 13,195, 158 });
+	light_attack.PushBack({ 195 * 3,158 * 13,195, 158 });
+	light_attack.PushBack({ 195 * 4,158 * 13,195, 158 }, ACTIVE);
 	light_attack.PushBack({ 195 * 5,158 * 13,195, 158 });
 
 	light_attack.loop = false;
@@ -565,7 +565,9 @@ void Warrior::doSuper() {
 		super_part.blockstun = super.blockstun;
 		super_part.pushhit = super.pushhit;
 		super_part.pushblock = super.pushblock;
-		super_part.damage= super.damage;
+		super_part.damage = super.damage;
+		super_part.juggle_speed = super.juggle_speed;
+		super_part.frame_delay = super.frame_delay;
 		instanciateHitbox(super_part);
 		super_iterator++;
 		instanciated_hitbox = false;

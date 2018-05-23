@@ -2,6 +2,9 @@
 #include "characterSelScene.h"
 #include "mdGuiManager.h"
 #include "mdSceneManager.h"
+#include "mdAudio.h"
+#include <stdlib.h>
+#include <time.h>
 
 
 
@@ -21,6 +24,16 @@ characterSelScene::characterSelScene(bool active) : scene(CHAR_SEL_SCENE)	{
 characterSelScene::~characterSelScene()	{}
 
 bool characterSelScene::start()	{
+	if (!loaded)
+	{
+		scene_sfx1 = App->audio->loadSFX("SFX/announcer/get-ready-to-brawl.wav");
+		scene_sfx2 = App->audio->loadSFX("SFX/announcer/get-ready-to-fight.wav");
+		scene_music = App->audio->loadMusic("SFX/scene music/Character_Stage_Selection.ogg");
+		loaded = true;
+	}
+
+	App->audio->playMusic(scene_music);
+
 	//Reseting player values
 	resetSceneValues();
 
@@ -31,6 +44,10 @@ bool characterSelScene::start()	{
 	ready_tex = App->textures->load(textures_node.child("ready_tex").attribute("path").as_string());
 
 	App->entities->players[0]->focus = App->entities->players[1]->focus = nullptr;
+		
+	//Setting random seed
+	srand(time(NULL));
+	random_sfx = 1 + rand() % (3 - 1);
 
 	loadSceneUi();
 	assignFocus();
@@ -111,34 +128,12 @@ bool characterSelScene::onEvent(Buttons* button)	{
 	if (button->being_clicked && button->size == CHARACTER_SELECTION)
 	{
 		if (button->focus_id == 0)
-		{
-			if (App->entities->players[0]->getInput(LIGHT_ATTACK, KEY_DOWN))
-				player1.skin = 1;
-			if (App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))
-				player1.skin = 0;
-			if (App->entities->players[0]->getInput(SPECIAL_1, KEY_DOWN))
-				player1.skin = 2;
-			if (App->entities->players[0]->getInput(SPECIAL_2, KEY_DOWN))
-				player1.skin = 3;
+			player1.has_selected_character = true, popUpP1Window();
 
-			player1.has_selected_character = true; 
-			popUpP1Window();
-
-		}
 		else
-		{
-			if (App->entities->players[1]->getInput(LIGHT_ATTACK, KEY_DOWN))
-				player2.skin = 1;
-			if (App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN))
-				player2.skin = 0;
-			if (App->entities->players[1]->getInput(SPECIAL_1, KEY_DOWN))
-				player2.skin = 2;
-			if (App->entities->players[1]->getInput(SPECIAL_2, KEY_DOWN))
-				player2.skin = 3;
-
-			player2.has_selected_character = true;
-			popUpP2Window();
-		}
+			player2.has_selected_character = true, popUpP2Window();
+		
+		assignSkins();
 	}
 
 	return true;
@@ -305,13 +300,81 @@ void characterSelScene::assignFocus()	{
 }
 
 void characterSelScene::checkSceneInput()	{
+	if (App->entities->players[0]->getInput(GRAB, KEY_DOWN) && !object_win_p1 && !object_win_p2 || App->entities->players[1]->getInput(GRAB, KEY_DOWN) && !object_win_p1 && !object_win_p2)
+		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
 	if (App->entities->players[0]->getInput(GRAB, KEY_DOWN) && object_win_p1)
 		closeP1Window();
 	if (App->entities->players[1]->getInput(GRAB, KEY_DOWN) && object_win_p2)
 		closeP2Window();
-
 	if (player1.has_selected_character && player1.has_selected_item && player2.has_selected_character && player2.has_selected_item && !transition_timer.isActive())
+	{
+		if (random_sfx == 1)
+			App->audio->playSFX(scene_sfx1);
+		else
+			App->audio->playSFX(scene_sfx2);
 		assignCharacterToPlayer();
+	}
+}
+
+void characterSelScene::assignSkins()	{
+	//SKIN ASSIGNMENT
+	if (App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))//P1 Skin 1
+	{
+		if (player2.skin == 0)
+			player1.skin = 1;
+		else
+			player1.skin = 0;
+	}
+	if (App->entities->players[0]->getInput(LIGHT_ATTACK, KEY_DOWN))//P1 Skin 2
+	{
+		if (player2.skin == 1)
+			player1.skin = 2;
+		else
+			player1.skin = 1;
+	}
+	if (App->entities->players[0]->getInput(SPECIAL_1, KEY_DOWN))//P1 Skin 3
+	{
+		if (player2.skin == 2)
+			player1.skin = 3;
+		else
+			player1.skin = 2;
+	}
+	if (App->entities->players[0]->getInput(SPECIAL_2, KEY_DOWN))//P1 Skin 4
+	{
+		if (player2.skin == 3)
+			player1.skin = 0;
+		else
+			player1.skin = 3;
+	}
+
+	if (App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN))//P2 Skin 1
+	{
+		if (player1.skin == 0)
+			player2.skin = 1;
+		else
+			player2.skin = 0;
+	}
+	if (App->entities->players[1]->getInput(LIGHT_ATTACK, KEY_DOWN))//P2 Skin 2
+	{
+		if (player1.skin == 1)
+			player2.skin = 2;
+		else
+			player2.skin = 1;
+	}
+	if (App->entities->players[1]->getInput(SPECIAL_1, KEY_DOWN))//P2 Skin 3
+	{
+		if (player1.skin == 2)
+			player2.skin = 3;
+		else
+			player2.skin = 2;
+	}
+	if (App->entities->players[1]->getInput(SPECIAL_2, KEY_DOWN))//P2 Skin 4
+	{
+		if (player1.skin == 3)
+			player2.skin = 0;
+		else
+			player2.skin = 3;
+	}
 }
 
 void characterSelScene::assignCharacterToPlayer()	{
@@ -320,7 +383,7 @@ void characterSelScene::assignCharacterToPlayer()	{
 	App->entities->players[1]->createAndAssignCharacter(player2.character, player2.item, false, player2.skin);
 
 	//Hidding them
-	App->entities->paused = true;
+	App->entities->setPause(true);
 	App->entities->show = false;
 	
 	transition_timer.start();
@@ -512,8 +575,8 @@ void characterSelScene::popUpP1Window() {
 
 		object_win_p1 = (UiWindow*)App->gui->createWindow(OBJ_SELECTION, { 150, 310 }, this);
 		select_object_p1 = (Labels*)App->gui->createLabel("Choose your Item", { 255,255,255,255 }, App->fonts->large_size, { 270, 330 }, this);
-		affects_special1_p1 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 390, 480 }, this);
-		affects_special2_p1 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 390,705 }, this);
+		affects_special1_p1 = (Labels*)App->gui->createLabel("Modifies:", { 40, 39, 39 }, App->fonts->medium_size, { 390, 480 }, this);
+		affects_special2_p1 = (Labels*)App->gui->createLabel("Modifies:", { 40, 39, 39 }, App->fonts->medium_size, { 390,705 }, this);
 		p1_select_item1 = (Buttons*)App->gui->createButton(SELECT_ITEM1, OBJECT_SELECTION, 0, { 170, 390 }, this);
 		p1_select_item2 = (Buttons*)App->gui->createButton(SELECT_ITEM2, OBJECT_SELECTION, 0, { 170, 610 }, this);
 
@@ -614,8 +677,8 @@ void characterSelScene::popUpP2Window()	{
 
 		object_win_p2 = (UiWindow*)App->gui->createWindow(OBJ_SELECTION, { 1140, 310 }, this);
 		select_object_p2 = (Labels*)App->gui->createLabel("Choose your Item", { 255,255,255,255 }, App->fonts->large_size, { 1260, 330 }, this);
-		affects_special1_p2 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 1380, 480 }, this);
-		affects_special2_p2 = (Labels*)App->gui->createLabel("Affects to:", { 40, 39, 39 }, App->fonts->medium_size, { 1380,705 }, this);
+		affects_special1_p2 = (Labels*)App->gui->createLabel("Modifies:", { 40, 39, 39 }, App->fonts->medium_size, { 1380, 480 }, this);
+		affects_special2_p2 = (Labels*)App->gui->createLabel("Modifies:", { 40, 39, 39 }, App->fonts->medium_size, { 1380,705 }, this);
 		p2_select_item1 = (Buttons*)App->gui->createButton(SELECT_ITEM1, OBJECT_SELECTION, 1, { 1160, 390 }, this);
 		p2_select_item2 = (Buttons*)App->gui->createButton(SELECT_ITEM2, OBJECT_SELECTION, 1, { 1160, 610 }, this);
 

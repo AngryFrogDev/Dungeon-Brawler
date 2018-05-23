@@ -62,7 +62,7 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	velocity.y = 0;
 	velocity.x = 0;
 	current_state = CHAR_STATE::IDLE;
-	logic_position.y = 1000;
+	logic_position.y = 800;
 	starting_position.x = logic_position.x;
 	starting_position.y = -1000;
 	state_first_tick = false;
@@ -94,6 +94,9 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	// Collider creation
 	hurtbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y }, HURTBOX, -1, basic_attack_deff(), (Character*)this);
 	pushbox = App->collision->AddCollider({ 0, 0, standing_hurtbox_size.x, standing_hurtbox_size.y / 2 }, PUSHBOX, -1, basic_attack_deff(), (Character*)this);
+
+	draw_position.x = calculateDrawPosition(0, draw_size.x* scale, true);
+	draw_position.y = calculateDrawPosition(0, draw_size.y * scale, false);
 }
 
 
@@ -372,12 +375,14 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			state_first_tick = true;
 		}
 		if (hit) { 
-			playCurrentSFX();
 			emmitCurrentParticle();
 			if (attack_recieving.knockdown)
 				updateState(JUGGLE);
-			else
+			else {
+				App->delayFrame(attack_recieving.frame_delay);
+				playCurrentSFX();
 				hit = false;
+			}
 			current_life -= attack_recieving.damage;
 			current_super_gauge += super_gauge_gain_hit;
 		}
@@ -401,6 +406,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		if (hit) {
 			playCurrentSFX();
+			App->delayFrame(attack_recieving.frame_delay);
 			emmitCurrentParticle();
 			juggle_attacks_recieved.push_back(attack_recieving.type);
 			iPoint current_juggle_speed = { 0,0 };
@@ -424,11 +430,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			updateState(KNOCKDOWN);
 		}
 		break;
-
 	case KNOCKDOWN:
 		//Input independent actions
 		if (!state_first_tick) {
-			//playCurrentSFX(); Maybe knockdown should play something?
 			updateAnimation(knockdown);
 			state_first_tick = true;
 			hit = false;
@@ -440,8 +444,11 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			hurtbox->active = true;
 		}
 		break;
-	case PAUSED:
-		updateState(IDLE);
+	case STOPPED:
+		if (!state_first_tick) {
+			updateAnimation(idle);
+			state_first_tick = true;
+		}
 		break;
 	case RECOVERY:
 		// One tick
@@ -469,6 +476,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		if (taunt_duration < (SDL_GetTicks() - taunt_start))
 			updateState(IDLE);
+		else if (hit)
+			updateState(HIT);
 		break;
 
 
@@ -872,6 +881,7 @@ void Character::resetCharacter()	{
 	velocity.x = velocity.y = 0;//This should be done from the scene manager
 	instanciated_hitbox = false;
 	crouching_hurtbox = false;
+	juggle_attacks_recieved.clear();
 
 	specificCharacterReset();
 
@@ -1069,7 +1079,7 @@ void Character::playCurrentSFX() {
 		break;
 	case KNOCKDOWN:
 		break;
-	case PAUSED:
+	case STOPPED:
 		break;
 	case DEAD:
 		App->audio->playSFX(s_death);
@@ -1267,4 +1277,10 @@ void Character::hurtboxSizeManagement() {
 			setCrouchingHurtbox(false);
 
 	}
+}
+void Character::setAnimationPause(bool active) {
+	current_animation->paused = active;
+}
+void Character::setState(CHAR_STATE state) {
+	updateState(state);
 }

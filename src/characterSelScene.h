@@ -11,7 +11,7 @@ struct currentCharacter
 	ITEMS item;
 	bool has_selected_character = false;
 	bool has_selected_item = false;
-	uint skin;
+	uint skin = 4; //Initialized with this value because 0-3 are skins
 };
 
 class characterSelScene : public scene
@@ -35,6 +35,7 @@ private:
 	void loadCharMiniaturesTex();
 	void assignFocus();
 	void checkSceneInput();
+	void assignSkins();
 
 	void assignCharacterToPlayer();
 	void setRects();
@@ -125,6 +126,11 @@ private:
 	SDL_Rect rogue_item2;
 	SDL_Rect paladin_item1;
 	SDL_Rect paladin_item2;
+
+	//SFX
+	Mix_Chunk* scene_sfx1 = nullptr;
+	Mix_Chunk* scene_sfx2 = nullptr;
+	uint random_sfx = 0;
 
 	currentCharacter player1, player2;
 

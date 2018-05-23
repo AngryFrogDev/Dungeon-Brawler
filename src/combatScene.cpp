@@ -7,6 +7,10 @@
 #include "Player.h"
 #include "DebLog.h"
 #include "mdSceneManager.h"
+#include "mdAudio.h"
+#include "Mage.h"
+#include <stdlib.h>
+#include <time.h>
 
 
 
@@ -28,9 +32,34 @@ combatScene::combatScene(bool active) : scene(COMBAT_SCENE)	{
 combatScene::~combatScene()	{}
 
 bool combatScene::start()	{
+	if (can_load_textures)
+	{
+		announcer_textures = App->textures->load("gui/Announcer_ui.png");
+		timer_tex = App->textures->load("gui/timer.png");
+		round_sfx1 = App->audio->loadSFX("SFX/announcer/a-perfect-place.wav");
+		round_sfx2 = App->audio->loadSFX("SFX/announcer/it-is-do-or-die.wav");
+		round_sfx3 = App->audio->loadSFX("SFX/announcer/go-for-broke.wav");
+		round_sfx4 = App->audio->loadSFX("SFX/announcer/go-nuts-stage.wav");
+		last_round_sfx = App->audio->loadSFX("SFX/announcer/it-all-comes-down.wav");
+		fight_sfx = App->audio->loadSFX("SFX/announcer/fight.wav");
+		player_dead_sfx1 = App->audio->loadSFX("SFX/announcer/cool.wav");
+		player_dead_sfx2 = App->audio->loadSFX("SFX/announcer/down.wav");
+		ko_sfx = App->audio->loadSFX("SFX/announcer/KO(delay).wav");
+		perfect_sfx = App->audio->loadSFX("SFX/announcer/perfect.wav");
+		time_up_sfx = App->audio->loadSFX("SFX/announcer/time-up.wav");
+		player1_wins_sfx = App->audio->loadSFX("SFX/announcer/player-1-wins.wav");
+		player2_wins_sfx = App->audio->loadSFX("SFX/announcer/player-2-wins.wav");
+		danger = App->audio->loadSFX("SFX/announcer/danger(time-out).wav");
+		can_load_textures = false;
+	}
+
 	char1 = App->entities->players[0]->getCurrCharacter()->getType();
 	char2 = App->entities->players[1]->getCurrCharacter()->getType();
-	
+
+	//Setting random variable
+	srand(time(NULL));
+	random_sfx = 1 + rand() % (5 - 1);
+
 	loadSceneUi();
 	resetSceneValues();
 
@@ -112,16 +141,12 @@ bool combatScene::onEvent(Buttons * button)	{
 		App->scene_manager->changeScene(App->scene_manager->settings_scene, this);
 		break;
 	}
+	next_round = false;
 
 	return ret;
 }
 
 void combatScene::loadSceneUi() {
-	//LABELS
-	auto label_string = std::to_string(current_time);
-	timer = (Labels*)App->gui->createLabel(label_string.data(), { (Uint8)labels_node.child("timer").child("color").attribute("r").as_int(),(Uint8)labels_node.child("timer").child("color").attribute("g").as_int(),(Uint8)labels_node.child("timer").child("color").attribute("b").as_int(),(Uint8)labels_node.child("timer").child("color").attribute("a").as_int() },
-		App->fonts->extra_large_size, { labels_node.child("timer").child("pos").attribute("x").as_int(),labels_node.child("timer").child("pos").attribute("y").as_int() }, this);
-
 	//BARS
 	health_bar1 = (Bars*)App->gui->createBar(HEALTH_BAR, { bars_node.child("health_bar1").child("pos").attribute("x").as_int(),bars_node.child("health_bar1").child("pos").attribute("y").as_int() },
 		bars_node.child("health_bar1").child("flip").attribute("value").as_bool(), bars_node.child("health_bar1").child("target_player").attribute("value").as_int(), this);
@@ -141,7 +166,26 @@ void combatScene::updateSceneTimer()	{
 		return;
 
 	if (scene_timer.readSec() >= 1)
-		current_time--, scene_timer.start();
+	{
+		current_time--;
+		sec_count++;
+		if (sec_count == 10)
+			left_number.x -= 20, right_number.x += 180, sec_count = 0;
+		if (sec_count != 0)
+			right_number.x -= 20;
+		if (current_time <= 10 && !countdown)
+		{
+			left_number.y += 20;
+			right_number.y += 20;
+			countdown = true;
+			if (current_time == 10)
+				App->audio->playSFX(danger);
+		}
+		else if (current_time <= 10 && countdown)
+			left_number.y -= 20, right_number.y -= 20, countdown = false;
+
+		scene_timer.start();
+	}
 	if (current_time == 0)
 	{
 		if (rounds_left != 0)
@@ -151,11 +195,6 @@ void combatScene::updateSceneTimer()	{
 			current_time = 0;
 			taunt_timer.start();
 		}
-	}
-	if (current_time >= 0)
-	{
-		auto label_string = std::to_string(current_time);
-		timer->changeContent(label_string.data(), { 0,0,0,255 });
 	}
 }
 
@@ -197,7 +236,7 @@ void combatScene::loadSceneTextures()	{
 		break;
 	}
 
-	App->render->drawSprite(4, App->gui->atlas, 567, 70, &timer_rect, 2, 0, 0, 0, 0, false);
+//	App->render->drawSprite(4, App->gui->atlas, 567, 70, &timer_rect, 2, 0, 0, 0, 0, false);
 	App->render->drawSprite(3, App->gui->atlas, 110, 100, &character1_rect, 3, false, 0, 0, 0, 0, false);
 	App->render->drawSprite(3, App->gui->atlas, 1570, 100, &character2_rect, 3, false, 0, 0, 0, 0, false);
 	App->render->drawSprite(4, App->gui->atlas, 119, 109, &character1_image, 3, false, 0, 0, 0, 0, false);
@@ -234,11 +273,21 @@ void combatScene::loadSceneTextures()	{
 		App->render->drawSprite(4, App->gui->atlas, 1162, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
 		break;
 	}
+
+	//TIMER 
+	App->render->drawSprite(5, timer_tex, 855, 105, &timer_rect, 5, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(5, timer_tex, 940, 170, &right_number, 6, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(5, timer_tex, 850, 170, &left_number, 6, false, 1.0f, 0, 0, 0, false);
 }
 
 void combatScene::setRects()	{
 	//PROVISIONAL
-	timer_rect = { 421, 142, 59, 59 };
+//	timer_rect = { 421, 142, 59, 59 };
+	timer_rect = { 0, 40, 40, 20 };
+	left_number = { 180, 0, 20, 20 };
+	right_number = { 180, 0, 20, 20 };
+	
+
 	character1_rect = { 6,175,66,34 };
 	character2_rect = character1_rect;
 
@@ -269,6 +318,20 @@ void combatScene::setRects()	{
 
 	still_round_indicator = { 283, 132, 8, 5 };
 	won_round_indicator = { 293, 132, 12, 7 };
+
+	//Announcer rounds
+	round1_rect = { 0, 1311, 1920, 437 };
+	round2_rect = { 0, 1748, 1920, 437 };
+	round3_rect = { 0, 2185, 1920, 437 };
+	fight_rect = { 0, 0, 1920, 437 };
+	ko_rect = { 0, 874, 1920, 437 };
+	perfect_rect = { 0, 437, 1920, 437 };
+	player1_wins_announcer_rect = { 0, 2622, 1920, 437 };
+	player2_wins_announcer_rect = { 0, 3059, 1920, 437 };
+	time_up_rect = { 0, 3496, 1920, 437 };
+	draw_announcer_rect = { 0, 3933, 1920, 437 };
+	current_round = &round1_rect;
+
 }
 
 void combatScene::assignFocus()	{
@@ -280,25 +343,25 @@ void combatScene::assignFocus()	{
 }
 
 void combatScene::checkSceneInput()	{
-	if (char1_hp <= 0 || char2_hp <= 0)
+	if (char1_hp <= 0 || char2_hp <= 0 || round_timer.isActive() || taunt_timer.isActive() || combat_start_timer.isActive())
 		return;
 
 	if (App->entities->players[0]->getInput(START, KEY_DOWN))	{
 		if (p1_window)
-			closeP1Window(), App->entities->paused = false;
+			closeP1Window(), App->entities->setPause(false);
 		else
 			popUpP1Window();
 	}
 	if (App->entities->players[1]->getInput(START, KEY_DOWN))	{
 		if (p2_window)
-			closeP2Window(), App->entities->paused = false;
+			closeP2Window(), App->entities->setPause(false);
 		else
 			popUpP2Window();
 	}
 }
 
 void combatScene::popUpP1Window()	{
-	App->entities->paused = true;
+	App->entities->setPause(true);
 
 	if (!p1_window && !p2_window)
 	{
@@ -318,7 +381,7 @@ void combatScene::popUpP1Window()	{
 }
 
 void combatScene::popUpP2Window()	{
-	App->entities->paused = true;
+	App->entities->setPause(true);
 
 	if (!p2_window && !p1_window)
 	{
@@ -379,7 +442,7 @@ void combatScene::closeP2Window()	{
 }
 
 void combatScene::popUpGeneralWindow()	{
-	App->entities->paused = true;
+	App->entities->setPause(true);
 
 	if (!general_window)
 	{
@@ -450,19 +513,30 @@ void combatScene::resetSceneValues()	{
 	//Resetting characters
 	App->entities->players[0]->getCurrCharacter()->resetCharacter();
 	App->entities->players[1]->getCurrCharacter()->resetCharacter();
+	max_char1_hp = App->entities->players[0]->getCurrCharacter()->getCurrentLife();
+	max_char2_hp = App->entities->players[1]->getCurrCharacter()->getCurrentLife();
 	//Resetting camera
 	App->render->camera.x = (App->render->resolution.first - App->render->camera.w) / 2;
 	//Timer
 	max_time = 99;
 	current_time = max_time;
+	left_number.x = 180;
+	right_number.x = 180;
+	left_number.y = 0;
+	right_number.y = 0;
+	sec_count = 0;
 	taunt_timer.stop();
 	round_timer.stop();
-	scene_timer.start();
+	scene_timer.stop();
+	combat_start_timer.start();
 	//Bools
 	App->map->map_loaded = true;
-	App->entities->paused = false;
+	App->entities->setPause(false);
+	App->entities->setStopped(true);
 	App->entities->show = true;
 	rematching = false;
+	sfx_played = false;
+	countdown = false;
 	//Setting windows to nullptr
 	general_window = nullptr;
 	p1_window = nullptr;
@@ -475,26 +549,108 @@ void combatScene::resetSceneValues()	{
 		p1_rounds_won = 0;
 		p2_rounds_won = 0;
 		extra_round = false;
+		current_round = &round1_rect;
 	}
-	
 }
 
 void combatScene::checkTimers()	{
 	if (taunt_timer.isActive() || round_timer.isActive())
 		scene_timer.stop();
+	
+	//ANNOUNCER TIMER
+	//Then round announcer
+	if (combat_start_timer.readSec() >= 2 && combat_start_timer.readSec() < 3.5) {
+		if (current_round != &round3_rect)
+		{
+			App->render->drawSprite(10, announcer_textures, 650, 450, current_round, 1, false, 1.0f, 0, 0, 0, false);
+			if (random_sfx == 1 && !sfx_played)
+				App->audio->playSFX(round_sfx1), sfx_played = true;
+			else if (random_sfx == 2 && !sfx_played)
+				App->audio->playSFX(round_sfx2), sfx_played = true;
+			else if (random_sfx == 3 && !sfx_played)
+				App->audio->playSFX(round_sfx3), sfx_played = true;
+			else if (random_sfx == 4 && !sfx_played)
+				App->audio->playSFX(round_sfx4), sfx_played = true;
+		}
+		else
+		{
+			App->render->drawSprite(10, announcer_textures, 450, 450, current_round, 1, false, 1.0f, 0, 0, 0, false);
+			if (!sfx_played)
+				App->audio->playSFX(last_round_sfx), sfx_played = true;
+		}
+	}
+	else if (combat_start_timer.readSec() >= 4.5 && combat_start_timer.readSec() <= 5.5) {
+		App->render->drawSprite(10, announcer_textures, 650, 450, &fight_rect, 1, false, 1.0f, 0, 0, 0, false);
+		if (!entities_stopped){
+			App->entities->setStopped(false);
+			entities_stopped = true;
+			App->audio->playSFX(fight_sfx);
+		}
+	}
+	else if (combat_start_timer.readSec() > 6)
+		combat_start_timer.stop(), scene_timer.start(), entities_stopped = false;
+
+	//TAUNT TIMER
+	if (taunt_timer.readSec() >= 0.5 && taunt_timer.readSec() < 2)
+	{
+		if (round_end == &ko_rect)
+		{
+			App->render->drawSprite(10, announcer_textures, 700, 500, round_end, 1, false, 1.0f, 0, 0, 0, false);
+			if (sfx_played)
+				App->audio->playSFX(ko_sfx), sfx_played = false;
+		}
+		else
+		{
+			App->render->drawSprite(10, announcer_textures, 500, 500, round_end, 1, false, 1.0f, 0, 0, 0, false);
+			if (sfx_played && current_time > 0)
+				App->audio->playSFX(perfect_sfx), sfx_played = false;
+			else if (sfx_played && current_time <= 0)
+				App->audio->playSFX(time_up_sfx), sfx_played = false;
+		}
+	}
 
 	if (taunt_timer.readSec() >= 1.5 && !general_window)
 	{
-		if (char1_hp >= 0 && char2_hp <= 0 || char1_hp > char2_hp)
-			App->entities->players[0]->getCurrCharacter()->tauntFor(2);
-		else if (char2_hp >= 0 && char1_hp <= 0 || char2_hp > char1_hp)
-			App->entities->players[1]->getCurrCharacter()->tauntFor(2);
+		if (char1_hp > 0 && char2_hp <= 0 || char1_hp > char2_hp)
+			App->entities->players[0]->getCurrCharacter()->tauntFor(2), combat_end = &player1_wins_announcer_rect, victorious_player = player1_wins_sfx;
+		else if (char2_hp > 0 && char1_hp <= 0 || char2_hp > char1_hp)
+			App->entities->players[1]->getCurrCharacter()->tauntFor(2), combat_end = &player2_wins_announcer_rect, victorious_player = player2_wins_sfx;
 		else
-			App->entities->players[0]->getCurrCharacter()->tauntFor(2), App->entities->players[1]->getCurrCharacter()->tauntFor(2);
+			App->entities->players[0]->getCurrCharacter()->tauntFor(2), App->entities->players[1]->getCurrCharacter()->tauntFor(2), combat_end = &draw_announcer_rect;
+
+		if (taunt_timer.readSec() >= 3.5)
+		{
+			App->render->drawSprite(10, announcer_textures, 450, 500, combat_end, 1, false, 1.0f, 0, 0, 0, false);
+			if (!sfx_played)
+				App->audio->playSFX(victorious_player), sfx_played = true;
+		}
+
+		
 
 		//Starting taunt timer
-		if (taunt_timer.readSec() >= 3.5)
+		if (taunt_timer.readSec() >= 5.5)
 			popUpGeneralWindow();
+	}
+
+	//ROUND TIMER
+	if (round_timer.readSec() >= 0.5 && round_timer.readSec() < 2)
+	{
+		if (round_end == &ko_rect)
+		{
+			App->render->drawSprite(10, announcer_textures, 700, 500, round_end, 1, false, 1.0f, 0, 0, 0, false);
+			if (random_sfx == 1 && sfx_played || random_sfx == 2 && sfx_played)
+				App->audio->playSFX(player_dead_sfx1), sfx_played = false;
+			else if (random_sfx == 3 && sfx_played || random_sfx == 4 && sfx_played)
+				App->audio->playSFX(player_dead_sfx2), sfx_played = false;	
+		}
+		else
+		{
+			App->render->drawSprite(10, announcer_textures, 500, 500, round_end, 1, false, 1.0f, 0, 0, 0, false);
+			if (sfx_played && current_time > 0)
+				App->audio->playSFX(perfect_sfx), sfx_played = false;
+			else if (sfx_played && current_time <= 0)
+				App->audio->playSFX(time_up_sfx), sfx_played = false;
+		}
 	}
 
 	if (round_timer.readSec() >= 2 && !taunt_timer.isActive())
@@ -510,40 +666,82 @@ void combatScene::manageRounds()	{
 	{
 		if (char1_hp <= 0 || char2_hp <= 0)
 		{
+			makeSureMageChargeEmitterIsDeleted();
 			if (char1_hp > 0 && char2_hp <= 0) //Player 2 dies
-				p1_rounds_won++, rounds_left--;
-
+			{
+				p1_rounds_won++;
+				rounds_left--;
+				current_round = &round2_rect;
+				if (char1_hp == max_char1_hp)
+					round_end = &perfect_rect;
+				else
+					round_end = &ko_rect;
+			}
 			else if (char2_hp > 0 && char1_hp <= 0)//Player 1 dies
-				p2_rounds_won++, rounds_left--;
-			
+			{
+				p2_rounds_won++;
+				rounds_left--;
+				current_round = &round2_rect;
+				if (char2_hp == max_char2_hp)
+					round_end = &perfect_rect;
+				else
+					round_end = &ko_rect;
+			}
 			if (p1_rounds_won == 1 && p2_rounds_won == 1)
-				extra_round = true;
+				extra_round = true, current_round = &round3_rect;
 			else
 				extra_round = false;
 			
 			if (rounds_left > 1 || extra_round)
-				rematching = true, round_timer.start(), App->entities->paused = true;
+				rematching = true, round_timer.start(), App->entities->setPause(true);
 		}
 	}
 	
-	else
+	else//Time's up
 	{
+		makeSureMageChargeEmitterIsDeleted();
+		round_end = &time_up_rect;
 		if (char1_hp > char2_hp) // Player 1 wins
-			p1_rounds_won++, rounds_left--;
+		{
+			p1_rounds_won++;
+			rounds_left--;
+			current_round = &round2_rect;
+		}
 		else if (char2_hp > char1_hp) // Player2 wins
-			p2_rounds_won++, rounds_left--;
-
+		{
+			p2_rounds_won++;
+			rounds_left--;
+			current_round = &round2_rect;
+		}
 		if (p1_rounds_won == 1 && p2_rounds_won == 1)
-			extra_round = true;
+			extra_round = true, current_round = &round3_rect;
 		else
 			extra_round = false;
 
 		if (rounds_left > 1 || extra_round)
-			rematching = true, round_timer.start(), App->entities->paused = true;
+			rematching = true, round_timer.start(), App->entities->setPause(true);
 	}
 
 	if (rounds_left >= 0 && rounds_left <= 1 && !extra_round)
 		taunt_timer.start(), next_round = false;
 	
+}
+
+void combatScene::makeSureMageChargeEmitterIsDeleted()
+{
+	Mage* mage_pointer = nullptr;
+
+	if (char1 == MAGE)
+		mage_pointer = (Mage*)App->entities->players[0]->getCurrCharacter();
+
+	else if (char2 == MAGE)
+		mage_pointer = (Mage*)App->entities->players[0]->getCurrCharacter();
+	else
+		return;
+
+	if (mage_pointer)
+		mage_pointer->stopChargeEmitter();
+
+	mage_pointer = nullptr;
 }
 
