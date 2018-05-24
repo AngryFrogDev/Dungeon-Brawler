@@ -375,17 +375,19 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		}
 	}
 	if(current_animation->Finished()){
-		mage_charge->active = false;
-		mage_charge = nullptr;
-		fireball_first_update = true;
+		stopChargeEmitter();
 		askRecovery(st_s1.recovery);
 		instanciated_hitbox = false;
 		fireball_level = 0;
-		fireball_max_charge = 0;
+		fireball_max_charge = false;
 	}
 
-	if (hit)
+	if (hit){
 		stopChargeEmitter();
+		instanciated_hitbox = false;
+		fireball_level = 0;
+		fireball_max_charge = false;
+	}
 }
 
 void Mage::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
@@ -581,6 +583,8 @@ void Mage::stopChargeEmitter()
 {
 	if (mage_charge != nullptr)
 	mage_charge->active = false;
+
+	mage_charge = nullptr;
 
 	fireball_first_update = true;
 }
