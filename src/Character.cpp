@@ -545,7 +545,11 @@ void Character::onCollision(collider* c1, collider* c2) {
 	}
 	else if ((c1->type == HITBOX || c1->type == PROJECTILE_HITBOX) && (c2->type == HURTBOX || c2->type == PROJECTILE_INVENCIBLE_HURTBOX)) {
 		// Allways delete hitboxes on collision
-		current_super_gauge += super_gauge_gain_strike;
+		if (current_super_gauge != max_super_gauge)
+		{
+			current_super_gauge += super_gauge_gain_strike;
+
+		}
 		deleteAttackHitbox(c1->attack_type.type, c1);
 	}
 	

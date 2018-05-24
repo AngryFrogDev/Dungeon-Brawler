@@ -49,7 +49,7 @@ void Bars::draw()	{
 		App->render->drawSprite(5, App->gui->getAtlas(), position.first + relative_pos.x + aux_bar_pos, position.second + relative_pos.y, &curr_anim->GetCurrentFrame(), 2, flipped, 1.0f, 0, 0, 0, false);
 		if (super_ready == true)
 		{
-			//App->audio->playSFX(super_sfx);
+			App->audio->playSFX(super_sfx);
 			super_ready = false;
 		}
 			
