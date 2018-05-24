@@ -647,4 +647,5 @@ void Mage::specificCharacterReset() {
 	mine_position = { 0,0 };
 	fireball_level = 0;
 	fireball_max_charge = false;
+	stopChargeEmitter();
 }

@@ -666,7 +666,6 @@ void combatScene::manageRounds()	{
 	{
 		if (char1_hp <= 0 || char2_hp <= 0)
 		{
-			makeSureMageChargeEmitterIsDeleted();
 			if (char1_hp > 0 && char2_hp <= 0) //Player 2 dies
 			{
 				p1_rounds_won++;
@@ -699,7 +698,6 @@ void combatScene::manageRounds()	{
 	
 	else//Time's up
 	{
-		makeSureMageChargeEmitterIsDeleted();
 		round_end = &time_up_rect;
 		if (char1_hp > char2_hp) // Player 1 wins
 		{
@@ -727,21 +725,4 @@ void combatScene::manageRounds()	{
 	
 }
 
-void combatScene::makeSureMageChargeEmitterIsDeleted()
-{
-	Mage* mage_pointer = nullptr;
-
-	if (char1 == MAGE)
-		mage_pointer = (Mage*)App->entities->players[0]->getCurrCharacter();
-
-	else if (char2 == MAGE)
-		mage_pointer = (Mage*)App->entities->players[0]->getCurrCharacter();
-	else
-		return;
-
-	if (mage_pointer)
-		mage_pointer->stopChargeEmitter();
-
-	mage_pointer = nullptr;
-}
 
