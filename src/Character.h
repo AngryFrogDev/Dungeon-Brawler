@@ -202,6 +202,7 @@ protected:
 	collider* getAttackHitbox(CHAR_ATT_TYPE type);
 	void deleteAttackHitbox(CHAR_ATT_TYPE type, collider* hitbox = nullptr);
 	void deleteAllMeleeHitboxes();
+	void deleteAllHitboxes();
 
 	void updateAnimation(Animation& new_animation);
 

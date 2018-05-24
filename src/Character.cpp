@@ -882,6 +882,7 @@ void Character::resetCharacter()	{
 	instanciated_hitbox = false;
 	crouching_hurtbox = false;
 	juggle_attacks_recieved.clear();
+	deleteAllHitboxes();
 
 	specificCharacterReset();
 
@@ -1283,4 +1284,20 @@ void Character::setAnimationPause(bool active) {
 }
 void Character::setState(CHAR_STATE state) {
 	updateState(state);
+}
+void Character::deleteAllHitboxes() {
+	// Compute what hitboxes need to be deleted
+	std::list<collider*> hitboxes_to_delete;
+	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
+		collider* c = *it;
+		c->to_delete = true;
+		hitboxes_to_delete.push_back(c);
+	}
+	// Remove the colliders
+	for (std::list<collider*>::iterator it = hitboxes_to_delete.begin(); it != hitboxes_to_delete.end(); ++it) {
+		collider* c = *it;
+		hitboxes.remove(c);
+	}
+
+	hitboxes_to_delete.clear();
 }
