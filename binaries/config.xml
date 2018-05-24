@@ -66,6 +66,7 @@
 				<border x="6" y="152" w="249" h="8"/>
 				<gauge x="6" y="142" w="244" h="6"/>
 				<full_gauge x="6" y="132" w="244" h="6"/>
+				<sfx filename ="ready.wav"/>
 			</super>
 			<swap x="421" y="10" w="114" h="31"/>
 		</bar_section>

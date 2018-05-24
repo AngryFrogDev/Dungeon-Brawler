@@ -6,6 +6,8 @@
 #include "p2Point.h"
 #include "Animation.h"
 
+class Mix_Chunk;
+
 class Bars : public Widgets {
 public:
 	Bars(bar_types type, std::pair<int, int> pos, bool _flipped, int target_player, scene* callback);
@@ -36,7 +38,9 @@ private:
 	int target_player;
 	iPoint relative_pos = { 0,0 };
 	bool flipped;
+	bool super_ready = false;
 
+	Mix_Chunk* super_sfx = nullptr;
 };
 
 
