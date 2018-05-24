@@ -422,6 +422,7 @@ void Rogue::characterSpecificUpdates()
 		has_airdash = true;
 
 	if (on_super) {
+		current_super_gauge = 0;
 		if (current_super_frames < max_super_frames) {
 			current_super_frames++;
 		}
@@ -429,7 +430,6 @@ void Rogue::characterSpecificUpdates()
 			on_super = false;
 			resetRecoveries();
 			current_super_frames = 0;
-			current_super_gauge = 0;
 			if(super_emitter != nullptr)
 			super_emitter->active = false;
 			walk_speed = walk_speed / 2;
