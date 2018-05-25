@@ -283,23 +283,6 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Charac
 	charge_fireball_item = false; 
 	double_fireball_item = false;
 
-
-	// PROVISIONAL: This should belong to entities, if not fx are loaded twice
-	//s_jump = App->audio->loadSFX("SFX/jump.wav");
-	//s_light_sword_block = App->audio->loadSFX("SFX/light_sword_block.wav");
-	//s_heavy_sword_block = App->audio->loadSFX("SFX/heavy_sword_block.wav");
-	//s_light_sword_whiff = App->audio->loadSFX("SFX/light_sword_whiff.wav");
-	//s_heavy_sword_whiff = App->audio->loadSFX("SFX/heavy_sword_whiff.wav");
-	//s_light_sword_impact = App->audio->loadSFX("SFX/light_sword_impact.wav");
-	//s_heavy_sword_impact = App->audio->loadSFX("SFX/heavy_sword_impact.wav");
-	//s_standing_special_1 = App->audio->loadSFX("SFX/standing_special_1.wav");
-	//s_standing_special_2 = App->audio->loadSFX("SFX/standing_special_2.wav");
-	//s_jumping_special_1 = App->audio->loadSFX("SFX/jumping_special_1.wav");;
-	//s_crouching_special_1 = App->audio->loadSFX("SFX/crouching_special_1.wav");;
-	//s_crouching_special_2 = App->audio->loadSFX("SFX/crouching_special_2.wav");;
-	//s_man_death = App->audio->loadSFX("SFX/man_death.wav");
-	//s_super = App->audio->loadSFX("SFX/super.wav");
-
 }
 
 
@@ -398,10 +381,8 @@ void Mage::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 	}
 
 	if (current_animation->GetState() == ACTIVE ) {
-		if(!instanciated_hitbox) {
-			instanciated_hitbox = true;
+		if(!instanciated_hitbox) 
 			instanciateHitbox(st_s2);
-		}
 		fPoint emitter_player_offset = { 0,0 };
 		if (!fliped)
 			emitter_player_offset.x = (float)st_s2.pos_rel_char.x;

@@ -53,7 +53,7 @@ void ParticleEmitter::update(float dt)
 		createParticle();
 		current_emissions++;
 	}
-
+	App->render->drawQuad(1000, { (int)start_pos.x - 25, (int)start_pos.y - 25, 50, 50 }, 255, 0, 0, 255, true, true);
 	if (current_emissions >= max_emissions)
 		active = false;
 
