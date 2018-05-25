@@ -233,10 +233,11 @@ protected:
 	virtual bool standingSpecial1Condition() {return true; }
 	virtual bool jumpingSpecial1Condition() {return true; }
 	virtual bool jumpingSpecial2Condition() {return true; }
+	virtual void doSuper() { return; }
+
 
 	virtual void characterSpecificUpdates() {return; }
 
-	virtual void doSuper() { return; }
 	//Juggle limit
 	bool juggleLimit(CHAR_ATT_TYPE type);
 	// Input buffer functions
@@ -244,6 +245,8 @@ protected:
 	void fillBuffer(const bool(&inputs)[MAX_INPUTS]);
 	void pushIntoBuffer(CHARACTER_INPUTS input);
 	bool checkForSuper(int window);
+	// Combo counter
+	void blitComboCounter(); // Will need "int combo_counter_position(yet to create) and int combo_counter(already created)
 
 protected:
 

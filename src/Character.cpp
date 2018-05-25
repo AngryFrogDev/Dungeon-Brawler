@@ -107,7 +107,6 @@ Character::~Character() {
 
 void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
-	//PROVISIONAL: Crazy provisional
 	if (current_life <= 0 && !death) {
 		updateState(DEAD);
 		hurtbox->active = false;
@@ -518,20 +517,24 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	else
 		offset = 0;
 
+	// Calculate collider position
 	hurtbox->SetPos(calculateDrawPosition(0, hurtbox->rect.w, true), calculateDrawPosition(offset, hurtbox->rect.h, false));
 	pushbox->SetPos(calculateDrawPosition(0, pushbox->rect.w, true), calculateDrawPosition(crouching_hurtbox_offset, pushbox->rect.h, false));
 
-	// Gauge Limit
+	// Make sure gauge is not exceded
 	if (current_super_gauge > max_super_gauge)
 		current_super_gauge = max_super_gauge;
 
+	// Make sure gravity is applyed
 	if (!grounded) 		{
 		applyGravity();
 		setIfGrounded();
 	}
+	// Crouching/Standing hurtbox
 	hurtboxSizeManagement();
+
+
 	characterSpecificUpdates();
-	// Delete out of life colliders
 	deleteDeadHitboxes();
 }
 
@@ -1310,4 +1313,8 @@ void Character::deleteAllHitboxes() {
 	}
 
 	hitboxes_to_delete.clear();
+}
+
+void Character::blitComboCounter(){
+
 }
