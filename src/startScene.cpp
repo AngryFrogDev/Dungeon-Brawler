@@ -52,6 +52,6 @@ void startScene::loadSceneTextures()	{
 }
 
 void startScene::checkSceneInput()	{
-	if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))
+	if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || App->input->isButtonState(SDL_CONTROLLER_BUTTON_A, KEY_DOWN))
 		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
 }
