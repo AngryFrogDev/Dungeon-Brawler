@@ -202,7 +202,8 @@
        type ="st_s1"
        recovery ="300"
        animation_speed ="0.2"
-       frame_delay ="0"/>
+       frame_delay ="0"
+       projectile ="true"/>
       <st_s2
         pos_rel_char_x ="0"
         pos_rel_char_y ="0"
@@ -524,7 +525,8 @@
        type ="st_s1"
        recovery ="350"
        animation_speed ="0.1"
-       frame_delay ="32"/>
+       frame_delay ="32"
+       projectile ="true"/>
       <st_s2
         pos_rel_char_x ="500"
         pos_rel_char_y ="-100"
@@ -599,7 +601,9 @@
          block_type ="overhead"
          type ="jm_s1"
          recovery ="150"
-         animation_speed ="0.1"/>
+         animation_speed ="0.1"
+         frame_delay ="0"
+         projectile ="true"/>
       <jm_s2
         pos_rel_char_x ="60"
         pos_rel_char_y ="50"
@@ -617,7 +621,8 @@
         block_type ="overhead"
         type ="jm_s2"
         recovery ="100"
-        animation_speed ="0.3"/>
+        animation_speed ="0.3"
+        frame_delay ="0"/>
       <super
         pos_rel_char_x ="0"
         pos_rel_char_y ="0"
@@ -635,7 +640,9 @@
         block_type ="mid"
         type ="super"
         recovery ="0"
-        animation_speed ="0.2"/>
+        animation_speed ="0.2"
+        frame_delay ="0"
+        projectile ="true"/>
     </attack_data>
   </mage>
   <rogue  type ="rogue"
@@ -817,7 +824,8 @@
         block_type ="overhead"
         type ="jm_h"
         recovery ="30"
-        animation_speed ="0.2"/>
+        animation_speed ="0.2"
+        frame_delay ="0"/>
       <st_s1
        pos_rel_char_x ="100"
        pos_rel_char_y ="-25"
@@ -836,7 +844,8 @@
        type ="st_s1"
        recovery ="350"
        animation_speed ="0.1"
-       frame_delay ="0"/>
+       frame_delay ="0"
+       projectile ="true"/>
       <st_s2
         pos_rel_char_x ="175"
         pos_rel_char_y ="50"
@@ -912,7 +921,8 @@
          type ="jm_s1"
          recovery ="150"
          animation_speed ="0.1"
-         frame_delay ="0"/>
+         frame_delay ="0"
+         projectile ="true"/>
       <jm_s2
         pos_rel_char_x ="60"
         pos_rel_char_y ="50"
@@ -1158,7 +1168,8 @@
        type ="st_s1"
        recovery ="350"
        animation_speed ="0.2"
-       frame_delay ="0"/>
+       frame_delay ="0"
+       projectile ="true"/>
       <st_s2
         pos_rel_char_x ="80"
         pos_rel_char_y ="0"
@@ -1234,7 +1245,8 @@
         type ="jm_s1"
         recovery ="150"
         animation_speed ="0.3"
-        frame_delay ="0"/>
+        frame_delay ="0"
+        projectile ="true"/>
       <jm_s2
         pos_rel_char_x ="0"
         pos_rel_char_y ="60"

@@ -287,10 +287,12 @@ void Paladin::crouchingSpecial2() {
 	}
 	if (hit) {
 		hit = false;
-		healing_emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y}, "particles/healing.xml");
-		current_life += parry_healing; // Maybe this should check that life is not exceded beyond the maximum
-		if (current_life > max_life)
-			current_life = max_life;
+		if(!attack_recieving.projectile){
+			healing_emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y}, "particles/healing.xml");
+			current_life += parry_healing; // Maybe this should check that life is not exceded beyond the maximum
+			if (current_life > max_life)
+				current_life = max_life;
+		}
 		updateAnimation(parry_reaction);
 		makeInvencibleFor(parry_reaction_invencivility);
 		parry_reacting = true;

@@ -557,6 +557,7 @@ void mdEntities::loadAttackDeffFromXML(const pugi::xml_node& md_config, basic_at
 	attack.recovery = md_config.attribute("recovery").as_int(0);
 	attack.animation_speed = md_config.attribute("animation_speed").as_float(0);
 	attack.frame_delay = md_config.attribute("frame_delay").as_int(0);
+	attack.projectile = md_config.attribute("projectile").as_bool(false);
 }
 void mdEntities::loadAttackListFromXML(const pugi::xml_node& md_config, std::list<CHAR_ATT_TYPE>& attack_list) {
 	pugi::xml_node iterator = md_config.first_child();

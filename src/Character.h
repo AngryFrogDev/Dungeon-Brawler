@@ -132,6 +132,7 @@ struct basic_attack_deff {
 	int recovery; //in milliseconds
 	float animation_speed;
 	int frame_delay;
+	bool projectile;
 };
 
 enum ITEMS {
