@@ -63,8 +63,8 @@ float ParticleEmitter::addOrSubstractRand(float atribute, float maxVariation) co
 {
 	float atribute_variated = atribute;
 
-	//float variation = fmod(rand(),  ((2 * maxVariation) + 1));
-	float variation = numberBetweenZeroAndOne() * (2*maxVariation);
+	float number_between_zero_and_one = numberBetweenZeroAndOne();
+	float variation = number_between_zero_and_one * (2*maxVariation);
 
 	atribute_variated -= maxVariation;
 	atribute_variated += variation;
@@ -74,7 +74,7 @@ float ParticleEmitter::addOrSubstractRand(float atribute, float maxVariation) co
 
 float ParticleEmitter::numberBetweenZeroAndOne() const
 {
-	return ((double)rand() / (RAND_MAX)) + 1;
+	return ((double)rand() / (RAND_MAX));
 }
 
 bool ParticleEmitter::loadConfig(pugi::xml_document & config_file, pugi::xml_node & config_node, std::string path)
