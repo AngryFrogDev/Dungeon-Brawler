@@ -68,6 +68,7 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	state_first_tick = false;
 	taunt_start = 0;
 	taunt_duration = 0;
+	combo_counter = 0;
 	// Others
 	ground_position = 800;
 	lateral_limit = 50;
@@ -382,12 +383,15 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 				App->delayFrame(attack_recieving.frame_delay);
 				playCurrentSFX();
 				hit = false;
+				combo_counter++;
 			}
 			current_life -= attack_recieving.damage;
 			current_super_gauge += super_gauge_gain_hit;
 		}
-		else if (SDL_GetTicks() - moment_hit > attack_recieving.hitstun)
+		else if (SDL_GetTicks() - moment_hit > attack_recieving.hitstun){
 			updateState(IDLE);
+			combo_counter = 0;
+		}
 
 		
 		// Continuous
@@ -423,11 +427,13 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			
 			current_life -= attack_recieving.damage;
 			hit = false;
+			combo_counter++;
 			grounded = false;
 		}
 		if (grounded){
 			juggle_attacks_recieved.clear();
 			updateState(KNOCKDOWN);
+			combo_counter = 0;
 		}
 		break;
 	case KNOCKDOWN:

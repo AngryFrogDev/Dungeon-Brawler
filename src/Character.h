@@ -282,7 +282,6 @@ protected:
 	int taunt_duration;
 	int normal_taunt_duration;
 
-	// In miliseconds
 	int invencibility_on_wakeup;
 
 	int super_window;
@@ -304,27 +303,21 @@ protected:
 	
 	fPoint velocity;
 
-	bool crouching_hurtbox;
-
 	int current_life;		
 	int current_super_gauge;
 
-	bool grounded;
-
-	bool fliped;
-
-	bool death;
+	int moment_hit;
 
 	std::list<CHAR_ATT_TYPE> juggle_attacks_recieved;
+	int combo_counter;
 
-	//If the hitbox of the attack has been already instanciated, it should,'t be instanciated again
+	bool grounded;
+	bool fliped;
+	bool death;
 	bool instanciated_hitbox; 
 	bool state_first_tick;
-	bool state_second_tick;
-
 	bool hit;
-	//Maybe current_stun and moment_hit should be a timer instead
-	int moment_hit; 
+	bool crouching_hurtbox;
 
 
 	// Entity collider
