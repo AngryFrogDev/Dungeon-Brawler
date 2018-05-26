@@ -87,6 +87,7 @@ void Bars::updateBarGauge() {
 void Bars::loadGuiFromAtlas()	{
 	pugi::xml_node hp = data.child("hp");
 	pugi::xml_node super = data.child("super");
+	pugi::xml_node volume = data.child("volume");
 	pugi::xml_node border;
 	pugi::xml_node gauge;
 	std::string filepath;
@@ -118,23 +119,23 @@ void Bars::loadGuiFromAtlas()	{
 		break;
 	case MUSIC_VOL_BAR:
 		relative_pos = { -75, 50 };
-		gauge = super.child("gauge");
+		gauge = volume.child("gauge");
 		getSection({ border.attribute("x").as_int(), border.attribute("y").as_int(), border.attribute("w").as_int(), border.attribute("h").as_int() },
 		{ gauge.attribute("x").as_int(),gauge.attribute("y").as_int(), gauge.attribute("w").as_int(), gauge.attribute("h").as_int() });
-		full_gauge.x = super.child("full_gauge").attribute("x").as_int();
-		full_gauge.y = super.child("full_gauge").attribute("y").as_int();
-		full_gauge.h = super.child("full_gauge").attribute("h").as_int();
-		full_gauge.w = super.child("full_gauge").attribute("w").as_int();
+		full_gauge.x = volume.child("full_gauge").attribute("x").as_int();
+		full_gauge.y = volume.child("full_gauge").attribute("y").as_int();
+		full_gauge.h = volume.child("full_gauge").attribute("h").as_int();
+		full_gauge.w = volume.child("full_gauge").attribute("w").as_int();
 		break;
 	case SFX_VOL_BAR:
 		relative_pos = { -75, 50 };
-		gauge = super.child("gauge");
+		gauge = volume.child("gauge");
 		getSection({ border.attribute("x").as_int(), border.attribute("y").as_int(), border.attribute("w").as_int(), border.attribute("h").as_int() },
 		{ gauge.attribute("x").as_int(),gauge.attribute("y").as_int(), gauge.attribute("w").as_int(), gauge.attribute("h").as_int() });
-		full_gauge.x = super.child("full_gauge").attribute("x").as_int();
-		full_gauge.y = super.child("full_gauge").attribute("y").as_int();
-		full_gauge.h = super.child("full_gauge").attribute("h").as_int();
-		full_gauge.w = super.child("full_gauge").attribute("w").as_int();
+		full_gauge.x = volume.child("full_gauge").attribute("x").as_int();
+		full_gauge.y = volume.child("full_gauge").attribute("y").as_int();
+		full_gauge.h = volume.child("full_gauge").attribute("h").as_int();
+		full_gauge.w = volume.child("full_gauge").attribute("w").as_int();
 		break;
 	case NO_BAR:
 		LOG("Non valid Bar type");

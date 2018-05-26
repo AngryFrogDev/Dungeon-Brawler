@@ -31,27 +31,27 @@
 		<labels>
 			<o_vs_o>
 				<content value="ONE VS ONE"/>
-				<color r="255" g="255" b="255" a="255"/>
+				<color r="112" g="62" b="62" a="1"/>
 				<pos x="795" y="125"/>
 			</o_vs_o>
 			<training>
 				<content value="TRAINING"/>
-				<color r="255" g="255" b="255" a="255"/>
+				<color r="112" g="62" b="62" a="1"/>
 				<pos x="815" y="325"/>
 			</training>
 			<settings>
 				<content value="SETTINGS"/>
-				<color r="255" g="255" b="255" a="255"/>
+				<color r="112" g="62" b="62" a="1"/>
 				<pos x="825" y="525"/>
 			</settings>
 			<credits>
 				<content value="CREDITS"/>
-				<color r="255" g="255" b="255" a="255"/>
+				<color r="112" g="62" b="62" a="1"/>
 				<pos x="835" y="725"/>
 			</credits>
 			<exit>
 				<content value="QUIT"/>
-				<color r="255" g="255" b="255" a="255"/>
+				<color r="112" g="62" b="62" a="1"/>
 				<pos x="1475" y="925"/>
 			</exit>
 		</labels>

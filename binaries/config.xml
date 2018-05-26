@@ -68,7 +68,10 @@
 				<full_gauge x="6" y="132" w="244" h="6"/>
 				<sfx filename ="ready.wav"/>
 			</super>
-			<swap x="421" y="10" w="114" h="31"/>
+			<volume>
+				<gauge x="296" y="468" w="244" h="18"/>
+				<full_gauge x="296" y="468" w="244" h="18"/>
+			</volume>
 		</bar_section>
 	</gui>
 	<input>
