@@ -8,7 +8,6 @@
 #include "mdRender.h"
 #include "Timer.h"
 
-
 #define MAX_INPUT_BUFFER 100
 
 class Mix_Chunk;
@@ -293,7 +292,7 @@ protected:
 
 	int shadow_offset;
 	SDL_Rect shadow_rect;
-
+	iPoint combo_counter_position;
 
 	// Variables to load from constructor
 	iPoint starting_position;
@@ -314,6 +313,7 @@ protected:
 
 	std::list<CHAR_ATT_TYPE> juggle_attacks_recieved;
 	int combo_counter;
+	int prev_combo_counter;
 
 	bool grounded;
 	bool fliped;
@@ -365,6 +365,10 @@ protected:
 	Mix_Chunk* s_crouching_special_2;
 	Mix_Chunk* s_death;
 	Mix_Chunk* s_super;
+	//Combo counter
+	SDL_Rect left_number;
+	SDL_Rect right_number;
+	SDL_Rect letters;
 
 };
 
