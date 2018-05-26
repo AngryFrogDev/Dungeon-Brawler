@@ -102,7 +102,7 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 
 
 Character::~Character() {
-
+	deleteAllHitboxes();
 }
 
 void Character::update(const bool(&inputs)[MAX_INPUTS]) {
