@@ -394,7 +394,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		else if (SDL_GetTicks() - moment_hit > attack_recieving.hitstun){
 			updateState(IDLE);
-		//	combo_counter = 0;
+			combo_counter = 0;
 		}
 
 		
@@ -437,7 +437,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		if (grounded){
 			juggle_attacks_recieved.clear();
 			updateState(KNOCKDOWN);
-		//	combo_counter = 0;
+			combo_counter = 0;
 		}
 		break;
 	case KNOCKDOWN:
@@ -1345,7 +1345,7 @@ void Character::blitComboCounter(){
 
 		App->render->drawSprite(10, App->gui->atlas, combo_counter_position.x, combo_counter_position.y, &letters, 4, false, 1.0f, 0, 0, 0, false);
 		App->render->drawSprite(10, App->gui->atlas, combo_counter_position.x - 80, combo_counter_position.y - 10, &right_number, 6, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(10, App->gui->atlas, combo_counter_position.x - 130, combo_counter_position.y - 10, &left_number, 6, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(10, App->gui->atlas, combo_counter_position.x - 140, combo_counter_position.y - 10, &left_number, 6, false, 1.0f, 0, 0, 0, false);
 
 		prev_combo_counter = combo_counter;
 	}
