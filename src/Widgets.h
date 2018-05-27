@@ -50,6 +50,8 @@ enum button_types {
 	COLLIDERS,
 	BACK,
 	PARALLAX,
+	DEFAULT_CONTROLS,
+	SAVE_CONTROLS
 };
 
 enum button_size {
