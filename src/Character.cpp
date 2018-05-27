@@ -1349,6 +1349,8 @@ void Character::blitComboCounter(){
 
 		prev_combo_counter = combo_counter;
 	}
+	else
+		right_number.x = 289;
 
 	
 }
