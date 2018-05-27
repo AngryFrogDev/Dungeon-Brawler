@@ -92,7 +92,7 @@ public:
 	KEY_STATE getKey(SDL_Scancode key) const;
 	KEY_STATE getControllerButton(int id, SDL_GameControllerButton button);
 	//If ID is -1 it will return an OR of all controllers
-	bool isButtonState(SDL_GameControllerButton button, KEY_STATE state, int id = -1);
+	bool isButtonState(CONTROLLER_BUTTON button, KEY_STATE state, int id = -1);
 
 	//Returns controllers that pressed button, if invalid button will return first controller.
 	std::list<Controller*> getController(SDL_GameControllerButton button = SDL_CONTROLLER_BUTTON_INVALID);

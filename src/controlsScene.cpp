@@ -22,6 +22,8 @@ bool controlsScene::start() {
 		controls_texture = App->textures->load("gui/controls.png");
 	}
 
+	curr_player = 1;
+
 	loadSceneUi();
 	assignFocus();
 
@@ -100,20 +102,24 @@ bool controlsScene::start() {
 bool controlsScene::update(float dt) {
 	App->gui->draw();
 
-	App->render->drawSprite(4, controls_texture, 330, 155, &lb_button_rect, 2, false, 0, 0, 0, 0, false);
-	App->render->drawSprite(4, controls_texture, 640, 155, &rb_button_rect, 2, false, 0, 0, 0, 0, false);
-	if (App->input->isButtonState(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER, KEY_DOWN) ||
-		App->input->isButtonState(SDL_CONTROLLER_BUTTON_LEFTSHOULDER, KEY_DOWN)) {
+	App->render->drawSprite(4, controls_texture, 330, 105, &lb_button_rect, 2, false, 0, 0, 0, 0, false);
+
+	SDL_Rect* current_scheme_rect = controller ? &controller_rect : &keyboard_rect;
+	App->render->drawSprite(4, controls_texture, 800 + 471, 105, current_scheme_rect, 1, false, 0, 0, 0, 0, false);
+	App->render->drawSprite(4, controls_texture, 800 + 597, 105, &rb_button_rect, 2, false, 0, 0, 0, 0, false);
+	if (App->input->isButtonState(BUTTON_LEFTSHOULDER, KEY_DOWN)) {
 		player1 = !player1;
 		l_curr_player->changeContent(player1 ? "Player 1" : "Player 2", { 255, 255, 255 });
+		curr_player = player1 ? 1 : 2;
 	}
+	if (App->input->isButtonState(BUTTON_RIGHTSHOULDER, KEY_DOWN)) 
+		controller = !controller;
+
 	return true;
 }
 
 bool controlsScene::onEvent(Buttons* button) {
 	bool ret = true;
-
-	int player = 0;
 
 	switch (button->button_type) {
 	default:
@@ -122,11 +128,10 @@ bool controlsScene::onEvent(Buttons* button) {
 		LOG("Non valid button type");
 		break;
 	case DEFAULT_CONTROLS:
-		player = player1 ? 1 : 2;
 		if (controller)
-			App->entities->controller_schemes[player] = App->entities->controller_schemes[0];
+			App->entities->controller_schemes[curr_player] = App->entities->controller_schemes[0];
 		else 
-			App->entities->keyboard_schemes[player] = App->entities->keyboard_schemes[0];
+			App->entities->keyboard_schemes[curr_player] = App->entities->keyboard_schemes[0];
 		break;
 	case SAVE_CONTROLS:
 		App->entities->saveSchemes();
@@ -153,11 +158,15 @@ void controlsScene::loadSceneUi() {
 	resolution_width = config.child("window").child("resolution").attribute("width").as_int();
 	resolution_height = config.child("window").child("resolution").attribute("height").as_int();
 
-	default_controls = (Buttons*)App->gui->createButton(DEFAULT_CONTROLS, MEDIUM, 0, { resolution_width / 2 - 350, 265 }, this);
-	save_controls = (Buttons*)App->gui->createButton(SAVE_CONTROLS, MEDIUM, 0, { resolution_width / 2 + 410, 265 }, this);
-	back = (Buttons*)App->gui->createButton(BACK, MEDIUM, 0, { resolution_width / 2 + 20, 850 }, this);
+	default_controls = (Buttons*)App->gui->createButton(DEFAULT_CONTROLS, MEDIUM, 0, { resolution_width / 2 + 20, 215 }, this);
+	save_controls = (Buttons*)App->gui->createButton(SAVE_CONTROLS, MEDIUM, 0, { resolution_width / 2 - 200, 850 }, this);
+	back = (Buttons*)App->gui->createButton(BACK, MEDIUM, 0, { resolution_width / 2 + 245, 850 }, this);
 
-	l_curr_player = (Labels*)App->gui->createLabel("Player 1", { 255, 255, 255  }, App->fonts->large_size, { resolution_width / 2 - resolution_width / 4 + modx, 140 + mody }, this);
+	l_default = (Labels*)App->gui->createLabel("Default", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + modx + 25, 225 }, this);
+	l_save_controls = (Labels*)App->gui->createLabel("Save All", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 - 200 + modx , 860 }, this);
+	l_back = (Labels*)App->gui->createLabel("Back", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 245 + modx + 35, 860 }, this);
+
+	l_curr_player = (Labels*)App->gui->createLabel("Player 1", { 255, 255, 255  }, App->fonts->large_size, { resolution_width / 2 - resolution_width / 4 + modx, 90 + mody }, this);
 
 }
 

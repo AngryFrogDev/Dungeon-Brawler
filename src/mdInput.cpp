@@ -258,7 +258,7 @@ KEY_STATE mdInput::getControllerButton(int id, SDL_GameControllerButton button) 
 	return ret;
 }
 
-bool mdInput::isButtonState(SDL_GameControllerButton button, KEY_STATE state, int id) {
+bool mdInput::isButtonState(CONTROLLER_BUTTON button, KEY_STATE state, int id) {
 	bool ret = false;
 	for (std::list<Controller*>::iterator it = controllers.begin(); !ret && it != controllers.end(); ++it) {
 		if (id == -1 || (*it)->getControllerID() == id)

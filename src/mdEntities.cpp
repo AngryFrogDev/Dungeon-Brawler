@@ -25,7 +25,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	pugi::xml_node controller_schemes_node = md_config.child("schemes").child("controller_schemes");
 	int scheme = 0;
 	for (pugi::xml_node_iterator it = controller_schemes_node.children().begin(); it != controller_schemes_node.children().end(); ++it, ++scheme) {
-		controller_schemes[scheme] = controller_scheme(it->name());
+		controller_schemes[scheme] = generic_scheme(it->name());
 		
 		pugi::xml_attribute_iterator attribute = it->attributes().begin();
 		for (int i = 0; i < MAX_INPUTS; ++i, ++attribute)
@@ -36,7 +36,7 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 	scheme = 0;
 	pugi::xml_node keyboard_schemes_node = md_config.child("schemes").child("keyboard_schemes");
 	for (pugi::xml_node_iterator it = keyboard_schemes_node.children().begin(); it != keyboard_schemes_node.children().end(); ++it, ++scheme) {
-		keyboard_schemes[scheme] = keyboard_scheme(it->name());
+		keyboard_schemes[scheme] = generic_scheme(it->name());
 
 		pugi::xml_attribute_iterator attribute = it->attributes().begin();
 		for (int i = 0; i < MAX_INPUTS; ++i, ++attribute)

@@ -27,6 +27,9 @@ private:
 	Buttons* back = nullptr;
 
 	Labels* l_curr_player = nullptr;
+	Labels* l_default = nullptr;
+	Labels* l_back = nullptr;
+	Labels* l_save_controls = nullptr;
 	Labels* l_up_control = nullptr;
 	Labels* l_down_control = nullptr;
 	Labels* l_left_control = nullptr;
@@ -54,6 +57,7 @@ private:
 	SDL_Rect right_button_rect;
 	SDL_Rect down_button_rect;
 
+	int curr_player;
 
 	bool player1 = true;
 	bool controller = true;

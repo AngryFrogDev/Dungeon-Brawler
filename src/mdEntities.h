@@ -7,20 +7,14 @@
 #define MAX_KEYS 300
 
 
-struct controller_scheme {
-	CONTROLLER_BUTTON scheme[CHARACTER_INPUTS::MAX_INPUTS];
+struct generic_scheme {
+	int scheme[CHARACTER_INPUTS::MAX_INPUTS];
 	std::string name;
 
-	controller_scheme() : name("") {}
-	controller_scheme(std::string name) : name(name){}
+	generic_scheme() : name("") {}
+	generic_scheme(std::string name) : name(name) {}
 };
-struct keyboard_scheme {
-	SDL_Scancode scheme[CHARACTER_INPUTS::MAX_INPUTS];
-	std::string name;
 
-	keyboard_scheme() : name("") {}
-	keyboard_scheme(std::string name) : name(name) {}
-};
 struct character_deff {
 	CHAR_TYPE type;
 	int scale;
@@ -147,8 +141,8 @@ public:
 
 public:
 	Player * players[2]; 
-	controller_scheme controller_schemes[3];
-	keyboard_scheme	 keyboard_schemes[3];
+	generic_scheme controller_schemes[3];
+	generic_scheme	 keyboard_schemes[3];
 	KEY_STATE attack_input; 
 
 private:
