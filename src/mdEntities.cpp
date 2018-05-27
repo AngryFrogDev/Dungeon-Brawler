@@ -647,3 +647,45 @@ void mdEntities::setStopped(bool active) {
 		}
 	}
 }
+
+void mdEntities::saveSchemes() {
+
+	pugi::xml_document config_file;
+	pugi::xml_node config;
+	config = App->loadConfig("config.xml", config_file);
+
+	config = config.child("entities").child("schemes");
+	pugi::xml_node schemes = config.child("controller_schemes");
+	int scheme = 0;
+	for (pugi::xml_node_iterator it = schemes.children().begin(); it != schemes.children().end(); ++it) {
+		std::string name = it->name();
+
+		if (name == "default_controller")
+			continue;
+		else if (name == "player1_controller")
+			scheme = 1;
+		else if (name == "player2_controller")
+			scheme = 2;
+
+		pugi::xml_attribute_iterator attribute = it->attributes().begin();
+		for (int i = 0; i < MAX_INPUTS; ++i, ++attribute)
+			attribute->set_value(controller_schemes[scheme].scheme[i]);
+	}
+
+	pugi::xml_node schemes = config.child("keyboard_schemes");
+	int scheme = 0;
+	for (pugi::xml_node_iterator it = schemes.children().begin(); it != schemes.children().end(); ++it) {
+		std::string name = it->name();
+
+		if (name == "default_keyboard")
+			continue;
+		else if (name == "player1_keyboard")
+			scheme = 1;
+		else if (name == "player2_keyboard")
+			scheme = 2;
+
+		pugi::xml_attribute_iterator attribute = it->attributes().begin();
+		for (int i = 0; i < MAX_INPUTS; ++i, ++attribute)
+			attribute->set_value(keyboard_schemes[scheme].scheme[i]);
+	}
+}
