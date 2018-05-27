@@ -125,7 +125,6 @@ public:
 
 	void destroyCharacters();
 	
-	void assignControls();
 	void assignControllers();
 
 	bool moveCamera(bool movingLeft);
@@ -146,8 +145,8 @@ public:
 
 public:
 	Player * players[2]; 
-	std::list<controller_scheme> controller_schemes;
-	std::list<keyboard_scheme>	 keyboard_schemes;
+	controller_scheme controller_schemes[3];
+	keyboard_scheme	 keyboard_schemes[3];
 	KEY_STATE attack_input; 
 
 private:

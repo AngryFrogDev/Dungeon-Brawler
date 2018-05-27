@@ -79,14 +79,19 @@
 		<axis tolerance="0.2"/>
 	</input>
 	<entities>
-    <settings attack_type ="key_repeat"/>
+		<settings attack_type ="key_repeat"/>
 		<schemes>
-      <controller_schemes>
-			  <default_controller up="11" down="12" left="13"   right="14"  light_attack="0" heavy_attack="1"  special_1="10" special_2="9"  grab="3"  start="6" />
-      </controller_schemes>
-      <keyboard_schemes>
-       <default_keyboard   up="82" down="81" left="80"   right="79"  light_attack="4" heavy_attack="22" special_1="29" special_2="27" grab="7"  start="41"/>
-      </keyboard_schemes>
+			<controller_schemes>
+				<default_controller up="11" down="12" left="13"   right="14"  light_attack="0" heavy_attack="1"  special_1="10" special_2="9"  grab="3"  start="6" />
+				<player1_controller up="11" down="12" left="13"   right="14"  light_attack="0" heavy_attack="1"  special_1="10" special_2="9"  grab="3"  start="6" />
+				<player2_controller up="11" down="12" left="13"   right="14"  light_attack="0" heavy_attack="1"  special_1="10" special_2="9"  grab="3"  start="6" />
+			</controller_schemes>
+			<keyboard_schemes>
+				<default_keyboard up="82" down="81" left="80"   right="79"  light_attack="4" heavy_attack="22" special_1="29" special_2="27" grab="7"  start="41"/>
+				<player1_keyboard up="82" down="81" left="80"   right="79"  light_attack="4" heavy_attack="22" special_1="29" special_2="27" grab="7"  start="41"/>
+				<player2_keyboard up="82" down="81" left="80"   right="79"  light_attack="4" heavy_attack="22" special_1="29" special_2="27" grab="7"  start="41"/>
+
+			</keyboard_schemes>
 		</schemes>
 	</entities>
 	<audio>

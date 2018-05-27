@@ -23,22 +23,24 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 
 	//Load controller schemes
 	pugi::xml_node controller_schemes_node = md_config.child("schemes").child("controller_schemes");
-	for (pugi::xml_node_iterator it = controller_schemes_node.children().begin(); it != controller_schemes_node.children().end(); ++it) {
-		controller_scheme new_scheme = controller_scheme(it->name());
+	int scheme = 0;
+	for (pugi::xml_node_iterator it = controller_schemes_node.children().begin(); it != controller_schemes_node.children().end(); ++it, ++scheme) {
+		controller_schemes[scheme] = controller_scheme(it->name());
+		
 		pugi::xml_attribute_iterator attribute = it->attributes().begin();
 		for (int i = 0; i < MAX_INPUTS; ++i, ++attribute)
-			new_scheme.scheme[i] = (CONTROLLER_BUTTON)attribute->as_int();
-		controller_schemes.push_back(new_scheme);
+			controller_schemes[scheme].scheme[i] = (CONTROLLER_BUTTON)attribute->as_int();
 	}
 
 	//Load keyboard schemes
+	scheme = 0;
 	pugi::xml_node keyboard_schemes_node = md_config.child("schemes").child("keyboard_schemes");
-	for (pugi::xml_node_iterator it = keyboard_schemes_node.children().begin(); it != keyboard_schemes_node.children().end(); ++it) {
-		keyboard_scheme new_scheme = keyboard_scheme(it->name());
+	for (pugi::xml_node_iterator it = keyboard_schemes_node.children().begin(); it != keyboard_schemes_node.children().end(); ++it, ++scheme) {
+		keyboard_schemes[scheme] = keyboard_scheme(it->name());
+
 		pugi::xml_attribute_iterator attribute = it->attributes().begin();
 		for (int i = 0; i < MAX_INPUTS; ++i, ++attribute)
-			new_scheme.scheme[i] = (SDL_Scancode)attribute->as_int();
-		keyboard_schemes.push_back(new_scheme);
+			keyboard_schemes[scheme].scheme[i] = (SDL_Scancode)attribute->as_int();
 	}
 	std::string name = md_config.child("settings").attribute("attack_type").as_string();
 	attack_input = stringToKeystate(name);
@@ -179,8 +181,8 @@ void mdEntities::createPlayer(int player) {
 
 	if (players[player] == nullptr){
 		players[player] = new Player();
-		players[player]->assignControlScheme(controller_schemes.front());
-		players[player]->assignKeyboardScheme(keyboard_schemes.front());
+		players[player]->assignControlScheme(&controller_schemes[player + 1]);
+		players[player]->assignKeyboardScheme(&keyboard_schemes[player + 1]);
 	}
 }
 
@@ -189,20 +191,6 @@ void mdEntities::destroyCharacters() {
 	for (int i = 0; i < 2; i++) {
 		delete players[i];
 		players[i] = nullptr;
-	}
-}
-
-void mdEntities::assignControls()
-{
-	//PROVISIONAL: HARDCODE
-	if (players[0] != nullptr){
-		players[0]->assignControlScheme(controller_schemes.front());
-		players[0]->assignKeyboardScheme(keyboard_schemes.front());
-	}
-
-	if (players[1] != nullptr){
-		players[1]->assignControlScheme(controller_schemes.front());
-		players[1]->assignKeyboardScheme(keyboard_schemes.front());
 	}
 }
 
