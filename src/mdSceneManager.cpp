@@ -14,6 +14,7 @@
 #include "combatScene.h"
 #include "characterSelScene.h"
 #include "settingsScene.h"
+#include "controlsScene.h"
 #include "stageSelScene.h"
 
 
@@ -25,6 +26,7 @@ mdSceneManager::mdSceneManager()	{
 	start_scene = new startScene(true);
 	main_scene = new mainScene(false);
 	settings_scene = new settingsScene(false);
+	controls_scene = new controlsScene(false);
 	char_sel_scene = new characterSelScene(false);
 	combat_scene = new combatScene(false);
 	stage_sel_scene = new stageSelScene(false);
@@ -32,6 +34,7 @@ mdSceneManager::mdSceneManager()	{
 	scene_list.push_back(start_scene);
 	scene_list.push_back(main_scene);
 	scene_list.push_back(settings_scene);
+	scene_list.push_back(controls_scene);
 	scene_list.push_back(char_sel_scene);
 	scene_list.push_back(combat_scene);
 	scene_list.push_back(stage_sel_scene);
