@@ -993,7 +993,7 @@
 	miss_parry_recovery ="500"
 
 	st_s2_speed ="4"
-	st_s2_invencivility ="400"
+	st_s2_invencivility ="200"
 
 	hammer_duration ="1000"
 	hammer_speed_x ="16"
