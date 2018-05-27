@@ -6,6 +6,7 @@
 #include "mdSceneManager.h"
 #include "mdEntities.h"
 #include "mdRender.h"
+#include <map>
 
 
 controlsScene::controlsScene(bool active) : scene(MAIN_SCENE) {
@@ -109,7 +110,7 @@ bool controlsScene::update(float dt) {
 	App->render->drawSprite(4, controls_texture, 800 + 597, 105, &rb_button_rect, 2, false, 0, 0, 0, 0, false);
 	if (App->input->isButtonState(BUTTON_LEFTSHOULDER, KEY_DOWN)) {
 		player1 = !player1;
-		l_curr_player->changeContent(player1 ? "Player 1" : "Player 2", { 255, 255, 255 });
+		l_curr_player->changeContent(player1 ? "Player 1" : "Player 2", l_curr_player->color);
 		curr_player = player1 ? 1 : 2;
 	}
 	if (App->input->isButtonState(BUTTON_RIGHTSHOULDER, KEY_DOWN)) 
@@ -158,19 +159,94 @@ void controlsScene::loadSceneUi() {
 	resolution_width = config.child("window").child("resolution").attribute("width").as_int();
 	resolution_height = config.child("window").child("resolution").attribute("height").as_int();
 
-	default_controls = (Buttons*)App->gui->createButton(DEFAULT_CONTROLS, MEDIUM, 0, { resolution_width / 2 + 20, 215 }, this);
-	save_controls = (Buttons*)App->gui->createButton(SAVE_CONTROLS, MEDIUM, 0, { resolution_width / 2 - 200, 850 }, this);
-	back = (Buttons*)App->gui->createButton(BACK, MEDIUM, 0, { resolution_width / 2 + 245, 850 }, this);
+	default_controls = (Buttons*)App->gui->createButton(DEFAULT_CONTROLS, MEDIUM, 0, { resolution_width / 2 + 20, 165 }, this);
+	b_up_control = (Buttons*)App->gui->createButton(B_UP, MEDIUM, 0, { resolution_width / 2 + 20, 265 }, this);
+	b_down_control = (Buttons*)App->gui->createButton(B_DOWN, MEDIUM, 0, { resolution_width / 2 + 20, 330 }, this);
+	b_left_control = (Buttons*)App->gui->createButton(B_LEFT, MEDIUM, 0, { resolution_width / 2 + 20, 395 }, this);
+	b_right_control = (Buttons*)App->gui->createButton(B_RIGHT, MEDIUM, 0, { resolution_width / 2 + 20, 460 }, this);
+	b_light_attack_control = (Buttons*)App->gui->createButton(B_LIGHT_ATTACK, MEDIUM, 0, { resolution_width / 2 + 20, 525 }, this);
+	b_heavy_attack_control = (Buttons*)App->gui->createButton(B_HEAVY_ATTACK, MEDIUM, 0, { resolution_width / 2 + 20, 590 }, this);
+	b_special_1_control = (Buttons*)App->gui->createButton(B_SPECIAL_1, MEDIUM, 0, { resolution_width / 2 + 20, 655 }, this);
+	b_special_2_control = (Buttons*)App->gui->createButton(B_SPECIAL_2, MEDIUM, 0, { resolution_width / 2 + 20, 720 }, this);
+	b_grab_control = (Buttons*)App->gui->createButton(B_GRAB, MEDIUM, 0, { resolution_width / 2 + 20, 785 }, this);
+	save_controls = (Buttons*)App->gui->createButton(SAVE_CONTROLS, MEDIUM, 0, { resolution_width / 2 - 200, 900 }, this);
+	back = (Buttons*)App->gui->createButton(BACK, MEDIUM, 0, { resolution_width / 2 + 245, 900 }, this);
 
-	l_default = (Labels*)App->gui->createLabel("Default", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + modx + 25, 225 }, this);
-	l_save_controls = (Labels*)App->gui->createLabel("Save All", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 - 200 + modx , 860 }, this);
-	l_back = (Labels*)App->gui->createLabel("Back", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 245 + modx + 35, 860 }, this);
+
+	l_default = (Labels*)App->gui->createLabel("Default", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + modx + 25, 175 }, this);
+	l_save_controls = (Labels*)App->gui->createLabel("Save All", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 - 200 + modx , 905 }, this);
+	l_back = (Labels*)App->gui->createLabel("Back", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 245 + modx + 35, 905 }, this);
+	l_up_control = (Labels*)App->gui->createLabel("Up", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 105, 265 + 7 }, this);
+	l_down_control = (Labels*)App->gui->createLabel("Down", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 80, 330 + 7 }, this);
+	l_left_control = (Labels*)App->gui->createLabel("Left", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 80, 395 + 7 }, this);
+	l_right_control = (Labels*)App->gui->createLabel("Right", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 75, 460 + 7 }, this);
+	l_light_attack_control = (Labels*)App->gui->createLabel("Light Att.", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 525 + 7 }, this);
+	l_heavy_attack_control = (Labels*)App->gui->createLabel("Heavy Att.", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 590 + 7 }, this);
+	l_special_1_control = (Labels*)App->gui->createLabel("Special 1", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 655 + 7 }, this);
+	l_special_2_control = (Labels*)App->gui->createLabel("Special 2", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 720 + 7 }, this);
+	l_grab_control = (Labels*)App->gui->createLabel("Grab", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 80, 785 + 6 }, this);
 
 	l_curr_player = (Labels*)App->gui->createLabel("Player 1", { 255, 255, 255  }, App->fonts->large_size, { resolution_width / 2 - resolution_width / 4 + modx, 90 + mody }, this);
+
+
 
 }
 
 void controlsScene::assignFocus() {
 	if (!App->gui->p1_focus_elements.empty())
 		App->entities->players[0]->focus = *App->gui->p1_focus_elements.begin();
+}
+
+void controlsScene::setUpScancodeList() {
+	//Numbers
+	scancode_names[SDL_SCANCODE_0] = "0";
+	scancode_names[SDL_SCANCODE_1] = "1";
+	scancode_names[SDL_SCANCODE_2] = "2";
+	scancode_names[SDL_SCANCODE_3] = "3";
+	scancode_names[SDL_SCANCODE_4] = "4";
+	scancode_names[SDL_SCANCODE_5] = "5";
+	scancode_names[SDL_SCANCODE_6] = "6";
+	scancode_names[SDL_SCANCODE_7] = "7";
+	scancode_names[SDL_SCANCODE_8] = "8";
+	scancode_names[SDL_SCANCODE_9] = "9";
+
+	//Letters
+	scancode_names[SDL_SCANCODE_Q] = "Q";
+	scancode_names[SDL_SCANCODE_W] = "W";
+	scancode_names[SDL_SCANCODE_E] = "E";
+	scancode_names[SDL_SCANCODE_R] = "R";
+	scancode_names[SDL_SCANCODE_T] = "T";
+	scancode_names[SDL_SCANCODE_Y] = "Y";
+	scancode_names[SDL_SCANCODE_U] = "U";
+	scancode_names[SDL_SCANCODE_I] = "I";
+	scancode_names[SDL_SCANCODE_O] = "O";
+	scancode_names[SDL_SCANCODE_P] = "P";
+
+	scancode_names[SDL_SCANCODE_A] = "A";
+	scancode_names[SDL_SCANCODE_S] = "S";
+	scancode_names[SDL_SCANCODE_D] = "D";
+	scancode_names[SDL_SCANCODE_F] = "F";
+	scancode_names[SDL_SCANCODE_G] = "G";
+	scancode_names[SDL_SCANCODE_H] = "H";
+	scancode_names[SDL_SCANCODE_J] = "J";
+	scancode_names[SDL_SCANCODE_K] = "K";
+	scancode_names[SDL_SCANCODE_L] = "L";
+
+	scancode_names[SDL_SCANCODE_Z] = "Z";
+	scancode_names[SDL_SCANCODE_X] = "X";
+	scancode_names[SDL_SCANCODE_C] = "C";
+	scancode_names[SDL_SCANCODE_V] = "V";
+	scancode_names[SDL_SCANCODE_B] = "B";
+	scancode_names[SDL_SCANCODE_N] = "N";
+	scancode_names[SDL_SCANCODE_M] = "M";
+	scancode_names[SDL_SCANCODE_COMMA] = ",";
+	scancode_names[SDL_SCANCODE_STOP] = ".";
+	scancode_names[SDL_SCANCODE_SLASH] = "-";
+
+	//Arrows
+	scancode_names[SDL_SCANCODE_LEFT] = "LEFT";
+	scancode_names[SDL_SCANCODE_RIGHT] = "RIGHT";
+	scancode_names[SDL_SCANCODE_UP] = "UP";
+	scancode_names[SDL_SCANCODE_DOWN] = "DOWN";
+
 }

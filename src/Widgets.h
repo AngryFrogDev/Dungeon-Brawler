@@ -51,7 +51,16 @@ enum button_types {
 	BACK,
 	PARALLAX,
 	DEFAULT_CONTROLS,
-	SAVE_CONTROLS
+	SAVE_CONTROLS,
+	B_UP,
+	B_DOWN,
+	B_LEFT,
+	B_RIGHT,
+	B_LIGHT_ATTACK,
+	B_HEAVY_ATTACK,
+	B_SPECIAL_1,
+	B_SPECIAL_2,
+	B_GRAB
 };
 
 enum button_size {

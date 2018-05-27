@@ -2,6 +2,7 @@
 #define __CONTROLSSCENE__
 
 #include "scene.h"
+#include <map>
 
 class controlsScene : public scene {
 public:
@@ -17,6 +18,7 @@ private:
 	bool onEvent(Buttons* button);
 	void loadSceneUi();
 	void assignFocus();
+	void setUpScancodeList();
 
 private:
 
@@ -26,10 +28,13 @@ private:
 	Buttons* default_controls = nullptr;
 	Buttons* back = nullptr;
 
+	Buttons* b_up = nullptr;
+
 	Labels* l_curr_player = nullptr;
 	Labels* l_default = nullptr;
 	Labels* l_back = nullptr;
 	Labels* l_save_controls = nullptr;
+
 	Labels* l_up_control = nullptr;
 	Labels* l_down_control = nullptr;
 	Labels* l_left_control = nullptr;
@@ -39,7 +44,28 @@ private:
 	Labels* l_special_1_control = nullptr;
 	Labels* l_special_2_control = nullptr;
 	Labels* l_grab_control = nullptr;
-	Labels* l_start_control = nullptr;
+
+	Labels* l_up_keyboard = nullptr;
+	Labels* l_down_keyboard = nullptr;
+	Labels* l_left_keyboard = nullptr;
+	Labels* l_right_keyboard = nullptr;
+	Labels* l_light_attack_keyboard = nullptr;
+	Labels* l_heavy_attack_keyboard = nullptr;
+	Labels* l_special_1_keyboard = nullptr;
+	Labels* l_special_2_keyboard = nullptr;
+	Labels* l_grab_keyboard = nullptr;
+
+	Buttons* b_up_control = nullptr;
+	Buttons* b_down_control = nullptr;
+	Buttons* b_left_control = nullptr;
+	Buttons* b_right_control = nullptr;
+	Buttons* b_light_attack_control = nullptr;
+	Buttons* b_heavy_attack_control = nullptr;
+	Buttons* b_special_1_control = nullptr;
+	Buttons* b_special_2_control = nullptr;
+	Buttons* b_grab_control = nullptr;
+
+	std::map<SDL_Scancode, std::string> scancode_names;
 
 	SDL_Texture* controls_texture = nullptr;
 	SDL_Rect controller_rect;
