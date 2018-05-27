@@ -20,6 +20,8 @@ private:
 
 private:
 
+	UiWindow * controls_window = nullptr;
+
 	Buttons* save_controls = nullptr;
 	Buttons* default_controls = nullptr;
 	Buttons* back = nullptr;
@@ -35,6 +37,23 @@ private:
 	Labels* l_special_2_control = nullptr;
 	Labels* l_grab_control = nullptr;
 	Labels* l_start_control = nullptr;
+
+	SDL_Texture* controls_texture = nullptr;
+	SDL_Rect controller_rect;
+	SDL_Rect keyboard_rect;
+	SDL_Rect a_button_rect;
+	SDL_Rect b_button_rect;
+	SDL_Rect x_button_rect;
+	SDL_Rect y_button_rect;
+	SDL_Rect lb_button_rect;
+	SDL_Rect rb_button_rect;
+	SDL_Rect lt_button_rect;
+	SDL_Rect rt_button_rect;
+	SDL_Rect left_button_rect;
+	SDL_Rect up_button_rect;
+	SDL_Rect right_button_rect;
+	SDL_Rect down_button_rect;
+
 
 	bool player1 = true;
 	bool controller = true;

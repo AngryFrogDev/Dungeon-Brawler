@@ -5,6 +5,7 @@
 #include "mdGuiManager.h"
 #include "mdSceneManager.h"
 #include "mdEntities.h"
+#include "mdRender.h"
 
 
 controlsScene::controlsScene(bool active) : scene(MAIN_SCENE) {
@@ -17,14 +18,95 @@ controlsScene::~controlsScene() {
 }
 
 bool controlsScene::start() {
+	if (!loaded) {
+		controls_texture = App->textures->load("gui/controls.png");
+	}
+
 	loadSceneUi();
 	assignFocus();
+
+	controller_rect.x = 0; 
+	controller_rect.y = 0;
+	controller_rect.w = 116;
+	controller_rect.h = 80;
+
+	keyboard_rect.x = 120;
+	keyboard_rect.y = 0;
+	keyboard_rect.w = 116;
+	keyboard_rect.h = 80;
+
+	a_button_rect.x = 0;
+	a_button_rect.y = 84;
+	a_button_rect.w = 40;
+	a_button_rect.h = 40;
+
+	b_button_rect.x = 40;
+	b_button_rect.y = 84;
+	b_button_rect.w = 40;
+	b_button_rect.h = 40;
+
+	x_button_rect.x = 80;
+	x_button_rect.y = 84;
+	x_button_rect.w = 40;
+	x_button_rect.h = 40;
+
+	y_button_rect.x = 120;
+	y_button_rect.y = 84;
+	y_button_rect.w = 40;
+	y_button_rect.h = 40;
+
+	lb_button_rect.x = 0;
+	lb_button_rect.y = 140;
+	lb_button_rect.w = 48;
+	lb_button_rect.h = 40;
+
+	rb_button_rect.x = 48;
+	rb_button_rect.y = 140;
+	rb_button_rect.w = 48;
+	rb_button_rect.h = 40;
+
+	lt_button_rect.x = 96;
+	lt_button_rect.y = 140;
+	lt_button_rect.w = 48;
+	lt_button_rect.h = 40;
+	 
+	rt_button_rect.x = 144;
+	rt_button_rect.y = 140;
+	rt_button_rect.w = 48;
+	rt_button_rect.h = 40;
+
+	left_button_rect.x = 0;
+	left_button_rect.y = 184;
+	left_button_rect.w = 40;
+	left_button_rect.h = 40;
+
+	up_button_rect.x = 40;
+	up_button_rect.y = 184;
+	up_button_rect.w = 40;
+	up_button_rect.h = 40;
+
+	right_button_rect.x = 80;
+	right_button_rect.y = 184;
+	right_button_rect.w = 40;
+	right_button_rect.h = 40;
+
+	down_button_rect.x = 120;
+	down_button_rect.y = 184;
+	down_button_rect.w = 40;
+	down_button_rect.h = 40;
 	return true;
 }
 
 bool controlsScene::update(float dt) {
 	App->gui->draw();
 
+	App->render->drawSprite(4, controls_texture, 330, 155, &lb_button_rect, 2, false, 0, 0, 0, 0, false);
+	App->render->drawSprite(4, controls_texture, 640, 155, &rb_button_rect, 2, false, 0, 0, 0, 0, false);
+	if (App->input->isButtonState(SDL_CONTROLLER_BUTTON_RIGHTSHOULDER, KEY_DOWN) ||
+		App->input->isButtonState(SDL_CONTROLLER_BUTTON_LEFTSHOULDER, KEY_DOWN)) {
+		player1 = !player1;
+		l_curr_player->changeContent(player1 ? "Player 1" : "Player 2", { 255, 255, 255 });
+	}
 	return true;
 }
 
@@ -49,26 +131,6 @@ bool controlsScene::onEvent(Buttons* button) {
 	case SAVE_CONTROLS:
 		App->entities->saveSchemes();
 		break;
-	//case SFX_VOL_DOWN:
-	//	current_sfx_volume -= 8;
-	//	if (current_sfx_volume < 0)
-	//		current_sfx_volume = 0;
-	//	App->audio->sfxVolume(current_sfx_volume);
-	//	App->audio->playSFX(s_crouching_special_2);
-	//	break;
-	//case SFX_VOL_UP:
-	//	current_sfx_volume += 8;
-	//	if (current_sfx_volume > 128)
-	//		current_sfx_volume = 128;
-	//	App->audio->sfxVolume(current_sfx_volume);
-	//	App->audio->playSFX(s_crouching_special_2);
-	//	break;
-	//case COLLIDERS:
-	//	App->collision->debug = !App->collision->debug;
-	//	break;
-	//case PARALLAX:
-	//	App->map->parallax = !App->map->parallax;
-	//	break;
 	case BACK:
 		App->scene_manager->changeScene(App->scene_manager->settings_scene, this);
 	}
@@ -86,21 +148,17 @@ void controlsScene::loadSceneUi() {
 	int modx = 40;
 
 	// Provisional: Positions should be loaded from XML
-	default_controls = (Buttons*)App->gui->createButton(DEFAULT_CONTROLS, MEDIUM, 0, { config.child("window").child("resolution").attribute("width").as_int() / 2 - 350, 265 }, this);
-	save_controls = (Buttons*)App->gui->createButton(SAVE_CONTROLS, MEDIUM, 0, { config.child("window").child("resolution").attribute("width").as_int() / 2 + 410, 265 }, this);
-	back = (Buttons*)App->gui->createButton(BACK, MEDIUM, 0, { config.child("window").child("resolution").attribute("width").as_int() / 2 + 20, 850 }, this);
-	/*sfx_down = (Buttons*)App->gui->createButton(SFX_VOL_DOWN, MEDIUM, 0, { config.child("window").child("resolution").attribute("width").as_int() / 2 - 350, 425 }, this);
-	sfx_up = (Buttons*)App->gui->createButton(SFX_VOL_UP, MEDIUM, 0, { config.child("window").child("resolution").attribute("width").as_int() / 2 + 410, 425 }, this);
-	colliders = (Buttons*)App->gui->createButton(COLLIDERS, MEDIUM, 0, { config.child("window").child("resolution").attribute("width").as_int() / 2 + 20, 550 }, this);
-	parallax = (Buttons*)App->gui->createButton(PARALLAX, MEDIUM, 0, { config.child("window").child("resolution").attribute("width").as_int() / 2 + 20, 700 }, this);*/
-	// Provisional: Data should be loaded from XML
-	l_curr_player = (Labels*)App->gui->createLabel("Player 1", { 112, 62, 62 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 - 387 + modx, 240 + mody }, this);
-	/*l_music_up = (Labels*)App->gui->createLabel("Volume Up", { 112, 62, 62 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + 400 + modx, 240 + mody }, this);
-	l_sfx_down = (Labels*)App->gui->createLabel("SFX Down", { 112, 62, 62 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 - 350 + modx, 400 + mody }, this);
-	l_sfx_up = (Labels*)App->gui->createLabel("SFX Up", { 112, 62, 62 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + 430 + modx, 400 + mody }, this);
-	l_colliders = (Labels*)App->gui->createLabel("Colliders", { 112, 62, 62 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + modx + 10, 525 + mody }, this);
-	l_parallax = (Labels*)App->gui->createLabel("Parallax", { 112, 62, 62 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + modx + 20, 675 + mody }, this);
-	l_back = (Labels*)App->gui->createLabel("Back", { 112, 62, 62 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + modx + 60, 825 + mody }, this);*/
+
+	int resolution_width, resolution_height = 0;
+	resolution_width = config.child("window").child("resolution").attribute("width").as_int();
+	resolution_height = config.child("window").child("resolution").attribute("height").as_int();
+
+	default_controls = (Buttons*)App->gui->createButton(DEFAULT_CONTROLS, MEDIUM, 0, { resolution_width / 2 - 350, 265 }, this);
+	save_controls = (Buttons*)App->gui->createButton(SAVE_CONTROLS, MEDIUM, 0, { resolution_width / 2 + 410, 265 }, this);
+	back = (Buttons*)App->gui->createButton(BACK, MEDIUM, 0, { resolution_width / 2 + 20, 850 }, this);
+
+	l_curr_player = (Labels*)App->gui->createLabel("Player 1", { 255, 255, 255  }, App->fonts->large_size, { resolution_width / 2 - resolution_width / 4 + modx, 140 + mody }, this);
+
 }
 
 void controlsScene::assignFocus() {
