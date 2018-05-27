@@ -247,6 +247,8 @@ protected:
 	bool checkForSuper(int window);
 	// Combo counter
 	void blitComboCounter(); // Will need "int combo_counter_position(yet to create) and int combo_counter(already created)
+	void setLeftNumber(int current_counter);
+	void setRightNumber(int current_counter);
 
 protected:
 

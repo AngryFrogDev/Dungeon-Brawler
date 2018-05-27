@@ -101,8 +101,8 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	draw_position.y = calculateDrawPosition(0, draw_size.y * scale, false);
 
 	//Combo counter rects
-	left_number = { 265, 134, 12, 13 };
-	right_number = { 289, 147, 12, 13 };
+	left_number = { 265, 147, 12, 13 };
+	right_number = { 265, 147, 12, 13 };
 	letters = { 265, 162, 41, 12 };
 }
 
@@ -1323,25 +1323,13 @@ void Character::blitComboCounter(){
 		combo_counter_position = { 1700, 500 };
 	else
 		combo_counter_position = { 150, 500 };
-
+	
 	if (combo_counter > 1)
 	{
-		if (combo_counter < 10)
-		{
-			if (combo_counter > 2 && prev_combo_counter != combo_counter)
-				right_number.x += 12;
-		}
-
-		else
-		{
-			if (combo_counter == 10 && prev_combo_counter != combo_counter)
-				right_number.x -= 12 * 9;
-
-			if (prev_combo_counter != combo_counter)
-				left_number.x += 12;
-			if (left_number.y < 147)
-				left_number.y += 13;
-		}
+		if (prev_combo_counter != combo_counter)
+			setRightNumber(combo_counter);
+		if (combo_counter >= 10 && prev_combo_counter != combo_counter)
+			setLeftNumber(combo_counter);
 
 		App->render->drawSprite(10, App->gui->atlas, combo_counter_position.x, combo_counter_position.y, &letters, 4, false, 1.0f, 0, 0, 0, false);
 		App->render->drawSprite(10, App->gui->atlas, combo_counter_position.x - 80, combo_counter_position.y - 10, &right_number, 6, false, 1.0f, 0, 0, 0, false);
@@ -1350,7 +1338,16 @@ void Character::blitComboCounter(){
 		prev_combo_counter = combo_counter;
 	}
 	else
-		right_number.x = 289;
+		right_number.x = left_number.x = letters.x; //They share x	
+}
 
-	
+void Character::setLeftNumber(int current_counter)	{
+	int temp = (int)current_counter / 10;
+	left_number.x = letters.x + left_number.w * temp;
+}
+
+void Character::setRightNumber(int current_counter)	{
+	int temp = (int)current_counter / 10;
+	temp = current_counter - temp * 10;
+	right_number.x = letters.x + right_number.w * temp;
 }
