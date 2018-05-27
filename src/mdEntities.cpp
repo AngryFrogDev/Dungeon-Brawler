@@ -649,7 +649,7 @@ void mdEntities::setStopped(bool active) {
 }
 
 void mdEntities::saveSchemes() {
-
+/*
 	pugi::xml_document config_file;
 	pugi::xml_node config;
 	config = App->loadConfig("config.xml", config_file);
@@ -688,4 +688,5 @@ void mdEntities::saveSchemes() {
 		for (int i = 0; i < MAX_INPUTS; ++i, ++attribute)
 			attribute->set_value(keyboard_schemes[scheme].scheme[i]);
 	}
+	*/
 }

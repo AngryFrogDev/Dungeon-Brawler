@@ -899,6 +899,8 @@ void Character::resetCharacter()	{
 	crouching_hurtbox = false;
 	juggle_attacks_recieved.clear();
 	deleteAllHitboxes();
+	combo_counter = 0;
+	prev_combo_counter = 0;
 
 	specificCharacterReset();
 
@@ -1333,12 +1335,13 @@ void Character::blitComboCounter(){
 
 		App->render->drawSprite(10, App->gui->atlas, combo_counter_position.x, combo_counter_position.y, &letters, 4, false, 1.0f, 0, 0, 0, false);
 		App->render->drawSprite(10, App->gui->atlas, combo_counter_position.x - 80, combo_counter_position.y - 10, &right_number, 6, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(10, App->gui->atlas, combo_counter_position.x - 140, combo_counter_position.y - 10, &left_number, 6, false, 1.0f, 0, 0, 0, false);
+		if (combo_counter >= 10)
+			App->render->drawSprite(10, App->gui->atlas, combo_counter_position.x - 140, combo_counter_position.y - 10, &left_number, 6, false, 1.0f, 0, 0, 0, false);
 
 		prev_combo_counter = combo_counter;
 	}
 	else
-		right_number.x = left_number.x = letters.x; //They share x	
+		right_number.x = left_number.x = letters.x, prev_combo_counter = 0; //They share x	
 }
 
 void Character::setLeftNumber(int current_counter)	{

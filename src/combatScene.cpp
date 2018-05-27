@@ -618,7 +618,7 @@ void combatScene::checkTimers()	{
 		else
 			App->entities->players[0]->getCurrCharacter()->tauntFor(2), App->entities->players[1]->getCurrCharacter()->tauntFor(2), combat_end = &draw_announcer_rect;
 
-		if (taunt_timer.readSec() >= 3.5)
+		if (taunt_timer.readSec() >= 3.5 && taunt_timer.readSec() < 7)
 		{
 			App->render->drawSprite(10, announcer_textures, 450, 500, combat_end, 1, false, 1.0f, 0, 0, 0, false);
 			if (!sfx_played)

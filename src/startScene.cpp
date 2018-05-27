@@ -22,7 +22,7 @@ startScene::~startScene()
 bool startScene::start()	{
 	//PROVISIONAL: Should find another way to load all scene music
 	if (!loaded)
-		scene_music = App->audio->loadMusic("SFX/scene music/BGM_1.ogg"), loaded = true;
+		scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg"), loaded = true;
 
 	App->audio->playMusic(scene_music);
 	
