@@ -29,6 +29,9 @@ public:
 
 public:
 	bool re_play_music = false;
+	Mix_Music* map1_song;
+	Mix_Music* map2_song;
+	Mix_Music* map3_song;
 private:
 	std::list<Mix_Chunk*> sfxs;
 	std::list<Mix_Music*> musics;

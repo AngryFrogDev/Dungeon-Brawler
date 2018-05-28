@@ -37,6 +37,9 @@ bool mdAudio::awake(const pugi::xml_node & md_config) {
 
 	//playMusic(loadMusic("SFX/BGM_1.ogg")); // PROVISIONAL: Music should be loaded from de xml and stored in a variable
 	
+	map1_song = loadMusic("SFX/stage music/BGM_1.ogg");
+	map2_song = loadMusic("SFX/stage music/BGM_2.ogg");
+	map3_song = loadMusic("SFX/stage music/BGM_3.ogg");
 	sfxVolume(128);
 	musicVolume(128);
 

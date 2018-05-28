@@ -76,9 +76,17 @@ bool settingsScene::onEvent(Buttons* button) {
 		break;
 	case COLLIDERS:
 		App->collision->debug = !App->collision->debug;
+		if (!App->collision->debug)
+			l_colliders->setText("Colliders Off", { 112, 62, 62 }, App->fonts->medium_size);
+		else
+			l_colliders->setText("Colliders On", { 112, 62, 62 }, App->fonts->medium_size);
 		break;
 	case PARALLAX:
 		App->map->parallax = !App->map->parallax;
+		if (!App->map->parallax)
+			l_parallax->setText("Parallax Off", { 112, 62, 62 }, App->fonts->medium_size);
+		else
+			l_parallax->setText("Parallax On", { 112, 62, 62 }, App->fonts->medium_size);
 		break;
 	case SAVE_CONTROLS:
 		App->scene_manager->changeScene(App->scene_manager->controls_scene, this);
@@ -113,8 +121,8 @@ void settingsScene::loadSceneUi() {
 	l_music_up = (Labels*)App->gui->createLabel("Volume Up", { 112, 62, 62 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + 400 + modx, 140 + mody}, this);
 	l_sfx_down = (Labels*)App->gui->createLabel("SFX Down", { 112, 62, 62 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 - 350 + modx, 300 + mody }, this);
 	l_sfx_up = (Labels*)App->gui->createLabel("SFX Up", { 112, 62, 62 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + 430 + modx, 300 + mody }, this);
-	l_colliders = (Labels*)App->gui->createLabel("Colliders", { 112, 62, 62 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + modx + 10, 425 + mody }, this);
-	l_parallax = (Labels*)App->gui->createLabel("Parallax", { 112, 62, 62 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + modx + 20, 575 + mody }, this);
+	l_colliders = (Labels*)App->gui->createLabel("Colliders Off", { 112, 62, 62 }, App->fonts->medium_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + modx, 425 + mody + 5 }, this);
+	l_parallax = (Labels*)App->gui->createLabel("Parallax On", { 112, 62, 62 }, App->fonts->medium_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + modx + 5, 575 + mody + 5}, this);
 	l_controls = (Labels*)App->gui->createLabel("Controls", { 112, 62, 62 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + modx + 20, 725 + mody }, this);
 	l_back = (Labels*)App->gui->createLabel("Back", { 112, 62, 62 }, App->fonts->large_size, { config.child("window").child("resolution").attribute("width").as_int() / 2 + modx + 60, 875 + mody }, this);
 
