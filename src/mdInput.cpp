@@ -54,9 +54,13 @@ void Controller::popInput() {
 
 void Controller::pruneInput(uint milliseconds) {
 	while (!input_buffer.empty() && input_buffer.front().timestamp + milliseconds <= SDL_GetTicks()) {
-		popInput();
+		if (!input_buffer.empty())
+			input_buffer.pop_front();
 	}
-	for (int i = 0; i < BUTTON_MAX; ++i) 
+}
+
+void Controller::cleanInput() {
+	for (int i = 0; i < BUTTON_MAX; ++i)
 		buttons[i] = KEY_IDLE;
 }
 
@@ -295,7 +299,7 @@ SDL_Scancode mdInput::getLastKeyPressed() const {
 void mdInput::pruneControllerInputs(int id) {
 	for (std::list<Controller*>::const_iterator it = controllers.begin(); it != controllers.end(); ++it) {
 		if (id == -1 || (*it)->getControllerID() == id)
-			(*it)->pruneInput();
+			(*it)->cleanInput();
 	}
 }
 
