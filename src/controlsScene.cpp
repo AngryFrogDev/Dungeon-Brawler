@@ -394,6 +394,15 @@ void controlsScene::changeInput() {
 		}
 	}
 	else {
-		changing_buttons = false;
+		SDL_Scancode new_input = App->input->getLastKeyPressed();
+		if (scancode_names.find(new_input) != scancode_names.end()) {
+			for (int i = 0; i < MAX_INPUTS - 1; ++i)
+				if (App->entities->keyboard_schemes[curr_player].scheme[i] == new_input) {
+					App->entities->keyboard_schemes[curr_player].scheme[i] = App->entities->keyboard_schemes[curr_player].scheme[input_to_change];
+					App->entities->keyboard_schemes[curr_player].scheme[input_to_change] = new_input;
+					changing_buttons = false;
+					break;
+				}
+		}
 	}
 }

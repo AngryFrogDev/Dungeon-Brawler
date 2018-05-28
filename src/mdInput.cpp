@@ -281,7 +281,7 @@ std::list<Controller*> mdInput::getController(SDL_GameControllerButton button){
 	return ret;
 }
 
-SDL_Scancode mdInput::gtLastKeyPressed() const {
+SDL_Scancode mdInput::getLastKeyPressed() const {
 	SDL_Scancode ret = SDL_SCANCODE_UNKNOWN;
 
 	for (int i = 0; i < MAX_KEYS && ret == SDL_SCANCODE_UNKNOWN; ++i) {

@@ -100,7 +100,7 @@ public:
 	void pruneControllerInputs(int id = -1);
 	void pruneKeyboardInputs();
 	CONTROLLER_BUTTON getLastButtonPressed(int id = -1) const;
-	SDL_Scancode gtLastKeyPressed() const;
+	SDL_Scancode getLastKeyPressed() const;
 
 
 private:
