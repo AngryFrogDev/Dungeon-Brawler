@@ -5,6 +5,7 @@
 
 #include "SDL/include/SDL.h"
 
+struct Mix_Chunk;
 enum controller_events {
 	NO_EVENT = 0,
 	STILL,
@@ -42,7 +43,7 @@ private:
 	bool enabled = true;
 	bool is_clicked = false;
 
-	uint click_sfx;
+	Mix_Chunk* click_sfx;
 
 };
 #endif
