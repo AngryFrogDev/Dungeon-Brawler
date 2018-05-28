@@ -300,8 +300,8 @@ void characterSelScene::assignFocus()	{
 }
 
 void characterSelScene::checkSceneInput()	{
-	if (App->entities->players[0]->getController()->isPressed(BUTTON_B, KEY_DOWN) && !object_win_p1 && !object_win_p2 || App->entities->players[1]->getController()->isPressed(BUTTON_B, KEY_DOWN) && !object_win_p1 && !object_win_p2)
-		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
+//	if (App->entities->players[0]->getController()->isPressed(BUTTON_B, KEY_DOWN) && !object_win_p1 && !object_win_p2 || App->entities->players[1]->getController()->isPressed(BUTTON_B, KEY_DOWN) && !object_win_p1 && !object_win_p2)
+//		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
 	if (App->entities->players[0]->getInput(GRAB, KEY_DOWN) && object_win_p1)
 		closeP1Window();
 	if (App->entities->players[1]->getInput(GRAB, KEY_DOWN) && object_win_p2)

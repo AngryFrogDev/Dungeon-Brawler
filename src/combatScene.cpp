@@ -239,53 +239,51 @@ void combatScene::loadSceneTextures()	{
 		break;
 	}
 
-//	App->render->drawSprite(4, App->gui->atlas, 567, 70, &timer_rect, 2, 0, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 110, 100, &character1_rect, 3, false, 0, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 1570, 100, &character2_rect, 3, false, 0, 0, 0, 0, false);
-	App->render->drawSprite(4, App->gui->atlas, 119, 109, &character1_image, 3, false, 0, 0, 0, 0, false);
-	App->render->drawSprite(4, App->gui->atlas, 1579, 109, &character2_image, 3, true, 0, 0, 0, 0, false);
+	App->render->drawSprite(3, App->gui->atlas, 110, 50, &character1_rect, 3, false, 0, 0, 0, 0, false);
+	App->render->drawSprite(3, App->gui->atlas, 1570, 50, &character2_rect, 3, false, 0, 0, 0, 0, false);
+	App->render->drawSprite(4, App->gui->atlas, 119, 59, &character1_image, 3, false, 0, 0, 0, 0, false);
+	App->render->drawSprite(4, App->gui->atlas, 1579, 59, &character2_image, 3, true, 0, 0, 0, 0, false);
 
 	//ROUND INDICATORS
 	switch (p1_rounds_won)
 	{
 	case 0:
-		App->render->drawSprite(4, App->gui->atlas, 680, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(4, App->gui->atlas, 780, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 680, 215, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 780, 215, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
 		break;
 	case 1:
-		App->render->drawSprite(4, App->gui->atlas, 680, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(4, App->gui->atlas, 782, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 680, 215, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 782, 216, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
 		break;
 	case 2:
-		App->render->drawSprite(4, App->gui->atlas, 682, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(4, App->gui->atlas, 782, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 682, 216, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 782, 216, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
 		break;
 	}
 	switch (p2_rounds_won)
 	{
 	case 0:
-		App->render->drawSprite(4, App->gui->atlas, 1060, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(4, App->gui->atlas, 1160, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 1060, 215, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 1160, 215, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
 		break;
 	case 1:
-		App->render->drawSprite(4, App->gui->atlas, 1062, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(4, App->gui->atlas, 1160, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 1062, 216, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 1160, 215, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
 		break;
 	case 2:
-		App->render->drawSprite(4, App->gui->atlas, 1062, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(4, App->gui->atlas, 1162, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 1062, 216, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 1162, 216, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
 		break;
 	}
 
 	//TIMER 
-	App->render->drawSprite(5, timer_tex, 855, 105, &timer_rect, 5, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(5, timer_tex, 940, 170, &right_number, 6, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(5, timer_tex, 850, 170, &left_number, 6, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(5, timer_tex, 855, 55, &timer_rect, 5, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(5, timer_tex, 940, 120, &right_number, 6, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(5, timer_tex, 850, 120, &left_number, 6, false, 1.0f, 0, 0, 0, false);
 }
 
 void combatScene::setRects()	{
 	//PROVISIONAL
-//	timer_rect = { 421, 142, 59, 59 };
 	timer_rect = { 0, 40, 40, 20 };
 	left_number = { 180, 0, 20, 20 };
 	right_number = { 180, 0, 20, 20 };

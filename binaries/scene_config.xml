@@ -327,29 +327,26 @@
 			<pos x="400" y="400"/>
 		</window>
 		<labels>
-			<timer>
-				<color r="0" g="0" b="0" a="0"/>
-				<pos x="880" y="150"/>
-			</timer>
+			
 		</labels>
 		<bars>
 			<health_bar1>
-				<pos x="100" y="195"/>
+				<pos x="100" y="145"/>
 				<flip value="false"/>
 				<target_player value ="0"/>
 			</health_bar1>
 			<health_bar2>
-				<pos x="1030" y="195"/>
+				<pos x="1030" y="145"/>
 				<flip value="true"/>
 				<target_player value ="1"/>
 			</health_bar2>
 			<super_bar1>
-				<pos x="109" y="222"/>
+				<pos x="109" y="172"/>
 				<flip value="false"/>
 				<target_player value ="0"/>
 			</super_bar1>
 			<super_bar2>
-				<pos x="1271" y="222"/>
+				<pos x="1271" y="172"/>
 				<flip value="true"/>
 				<target_player value ="1"/>
 			</super_bar2>
