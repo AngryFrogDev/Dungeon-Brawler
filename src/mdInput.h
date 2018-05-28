@@ -97,6 +97,11 @@ public:
 	//Returns controllers that pressed button, if invalid button will return first controller.
 	std::list<Controller*> getController(SDL_GameControllerButton button = SDL_CONTROLLER_BUTTON_INVALID);
 
+	void pruneControllerInputs(int id = -1);
+	void pruneKeyboardInputs();
+	CONTROLLER_BUTTON getLastButtonPressed(int id = -1) const;
+	SDL_Scancode gtLastKeyPressed() const;
+
 
 private:
 	void handleAxes(const SDL_Event& event);

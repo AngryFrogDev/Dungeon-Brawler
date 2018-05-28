@@ -649,7 +649,7 @@ void mdEntities::setStopped(bool active) {
 }
 
 void mdEntities::saveSchemes() {
-/*
+
 	pugi::xml_document config_file;
 	pugi::xml_node config;
 	config = App->loadConfig("config.xml", config_file);
@@ -672,8 +672,7 @@ void mdEntities::saveSchemes() {
 			attribute->set_value(controller_schemes[scheme].scheme[i]);
 	}
 
-	pugi::xml_node schemes = config.child("keyboard_schemes");
-	int scheme = 0;
+	schemes = config.child("keyboard_schemes");
 	for (pugi::xml_node_iterator it = schemes.children().begin(); it != schemes.children().end(); ++it) {
 		std::string name = it->name();
 
@@ -688,5 +687,7 @@ void mdEntities::saveSchemes() {
 		for (int i = 0; i < MAX_INPUTS; ++i, ++attribute)
 			attribute->set_value(keyboard_schemes[scheme].scheme[i]);
 	}
-	*/
+
+	App->saveConfig("config.xml", config_file);
+	
 }

@@ -38,83 +38,90 @@ bool controlsScene::start() {
 	keyboard_rect.w = 116;
 	keyboard_rect.h = 80;
 
-	a_button_rect.x = 0;
-	a_button_rect.y = 84;
-	a_button_rect.w = 40;
-	a_button_rect.h = 40;
+	button_rects[BUTTON_A].x = 0;
+	button_rects[BUTTON_A].y = 84;
+	button_rects[BUTTON_A].w = 40;
+	button_rects[BUTTON_A].h = 40;
 
-	b_button_rect.x = 40;
-	b_button_rect.y = 84;
-	b_button_rect.w = 40;
-	b_button_rect.h = 40;
+	button_rects[BUTTON_B].x = 40;
+	button_rects[BUTTON_B].y = 84;
+	button_rects[BUTTON_B].w = 40;
+	button_rects[BUTTON_B].h = 40;
 
-	x_button_rect.x = 80;
-	x_button_rect.y = 84;
-	x_button_rect.w = 40;
-	x_button_rect.h = 40;
+	button_rects[BUTTON_X].x = 80;
+	button_rects[BUTTON_X].y = 84;
+	button_rects[BUTTON_X].w = 40;
+	button_rects[BUTTON_X].h = 40;
 
-	y_button_rect.x = 120;
-	y_button_rect.y = 84;
-	y_button_rect.w = 40;
-	y_button_rect.h = 40;
+	button_rects[BUTTON_Y].x = 120;
+	button_rects[BUTTON_Y].y = 84;
+	button_rects[BUTTON_Y].w = 40;
+	button_rects[BUTTON_Y].h = 40;
 
-	lb_button_rect.x = 0;
-	lb_button_rect.y = 140;
-	lb_button_rect.w = 48;
-	lb_button_rect.h = 40;
+	button_rects[BUTTON_LEFTSHOULDER].x = 0;
+	button_rects[BUTTON_LEFTSHOULDER].y = 140;
+	button_rects[BUTTON_LEFTSHOULDER].w = 48;
+	button_rects[BUTTON_LEFTSHOULDER].h = 40;
 
-	rb_button_rect.x = 48;
-	rb_button_rect.y = 140;
-	rb_button_rect.w = 48;
-	rb_button_rect.h = 40;
+	button_rects[BUTTON_RIGHTSHOULDER].x = 48;
+	button_rects[BUTTON_RIGHTSHOULDER].y = 140;
+	button_rects[BUTTON_RIGHTSHOULDER].w = 48;
+	button_rects[BUTTON_RIGHTSHOULDER].h = 40;
 
-	lt_button_rect.x = 96;
-	lt_button_rect.y = 140;
-	lt_button_rect.w = 48;
-	lt_button_rect.h = 40;
+	button_rects[AXIS_TRIGGERLEFT].x = 96;
+	button_rects[AXIS_TRIGGERLEFT].y = 140;
+	button_rects[AXIS_TRIGGERLEFT].w = 48;
+	button_rects[AXIS_TRIGGERLEFT].h = 40;
 	 
-	rt_button_rect.x = 144;
-	rt_button_rect.y = 140;
-	rt_button_rect.w = 48;
-	rt_button_rect.h = 40;
+	button_rects[AXIS_TRIGGERRIGHT].x = 144;
+	button_rects[AXIS_TRIGGERRIGHT].y = 140;
+	button_rects[AXIS_TRIGGERRIGHT].w = 48;
+	button_rects[AXIS_TRIGGERRIGHT].h = 40;
 
-	left_button_rect.x = 0;
-	left_button_rect.y = 184;
-	left_button_rect.w = 40;
-	left_button_rect.h = 40;
+	button_rects[BUTTON_DPAD_LEFT].x = 0;
+	button_rects[BUTTON_DPAD_LEFT].y = 184;
+	button_rects[BUTTON_DPAD_LEFT].w = 40;
+	button_rects[BUTTON_DPAD_LEFT].h = 40;
 
-	up_button_rect.x = 40;
-	up_button_rect.y = 184;
-	up_button_rect.w = 40;
-	up_button_rect.h = 40;
+	button_rects[BUTTON_DPAD_UP].x = 40;
+	button_rects[BUTTON_DPAD_UP].y = 184;
+	button_rects[BUTTON_DPAD_UP].w = 40;
+	button_rects[BUTTON_DPAD_UP].h = 40;
 
-	right_button_rect.x = 80;
-	right_button_rect.y = 184;
-	right_button_rect.w = 40;
-	right_button_rect.h = 40;
+	button_rects[BUTTON_DPAD_RIGHT].x = 80;
+	button_rects[BUTTON_DPAD_RIGHT].y = 184;
+	button_rects[BUTTON_DPAD_RIGHT].w = 40;
+	button_rects[BUTTON_DPAD_RIGHT].h = 40;
 
-	down_button_rect.x = 120;
-	down_button_rect.y = 184;
-	down_button_rect.w = 40;
-	down_button_rect.h = 40;
+	button_rects[BUTTON_DPAD_DOWN].x = 120;
+	button_rects[BUTTON_DPAD_DOWN].y = 184;
+	button_rects[BUTTON_DPAD_DOWN].w = 40;
+	button_rects[BUTTON_DPAD_DOWN].h = 40;
 	return true;
 }
 
 bool controlsScene::update(float dt) {
 	App->gui->draw();
 
-	App->render->drawSprite(4, controls_texture, 330, 105, &lb_button_rect, 2, false, 0, 0, 0, 0, false);
-
 	SDL_Rect* current_scheme_rect = controller ? &controller_rect : &keyboard_rect;
 	App->render->drawSprite(4, controls_texture, 800 + 471, 105, current_scheme_rect, 1, false, 0, 0, 0, 0, false);
-	App->render->drawSprite(4, controls_texture, 800 + 597, 105, &rb_button_rect, 2, false, 0, 0, 0, 0, false);
-	if (App->input->isButtonState(BUTTON_LEFTSHOULDER, KEY_DOWN)) {
-		player1 = !player1;
-		l_curr_player->changeContent(player1 ? "Player 1" : "Player 2", l_curr_player->color);
-		curr_player = player1 ? 1 : 2;
+
+	if (changing_buttons) {
+		changeInput();
 	}
-	if (App->input->isButtonState(BUTTON_RIGHTSHOULDER, KEY_DOWN)) 
-		controller = !controller;
+	else {
+		App->render->drawSprite(4, controls_texture, 330, 105, &button_rects[BUTTON_LEFTSHOULDER], 2, false, 0, 0, 0, 0, false);
+		App->render->drawSprite(4, controls_texture, 800 + 597, 105, &button_rects[BUTTON_RIGHTSHOULDER], 2, false, 0, 0, 0, 0, false);
+		if (App->input->isButtonState(BUTTON_LEFTSHOULDER, KEY_DOWN)) {
+			player1 = !player1;
+			l_curr_player->changeContent(player1 ? "Player 1" : "Player 2", l_curr_player->color);
+			curr_player = player1 ? 1 : 2;
+		}
+		if (App->input->isButtonState(BUTTON_RIGHTSHOULDER, KEY_DOWN))
+			controller = !controller;
+	}
+	if (controller)
+		drawControls();
 
 	return true;
 }
@@ -131,7 +138,7 @@ bool controlsScene::onEvent(Buttons* button) {
 	case DEFAULT_CONTROLS:
 		if (controller)
 			App->entities->controller_schemes[curr_player] = App->entities->controller_schemes[0];
-		else 
+		else
 			App->entities->keyboard_schemes[curr_player] = App->entities->keyboard_schemes[0];
 		break;
 	case SAVE_CONTROLS:
@@ -139,6 +146,98 @@ bool controlsScene::onEvent(Buttons* button) {
 		break;
 	case BACK:
 		App->scene_manager->changeScene(App->scene_manager->settings_scene, this);
+		break;
+	case B_UP:
+		if (!changing_buttons) {
+		changing_buttons = true;
+		input_to_change = CHARACTER_INPUTS::UP;
+		if (controller)
+			App->input->pruneControllerInputs();
+		else
+			App->input->pruneKeyboardInputs();
+		}
+		break;
+	case B_DOWN:
+		if (!changing_buttons) {
+			changing_buttons = true;
+			input_to_change = CHARACTER_INPUTS::DOWN;
+			if (controller)
+				App->input->pruneControllerInputs();
+			else
+				App->input->pruneKeyboardInputs();
+		}
+		break;
+	case B_LEFT:
+		if (!changing_buttons) {
+			changing_buttons = true;
+			input_to_change = CHARACTER_INPUTS::LEFT;
+			if (controller)
+				App->input->pruneControllerInputs();
+			else
+				App->input->pruneKeyboardInputs();
+		}
+		break;
+	case B_RIGHT:
+		if (!changing_buttons) {
+			changing_buttons = true;
+			input_to_change = CHARACTER_INPUTS::RIGHT;
+			if (controller)
+				App->input->pruneControllerInputs();
+			else
+				App->input->pruneKeyboardInputs();
+		}
+		break;
+	case B_LIGHT_ATTACK:
+		if (!changing_buttons) {
+			changing_buttons = true;
+			input_to_change = CHARACTER_INPUTS::LIGHT_ATTACK;
+			if (controller)
+				App->input->pruneControllerInputs();
+			else
+				App->input->pruneKeyboardInputs();
+		}
+		break;
+
+	case B_HEAVY_ATTACK:
+		if (!changing_buttons) {
+			changing_buttons = true;
+			input_to_change = CHARACTER_INPUTS::HEAVY_ATTACK;
+			if (controller)
+				App->input->pruneControllerInputs();
+			else
+				App->input->pruneKeyboardInputs();
+		}
+		break;
+	case SPECIAL_1:
+		if (!changing_buttons) {
+			changing_buttons = true;
+			input_to_change = CHARACTER_INPUTS::SPECIAL_1;
+			if (controller)
+				App->input->pruneControllerInputs();
+			else
+				App->input->pruneKeyboardInputs();
+		}
+		break;
+	case SPECIAL_2:
+		if (!changing_buttons) {
+			changing_buttons = true;
+			input_to_change = CHARACTER_INPUTS::SPECIAL_2;
+			if (controller)
+				App->input->pruneControllerInputs();
+			else
+				App->input->pruneKeyboardInputs();
+		}
+		break;
+	case GRAB:
+		if (!changing_buttons) {
+			changing_buttons = true;
+			input_to_change = CHARACTER_INPUTS::GRAB;
+			if (controller)
+				App->input->pruneControllerInputs();
+			else
+				App->input->pruneKeyboardInputs();
+		}
+		break;
 	}
 
 	return ret;
@@ -174,7 +273,7 @@ void controlsScene::loadSceneUi() {
 
 
 	l_default = (Labels*)App->gui->createLabel("Default", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + modx + 25, 175 }, this);
-	l_save_controls = (Labels*)App->gui->createLabel("Save All", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 - 200 + modx , 905 }, this);
+	l_save_controls = (Labels*)App->gui->createLabel("Save It", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 - 200 + modx , 905 }, this);
 	l_back = (Labels*)App->gui->createLabel("Back", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 245 + modx + 35, 905 }, this);
 	l_up_control = (Labels*)App->gui->createLabel("Up", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 105, 265 + 7 }, this);
 	l_down_control = (Labels*)App->gui->createLabel("Down", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 80, 330 + 7 }, this);
@@ -185,6 +284,26 @@ void controlsScene::loadSceneUi() {
 	l_special_1_control = (Labels*)App->gui->createLabel("Special 1", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 655 + 7 }, this);
 	l_special_2_control = (Labels*)App->gui->createLabel("Special 2", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 720 + 7 }, this);
 	l_grab_control = (Labels*)App->gui->createLabel("Grab", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 80, 785 + 6 }, this);
+
+	l_up_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 105, 265 + 7 }, this);
+	l_down_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 80, 330 + 7 }, this);
+	l_left_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 80, 395 + 7 }, this);
+	l_right_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 75, 460 + 7 }, this);
+	l_light_attack_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 525 + 7 }, this);
+	l_heavy_attack_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 590 + 7 }, this);
+	l_special_1_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 655 + 7 }, this);
+	l_special_2_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 720 + 7 }, this);
+	l_grab_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 80, 785 + 6 }, this);
+
+	l_up_keyboard->to_blit = false;
+	l_down_keyboard->to_blit = false;
+	l_left_keyboard->to_blit = false;
+	l_right_keyboard->to_blit = false;
+	l_light_attack_keyboard->to_blit = false;
+	l_heavy_attack_keyboard->to_blit = false;
+	l_special_1_keyboard->to_blit = false;
+	l_special_2_keyboard->to_blit = false;
+	l_grab_keyboard->to_blit = false;
 
 	l_curr_player = (Labels*)App->gui->createLabel("Player 1", { 255, 255, 255  }, App->fonts->large_size, { resolution_width / 2 - resolution_width / 4 + modx, 90 + mody }, this);
 
@@ -249,4 +368,32 @@ void controlsScene::setUpScancodeList() {
 	scancode_names[SDL_SCANCODE_UP] = "UP";
 	scancode_names[SDL_SCANCODE_DOWN] = "DOWN";
 
+}
+
+void controlsScene::drawControls() {
+	int curr_y = 265;
+	for (int i = 0; i < CHARACTER_INPUTS::MAX_INPUTS - 1; ++i, curr_y += 65) {
+		if (changing_buttons && i == input_to_change)
+			continue;
+		CONTROLLER_BUTTON curr_input = (CONTROLLER_BUTTON)App->entities->controller_schemes[curr_player].scheme[i];
+		App->render->drawSprite(4, controls_texture, 1130, curr_y, &button_rects[curr_input], 1.5, false, 0, 0, 0, 0, false);
+	}
+}
+
+void controlsScene::changeInput() {
+	if (controller) {
+		CONTROLLER_BUTTON new_input = App->input->getLastButtonPressed();
+		if (new_input != BUTTON_INVALID) {
+			for (int i = 0; i < MAX_INPUTS - 1; ++i)
+				if (App->entities->controller_schemes[curr_player].scheme[i] == new_input) {
+					App->entities->controller_schemes[curr_player].scheme[i] = App->entities->controller_schemes[curr_player].scheme[input_to_change];
+					App->entities->controller_schemes[curr_player].scheme[input_to_change] = new_input;
+					changing_buttons = false;
+					break;
+				}
+		}
+	}
+	else {
+		changing_buttons = false;
+	}
 }

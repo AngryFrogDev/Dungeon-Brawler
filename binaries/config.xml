@@ -1,96 +1,93 @@
 <?xml version="1.0"?>
 <config>
-  <items player_1_item ="false" player_2_item ="true"/>
+	<items player_1_item="false" player_2_item="true" />
 	<application>
 		<framerate_cap>60</framerate_cap>
 		<product name="Dungeon Brawler" />
 		<organization>Angry Frogs</organization>
 	</application>
 	<window>
-		<resolution width="1600" height="900"/>
+		<resolution width="1600" height="900" />
 		<fullscreen value="false" />
 		<borderless value="false" />
 		<resizable value="false" />
 		<fullscreen_window value="false" />
 		<title>Dungeon Brawler</title>
 	</window>
-	<filesystem>
-	</filesystem>
-        <fonts>
-		<default path = "fonts/VCR_OSD_MONO_1.001.ttf"/>
-		<extra_large_font size = "100"/>
-		<large_font size = "40"/>
-    		<medium_font size = "30"/>
-    		<small_font size = "15"/>
+	<filesystem />
+	<fonts>
+		<default path="fonts/VCR_OSD_MONO_1.001.ttf" />
+		<extra_large_font size="100" />
+		<large_font size="40" />
+		<medium_font size="30" />
+		<small_font size="15" />
 	</fonts>
 	<gui>
-		<atlas file="gui/GUI_placeholder_WIP.png"/>
-		<window_rect x="165" y="219" w="160" h="139"/>
+		<atlas file="gui/GUI_placeholder_WIP.png" />
+		<window_rect x="165" y="219" w="160" h="139" />
 		<button_section>
 			<big>
-				<still x="421" y="10" w="114" h="31"/>
-				<focused x="421" y="48" w="114" h="31"/>
-				<clicked x="421" y="94" w="114" h="31"/>
+				<still x="421" y="10" w="114" h="31" />
+				<focused x="421" y="48" w="114" h="31" />
+				<clicked x="421" y="94" w="114" h="31" />
 			</big>
 			<medium>
-				<still x="6" y="245" w="90" h="21"/>
-				<focused x="6" y="219" w="90" h="21"/>
-				<clicked x="6" y="272" w="90" h="21"/>	
+				<still x="6" y="245" w="90" h="21" />
+				<focused x="6" y="219" w="90" h="21" />
+				<clicked x="6" y="272" w="90" h="21" />
 			</medium>
-			<small>
-			</small>
+			<small />
 			<char_sel>
-				<still x="6" y="372" w="62" h="30"/>
-				<focused x="6" y="301" w="64" h="32"/>
-				<clicked x="6" y="335" w="64" h="32"/>	
+				<still x="6" y="372" w="62" h="30" />
+				<focused x="6" y="301" w="64" h="32" />
+				<clicked x="6" y="335" w="64" h="32" />
 			</char_sel>
 			<obj_sel>
-				<still x="340" y="373" w="197" h="71"/>
-				<focused x="340" y="219" w="199" h="73"/>
-				<clicked x="340" y="294" w="199" h="73"/>	
+				<still x="340" y="373" w="197" h="71" />
+				<focused x="340" y="219" w="199" h="73" />
+				<clicked x="340" y="294" w="199" h="73" />
 			</obj_sel>
 			<stage_sel>
-				<still x="0" y="0" w="0" h="0"/>
-				<focused x="113" y="373" w="126" h="68"/>
-				<clicked x="113" y="453" w="126" h="68"/>
+				<still x="0" y="0" w="0" h="0" />
+				<focused x="113" y="373" w="126" h="68" />
+				<clicked x="113" y="453" w="126" h="68" />
 			</stage_sel>
 		</button_section>
 		<bar_section>
 			<hp>
-				<border x="6" y="94" w="374" h="22"/>
-				<gauge x="6" y="10" w="370" h="18"/>
-				<mid_gauge x="6" y="38" w="370" h="18"/>
-				<low_gauge x="6" y="68" w="370" h="18"/>
+				<border x="6" y="94" w="374" h="22" />
+				<gauge x="6" y="10" w="370" h="18" />
+				<mid_gauge x="6" y="38" w="370" h="18" />
+				<low_gauge x="6" y="68" w="370" h="18" />
 			</hp>
 			<super>
-				<border x="6" y="152" w="249" h="8"/>
-				<gauge x="6" y="142" w="244" h="6"/>
-				<full_gauge x="6" y="132" w="244" h="6"/>
-				<sfx filename ="ready.wav"/>
+				<border x="6" y="152" w="249" h="8" />
+				<gauge x="6" y="142" w="244" h="6" />
+				<full_gauge x="6" y="132" w="244" h="6" />
+				<sfx filename="ready.wav" />
 			</super>
 			<volume>
-				<gauge x="296" y="468" w="244" h="18"/>
-				<full_gauge x="296" y="468" w="244" h="18"/>
+				<gauge x="296" y="468" w="244" h="18" />
+				<full_gauge x="296" y="468" w="244" h="18" />
 			</volume>
 		</bar_section>
 	</gui>
 	<input>
-		<buffer window="2000"/>
-		<axis tolerance="0.2"/>
+		<buffer window="2000" />
+		<axis tolerance="0.2" />
 	</input>
 	<entities>
-		<settings attack_type ="key_repeat"/>
+		<settings attack_type="key_repeat" />
 		<schemes>
 			<controller_schemes>
-				<default_controller up="11" down="12" left="13"   right="14"  light_attack="0" heavy_attack="1"  special_1="10" special_2="9"  grab="3"  start="6" />
-				<player1_controller up="11" down="12" left="13"   right="14"  light_attack="0" heavy_attack="1"  special_1="10" special_2="9"  grab="3"  start="6" />
-				<player2_controller up="11" down="12" left="13"   right="14"  light_attack="0" heavy_attack="1"  special_1="10" special_2="9"  grab="3"  start="6" />
+				<default_controller up="11" down="12" left="13" right="14" light_attack="0" heavy_attack="1" special_1="10" special_2="9" grab="3" start="6" />
+				<player1_controller up="11" down="12" left="13" right="14" light_attack="0" heavy_attack="1" special_1="10" special_2="9" grab="3" start="6" />
+				<player2_controller up="11" down="12" left="13" right="14" light_attack="0" heavy_attack="1" special_1="10" special_2="9" grab="3" start="6" />
 			</controller_schemes>
 			<keyboard_schemes>
-				<default_keyboard up="82" down="81" left="80"   right="79"  light_attack="4" heavy_attack="22" special_1="29" special_2="27" grab="7"  start="41"/>
-				<player1_keyboard up="82" down="81" left="80"   right="79"  light_attack="4" heavy_attack="22" special_1="29" special_2="27" grab="7"  start="41"/>
-				<player2_keyboard up="82" down="81" left="80"   right="79"  light_attack="4" heavy_attack="22" special_1="29" special_2="27" grab="7"  start="41"/>
-
+				<default_keyboard up="82" down="81" left="80" right="79" light_attack="4" heavy_attack="22" special_1="29" special_2="27" grab="7" start="41" />
+				<player1_keyboard up="82" down="81" left="80" right="79" light_attack="4" heavy_attack="22" special_1="29" special_2="27" grab="7" start="41" />
+				<player2_keyboard up="82" down="81" left="80" right="79" light_attack="4" heavy_attack="22" special_1="29" special_2="27" grab="7" start="41" />
 			</keyboard_schemes>
 		</schemes>
 	</entities>
