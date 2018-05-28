@@ -300,7 +300,7 @@ void characterSelScene::assignFocus()	{
 }
 
 void characterSelScene::checkSceneInput()	{
-	if (App->entities->players[0]->getInput(GRAB, KEY_DOWN) && !object_win_p1 && !object_win_p2 || App->entities->players[1]->getInput(GRAB, KEY_DOWN) && !object_win_p1 && !object_win_p2)
+	if (App->entities->players[0]->getController()->isPressed(BUTTON_B, KEY_DOWN) && !object_win_p1 && !object_win_p2 || App->entities->players[1]->getController()->isPressed(BUTTON_B, KEY_DOWN) && !object_win_p1 && !object_win_p2)
 		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
 	if (App->entities->players[0]->getInput(GRAB, KEY_DOWN) && object_win_p1)
 		closeP1Window();
@@ -318,14 +318,14 @@ void characterSelScene::checkSceneInput()	{
 
 void characterSelScene::assignSkins()	{
 	//SKIN ASSIGNMENT
-	if (App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))//P1 Skin 1
+	if (App->entities->players[0]->getInput(LIGHT_ATTACK, KEY_DOWN))//P1 Skin 1
 	{
 		if (player2.skin == 0)
 			player1.skin = 1;
 		else
 			player1.skin = 0;
 	}
-	if (App->entities->players[0]->getInput(LIGHT_ATTACK, KEY_DOWN))//P1 Skin 2
+	if (App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))//P1 Skin 2
 	{
 		if (player2.skin == 1)
 			player1.skin = 2;
@@ -347,14 +347,14 @@ void characterSelScene::assignSkins()	{
 			player1.skin = 3;
 	}
 
-	if (App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN))//P2 Skin 1
+	if (App->entities->players[1]->getInput(LIGHT_ATTACK, KEY_DOWN))//P2 Skin 1
 	{
 		if (player1.skin == 0)
 			player2.skin = 1;
 		else
 			player2.skin = 0;
 	}
-	if (App->entities->players[1]->getInput(LIGHT_ATTACK, KEY_DOWN))//P2 Skin 2
+	if (App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN))//P2 Skin 2
 	{
 		if (player1.skin == 1)
 			player2.skin = 2;
