@@ -117,6 +117,7 @@ bool combatScene::onEvent(Buttons * button)	{
 			closeP1Window();
 		else
 			closeP2Window();
+		App->audio->re_play_music = true;
 		App->scene_manager->changeScene(App->scene_manager->stage_sel_scene, this);
 		break;
 	case MATCH_END_CHAR_SEL:
@@ -133,10 +134,12 @@ bool combatScene::onEvent(Buttons * button)	{
 		App->scene_manager->changeScene(App->scene_manager->combat_scene, this);
 		break;
 	case MATCH_END_STAGE_SEL:
+		App->audio->re_play_music = true;
 		closeGeneralWindow();
 		App->scene_manager->changeScene(App->scene_manager->stage_sel_scene, this);
 		break;
 	case MATCH_END_SETTINGS:
+		App->audio->re_play_music = true;
 		closeGeneralWindow();
 		App->scene_manager->changeScene(App->scene_manager->settings_scene, this);
 		break;

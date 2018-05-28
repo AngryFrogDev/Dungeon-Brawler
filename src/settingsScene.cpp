@@ -24,6 +24,10 @@ bool settingsScene::start() {
 	loadSceneUi();
 	assignFocus();
 	s_crouching_special_2 = App->audio->loadSFX("SFX/crouching_special_2.wav"); // Provisional: Should be loaded from XML
+	if (!loaded)
+		scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg");
+	if (App->audio->re_play_music)
+		App->audio->playMusic(scene_music), App->audio->re_play_music = false;
 
 	return true;
 }

@@ -27,6 +27,8 @@ public:
 	void musicVolume(int new_volume = MIX_MAX_VOLUME) const;
 	void stopMusic(int fade_out = 2000) const;
 
+public:
+	bool re_play_music = false;
 private:
 	std::list<Mix_Chunk*> sfxs;
 	std::list<Mix_Music*> musics;
