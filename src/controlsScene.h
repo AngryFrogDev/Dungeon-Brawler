@@ -21,6 +21,7 @@ private:
 	void setUpScancodeList();
 	void drawControls();
 	void changeInput();
+	void setKeyboardLabels();
 
 private:
 
@@ -45,15 +46,7 @@ private:
 	Labels* l_special_2_control = nullptr;
 	Labels* l_grab_control = nullptr;
 
-	Labels* l_up_keyboard = nullptr;
-	Labels* l_down_keyboard = nullptr;
-	Labels* l_left_keyboard = nullptr;
-	Labels* l_right_keyboard = nullptr;
-	Labels* l_light_attack_keyboard = nullptr;
-	Labels* l_heavy_attack_keyboard = nullptr;
-	Labels* l_special_1_keyboard = nullptr;
-	Labels* l_special_2_keyboard = nullptr;
-	Labels* l_grab_keyboard = nullptr;
+	Labels* keyboard_labels[MAX_INPUTS - 1];
 
 	Buttons* b_up_control = nullptr;
 	Buttons* b_down_control = nullptr;

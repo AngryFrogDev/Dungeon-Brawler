@@ -97,6 +97,8 @@ bool controlsScene::start() {
 	button_rects[BUTTON_DPAD_DOWN].y = 184;
 	button_rects[BUTTON_DPAD_DOWN].w = 40;
 	button_rects[BUTTON_DPAD_DOWN].h = 40;
+
+	setUpScancodeList();
 	return true;
 }
 
@@ -116,9 +118,16 @@ bool controlsScene::update(float dt) {
 			player1 = !player1;
 			l_curr_player->changeContent(player1 ? "Player 1" : "Player 2", l_curr_player->color);
 			curr_player = player1 ? 1 : 2;
+			if (!controller)
+				setKeyboardLabels();
 		}
-		if (App->input->isButtonState(BUTTON_RIGHTSHOULDER, KEY_DOWN))
+		if (App->input->isButtonState(BUTTON_RIGHTSHOULDER, KEY_DOWN)) {
 			controller = !controller;
+			for (int i = 0; i < MAX_INPUTS - 1; ++i)
+				keyboard_labels[i]->to_blit = !controller;
+			if (!controller)
+				setKeyboardLabels();
+		}
 	}
 	if (controller)
 		drawControls();
@@ -149,12 +158,14 @@ bool controlsScene::onEvent(Buttons* button) {
 		break;
 	case B_UP:
 		if (!changing_buttons) {
-		changing_buttons = true;
-		input_to_change = CHARACTER_INPUTS::UP;
-		if (controller)
-			App->input->pruneControllerInputs();
-		else
-			App->input->pruneKeyboardInputs();
+			changing_buttons = true;
+			input_to_change = CHARACTER_INPUTS::UP;
+			if (controller)
+				App->input->pruneControllerInputs();
+			else {
+				App->input->pruneKeyboardInputs();
+				keyboard_labels[UP]->to_blit = false;
+			}
 		}
 		break;
 	case B_DOWN:
@@ -163,8 +174,10 @@ bool controlsScene::onEvent(Buttons* button) {
 			input_to_change = CHARACTER_INPUTS::DOWN;
 			if (controller)
 				App->input->pruneControllerInputs();
-			else
+			else {
 				App->input->pruneKeyboardInputs();
+				keyboard_labels[DOWN]->to_blit = false;
+			}
 		}
 		break;
 	case B_LEFT:
@@ -173,8 +186,10 @@ bool controlsScene::onEvent(Buttons* button) {
 			input_to_change = CHARACTER_INPUTS::LEFT;
 			if (controller)
 				App->input->pruneControllerInputs();
-			else
+			else {
 				App->input->pruneKeyboardInputs();
+				keyboard_labels[LEFT]->to_blit = false;
+			}
 		}
 		break;
 	case B_RIGHT:
@@ -183,8 +198,10 @@ bool controlsScene::onEvent(Buttons* button) {
 			input_to_change = CHARACTER_INPUTS::RIGHT;
 			if (controller)
 				App->input->pruneControllerInputs();
-			else
+			else {
 				App->input->pruneKeyboardInputs();
+				keyboard_labels[RIGHT]->to_blit = false;
+			}
 		}
 		break;
 	case B_LIGHT_ATTACK:
@@ -193,8 +210,10 @@ bool controlsScene::onEvent(Buttons* button) {
 			input_to_change = CHARACTER_INPUTS::LIGHT_ATTACK;
 			if (controller)
 				App->input->pruneControllerInputs();
-			else
+			else {
 				App->input->pruneKeyboardInputs();
+				keyboard_labels[LIGHT_ATTACK]->to_blit = false;
+			}
 		}
 		break;
 
@@ -204,8 +223,10 @@ bool controlsScene::onEvent(Buttons* button) {
 			input_to_change = CHARACTER_INPUTS::HEAVY_ATTACK;
 			if (controller)
 				App->input->pruneControllerInputs();
-			else
+			else {
 				App->input->pruneKeyboardInputs();
+				keyboard_labels[HEAVY_ATTACK]->to_blit = false;
+			}
 		}
 		break;
 	case SPECIAL_1:
@@ -214,8 +235,10 @@ bool controlsScene::onEvent(Buttons* button) {
 			input_to_change = CHARACTER_INPUTS::SPECIAL_1;
 			if (controller)
 				App->input->pruneControllerInputs();
-			else
+			else {
 				App->input->pruneKeyboardInputs();
+				keyboard_labels[SPECIAL_1]->to_blit = false;
+			}
 		}
 		break;
 	case SPECIAL_2:
@@ -224,8 +247,10 @@ bool controlsScene::onEvent(Buttons* button) {
 			input_to_change = CHARACTER_INPUTS::SPECIAL_2;
 			if (controller)
 				App->input->pruneControllerInputs();
-			else
+			else {
 				App->input->pruneKeyboardInputs();
+				keyboard_labels[SPECIAL_2]->to_blit = false;
+			}
 		}
 		break;
 	case GRAB:
@@ -234,8 +259,10 @@ bool controlsScene::onEvent(Buttons* button) {
 			input_to_change = CHARACTER_INPUTS::GRAB;
 			if (controller)
 				App->input->pruneControllerInputs();
-			else
+			else {
 				App->input->pruneKeyboardInputs();
+				keyboard_labels[GRAB]->to_blit = false;
+			}
 		}
 		break;
 	}
@@ -285,30 +312,20 @@ void controlsScene::loadSceneUi() {
 	l_special_2_control = (Labels*)App->gui->createLabel("Special 2", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 720 + 7 }, this);
 	l_grab_control = (Labels*)App->gui->createLabel("Grab", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 80, 785 + 6 }, this);
 
-	l_up_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 105, 265 + 7 }, this);
-	l_down_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 80, 330 + 7 }, this);
-	l_left_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 80, 395 + 7 }, this);
-	l_right_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 75, 460 + 7 }, this);
-	l_light_attack_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 525 + 7 }, this);
-	l_heavy_attack_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 590 + 7 }, this);
-	l_special_1_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 655 + 7 }, this);
-	l_special_2_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 720 + 7 }, this);
-	l_grab_keyboard = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { resolution_width / 2 + 20 + 80, 785 + 6 }, this);
+	keyboard_labels[UP] = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { 1130 , 265 + 7 }, this);
+	keyboard_labels[DOWN] = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { 1130, 330 + 7 }, this);
+	keyboard_labels[LEFT] = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { 1130, 395 + 7 }, this);
+	keyboard_labels[RIGHT] = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { 1130, 460 + 7 }, this);
+	keyboard_labels[LIGHT_ATTACK] = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { 1130, 525 + 7 }, this);
+	keyboard_labels[HEAVY_ATTACK] = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { 1130, 590 + 7 }, this);
+	keyboard_labels[SPECIAL_1] = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { 1130, 655 + 7 }, this);
+	keyboard_labels[SPECIAL_2] = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { 1130, 720 + 7 }, this);
+	keyboard_labels[GRAB] = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { 1130, 785 + 6 }, this);
 
-	l_up_keyboard->to_blit = false;
-	l_down_keyboard->to_blit = false;
-	l_left_keyboard->to_blit = false;
-	l_right_keyboard->to_blit = false;
-	l_light_attack_keyboard->to_blit = false;
-	l_heavy_attack_keyboard->to_blit = false;
-	l_special_1_keyboard->to_blit = false;
-	l_special_2_keyboard->to_blit = false;
-	l_grab_keyboard->to_blit = false;
+	for (int i = 0; i < MAX_INPUTS - 1; ++i)
+		keyboard_labels[i]->to_blit = false;
 
 	l_curr_player = (Labels*)App->gui->createLabel("Player 1", { 255, 255, 255  }, App->fonts->large_size, { resolution_width / 2 - resolution_width / 4 + modx, 90 + mody }, this);
-
-
-
 }
 
 void controlsScene::assignFocus() {
@@ -400,9 +417,18 @@ void controlsScene::changeInput() {
 				if (App->entities->keyboard_schemes[curr_player].scheme[i] == new_input) {
 					App->entities->keyboard_schemes[curr_player].scheme[i] = App->entities->keyboard_schemes[curr_player].scheme[input_to_change];
 					App->entities->keyboard_schemes[curr_player].scheme[input_to_change] = new_input;
+					keyboard_labels[input_to_change]->to_blit = true;
+					setKeyboardLabels();
 					changing_buttons = false;
 					break;
 				}
 		}
+	}
+}
+
+void controlsScene::setKeyboardLabels() {
+	for (int i = 0; i < MAX_INPUTS - 1; ++i) {
+		std::string name = scancode_names[(SDL_Scancode)App->entities->keyboard_schemes[curr_player].scheme[i]];
+		keyboard_labels[i]->changeContent(name.c_str(), keyboard_labels[i]->color);
 	}
 }
