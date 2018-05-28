@@ -310,7 +310,7 @@ void controlsScene::loadSceneUi() {
 	l_heavy_attack_control = (Labels*)App->gui->createLabel("Heavy Att.", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 590 + 7 }, this);
 	l_special_1_control = (Labels*)App->gui->createLabel("Special 1", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 655 + 7 }, this);
 	l_special_2_control = (Labels*)App->gui->createLabel("Special 2", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 25, 720 + 7 }, this);
-	l_grab_control = (Labels*)App->gui->createLabel("Grab", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 80, 785 + 6 }, this);
+	l_grab_control = (Labels*)App->gui->createLabel("Taunt", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + 20 + 80, 785 + 6 }, this);
 
 	keyboard_labels[UP] = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { 1130 , 265 + 7 }, this);
 	keyboard_labels[DOWN] = (Labels*)App->gui->createLabel("", { 255, 255, 255 }, App->fonts->large_size, { 1130, 330 + 7 }, this);
