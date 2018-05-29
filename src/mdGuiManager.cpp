@@ -106,7 +106,11 @@ Widgets* mdGuiManager::createButton(button_types type, button_size size, int id,
 	if (type != 0) {
 		ret = new Buttons(type, size, id, pos, callback);
 		ui_elements.push_back(ret);
-		if (id == 0)
+		if (id == -1) {
+			p1_focus_elements.push_back(ret);
+			p2_focus_elements.push_back(ret);
+		}
+		else if (id == 0)
 			p1_focus_elements.push_back(ret);
 		else if (id == 1)
 			p2_focus_elements.push_back(ret);
@@ -158,7 +162,11 @@ bool mdGuiManager::destroyWidget(Widgets* widget) {
 
 		if (widget->type == BUTTON)//Deleting from the specific focus list
 		{
-			if (widget->focus_id == 0)
+			if (widget->focus_id == -1) {
+				p1_focus_elements.remove(widget);
+				p2_focus_elements.remove(widget);
+			}
+			else if (widget->focus_id == 0)
 				p1_focus_elements.remove(widget);
 			else if (widget->focus_id == 1)
 				p2_focus_elements.remove(widget);
@@ -182,8 +190,8 @@ void mdGuiManager::assignP1Focus()	{
 
 	Widgets* object = nullptr;
 	
-	if (App->entities->players[0]->getInput(UP, KEY_DOWN) || App->entities->players[0]->getInput(LEFT, KEY_DOWN))
-	{
+	if (App->input->isButtonState(BUTTON_DPAD_UP, KEY_DOWN, 0) || App->input->isButtonState(BUTTON_DPAD_LEFT, KEY_DOWN, 0)) {
+
 		std::list<Widgets*>::iterator temp_iterator = p1_focus_elements.begin();
 		for (temp_iterator; temp_iterator != p1_focus_elements.end(); temp_iterator++)
 		{
@@ -205,8 +213,8 @@ void mdGuiManager::assignP1Focus()	{
 	}
 
 
-	if (App->entities->players[0]->getInput(DOWN, KEY_DOWN) || App->entities->players[0]->getInput(RIGHT, KEY_DOWN))
-	{
+	if (App->input->isButtonState(BUTTON_DPAD_DOWN, KEY_DOWN, 0) || App->input->isButtonState(BUTTON_DPAD_RIGHT, KEY_DOWN, 0)) {
+
 		std::list<Widgets*>::reverse_iterator temp_iterator = p1_focus_elements.rbegin();
 		for (temp_iterator; temp_iterator != p1_focus_elements.rend(); temp_iterator++)
 		{
@@ -233,8 +241,8 @@ void mdGuiManager::assignP2Focus()	{
 	
 	Widgets* object = nullptr;
 	
-	if (App->entities->players[1]->getInput(UP, KEY_DOWN) || App->entities->players[1]->getInput(LEFT, KEY_DOWN))
-	{
+	if (App->input->isButtonState(BUTTON_DPAD_UP, KEY_DOWN, 1) || App->input->isButtonState(BUTTON_DPAD_LEFT, KEY_DOWN, 1)) {
+
 		std::list<Widgets*>::iterator temp_iterator = p2_focus_elements.begin();
 		for (temp_iterator; temp_iterator != p2_focus_elements.end(); temp_iterator++)
 		{
@@ -256,8 +264,8 @@ void mdGuiManager::assignP2Focus()	{
 	}
 
 
-	if (App->entities->players[1]->getInput(DOWN, KEY_DOWN) || App->entities->players[1]->getInput(RIGHT, KEY_DOWN))
-	{
+	if (App->input->isButtonState(BUTTON_DPAD_DOWN, KEY_DOWN, 1) || App->input->isButtonState(BUTTON_DPAD_RIGHT, KEY_DOWN, 1)) {
+
 		std::list<Widgets*>::reverse_iterator temp_iterator = p2_focus_elements.rbegin();
 		for (temp_iterator; temp_iterator != p2_focus_elements.rend(); temp_iterator++)
 		{
