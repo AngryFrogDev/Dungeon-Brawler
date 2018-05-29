@@ -405,6 +405,7 @@ void controlsScene::changeInput() {
 				if (App->entities->controller_schemes[curr_player].scheme[i] == new_input) {
 					App->entities->controller_schemes[curr_player].scheme[i] = App->entities->controller_schemes[curr_player].scheme[input_to_change];
 					App->entities->controller_schemes[curr_player].scheme[input_to_change] = new_input;
+					App->input->pruneControllerInputs();
 					changing_buttons = false;
 					break;
 				}
@@ -419,6 +420,7 @@ void controlsScene::changeInput() {
 					App->entities->keyboard_schemes[curr_player].scheme[input_to_change] = new_input;
 					keyboard_labels[input_to_change]->to_blit = true;
 					setKeyboardLabels();
+					App->input->pruneKeyboardInputs();
 					changing_buttons = false;
 					break;
 				}
