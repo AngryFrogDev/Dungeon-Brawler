@@ -18,6 +18,8 @@ characterSelScene::characterSelScene(bool active) : scene(CHAR_SEL_SCENE)	{
 	setRects();
 	//By default, both player have Warrior selected
 	player1.character = player2.character = WARRIOR;
+	player1.skin = 0;
+	player2.skin = 1;
 }
 
 
@@ -318,6 +320,7 @@ void characterSelScene::checkSceneInput()	{
 
 void characterSelScene::assignSkins()	{
 	//SKIN ASSIGNMENT
+
 	if (App->entities->players[0]->getInput(LIGHT_ATTACK, KEY_DOWN))//P1 Skin 1
 	{
 		if (player2.skin == 0 && player2.character == player1.character)
@@ -831,8 +834,8 @@ void characterSelScene::resetSceneValues()	{
 	player2.has_selected_character = false;
 	player2.has_selected_item = false;
 
-	player1.skin = 4;
-	player2.skin = 4;
+	player1.skin = 0;
+	player2.skin = 1;
 
 	transition_timer.stop();
 }
