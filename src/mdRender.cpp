@@ -54,6 +54,7 @@ bool mdRender::start() {
 	LOG("render start");
 	// back background
 	SDL_RenderGetViewport(renderer, &viewport);
+	SDL_ShowCursor(SDL_DISABLE);
 	return true;
 }
 

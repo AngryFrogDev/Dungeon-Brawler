@@ -33,6 +33,7 @@ public:
 	void addDamage();
 
 	void giveItem(ITEMS type);
+	void deactivateSuperEmitters();
 
 
 	~Rogue();
@@ -72,7 +73,7 @@ private:
 	int current_roll_frames;
 	//Super
 	bool on_super = false;
-	ParticleEmitter* super_emitter = nullptr;
+	ParticleEmitter* super_emitter[3];
 	ParticleEmitter* airdash_emitter = nullptr;
 	int original_recoveries_array[12];
 	int* recoveries_array[12];

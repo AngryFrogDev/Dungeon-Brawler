@@ -8,7 +8,6 @@
 #include "mdRender.h"
 #include "Timer.h"
 
-
 #define MAX_INPUT_BUFFER 100
 
 class Mix_Chunk;
@@ -132,6 +131,7 @@ struct basic_attack_deff {
 	int recovery; //in milliseconds
 	float animation_speed;
 	int frame_delay;
+	bool projectile;
 };
 
 enum ITEMS {
@@ -202,6 +202,7 @@ protected:
 	collider* getAttackHitbox(CHAR_ATT_TYPE type);
 	void deleteAttackHitbox(CHAR_ATT_TYPE type, collider* hitbox = nullptr);
 	void deleteAllMeleeHitboxes();
+	void deleteAllHitboxes();
 
 	void updateAnimation(Animation& new_animation);
 
@@ -232,10 +233,11 @@ protected:
 	virtual bool standingSpecial1Condition() {return true; }
 	virtual bool jumpingSpecial1Condition() {return true; }
 	virtual bool jumpingSpecial2Condition() {return true; }
+	virtual void doSuper() { return; }
+
 
 	virtual void characterSpecificUpdates() {return; }
 
-	virtual void doSuper() { return; }
 	//Juggle limit
 	bool juggleLimit(CHAR_ATT_TYPE type);
 	// Input buffer functions
@@ -243,6 +245,10 @@ protected:
 	void fillBuffer(const bool(&inputs)[MAX_INPUTS]);
 	void pushIntoBuffer(CHARACTER_INPUTS input);
 	bool checkForSuper(int window);
+	// Combo counter
+	void blitComboCounter(); // Will need "int combo_counter_position(yet to create) and int combo_counter(already created)
+	void setLeftNumber(int current_counter);
+	void setRightNumber(int current_counter);
 
 protected:
 
@@ -281,15 +287,16 @@ protected:
 	int taunt_duration;
 	int normal_taunt_duration;
 
-	// In miliseconds
 	int invencibility_on_wakeup;
+
+	double cheap_multiplier;
 
 	int super_window;
 	int cancelability_window;
 
 	int shadow_offset;
 	SDL_Rect shadow_rect;
-
+	iPoint combo_counter_position;
 
 	// Variables to load from constructor
 	iPoint starting_position;
@@ -303,27 +310,22 @@ protected:
 	
 	fPoint velocity;
 
-	bool crouching_hurtbox;
-
 	int current_life;		
 	int current_super_gauge;
 
-	bool grounded;
-
-	bool fliped;
-
-	bool death;
+	int moment_hit;
 
 	std::list<CHAR_ATT_TYPE> juggle_attacks_recieved;
+	int combo_counter;
+	int prev_combo_counter;
 
-	//If the hitbox of the attack has been already instanciated, it should,'t be instanciated again
+	bool grounded;
+	bool fliped;
+	bool death;
 	bool instanciated_hitbox; 
 	bool state_first_tick;
-	bool state_second_tick;
-
 	bool hit;
-	//Maybe current_stun and moment_hit should be a timer instead
-	int moment_hit; 
+	bool crouching_hurtbox;
 
 
 	// Entity collider
@@ -367,6 +369,10 @@ protected:
 	Mix_Chunk* s_crouching_special_2;
 	Mix_Chunk* s_death;
 	Mix_Chunk* s_super;
+	//Combo counter
+	SDL_Rect left_number;
+	SDL_Rect right_number;
+	SDL_Rect letters;
 
 };
 

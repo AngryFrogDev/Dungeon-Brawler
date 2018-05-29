@@ -22,9 +22,9 @@ public:
 	// Function so assign a certain character to the player		     
 	void createAndAssignCharacter(CHAR_TYPE type, ITEMS item, bool player, int skin); 
 	
-	void assignControlScheme(const controller_scheme& new_scheme);
+	void assignControlScheme(generic_scheme* new_scheme);
 
-	void assignKeyboardScheme(const keyboard_scheme& new_scheme);
+	void assignKeyboardScheme(generic_scheme* new_scheme);
 
 	iPoint getPos();
 	bool getInput(CHARACTER_INPUTS input, KEY_STATE state);
@@ -44,8 +44,8 @@ private:
 	Controller* controller;
 	// Instance of the current character being used -> Character: Base class for the characters							
 	Character* curr_character;
-	controller_scheme player_controller_scheme;
-	keyboard_scheme   player_keyboard_scheme;
+	generic_scheme* player_controller_scheme;
+	generic_scheme*   player_keyboard_scheme;
 
 
 

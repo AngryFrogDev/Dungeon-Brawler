@@ -7,20 +7,14 @@
 #define MAX_KEYS 300
 
 
-struct controller_scheme {
-	CONTROLLER_BUTTON scheme[CHARACTER_INPUTS::MAX_INPUTS];
+struct generic_scheme {
+	int scheme[CHARACTER_INPUTS::MAX_INPUTS];
 	std::string name;
 
-	controller_scheme() : name("") {}
-	controller_scheme(std::string name) : name(name){}
+	generic_scheme() : name("") {}
+	generic_scheme(std::string name) : name(name) {}
 };
-struct keyboard_scheme {
-	SDL_Scancode scheme[CHARACTER_INPUTS::MAX_INPUTS];
-	std::string name;
 
-	keyboard_scheme() : name("") {}
-	keyboard_scheme(std::string name) : name(name) {}
-};
 struct character_deff {
 	CHAR_TYPE type;
 	int scale;
@@ -41,6 +35,7 @@ struct character_deff {
 	std::list<CHAR_ATT_TYPE> non_flip_attacks;
 	std::list<CHAR_ATT_TYPE> crouching_hurtbox_attacks;
 	Mix_Chunk* sfxs[MAX_SOUNDS];
+	double cheap_multiplier;
 
 	// Warrior variables
 	int spin_speed;
@@ -61,6 +56,10 @@ struct character_deff {
 	int fireball_speed;
 	int fireball_duration;
 	iPoint fireball_emitter_offset;
+	double fireball_lvl_2;
+	double fireball_lvl_3;
+	int fireball_size_grow;
+	int fireball_damage_boost;
 	int air_fireball_angle;
 	int air_fireball_max_height;
 	iPoint air_fireball_backfire;
@@ -125,7 +124,6 @@ public:
 
 	void destroyCharacters();
 	
-	void assignControls();
 	void assignControllers();
 
 	bool moveCamera(bool movingLeft);
@@ -138,6 +136,8 @@ public:
 	void setPause(bool active);
 	void setStopped(bool active);
 
+	void saveSchemes();
+
 	KEY_STATE stringToKeystate(std::string string);
 	CHAR_TYPE stringToCharType(std::string string);
 	ITEMS stringToItem(std::string string);
@@ -146,8 +146,8 @@ public:
 
 public:
 	Player * players[2]; 
-	std::list<controller_scheme> controller_schemes;
-	std::list<keyboard_scheme>	 keyboard_schemes;
+	generic_scheme controller_schemes[3];
+	generic_scheme	 keyboard_schemes[3];
 	KEY_STATE attack_input; 
 
 private:

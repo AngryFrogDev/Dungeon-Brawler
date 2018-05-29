@@ -124,6 +124,12 @@
     <ClCompile Include="stageSelScene.cpp">
       <Filter>Scenes\Stage Selec Scene</Filter>
     </ClCompile>
+    <ClCompile Include="controlsScene.cpp">
+      <Filter>Scenes\Controls Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="creditsScene.cpp">
+      <Filter>Scenes\Credits Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mdAudio.h">
@@ -255,6 +261,12 @@
     <ClInclude Include="stageSelScene.h">
       <Filter>Scenes\Stage Selec Scene</Filter>
     </ClInclude>
+    <ClInclude Include="controlsScene.h">
+      <Filter>Scenes\Controls Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="creditsScene.h">
+      <Filter>Scenes\Credits Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scenes">
@@ -322,6 +334,12 @@
     </Filter>
     <Filter Include="Scenes\Stage Selec Scene">
       <UniqueIdentifier>{b367ad16-c28d-493f-83ba-0b8dcb4ce199}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Controls Scene">
+      <UniqueIdentifier>{7026ffbf-cfd9-42ca-95f1-0af739b45e4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Credits Scene">
+      <UniqueIdentifier>{b4e7118a-9791-48b8-822b-efaf8cdb1ac0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

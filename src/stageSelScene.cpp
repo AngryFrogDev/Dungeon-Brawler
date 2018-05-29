@@ -20,7 +20,11 @@ bool stageSelScene::start()	{
 		stage_2 = App->textures->load("assets/stage_2_prev.png");
 		stage_3 = App->textures->load("assets/stage_3_prev.png");
 		scene_sfx = App->audio->loadSFX("SFX/announcer/location-confirmed.wav");
+		scene_music = App->audio->loadMusic("SFX/scene music/Character_Stage_Selection.ogg");
 	}
+	if (App->audio->re_play_music)
+		App->audio->playMusic(scene_music), App->audio->re_play_music;
+
 	transition_timer.stop();
 
 	loadSceneUi();

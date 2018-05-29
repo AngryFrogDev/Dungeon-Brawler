@@ -54,6 +54,7 @@ public:
 	void addModule(Module* module);
 
 	pugi::xml_node loadConfig(const char* file_name, pugi::xml_document& config_file);
+	void saveConfig(const char* file_name, pugi::xml_document& config_file) const;
 	void delayFrame(int delay);
 
 private:

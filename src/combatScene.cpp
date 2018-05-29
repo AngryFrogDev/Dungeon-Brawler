@@ -117,6 +117,7 @@ bool combatScene::onEvent(Buttons * button)	{
 			closeP1Window();
 		else
 			closeP2Window();
+		App->audio->re_play_music = true;
 		App->scene_manager->changeScene(App->scene_manager->stage_sel_scene, this);
 		break;
 	case MATCH_END_CHAR_SEL:
@@ -133,10 +134,12 @@ bool combatScene::onEvent(Buttons * button)	{
 		App->scene_manager->changeScene(App->scene_manager->combat_scene, this);
 		break;
 	case MATCH_END_STAGE_SEL:
+		App->audio->re_play_music = true;
 		closeGeneralWindow();
 		App->scene_manager->changeScene(App->scene_manager->stage_sel_scene, this);
 		break;
 	case MATCH_END_SETTINGS:
+		App->audio->re_play_music = true;
 		closeGeneralWindow();
 		App->scene_manager->changeScene(App->scene_manager->settings_scene, this);
 		break;
@@ -236,53 +239,51 @@ void combatScene::loadSceneTextures()	{
 		break;
 	}
 
-//	App->render->drawSprite(4, App->gui->atlas, 567, 70, &timer_rect, 2, 0, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 110, 100, &character1_rect, 3, false, 0, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 1570, 100, &character2_rect, 3, false, 0, 0, 0, 0, false);
-	App->render->drawSprite(4, App->gui->atlas, 119, 109, &character1_image, 3, false, 0, 0, 0, 0, false);
-	App->render->drawSprite(4, App->gui->atlas, 1579, 109, &character2_image, 3, true, 0, 0, 0, 0, false);
+	App->render->drawSprite(3, App->gui->atlas, 110, 50, &character1_rect, 3, false, 0, 0, 0, 0, false);
+	App->render->drawSprite(3, App->gui->atlas, 1570, 50, &character2_rect, 3, false, 0, 0, 0, 0, false);
+	App->render->drawSprite(4, App->gui->atlas, 119, 59, &character1_image, 3, false, 0, 0, 0, 0, false);
+	App->render->drawSprite(4, App->gui->atlas, 1579, 59, &character2_image, 3, true, 0, 0, 0, 0, false);
 
 	//ROUND INDICATORS
 	switch (p1_rounds_won)
 	{
 	case 0:
-		App->render->drawSprite(4, App->gui->atlas, 680, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(4, App->gui->atlas, 780, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 680, 215, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 780, 215, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
 		break;
 	case 1:
-		App->render->drawSprite(4, App->gui->atlas, 680, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(4, App->gui->atlas, 782, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 680, 215, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 782, 216, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
 		break;
 	case 2:
-		App->render->drawSprite(4, App->gui->atlas, 682, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(4, App->gui->atlas, 782, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 682, 216, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 782, 216, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
 		break;
 	}
 	switch (p2_rounds_won)
 	{
 	case 0:
-		App->render->drawSprite(4, App->gui->atlas, 1060, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(4, App->gui->atlas, 1160, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 1060, 215, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 1160, 215, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
 		break;
 	case 1:
-		App->render->drawSprite(4, App->gui->atlas, 1062, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(4, App->gui->atlas, 1160, 265, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 1062, 216, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 1160, 215, &still_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
 		break;
 	case 2:
-		App->render->drawSprite(4, App->gui->atlas, 1062, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
-		App->render->drawSprite(4, App->gui->atlas, 1162, 266, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 1062, 216, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(4, App->gui->atlas, 1162, 216, &won_round_indicator, 4, false, 1.0f, 0, 0, 0, false);
 		break;
 	}
 
 	//TIMER 
-	App->render->drawSprite(5, timer_tex, 855, 105, &timer_rect, 5, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(5, timer_tex, 940, 170, &right_number, 6, false, 1.0f, 0, 0, 0, false);
-	App->render->drawSprite(5, timer_tex, 850, 170, &left_number, 6, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(5, timer_tex, 855, 55, &timer_rect, 5, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(5, timer_tex, 940, 120, &right_number, 6, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(5, timer_tex, 850, 120, &left_number, 6, false, 1.0f, 0, 0, 0, false);
 }
 
 void combatScene::setRects()	{
 	//PROVISIONAL
-//	timer_rect = { 421, 142, 59, 59 };
 	timer_rect = { 0, 40, 40, 20 };
 	left_number = { 180, 0, 20, 20 };
 	right_number = { 180, 0, 20, 20 };
@@ -618,7 +619,7 @@ void combatScene::checkTimers()	{
 		else
 			App->entities->players[0]->getCurrCharacter()->tauntFor(2), App->entities->players[1]->getCurrCharacter()->tauntFor(2), combat_end = &draw_announcer_rect;
 
-		if (taunt_timer.readSec() >= 3.5)
+		if (taunt_timer.readSec() >= 3.5 && taunt_timer.readSec() < 7)
 		{
 			App->render->drawSprite(10, announcer_textures, 450, 500, combat_end, 1, false, 1.0f, 0, 0, 0, false);
 			if (!sfx_played)
@@ -666,7 +667,6 @@ void combatScene::manageRounds()	{
 	{
 		if (char1_hp <= 0 || char2_hp <= 0)
 		{
-			makeSureMageChargeEmitterIsDeleted();
 			if (char1_hp > 0 && char2_hp <= 0) //Player 2 dies
 			{
 				p1_rounds_won++;
@@ -699,7 +699,6 @@ void combatScene::manageRounds()	{
 	
 	else//Time's up
 	{
-		makeSureMageChargeEmitterIsDeleted();
 		round_end = &time_up_rect;
 		if (char1_hp > char2_hp) // Player 1 wins
 		{
@@ -727,21 +726,4 @@ void combatScene::manageRounds()	{
 	
 }
 
-void combatScene::makeSureMageChargeEmitterIsDeleted()
-{
-	Mage* mage_pointer = nullptr;
-
-	if (char1 == MAGE)
-		mage_pointer = (Mage*)App->entities->players[0]->getCurrCharacter();
-
-	else if (char2 == MAGE)
-		mage_pointer = (Mage*)App->entities->players[0]->getCurrCharacter();
-	else
-		return;
-
-	if (mage_pointer)
-		mage_pointer->stopChargeEmitter();
-
-	mage_pointer = nullptr;
-}
 

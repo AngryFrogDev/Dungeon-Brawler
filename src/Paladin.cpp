@@ -287,10 +287,12 @@ void Paladin::crouchingSpecial2() {
 	}
 	if (hit) {
 		hit = false;
-		healing_emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y}, "particles/healing.xml");
-		current_life += parry_healing; // Maybe this should check that life is not exceded beyond the maximum
-		if (current_life > max_life)
-			current_life = max_life;
+		if(!attack_recieving.projectile){
+			healing_emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y}, "particles/healing.xml");
+			current_life += parry_healing; // Maybe this should check that life is not exceded beyond the maximum
+			if (current_life > max_life)
+				current_life = max_life;
+		}
 		updateAnimation(parry_reaction);
 		makeInvencibleFor(parry_reaction_invencivility);
 		parry_reacting = true;
@@ -318,7 +320,6 @@ void Paladin::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 	if (!state_first_tick) {
 		updateAnimation(standing_special2);
 		state_first_tick = true;
-		makeInvencibleFor(st_s2_invencivility);
 	}
 
 	if (!fliped)
@@ -335,9 +336,10 @@ void Paladin::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 		askRecovery(st_s2.recovery);
 		hurtbox->rect.h = standing_hurtbox_size.y;
 	}
-	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox)
+	else if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
+		makeInvencibleFor(st_s2_invencivility);
 		instanciateHitbox(st_s2);
-
+	}
 	collider* hitbox = getCurrentAttackHitbox();
 	if (hitbox != nullptr)
 		hitbox->SetPos(calculateDrawPosition(st_s2.pos_rel_char.x, st_s2.hitbox.w, true), calculateDrawPosition(st_s2.pos_rel_char.y, st_s2.hitbox.h, false));

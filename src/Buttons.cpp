@@ -17,6 +17,7 @@ Buttons::Buttons(button_types type, button_size _size, int id, std::pair<int, in
 	data = config.child("gui").child("button_section");
 	stop_focus = false;
 
+	click_sfx = App->audio->loadSFX("SFX/click.wav");
 	loadGuiFromAtlas();
 	current_rect = &still_rect;
 }
@@ -46,21 +47,25 @@ bool Buttons::preUpdate()
 			ret = callback->onEvent(this);
 		
 		//Temporary bools to optimize if below
-		bool p1_heavy_attack = App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN);
-		bool p1_light_attack = App->entities->players[0]->getInput(LIGHT_ATTACK, KEY_DOWN);
-		bool p1_r1 = App->entities->players[0]->getInput(SPECIAL_1, KEY_DOWN);
-		bool p1_r2 = App->entities->players[0]->getInput(SPECIAL_2, KEY_DOWN);
+		//bool p1_heavy_attack = App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN);
+		//bool p1_light_attack = App->entities->players[0]->getInput(LIGHT_ATTACK, KEY_DOWN);
+		//bool p1_r1 = App->entities->players[0]->getInput(SPECIAL_1, KEY_DOWN);
+		//bool p1_r2 = App->entities->players[0]->getInput(SPECIAL_2, KEY_DOWN);
 
-		bool p2_heavy_attack = App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN);
-		bool p2_light_attack = App->entities->players[1]->getInput(LIGHT_ATTACK, KEY_DOWN);
-		bool p2_r1 = App->entities->players[1]->getInput(SPECIAL_1, KEY_DOWN);
-		bool p2_r2 = App->entities->players[1]->getInput(SPECIAL_2, KEY_DOWN);
+		//bool p2_heavy_attack = App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN);
+		//bool p2_light_attack = App->entities->players[1]->getInput(LIGHT_ATTACK, KEY_DOWN);
+		//bool p2_r1 = App->entities->players[1]->getInput(SPECIAL_1, KEY_DOWN);
+		//bool p2_r2 = App->entities->players[1]->getInput(SPECIAL_2, KEY_DOWN);
+		bool p1controller = App->entities->players[0]->getController() != nullptr;
+		bool p2controller = App->entities->players[1]->getController() != nullptr;
 
-		if (p1_heavy_attack && focus_id == 0 || p1_light_attack && focus_id == 0 || p1_r1 && focus_id == 0 || p1_r2 && focus_id == 0 || p2_heavy_attack && focus_id == 1 || p2_light_attack && focus_id == 1 || p2_r1 && focus_id == 1 || p2_r2 && focus_id == 1)
+		if (App->input->isButtonState(BUTTON_A, KEY_DOWN, focus_id) || 
+			(App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN && (!p1controller || (focus_id == 1 && !p2controller) || focus_id == -1)))
 		{
 			if (size == STAGE_SELECTION)
 				stop_focus = true;
 
+			App->audio->playSFX(click_sfx);
 			changeVisualState(CLICK);
 			being_clicked = true;
 			ret = callback->onEvent(this);
@@ -165,6 +170,13 @@ void Buttons::loadGuiFromAtlas() {
 		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
 		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
 		break;
+	case SKIN_SELECTION:
+		still = data.child("skin_sel").child("still");
+		focused = data.child("skin_sel").child("focused");
+		clicked = data.child("skin_sel").child("clicked");
+		getSection({ still.attribute("x").as_int(), still.attribute("y").as_int(), still.attribute("w").as_int(), still.attribute("h").as_int() },
+		{ focused.attribute("x").as_int(), focused.attribute("y").as_int(), focused.attribute("w").as_int(), focused.attribute("h").as_int() },
+		{ clicked.attribute("x").as_int(), clicked.attribute("y").as_int(), clicked.attribute("w").as_int(), clicked.attribute("h").as_int() }, { 0,0,0,0 });
 	default:
 		break;
 	}

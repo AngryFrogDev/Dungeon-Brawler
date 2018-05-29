@@ -29,6 +29,7 @@ private:
 	Buttons* sfx_down = nullptr;
 	Buttons* colliders = nullptr;
 	Buttons* parallax = nullptr;
+	Buttons* controls = nullptr;
 	Buttons* back = nullptr;
 
 	Labels* l_music_up = nullptr;
@@ -37,6 +38,7 @@ private:
 	Labels* l_sfx_down = nullptr;
 	Labels* l_colliders = nullptr;
 	Labels* l_parallax = nullptr;
+	Labels* l_controls = nullptr;
 	Labels* l_back = nullptr;
 
 	Bars* b_music = nullptr;

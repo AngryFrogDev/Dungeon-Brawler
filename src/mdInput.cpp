@@ -54,8 +54,14 @@ void Controller::popInput() {
 
 void Controller::pruneInput(uint milliseconds) {
 	while (!input_buffer.empty() && input_buffer.front().timestamp + milliseconds <= SDL_GetTicks()) {
-		popInput();
+		if (!input_buffer.empty())
+			input_buffer.pop_front();
 	}
+}
+
+void Controller::cleanInput() {
+	for (int i = 0; i < BUTTON_MAX; ++i)
+		buttons[i] = KEY_IDLE;
 }
 
 bool Controller::shakeController(float intensity, uint milliseconds) const {
@@ -248,13 +254,25 @@ KEY_STATE mdInput::getKey(SDL_Scancode key) const{
 
 KEY_STATE mdInput::getControllerButton(int id, SDL_GameControllerButton button) {
 	KEY_STATE ret = KEY_NULL;
-	for ( std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
-		if ((*it)->getControllerID() == id) {
-			ret = (*it)->buttons[button];
-			break;
-		}
+	if (!controllers.empty() && (int)controllers.size() > id) {
+		std::list<Controller*>::iterator it = controllers.begin();
+		std::advance(it, id);
+		ret = (*it)->buttons[button];
 	}
+	return ret;
+}
 
+bool mdInput::isButtonState(CONTROLLER_BUTTON button, KEY_STATE state, int id) {
+	bool ret = false;
+	if (!controllers.empty() && (int)controllers.size() > id) {
+		if (id != -1) {
+			std::list<Controller*>::iterator it = controllers.begin();
+			std::advance(it, id);
+			ret = (*it)->buttons[button] == state;
+		}
+		else for (std::list<Controller*>::iterator it = controllers.begin(); !ret && it != controllers.end(); ++it)
+			ret = (*it)->buttons[button] == state;
+	}
 	return ret;
 }
 
@@ -265,6 +283,52 @@ std::list<Controller*> mdInput::getController(SDL_GameControllerButton button){
 	else {
 		for (std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it)
 			if ((*it)->buttons[button]) ret.push_back(*it);
+	}
+
+	return ret;
+}
+
+SDL_Scancode mdInput::getLastKeyPressed() const {
+	SDL_Scancode ret = SDL_SCANCODE_UNKNOWN;
+
+	for (int i = 0; i < MAX_KEYS && ret == SDL_SCANCODE_UNKNOWN; ++i) {
+		if (keyboard[i] == KEY_DOWN)
+			ret = (SDL_Scancode)i;
+	}
+
+	return ret;
+}
+
+void mdInput::pruneControllerInputs(int id) {
+	if (!controllers.empty() && (int)controllers.size() > id) {
+		if (id != -1) {
+			std::list<Controller*>::iterator it = controllers.begin();
+			std::advance(it, id);
+			(*it)->cleanInput();
+		}
+		else for (std::list<Controller*>::const_iterator it = controllers.begin(); it != controllers.end(); ++it)
+			(*it)->cleanInput();
+	}
+}
+
+void mdInput::pruneKeyboardInputs() {
+	for (int i = 0; i < MAX_KEYS; ++i)
+		keyboard[i] = KEY_IDLE;
+}
+
+CONTROLLER_BUTTON mdInput::getLastButtonPressed(int id) const{
+	CONTROLLER_BUTTON ret = BUTTON_INVALID;
+	if (!controllers.empty() && (int)controllers.size() > id) {
+		if (id != -1) {
+			std::list<Controller*>::const_iterator it = controllers.begin();
+			std::advance(it, id);
+			for (int i = 0; i < CONTROLLER_BUTTON::BUTTON_MAX && ret == BUTTON_INVALID; ++i)
+				ret = (*it)->buttons[i] == KEY_DOWN ? (CONTROLLER_BUTTON)i : BUTTON_INVALID;
+		}
+		else for (std::list<Controller*>::const_iterator it = controllers.begin(); ret == BUTTON_INVALID && it != controllers.end(); ++it) {
+			for (int i = 0; i < CONTROLLER_BUTTON::BUTTON_MAX && ret == BUTTON_INVALID; ++i)
+				ret = (*it)->buttons[i] == KEY_DOWN ? (CONTROLLER_BUTTON)i : BUTTON_INVALID;
+		}
 	}
 
 	return ret;

@@ -65,11 +65,11 @@ bool mdMap::update(float dt) {
 		if (change_music)
 		{
 			if (selected_map == 1)
-				App->audio->playMusic(App->audio->loadMusic("SFX/BGM_2.ogg"));
+				App->audio->playMusic(App->audio->map1_song);
 			else if (selected_map == 2)
-				App->audio->playMusic(App->audio->loadMusic("SFX/BGM_1.ogg"));
+				App->audio->playMusic(App->audio->map2_song);
 			else if (selected_map == 3)
-				App->audio->playMusic(App->audio->loadMusic("SFX/BGM_2.ogg"));
+				App->audio->playMusic(App->audio->map3_song);
 			change_music = false;
 		}
 
@@ -98,7 +98,7 @@ bool mdMap::update(float dt) {
 		draw();
 	}
 	else if (!change_music) {
-		App->audio->playMusic(App->audio->loadMusic("SFX/BGM_1.ogg"));
+	//	App->audio->playMusic(App->audio->loadMusic("SFX/scene music/BGM_1.ogg"));
 		change_music = true;
 	}
 

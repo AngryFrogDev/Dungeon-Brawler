@@ -24,6 +24,8 @@
   invencibility_on_wakeup ="30"
   super_window ="20"
   cancelability_window ="30"
+  
+  cheap_multiplier ="0.2"
 
   spin_speed ="6"
   improved_spin_speed ="10"
@@ -64,6 +66,7 @@
       <attack value="jm_s1"/>
       <attack value="jm_s2"/>
       <attack value="cr_s1"/>
+      <attack value="cr_s2"/>
     </non_flip_attacks>
     <crouching_hurtbox_attacks>
       <attack value="cr_h"/>
@@ -202,7 +205,8 @@
        type ="st_s1"
        recovery ="300"
        animation_speed ="0.2"
-       frame_delay ="0"/>
+       frame_delay ="0"
+       projectile ="true"/>
       <st_s2
         pos_rel_char_x ="0"
         pos_rel_char_y ="0"
@@ -343,10 +347,16 @@
     super_window ="20"
     cancelability_window ="30"
     
+    cheap_multiplier ="0.2"
+    
     fireball_speed ="10"
     fireball_duration ="2000"
     fireball_emitter_offset_x ="0"
     fireball_emitter_offset_y ="-30"
+    fireball_lvl_2 ="0.5"
+    fireball_lvl_3 ="1"
+    fireball_size_grow ="60"
+    fireball_damage_boost ="10"
     
     air_fireball_angle ="30"
     air_fireball_max_height ="600"
@@ -524,7 +534,8 @@
        type ="st_s1"
        recovery ="350"
        animation_speed ="0.1"
-       frame_delay ="32"/>
+       frame_delay ="32"
+       projectile ="true"/>
       <st_s2
         pos_rel_char_x ="500"
         pos_rel_char_y ="-100"
@@ -599,7 +610,9 @@
          block_type ="overhead"
          type ="jm_s1"
          recovery ="150"
-         animation_speed ="0.1"/>
+         animation_speed ="0.1"
+         frame_delay ="0"
+         projectile ="true"/>
       <jm_s2
         pos_rel_char_x ="60"
         pos_rel_char_y ="50"
@@ -617,7 +630,8 @@
         block_type ="overhead"
         type ="jm_s2"
         recovery ="100"
-        animation_speed ="0.3"/>
+        animation_speed ="0.3"
+        frame_delay ="0"/>
       <super
         pos_rel_char_x ="0"
         pos_rel_char_y ="0"
@@ -635,7 +649,9 @@
         block_type ="mid"
         type ="super"
         recovery ="0"
-        animation_speed ="0.2"/>
+        animation_speed ="0.2"
+        frame_delay ="0"
+        projectile ="true"/>
     </attack_data>
   </mage>
   <rogue  type ="rogue"
@@ -661,6 +677,8 @@
     invencibility_on_wakeup ="30"
     super_window ="20"
     cancelability_window ="30"
+          
+    cheap_multiplier ="0.2"
           
     knife_speed="7"
     knife_duration = "1400"
@@ -817,7 +835,8 @@
         block_type ="overhead"
         type ="jm_h"
         recovery ="30"
-        animation_speed ="0.2"/>
+        animation_speed ="0.2"
+        frame_delay ="0"/>
       <st_s1
        pos_rel_char_x ="100"
        pos_rel_char_y ="-25"
@@ -836,7 +855,8 @@
        type ="st_s1"
        recovery ="350"
        animation_speed ="0.1"
-       frame_delay ="0"/>
+       frame_delay ="0"
+       projectile ="true"/>
       <st_s2
         pos_rel_char_x ="175"
         pos_rel_char_y ="50"
@@ -912,7 +932,8 @@
          type ="jm_s1"
          recovery ="150"
          animation_speed ="0.1"
-         frame_delay ="0"/>
+         frame_delay ="0"
+         projectile ="true"/>
       <jm_s2
         pos_rel_char_x ="60"
         pos_rel_char_y ="50"
@@ -971,6 +992,8 @@
   standing_hurtbox_size_x ="100"
   standing_hurtbox_size_y ="200"
   crouching_hurtbox_offset ="40"
+            
+  cheap_multiplier ="0.2"
     
   invencibility_on_wakeup ="30"
   super_window ="20"
@@ -983,7 +1006,7 @@
 	miss_parry_recovery ="500"
 
 	st_s2_speed ="4"
-	st_s2_invencivility ="500"
+	st_s2_invencivility ="200"
 
 	hammer_duration ="1000"
 	hammer_speed_x ="16"
@@ -1158,7 +1181,8 @@
        type ="st_s1"
        recovery ="350"
        animation_speed ="0.2"
-       frame_delay ="0"/>
+       frame_delay ="0"
+       projectile ="true"/>
       <st_s2
         pos_rel_char_x ="80"
         pos_rel_char_y ="0"
@@ -1234,7 +1258,8 @@
         type ="jm_s1"
         recovery ="150"
         animation_speed ="0.3"
-        frame_delay ="0"/>
+        frame_delay ="0"
+        projectile ="true"/>
       <jm_s2
         pos_rel_char_x ="0"
         pos_rel_char_y ="60"

@@ -20,9 +20,10 @@ mainScene::~mainScene()	{}
 
 bool mainScene::start()	{
 	if (!loaded)
-		scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg"), loaded = true;
-	App->audio->playMusic(scene_music);
-	
+		scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg");
+	if (App->audio->re_play_music)
+		App->audio->playMusic(scene_music), App->audio->re_play_music = false;
+
 	loadSceneUi();
 	assignFocus();
 	
@@ -54,6 +55,7 @@ bool mainScene::onEvent(Buttons* button)	{
 		App->scene_manager->changeScene(App->scene_manager->char_sel_scene, this);
 		break;
 	case CREDITS:
+		App->scene_manager->changeScene(App->scene_manager->credits_scene, this);
 		break;
 	case GAME_EXIT:
 		ret = false;

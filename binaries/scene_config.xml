@@ -31,27 +31,27 @@
 		<labels>
 			<o_vs_o>
 				<content value="ONE VS ONE"/>
-				<color r="255" g="255" b="255" a="255"/>
+				<color r="112" g="62" b="62" a="1"/>
 				<pos x="795" y="125"/>
 			</o_vs_o>
 			<training>
 				<content value="TRAINING"/>
-				<color r="255" g="255" b="255" a="255"/>
+				<color r="112" g="62" b="62" a="1"/>
 				<pos x="815" y="325"/>
 			</training>
 			<settings>
 				<content value="SETTINGS"/>
-				<color r="255" g="255" b="255" a="255"/>
+				<color r="112" g="62" b="62" a="1"/>
 				<pos x="825" y="525"/>
 			</settings>
 			<credits>
 				<content value="CREDITS"/>
-				<color r="255" g="255" b="255" a="255"/>
+				<color r="112" g="62" b="62" a="1"/>
 				<pos x="835" y="725"/>
 			</credits>
 			<exit>
 				<content value="QUIT"/>
-				<color r="255" g="255" b="255" a="255"/>
+				<color r="112" g="62" b="62" a="1"/>
 				<pos x="1475" y="925"/>
 			</exit>
 		</labels>
@@ -327,29 +327,26 @@
 			<pos x="400" y="400"/>
 		</window>
 		<labels>
-			<timer>
-				<color r="0" g="0" b="0" a="0"/>
-				<pos x="880" y="150"/>
-			</timer>
+			
 		</labels>
 		<bars>
 			<health_bar1>
-				<pos x="100" y="195"/>
+				<pos x="100" y="145"/>
 				<flip value="false"/>
 				<target_player value ="0"/>
 			</health_bar1>
 			<health_bar2>
-				<pos x="1030" y="195"/>
+				<pos x="1030" y="145"/>
 				<flip value="true"/>
 				<target_player value ="1"/>
 			</health_bar2>
 			<super_bar1>
-				<pos x="109" y="222"/>
+				<pos x="109" y="172"/>
 				<flip value="false"/>
 				<target_player value ="0"/>
 			</super_bar1>
 			<super_bar2>
-				<pos x="1271" y="222"/>
+				<pos x="1271" y="172"/>
 				<flip value="true"/>
 				<target_player value ="1"/>
 			</super_bar2>

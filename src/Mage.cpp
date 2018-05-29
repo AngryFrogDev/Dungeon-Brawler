@@ -246,8 +246,10 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Charac
 	fireball_speed = character.fireball_speed;
 	fireball_duration = character.fireball_duration; // in milliseconds
 	fireball_emitter_offset = character.fireball_emitter_offset;
-	fireball_size_grow = 60;
-	fireball_damage_boost = 10;
+	fireball_lvl_2 = character.fireball_lvl_2; // 0.75
+	fireball_lvl_3 = character.fireball_lvl_3; // 1.5
+	fireball_size_grow = character.fireball_size_grow; //60
+	fireball_damage_boost = character.fireball_damage_boost;//10
 	initial_fireball = character.st_s1;
 
 	air_fireball_angle = character.air_fireball_angle;
@@ -283,23 +285,6 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Charac
 	charge_fireball_item = false; 
 	double_fireball_item = false;
 
-
-	// PROVISIONAL: This should belong to entities, if not fx are loaded twice
-	//s_jump = App->audio->loadSFX("SFX/jump.wav");
-	//s_light_sword_block = App->audio->loadSFX("SFX/light_sword_block.wav");
-	//s_heavy_sword_block = App->audio->loadSFX("SFX/heavy_sword_block.wav");
-	//s_light_sword_whiff = App->audio->loadSFX("SFX/light_sword_whiff.wav");
-	//s_heavy_sword_whiff = App->audio->loadSFX("SFX/heavy_sword_whiff.wav");
-	//s_light_sword_impact = App->audio->loadSFX("SFX/light_sword_impact.wav");
-	//s_heavy_sword_impact = App->audio->loadSFX("SFX/heavy_sword_impact.wav");
-	//s_standing_special_1 = App->audio->loadSFX("SFX/standing_special_1.wav");
-	//s_standing_special_2 = App->audio->loadSFX("SFX/standing_special_2.wav");
-	//s_jumping_special_1 = App->audio->loadSFX("SFX/jumping_special_1.wav");;
-	//s_crouching_special_1 = App->audio->loadSFX("SFX/crouching_special_1.wav");;
-	//s_crouching_special_2 = App->audio->loadSFX("SFX/crouching_special_2.wav");;
-	//s_man_death = App->audio->loadSFX("SFX/man_death.wav");
-	//s_super = App->audio->loadSFX("SFX/super.wav");
-
 }
 
 
@@ -328,7 +313,7 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		if (inputs[SPECIAL_1] && !fireball_max_charge && charge_fireball_item && !instanciated_hitbox) {
 			fireball_level += 0.016; // Time duration of a frame at 60 fps
 			standing_special1.paused = true;
-			if (fireball_level >= 2)
+			if (fireball_level >= fireball_lvl_3)
 				fireball_max_charge = true;
 			if (hit)
 				standing_special1.paused = false;
@@ -356,7 +341,7 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 			speed.y = 0;
 			emitter_offset.y = fireball_emitter_offset.y;
 			ParticleEmitter* emitter = nullptr;
-			switch ((int)fireball_level) {
+			switch (setFireballLevel()) {
 				case 0:
 					emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-ball.xml");
 					break;
@@ -375,17 +360,19 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		}
 	}
 	if(current_animation->Finished()){
-		mage_charge->active = false;
-		mage_charge = nullptr;
-		fireball_first_update = true;
+		stopChargeEmitter();
 		askRecovery(st_s1.recovery);
 		instanciated_hitbox = false;
 		fireball_level = 0;
-		fireball_max_charge = 0;
+		fireball_max_charge = false;
 	}
 
-	if (hit)
+	if (hit){
 		stopChargeEmitter();
+		instanciated_hitbox = false;
+		fireball_level = 0;
+		fireball_max_charge = false;
+	}
 }
 
 void Mage::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
@@ -396,10 +383,8 @@ void Mage::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 	}
 
 	if (current_animation->GetState() == ACTIVE ) {
-		if(!instanciated_hitbox) {
-			instanciated_hitbox = true;
+		if(!instanciated_hitbox) 
 			instanciateHitbox(st_s2);
-		}
 		fPoint emitter_player_offset = { 0,0 };
 		if (!fliped)
 			emitter_player_offset.x = (float)st_s2.pos_rel_char.x;
@@ -582,6 +567,8 @@ void Mage::stopChargeEmitter()
 	if (mage_charge != nullptr)
 	mage_charge->active = false;
 
+	mage_charge = nullptr;
+
 	fireball_first_update = true;
 }
 
@@ -643,4 +630,17 @@ void Mage::specificCharacterReset() {
 	mine_position = { 0,0 };
 	fireball_level = 0;
 	fireball_max_charge = false;
+	stopChargeEmitter();
+}
+
+int Mage::setFireballLevel() {
+	int ret = 0;
+	if (fireball_level < fireball_lvl_2)
+		ret = 0;
+	else if (fireball_level > fireball_lvl_2 && fireball_level < fireball_lvl_3)
+		ret = 1;
+	else if (fireball_level > fireball_lvl_3)
+		ret = 2;
+
+	return ret;
 }

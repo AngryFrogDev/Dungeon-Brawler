@@ -8,6 +8,7 @@
 #include "mdSceneManager.h"
 #include "mdParticleSystem.h"
 #include "mdEntities.h"
+#include "mdGuiManager.h"
 
 Character::Character(character_deff character, int x_pos, int _fliped, int skin) {
 	// Constructor inicialization
@@ -48,6 +49,7 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	scale = character.scale;
 	non_flip_attacks = character.non_flip_attacks;
 	crouching_hurtbox_attacks = character.crouching_hurtbox_attacks;
+	cheap_multiplier = character.cheap_multiplier;
 	normal_taunt_duration = 1500;
 	shadow_rect = { 452, 3719, 68, 14 };
 	shadow_offset = 105;
@@ -68,6 +70,7 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	state_first_tick = false;
 	taunt_start = 0;
 	taunt_duration = 0;
+	combo_counter = 0;
 	// Others
 	ground_position = 800;
 	lateral_limit = 50;
@@ -97,16 +100,20 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 
 	draw_position.x = calculateDrawPosition(0, draw_size.x* scale, true);
 	draw_position.y = calculateDrawPosition(0, draw_size.y * scale, false);
+
+	//Combo counter rects
+	left_number = { 265, 147, 12, 13 };
+	right_number = { 265, 147, 12, 13 };
+	letters = { 265, 162, 41, 12 };
 }
 
 
 Character::~Character() {
-
+	deleteAllHitboxes();
 }
 
 void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
-	//PROVISIONAL: Crazy provisional
 	if (current_life <= 0 && !death) {
 		updateState(DEAD);
 		hurtbox->active = false;
@@ -120,7 +127,6 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		current_super_gauge = max_super_gauge;
 	}
 
-	
 	fillBuffer(inputs);
 
 
@@ -329,6 +335,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			playCurrentSFX();
 			emmitCurrentParticle();
 			hit = false;
+			current_life -= (int)(attack_recieving.damage * cheap_multiplier);
 			current_super_gauge += super_gauge_gain_block;
 		}
 		if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
@@ -354,6 +361,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			playCurrentSFX();
 			emmitCurrentParticle();
 			hit = false;
+			current_life -= (int)(attack_recieving.damage * cheap_multiplier);
 			current_super_gauge += super_gauge_gain_block;
 		}
 		if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
@@ -382,12 +390,15 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 				App->delayFrame(attack_recieving.frame_delay);
 				playCurrentSFX();
 				hit = false;
+				combo_counter++;
 			}
 			current_life -= attack_recieving.damage;
 			current_super_gauge += super_gauge_gain_hit;
 		}
-		else if (SDL_GetTicks() - moment_hit > attack_recieving.hitstun)
+		else if (SDL_GetTicks() - moment_hit > attack_recieving.hitstun){
 			updateState(IDLE);
+			combo_counter = 0;
+		}
 
 		
 		// Continuous
@@ -423,11 +434,13 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			
 			current_life -= attack_recieving.damage;
 			hit = false;
+			combo_counter++;
 			grounded = false;
 		}
 		if (grounded){
 			juggle_attacks_recieved.clear();
 			updateState(KNOCKDOWN);
+			combo_counter = 0;
 		}
 		break;
 	case KNOCKDOWN:
@@ -512,20 +525,24 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 	else
 		offset = 0;
 
+	// Calculate collider position
 	hurtbox->SetPos(calculateDrawPosition(0, hurtbox->rect.w, true), calculateDrawPosition(offset, hurtbox->rect.h, false));
 	pushbox->SetPos(calculateDrawPosition(0, pushbox->rect.w, true), calculateDrawPosition(crouching_hurtbox_offset, pushbox->rect.h, false));
 
-	// Gauge Limit
+	// Make sure gauge is not exceded
 	if (current_super_gauge > max_super_gauge)
 		current_super_gauge = max_super_gauge;
 
+	// Make sure gravity is applyed
 	if (!grounded) 		{
 		applyGravity();
 		setIfGrounded();
 	}
+	// Crouching/Standing hurtbox
 	hurtboxSizeManagement();
+
+	blitComboCounter();
 	characterSpecificUpdates();
-	// Delete out of life colliders
 	deleteDeadHitboxes();
 }
 
@@ -545,7 +562,9 @@ void Character::onCollision(collider* c1, collider* c2) {
 	}
 	else if ((c1->type == HITBOX || c1->type == PROJECTILE_HITBOX) && (c2->type == HURTBOX || c2->type == PROJECTILE_INVENCIBLE_HURTBOX)) {
 		// Allways delete hitboxes on collision
-		current_super_gauge += super_gauge_gain_strike;
+		if (current_super_gauge != max_super_gauge)
+			current_super_gauge += super_gauge_gain_strike;
+
 		deleteAttackHitbox(c1->attack_type.type, c1);
 	}
 	
@@ -882,6 +901,9 @@ void Character::resetCharacter()	{
 	instanciated_hitbox = false;
 	crouching_hurtbox = false;
 	juggle_attacks_recieved.clear();
+	deleteAllHitboxes();
+	combo_counter = 0;
+	prev_combo_counter = 0;
 
 	specificCharacterReset();
 
@@ -1283,4 +1305,55 @@ void Character::setAnimationPause(bool active) {
 }
 void Character::setState(CHAR_STATE state) {
 	updateState(state);
+}
+void Character::deleteAllHitboxes() {
+	// Compute what hitboxes need to be deleted
+	std::list<collider*> hitboxes_to_delete;
+	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
+		collider* c = *it;
+		c->to_delete = true;
+		hitboxes_to_delete.push_back(c);
+	}
+	// Remove the colliders
+	for (std::list<collider*>::iterator it = hitboxes_to_delete.begin(); it != hitboxes_to_delete.end(); ++it) {
+		collider* c = *it;
+		hitboxes.remove(c);
+	}
+
+	hitboxes_to_delete.clear();
+}
+
+void Character::blitComboCounter(){
+	if (App->entities->players[0]->getCurrCharacter() == this)
+		combo_counter_position = { 1700, 500 };
+	else
+		combo_counter_position = { 150, 500 };
+	
+	if (combo_counter > 1)
+	{
+		if (prev_combo_counter != combo_counter)
+			setRightNumber(combo_counter);
+		if (combo_counter >= 10 && prev_combo_counter != combo_counter)
+			setLeftNumber(combo_counter);
+
+		App->render->drawSprite(10, App->gui->atlas, combo_counter_position.x, combo_counter_position.y, &letters, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(10, App->gui->atlas, combo_counter_position.x - 80, combo_counter_position.y - 10, &right_number, 6, false, 1.0f, 0, 0, 0, false);
+		if (combo_counter >= 10)
+			App->render->drawSprite(10, App->gui->atlas, combo_counter_position.x - 140, combo_counter_position.y - 10, &left_number, 6, false, 1.0f, 0, 0, 0, false);
+
+		prev_combo_counter = combo_counter;
+	}
+	else
+		right_number.x = left_number.x = letters.x, prev_combo_counter = 0; //They share x	
+}
+
+void Character::setLeftNumber(int current_counter)	{
+	int temp = (int)current_counter / 10;
+	left_number.x = letters.x + left_number.w * temp;
+}
+
+void Character::setRightNumber(int current_counter)	{
+	int temp = (int)current_counter / 10;
+	temp = current_counter - temp * 10;
+	right_number.x = letters.x + right_number.w * temp;
 }

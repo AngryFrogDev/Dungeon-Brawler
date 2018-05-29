@@ -25,17 +25,17 @@ void Player::update(SDL_Texture* graphics)
 	if (controller != nullptr) {
 		for (int i = 0; i < MAX_INPUTS; i++){
 				if(i < 4)
-					player_inputs[i] = controller->isPressed(player_controller_scheme.scheme[i], KEY_REPEAT);
+					player_inputs[i] = controller->isPressed((CONTROLLER_BUTTON)(*player_controller_scheme).scheme[i], KEY_REPEAT);
 				else
-					player_inputs[i] = controller->isPressed(player_controller_scheme.scheme[i], App->entities->attack_input);
+					player_inputs[i] = controller->isPressed((CONTROLLER_BUTTON)(*player_controller_scheme).scheme[i], App->entities->attack_input);
 		}
 	}
 	else {
 		for (int i = 0; i < MAX_INPUTS; i++){
 			if(i < 4)
-				player_inputs[i] = App->input->getKey(player_keyboard_scheme.scheme[i]) == KEY_REPEAT;
+				player_inputs[i] = App->input->getKey((SDL_Scancode)(*player_keyboard_scheme).scheme[i]) == KEY_REPEAT;
 			else 
-				player_inputs[i] = App->input->getKey(player_keyboard_scheme.scheme[i]) == App->entities->attack_input;
+				player_inputs[i] = App->input->getKey((SDL_Scancode)(*player_keyboard_scheme).scheme[i]) == App->entities->attack_input;
 		}
 	}
 	if (curr_character != nullptr) {
@@ -89,11 +89,11 @@ void Player::createAndAssignCharacter(CHAR_TYPE type, ITEMS item, bool player, i
 		
 }
 
-void Player::assignControlScheme(const controller_scheme& new_scheme) {
+void Player::assignControlScheme(generic_scheme* new_scheme) {
 	player_controller_scheme = new_scheme;
 }
 
-void Player::assignKeyboardScheme(const keyboard_scheme& new_scheme) {
+void Player::assignKeyboardScheme(generic_scheme* new_scheme) {
 	player_keyboard_scheme = new_scheme;
 }
 
@@ -125,9 +125,9 @@ bool Player::getInput(CHARACTER_INPUTS input, KEY_STATE state) {
 	bool ret = false;
 
 	if (controller != nullptr) 
-		ret = controller->isPressed(player_controller_scheme.scheme[(int)input], state);
+		ret = controller->isPressed((CONTROLLER_BUTTON)(*player_controller_scheme).scheme[(int)input], state);
 	else 
-		ret = App->input->getKey(player_keyboard_scheme.scheme[(int)input]) == state;
+		ret = App->input->getKey((SDL_Scancode)(*player_keyboard_scheme).scheme[(int)input]) == state;
 
 	return ret;
 

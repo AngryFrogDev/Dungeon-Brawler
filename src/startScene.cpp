@@ -22,7 +22,7 @@ startScene::~startScene()
 bool startScene::start()	{
 	//PROVISIONAL: Should find another way to load all scene music
 	if (!loaded)
-		scene_music = App->audio->loadMusic("SFX/scene music/BGM_1.ogg"), loaded = true;
+		scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg"), loaded = true;
 
 	App->audio->playMusic(scene_music);
 	
@@ -52,6 +52,6 @@ void startScene::loadSceneTextures()	{
 }
 
 void startScene::checkSceneInput()	{
-	if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))
+	if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || App->input->isButtonState(BUTTON_A, KEY_DOWN))
 		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
 }

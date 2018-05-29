@@ -191,6 +191,10 @@ pugi::xml_node Application::loadConfig(const char* file_name, pugi::xml_document
 	return config_node;
 }
 
+void Application::saveConfig(const char * file_name, pugi::xml_document & config_file) const {
+	config_file.save_file(file_name);
+}
+
 void Application::delayFrame(int delay) {
 	delayed_frame = true;
 	frame_delay = delay;

@@ -9,6 +9,7 @@
 #include "mdGuiManager.h"
 #include "mdSceneManager.h"
 #include "settingsScene.h"
+#include "mdAudio.h"
 
 
 Bars::Bars(bar_types type, std::pair<int, int> pos, bool _flipped, int target, scene* callback) : Widgets(ui_elem_type::BAR, pos, callback) {
@@ -20,7 +21,10 @@ Bars::Bars(bar_types type, std::pair<int, int> pos, bool _flipped, int target, s
 	target_player = target;
 
 	if (bar_type == SUPER_BAR)
-		current_gauge_rect.w = 0;
+	{
+		current_gauge_rect.w = 0;	
+	}
+
 }
 
 Bars::~Bars(){
@@ -41,9 +45,17 @@ void Bars::draw()	{
 
 	App->render->drawSprite(4, App->gui->getAtlas(), position.first, position.second, &bar_rect, 2, flipped, 1.0f, 0, 0, 0, false);
 	if (bar_type == SUPER_BAR && current_gauge == max_gauge)
+	{
 		App->render->drawSprite(5, App->gui->getAtlas(), position.first + relative_pos.x + aux_bar_pos, position.second + relative_pos.y, &curr_anim->GetCurrentFrame(), 2, flipped, 1.0f, 0, 0, 0, false);
+		if (super_ready == true)
+		{
+			App->audio->playSFX(super_sfx);
+			super_ready = false;
+		}
+			
+	}
 	else	
-	App->render->drawSprite(5, App->gui->getAtlas(), position.first + relative_pos.x + aux_bar_pos, position.second + relative_pos.y, &current_gauge_rect, 2, flipped, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(5, App->gui->getAtlas(), position.first + relative_pos.x + aux_bar_pos, position.second + relative_pos.y, &current_gauge_rect, 2, flipped, 1.0f, 0, 0, 0, false);
 }
 
 void Bars::getSection(SDL_Rect rect, SDL_Rect gauge){
@@ -75,9 +87,12 @@ void Bars::updateBarGauge() {
 void Bars::loadGuiFromAtlas()	{
 	pugi::xml_node hp = data.child("hp");
 	pugi::xml_node super = data.child("super");
+	pugi::xml_node volume = data.child("volume");
 	pugi::xml_node border;
 	pugi::xml_node gauge;
-	
+	std::string filepath;
+	std::string filename;
+
 	switch (bar_type)
 	{
 	case HEALTH_BAR:
@@ -97,27 +112,30 @@ void Bars::loadGuiFromAtlas()	{
 		full_gauge.y = super.child("full_gauge").attribute("y").as_int();
 		full_gauge.h = super.child("full_gauge").attribute("h").as_int();
 		full_gauge.w = super.child("full_gauge").attribute("w").as_int();
+		filepath = "SFX/announcer/";
+		filename = super.child("sfx").attribute("filename").as_string("silence.wav");
+		super_sfx = App->audio->loadSFX((filepath + filename).c_str());
 		setAnimation();
 		break;
 	case MUSIC_VOL_BAR:
 		relative_pos = { -75, 50 };
-		gauge = super.child("gauge");
+		gauge = volume.child("gauge");
 		getSection({ border.attribute("x").as_int(), border.attribute("y").as_int(), border.attribute("w").as_int(), border.attribute("h").as_int() },
 		{ gauge.attribute("x").as_int(),gauge.attribute("y").as_int(), gauge.attribute("w").as_int(), gauge.attribute("h").as_int() });
-		full_gauge.x = super.child("full_gauge").attribute("x").as_int();
-		full_gauge.y = super.child("full_gauge").attribute("y").as_int();
-		full_gauge.h = super.child("full_gauge").attribute("h").as_int();
-		full_gauge.w = super.child("full_gauge").attribute("w").as_int();
+		full_gauge.x = volume.child("full_gauge").attribute("x").as_int();
+		full_gauge.y = volume.child("full_gauge").attribute("y").as_int();
+		full_gauge.h = volume.child("full_gauge").attribute("h").as_int();
+		full_gauge.w = volume.child("full_gauge").attribute("w").as_int();
 		break;
 	case SFX_VOL_BAR:
 		relative_pos = { -75, 50 };
-		gauge = super.child("gauge");
+		gauge = volume.child("gauge");
 		getSection({ border.attribute("x").as_int(), border.attribute("y").as_int(), border.attribute("w").as_int(), border.attribute("h").as_int() },
 		{ gauge.attribute("x").as_int(),gauge.attribute("y").as_int(), gauge.attribute("w").as_int(), gauge.attribute("h").as_int() });
-		full_gauge.x = super.child("full_gauge").attribute("x").as_int();
-		full_gauge.y = super.child("full_gauge").attribute("y").as_int();
-		full_gauge.h = super.child("full_gauge").attribute("h").as_int();
-		full_gauge.w = super.child("full_gauge").attribute("w").as_int();
+		full_gauge.x = volume.child("full_gauge").attribute("x").as_int();
+		full_gauge.y = volume.child("full_gauge").attribute("y").as_int();
+		full_gauge.h = volume.child("full_gauge").attribute("h").as_int();
+		full_gauge.w = volume.child("full_gauge").attribute("w").as_int();
 		break;
 	case NO_BAR:
 		LOG("Non valid Bar type");
@@ -151,14 +169,24 @@ void Bars::calculateBarGauge() {
 		 if (flipped && last_gauge != current_gauge) {
 			 current_gauge_rect.w = (gauge_rect.w*current_gauge) / max_gauge;
 			 current_gauge_rect.x = gauge_rect.x + (gauge_rect.w - current_gauge_rect.w);
+			 if (current_gauge == max_gauge)
+			 {
+				 super_ready = true;
+			 }
 			 last_gauge = current_gauge;
-
+			 
+						 
 		 }
 		 else if (!flipped && last_gauge != current_gauge) {
 			 current_gauge_rect.w = (gauge_rect.w*current_gauge) / max_gauge;
 			 current_gauge_rect.x = gauge_rect.x + (gauge_rect.w - current_gauge_rect.w);
 			 aux_bar_pos = 2 * (gauge_rect.w - current_gauge_rect.w);
+			 if (current_gauge == max_gauge)
+			 {
+				 super_ready = true;
+			 }
 			 last_gauge = current_gauge;
+
 		 }
 	}
 	else if (bar_type == MUSIC_VOL_BAR)
