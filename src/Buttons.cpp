@@ -56,8 +56,11 @@ bool Buttons::preUpdate()
 		//bool p2_light_attack = App->entities->players[1]->getInput(LIGHT_ATTACK, KEY_DOWN);
 		//bool p2_r1 = App->entities->players[1]->getInput(SPECIAL_1, KEY_DOWN);
 		//bool p2_r2 = App->entities->players[1]->getInput(SPECIAL_2, KEY_DOWN);
+		bool p1controller = App->entities->players[0]->getController() != nullptr;
+		bool p2controller = App->entities->players[1]->getController() != nullptr;
 
-		if (App->input->isButtonState(BUTTON_A, KEY_DOWN, focus_id) || App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
+		if (App->input->isButtonState(BUTTON_A, KEY_DOWN, focus_id) || 
+			(App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN && (!p1controller || (focus_id == 1 && !p2controller) || focus_id == -1)))
 		{
 			if (size == STAGE_SELECTION)
 				stop_focus = true;
