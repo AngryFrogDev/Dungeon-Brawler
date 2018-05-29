@@ -1007,6 +1007,7 @@ void characterSelScene::closeP1SkinWindow()	{
 	App->entities->players[0]->focus = nullptr;
 
 	p1_skin_sel_window->to_delete = true;
+	p1_skin_sel_window = nullptr;
 	p1_skin_general_label->to_delete = true;
 
 	if (!player1.has_selected_skin)
@@ -1030,6 +1031,7 @@ void characterSelScene::closeP2SkinWindow()	{
 	App->entities->players[1]->focus = nullptr;
 
 	p2_skin_sel_window->to_delete = true;
+	p2_skin_sel_window = nullptr;
 	p2_skin_general_label->to_delete = true;
 
 	if (!player2.has_selected_skin)
@@ -1047,16 +1049,11 @@ void characterSelScene::resetSceneValues()	{
 	player2.has_selected_character = false;
 	player2.has_selected_item = false;
 
-<<<<<<< HEAD
 	player1.has_selected_skin = false;
 	player2.has_selected_skin = false;
 
 	player1.skin = 4;
 	player2.skin = 4;
-=======
-	player1.skin = 0;
-	player2.skin = 1;
->>>>>>> bf9bac71677afad60e9c0d3280b87eb2796079e8
 
 	transition_timer.stop();
 }
