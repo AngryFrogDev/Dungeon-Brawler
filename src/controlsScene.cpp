@@ -229,7 +229,7 @@ bool controlsScene::onEvent(Buttons* button) {
 			}
 		}
 		break;
-	case SPECIAL_1:
+	case B_SPECIAL_1:
 		if (!changing_buttons) {
 			changing_buttons = true;
 			input_to_change = CHARACTER_INPUTS::SPECIAL_1;
@@ -241,7 +241,7 @@ bool controlsScene::onEvent(Buttons* button) {
 			}
 		}
 		break;
-	case SPECIAL_2:
+	case B_SPECIAL_2:
 		if (!changing_buttons) {
 			changing_buttons = true;
 			input_to_change = CHARACTER_INPUTS::SPECIAL_2;
@@ -253,7 +253,7 @@ bool controlsScene::onEvent(Buttons* button) {
 			}
 		}
 		break;
-	case GRAB:
+	case B_GRAB:
 		if (!changing_buttons) {
 			changing_buttons = true;
 			input_to_change = CHARACTER_INPUTS::GRAB;
