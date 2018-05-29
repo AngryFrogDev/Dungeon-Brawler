@@ -5,6 +5,7 @@
 #include "mdInput.h"
 #include "mdRender.h"
 #include "mdSceneManager.h"
+#include <algorithm>
 
 mdGuiManager::mdGuiManager() : Module() {
 	name = "gui";
@@ -206,10 +207,20 @@ void mdGuiManager::assignP1Focus()	{
 				{
 					temp_iterator--;
 					App->entities->players[0]->focus = *temp_iterator;
+					if (object->focus_id == -1) {
+						std::list<Widgets*>::iterator item = std::find(p2_focus_elements.begin(), p2_focus_elements.end(), *temp_iterator);
+						if (item != p2_focus_elements.end()) App->entities->players[1]->focus = *item;
+					}
 					break;
 				}
-				else
-					App->entities->players[0]->focus = *p1_focus_elements.rbegin(); break;
+				else {
+					App->entities->players[0]->focus = *p1_focus_elements.rbegin();
+					if (object->focus_id == -1) {
+						std::list<Widgets*>::iterator item = std::find(p2_focus_elements.begin(), p2_focus_elements.end(), *p1_focus_elements.rbegin());
+						if (item != p2_focus_elements.end()) App->entities->players[1]->focus = *item;
+					}
+					break;
+				}
 			}
 		}
 	}
@@ -229,10 +240,22 @@ void mdGuiManager::assignP1Focus()	{
 				{
 					temp_iterator--;
 					App->entities->players[0]->focus = *temp_iterator;
+					if (object->focus_id == -1) {
+						std::list<Widgets*>::iterator item = std::find(p2_focus_elements.begin(), p2_focus_elements.end(), *temp_iterator);
+						if (item != p2_focus_elements.end()) App->entities->players[1]->focus = *item;
+					}
 					break;
 				}
-				else
-					App->entities->players[0]->focus = *p1_focus_elements.begin(); break;
+				else {
+					App->entities->players[0]->focus = *p1_focus_elements.begin(); 
+					if (object->focus_id == -1) {
+						if (object->focus_id == -1) {
+							std::list<Widgets*>::iterator item = std::find(p2_focus_elements.begin(), p2_focus_elements.end(), *p1_focus_elements.begin());
+							if (item != p2_focus_elements.end()) App->entities->players[1]->focus = *item;
+						}
+					}
+					break;
+				}
 			}
 		}
 	}
@@ -259,10 +282,24 @@ void mdGuiManager::assignP2Focus()	{
 				{
 					temp_iterator--;
 					App->entities->players[1]->focus = *temp_iterator;
+					if (object->focus_id == -1) {
+						if (object->focus_id == -1) {
+							std::list<Widgets*>::iterator item = std::find(p1_focus_elements.begin(), p1_focus_elements.end(), *temp_iterator);
+							if (item != p1_focus_elements.end()) App->entities->players[0]->focus = *item;
+						}
+					}
 					break;
 				}
-				else
-					App->entities->players[1]->focus = *p2_focus_elements.rbegin(); break;
+				else {
+					App->entities->players[1]->focus = *p2_focus_elements.rbegin(); 
+					if (object->focus_id == -1) {
+						if (object->focus_id == -1) {
+							std::list<Widgets*>::iterator item = std::find(p1_focus_elements.begin(), p1_focus_elements.end(), *p2_focus_elements.rbegin());
+							if (item != p1_focus_elements.end()) App->entities->players[0]->focus = *item;
+						}
+					}
+					break;
+				}
 			}
 		}
 	}
@@ -283,10 +320,20 @@ void mdGuiManager::assignP2Focus()	{
 				{
 					temp_iterator--;
 					App->entities->players[1]->focus = *temp_iterator;
+					if (object->focus_id == -1) {
+						std::list<Widgets*>::iterator item = std::find(p1_focus_elements.begin(), p1_focus_elements.end(), *temp_iterator);
+						if (item != p1_focus_elements.end()) App->entities->players[0]->focus = *item;
+					}
 					break;
 				}
-				else
-					App->entities->players[1]->focus = *p2_focus_elements.begin(); break;
+				else {
+					App->entities->players[1]->focus = *p2_focus_elements.begin(); 
+					if (object->focus_id == -1) {
+						std::list<Widgets*>::iterator item = std::find(p1_focus_elements.begin(), p1_focus_elements.end(), *temp_iterator);
+						if (item != p1_focus_elements.end()) App->entities->players[0]->focus = *item;
+					}
+					break;
+				}
 			}
 		}
 	}

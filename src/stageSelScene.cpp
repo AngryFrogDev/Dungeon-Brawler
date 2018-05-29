@@ -75,9 +75,9 @@ bool stageSelScene::onEvent(Buttons* button)	{
 
 void stageSelScene::loadSceneUi()	{
 	scene_title_label = (Labels*)App->gui->createLabel("STAGE SELECTION", { 255,255,255,255 }, App->fonts->extra_large_size, { 500, 100 }, this);
-	stage_1_button = (Buttons*)App->gui->createButton(SELECT_STAGE_1, STAGE_SELECTION, 0, { 297, 797 }, this);
-	stage_2_button = (Buttons*)App->gui->createButton(SELECT_STAGE_2, STAGE_SELECTION, 0, { 747, 797 }, this);
-	stage_3_button = (Buttons*)App->gui->createButton(SELECT_STAGE_3, STAGE_SELECTION, 0, { 1197, 797 }, this);
+	stage_1_button = (Buttons*)App->gui->createButton(SELECT_STAGE_1, STAGE_SELECTION, -1, { 297, 797 }, this);
+	stage_2_button = (Buttons*)App->gui->createButton(SELECT_STAGE_2, STAGE_SELECTION, -1, { 747, 797 }, this);
+	stage_3_button = (Buttons*)App->gui->createButton(SELECT_STAGE_3, STAGE_SELECTION, -1, { 1197, 797 }, this);
 }
 
 void stageSelScene::loadSceneTextures()	{
@@ -92,6 +92,8 @@ void stageSelScene::loadSceneTextures()	{
 void stageSelScene::assignFocus()	{
 	if (!App->gui->p1_focus_elements.empty())
 		App->entities->players[0]->focus = *App->gui->p1_focus_elements.begin();
+	if (!App->gui->p2_focus_elements.empty())
+		App->entities->players[1]->focus = *App->gui->p2_focus_elements.begin();
 }
 
 void stageSelScene::startingTransition()	{
