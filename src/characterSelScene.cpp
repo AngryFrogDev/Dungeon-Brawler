@@ -320,28 +320,28 @@ void characterSelScene::assignSkins()	{
 	//SKIN ASSIGNMENT
 	if (App->entities->players[0]->getInput(LIGHT_ATTACK, KEY_DOWN))//P1 Skin 1
 	{
-		if (player2.skin == 0)
+		if (player2.skin == 0 && player2.character == player1.character)
 			player1.skin = 1;
 		else
 			player1.skin = 0;
 	}
 	if (App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))//P1 Skin 2
 	{
-		if (player2.skin == 1)
+		if (player2.skin == 1 && player2.character == player1.character)
 			player1.skin = 2;
 		else
 			player1.skin = 1;
 	}
 	if (App->entities->players[0]->getInput(SPECIAL_1, KEY_DOWN))//P1 Skin 3
 	{
-		if (player2.skin == 2)
+		if (player2.skin == 2 && player2.character == player1.character)
 			player1.skin = 3;
 		else
 			player1.skin = 2;
 	}
 	if (App->entities->players[0]->getInput(SPECIAL_2, KEY_DOWN))//P1 Skin 4
 	{
-		if (player2.skin == 3)
+		if (player2.skin == 3 && player2.character == player1.character)
 			player1.skin = 0;
 		else
 			player1.skin = 3;
@@ -349,28 +349,28 @@ void characterSelScene::assignSkins()	{
 
 	if (App->entities->players[1]->getInput(LIGHT_ATTACK, KEY_DOWN))//P2 Skin 1
 	{
-		if (player1.skin == 0)
+		if (player1.skin == 0 && player2.character == player1.character)
 			player2.skin = 1;
 		else
 			player2.skin = 0;
 	}
 	if (App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN))//P2 Skin 2
 	{
-		if (player1.skin == 1)
+		if (player1.skin == 1 && player2.character == player1.character)
 			player2.skin = 2;
 		else
 			player2.skin = 1;
 	}
 	if (App->entities->players[1]->getInput(SPECIAL_1, KEY_DOWN))//P2 Skin 3
 	{
-		if (player1.skin == 2)
+		if (player1.skin == 2 && player2.character == player1.character)
 			player2.skin = 3;
 		else
 			player2.skin = 2;
 	}
 	if (App->entities->players[1]->getInput(SPECIAL_2, KEY_DOWN))//P2 Skin 4
 	{
-		if (player1.skin == 3)
+		if (player1.skin == 3 && player2.character == player1.character)
 			player2.skin = 0;
 		else
 			player2.skin = 3;
@@ -830,6 +830,9 @@ void characterSelScene::resetSceneValues()	{
 	
 	player2.has_selected_character = false;
 	player2.has_selected_item = false;
+
+	player1.skin = 4;
+	player2.skin = 4;
 
 	transition_timer.stop();
 }
