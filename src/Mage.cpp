@@ -246,8 +246,10 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Charac
 	fireball_speed = character.fireball_speed;
 	fireball_duration = character.fireball_duration; // in milliseconds
 	fireball_emitter_offset = character.fireball_emitter_offset;
-	fireball_size_grow = 60;
-	fireball_damage_boost = 10;
+	fireball_lvl_2 = character.fireball_lvl_2; // 0.75
+	fireball_lvl_3 = character.fireball_lvl_3; // 1.5
+	fireball_size_grow = character.fireball_size_grow; //60
+	fireball_damage_boost = character.fireball_damage_boost;//10
 	initial_fireball = character.st_s1;
 
 	air_fireball_angle = character.air_fireball_angle;
@@ -311,7 +313,7 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		if (inputs[SPECIAL_1] && !fireball_max_charge && charge_fireball_item && !instanciated_hitbox) {
 			fireball_level += 0.016; // Time duration of a frame at 60 fps
 			standing_special1.paused = true;
-			if (fireball_level >= 2)
+			if (fireball_level >= fireball_lvl_3)
 				fireball_max_charge = true;
 			if (hit)
 				standing_special1.paused = false;
@@ -339,7 +341,7 @@ void Mage::standingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 			speed.y = 0;
 			emitter_offset.y = fireball_emitter_offset.y;
 			ParticleEmitter* emitter = nullptr;
-			switch ((int)fireball_level) {
+			switch (setFireballLevel()) {
 				case 0:
 					emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/fire-ball.xml");
 					break;
@@ -629,4 +631,16 @@ void Mage::specificCharacterReset() {
 	fireball_level = 0;
 	fireball_max_charge = false;
 	stopChargeEmitter();
+}
+
+int Mage::setFireballLevel() {
+	int ret = 0;
+	if (fireball_level < fireball_lvl_2)
+		ret = 0;
+	else if (fireball_level > fireball_lvl_2 && fireball_level < fireball_lvl_3)
+		ret = 1;
+	else if (fireball_level > fireball_lvl_3)
+		ret = 2;
+
+	return ret;
 }

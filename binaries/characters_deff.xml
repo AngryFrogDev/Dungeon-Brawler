@@ -349,6 +349,10 @@
     fireball_duration ="2000"
     fireball_emitter_offset_x ="0"
     fireball_emitter_offset_y ="-30"
+    fireball_lvl_2 ="0.5"
+    fireball_lvl_3 ="1"
+    fireball_size_grow ="60"
+    fireball_damage_boost ="10"
     
     air_fireball_angle ="30"
     air_fireball_max_height ="600"

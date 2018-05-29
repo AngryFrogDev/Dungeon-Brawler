@@ -55,6 +55,10 @@ struct character_deff {
 	int fireball_speed;
 	int fireball_duration;
 	iPoint fireball_emitter_offset;
+	double fireball_lvl_2;
+	double fireball_lvl_3;
+	int fireball_size_grow;
+	int fireball_damage_boost;
 	int air_fireball_angle;
 	int air_fireball_max_height;
 	iPoint air_fireball_backfire;

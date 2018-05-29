@@ -415,6 +415,10 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 		character.fireball_duration = md_config.attribute("fireball_duration").as_int(0);
 		character.fireball_emitter_offset.x = md_config.attribute("fireball_emitter_offset_x").as_int(0);
 		character.fireball_emitter_offset.y = md_config.attribute("fireball_emitter_offset_y").as_int(0);
+		character.fireball_lvl_2 = md_config.attribute("fireball_lvl_2").as_double(0);
+		character.fireball_lvl_3 = md_config.attribute("fireball_lvl_3").as_double(0);
+		character.fireball_size_grow = md_config.attribute("fireball_size_grow").as_int(0);
+		character.fireball_damage_boost = md_config.attribute("fireball_damage_boost").as_int(0);
 		character.air_fireball_angle = md_config.attribute("air_fireball_angle").as_int(0);
 		character.air_fireball_max_height = md_config.attribute("air_fireball_max_height").as_int(0);
 		character.air_fireball_backfire.x = md_config.attribute("air_fireball_backfire_x").as_int(0);
