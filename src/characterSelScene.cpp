@@ -104,11 +104,13 @@ bool characterSelScene::onEvent(Buttons* button)	{
 			player1.item = SPECIAL_ITEM_1;
 			player1.has_selected_item = true;
 			closeP1Window();
+			popUpP1SkinWindow();
 		}
 		else  {
 			player2.item = SPECIAL_ITEM_1;
 			player2.has_selected_item = true;
 			closeP2Window();
+			popUpP2SkinWindow();
 		}
 		break;
 	case SELECT_ITEM2:
@@ -116,11 +118,13 @@ bool characterSelScene::onEvent(Buttons* button)	{
 			player1.item = SPECIAL_ITEM_2;
 			player1.has_selected_item = true;
 			closeP1Window();
+			popUpP1SkinWindow();
 		}
 		else {
 			player2.item = SPECIAL_ITEM_2;
 			player2.has_selected_item = true;
 			closeP2Window();
+			popUpP1SkinWindow();
 		}
 		break;
 	}
@@ -132,8 +136,15 @@ bool characterSelScene::onEvent(Buttons* button)	{
 
 		else
 			player2.has_selected_character = true, popUpP2Window();
-		
-		assignSkins();
+	}
+
+	if (button->being_clicked && button->size == SKIN_SELECTION)
+	{
+		if (button->focus_id == 0)
+			player1.has_selected_skin = true;
+		else
+			player2.has_selected_skin = true;
+		assignSkins(button);
 	}
 
 	return true;
@@ -187,9 +198,6 @@ void characterSelScene::loadSceneTextures()	{
 	else
 		App->render->drawSprite(2, character_potraits, textures_node.child("right_portraits").attribute("x").as_int(), textures_node.child("right_portraits").attribute("y").as_int(), player2.portrait, textures_node.child("portraits").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 
-	//VS
-//	App->render->drawSprite(4, vs_tex, textures_node.child("vs_tex").attribute("x").as_int(), textures_node.child("vs_tex").attribute("y").as_int(), 0, textures_node.child("vs_tex").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
-
 	//Character Miniatures
 	loadCharMiniaturesTex();
 	
@@ -199,14 +207,15 @@ void characterSelScene::loadSceneTextures()	{
 	//Right
 	App->render->drawSprite(4, character_names, textures_node.child("right_names").attribute("x").as_int(), textures_node.child("right_names").attribute("y").as_int(), player2.name_tex, textures_node.child("names").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 
-	if (player1.has_selected_character && player1.has_selected_item)
+	if (player1.has_selected_skin)
 		App->render->drawSprite(4, ready_tex, textures_node.child("ready_p1").attribute("x").as_int(), textures_node.child("ready_p1").attribute("y").as_int(), 0, textures_node.child("ready_p1").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
-	if (player2.has_selected_character && player2.has_selected_item)
+	if (player2.has_selected_skin)
 		App->render->drawSprite(4, ready_tex, textures_node.child("ready_p2").attribute("x").as_int(), textures_node.child("ready_p2").attribute("y").as_int(), 0, textures_node.child("ready_p2").attribute("scale").as_int(), false, 1.0f, 0, 0, 0, false);
 
 	//OBJECT TEXTUREs
 	loadObjectTextures();
-
+	//SKIN TEXTURES
+	loadSkinTextures();
 }
 
 void characterSelScene::loadObjectTextures()	{
@@ -268,6 +277,84 @@ void characterSelScene::loadObjectTextures()	{
 	}
 }
 
+void characterSelScene::loadSkinTextures()	{
+	if (player1.has_selected_character && player1.has_selected_item && !player1.has_selected_skin)
+	{
+		switch (player1.character)
+		{
+		default:
+			break;
+		case WARRIOR:
+			p1_currentchar_skin_1_preview = &warrior_skin_1_preview;
+			p1_currentchar_skin_2_preview = &warrior_skin_2_preview;
+			p1_currentchar_skin_3_preview = &warrior_skin_3_preview;
+			p1_currentchar_skin_4_preview = &warrior_skin_4_preview;
+			break;
+		case MAGE:
+			p1_currentchar_skin_1_preview = &mage_skin_1_preview;
+			p1_currentchar_skin_2_preview = &mage_skin_2_preview;
+			p1_currentchar_skin_3_preview = &mage_skin_3_preview;
+			p1_currentchar_skin_4_preview = &mage_skin_4_preview;
+			break;
+		case ROGUE:
+			p1_currentchar_skin_1_preview = &rogue_skin_1_preview;
+			p1_currentchar_skin_2_preview = &rogue_skin_2_preview;
+			p1_currentchar_skin_3_preview = &rogue_skin_3_preview;
+			p1_currentchar_skin_4_preview = &rogue_skin_4_preview;
+			break;
+		case PALADIN:
+			p1_currentchar_skin_1_preview = &paladin_skin_1_preview;
+			p1_currentchar_skin_2_preview = &paladin_skin_2_preview;
+			p1_currentchar_skin_3_preview = &paladin_skin_3_preview;
+			p1_currentchar_skin_4_preview = &paladin_skin_4_preview;
+			break;
+		}
+		
+		App->render->drawSprite(6, App->gui->atlas, 250, 400, p1_currentchar_skin_1_preview, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(6, App->gui->atlas, 525, 400, p1_currentchar_skin_2_preview, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(6, App->gui->atlas, 250, 625, p1_currentchar_skin_3_preview, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(6, App->gui->atlas, 525, 625, p1_currentchar_skin_4_preview, 4, false, 1.0f, 0, 0, 0, false);
+	}
+
+	if (player2.has_selected_character && player2.has_selected_item && !player2.has_selected_skin)
+	{
+		switch (player2.character)
+		{
+		default:
+			break;
+		case WARRIOR:
+			p2_currentchar_skin_1_preview = &warrior_skin_1_preview;
+			p2_currentchar_skin_2_preview = &warrior_skin_2_preview;
+			p2_currentchar_skin_3_preview = &warrior_skin_3_preview;
+			p2_currentchar_skin_4_preview = &warrior_skin_4_preview;
+			break;
+		case MAGE:
+			p2_currentchar_skin_1_preview = &mage_skin_1_preview;
+			p2_currentchar_skin_2_preview = &mage_skin_2_preview;
+			p2_currentchar_skin_3_preview = &mage_skin_3_preview;
+			p2_currentchar_skin_4_preview = &mage_skin_4_preview;
+			break;
+		case ROGUE:
+			p2_currentchar_skin_1_preview = &rogue_skin_1_preview;
+			p2_currentchar_skin_2_preview = &rogue_skin_2_preview;
+			p2_currentchar_skin_3_preview = &rogue_skin_3_preview;
+			p2_currentchar_skin_4_preview = &rogue_skin_4_preview;
+			break;
+		case PALADIN:
+			p2_currentchar_skin_1_preview = &paladin_skin_1_preview;
+			p2_currentchar_skin_2_preview = &paladin_skin_2_preview;
+			p2_currentchar_skin_3_preview = &paladin_skin_3_preview;
+			p2_currentchar_skin_4_preview = &paladin_skin_4_preview;
+			break;
+		}
+
+		App->render->drawSprite(6, App->gui->atlas, 1250, 400, p2_currentchar_skin_1_preview, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(6, App->gui->atlas, 1525, 400, p2_currentchar_skin_2_preview, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(6, App->gui->atlas, 1250, 625, p2_currentchar_skin_3_preview, 4, false, 1.0f, 0, 0, 0, false);
+		App->render->drawSprite(6, App->gui->atlas, 1525, 625, p2_currentchar_skin_4_preview, 4, false, 1.0f, 0, 0, 0, false);
+	}
+}
+
 void characterSelScene::loadCharMiniaturesTex()	{
 
 	pugi::xml_node min_pos = textures_node.child("miniature_pos");
@@ -306,7 +393,7 @@ void characterSelScene::checkSceneInput()	{
 		closeP1Window();
 	if (App->entities->players[1]->getInput(GRAB, KEY_DOWN) && object_win_p2)
 		closeP2Window();
-	if (player1.has_selected_character && player1.has_selected_item && player2.has_selected_character && player2.has_selected_item && !transition_timer.isActive())
+	if (player1.has_selected_character && player1.has_selected_item && player1.has_selected_skin && player2.has_selected_character && player2.has_selected_item && player2.has_selected_skin && !transition_timer.isActive())
 	{
 		if (random_sfx == 1)
 			App->audio->playSFX(scene_sfx1);
@@ -316,64 +403,76 @@ void characterSelScene::checkSceneInput()	{
 	}
 }
 
-void characterSelScene::assignSkins()	{
+void characterSelScene::assignSkins(Buttons* button)	{
 	//SKIN ASSIGNMENT
-	if (App->entities->players[0]->getInput(LIGHT_ATTACK, KEY_DOWN))//P1 Skin 1
+	switch (button->button_type)
 	{
-		if (player2.skin == 0 && player2.character == player1.character)
-			player1.skin = 1;
-		else
-			player1.skin = 0;
-	}
-	if (App->entities->players[0]->getInput(HEAVY_ATTACK, KEY_DOWN))//P1 Skin 2
-	{
-		if (player2.skin == 1 && player2.character == player1.character)
-			player1.skin = 2;
-		else
-			player1.skin = 1;
-	}
-	if (App->entities->players[0]->getInput(SPECIAL_1, KEY_DOWN))//P1 Skin 3
-	{
-		if (player2.skin == 2 && player2.character == player1.character)
-			player1.skin = 3;
-		else
-			player1.skin = 2;
-	}
-	if (App->entities->players[0]->getInput(SPECIAL_2, KEY_DOWN))//P1 Skin 4
-	{
-		if (player2.skin == 3 && player2.character == player1.character)
-			player1.skin = 0;
-		else
-			player1.skin = 3;
-	}
-
-	if (App->entities->players[1]->getInput(LIGHT_ATTACK, KEY_DOWN))//P2 Skin 1
-	{
-		if (player1.skin == 0 && player2.character == player1.character)
-			player2.skin = 1;
-		else
-			player2.skin = 0;
-	}
-	if (App->entities->players[1]->getInput(HEAVY_ATTACK, KEY_DOWN))//P2 Skin 2
-	{
-		if (player1.skin == 1 && player2.character == player1.character)
-			player2.skin = 2;
-		else
-			player2.skin = 1;
-	}
-	if (App->entities->players[1]->getInput(SPECIAL_1, KEY_DOWN))//P2 Skin 3
-	{
-		if (player1.skin == 2 && player2.character == player1.character)
-			player2.skin = 3;
-		else
-			player2.skin = 2;
-	}
-	if (App->entities->players[1]->getInput(SPECIAL_2, KEY_DOWN))//P2 Skin 4
-	{
-		if (player1.skin == 3 && player2.character == player1.character)
-			player2.skin = 0;
-		else
-			player2.skin = 3;
+	default:
+		break;
+	case SELECT_SKIN_1:
+		if (button->focus_id == 0)		{
+			if (player2.skin == 0 && player2.character == player1.character)
+				player1.skin = 1;
+			else
+				player1.skin = 0;
+			closeP1SkinWindow();
+		}
+		else		{
+			if (player1.skin == 0 && player2.character == player1.character)
+				player2.skin = 1;
+			else
+				player2.skin = 0;
+			closeP2SkinWindow();
+		}
+		break;
+	case SELECT_SKIN_2:
+		if (button->focus_id == 0) {
+			if (player2.skin == 0 && player2.character == player1.character)
+				player1.skin = 2;
+			else
+				player1.skin = 1;
+			closeP1SkinWindow();
+		}
+		else {
+			if (player1.skin == 0 && player2.character == player1.character)
+				player2.skin = 2;
+			else
+				player2.skin = 1;
+			closeP2SkinWindow();
+		}
+		break;
+	case SELECT_SKIN_3:
+		if (button->focus_id == 0) {
+			if (player2.skin == 0 && player2.character == player1.character)
+				player1.skin = 3;
+			else
+				player1.skin = 2;
+			closeP1SkinWindow();
+		}
+		else {
+			if (player1.skin == 0 && player2.character == player1.character)
+				player2.skin = 3;
+			else
+				player2.skin = 2;
+			closeP2SkinWindow();
+		}
+		break;
+	case SELECT_SKIN_4:
+		if (button->focus_id == 0) {
+			if (player2.skin == 0 && player2.character == player1.character)
+				player1.skin = 0;
+			else
+				player1.skin = 3;
+			closeP1SkinWindow();
+		}
+		else {
+			if (player1.skin == 0 && player2.character == player1.character)
+				player2.skin = 0;
+			else
+				player2.skin = 3;
+			closeP2SkinWindow();
+		}
+		break;
 	}
 }
 
@@ -508,6 +607,28 @@ void characterSelScene::setRects()	{
 	paladin_item2.y = textures_node.child("paladin_obj1").attribute("y").as_int();
 	paladin_item2.w = textures_node.child("paladin_obj1").attribute("w").as_int();
 	paladin_item2.h = textures_node.child("paladin_obj1").attribute("h").as_int();
+
+	//Skin rects
+	warrior_skin_1_preview = { 295, 479, 40, 40 };
+	warrior_skin_2_preview = { 345, 479, 40, 40 };
+	warrior_skin_3_preview = { 395, 479, 40, 40 };
+	warrior_skin_4_preview = { 445, 479, 40, 40 };
+
+	mage_skin_1_preview = { 295, 523, 40, 40 };
+	mage_skin_2_preview = { 345, 523, 40, 40 };
+	mage_skin_3_preview = { 395, 523, 40, 40 };
+	mage_skin_4_preview = { 445, 523, 40, 40 };
+
+	rogue_skin_1_preview = { 295, 566, 40, 40 };
+	rogue_skin_2_preview = { 345, 566, 40, 40 };
+	rogue_skin_3_preview = { 395, 566, 40, 40 };
+	rogue_skin_4_preview = { 445, 566, 40, 40 };
+
+	paladin_skin_1_preview = { 295, 609, 40, 40 };
+	paladin_skin_2_preview = { 345, 609, 40, 40 };
+	paladin_skin_3_preview = { 395, 609, 40, 40 };
+	paladin_skin_4_preview = { 445, 609, 40, 40 };
+
 }
 
 void characterSelScene::setCurrentCharDisplay()	{
@@ -824,12 +945,108 @@ void characterSelScene::closeP2Window()	{
 	}
 }
 
+void characterSelScene::popUpP1SkinWindow()	{
+	std::list<Widgets*>::reverse_iterator it = App->gui->p1_focus_elements.rbegin();
+	Widgets* object = nullptr;
+
+	if (!p1_skin_sel_window)
+	{
+		for (it; it != App->gui->p1_focus_elements.rend(); it++)
+		{
+			object = *it;
+			object->to_delete = true;
+		}
+		App->gui->p1_focus_elements.clear();
+		App->entities->players[0]->focus = nullptr;
+
+		p1_skin_sel_window = (UiWindow*)App->gui->createWindow(OBJ_SELECTION, { 150, 310 }, this);
+		p1_skin_general_label = (Labels*)App->gui->createLabel("Choose your Skin", { 255,255,255,255 }, App->fonts->large_size, { 270, 330 }, this);
+		p1_skin_1_button = (Buttons*)App->gui->createButton(SELECT_SKIN_1, SKIN_SELECTION, 0, { 246, 396 }, this);
+		p1_skin_2_button = (Buttons*)App->gui->createButton(SELECT_SKIN_2, SKIN_SELECTION, 0, { 521, 396 }, this);
+		p1_skin_3_button = (Buttons*)App->gui->createButton(SELECT_SKIN_3, SKIN_SELECTION, 0, { 246, 621 }, this);
+		p1_skin_4_button = (Buttons*)App->gui->createButton(SELECT_SKIN_4, SKIN_SELECTION, 0, { 521, 621 }, this);
+	}
+
+}
+
+void characterSelScene::popUpP2SkinWindow()	{
+	std::list<Widgets*>::reverse_iterator it = App->gui->p2_focus_elements.rbegin();
+	Widgets* object = nullptr;
+
+	if (!p2_skin_sel_window)
+	{
+		for (it; it != App->gui->p2_focus_elements.rend(); it++)
+		{
+			object = *it;
+			object->to_delete = true;
+		}
+		App->gui->p2_focus_elements.clear();
+		App->entities->players[1]->focus = nullptr;
+
+		p2_skin_sel_window = (UiWindow*)App->gui->createWindow(OBJ_SELECTION, { 1140, 310 }, this);
+		p2_skin_general_label = (Labels*)App->gui->createLabel("Choose your Skin", { 255,255,255,255 }, App->fonts->large_size, { 1260, 330 }, this);
+		p2_skin_1_button = (Buttons*)App->gui->createButton(SELECT_SKIN_1, SKIN_SELECTION, 1, { 1246, 396 }, this);
+		p2_skin_2_button = (Buttons*)App->gui->createButton(SELECT_SKIN_2, SKIN_SELECTION, 1, { 1521, 396 }, this);
+		p2_skin_3_button = (Buttons*)App->gui->createButton(SELECT_SKIN_3, SKIN_SELECTION, 1, { 1246, 621 }, this);
+		p2_skin_4_button = (Buttons*)App->gui->createButton(SELECT_SKIN_4, SKIN_SELECTION, 1, { 1521, 621 }, this);
+	}
+}
+
+void characterSelScene::closeP1SkinWindow()	{
+	std::list<Widgets*>::reverse_iterator it = App->gui->p1_focus_elements.rbegin();
+	Widgets* object = nullptr;
+
+	for (it; it != App->gui->p1_focus_elements.rend(); it++)
+	{
+		object = *it;
+		object->to_delete = true;
+	}
+	App->gui->p1_focus_elements.clear();
+	App->entities->players[0]->focus = nullptr;
+
+	p1_skin_sel_window->to_delete = true;
+	p1_skin_general_label->to_delete = true;
+
+	if (!player1.has_selected_skin)
+	{
+		player1.has_selected_item = true;
+		popUpP1Window();
+		assignFocus();
+	}
+}
+
+void characterSelScene::closeP2SkinWindow()	{
+	std::list<Widgets*>::reverse_iterator it = App->gui->p2_focus_elements.rbegin();
+	Widgets* object = nullptr;
+
+	for (it; it != App->gui->p2_focus_elements.rend(); it++)
+	{
+		object = *it;
+		object->to_delete = true;
+	}
+	App->gui->p2_focus_elements.clear();
+	App->entities->players[1]->focus = nullptr;
+
+	p2_skin_sel_window->to_delete = true;
+	p2_skin_general_label->to_delete = true;
+
+	if (!player2.has_selected_skin)
+	{
+		player2.has_selected_item = true;
+		popUpP2Window();
+		assignFocus();
+	}
+}
+
 void characterSelScene::resetSceneValues()	{
 	player1.has_selected_character = false;
 	player1.has_selected_item = false;
 	
 	player2.has_selected_character = false;
 	player2.has_selected_item = false;
+
+	player1.has_selected_skin = false;
+	player2.has_selected_skin = false;
 
 	player1.skin = 4;
 	player2.skin = 4;
@@ -840,7 +1057,5 @@ void characterSelScene::resetSceneValues()	{
 void characterSelScene::startingTransition()	{
 	if (transition_timer.readSec() >= 1)
 		App->scene_manager->changeScene(App->scene_manager->stage_sel_scene, this); 
-
-
 }
 

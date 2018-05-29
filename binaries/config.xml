@@ -52,6 +52,11 @@
 				<focused x="113" y="373" w="126" h="68" />
 				<clicked x="113" y="453" w="126" h="68" />
 			</stage_sel>
+      <skin_sel>
+        <still x="0" y="0" w="0" h="0" />
+        <focused x="6" y="411" w="57" h="57" />
+        <clicked x="6" y="479" w="57" h="57" />
+      </skin_sel>
 		</button_section>
 		<bar_section>
 			<hp>
@@ -67,8 +72,8 @@
 				<sfx filename="ready.wav" />
 			</super>
 			<volume>
-				<gauge x="296" y="468" w="244" h="18" />
-				<full_gauge x="296" y="468" w="244" h="18" />
+				<gauge x="296" y="458" w="244" h="18" />
+				<full_gauge x="296" y="458" w="244" h="18" />
 			</volume>
 		</bar_section>
 	</gui>
