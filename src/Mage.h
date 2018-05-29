@@ -22,6 +22,7 @@ public:
 	void doSuper();
 
 	void stopChargeEmitter();
+	int setFireballLevel();
 
 	void characterSpecificUpdates();
 	void specificCharacterReset();
@@ -36,9 +37,11 @@ private:
 	iPoint fireball_emitter_offset;
 	//Item specific vars
 	double fireball_level; //in seconds
-	bool fireball_max_charge;
+	double fireball_lvl_2;
+	double fireball_lvl_3;
 	int fireball_size_grow;
 	int fireball_damage_boost;
+	bool fireball_max_charge;
 	basic_attack_deff initial_fireball;
 
 

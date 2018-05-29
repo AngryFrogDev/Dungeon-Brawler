@@ -49,6 +49,7 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	scale = character.scale;
 	non_flip_attacks = character.non_flip_attacks;
 	crouching_hurtbox_attacks = character.crouching_hurtbox_attacks;
+	cheap_multiplier = character.cheap_multiplier;
 	normal_taunt_duration = 1500;
 	shadow_rect = { 452, 3719, 68, 14 };
 	shadow_offset = 105;
@@ -334,6 +335,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			playCurrentSFX();
 			emmitCurrentParticle();
 			hit = false;
+			current_life -= (int)(attack_recieving.damage * cheap_multiplier);
 			current_super_gauge += super_gauge_gain_block;
 		}
 		if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)
@@ -359,6 +361,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			playCurrentSFX();
 			emmitCurrentParticle();
 			hit = false;
+			current_life -= (int)(attack_recieving.damage * cheap_multiplier);
 			current_super_gauge += super_gauge_gain_block;
 		}
 		if (SDL_GetTicks() - moment_hit > attack_recieving.blockstun)

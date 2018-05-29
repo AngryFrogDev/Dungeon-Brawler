@@ -259,7 +259,8 @@ Rogue::Rogue(character_deff character, int x_pos, bool _fliped, int skin) : Char
 	current_dash_frames = 0;
 	current_roll_frames = 0;
 	on_super = false;
-	super_emitter = nullptr;
+	for (int i = 0; i < 3; i++) 
+		super_emitter[i] = nullptr;
 	airdash_emitter = nullptr;
 	current_super_frames = 0;
 }
@@ -430,15 +431,16 @@ void Rogue::characterSpecificUpdates()
 			on_super = false;
 			resetRecoveries();
 			current_super_frames = 0;
-			if(super_emitter != nullptr)
-			super_emitter->active = false;
+			deactivateSuperEmitters();
 			walk_speed = walk_speed / 2;
 			jump_power.x = jump_power.x / 2;
 		}
 	}
 
-	if (super_emitter)
-		super_emitter->start_pos = { logic_position.x -30,logic_position.y +20};
+	for (int i = 0; i < 3; i++) {
+		if (super_emitter[i] != nullptr)
+		super_emitter[i]->start_pos = { logic_position.x ,logic_position.y -45 +(i*65) }; //Spred em in the y axis
+	}
 }
 
 void Rogue::fillRecoveriesArray()
@@ -494,6 +496,14 @@ void Rogue::giveItem(ITEMS type) {
 			break;
 		}
 	
+}
+
+void Rogue::deactivateSuperEmitters()
+{
+	for (int i = 0; i < 3; i++) {
+		if (super_emitter[i] != nullptr)
+			super_emitter[i]->active = false;
+	}
 }
 
 void Rogue::crouchingSpecial2() {
@@ -565,7 +575,8 @@ void Rogue::doSuper() {
 		setAllRecoveriesTo(1);
 		updateAnimation(taunt);
 		if (current_super_frames == 0) {
-			super_emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/rogue-super.xml");
+			for (int i = 0; i < 3; i++)
+				super_emitter[i] = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + (i*30) }, "particles/rogue-super.xml");
 			walk_speed *= 2;
 			jump_power.x *= 2;
 		}
@@ -607,16 +618,13 @@ void Rogue::specificCharacterReset() {
 		resetRecoveries();
 		current_super_frames = 0;
 		current_super_gauge = 0;
-		super_emitter->active = false;
 		walk_speed = walk_speed / 2;
 		jump_power.x = jump_power.x / 2;
 	}
-	if (super_emitter)
-		super_emitter->active = false;
+	deactivateSuperEmitters();
 }
 
 Rogue::~Rogue()
 {
-	if (super_emitter != nullptr)
-		super_emitter->active = false;
+	deactivateSuperEmitters();
 }

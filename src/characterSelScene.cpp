@@ -18,6 +18,8 @@ characterSelScene::characterSelScene(bool active) : scene(CHAR_SEL_SCENE)	{
 	setRects();
 	//By default, both player have Warrior selected
 	player1.character = player2.character = WARRIOR;
+	player1.skin = 0;
+	player2.skin = 1;
 }
 
 
@@ -1045,11 +1047,16 @@ void characterSelScene::resetSceneValues()	{
 	player2.has_selected_character = false;
 	player2.has_selected_item = false;
 
+<<<<<<< HEAD
 	player1.has_selected_skin = false;
 	player2.has_selected_skin = false;
 
 	player1.skin = 4;
 	player2.skin = 4;
+=======
+	player1.skin = 0;
+	player2.skin = 1;
+>>>>>>> bf9bac71677afad60e9c0d3280b87eb2796079e8
 
 	transition_timer.stop();
 }
