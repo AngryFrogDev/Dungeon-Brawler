@@ -351,8 +351,8 @@
     
     fireball_speed ="10"
     fireball_duration ="2000"
-    fireball_emitter_offset_x ="0"
-    fireball_emitter_offset_y ="-30"
+    fireball_emitter_offset_x ="30"
+    fireball_emitter_offset_y ="0"
     fireball_lvl_2 ="0.5"
     fireball_lvl_3 ="1"
     fireball_size_grow ="60"

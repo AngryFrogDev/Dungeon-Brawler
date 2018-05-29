@@ -4,11 +4,11 @@
   <type value="1"></type>
   <frequency value="10000"></frequency>
   <max_emissions value="20"></max_emissions>
-  <angle value="-30" variation="60"></angle>
-  <vel_mag value="8.0f" variation="1.0"></vel_mag>
+  <angle value="90" variation="35"></angle>
+  <vel_mag value="9.0f" variation="2.0"></vel_mag>
   <pos_var x="0" y="0"></pos_var>
-  <lifetime value = "25" variation="3"></lifetime>
-  <initial_scale value="1.5f" variation="0.1"></initial_scale>
+  <lifetime value = "25" variation="6"></lifetime>
+  <initial_scale value="1f" variation="0.5"></initial_scale>
   <final_scale value="0.1f" variation="0"></final_scale>
   <initial_color r="139" g="69" b="19"></initial_color>
   <final_color r="139" g="69" b="19"></final_color>

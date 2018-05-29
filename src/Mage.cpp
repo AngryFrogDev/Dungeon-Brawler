@@ -245,6 +245,7 @@ Mage::Mage(character_deff character, int x_pos, bool _fliped, int skin) : Charac
 	//Load from xml
 	fireball_speed = character.fireball_speed;
 	fireball_duration = character.fireball_duration; // in milliseconds
+
 	fireball_emitter_offset = character.fireball_emitter_offset;
 	fireball_lvl_2 = character.fireball_lvl_2; // 0.75
 	fireball_lvl_3 = character.fireball_lvl_3; // 1.5
@@ -393,6 +394,8 @@ void Mage::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 
 		emitter_player_offset.y = (float)st_s2.pos_rel_char.y;
 		App->particle_system->createEmitter({ (float)logic_position.x + emitter_player_offset.x, (float)logic_position.y + emitter_player_offset.y + (float)st_s2.hitbox.h/2 }, "particles/fire-column.xml");
+		App->particle_system->createEmitter({ (float)logic_position.x + emitter_player_offset.x, (float)logic_position.y - 60 + emitter_player_offset.y + (float)st_s2.hitbox.h / 2 }, "particles/fire-column.xml");
+		App->particle_system->createEmitter({ (float)logic_position.x + emitter_player_offset.x, (float)logic_position.y - 120 + emitter_player_offset.y + (float)st_s2.hitbox.h / 2 }, "particles/fire-column.xml");
 	}
 
 	if (current_animation->Finished()) {

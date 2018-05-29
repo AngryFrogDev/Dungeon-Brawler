@@ -4,7 +4,7 @@
   <type value="1"></type>
   <frequency value="10000"></frequency>
   <max_emissions value="20"></max_emissions>
-  <angle value="-30" variation="60"></angle>
+  <angle value="90" variation="60"></angle>
   <vel_mag value="2.0f" variation="1.0"></vel_mag>
   <pos_var x="0" y="0"></pos_var>
   <lifetime value = "50" variation="3"></lifetime>

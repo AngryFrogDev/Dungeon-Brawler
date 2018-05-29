@@ -403,11 +403,11 @@ void Paladin::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 		collider* air_hammer_coll = getAttackHitbox(JM_S1);
 		if(air_hammer_coll != nullptr){
 			// Particles
-			App->particle_system->createEmitter({ (float)logic_position.x - 30 ,(float)logic_position.y - 100 }, "particles/teleportation.xml");
+			App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y - 20 }, "particles/teleportation.xml");
 			logic_position.x = air_hammer_coll->rect.x;
 			logic_position.y = air_hammer_coll->rect.y;
 			// Particles
-			App->particle_system->createEmitter({ (float)logic_position.x - 30 ,(float)logic_position.y - 100 }, "particles/teleportation.xml");
+			App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y - 20 }, "particles/teleportation.xml");
 			deleteAttackHitbox(JM_S1);
 			updateState(JUMPING);
 			just_teleported = true;
@@ -443,7 +443,7 @@ void Paladin::doSuper() {
 		healing_emitter = App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y }, "particles/healing.xml");
 	}
 	if (current_animation->Finished()) {
-		App->particle_system->createEmitter({ (float)logic_position.x - 30 ,(float)logic_position.y - 100 }, "particles/super-healing.xml");
+		App->particle_system->createEmitter({ (float)logic_position.x ,(float)logic_position.y -70}, "particles/super-healing.xml");
 		updateState(IDLE);
 		current_life += super_healing;
 		if (current_life > max_life)
@@ -453,7 +453,7 @@ void Paladin::doSuper() {
 void Paladin::characterSpecificUpdates()
 {
 	if (healing_emitter)
-		healing_emitter->start_pos = { (float)logic_position.x -30,(float)logic_position.y -30 };
+		healing_emitter->start_pos = { (float)logic_position.x,(float)logic_position.y};
 
 	if (grounded) {
 		air_hammer_thrown = true;

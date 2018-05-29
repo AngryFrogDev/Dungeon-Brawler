@@ -2,17 +2,17 @@
 <config>
   <draw_priority value="10"></draw_priority>
   <type value="0"></type>
-  <frequency value="20"></frequency>
-  <max_emissions value="5"></max_emissions>
-  <angle value="82" variation="5"></angle>
-  <vel_mag value="40.0f" variation="1.0"></vel_mag>
-  <pos_var x="20" y="5"></pos_var>
-  <lifetime value = "10" variation="3"></lifetime>
-  <initial_scale value="2" variation="0.1"></initial_scale>
+  <frequency value="100"></frequency>
+  <max_emissions value="10"></max_emissions>
+  <angle value="90" variation="5"></angle>
+  <vel_mag value="30.0f" variation="1.0"></vel_mag>
+  <pos_var x="25" y="5"></pos_var>
+  <lifetime value = "15" variation="3"></lifetime>
+  <initial_scale value="15" variation="0.1"></initial_scale>
   <final_scale value="1" variation="0"></final_scale>
-  <initial_color r="50" g="255" b="50"></initial_color>
+  <initial_color r="40" g="255" b="20"></initial_color>
   <final_color r="0" g="15" b="0" a ="5"></final_color>
   <blend_mode value="2"></blend_mode>
-  <texture_path value="particles/fire.png"></texture_path>
+  <texture_path value="particles/fire-pixel.png"></texture_path>
   <gravity value="0"></gravity>
 </config>

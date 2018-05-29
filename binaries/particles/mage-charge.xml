@@ -5,10 +5,10 @@
   <frequency value="500"></frequency>
   <max_emissions value="130"></max_emissions>
   <angle value="0" variation="360"></angle>
-  <vel_mag value="2.0f" variation="1.5f"></vel_mag>
+  <vel_mag value="5.0f" variation="1.5f"></vel_mag>
   <pos_var x="0" y="0"></pos_var>
   <lifetime value = "20" variation="3"></lifetime>
-  <initial_scale value="10.1f" variation="0.1"></initial_scale>
+  <initial_scale value="8.1f" variation="0.1"></initial_scale>
   <final_scale value="0.0f" variation="0"></final_scale>
   <initial_color r="255" g="200" b="10"></initial_color>
   <final_color r="255" g="0" b="0" a ="255"></final_color>
