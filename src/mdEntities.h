@@ -35,6 +35,7 @@ struct character_deff {
 	std::list<CHAR_ATT_TYPE> non_flip_attacks;
 	std::list<CHAR_ATT_TYPE> crouching_hurtbox_attacks;
 	Mix_Chunk* sfxs[MAX_SOUNDS];
+	double cheap_multiplier;
 
 	// Warrior variables
 	int spin_speed;

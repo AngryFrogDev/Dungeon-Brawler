@@ -289,6 +289,8 @@ protected:
 
 	int invencibility_on_wakeup;
 
+	double cheap_multiplier;
+
 	int super_window;
 	int cancelability_window;
 

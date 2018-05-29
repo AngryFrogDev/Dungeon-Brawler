@@ -384,6 +384,7 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 	character.crouching_hurtbox_offset = md_config.attribute("crouching_hurtbox_offset").as_int(0);
 	character.invencibility_on_wakeup = md_config.attribute("invencibility_on_wakeup").as_int(0);
 	character.super_window = md_config.attribute("super_window").as_int(0);
+	character.cheap_multiplier = md_config.attribute("cheap_multiplier").as_double(0);
 	character.cancelability_window = md_config.attribute("cancelability_window").as_int(0);
 	loadAttackListFromXML(md_config.child("non_flip_attacks"), character.non_flip_attacks);
 	loadAttackListFromXML(md_config.child("crouching_hurtbox_attacks"), character.crouching_hurtbox_attacks);

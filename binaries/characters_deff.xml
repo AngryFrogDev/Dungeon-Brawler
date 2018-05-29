@@ -24,6 +24,8 @@
   invencibility_on_wakeup ="30"
   super_window ="20"
   cancelability_window ="30"
+  
+  cheap_multiplier ="0.2"
 
   spin_speed ="6"
   improved_spin_speed ="10"
@@ -344,6 +346,8 @@
     invencibility_on_wakeup ="30"
     super_window ="20"
     cancelability_window ="30"
+    
+    cheap_multiplier ="0.2"
     
     fireball_speed ="10"
     fireball_duration ="2000"
@@ -674,6 +678,8 @@
     super_window ="20"
     cancelability_window ="30"
           
+    cheap_multiplier ="0.2"
+          
     knife_speed="7"
     knife_duration = "1400"
     crossbow_recoil = "10"
@@ -986,6 +992,8 @@
   standing_hurtbox_size_x ="100"
   standing_hurtbox_size_y ="200"
   crouching_hurtbox_offset ="40"
+            
+  cheap_multiplier ="0.2"
     
   invencibility_on_wakeup ="30"
   super_window ="20"
