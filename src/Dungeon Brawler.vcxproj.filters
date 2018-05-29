@@ -127,6 +127,9 @@
     <ClCompile Include="controlsScene.cpp">
       <Filter>Scenes\Controls Scene</Filter>
     </ClCompile>
+    <ClCompile Include="creditsScene.cpp">
+      <Filter>Scenes\Credits Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mdAudio.h">
@@ -261,6 +264,9 @@
     <ClInclude Include="controlsScene.h">
       <Filter>Scenes\Controls Scene</Filter>
     </ClInclude>
+    <ClInclude Include="creditsScene.h">
+      <Filter>Scenes\Credits Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scenes">
@@ -331,6 +337,9 @@
     </Filter>
     <Filter Include="Scenes\Controls Scene">
       <UniqueIdentifier>{7026ffbf-cfd9-42ca-95f1-0af739b45e4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Credits Scene">
+      <UniqueIdentifier>{b4e7118a-9791-48b8-822b-efaf8cdb1ac0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

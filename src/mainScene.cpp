@@ -50,6 +50,7 @@ bool mainScene::onEvent(Buttons* button)	{
 		App->scene_manager->changeScene(App->scene_manager->char_sel_scene, this);
 		break;
 	case CREDITS:
+		App->scene_manager->changeScene(App->scene_manager->credits_scene, this);
 		break;
 	case GAME_EXIT:
 		ret = false;

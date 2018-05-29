@@ -41,6 +41,7 @@ public:
 	scene* controls_scene = nullptr;
 	scene* combat_scene = nullptr;
 	scene* stage_sel_scene = nullptr;
+	scene* credits_scene = nullptr;
 
 private:
 	enum fade_step

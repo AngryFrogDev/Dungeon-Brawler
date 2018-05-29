@@ -130,6 +130,7 @@
     <ClCompile Include="characterSelScene.cpp" />
     <ClCompile Include="combatScene.cpp" />
     <ClCompile Include="controlsScene.cpp" />
+    <ClCompile Include="creditsScene.cpp" />
     <ClCompile Include="DebLog.cpp" />
     <ClCompile Include="Labels.cpp" />
     <ClCompile Include="Mage.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="characterSelScene.h" />
     <ClInclude Include="combatScene.h" />
     <ClInclude Include="controlsScene.h" />
+    <ClInclude Include="creditsScene.h" />
     <ClInclude Include="Labels.h" />
     <ClInclude Include="mainScene.h" />
     <ClInclude Include="Mage.h" />

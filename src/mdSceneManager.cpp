@@ -16,6 +16,7 @@
 #include "settingsScene.h"
 #include "controlsScene.h"
 #include "stageSelScene.h"
+#include "creditsScene.h"
 
 
 mdSceneManager::mdSceneManager()	{
@@ -30,6 +31,7 @@ mdSceneManager::mdSceneManager()	{
 	char_sel_scene = new characterSelScene(false);
 	combat_scene = new combatScene(false);
 	stage_sel_scene = new stageSelScene(false);
+	credits_scene = new creditsScene(false);
 
 	scene_list.push_back(start_scene);
 	scene_list.push_back(main_scene);
@@ -38,6 +40,7 @@ mdSceneManager::mdSceneManager()	{
 	scene_list.push_back(char_sel_scene);
 	scene_list.push_back(combat_scene);
 	scene_list.push_back(stage_sel_scene);
+	scene_list.push_back(credits_scene);
 }
 
 
