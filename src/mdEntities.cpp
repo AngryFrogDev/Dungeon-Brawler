@@ -276,7 +276,7 @@ bool mdEntities::allowFlip() 	{
 void mdEntities::assignControllers() {
 	std::list<Controller*> controllers = App->input->getController();
 	int counter = 0;
-	for (auto it = controllers.begin(); it != controllers.end() || counter > 4; it++) {
+	for (auto it = controllers.begin(); it != controllers.end() || counter > 2; it++) {
 		if (players[counter] == nullptr)
 			break;
 
