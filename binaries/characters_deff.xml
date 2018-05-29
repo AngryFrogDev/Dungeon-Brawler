@@ -64,6 +64,7 @@
       <attack value="jm_s1"/>
       <attack value="jm_s2"/>
       <attack value="cr_s1"/>
+      <attack value="cr_s2"/>
     </non_flip_attacks>
     <crouching_hurtbox_attacks>
       <attack value="cr_h"/>
