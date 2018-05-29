@@ -254,6 +254,8 @@ KEY_STATE mdInput::getKey(SDL_Scancode key) const{
 
 KEY_STATE mdInput::getControllerButton(int id, SDL_GameControllerButton button) {
 	KEY_STATE ret = KEY_NULL;
+	if (id = !- 1)
+		id = (controllers.front() + id)->getControllerID();
 	for ( std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
 		if ((*it)->getControllerID() == id) {
 			ret = (*it)->buttons[button];
@@ -266,6 +268,8 @@ KEY_STATE mdInput::getControllerButton(int id, SDL_GameControllerButton button) 
 
 bool mdInput::isButtonState(CONTROLLER_BUTTON button, KEY_STATE state, int id) {
 	bool ret = false;
+	if (id = !- 1)
+		id = (controllers.front() + id)->getControllerID();
 	for (std::list<Controller*>::iterator it = controllers.begin(); !ret && it != controllers.end(); ++it) {
 		if (id == -1 || (*it)->getControllerID() == id)
 			ret = (*it)->buttons[button] == state;
@@ -297,6 +301,8 @@ SDL_Scancode mdInput::getLastKeyPressed() const {
 }
 
 void mdInput::pruneControllerInputs(int id) {
+	if (id =! -1)
+		id = (controllers.front() + id)->getControllerID();
 	for (std::list<Controller*>::const_iterator it = controllers.begin(); it != controllers.end(); ++it) {
 		if (id == -1 || (*it)->getControllerID() == id)
 			(*it)->cleanInput();
@@ -310,6 +316,8 @@ void mdInput::pruneKeyboardInputs() {
 
 CONTROLLER_BUTTON mdInput::getLastButtonPressed(int id) const{
 	CONTROLLER_BUTTON ret = BUTTON_INVALID;
+	if (id =! -1)
+		id = (controllers.front() + id)->getControllerID();
 
 	for (std::list<Controller*>::const_iterator it = controllers.begin(); ret == BUTTON_INVALID && it != controllers.end(); ++it) {
 		if (id == -1 || (*it)->getControllerID() == id)
