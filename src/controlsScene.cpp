@@ -285,18 +285,18 @@ void controlsScene::loadSceneUi() {
 	resolution_width = config.child("window").child("resolution").attribute("width").as_int();
 	resolution_height = config.child("window").child("resolution").attribute("height").as_int();
 
-	default_controls = (Buttons*)App->gui->createButton(DEFAULT_CONTROLS, MEDIUM, 0, { resolution_width / 2 + 20, 165 }, this);
-	b_up_control = (Buttons*)App->gui->createButton(B_UP, MEDIUM, 0, { resolution_width / 2 + 20, 265 }, this);
-	b_down_control = (Buttons*)App->gui->createButton(B_DOWN, MEDIUM, 0, { resolution_width / 2 + 20, 330 }, this);
-	b_left_control = (Buttons*)App->gui->createButton(B_LEFT, MEDIUM, 0, { resolution_width / 2 + 20, 395 }, this);
-	b_right_control = (Buttons*)App->gui->createButton(B_RIGHT, MEDIUM, 0, { resolution_width / 2 + 20, 460 }, this);
-	b_light_attack_control = (Buttons*)App->gui->createButton(B_LIGHT_ATTACK, MEDIUM, 0, { resolution_width / 2 + 20, 525 }, this);
-	b_heavy_attack_control = (Buttons*)App->gui->createButton(B_HEAVY_ATTACK, MEDIUM, 0, { resolution_width / 2 + 20, 590 }, this);
-	b_special_1_control = (Buttons*)App->gui->createButton(B_SPECIAL_1, MEDIUM, 0, { resolution_width / 2 + 20, 655 }, this);
-	b_special_2_control = (Buttons*)App->gui->createButton(B_SPECIAL_2, MEDIUM, 0, { resolution_width / 2 + 20, 720 }, this);
-	b_grab_control = (Buttons*)App->gui->createButton(B_GRAB, MEDIUM, 0, { resolution_width / 2 + 20, 785 }, this);
-	save_controls = (Buttons*)App->gui->createButton(SAVE_CONTROLS, MEDIUM, 0, { resolution_width / 2 - 200, 900 }, this);
-	back = (Buttons*)App->gui->createButton(BACK, MEDIUM, 0, { resolution_width / 2 + 245, 900 }, this);
+	default_controls = (Buttons*)App->gui->createButton(DEFAULT_CONTROLS, MEDIUM, -1, { resolution_width / 2 + 20, 165 }, this);
+	b_up_control = (Buttons*)App->gui->createButton(B_UP, MEDIUM, -1, { resolution_width / 2 + 20, 265 }, this);
+	b_down_control = (Buttons*)App->gui->createButton(B_DOWN, MEDIUM, -1, { resolution_width / 2 + 20, 330 }, this);
+	b_left_control = (Buttons*)App->gui->createButton(B_LEFT, MEDIUM, -1, { resolution_width / 2 + 20, 395 }, this);
+	b_right_control = (Buttons*)App->gui->createButton(B_RIGHT, MEDIUM, -1, { resolution_width / 2 + 20, 460 }, this);
+	b_light_attack_control = (Buttons*)App->gui->createButton(B_LIGHT_ATTACK, MEDIUM, -1, { resolution_width / 2 + 20, 525 }, this);
+	b_heavy_attack_control = (Buttons*)App->gui->createButton(B_HEAVY_ATTACK, MEDIUM, -1, { resolution_width / 2 + 20, 590 }, this);
+	b_special_1_control = (Buttons*)App->gui->createButton(B_SPECIAL_1, MEDIUM, -1, { resolution_width / 2 + 20, 655 }, this);
+	b_special_2_control = (Buttons*)App->gui->createButton(B_SPECIAL_2, MEDIUM, -1, { resolution_width / 2 + 20, 720 }, this);
+	b_grab_control = (Buttons*)App->gui->createButton(B_GRAB, MEDIUM, -1, { resolution_width / 2 + 20, 785 }, this);
+	save_controls = (Buttons*)App->gui->createButton(SAVE_CONTROLS, MEDIUM, -1, { resolution_width / 2 - 200, 900 }, this);
+	back = (Buttons*)App->gui->createButton(BACK, MEDIUM, -1, { resolution_width / 2 + 245, 900 }, this);
 
 
 	l_default = (Labels*)App->gui->createLabel("Default", { 112, 62, 62 }, App->fonts->large_size, { resolution_width / 2 + modx + 25, 175 }, this);
@@ -331,6 +331,8 @@ void controlsScene::loadSceneUi() {
 void controlsScene::assignFocus() {
 	if (!App->gui->p1_focus_elements.empty())
 		App->entities->players[0]->focus = *App->gui->p1_focus_elements.begin();
+	if (!App->gui->p2_focus_elements.empty())
+		App->entities->players[1]->focus = *App->gui->p2_focus_elements.begin();
 }
 
 void controlsScene::setUpScancodeList() {
