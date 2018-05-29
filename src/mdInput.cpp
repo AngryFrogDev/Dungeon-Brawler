@@ -254,24 +254,23 @@ KEY_STATE mdInput::getKey(SDL_Scancode key) const{
 
 KEY_STATE mdInput::getControllerButton(int id, SDL_GameControllerButton button) {
 	KEY_STATE ret = KEY_NULL;
-	if (id = !- 1)
-		id = (controllers.front() + id)->getControllerID();
-	for ( std::list<Controller*>::iterator it = controllers.begin(); it != controllers.end(); ++it) {
-		if ((*it)->getControllerID() == id) {
-			ret = (*it)->buttons[button];
-			break;
-		}
+	if (!controllers.empty() && (int)controllers.size() > id) {
+		std::list<Controller*>::iterator it = controllers.begin();
+		std::advance(it, id);
+		ret = (*it)->buttons[button];
 	}
-
 	return ret;
 }
 
 bool mdInput::isButtonState(CONTROLLER_BUTTON button, KEY_STATE state, int id) {
 	bool ret = false;
-	if (id = !- 1)
-		id = (controllers.front() + id)->getControllerID();
-	for (std::list<Controller*>::iterator it = controllers.begin(); !ret && it != controllers.end(); ++it) {
-		if (id == -1 || (*it)->getControllerID() == id)
+	if (!controllers.empty() && (int)controllers.size() > id) {
+		if (id != -1) {
+			std::list<Controller*>::iterator it = controllers.begin();
+			std::advance(it, id);
+			ret = (*it)->buttons[button] == state;
+		}
+		else for (std::list<Controller*>::iterator it = controllers.begin(); !ret && it != controllers.end(); ++it)
 			ret = (*it)->buttons[button] == state;
 	}
 	return ret;
@@ -301,10 +300,13 @@ SDL_Scancode mdInput::getLastKeyPressed() const {
 }
 
 void mdInput::pruneControllerInputs(int id) {
-	if (id =! -1)
-		id = (controllers.front() + id)->getControllerID();
-	for (std::list<Controller*>::const_iterator it = controllers.begin(); it != controllers.end(); ++it) {
-		if (id == -1 || (*it)->getControllerID() == id)
+	if (!controllers.empty() && (int)controllers.size() > id) {
+		if (id != -1) {
+			std::list<Controller*>::iterator it = controllers.begin();
+			std::advance(it, id);
+			(*it)->cleanInput();
+		}
+		else for (std::list<Controller*>::const_iterator it = controllers.begin(); it != controllers.end(); ++it)
 			(*it)->cleanInput();
 	}
 }
@@ -316,13 +318,17 @@ void mdInput::pruneKeyboardInputs() {
 
 CONTROLLER_BUTTON mdInput::getLastButtonPressed(int id) const{
 	CONTROLLER_BUTTON ret = BUTTON_INVALID;
-	if (id =! -1)
-		id = (controllers.front() + id)->getControllerID();
-
-	for (std::list<Controller*>::const_iterator it = controllers.begin(); ret == BUTTON_INVALID && it != controllers.end(); ++it) {
-		if (id == -1 || (*it)->getControllerID() == id)
-			for (int i = 0 ; i < CONTROLLER_BUTTON::BUTTON_MAX && ret == BUTTON_INVALID; ++i)
+	if (!controllers.empty() && (int)controllers.size() > id) {
+		if (id != -1) {
+			std::list<Controller*>::const_iterator it = controllers.begin();
+			std::advance(it, id);
+			for (int i = 0; i < CONTROLLER_BUTTON::BUTTON_MAX && ret == BUTTON_INVALID; ++i)
 				ret = (*it)->buttons[i] == KEY_DOWN ? (CONTROLLER_BUTTON)i : BUTTON_INVALID;
+		}
+		else for (std::list<Controller*>::const_iterator it = controllers.begin(); ret == BUTTON_INVALID && it != controllers.end(); ++it) {
+			for (int i = 0; i < CONTROLLER_BUTTON::BUTTON_MAX && ret == BUTTON_INVALID; ++i)
+				ret = (*it)->buttons[i] == KEY_DOWN ? (CONTROLLER_BUTTON)i : BUTTON_INVALID;
+		}
 	}
 
 	return ret;
