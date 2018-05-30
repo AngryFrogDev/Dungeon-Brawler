@@ -897,7 +897,7 @@ void Character::resetCharacter()	{
 	hit = false;
 	state_first_tick = false;
 	current_super_gauge = 0;
-	velocity.x = velocity.y = 0;//This should be done from the scene manager
+	velocity.x = velocity.y = 0;
 	instanciated_hitbox = false;
 	crouching_hurtbox = false;
 	juggle_attacks_recieved.clear();
