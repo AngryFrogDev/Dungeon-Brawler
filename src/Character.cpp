@@ -384,16 +384,16 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 		}
 		if (hit) { 
 			emmitCurrentParticle();
-			if (attack_recieving.knockdown)
+			if (attack_recieving.knockdown || !grounded)
 				updateState(JUGGLE);
 			else {
 				App->delayFrame(attack_recieving.frame_delay);
 				playCurrentSFX();
 				hit = false;
 				combo_counter++;
+				current_life -= attack_recieving.damage;
+				current_super_gauge += super_gauge_gain_hit;
 			}
-			current_life -= attack_recieving.damage;
-			current_super_gauge += super_gauge_gain_hit;
 		}
 		else if (SDL_GetTicks() - moment_hit > attack_recieving.hitstun){
 			updateState(IDLE);
@@ -431,7 +431,7 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 			}
 
 			velocity.create((float)current_juggle_speed.x, (float)current_juggle_speed.y);
-			
+			current_super_gauge += super_gauge_gain_hit;
 			current_life -= attack_recieving.damage;
 			hit = false;
 			combo_counter++;
