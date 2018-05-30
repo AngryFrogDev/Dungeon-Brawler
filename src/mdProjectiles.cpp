@@ -81,7 +81,8 @@ bool mdProjectiles::cleanUp() {
 
 	for (std::list<projectile*>::iterator it = projectiles.begin(); it != projectiles.end(); ++it) {
 		projectile* p = *it;
-		p->emitter->active = false;
+		if(p->emitter)
+			p->emitter->active = false;
 		delete p;
 	}
 
