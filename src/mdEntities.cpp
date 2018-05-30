@@ -403,7 +403,6 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 		character.jm_s2_speed.y = md_config.attribute("jm_s2_speed_y").as_int(0);
 		character.dive_kick_object_mult = md_config.attribute("dive_kick_object_mult").as_float(0.0);
 		character.dive_kick_max_height = md_config.attribute("dive_kick_max_height").as_int(0);
-		tmp = md_config.attribute("dive_kick_object").as_string("");
 		character.projectile_speed = md_config.attribute("projectile_speed").as_int(0);
 		character.projectile_duration = md_config.attribute("projectile_duration").as_int(0);
 		character.swordyuken_invencivility = md_config.attribute("swordyuken_invencivility").as_int(0);
