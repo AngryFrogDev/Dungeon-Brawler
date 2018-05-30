@@ -142,7 +142,6 @@ void projectile::update() {
 		if (emitter) {
 			emitter->start_pos.x = (float)position.x + collider->rect.w/2 + emitter_offset.x;
 			emitter->start_pos.y = (float)position.y + collider->rect.h/2 + emitter_offset.y;
-			//App->render->drawQuad(100, { (int)emitter->start_pos.x - 10, (int)emitter->start_pos.y - 10, 20,20 }, 255, 255, 255, 255, true, true);
 		}
 	}
 	if (type == ROGUE_DAGGER || type == PALADIN_HAMMER) {
