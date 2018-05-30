@@ -897,7 +897,7 @@ void Character::resetCharacter()	{
 	hit = false;
 	state_first_tick = false;
 	current_super_gauge = 0;
-	velocity.x = velocity.y = 0;//This should be done from the scene manager
+	velocity.x = velocity.y = 0;
 	instanciated_hitbox = false;
 	crouching_hurtbox = false;
 	juggle_attacks_recieved.clear();
@@ -1307,20 +1307,14 @@ void Character::setState(CHAR_STATE state) {
 	updateState(state);
 }
 void Character::deleteAllHitboxes() {
-	// Compute what hitboxes need to be deleted
-	std::list<collider*> hitboxes_to_delete;
+
+
 	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
 		collider* c = *it;
 		c->to_delete = true;
-		hitboxes_to_delete.push_back(c);
-	}
-	// Remove the colliders
-	for (std::list<collider*>::iterator it = hitboxes_to_delete.begin(); it != hitboxes_to_delete.end(); ++it) {
-		collider* c = *it;
-		hitboxes.remove(c);
 	}
 
-	hitboxes_to_delete.clear();
+	hitboxes.clear();
 }
 
 void Character::blitComboCounter(){

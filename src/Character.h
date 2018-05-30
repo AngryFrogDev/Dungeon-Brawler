@@ -355,20 +355,20 @@ public:
 
 protected:
 	// Sound effects
-	Mix_Chunk * s_jump;
-	Mix_Chunk* s_light_sword_block;
-	Mix_Chunk* s_heavy_sword_block;
-	Mix_Chunk* s_light_sword_whiff;
-	Mix_Chunk* s_heavy_sword_whiff;
-	Mix_Chunk* s_light_sword_impact;
-	Mix_Chunk* s_heavy_sword_impact;
-	Mix_Chunk* s_standing_special_1;
-	Mix_Chunk* s_standing_special_2;
-	Mix_Chunk* s_jumping_special_1;
-	Mix_Chunk* s_crouching_special_1;
-	Mix_Chunk* s_crouching_special_2;
-	Mix_Chunk* s_death;
-	Mix_Chunk* s_super;
+	Mix_Chunk * s_jump = nullptr;
+	Mix_Chunk* s_light_sword_block = nullptr;
+	Mix_Chunk* s_heavy_sword_block = nullptr;
+	Mix_Chunk* s_light_sword_whiff = nullptr;
+	Mix_Chunk* s_heavy_sword_whiff = nullptr;
+	Mix_Chunk* s_light_sword_impact = nullptr;
+	Mix_Chunk* s_heavy_sword_impact = nullptr;
+	Mix_Chunk* s_standing_special_1 = nullptr;
+	Mix_Chunk* s_standing_special_2 = nullptr;
+	Mix_Chunk* s_jumping_special_1 = nullptr;
+	Mix_Chunk* s_crouching_special_1 = nullptr;
+	Mix_Chunk* s_crouching_special_2 = nullptr;
+	Mix_Chunk* s_death = nullptr;
+	Mix_Chunk* s_super = nullptr;
 	//Combo counter
 	SDL_Rect left_number;
 	SDL_Rect right_number;

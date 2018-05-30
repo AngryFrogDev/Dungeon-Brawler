@@ -624,7 +624,6 @@ void Rogue::specificCharacterReset() {
 	deactivateSuperEmitters();
 }
 
-Rogue::~Rogue()
-{
+Rogue::~Rogue(){
 	deactivateSuperEmitters();
 }

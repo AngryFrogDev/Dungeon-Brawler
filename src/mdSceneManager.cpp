@@ -132,6 +132,7 @@ void mdSceneManager::startSwitch()	{
 					{
 						App->entities->players[i]->removeCharacters();
 					}
+					
 				}
 			}
 			//Resetting focus
