@@ -981,7 +981,7 @@
   jump_power_y ="25"
   jump_power_x ="5"
    
-  max_life ="10"
+  max_life ="250"
    
   max_super_gauge ="200"
   super_gauge_gain_hit ="15"
