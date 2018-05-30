@@ -126,7 +126,7 @@ bool characterSelScene::onEvent(Buttons* button)	{
 			player2.item = SPECIAL_ITEM_2;
 			player2.has_selected_item = true;
 			closeP2Window();
-			popUpP1SkinWindow();
+			popUpP2SkinWindow();
 		}
 		break;
 	}
