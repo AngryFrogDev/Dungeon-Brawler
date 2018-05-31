@@ -176,6 +176,7 @@ public:
 	int getMaxLife() const;
 	int getCurrentSuperGauge() const;
 	int getMaxSuperGauge() const;
+	bool isFlipped() const;
 	virtual ITEMS getItem() const { return NO_ITEM; };
 	bool notAllowFlip();
 	CHAR_TYPE getType() const;

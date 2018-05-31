@@ -873,6 +873,11 @@ int Character::getMaxSuperGauge() const{
 	return max_super_gauge;
 }
 
+bool Character::isFlipped() const
+{
+	return fliped;
+}
+
 bool Character::notAllowFlip() {
 	if (current_state != ATTACKING)
 		return false;
