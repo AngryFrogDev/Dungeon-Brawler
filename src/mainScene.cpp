@@ -20,7 +20,7 @@ mainScene::~mainScene()	{}
 
 bool mainScene::start()	{
 	if (!loaded)
-		scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg");
+//		scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg");
 	if (App->audio->re_play_music)
 		App->audio->playMusic(scene_music), App->audio->re_play_music = false;
 

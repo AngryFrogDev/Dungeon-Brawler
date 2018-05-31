@@ -172,6 +172,7 @@ bool mdGuiManager::destroyWidget(Widgets* widget) {
 			else if (widget->focus_id == 1)
 				p2_focus_elements.remove(widget);
 		}
+		delete widget;
 	}
 	
 	return ret;
