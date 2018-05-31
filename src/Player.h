@@ -27,7 +27,7 @@ public:
 	void assignKeyboardScheme(generic_scheme* new_scheme);
 
 	iPoint getPos();
-	bool getInput(CHARACTER_INPUTS input, KEY_STATE state);
+	bool getInput(CONTROLLER_BUTTON controller_input, SDL_Scancode keyboard_input, KEY_STATE state);
 
 	Character* getCurrCharacter();
 	void removeCharacters();//Destroy current character from each player

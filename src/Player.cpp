@@ -121,13 +121,13 @@ void Player::setFlip(bool flip) {
 	curr_character->setFlip(flip);
 }
 
-bool Player::getInput(CHARACTER_INPUTS input, KEY_STATE state) {
+bool Player::getInput(CONTROLLER_BUTTON controller_input, SDL_Scancode keyboard_input, KEY_STATE state) {
 	bool ret = false;
 
-	if (controller != nullptr) 
-		ret = controller->isPressed((CONTROLLER_BUTTON)(*player_controller_scheme).scheme[(int)input], state);
-	else 
-		ret = App->input->getKey((SDL_Scancode)(*player_keyboard_scheme).scheme[(int)input]) == state;
+	if (controller != nullptr)
+		ret = controller->isPressed(controller_input, state);
+	else
+		ret = App->input->getKey(keyboard_input) == state;
 
 	return ret;
 

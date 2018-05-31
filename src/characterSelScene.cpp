@@ -46,7 +46,7 @@ bool characterSelScene::start()	{
 	ready_tex = App->textures->load(textures_node.child("ready_tex").attribute("path").as_string());
 
 	App->entities->players[0]->focus = App->entities->players[1]->focus = nullptr;
-		
+
 	//Setting random seed
 	srand(time(NULL));
 	random_sfx = 1 + rand() % (3 - 1);
@@ -389,12 +389,26 @@ void characterSelScene::assignFocus()	{
 }
 
 void characterSelScene::checkSceneInput()	{
-//	if (App->entities->players[0]->getController()->isPressed(BUTTON_B, KEY_DOWN) && !object_win_p1 && !object_win_p2 || App->entities->players[1]->getController()->isPressed(BUTTON_B, KEY_DOWN) && !object_win_p1 && !object_win_p2)
-//		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
-	if (App->entities->players[0]->getInput(GRAB, KEY_DOWN) && object_win_p1)
+	bool supportive_bool_p1 = App->entities->players[0]->getInput(BUTTON_B, SDL_SCANCODE_ESCAPE, KEY_DOWN) && !object_win_p1 && !object_win_p2 && !p1_skin_sel_window && !p2_skin_sel_window;
+	bool supportive_bool_p2 = App->entities->players[1]->getInput(BUTTON_B, SDL_SCANCODE_ESCAPE, KEY_DOWN) && !object_win_p1 && !object_win_p2 && !p1_skin_sel_window && !p2_skin_sel_window;
+	bool supportive_bool_general = App->input->getKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && !object_win_p1 && !object_win_p2 && !p1_skin_sel_window && !p2_skin_sel_window;
+
+	//Go back to main menu when pressing B or ESC
+	if (supportive_bool_p1 || supportive_bool_p2 || supportive_bool_general)
+		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
+
+	//Closing Object Selection window and go back to select character when pressing B
+	if (App->entities->players[0]->getInput(BUTTON_B, SDL_SCANCODE_ESCAPE, KEY_DOWN) && object_win_p1)
 		closeP1Window();
-	if (App->entities->players[1]->getInput(GRAB, KEY_DOWN) && object_win_p2)
+	if (App->entities->players[1]->getInput(BUTTON_B, SDL_SCANCODE_ESCAPE, KEY_DOWN) && object_win_p2)
 		closeP2Window();
+
+	//Closing Skin selection window and go back to select object when pressing B
+	if (App->entities->players[0]->getInput(BUTTON_B, SDL_SCANCODE_ESCAPE, KEY_DOWN) && p1_skin_sel_window)
+		closeP1SkinWindow(), popUpP1Window();
+	if (App->entities->players[1]->getInput(BUTTON_B, SDL_SCANCODE_ESCAPE, KEY_DOWN) && p2_skin_sel_window)
+		closeP2SkinWindow(), popUpP2Window();
+
 	if (player1.has_selected_character && player1.has_selected_item && player1.has_selected_skin && player2.has_selected_character && player2.has_selected_item && player2.has_selected_skin && !transition_timer.isActive())
 	{
 		if (random_sfx == 1)
@@ -429,14 +443,14 @@ void characterSelScene::assignSkins(Buttons* button)	{
 		break;
 	case SELECT_SKIN_2:
 		if (button->focus_id == 0) {
-			if (player2.skin == 0 && player2.character == player1.character)
+			if (player2.skin == 1 && player2.character == player1.character)
 				player1.skin = 2;
 			else
 				player1.skin = 1;
 			closeP1SkinWindow();
 		}
 		else {
-			if (player1.skin == 0 && player2.character == player1.character)
+			if (player1.skin == 1 && player2.character == player1.character)
 				player2.skin = 2;
 			else
 				player2.skin = 1;
@@ -445,14 +459,14 @@ void characterSelScene::assignSkins(Buttons* button)	{
 		break;
 	case SELECT_SKIN_3:
 		if (button->focus_id == 0) {
-			if (player2.skin == 0 && player2.character == player1.character)
+			if (player2.skin == 2 && player2.character == player1.character)
 				player1.skin = 3;
 			else
 				player1.skin = 2;
 			closeP1SkinWindow();
 		}
 		else {
-			if (player1.skin == 0 && player2.character == player1.character)
+			if (player1.skin == 2 && player2.character == player1.character)
 				player2.skin = 3;
 			else
 				player2.skin = 2;
@@ -461,14 +475,14 @@ void characterSelScene::assignSkins(Buttons* button)	{
 		break;
 	case SELECT_SKIN_4:
 		if (button->focus_id == 0) {
-			if (player2.skin == 0 && player2.character == player1.character)
+			if (player2.skin == 3 && player2.character == player1.character)
 				player1.skin = 0;
 			else
 				player1.skin = 3;
 			closeP1SkinWindow();
 		}
 		else {
-			if (player1.skin == 0 && player2.character == player1.character)
+			if (player1.skin == 3 && player2.character == player1.character)
 				player2.skin = 0;
 			else
 				player2.skin = 3;
@@ -1012,7 +1026,7 @@ void characterSelScene::closeP1SkinWindow()	{
 
 	if (!player1.has_selected_skin)
 	{
-		player1.has_selected_item = true;
+		player1.has_selected_item = false;
 		popUpP1Window();
 		assignFocus();
 	}
@@ -1036,7 +1050,7 @@ void characterSelScene::closeP2SkinWindow()	{
 
 	if (!player2.has_selected_skin)
 	{
-		player2.has_selected_item = true;
+		player2.has_selected_item = false;
 		popUpP2Window();
 		assignFocus();
 	}

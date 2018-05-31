@@ -63,7 +63,8 @@ private:
 	Bars* health_bar2 = nullptr;
 	Bars* super_bar1 = nullptr;
 	Bars* super_bar2 = nullptr;
-	Labels* timer = nullptr;
+	Labels* p1_combat_label = nullptr;
+	Labels* p2_combat_label = nullptr;
 
 	SDL_Rect still_round_indicator;
 	SDL_Rect won_round_indicator;
@@ -86,13 +87,11 @@ private:
 	Labels* p1_pause_label = nullptr;
 	Labels* p1_char_sel_label = nullptr;
 	Labels* p1_stage_sel_label = nullptr;
-	Labels* p1_settings_label = nullptr;
 	Labels* p1_main_menu_label = nullptr;
 	Labels* p1_rematch_label = nullptr;
 	
 	Buttons* p1_char_sel_button = nullptr;
 	Buttons* p1_stage_sel_button = nullptr;
-	Buttons* p1_settings_button = nullptr;
 	Buttons* p1_main_menu_button = nullptr;
 	Buttons* p1_rematch_button = nullptr;
 	//P2
@@ -100,12 +99,10 @@ private:
 	Labels* p2_pause_label = nullptr;
 	Labels* p2_char_sel_label = nullptr;
 	Labels* p2_stage_sel_label = nullptr;
-	Labels* p2_settings_label = nullptr;
 	Labels* p2_main_menu_label = nullptr;
 
 	Buttons* p2_char_sel_button = nullptr;
 	Buttons* p2_stage_sel_button = nullptr;
-	Buttons* p2_settings_button = nullptr;
 	Buttons* p2_main_menu_button = nullptr;
 	Buttons* p2_rematch_button = nullptr;
 	//GENERAL
