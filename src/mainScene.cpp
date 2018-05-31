@@ -20,7 +20,7 @@ mainScene::~mainScene()	{}
 
 bool mainScene::start()	{
 	if (!loaded)
-//		scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg");
+		scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg"), loaded = true;
 	if (App->audio->re_play_music)
 		App->audio->playMusic(scene_music), App->audio->re_play_music = false;
 
@@ -78,6 +78,7 @@ void mainScene::loadSceneUi()	{
 	b_settings = (Buttons*)App->gui->createButton(SETTINGS, LARGE, -1, { buttons_node.child("settings").child("pos").attribute("x").as_int(), buttons_node.child("settings").child("pos").attribute("y").as_int() }, this);
 	b_credits = (Buttons*)App->gui->createButton(CREDITS, LARGE, -1, { buttons_node.child("credits").child("pos").attribute("x").as_int(), buttons_node.child("credits").child("pos").attribute("y").as_int() }, this);
 	b_exit = (Buttons*)App->gui->createButton(GAME_EXIT, LARGE, -1, { buttons_node.child("exit").child("pos").attribute("x").as_int(), buttons_node.child("exit").child("pos").attribute("y").as_int() }, this);
+
 	
 	//LABELS
 	l_o_vs_o = (Labels*)App->gui->createLabel(labels_node.child("o_vs_o").child("content").attribute("value").as_string(), { (Uint8)labels_node.child("o_vs_o").child("color").attribute("r").as_int(),(Uint8)labels_node.child("o_vs_o").child("color").attribute("g").as_int(),(Uint8)labels_node.child("o_vs_o").child("color").attribute("b").as_int(),(Uint8)labels_node.child("o_vs_o").child("color").attribute("a").as_int() },

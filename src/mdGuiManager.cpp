@@ -20,6 +20,7 @@ bool mdGuiManager::awake(const pugi::xml_node& md_config) {
 		
 	atlas_file_name = md_config.child("atlas").attribute("file").as_string("");
 	atlas = App->textures->load(atlas_file_name.data());
+	click_sfx = App->audio->loadSFX("SFX/click.wav");
 
 	return ret;
 }

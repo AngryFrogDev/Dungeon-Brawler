@@ -17,7 +17,6 @@ Buttons::Buttons(button_types type, button_size _size, int id, std::pair<int, in
 	data = config.child("gui").child("button_section");
 	stop_focus = false;
 
-	click_sfx = App->audio->loadSFX("SFX/click.wav");
 	loadGuiFromAtlas();
 	current_rect = &still_rect;
 }
@@ -55,7 +54,7 @@ bool Buttons::preUpdate()
 			if (size == STAGE_SELECTION)
 				stop_focus = true;
 
-			App->audio->playSFX(click_sfx);
+			App->audio->playSFX(App->gui->click_sfx);
 			changeVisualState(CLICK);
 			being_clicked = true;
 			ret = callback->onEvent(this);

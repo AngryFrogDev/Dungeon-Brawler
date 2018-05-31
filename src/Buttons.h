@@ -43,7 +43,6 @@ private:
 	bool enabled = true;
 	bool is_clicked = false;
 
-	Mix_Chunk* click_sfx;
 
 };
 #endif

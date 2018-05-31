@@ -14,7 +14,9 @@ Labels::Labels(const char* content, const SDL_Color& _color, _TTF_Font* _font_si
 }
 
 
-Labels::~Labels() {}
+Labels::~Labels() {
+	App->textures->unload(text_texture);
+}
 
 void Labels::draw() {
 	if (to_blit)
