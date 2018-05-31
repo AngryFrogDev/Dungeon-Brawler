@@ -93,7 +93,6 @@ bool settingsScene::onEvent(Buttons* button) {
 		break;
 	case BACK:
 		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
-		App->map->loadMap(0);
 	}
 
 	return ret;
