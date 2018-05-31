@@ -49,10 +49,12 @@ bool mainScene::onEvent(Buttons* button)	{
 	case ONE_V_ONE:
 		App->entities->traning = false;
 		App->scene_manager->changeScene(App->scene_manager->char_sel_scene, this);
+		App->map->unloadMap();
 		break;
 	case TRAINING:
 		App->entities->traning = true;
 		App->scene_manager->changeScene(App->scene_manager->char_sel_scene, this);
+		App->map->unloadMap();
 		break;
 	case CREDITS:
 		App->scene_manager->changeScene(App->scene_manager->credits_scene, this);
@@ -66,6 +68,7 @@ bool mainScene::onEvent(Buttons* button)	{
 		break;
 	case STAGE_SEL_SCENE:
 		App->scene_manager->changeScene(App->scene_manager->stage_sel_scene, this);
+		App->map->unloadMap();
 		break;
 	}
 
