@@ -4,6 +4,7 @@
 #include "DebLog.h"
 #include "mdGuiManager.h"
 #include "mdSceneManager.h"
+#include "mdMap.h"
 
 creditsScene::creditsScene(bool active) : scene(MAIN_SCENE) {
 	scene_active = active;
@@ -44,6 +45,7 @@ bool creditsScene::onEvent(Buttons* button) {
 		break;
 	case BACK:
 		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
+		App->map->loadMap(0);
 	}
 
 	return ret;

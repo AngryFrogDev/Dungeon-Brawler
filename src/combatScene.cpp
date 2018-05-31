@@ -104,6 +104,7 @@ bool combatScene::onEvent(Buttons * button)	{
 		else
 			closeP2Window();
 		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
+		App->map->loadMap(0);
 		break;
 	case IN_GAME_SETTINGS:
 		if (button->focus_id == 0)
@@ -111,6 +112,7 @@ bool combatScene::onEvent(Buttons * button)	{
 		else
 			closeP2Window();
 		App->scene_manager->changeScene(App->scene_manager->settings_scene, this);
+		App->map->loadMap(0);
 		break;
 	case IN_GAME_STAGE_SEL:
 		if (button->focus_id == 0)
@@ -127,6 +129,7 @@ bool combatScene::onEvent(Buttons * button)	{
 	case MATCH_END_MAIN_MENU:
 		closeGeneralWindow();
 		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
+		App->map->loadMap(0);
 		break;
 	case MATCH_END_REMATCH:
 		closeGeneralWindow();
@@ -531,7 +534,6 @@ void combatScene::resetSceneValues()	{
 	scene_timer.stop();
 	combat_start_timer.start();
 	//Bools
-	App->map->map_loaded = true;
 	App->entities->setPause(false);
 	App->entities->setStopped(true);
 	App->entities->show = true;

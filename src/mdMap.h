@@ -38,16 +38,15 @@ public:
 	int map_id = 0;
 
 	bool loadMap(int mapIndex);
+	bool unloadMap();
 private:
 
 	bool loadMapPropierties(pugi::xml_node& node);
-	bool unloadMap();
 	int selected_map = 0;
 
 public:
 
 	MapData data;
-	bool map_loaded;
 	bool parallax = true;
 
 private:
@@ -55,6 +54,8 @@ private:
 	pugi::xml_document	map_file;
 	int mapx = 0;
 	int mapx2 = 0;
+	int mapx3 = 0;
+	int mapx4 = 0;
 	bool firstfront = true;
 	int iterator = 0;
 	int parallax_speed = 0;

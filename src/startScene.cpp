@@ -4,6 +4,7 @@
 #include "mdRender.h"
 #include "mdSceneManager.h"
 #include "mdFonts.h"
+#include "mdMap.h"
 
 
 startScene::startScene(bool active) : scene(START_SCENE)	{
@@ -51,7 +52,8 @@ void startScene::loadSceneTextures()	{
 	App->render->drawSprite(1, game_logo, 150, 150, 0, 1, false, 0, 0, 0, 0, false);
 }
 
-void startScene::checkSceneInput()	{
-	if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || App->input->isButtonState(BUTTON_A, KEY_DOWN))
+void startScene::checkSceneInput() {
+	if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || App->input->isButtonState(BUTTON_A, KEY_DOWN)) {
 		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
+	}
 }

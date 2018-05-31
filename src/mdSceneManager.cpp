@@ -142,7 +142,6 @@ void mdSceneManager::startSwitch()	{
 			App->gui->cleanUp();
 			App->render->cleanBlitQueue();
 			App->projectiles->cleanUp();
-			App->map->map_loaded = false;
 
 			to_enable->scene_active = true;
 			to_enable->start();
