@@ -97,7 +97,6 @@ bool combatScene::onEvent(Buttons * button)	{
 		else
 			closeP2Window();
 		App->scene_manager->changeScene(App->scene_manager->char_sel_scene, this);
-		App->map->unloadMap();
 		break;
 	case IN_GAME_MAIN_MENU:
 		if (button->focus_id == 0)
@@ -120,12 +119,10 @@ bool combatScene::onEvent(Buttons * button)	{
 			closeP2Window();
 		App->audio->re_play_music = true;
 		App->scene_manager->changeScene(App->scene_manager->stage_sel_scene, this);
-		App->map->unloadMap();
 		break;
 	case MATCH_END_CHAR_SEL:
 		closeGeneralWindow();
 		App->scene_manager->changeScene(App->scene_manager->char_sel_scene, this);
-		App->map->unloadMap();
 		break;
 	case MATCH_END_MAIN_MENU:
 		closeGeneralWindow();
@@ -140,7 +137,6 @@ bool combatScene::onEvent(Buttons * button)	{
 		App->audio->re_play_music = true;
 		closeGeneralWindow();
 		App->scene_manager->changeScene(App->scene_manager->stage_sel_scene, this);
-		App->map->unloadMap();
 		break;
 	case MATCH_END_SETTINGS:
 		App->audio->re_play_music = true;
