@@ -19,7 +19,7 @@ Player::~Player(){
 	curr_character = nullptr;
 }
 
-void Player::update(SDL_Texture* graphics)
+void Player::update()
 {
 	bool player_inputs[MAX_INPUTS] = { false };
 	if (controller != nullptr) {
@@ -42,7 +42,7 @@ void Player::update(SDL_Texture* graphics)
 		if (!App->entities->paused)
 			curr_character->update(player_inputs);
 		if(App->entities->show)
-			curr_character->draw(graphics);
+			curr_character->draw(curr_character->getGraphics());
 	}
 
 }
@@ -111,9 +111,10 @@ Character * Player::getCurrCharacter()
 }
 
 void Player::removeCharacters()	{
-	for (int i = 0; i < 2; i++) {
-		delete App->entities->players[i]->getCurrCharacter();
-		App->entities->players[i]->curr_character = nullptr;
+	if(curr_character){
+	curr_character->cleanUp();
+	delete curr_character;
+	curr_character = nullptr;
 	}
 }
 
@@ -121,13 +122,13 @@ void Player::setFlip(bool flip) {
 	curr_character->setFlip(flip);
 }
 
-bool Player::getInput(CHARACTER_INPUTS input, KEY_STATE state) {
+bool Player::getInput(CONTROLLER_BUTTON controller_input, SDL_Scancode keyboard_input, KEY_STATE state) {
 	bool ret = false;
 
-	if (controller != nullptr) 
-		ret = controller->isPressed((CONTROLLER_BUTTON)(*player_controller_scheme).scheme[(int)input], state);
-	else 
-		ret = App->input->getKey((SDL_Scancode)(*player_keyboard_scheme).scheme[(int)input]) == state;
+	if (controller != nullptr)
+		ret = controller->isPressed(controller_input, state);
+	else
+		ret = App->input->getKey(keyboard_input) == state;
 
 	return ret;
 

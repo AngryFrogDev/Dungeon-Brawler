@@ -186,6 +186,8 @@ private:
 	currentCharacter player1, player2;
 
 	Timer transition_timer;
+	Controller* p1_temp = nullptr;
+	Controller* p2_temp = nullptr;
 	
 };
 

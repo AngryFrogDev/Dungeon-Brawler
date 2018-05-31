@@ -16,7 +16,7 @@ public:
 	~Player();
 
 	// Will exectute the updates of the curr_character
-	void update(SDL_Texture* graphics);
+	void update();
 	// Function to assign a controller to the player								 
 	void assignController(Controller* controller);
 	// Function so assign a certain character to the player		     
@@ -27,7 +27,7 @@ public:
 	void assignKeyboardScheme(generic_scheme* new_scheme);
 
 	iPoint getPos();
-	bool getInput(CHARACTER_INPUTS input, KEY_STATE state);
+	bool getInput(CONTROLLER_BUTTON controller_input, SDL_Scancode keyboard_input, KEY_STATE state);
 
 	Character* getCurrCharacter();
 	void removeCharacters();//Destroy current character from each player
