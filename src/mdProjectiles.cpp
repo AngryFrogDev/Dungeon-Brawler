@@ -44,6 +44,12 @@ bool mdProjectiles::preUpdate() {
 		projectile* p = *it;
 		if (p->collider->to_delete) { // Projectiles are deleted with their colliders
 			projectiles_to_delete.push_back(p);
+			if (p->type == MAGE_FIREBALL) {
+				if (p->collider->character->isFlipped())
+					App->particle_system->createEmitter({ (float)p->position.x, (float)p->position.y + (p->collider->rect.h / 2) }, "particles/fireball-explosion.xml");
+				else
+					App->particle_system->createEmitter({ (float)p->position.x + p->collider->rect.w, (float)p->position.y + (p->collider->rect.h / 2) }, "particles/fireball-explosion.xml");
+			}
 		}
 	}
 

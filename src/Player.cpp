@@ -19,7 +19,7 @@ Player::~Player(){
 	curr_character = nullptr;
 }
 
-void Player::update(SDL_Texture* graphics)
+void Player::update()
 {
 	bool player_inputs[MAX_INPUTS] = { false };
 	if (controller != nullptr) {
@@ -42,7 +42,7 @@ void Player::update(SDL_Texture* graphics)
 		if (!App->entities->paused)
 			curr_character->update(player_inputs);
 		if(App->entities->show)
-			curr_character->draw(graphics);
+			curr_character->draw(curr_character->getGraphics());
 	}
 
 }
@@ -111,9 +111,10 @@ Character * Player::getCurrCharacter()
 }
 
 void Player::removeCharacters()	{
-	for (int i = 0; i < 2; i++) {
-		delete App->entities->players[i]->getCurrCharacter();
-		App->entities->players[i]->curr_character = nullptr;
+	if(curr_character){
+	curr_character->cleanUp();
+	delete curr_character;
+	curr_character = nullptr;
 	}
 }
 

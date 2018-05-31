@@ -117,7 +117,6 @@ public:
 	bool preUpdate();
 	bool postUpdate() override;
 	bool cleanUp();
-	SDL_Texture* getGraphics(CHAR_TYPE type, int skin_id);
 
 	// Creates a character and assigns it to a player
 	void createPlayer(int player);
@@ -160,26 +159,6 @@ private:
 	void loadAttackDeffFromXML(const pugi::xml_node& md_config, basic_attack_deff& attack);
 private:
 	int camera_movement;
-	//Graphics of the warrior
-	SDL_Texture* warrior_graphics;
-	SDL_Texture* warrior_graphics2;
-	SDL_Texture* warrior_graphics3;
-	SDL_Texture* warrior_graphics4;
-
-	SDL_Texture* mage_graphics; 
-	SDL_Texture* mage_graphics2;
-	SDL_Texture* mage_graphics3;
-	SDL_Texture* mage_graphics4;
-
-	SDL_Texture* rogue_graphics;
-	SDL_Texture* rogue_graphics2;
-	SDL_Texture* rogue_graphics3;
-	SDL_Texture* rogue_graphics4;
-
-	SDL_Texture* paladin_graphics;
-	SDL_Texture* paladin_graphics2;
-	SDL_Texture* paladin_graphics3;
-	SDL_Texture* paladin_graphics4;
 	pugi::xml_document entities_config_doc;
 };
 
