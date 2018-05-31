@@ -47,24 +47,6 @@ bool mdEntities::awake(const pugi::xml_node & md_config) {
 
 	loadCharactersFromXML(App->loadConfig("characters_deff.xml", entities_config_doc));
 
-	//PROVISIONAL: Should be loaded from an xml
-	warrior_graphics = App->textures->load("Assets/warrior.png");
-	warrior_graphics2 = App->textures->load("Assets/warrior_2.png");
-	warrior_graphics3 = App->textures->load("Assets/warrior_3.png");
-	warrior_graphics4 = App->textures->load("Assets/warrior_4.png");
-	mage_graphics = App->textures->load("Assets/mage.png");
-	mage_graphics2 = App->textures->load("Assets/mage_2.png");
-	mage_graphics3 = App->textures->load("Assets/mage_3.png");
-	mage_graphics4 = App->textures->load("Assets/mage_4.png");
-	rogue_graphics = App->textures->load("Assets/rogue.png");
-	rogue_graphics2 = App->textures->load("Assets/rogue_2.png");
-	rogue_graphics3 = App->textures->load("Assets/rogue_3.png");
-	rogue_graphics4 = App->textures->load("Assets/rogue_4.png");
-	paladin_graphics = App->textures->load("Assets/paladin.png");
-	paladin_graphics2 = App->textures->load("Assets/paladin_2.png");
-	paladin_graphics3 = App->textures->load("Assets/paladin_3.png");
-	paladin_graphics4 = App->textures->load("Assets/paladin_4.png");
-
 	traning = false;
 	show = true;
 	paused = false;
@@ -85,76 +67,8 @@ bool mdEntities::preUpdate() {
 	}
 
 	for (int i = 0; i < 2; i++) { 
-		if (players[i] != nullptr && players[i]->getCurrCharacter() != nullptr){
-			switch (players[i]->getCurrCharacter()->getType()) {
-				case WARRIOR:
-					switch (players[i]->getCurrCharacter()->skin_id){
-						case 0:
-							players[i]->update(warrior_graphics); 
-							break;
-						case 1:
-							players[i]->update(warrior_graphics2);
-							break;
-						case 2:
-							players[i]->update(warrior_graphics3);
-							break;
-						case 3:
-							players[i]->update(warrior_graphics4);
-							break;
-					}
-					break;
-				case MAGE:
-					switch (players[i]->getCurrCharacter()->skin_id) {
-					case 0:
-						players[i]->update(mage_graphics);
-						break;
-					case 1:
-						players[i]->update(mage_graphics2);
-						break;
-					case 2:
-						players[i]->update(mage_graphics3);
-						break;
-					case 3:
-						players[i]->update(mage_graphics4);
-						break;
-					}
-					break;
-				case ROGUE:
-					switch (players[i]->getCurrCharacter()->skin_id) {
-					case 0:
-						players[i]->update(rogue_graphics);
-						break;
-					case 1:
-						players[i]->update(rogue_graphics2);
-						break;
-					case 2:
-						players[i]->update(rogue_graphics3);
-						break;
-					case 3:
-						players[i]->update(rogue_graphics4);
-						break;
-					}
-					break;
-				case PALADIN:
-					switch (players[i]->getCurrCharacter()->skin_id) {
-					case 0:
-						players[i]->update(paladin_graphics);
-						break;
-					case 1:
-						players[i]->update(paladin_graphics2);
-						break;
-					case 2:
-						players[i]->update(paladin_graphics3);
-						break;
-					case 3:
-						players[i]->update(paladin_graphics4);
-						break;
-					}
-					break;
-			}
-
-		}
-		
+		if (players[i] != nullptr && players[i]->getCurrCharacter() != nullptr)
+			players[i]->update();
 	}
 
 	return ret;
@@ -557,77 +471,6 @@ void mdEntities::loadAttackListFromXML(const pugi::xml_node& md_config, std::lis
 	while (iterator != nullptr) {
 		attack_list.push_back(stringToCharAttType(iterator.attribute("value").as_string()));
  		iterator = iterator.next_sibling();
-	}
-}
-
-SDL_Texture* mdEntities::getGraphics(CHAR_TYPE type, int skin_id) {
-	switch (type) {
-	case WARRIOR:
-		switch (skin_id) {
-		case 0:
-			return warrior_graphics;
-			break;
-		case 1:
-			return warrior_graphics2;
-			break;
-		case 2:
-			return warrior_graphics3;
-			break;
-		case 3:
-			return warrior_graphics4;
-			break;
-		}
-		break;
-	case MAGE:
-		switch (skin_id) {
-		case 0:
-			return mage_graphics;
-			break;
-		case 1:
-			return mage_graphics2;
-			break;
-		case 2:
-			return mage_graphics3;
-			break;
-		case 3:
-			return mage_graphics4;
-			break;
-		}
-		break;
-	case ROGUE:
-		switch (skin_id) {
-		case 0:
-			return rogue_graphics;
-			break;
-		case 1:
-			return rogue_graphics2;
-			break;
-		case 2:
-			return rogue_graphics3;
-			break;
-		case 3:
-			return rogue_graphics4;
-			break;
-		}
-		break;
-	case PALADIN:
-		switch (skin_id) {
-		case 0:
-			return paladin_graphics;
-			break;
-		case 1:
-			return paladin_graphics2;
-			break;
-		case 2:
-			return paladin_graphics3;
-			break;
-		case 3:
-			return paladin_graphics4;
-			break;
-		}
-		break;
-	case DEF_CHAR:
-		return nullptr;
 	}
 }
 void mdEntities::setPause(bool active) {

@@ -16,7 +16,7 @@ public:
 	~Player();
 
 	// Will exectute the updates of the curr_character
-	void update(SDL_Texture* graphics);
+	void update();
 	// Function to assign a controller to the player								 
 	void assignController(Controller* controller);
 	// Function so assign a certain character to the player		     

@@ -179,6 +179,7 @@ public:
 	virtual ITEMS getItem() const { return NO_ITEM; };
 	bool notAllowFlip();
 	CHAR_TYPE getType() const;
+	SDL_Texture* getGraphics();
 	void resetCharacter();
 	virtual void specificCharacterReset() {return;}
 
@@ -192,6 +193,9 @@ public:
 	void setAnimationPause(bool active);
 	// State update externally
 	void setState(CHAR_STATE state); // Just use it to set to stopped or idle, please
+
+	// CleanUp
+	void cleanUp();
 protected:	
 	// Execute attack, rewritable for every type of character
 	virtual void doAttack(const bool(&inputs)[MAX_INPUTS]);
@@ -249,6 +253,7 @@ protected:
 	void blitComboCounter(); // Will need "int combo_counter_position(yet to create) and int combo_counter(already created)
 	void setLeftNumber(int current_counter);
 	void setRightNumber(int current_counter);
+	SDL_Texture* loadTexture(CHAR_TYPE type, int skin_id);
 
 protected:
 
@@ -348,12 +353,10 @@ protected:
 	int current_recovery; // In milliseconds
 	Timer recovery_timer;
 	CHARACTER_INPUTS input_buffer[MAX_INPUT_BUFFER];
-public:
-	//Swap variables
-	//int lane; // 1 = bottom  2 = top This is important
-	int skin_id; // 0 = normal, 1 = recolor 1, 2 = recolor 2...
 
 protected:
+	// Graphics
+	SDL_Texture* graphics = nullptr;
 	// Sound effects
 	Mix_Chunk * s_jump = nullptr;
 	Mix_Chunk* s_light_sword_block = nullptr;

@@ -14,7 +14,6 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	// Constructor inicialization
 	fliped = _fliped;
 	logic_position.x = x_pos;
-	skin_id = skin;
 	type = character.type;
 	// Basic attack definitions
 	st_l = character.st_l;
@@ -105,6 +104,9 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	left_number = { 265, 147, 12, 13 };
 	right_number = { 265, 147, 12, 13 };
 	letters = { 265, 162, 41, 12 };
+
+	// Texture 
+	graphics = loadTexture(type, skin);
 }
 
 
@@ -1350,4 +1352,84 @@ void Character::setRightNumber(int current_counter)	{
 	int temp = (int)current_counter / 10;
 	temp = current_counter - temp * 10;
 	right_number.x = letters.x + right_number.w * temp;
+}
+
+SDL_Texture* Character::loadTexture(CHAR_TYPE type, int skin_id) {
+
+	SDL_Texture* ret = nullptr;
+	switch (type) {
+	case WARRIOR:
+		switch (skin_id) {
+		case 0:
+			ret = App->textures->load("Assets/warrior.png");
+			break;
+		case 1:
+			ret = App->textures->load("Assets/warrior_2.png");
+			break;
+		case 2:
+			ret = App->textures->load("Assets/warrior_3.png");
+			break;
+		case 3:
+			ret = App->textures->load("Assets/warrior_4.png");
+			break;
+		}
+		break;
+	case MAGE:
+		switch (skin_id) {
+		case 0:
+			ret = App->textures->load("Assets/mage.png");
+			break;
+		case 1:
+			ret = App->textures->load("Assets/mage_2.png");
+			break;
+		case 2:
+			ret = App->textures->load("Assets/mage_3.png");
+			break;
+		case 3:
+			ret = App->textures->load("Assets/mage_4.png");
+			break;
+		}
+		break;
+	case ROGUE:
+		switch (skin_id) {
+		case 0:
+			ret = App->textures->load("Assets/rogue.png");
+			break;
+		case 1:
+			ret = App->textures->load("Assets/rogue_2.png");
+			break;
+		case 2:
+			ret = App->textures->load("Assets/rogue_3.png");
+			break;
+		case 3:
+			ret = App->textures->load("Assets/rogue_4.png");
+			break;
+		}
+		break;
+	case PALADIN:
+		switch (skin_id) {
+		case 0:
+			ret = App->textures->load("Assets/paladin.png");
+			break;
+		case 1:
+			ret = App->textures->load("Assets/paladin_2.png");
+			break;
+		case 2:
+			ret = App->textures->load("Assets/paladin_3.png");
+			break;
+		case 3:
+			ret = App->textures->load("Assets/paladin_4.png");
+			break;
+		}
+		break;
+	}
+
+	return ret;
+}
+SDL_Texture* Character::getGraphics() {
+	return graphics;
+}
+void Character::cleanUp() {
+	if (graphics)
+		App->textures->unload(graphics);
 }
