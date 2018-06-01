@@ -14,20 +14,21 @@ mainScene::mainScene(bool active) : scene(MAIN_SCENE)	{
 	//Preparing nodes to ease XML reading
 	labels_node = scene_config.child("main_scene").child("labels");
 	buttons_node = scene_config.child("main_scene").child("buttons");
+	// Load stuff
+	scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg");
+	background = App->textures->load("assets/main_background.png");
 }
 
 mainScene::~mainScene()	{}
 
 bool mainScene::start()	{
-	if (!loaded)
-		scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg"), loaded = true;
 	if (App->audio->re_play_music)
 		App->audio->playMusic(scene_music), App->audio->re_play_music = false;
 
 	loadSceneUi();
 	assignFocus();
 
-	background = App->textures->load("assets/main_background.png");
+
 	
 	return true;
 }

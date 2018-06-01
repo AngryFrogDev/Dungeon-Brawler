@@ -12,6 +12,8 @@ startScene::startScene(bool active) : scene(START_SCENE)	{
 	//Preparing nodes to ease XML reading
 	labels_node = scene_config.child("start_scene").child("labels");
 	textures_node = scene_config.child("start_scene").child("textures");
+	// Load stuff
+	scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg");
 }
 
 
@@ -21,8 +23,6 @@ startScene::~startScene()
 
 bool startScene::start()	{
 	//PROVISIONAL: Should find another way to load all scene music
-	if (!loaded)
-		scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg"), loaded = true;
 
 	App->audio->playMusic(scene_music);
 	

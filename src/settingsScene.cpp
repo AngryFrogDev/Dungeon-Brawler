@@ -13,6 +13,11 @@
 settingsScene::settingsScene(bool active) : scene(MAIN_SCENE) {
 	scene_active = active;
 	name = "Settings Scene";
+
+	// Load stuff
+	scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg");
+	s_crouching_special_2 = App->audio->loadSFX("SFX/crouching_special_2.wav"); // Provisional: Should be loaded from XML
+	background = App->textures->load("assets/main_background.png");
 }
 
 
@@ -23,13 +28,11 @@ settingsScene::~settingsScene()
 bool settingsScene::start() {
 	loadSceneUi();
 	assignFocus();
-	s_crouching_special_2 = App->audio->loadSFX("SFX/crouching_special_2.wav"); // Provisional: Should be loaded from XML
-	if (!loaded)
-		scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg");
+
 	if (App->audio->re_play_music)
 		App->audio->playMusic(scene_music), App->audio->re_play_music = false;
 
-	background = App->textures->load("assets/main_background.png");
+
 
 	return true;
 }

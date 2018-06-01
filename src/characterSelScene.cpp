@@ -20,25 +20,21 @@ characterSelScene::characterSelScene(bool active) : scene(CHAR_SEL_SCENE)	{
 	player1.character = player2.character = WARRIOR;
 	player1.skin = 0;
 	player2.skin = 1;
+	// Load stuff
+	scene_sfx1 = App->audio->loadSFX("SFX/announcer/get-ready-to-brawl.wav");
+	scene_sfx2 = App->audio->loadSFX("SFX/announcer/get-ready-to-fight.wav");
+	scene_music = App->audio->loadMusic("SFX/scene music/Character_Stage_Selection.ogg");
+	character_potraits = App->textures->load(textures_node.child("portraits_tex").attribute("path").as_string());
+	vs_tex = App->textures->load(textures_node.child("vs_tex").attribute("path").as_string());
+	character_names = App->textures->load(textures_node.child("char_name_tex").attribute("path").as_string());
+	items = App->textures->load(textures_node.child("items_tex").attribute("path").as_string());
+	ready_tex = App->textures->load(textures_node.child("ready_tex").attribute("path").as_string());
 }
 
 
 characterSelScene::~characterSelScene()	{}
 
 bool characterSelScene::start()	{
-	if (!loaded)
-	{
-		scene_sfx1 = App->audio->loadSFX("SFX/announcer/get-ready-to-brawl.wav");
-		scene_sfx2 = App->audio->loadSFX("SFX/announcer/get-ready-to-fight.wav");
-		scene_music = App->audio->loadMusic("SFX/scene music/Character_Stage_Selection.ogg");
-		loaded = true;
-
-		character_potraits = App->textures->load(textures_node.child("portraits_tex").attribute("path").as_string());
-		vs_tex = App->textures->load(textures_node.child("vs_tex").attribute("path").as_string());
-		character_names = App->textures->load(textures_node.child("char_name_tex").attribute("path").as_string());
-		items = App->textures->load(textures_node.child("items_tex").attribute("path").as_string());
-		ready_tex = App->textures->load(textures_node.child("ready_tex").attribute("path").as_string());
-	}
 
 	App->audio->playMusic(scene_music);
 

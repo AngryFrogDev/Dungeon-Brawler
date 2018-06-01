@@ -86,7 +86,7 @@
 		<schemes>
 			<controller_schemes>
 				<default_controller up="11" down="12" left="13" right="14" light_attack="0" heavy_attack="1" special_1="10" special_2="9" grab="3" start="6" />
-				<player1_controller up="11" down="12" left="13" right="14" light_attack="2" heavy_attack="3" special_1="10" special_2="9" grab="1" start="6" />
+				<player1_controller up="11" down="12" left="13" right="14" light_attack="2" heavy_attack="3" special_1="10" special_2="1" grab="9" start="6" />
 				<player2_controller up="11" down="12" left="13" right="14" light_attack="0" heavy_attack="1" special_1="10" special_2="9" grab="3" start="6" />
 			</controller_schemes>
 			<keyboard_schemes>

@@ -23,7 +23,12 @@ mdSceneManager::mdSceneManager()	{
 	//PROVISIONAL: Hardcoded
 	screen = { 0, 0, 1920, 1080 };
 	name = "SceneManager";
+}
 
+
+mdSceneManager::~mdSceneManager(){}
+
+bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	start_scene = new startScene(true);
 	main_scene = new mainScene(false);
 	settings_scene = new settingsScene(false);
@@ -41,13 +46,6 @@ mdSceneManager::mdSceneManager()	{
 	scene_list.push_back(combat_scene);
 	scene_list.push_back(stage_sel_scene);
 	scene_list.push_back(credits_scene);
-}
-
-
-mdSceneManager::~mdSceneManager(){}
-
-bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
-	
 	return true;
 }
 

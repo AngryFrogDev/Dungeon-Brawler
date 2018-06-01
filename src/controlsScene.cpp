@@ -12,6 +12,8 @@
 controlsScene::controlsScene(bool active) : scene(MAIN_SCENE) {
 	scene_active = active;
 	name = "Controls Scene";
+	// Load stuff
+	controls_texture = App->textures->load("gui/controls.png");
 }
 
 
@@ -19,10 +21,6 @@ controlsScene::~controlsScene() {
 }
 
 bool controlsScene::start() {
-	if (!loaded) {
-		controls_texture = App->textures->load("gui/controls.png");
-	}
-
 	curr_player = 1;
 
 	loadSceneUi();

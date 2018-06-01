@@ -8,6 +8,10 @@
 creditsScene::creditsScene(bool active) : scene(MAIN_SCENE) {
 	scene_active = active;
 	name = "Credits Scene";
+
+
+	// Load stuff
+	scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg");
 }
 
 
@@ -18,8 +22,6 @@ creditsScene::~creditsScene()
 bool creditsScene::start() {
 	loadSceneUi();
 	assignFocus();
-	if (!loaded)
-		scene_music = App->audio->loadMusic("SFX/scene music/Main_Menu.ogg");
 	if (App->audio->re_play_music)
 		App->audio->playMusic(scene_music), App->audio->re_play_music = false;
 

@@ -7,6 +7,12 @@
 stageSelScene::stageSelScene(bool active) : scene(STAGE_SEL_SCENE){
 	scene_active = active;
 	name = "Stage Selection Scene";
+	// Load stuff
+	stage_1 = App->textures->load("assets/stage_1_prev.png");
+	stage_2 = App->textures->load("assets/stage_2_prev.png");
+	stage_3 = App->textures->load("assets/stage_3_prev.png");
+	scene_sfx = App->audio->loadSFX("SFX/announcer/location-confirmed.wav");
+	scene_music = App->audio->loadMusic("SFX/scene music/Character_Stage_Selection.ogg");
 }
 
 
@@ -14,14 +20,6 @@ stageSelScene::~stageSelScene(){}
 
 bool stageSelScene::start()	{
 	bool ret = true;
-	if (!loaded)
-	{
-		stage_1 = App->textures->load("assets/stage_1_prev.png");
-		stage_2 = App->textures->load("assets/stage_2_prev.png");
-		stage_3 = App->textures->load("assets/stage_3_prev.png");
-		scene_sfx = App->audio->loadSFX("SFX/announcer/location-confirmed.wav");
-		scene_music = App->audio->loadMusic("SFX/scene music/Character_Stage_Selection.ogg");
-	}
 	if (App->audio->re_play_music)
 		App->audio->playMusic(scene_music), App->audio->re_play_music;
 

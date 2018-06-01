@@ -24,7 +24,23 @@ combatScene::combatScene(bool active) : scene(COMBAT_SCENE)	{
 	buttons_node = scene_config.child("combat").child("buttons");
 	textures_node = scene_config.child("combat").child("textures");
 	window_node = scene_config.child("combat").child("window");
-
+	// Load stuff
+	announcer_textures = App->textures->load("gui/Announcer_ui.png");
+	timer_tex = App->textures->load("gui/timer.png");
+	round_sfx1 = App->audio->loadSFX("SFX/announcer/a-perfect-place.wav");
+	round_sfx2 = App->audio->loadSFX("SFX/announcer/it-is-do-or-die.wav");
+	round_sfx3 = App->audio->loadSFX("SFX/announcer/go-for-broke.wav");
+	round_sfx4 = App->audio->loadSFX("SFX/announcer/go-nuts-stage.wav");
+	last_round_sfx = App->audio->loadSFX("SFX/announcer/it-all-comes-down.wav");
+	fight_sfx = App->audio->loadSFX("SFX/announcer/fight.wav");
+	player_dead_sfx1 = App->audio->loadSFX("SFX/announcer/cool.wav");
+	player_dead_sfx2 = App->audio->loadSFX("SFX/announcer/down.wav");
+	ko_sfx = App->audio->loadSFX("SFX/announcer/KO(delay).wav");
+	perfect_sfx = App->audio->loadSFX("SFX/announcer/perfect.wav");
+	time_up_sfx = App->audio->loadSFX("SFX/announcer/time-up.wav");
+	player1_wins_sfx = App->audio->loadSFX("SFX/announcer/player-1-wins.wav");
+	player2_wins_sfx = App->audio->loadSFX("SFX/announcer/player-2-wins.wav");
+	danger = App->audio->loadSFX("SFX/announcer/danger(time-out).wav");
 	setRects();
 }
 
@@ -32,26 +48,6 @@ combatScene::combatScene(bool active) : scene(COMBAT_SCENE)	{
 combatScene::~combatScene()	{}
 
 bool combatScene::start()	{
-	if (can_load_textures)
-	{
-		announcer_textures = App->textures->load("gui/Announcer_ui.png");
-		timer_tex = App->textures->load("gui/timer.png");
-		round_sfx1 = App->audio->loadSFX("SFX/announcer/a-perfect-place.wav");
-		round_sfx2 = App->audio->loadSFX("SFX/announcer/it-is-do-or-die.wav");
-		round_sfx3 = App->audio->loadSFX("SFX/announcer/go-for-broke.wav");
-		round_sfx4 = App->audio->loadSFX("SFX/announcer/go-nuts-stage.wav");
-		last_round_sfx = App->audio->loadSFX("SFX/announcer/it-all-comes-down.wav");
-		fight_sfx = App->audio->loadSFX("SFX/announcer/fight.wav");
-		player_dead_sfx1 = App->audio->loadSFX("SFX/announcer/cool.wav");
-		player_dead_sfx2 = App->audio->loadSFX("SFX/announcer/down.wav");
-		ko_sfx = App->audio->loadSFX("SFX/announcer/KO(delay).wav");
-		perfect_sfx = App->audio->loadSFX("SFX/announcer/perfect.wav");
-		time_up_sfx = App->audio->loadSFX("SFX/announcer/time-up.wav");
-		player1_wins_sfx = App->audio->loadSFX("SFX/announcer/player-1-wins.wav");
-		player2_wins_sfx = App->audio->loadSFX("SFX/announcer/player-2-wins.wav");
-		danger = App->audio->loadSFX("SFX/announcer/danger(time-out).wav");
-		can_load_textures = false;
-	}
 
 	char1 = App->entities->players[0]->getCurrCharacter()->getType();
 	char2 = App->entities->players[1]->getCurrCharacter()->getType();
