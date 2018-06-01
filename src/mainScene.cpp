@@ -26,13 +26,15 @@ bool mainScene::start()	{
 
 	loadSceneUi();
 	assignFocus();
+
+	background = App->textures->load("assets/main_background.png");
 	
 	return true;
 }
 
 bool mainScene::update(float dt)	{
 	App->gui->draw();
-
+	App->render->drawSprite(1, background, -850, 0, (const SDL_Rect*)0, 4, false, 0);
 	return true;
 }
 
@@ -105,3 +107,10 @@ void mainScene::assignFocus()	{
 		App->entities->players[1]->focus = *App->gui->p2_focus_elements.begin();
 }
 
+bool mainScene::cleanUp() {
+	LOG("Unloading background");
+
+	App->textures->unload(background);
+
+	return true;
+}

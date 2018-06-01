@@ -53,6 +53,7 @@ public:
 	const char* name = nullptr;
 	Mix_Music* scene_music = nullptr;
 	bool loaded = false;
+	SDL_Texture* background = nullptr;
 
 protected:
 	//Nodes

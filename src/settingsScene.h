@@ -12,6 +12,7 @@ public:
 
 	bool start();
 	bool update(float dt);
+	bool cleanUp();
 
 private:
 

@@ -29,12 +29,15 @@ bool settingsScene::start() {
 	if (App->audio->re_play_music)
 		App->audio->playMusic(scene_music), App->audio->re_play_music = false;
 
+	background = App->textures->load("assets/main_background.png");
+
 	return true;
 }
 
 bool settingsScene::update(float dt) {
 	App->gui->draw();
-
+	App->render->drawSprite(1, background, -850, 0, (const SDL_Rect*)0, 4, false, 0);
+	App->scene_manager->main_scene->assignFocus();
 	return true;
 }
 
@@ -143,4 +146,12 @@ int settingsScene::getMusicVol() {
 
 int settingsScene::getSfxVol() {
 	return current_sfx_volume;
+}
+
+bool settingsScene::cleanUp() {
+	LOG("Unloading background");
+
+	App->textures->unload(background);
+
+	return true;
 }
