@@ -73,6 +73,9 @@ bool characterSelScene::update(float dt)	{
 }
 
 bool characterSelScene::onEvent(Buttons* button)	{
+	if (App->scene_manager->is_switching)
+		return true;
+
 	switch (button->button_type)
 	{
 	default:

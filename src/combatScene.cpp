@@ -243,10 +243,10 @@ void combatScene::loadSceneTextures()	{
 		break;
 	}
 
-	App->render->drawSprite(3, App->gui->atlas, 110, 50, &character1_rect, 3, false, 0, 0, 0, 0, false);
-	App->render->drawSprite(3, App->gui->atlas, 1570, 50, &character2_rect, 3, false, 0, 0, 0, 0, false);
-	App->render->drawSprite(4, App->gui->atlas, 119, 59, &character1_image, 3, false, 0, 0, 0, 0, false);
-	App->render->drawSprite(4, App->gui->atlas, 1579, 59, &character2_image, 3, true, 0, 0, 0, 0, false);
+	App->render->drawSprite(3, App->gui->atlas, 110, 50, &character1_rect, 3, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(3, App->gui->atlas, 1570, 50, &character2_rect, 3, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(4, App->gui->atlas, 119, 59, &character1_image, 3, false, 1.0f, 0, 0, 0, false);
+	App->render->drawSprite(4, App->gui->atlas, 1579, 59, &character2_image, 3, true, 1.0f, 0, 0, 0, false);
 
 	//ROUND INDICATORS
 	switch (p1_rounds_won)

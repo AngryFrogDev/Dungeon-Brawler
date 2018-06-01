@@ -48,7 +48,7 @@ void startScene::loadSceneUi()	{
 }
 
 void startScene::loadSceneTextures()	{
-	App->render->drawSprite(1, game_logo, 150, 150, 0, 1, false, 0, 0, 0, 0, false);
+	App->render->drawSprite(1, game_logo, 150, 150, nullptr, 1, false, 0, 0, 0, 0, false);
 }
 
 void startScene::checkSceneInput()	{

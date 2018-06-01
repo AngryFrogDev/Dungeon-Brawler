@@ -44,7 +44,7 @@ public:
 
 	SDL_Texture* atlas;
 	std::string atlas_file_name;
-	Mix_Chunk* click_sfx;
+	Mix_Chunk* click_sfx = nullptr;
 
 private:
 	bool debug = false;

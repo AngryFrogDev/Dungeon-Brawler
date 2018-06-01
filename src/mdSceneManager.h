@@ -43,6 +43,9 @@ public:
 	scene* stage_sel_scene = nullptr;
 	scene* credits_scene = nullptr;
 
+public :
+	bool is_switching = false;
+
 private:
 	enum fade_step
 	{

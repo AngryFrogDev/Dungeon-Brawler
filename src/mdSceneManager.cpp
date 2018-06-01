@@ -100,6 +100,7 @@ bool mdSceneManager::changeScene(scene* scene_in, scene* scene_out)	{
 		switch_timer.start();
 		to_enable = scene_in;
 		to_disable = scene_out;
+		is_switching = true;
 		ret = true;
 	}
 
@@ -118,7 +119,7 @@ void mdSceneManager::startSwitch()	{
 		if (switch_timer.readSec() >= fadetime)
 		{
 			to_disable->scene_active = false;
-
+			
 			//SPECIAL CASES
 			if (to_disable->name == "Combat Scene")
 			{
@@ -152,6 +153,7 @@ void mdSceneManager::startSwitch()	{
 		break;
 	case fade_step::FADE_FROM_BLACK:
 		normalized = 1.0f - normalized;
+		is_switching = false;
 
 		if (switch_timer.readSec() >= fadetime)
 			current_step = fade_step::NONE;
