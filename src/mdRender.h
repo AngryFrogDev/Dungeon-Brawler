@@ -20,10 +20,10 @@ public:
 	}
 
 public:
-	SDL_Texture*		texture;
+	SDL_Texture*		texture = nullptr;
 	int					x;
 	int					y;
-	const SDL_Rect*		section;
+	const SDL_Rect*		section = nullptr;
 	SDL_Rect			rect;
 	float				scale;
 	float				speed;
@@ -96,7 +96,7 @@ public:
 
 	
 
-	bool drawSprite(int priority, SDL_Texture* texture, int x, int y, const SDL_Rect* section = NULL, double scale = 1,bool flip = false, float speed = 1.0f, double angle = 0, int pivot_x = INT_MAX, int pivot_y = INT_MAX, bool use_camera = true);
+	bool drawSprite(int priority, SDL_Texture* texture, int x, int y, const SDL_Rect* section = nullptr, double scale = 1,bool flip = false, float speed = 1.0f, double angle = 0, int pivot_x = INT_MAX, int pivot_y = INT_MAX, bool use_camera = true);
 	bool blitSprites(std::priority_queue <spriteToPrint*, std::vector<spriteToPrint*>, spriteOrderCrit>& queue) const;
 	bool drawQuad(int priority, const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool filled = true, bool use_camera = true);
 	bool blitQuads(std::priority_queue <quadToPrint*, std::vector<quadToPrint*>, quadOrderCrit>& queue) const;
