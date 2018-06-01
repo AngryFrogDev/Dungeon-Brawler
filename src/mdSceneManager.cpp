@@ -169,6 +169,16 @@ void mdSceneManager::startSwitch()	{
 
 }
 
+bool mdSceneManager::cleanUp() {
+	bool ret = false;
 
+	std::list<scene*>::iterator scene_it = scene_list.begin();
+	scene* object = nullptr;
+	for (scene_it; scene_it != scene_list.end(); scene_it++)
+	{
+		object = *scene_it;
+		ret = object->cleanUp();
+	}
 
-
+	return ret;
+}

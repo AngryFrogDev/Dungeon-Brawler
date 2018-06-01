@@ -17,6 +17,7 @@ private:
 	bool onEvent(Buttons* button);
 	void loadSceneUi();
 	void assignFocus();
+	bool cleanUp();
 	
 private:
 	//MAIN MENU UI
