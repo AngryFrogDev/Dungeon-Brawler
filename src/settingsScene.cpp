@@ -37,7 +37,7 @@ bool settingsScene::start() {
 bool settingsScene::update(float dt) {
 	App->gui->draw();
 	App->render->drawSprite(1, background, -850, 0, (const SDL_Rect*)0, 4, false, 0);
-	App->scene_manager->main_scene->assignFocus();
+
 	return true;
 }
 
