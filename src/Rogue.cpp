@@ -341,11 +341,11 @@ void Rogue::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS])
 	if (!state_first_tick) {
 		updateAnimation(jumping_special1);
 		if (!fliped) {
-			//velocity.x = -crossbow_recoil;
+			velocity.x = -crossbow_recoil;
 			jumping_special1.angle = crossbow_angle;
 		}
 		else {
-			//velocity.x = crossbow_recoil;
+			velocity.x = crossbow_recoil;
 			jumping_special1.angle = -crossbow_angle;
 		};
 		state_first_tick = true;
@@ -549,10 +549,16 @@ void Rogue::standingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 
 	if (current_animation->GetState() == ACTIVE && !instanciated_hitbox) {
 		basic_attack_deff current_attack = getAttackData(*rekka_iterator);
+		// Only last atack should knockdown
 		if (*rekka_iterator != rekka_last_attack)
 			current_attack.knockdown = false;
 		else
 			current_attack.knockdown = true;
+
+		// If canceled, second part of the rekka should have a lot of recovery
+		if (current_attack.type == CR_H)
+			current_attack.recovery = st_s2.recovery;
+
 		current_attack.frame_delay = st_s2.frame_delay;
 		instanciateHitbox(current_attack);
 		instanciated_hitbox = false;

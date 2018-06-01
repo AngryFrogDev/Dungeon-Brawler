@@ -682,7 +682,7 @@
           
     knife_speed="7"
     knife_duration = "1400"
-    crossbow_recoil = "10"
+    crossbow_recoil = "3"
     crossbow_angle = "30"
     crossbow_speed_x= "30"
     crossbow_speed_y= "10"
