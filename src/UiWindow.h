@@ -13,6 +13,7 @@ public:
 
 private:
 	SDL_Rect window_rect;
+	SDL_Rect* current_rect = nullptr;
 };
 
 #endif

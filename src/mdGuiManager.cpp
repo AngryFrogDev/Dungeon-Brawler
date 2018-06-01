@@ -29,10 +29,29 @@ bool mdGuiManager::preUpdate() {
 
 	bool ret = true;
 
-	manageFocus();
-
+	//Filling the temporary list
 	Widgets* object = nullptr;
 	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
+	for (ui_iterator; ui_iterator != ui_elements.end() && *ui_iterator; ui_iterator++) {
+		object = *ui_iterator;
+		temp_list.push_back(object);
+	}
+
+	//Now we iterate the temporary list 
+	std::list<Widgets*>::iterator temp_iterator = temp_list.begin();
+	for (temp_iterator; temp_iterator != temp_list.end() && *temp_iterator; temp_iterator++) {
+		object = *temp_iterator;
+		if (object->to_delete)
+			ret = destroyWidget(object);//But we delete the elements from the original one
+	}
+
+	//Emptying temporary list
+	temp_list.clear();
+
+	manageFocus();
+
+	object = nullptr;
+	ui_iterator = ui_elements.begin();
 	for (ui_iterator; ui_iterator != ui_elements.end() && ret; ui_iterator++) {
 		object = *ui_iterator;
 		ret = object->preUpdate();
@@ -59,27 +78,7 @@ bool mdGuiManager::update(float dt) {
 
 bool mdGuiManager::postUpdate() {
 	bool ret = true;
-
-	//Filling the temporary list
-	Widgets* object = nullptr;
-	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
-	for (ui_iterator; ui_iterator != ui_elements.end() && *ui_iterator; ui_iterator++) {
-		object = *ui_iterator;
-		temp_list.push_back(object);
-	}
-
-	//Now we iterate the temporary list 
-	std::list<Widgets*>::iterator temp_iterator = temp_list.begin();
-	for (temp_iterator; temp_iterator != temp_list.end() && *temp_iterator; temp_iterator++) {
-		object = *temp_iterator;
-		if (object->to_delete)
-			ret = destroyWidget(object);//But we delete the elements from the original one
-	}
-
-	//Emptying temporary list
-	temp_list.clear();
 	
-		
 	return ret;
 }
 
@@ -354,7 +353,8 @@ void mdGuiManager::draw() {
 	std::list<Widgets*>::iterator ui_iterator = ui_elements.begin();
 	for (ui_iterator; ui_iterator != ui_elements.end(); ui_iterator++) {
 		object = *ui_iterator;
-		object->draw();
+		if (!object->to_delete)
+			object->draw();
 	}
 }
 
