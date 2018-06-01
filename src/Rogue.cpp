@@ -341,11 +341,11 @@ void Rogue::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS])
 	if (!state_first_tick) {
 		updateAnimation(jumping_special1);
 		if (!fliped) {
-			velocity.x = -crossbow_recoil;
+			//velocity.x = -crossbow_recoil;
 			jumping_special1.angle = crossbow_angle;
 		}
 		else {
-			velocity.x = crossbow_recoil;
+			//velocity.x = crossbow_recoil;
 			jumping_special1.angle = -crossbow_angle;
 		};
 		state_first_tick = true;
