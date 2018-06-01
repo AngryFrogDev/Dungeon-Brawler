@@ -119,12 +119,12 @@ bool mdRender::blitSprites(std::priority_queue <spriteToPrint*, std::vector<spri
 		rect.y = first->y;
 
 
-		if (first->section != NULL) {
+		if (first->section != nullptr) {
 			rect.w = first->section->w;
 			rect.h = first->section->h;
 		}
 		else
-			SDL_QueryTexture(first->texture, NULL, NULL, &rect.w, &rect.h);
+			SDL_QueryTexture(first->texture, nullptr, nullptr, &rect.w, &rect.h);
 
 		rect.w *= first->scale;
 		rect.h *= first->scale;
@@ -137,7 +137,7 @@ bool mdRender::blitSprites(std::priority_queue <spriteToPrint*, std::vector<spri
 			rect.h *= camerazoom;
 		}
 
-		SDL_Point* p = NULL;
+		SDL_Point* p = nullptr;
 		SDL_Point pivot;
 
 		if (first->pivot_x != INT_MAX && first->pivot_y != INT_MAX) {
