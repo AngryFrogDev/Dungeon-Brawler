@@ -56,7 +56,7 @@ void creditsScene::loadSceneUi() {
 	pugi::xml_node config;
 	config = App->loadConfig("config.xml", config_file);
 
-	back = (Buttons*)App->gui->createButton(BACK, MEDIUM, 0, { 1550, 1000 }, this);
+	back = (Buttons*)App->gui->createButton(BACK, MEDIUM, -1, { 1550, 1000 }, this);
 	
 	l_back = (Labels*)App->gui->createLabel("Back", { 112, 62, 62 }, App->fonts->large_size, { 1560, 1010 }, this);
 
