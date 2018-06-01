@@ -24,7 +24,6 @@ public:
 	mdSceneManager();
 	~mdSceneManager();
 
-	bool awake(const pugi::xml_node& md_config) override;
 	bool start() override;
 	bool update(float dt) override;
 	bool cleanUp();

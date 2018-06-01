@@ -28,7 +28,10 @@ mdSceneManager::mdSceneManager()	{
 
 mdSceneManager::~mdSceneManager(){}
 
-bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
+
+bool mdSceneManager::start()	{
+	bool ret = false;
+
 	start_scene = new startScene(true);
 	main_scene = new mainScene(false);
 	settings_scene = new settingsScene(false);
@@ -46,11 +49,6 @@ bool mdSceneManager::awake(const pugi::xml_node & md_config)	{
 	scene_list.push_back(combat_scene);
 	scene_list.push_back(stage_sel_scene);
 	scene_list.push_back(credits_scene);
-	return true;
-}
-
-bool mdSceneManager::start()	{
-	bool ret = false;
 
 	for (int i = 0; i < 2; i++)
 	{
