@@ -395,7 +395,7 @@ void characterSelScene::checkSceneInput()	{
 
 	//Go back to main menu when pressing B or ESC
 	if (supportive_bool_p1 || supportive_bool_p2 || supportive_bool_general)
-		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
+		App->scene_manager->changeScene(App->scene_manager->main_scene, this), App->audio->re_play_music = true;
 
 	//Closing Object Selection window and go back to select character when pressing B
 	if (App->entities->players[0]->getInput(BUTTON_B, SDL_SCANCODE_ESCAPE, KEY_DOWN) && object_win_p1)
