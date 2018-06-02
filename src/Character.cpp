@@ -545,7 +545,9 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	blitComboCounter();
 	characterSpecificUpdates();
+	deleteGroundedProjectiles();
 	deleteDeadHitboxes();
+	
 }
 
 void Character::onCollision(collider* c1, collider* c2) {
@@ -1437,4 +1439,23 @@ SDL_Texture* Character::getGraphics() {
 void Character::cleanUp() {
 	if (graphics)
 		App->textures->unload(graphics);
+}
+
+void Character::deleteGroundedProjectiles() {
+	std::list<collider*> hitboxes_to_delete;
+
+	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
+		collider* c = *it;
+		if (c->type == PROJECTILE_HITBOX && c->rect.y > ground_position) {
+			c->to_delete = true;
+			hitboxes_to_delete.push_back(c);
+		}
+	}
+	// Remove the colliders
+	for (std::list<collider*>::iterator it = hitboxes_to_delete.begin(); it != hitboxes_to_delete.end(); ++it) {
+		collider* c = *it;
+		hitboxes.remove(c);
+	}
+
+	hitboxes_to_delete.clear();
 }

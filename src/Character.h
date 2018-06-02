@@ -208,6 +208,7 @@ protected:
 	void deleteAttackHitbox(CHAR_ATT_TYPE type, collider* hitbox = nullptr);
 	void deleteAllMeleeHitboxes();
 	void deleteAllHitboxes();
+	void deleteGroundedProjectiles();
 
 	void updateAnimation(Animation& new_animation);
 
