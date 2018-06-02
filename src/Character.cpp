@@ -48,6 +48,8 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 	scale = character.scale;
 	non_flip_attacks = character.non_flip_attacks;
 	crouching_hurtbox_attacks = character.crouching_hurtbox_attacks;
+	light_sound_specials = character.light_sound_specials;
+	heavy_sound_specials = character.heavy_sound_specials;
 	cheap_multiplier = character.cheap_multiplier;
 	normal_taunt_duration = 1500;
 	shadow_rect = { 452, 3719, 68, 14 };
@@ -76,15 +78,16 @@ Character::Character(character_deff character, int x_pos, int _fliped, int skin)
 
 	// Sound effects
 	s_jump					= character.sfxs[CHAR_SOUNDS::S_JUMP];
-	s_light_sword_block		= character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_BLOCK];
-	s_heavy_sword_block		= character.sfxs[CHAR_SOUNDS::S_HEAVY_SWORD_BLOCK];
-	s_light_sword_whiff		= character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_WHIFF];
-	s_heavy_sword_whiff		= character.sfxs[CHAR_SOUNDS::S_HEAVY_SWORD_WHIFF];
-	s_light_sword_impact	= character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_IMPACT];
-	s_heavy_sword_impact	= character.sfxs[CHAR_SOUNDS::S_HEAVY_SWORD_IMPACT];
+	s_light_block		= character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_BLOCK];
+	s_heavy_block		= character.sfxs[CHAR_SOUNDS::S_HEAVY_SWORD_BLOCK];
+	s_light_whiff		= character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_WHIFF];
+	s_heavy_whiff		= character.sfxs[CHAR_SOUNDS::S_HEAVY_SWORD_WHIFF];
+	s_light_impact	= character.sfxs[CHAR_SOUNDS::S_LIGHT_SWORD_IMPACT];
+	s_heavy_impact	= character.sfxs[CHAR_SOUNDS::S_HEAVY_SWORD_IMPACT];
 	s_standing_special_1	= character.sfxs[CHAR_SOUNDS::S_STANDING_SPECIAL_1];
 	s_standing_special_2	= character.sfxs[CHAR_SOUNDS::S_STANDING_SPECIAL_2];
 	s_jumping_special_1		= character.sfxs[CHAR_SOUNDS::S_JUMPING_SPECIAL_1];
+	s_jumping_special_2     = character.sfxs[CHAR_SOUNDS::S_JUMPING_SPECIAL_2];
 	s_crouching_special_1	= character.sfxs[CHAR_SOUNDS::S_CROUCHING_SPECIAL_1];
 	s_crouching_special_2	= character.sfxs[CHAR_SOUNDS::S_CROUCHING_SPECIAL_2];
 	s_death					= character.sfxs[CHAR_SOUNDS::S_DEATH];
@@ -310,10 +313,8 @@ void Character::update(const bool(&inputs)[MAX_INPUTS]) {
 
 	case ATTACKING:
 		//One Tick
-		if (!state_first_tick) {
+		if (!state_first_tick)
 			playCurrentSFX();
-
-		}
 		// Continuous
 		doAttack(inputs);
 
@@ -1040,28 +1041,30 @@ void Character::playCurrentSFX() {
 		case ST_L:
 		case JM_L:
 		case CR_L:
-			App->audio->playSFX(s_light_sword_whiff);
+			App->audio->playSFX(s_light_whiff);
+			break;
+		case ST_H:
+		case CR_H:
+		case JM_H:
+			App->audio->playSFX(s_heavy_whiff);
 			break;
 		case ST_S1:
 			App->audio->playSFX(s_standing_special_1);
 			break;
+		case ST_S2:
+			App->audio->playSFX(s_standing_special_2);
+			break;
 		case JM_S1:
-		case JM_S2:
 			App->audio->playSFX(s_jumping_special_1);
+			break;
+		case JM_S2:
+			App->audio->playSFX(s_jumping_special_2);
 			break;
 		case CR_S1:
 			App->audio->playSFX(s_crouching_special_1);
 			break;
 		case CR_S2:
 			App->audio->playSFX(s_crouching_special_2);
-			break;
-		case ST_H:
-		case CR_H:
-		case JM_H:
-			App->audio->playSFX(s_heavy_sword_whiff);
-			break;
-		case ST_S2:
-			App->audio->playSFX(s_standing_special_2);
 			break;
 		case SUPER:
 			App->audio->playSFX(s_super);
@@ -1074,16 +1077,23 @@ void Character::playCurrentSFX() {
 		case ST_L:
 		case JM_L:
 		case CR_L:
-		case ST_S1:
-			App->audio->playSFX(s_light_sword_block);
+			App->audio->playSFX(s_light_block);
 			break;
 		case ST_H:
 		case CR_H:
 		case JM_H: 
-		case ST_S2: 
+			App->audio->playSFX(s_heavy_block);
+			break;
+		case ST_S1:
+		case ST_S2:
 		case CR_S1:
 		case CR_S2:
-			App->audio->playSFX(s_heavy_sword_block);
+		case JM_S1:
+		case JM_S2:
+			if (isInAttackList(attack_recieving.type, opponent->light_sound_specials))
+				App->audio->playSFX(s_light_block);
+			else if (isInAttackList(attack_recieving.type, opponent->heavy_sound_specials))
+				App->audio->playSFX(s_heavy_block);
 			break;
 		}
 		break;
@@ -1093,18 +1103,23 @@ void Character::playCurrentSFX() {
 		case ST_L:
 		case JM_L:
 		case CR_L:
-		case ST_S1:
-			App->audio->playSFX(s_light_sword_impact);
+			App->audio->playSFX(s_light_impact);
 			break;
 		case ST_H:
 		case CR_H:
 		case JM_H:
+			App->audio->playSFX(s_heavy_impact);
+			break;
+		case ST_S1:
 		case ST_S2:
 		case CR_S1:
 		case CR_S2:
 		case JM_S1:
 		case JM_S2:
-			App->audio->playSFX(s_heavy_sword_impact);
+			if (isInAttackList(attack_recieving.type, opponent->light_sound_specials))
+				App->audio->playSFX(s_light_impact);
+			else if (isInAttackList(attack_recieving.type, opponent->heavy_sound_specials))
+				App->audio->playSFX(s_heavy_impact);
 			break;
 		}
 		break;
@@ -1446,7 +1461,7 @@ void Character::deleteGroundedProjectiles() {
 
 	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
 		collider* c = *it;
-		if (c->type == PROJECTILE_HITBOX && c->rect.y > ground_position) {
+		if (c->type == PROJECTILE_HITBOX && c->rect.y > (ground_position + standing_hurtbox_size.y/2)) {
 			c->to_delete = true;
 			hitboxes_to_delete.push_back(c);
 		}
@@ -1458,4 +1473,12 @@ void Character::deleteGroundedProjectiles() {
 	}
 
 	hitboxes_to_delete.clear();
+}
+
+bool Character::isInAttackList(CHAR_ATT_TYPE type, std::list<CHAR_ATT_TYPE> list) {
+	for (auto it = list.begin(); it != list.end(); it++) {
+		if (type == *it)
+			return true;
+	}
+	return false;
 }

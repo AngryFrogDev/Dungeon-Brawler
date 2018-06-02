@@ -32,6 +32,7 @@ enum CHAR_SOUNDS {
     S_STANDING_SPECIAL_1,
     S_STANDING_SPECIAL_2,
     S_JUMPING_SPECIAL_1,
+	S_JUMPING_SPECIAL_2,
     S_CROUCHING_SPECIAL_1,
     S_CROUCHING_SPECIAL_2,
     S_DEATH,
@@ -197,6 +198,11 @@ public:
 
 	// CleanUp
 	void cleanUp();
+
+	// Variables to be accesed from outside
+	Character* opponent = nullptr;
+	std::list<CHAR_ATT_TYPE> light_sound_specials;
+	std::list<CHAR_ATT_TYPE> heavy_sound_specials;
 protected:	
 	// Execute attack, rewritable for every type of character
 	virtual void doAttack(const bool(&inputs)[MAX_INPUTS]);
@@ -217,6 +223,7 @@ protected:
 	void playCurrentSFX();
 	void emmitCurrentParticle();
 	void setCrouchingHurtbox(bool crouch);
+	bool isInAttackList(CHAR_ATT_TYPE type, std::list<CHAR_ATT_TYPE> list);
 	
 	// Hurtbox size management
 	void hurtboxSizeManagement();
@@ -361,15 +368,17 @@ protected:
 	SDL_Texture* graphics = nullptr;
 	// Sound effects
 	Mix_Chunk * s_jump = nullptr;
-	Mix_Chunk* s_light_sword_block = nullptr;
-	Mix_Chunk* s_heavy_sword_block = nullptr;
-	Mix_Chunk* s_light_sword_whiff = nullptr;
-	Mix_Chunk* s_heavy_sword_whiff = nullptr;
-	Mix_Chunk* s_light_sword_impact = nullptr;
-	Mix_Chunk* s_heavy_sword_impact = nullptr;
+	Mix_Chunk* s_light_block = nullptr;
+	Mix_Chunk* s_heavy_block = nullptr;
+	Mix_Chunk* s_light_whiff = nullptr;
+	Mix_Chunk* s_heavy_whiff = nullptr;
+	Mix_Chunk* s_light_impact = nullptr;
+	Mix_Chunk* s_heavy_impact = nullptr;
+
 	Mix_Chunk* s_standing_special_1 = nullptr;
 	Mix_Chunk* s_standing_special_2 = nullptr;
 	Mix_Chunk* s_jumping_special_1 = nullptr;
+	Mix_Chunk* s_jumping_special_2 = nullptr;
 	Mix_Chunk* s_crouching_special_1 = nullptr;
 	Mix_Chunk* s_crouching_special_2 = nullptr;
 	Mix_Chunk* s_death = nullptr;

@@ -57,21 +57,37 @@
 		<standing_special_1 filename = "standing_special_1.wav"/>
 		<standing_special_2 filename = "standing_special_2.wav"/>
 		<jumping_special_1 filename = "jumping_special_1.wav"/>
+    <jumping_special_2 filename = "jumping_special_1.wav"/>
 		<crouching_special_1 filename = "crouching_special_1.wav"/>
 		<crouching_special_2 filename = "crouching_special_2.wav"/>
 		<death filename = "man_death.wav"/>
 		<super filename = "super.wav"/>
 	</sound_effects>
+    
     <non_flip_attacks>
       <attack value="jm_s1"/>
       <attack value="jm_s2"/>
       <attack value="cr_s1"/>
       <attack value="cr_s2"/>
     </non_flip_attacks>
+    
     <crouching_hurtbox_attacks>
       <attack value="cr_h"/>
       <attack value="cr_l"/>
     </crouching_hurtbox_attacks>
+
+    <light_sound_specials>
+      <attack value="st_s1"/>
+    </light_sound_specials>
+
+    <heavy_sound_specials>
+      <attack value="st_s2"/>
+      <attack value="cr_s2"/>
+      <attack value="jm_s1"/>
+      <attack value="jm_s2"/>
+      <attack value="cr_s1"/>
+    </heavy_sound_specials>
+    
     <attack_data>
       <st_l
         pos_rel_char_x ="110"
@@ -389,21 +405,37 @@
 		<standing_special_1 filename = "mage/mage_standing_special_1_standing_special_2_jumping_special_1.wav"/>
 		<standing_special_2 filename = "mage/mage_standing_special_1_standing_special_2_jumping_special_1.wav"/>
 		<jumping_special_1 filename = "mage/mage_standing_special_1_standing_special_2_jumping_special_1.wav"/>
-		<crouching_special_1 filename = "mage/mage_crouching_special_1.wav"/>
+    <jumping_special_2 filename = "silence.wav"/>
+    <crouching_special_1 filename = "mage/mage_crouching_special_1.wav"/>
     <crouching_special_2 filename = "mage/mage_crouching_special_2_1st_use.wav"/>
 		<death filename = "mage/mage_death.wav"/>
 		<super filename = "mage/mage_super.wav"/>
 	</sound_effects>
+    
     <non_flip_attacks>
       <attack value="jm_s1"/>
       <attack value="st_s2"/>
       <attack value="st_s1"/>
     </non_flip_attacks>
+    
     <crouching_hurtbox_attacks>
       <attack value="cr_h"/>
       <attack value="cr_l"/>
       <attack value="cr_s2"/>
     </crouching_hurtbox_attacks>
+    
+    <light_sound_specials>
+      <attack value="jm_s2"/>
+    </light_sound_specials>
+    
+    <heavy_sound_specials>
+      <attack value="st_s1"/>
+      <attack value="st_s2"/>
+      <attack value="cr_s1"/>
+      <attack value="cr_s2"/>
+      <attack value="jm_s1"/>
+    </heavy_sound_specials>
+    
     <attack_data>
       <st_l
         pos_rel_char_x ="110"
@@ -577,14 +609,14 @@
       <cr_s2
         pos_rel_char_x ="200"
         pos_rel_char_y ="125"
-        hitbox_w ="200"
+        hitbox_w ="400"
         hitbox_h ="300"
         active_time ="100"
         hitstun ="-1"
         blockstun ="500"
         pushhit ="-1"
         pushblock ="2"
-        damage ="17"
+        damage ="30"
         knockdown ="true"
         juggle_speed_x ="-6"
         juggle_speed_y ="30"
@@ -696,7 +728,7 @@
     max_super_frames="650"
     >
 	<sound_effects>
-		<jump filename = ""/>
+		<jump filename = "silence.wav"/>
 		<light_sword_block filename = "rogue/light_sword_block.wav"/>
 		<heavy_sword_block filename = "rogue/heavy_sword_block.wav"/>
 		<light_sword_whiff filename = "light_sword_whiff.wav"/>
@@ -706,6 +738,7 @@
 		<standing_special_1 filename = "rogue/standing_special_1_air_special_1.wav"/>
 		<standing_special_2 filename = "light_sword_whiff.wav"/>
 		<jumping_special_1 filename = "rogue/standing_special_1_air_special_1.wav"/>
+    <jumping_special_2 filename = "rogue/standing_special_1_air_special_1.wav"/>
 		<crouching_special_1 filename = "rogue/crouching_special_1.wav"/>
 		<crouching_special_2 filename = "mage/mage_crouching_light.wav"/>
 		<death filename = "rogue/death.wav"/>
@@ -722,6 +755,19 @@
       <attack value="cr_l"/>
       <attack value="cr_s2"/>
     </crouching_hurtbox_attacks>
+    
+    <light_sound_specials>
+      <attack value="st_s1"/>
+      <attack value="cr_s1"/>
+      <attack value="jm_s1"/>
+      <attack value="jm_s2"/>
+    </light_sound_specials>
+
+    <heavy_sound_specials>
+      <attack value="st_s2"/>
+      <attack value="cr_s2"/>
+    </heavy_sound_specials>
+    
     <attack_data>
       <st_l
         pos_rel_char_x ="150"
@@ -920,12 +966,12 @@
          hitbox_w ="130"
          hitbox_h ="10"
          active_time ="-1"
-         hitstun ="-1"
+         hitstun ="400"
          blockstun ="200"
          pushhit ="-1"
          pushblock ="4"
-         damage ="8"
-         knockdown ="true"
+         damage ="10"
+         knockdown ="false"
          juggle_speed_x ="10"
          juggle_speed_y ="15"
          block_type ="mid"
@@ -1033,6 +1079,7 @@
 		<standing_special_1 filename = "paladin/standing_special_1.wav"/>
 		<standing_special_2 filename = "paladin/standing_special_1.wav"/>
 		<jumping_special_1 filename = "paladin/jumping_special_1.wav"/>
+    <jumping_special_2 filename = "paladin/standing_light_standing_heavy_crouching_light_crouching_heavy_jumping_light_jumping_heavy.wav"/>
 		<crouching_special_1 filename = "paladin/jumping_special_2_crouching_special_2.wav"/>
 		<crouching_special_2 filename = "paladin/standing_light_standing_heavy_crouching_light_crouching_heavy_jumping_light_jumping_heavy.wav"/>
 		<death filename = "paladin/death.wav"/>
@@ -1049,6 +1096,16 @@
       <attack value="cr_h"/>
       <attack value="cr_s1"/>
     </crouching_hurtbox_attacks>
+    <light_sound_specials>
+      <attack value="st_s1"/>
+      <attack value="jm_s1"/>
+    </light_sound_specials>
+    <heavy_sound_specials>
+      <attack value="cr_s1"/>
+      <attack value="st_s2"/>
+      <attack value="cr_s2"/>
+      <attack value="jm_s2"/>
+    </heavy_sound_specials>
     <attack_data>
       <st_l
         pos_rel_char_x ="90"

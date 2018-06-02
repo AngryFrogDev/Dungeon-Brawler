@@ -380,6 +380,7 @@ void Paladin::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
 		instanciateHitbox(jm_s2);
 		instanciated_hitbox = false;
 		askRecovery(jm_s2.recovery);
+		App->audio->playSFX(s_crouching_special_1);
 		App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y +150 }, "particles/dust-explosion.xml");
 		App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y +100 }, "particles/dust-cloud.xml");
 		App->particle_system->createEmitter({ (float)logic_position.x,(float)logic_position.y + 100 }, "particles/dust-cloud-front.xml");
