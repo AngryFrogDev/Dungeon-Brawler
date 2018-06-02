@@ -389,12 +389,11 @@ void characterSelScene::assignFocus()	{
 }
 
 void characterSelScene::checkSceneInput()	{
-	bool supportive_bool_p1 = App->entities->players[0]->getInput(BUTTON_B, SDL_SCANCODE_ESCAPE, KEY_DOWN) && !object_win_p1 && !object_win_p2 && !p1_skin_sel_window && !p2_skin_sel_window;
-	bool supportive_bool_p2 = App->entities->players[1]->getInput(BUTTON_B, SDL_SCANCODE_ESCAPE, KEY_DOWN) && !object_win_p1 && !object_win_p2 && !p1_skin_sel_window && !p2_skin_sel_window;
-	bool supportive_bool_general = App->input->getKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && !object_win_p1 && !object_win_p2 && !p1_skin_sel_window && !p2_skin_sel_window;
-
+	bool supportive_bool_p1 = App->entities->players[0]->getInput(BUTTON_B, SDL_SCANCODE_ESCAPE, KEY_DOWN) && ! player1.has_selected_character && !App->scene_manager->is_switching;
+	bool supportive_bool_p2 = App->entities->players[1]->getInput(BUTTON_B, SDL_SCANCODE_ESCAPE, KEY_DOWN) && !player2.has_selected_character && !App->scene_manager->is_switching;
+	
 	//Go back to main menu when pressing B or ESC
-	if (supportive_bool_p1 || supportive_bool_p2 || supportive_bool_general)
+	if (supportive_bool_p1 || supportive_bool_p2)
 		App->scene_manager->changeScene(App->scene_manager->main_scene, this), App->audio->re_play_music = true;
 
 	//Closing Object Selection window and go back to select character when pressing B
@@ -409,13 +408,14 @@ void characterSelScene::checkSceneInput()	{
 	if (App->entities->players[1]->getInput(BUTTON_B, SDL_SCANCODE_ESCAPE, KEY_DOWN) && p2_skin_sel_window)
 		closeP2SkinWindow(), popUpP2Window();
 
-	if (player1.has_selected_character && player1.has_selected_item && player1.has_selected_skin && player2.has_selected_character && player2.has_selected_item && player2.has_selected_skin && !transition_timer.isActive())
+	if (player1.has_selected_character && player1.has_selected_item && player1.has_selected_skin && player2.has_selected_character && player2.has_selected_item && player2.has_selected_skin && !transition_timer.isActive() && !App->scene_manager->is_switching)
 	{
 		if (random_sfx == 1)
 			App->audio->playSFX(scene_sfx1);
 		else
 			App->audio->playSFX(scene_sfx2);
-		assignCharacterToPlayer();
+		
+		transition_timer.start();
 	}
 }
 
@@ -500,8 +500,6 @@ void characterSelScene::assignCharacterToPlayer()	{
 	//Hidding them
 	App->entities->setPause(true);
 	App->entities->show = false;
-	
-	transition_timer.start();
 }
 
 void characterSelScene::setRects()	{
@@ -1074,6 +1072,9 @@ void characterSelScene::resetSceneValues()	{
 
 void characterSelScene::startingTransition()	{
 	if (transition_timer.readSec() >= 1)
-		App->scene_manager->changeScene(App->scene_manager->stage_sel_scene, this); 
+		App->scene_manager->changeScene(App->scene_manager->stage_sel_scene, this), transition_timer.stop();
+
+	if (App->scene_manager->is_switching && !transition_timer.isActive())
+		assignCharacterToPlayer();
 }
 
