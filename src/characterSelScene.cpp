@@ -497,6 +497,9 @@ void characterSelScene::assignCharacterToPlayer()	{
 	App->entities->players[0]->createAndAssignCharacter(player1.character, player1.item, true, player1.skin);
 	App->entities->players[1]->createAndAssignCharacter(player2.character, player2.item, false, player2.skin);
 
+	App->entities->players[0]->getCurrCharacter()->opponent = App->entities->players[1]->getCurrCharacter();
+	App->entities->players[1]->getCurrCharacter()->opponent = App->entities->players[0]->getCurrCharacter();
+
 	//Hidding them
 	App->entities->setPause(true);
 	App->entities->show = false;

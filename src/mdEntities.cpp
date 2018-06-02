@@ -302,6 +302,8 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 	character.cancelability_window = md_config.attribute("cancelability_window").as_int(0);
 	loadAttackListFromXML(md_config.child("non_flip_attacks"), character.non_flip_attacks);
 	loadAttackListFromXML(md_config.child("crouching_hurtbox_attacks"), character.crouching_hurtbox_attacks);
+	loadAttackListFromXML(md_config.child("light_sound_specials"), character.light_sound_specials);
+	loadAttackListFromXML(md_config.child("heavy_sound_specials"), character.heavy_sound_specials);
 
 	switch (character.type) {
 	case CHAR_TYPE::WARRIOR:
@@ -413,6 +415,8 @@ void mdEntities::fillFromXML(const pugi::xml_node& md_config, character_deff& ch
 	character.sfxs[CHAR_SOUNDS::S_STANDING_SPECIAL_2] = App->audio->loadSFX((filepath + filename).c_str());
 	filename = sound_data.child("jumping_special_1").attribute("filename").as_string("silence.wav");
 	character.sfxs[CHAR_SOUNDS::S_JUMPING_SPECIAL_1] = App->audio->loadSFX((filepath + filename).c_str());
+	filename = sound_data.child("jumping_special_2").attribute("filename").as_string("silence.wav");
+	character.sfxs[CHAR_SOUNDS::S_JUMPING_SPECIAL_2] = App->audio->loadSFX((filepath + filename).c_str());
 	filename = sound_data.child("crouching_special_1").attribute("filename").as_string("silence.wav");
 	character.sfxs[CHAR_SOUNDS::S_CROUCHING_SPECIAL_1] = App->audio->loadSFX((filepath + filename).c_str());
 	filename = sound_data.child("crouching_special_2").attribute("filename").as_string("silence.wav");

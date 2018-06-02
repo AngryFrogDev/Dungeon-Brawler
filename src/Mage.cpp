@@ -454,6 +454,10 @@ void Mage::jumpingSpecial1(const bool(&inputs)[MAX_INPUTS]) {
 }
 
 void Mage::jumpingSpecial2(const bool(&inputs)[MAX_INPUTS]) {
+
+	if (!state_first_tick)
+		state_first_tick = true;
+	
 	double_jump = true;
 	fPoint speed = { 0,0 };
 	if (inputs[RIGHT]) 		{
@@ -505,6 +509,12 @@ void Mage::crouchingSpecial2() {
 			instanciated_hitbox = true;
 			App->particle_system->createEmitter({ (float)mine_position.x,(float)mine_position.y -60 }, "particles/mine-explosion.xml");
 			App->particle_system->createEmitter({ (float)mine_position.x,(float)mine_position.y -60}, "particles/mine-explosion-extra.xml");
+			// Super mega hardcode, but who cares anymore, look at all those magic numbers, i guess loading stuff from xml or at least creating a variable is too hard or something
+			App->particle_system->createEmitter({ (float)mine_position.x - 150,(float)mine_position.y - 60  }, "particles/mine-explosion.xml");
+			App->particle_system->createEmitter({ (float)mine_position.x - 150,(float)mine_position.y - 60  }, "particles/mine-explosion-extra.xml");
+
+			App->particle_system->createEmitter({ (float)mine_position.x + 150 ,(float)mine_position.y - 60 }, "particles/mine-explosion.xml");
+			App->particle_system->createEmitter({ (float)mine_position.x + 150,(float)mine_position.y - 60  }, "particles/mine-explosion-extra.xml");
 		}
 	}
 	if (current_animation->Finished()) {
