@@ -20,6 +20,7 @@
 #include "mdProjectiles.h"
 #include "mdSceneManager.h"
 #include "mdParticleSystem.h"
+#include "mdVideoplayer.h"
 
 Application::Application(int argc, char* args[]) {
 	filesystem = new mdFilesystem;
@@ -36,6 +37,7 @@ Application::Application(int argc, char* args[]) {
 	projectiles = new mdProjectiles;
 	scene_manager = new mdSceneManager;
 	particle_system = new mdParticleSystem;
+	videoplayer = new mdVideoplayer;
 
 
 	addModule(filesystem);
@@ -49,6 +51,7 @@ Application::Application(int argc, char* args[]) {
 	addModule(scene_manager);
 	addModule(audio);
 	addModule(gui);
+	addModule(videoplayer);
 	addModule(map);
 	addModule(entities);
 	addModule(particle_system);

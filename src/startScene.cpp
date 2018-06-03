@@ -3,6 +3,7 @@
 #include "mdGuiManager.h"
 #include "mdRender.h"
 #include "mdSceneManager.h"
+#include "mdVideoplayer.h"
 #include "mdFonts.h"
 
 
@@ -25,7 +26,7 @@ bool startScene::start()	{
 	//PROVISIONAL: Should find another way to load all scene music
 
 	App->audio->playMusic(scene_music);
-	
+	App->videoplayer->playAVI("video/logo_animation.avi");
 	loadSceneUi();
 	
 	return true;

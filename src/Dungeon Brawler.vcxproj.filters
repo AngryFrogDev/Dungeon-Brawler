@@ -130,6 +130,9 @@
     <ClCompile Include="creditsScene.cpp">
       <Filter>Scenes\Credits Scene</Filter>
     </ClCompile>
+    <ClCompile Include="mdVideoplayer.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mdAudio.h">
@@ -266,6 +269,9 @@
     </ClInclude>
     <ClInclude Include="creditsScene.h">
       <Filter>Scenes\Credits Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="mdVideoplayer.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

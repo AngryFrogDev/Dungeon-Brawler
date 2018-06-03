@@ -25,6 +25,7 @@ class mdMap;
 class mdProjectiles;
 class mdSceneManager;
 class mdParticleSystem;
+class mdVideoplayer;
 
 
 class Application
@@ -88,6 +89,7 @@ public:
 	mdProjectiles*  projectiles;
 	mdSceneManager*	scene_manager;
 	mdParticleSystem* particle_system;
+	mdVideoplayer*	videoplayer;
 
 };
 
