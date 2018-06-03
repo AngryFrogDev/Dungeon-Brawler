@@ -1461,7 +1461,7 @@ void Character::deleteGroundedProjectiles() {
 
 	for (std::list<collider*>::iterator it = hitboxes.begin(); it != hitboxes.end(); ++it) {
 		collider* c = *it;
-		if (c->type == PROJECTILE_HITBOX && c->rect.y > (ground_position + standing_hurtbox_size.y/2)) {
+		if (c->type == PROJECTILE_HITBOX && (c->rect.y) > (ground_position + 50)) {
 			c->to_delete = true;
 			hitboxes_to_delete.push_back(c);
 		}
