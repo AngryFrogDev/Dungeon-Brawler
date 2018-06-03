@@ -50,10 +50,6 @@ bool mdProjectiles::preUpdate() {
 				else
 					App->particle_system->createEmitter({ (float)p->position.x + p->collider->rect.w, (float)p->position.y + (p->collider->rect.h / 2) }, "particles/fireball-explosion.xml");
 			}
-			else {
-				App->particle_system->createEmitter({ (float)p->position.x + (p->collider->rect.w/2), (float)p->position.y + (p->collider->rect.h / 2) }, "particles/projectile-dust-cloud.xml");
-				App->particle_system->createEmitter({ (float)p->position.x + (p->collider->rect.w / 2), (float)p->position.y + (p->collider->rect.h / 2) }, "particles/projectile-dust-explosion.xml");
-			}
 		}
 	}
 
