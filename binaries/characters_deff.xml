@@ -968,7 +968,7 @@
          active_time ="-1"
          hitstun ="400"
          blockstun ="200"
-         pushhit ="-1"
+         pushhit ="2"
          pushblock ="4"
          damage ="10"
          knockdown ="false"
