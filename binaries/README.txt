@@ -1,6 +1,6 @@
 DUNGEON BRAWLER
 
-This is the version 0.9(Alpha) of Dungeon Brawler.
+This is the version 1.0(Gold) of Dungeon Brawler.
 
 Features:
 
@@ -15,9 +15,14 @@ Features:
 - Rounds combat
 - Character and item selection
 - Pause menu
-- Settings menu (unfinished)
+- Settings menu 
 - Stage Selection
 - Smooth transitions
+- Announcer
+- Combo counter
+- Video with logo and tutorial
+- Controll rebinding
+
 
 
 Gameplay controls:
@@ -30,8 +35,8 @@ LEFT   -> Walk left
 DOWN   -> Crouch
 
 ATTACK:
-X/A    -> Light attack
-A/S    -> Heavy attack
+A/A    -> Light attack
+B/S    -> Heavy attack
 RB/Z   -> Special 1
 LB/X   -> Special 2
 DOWN + FORWARD + S1 -> Super (Only with full gauge, which is filled by attacking, blocking or getting hit)
@@ -43,11 +48,11 @@ While walking back, mids and overheads can be blocked
 While crouching and pressing back, mids and lows can be blocked
 
 CHARACTERS
-- Warrior, Mage, Rogue and Paladin fully playable (not balanced).
+- Warrior, Mage, Rogue and Paladin fully playable.
 
 
 PLATE ARMOR: Control st_s2 (bladestorm), it's faster and cancelable into cr_s2 (swordyuken).
-PLATE HELM: Cancel dive kick into jumping light or heavy attack.
+PLATE HELM: Faster dive kick and cancelable into light or heavy attack
 
 MAGE HAT: Charge st_s1 and get a bigger fireball.
 MAGE CAPE: Can throw two fireballs even if the first one has not disappeared.
