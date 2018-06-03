@@ -1464,6 +1464,10 @@ void Character::deleteGroundedProjectiles() {
 		if (c->type == PROJECTILE_HITBOX && (c->rect.y) > (ground_position + 50)) {
 			c->to_delete = true;
 			hitboxes_to_delete.push_back(c);
+			if(type != MAGE){
+			App->particle_system->createEmitter({ (float)c->rect.x + (c->rect.w / 2), (float)c->rect.y + (c->rect.h / 2) }, "particles/projectile-dust-cloud.xml");
+			App->particle_system->createEmitter({ (float)c->rect.x + (c->rect.w / 2), (float)c->rect.y + (c->rect.h / 2) }, "particles/projectile-dust-explosion.xml");
+			}
 		}
 	}
 	// Remove the colliders
