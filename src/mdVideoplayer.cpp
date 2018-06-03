@@ -47,13 +47,13 @@ bool mdVideoplayer::playAVI(const char* path) {
 	height = stream_info.rcFrame.bottom - stream_info.rcFrame.top;          // Height Is Bottom Of Frame Minus Top
 	lastFrame = AVIStreamLength(pavi);						// The Last Frame Of The Stream
 	fps = stream_info.dwRate / stream_info.dwScale;
-
 	pointer_to_frame = AVIStreamGetFrameOpen(pavi, (LPBITMAPINFOHEADER)AVIGETFRAMEF_BESTDISPLAYFMT);              // Create The PGETFRAME Using Our Request Mode
 	if (pointer_to_frame == NULL) {
 		LOG("mdVideoplayer : Failed to open frame stream");
 		return false;
 	}
 
+	frame_timer.start();
 	is_playing = true;
 
 	return true;
@@ -77,12 +77,11 @@ bool mdVideoplayer::grabAVIFrame() {
 	int position_x = (App->render->resolution.first - width) / 2;
 	int position_y = (App->render->resolution.second - height) / 2;
 	App->render->drawSprite(10, frame_texture, position_x, position_y, nullptr, 1, false, 1, 0, 1, 1, false);
+	double frametime = 1000 / fps;
 
-
-	// Hint: We want to blit a diferent frame only when our counter, i, is an even number.
-	if (last_frame_time >= fps) {
+	if (frame_timer.read() >= frametime) {
 		frame++;
-		last_frame_time = 0;
+		frame_timer.start();
 	}
 	if (frame >= lastFrame) {
 		frame = 0;

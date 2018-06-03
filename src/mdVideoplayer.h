@@ -4,10 +4,12 @@
 #include "Module.h"
 
 #include <dshow.h>
-#include <Vfw.h>                          
+#include <Vfw.h>    
+#include "Timer.h"
 #pragma comment( lib, "vfw32.lib" )                 // Search For VFW32.lib While Linking
 
 struct SDL_Texture;
+class Timer;
 
 class mdVideoplayer : public Module {
 public:
@@ -42,6 +44,7 @@ private:
 	int					fps;                        // Will Hold Rough Milliseconds Per Frame
 
 	SDL_Texture*		frame_texture;
+	Timer			frame_timer;
 
 	float				last_frame_time;
 };
