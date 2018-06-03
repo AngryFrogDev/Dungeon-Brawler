@@ -2,6 +2,9 @@ DUNGEON BRAWLER
 
 This is the version 1.0(Gold) of Dungeon Brawler.
 
+If you don't want to read all of this, you can watch our video tutorial!
+https://youtu.be/QGC2vURicQA
+
 Features:
 
 - Starting scene
@@ -74,3 +77,4 @@ You can cancel grounded basic attacks into special moves or super.
 
 
 Github: https://github.com/AngryFrogDev/Dungeon-Brawler
+Trailer: https://youtu.be/oEpfn6593k0
