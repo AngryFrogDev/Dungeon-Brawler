@@ -396,8 +396,8 @@
     >
 	<sound_effects>
 		<jump filename = "mage/mage_jump.wav"/>
-		<light_sword_block filename = "mage/mage_light_attack_block.wav"/>
-		<heavy_sword_block filename = "mage/mage_heavy_attack_block.wav"/>
+		<light_sword_block filename = "light_sword_block.wav"/>
+		<heavy_sword_block filename = "heavy_sword_block.wav"/>
 		<light_sword_whiff filename = "light_sword_whiff.wav"/>
 		<heavy_sword_whiff filename = "heavy_sword_whiff.wav"/>
 		<light_sword_impact filename = "mage/mage_standing_light_impact.wav"/>
@@ -729,8 +729,8 @@
     >
 	<sound_effects>
 		<jump filename = "silence.wav"/>
-		<light_sword_block filename = "rogue/light_sword_block.wav"/>
-		<heavy_sword_block filename = "rogue/heavy_sword_block.wav"/>
+    <light_sword_block filename = "light_sword_block.wav"/>
+    <heavy_sword_block filename = "heavy_sword_block.wav"/>
 		<light_sword_whiff filename = "light_sword_whiff.wav"/>
 		<heavy_sword_whiff filename = "heavy_sword_whiff.wav"/>
 		<light_sword_impact filename = "rogue/light_sword_impact.wav"/>
@@ -1070,8 +1070,8 @@
     >
 		<sound_effects>
 		<jump filename = "paladin/jump.wav"/>
-		<light_sword_block filename = "paladin/attack_blocked.wav"/>
-		<heavy_sword_block filename = "paladin/attack_blocked.wav"/>
+    <light_sword_block filename = "light_sword_block.wav"/>
+    <heavy_sword_block filename = "heavy_sword_block.wav"/>
 		<light_sword_whiff filename = "paladin/standing_light_standing_heavy_crouching_light_crouching_heavy_jumping_light_jumping_heavy.wav"/>
 		<heavy_sword_whiff filename = "paladin/standing_light_standing_heavy_crouching_light_crouching_heavy_jumping_light_jumping_heavy.wav"/>
 		<light_sword_impact filename = "light_sword_impact.wav"/>
