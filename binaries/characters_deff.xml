@@ -400,8 +400,8 @@
 		<heavy_sword_block filename = "heavy_sword_block.wav"/>
 		<light_sword_whiff filename = "light_sword_whiff.wav"/>
 		<heavy_sword_whiff filename = "heavy_sword_whiff.wav"/>
-		<light_sword_impact filename = "mage/mage_standing_light_impact.wav"/>
-		<heavy_sword_impact filename = "mage/mage_heavy_attack_impact.wav"/>
+    <light_sword_impact filename = "light_sword_impact.wav"/>
+    <heavy_sword_impact filename = "heavy_sword_impact.wav"/>
 		<standing_special_1 filename = "mage/mage_standing_special_1_standing_special_2_jumping_special_1.wav"/>
 		<standing_special_2 filename = "mage/mage_standing_special_1_standing_special_2_jumping_special_1.wav"/>
 		<jumping_special_1 filename = "mage/mage_standing_special_1_standing_special_2_jumping_special_1.wav"/>
@@ -733,16 +733,16 @@
     <heavy_sword_block filename = "heavy_sword_block.wav"/>
 		<light_sword_whiff filename = "light_sword_whiff.wav"/>
 		<heavy_sword_whiff filename = "heavy_sword_whiff.wav"/>
-		<light_sword_impact filename = "rogue/light_sword_impact.wav"/>
-		<heavy_sword_impact filename = "rogue/heavy_sword_impact_crouching_special_2_impact_crouching_heavy_impact.wav"/>
-		<standing_special_1 filename = "rogue/standing_special_1_air_special_1.wav"/>
+    <light_sword_impact filename = "light_sword_impact.wav"/>
+    <heavy_sword_impact filename = "heavy_sword_impact.wav"/>
+		<standing_special_1 filename = "standing_special_1.wav"/>
 		<standing_special_2 filename = "light_sword_whiff.wav"/>
-		<jumping_special_1 filename = "rogue/standing_special_1_air_special_1.wav"/>
-    <jumping_special_2 filename = "rogue/standing_special_1_air_special_1.wav"/>
+		<jumping_special_1 filename = "standing_special_1.wav"/>
+    <jumping_special_2 filename = "standing_special_1.wav"/>
 		<crouching_special_1 filename = "rogue/crouching_special_1.wav"/>
-		<crouching_special_2 filename = "mage/mage_crouching_light.wav"/>
+		<crouching_special_2 filename = "light_sword_whiff.wav"/>
 		<death filename = "rogue/death.wav"/>
-		<super filename = "rogue/super.wav"/>
+		<super filename = "silence.wav"/>
 	</sound_effects>
     <non_flip_attacks>
       <attack value="jm_s1"/>
@@ -1069,19 +1069,19 @@
   endurance_object_plus ="50"
     >
 		<sound_effects>
-		<jump filename = "paladin/jump.wav"/>
+		<jump filename = "jump.wav"/>
     <light_sword_block filename = "light_sword_block.wav"/>
     <heavy_sword_block filename = "heavy_sword_block.wav"/>
-		<light_sword_whiff filename = "paladin/standing_light_standing_heavy_crouching_light_crouching_heavy_jumping_light_jumping_heavy.wav"/>
-		<heavy_sword_whiff filename = "paladin/standing_light_standing_heavy_crouching_light_crouching_heavy_jumping_light_jumping_heavy.wav"/>
+		<light_sword_whiff filename = "heavy_sword_whiff.wav"/>
+		<heavy_sword_whiff filename = "heavy_sword_whiff.wav"/>
 		<light_sword_impact filename = "light_sword_impact.wav"/>
 		<heavy_sword_impact filename = "heavy_sword_impact.wav"/>
-		<standing_special_1 filename = "paladin/standing_special_1.wav"/>
-		<standing_special_2 filename = "paladin/standing_special_1.wav"/>
+		<standing_special_1 filename = "standing_special_1.wav"/>
+		<standing_special_2 filename = "standing_special_1.wav"/>
 		<jumping_special_1 filename = "paladin/jumping_special_1.wav"/>
-    <jumping_special_2 filename = "paladin/standing_light_standing_heavy_crouching_light_crouching_heavy_jumping_light_jumping_heavy.wav"/>
+    <jumping_special_2 filename = "heavy_sword_whiff.wav"/>
 		<crouching_special_1 filename = "paladin/jumping_special_2_crouching_special_2.wav"/>
-		<crouching_special_2 filename = "paladin/standing_light_standing_heavy_crouching_light_crouching_heavy_jumping_light_jumping_heavy.wav"/>
+		<crouching_special_2 filename = "heavy_sword_whiff.wav"/>
 		<death filename = "paladin/death.wav"/>
 		<super filename = "paladin/super.wav"/>
 	</sound_effects>
