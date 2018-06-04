@@ -133,20 +133,20 @@ bool mdMap::loadMap(int mapIndex) {
 		if (mapIndex == 1) {		// Load map characteristics, (Provisional, should be done thorugh xml)
 			data.map_image = App->textures->load("assets/ship.png");
 			data.background_image = App->textures->load("assets/ship_background.png");
-			parallax_speed = 5;
+			parallax_speed = 2;
 			selected_map = 1;
 		}
 		else if (mapIndex == 2) {
 			data.map_image = App->textures->load("assets/water.png");
 			data.background_image = App->textures->load("assets/water_background.png");
 			selected_map = mapIndex;;
-			parallax_speed = 5;
+			parallax_speed = 2;
 		}
 		else if (mapIndex == 3) {
 			data.map_image = App->textures->load("assets/train.png");
 			data.background_image = App->textures->load("assets/train_background.png");
 			selected_map = mapIndex;
-			parallax_speed = 10;
+			parallax_speed = 4;
 		}
 	//}
 	
