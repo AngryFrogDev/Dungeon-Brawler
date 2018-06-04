@@ -3,6 +3,8 @@
 #include "Application.h"
 #include "mdTextures.h"
 #include "mdRender.h"
+#include "SDL/include/SDL.h"
+
 
 mdVideoplayer::mdVideoplayer() {
 	name = "video";
@@ -20,7 +22,6 @@ bool mdVideoplayer::preUpdate() {
 bool mdVideoplayer::update(float dt) {
 	bool ret = true;
 	if (is_playing) {
-		last_frame_time += dt;
 		ret = grabAVIFrame();
 	}
 
@@ -34,7 +35,7 @@ bool mdVideoplayer::cleanUp() {
 	return ret;
 }
 
-bool mdVideoplayer::playAVI(const char* path) {
+bool mdVideoplayer::playAVI(const char* path, bool fullscreen) {
 	AVIFileInit();                          // Opens The AVIFile Library
 						
 	if (AVIStreamOpenFromFile(&pavi, path, streamtypeVIDEO, 0, OF_READ, NULL) != 0) {// Opens The AVI Stream
@@ -55,6 +56,7 @@ bool mdVideoplayer::playAVI(const char* path) {
 
 	frame_timer.start();
 	is_playing = true;
+	is_fullscreen = fullscreen;
 
 	return true;
 }
@@ -72,11 +74,20 @@ bool mdVideoplayer::grabAVIFrame() {
 																				- pitch is the length of a row of pixels in bytes (widht x 3)
 																				*/
 	SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(pdata, width, height, lpbi->biBitCount, width * 3, 0, 0, 0, 0);
-	frame_texture = App->textures->loadSurface(surface);
-
-	int position_x = (App->render->resolution.first - width) / 2;
-	int position_y = (App->render->resolution.second - height) / 2;
-	App->render->drawSprite(10, frame_texture, position_x, position_y, nullptr, 1, false, 1, 0, 1, 1, false);
+	SDL_Surface* flipped = App->textures->flipSurface(surface, FLIP_VERTICAL);
+	frame_texture = App->textures->loadSurface(flipped);
+	
+	int position_x = 0;
+	int position_y = 0;
+	float scale = 1;
+	if (is_fullscreen) {
+		scale = App->render->resolution.first / (float)width;
+	}
+	else {
+		position_x = (App->render->resolution.first - width) / 2;
+		position_y = (App->render->resolution.second - height) / 2;
+	}
+	App->render->drawSprite(10, frame_texture, position_x, position_y, nullptr, scale, false, 1, 0, 1, 1, false);
 	double frametime = 1000 / fps;
 
 	if (frame_timer.read() >= frametime) {
@@ -89,6 +100,7 @@ bool mdVideoplayer::grabAVIFrame() {
 	}
 
 	SDL_FreeSurface(surface);
+	SDL_FreeSurface(flipped);
 
 	return true;
 }

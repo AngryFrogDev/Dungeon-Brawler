@@ -22,7 +22,7 @@ public:
 	bool update(float dt);
 	bool cleanUp();
 
-	bool playAVI(const char* path);
+	bool playAVI(const char* path, bool fullscreen = true);
 	bool grabAVIFrame();
 
 	void stopPlaying();
@@ -46,7 +46,7 @@ private:
 	SDL_Texture*		frame_texture;
 	Timer			frame_timer;
 
-	float				last_frame_time;
+	bool is_fullscreen;
 };
 
 #endif // __MDVIDEOPLAYER_H__

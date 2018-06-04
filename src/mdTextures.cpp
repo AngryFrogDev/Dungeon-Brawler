@@ -87,6 +87,42 @@ SDL_Texture* const mdTextures::loadSurface(SDL_Surface* surface)
 	return texture;
 }
 
+SDL_Surface* mdTextures::flipSurface(SDL_Surface *surface, int flags) {
+	//Pointer to the soon to be flipped surface
+	SDL_Surface *flipped = NULL;
+
+	//If the image is color keyed
+	flipped = SDL_CreateRGBSurface(SDL_SWSURFACE, surface->w, surface->h, surface->format->BitsPerPixel, surface->format->Rmask, surface->format->Gmask, surface->format->Bmask, surface->format->Amask);
+
+	//If the surface must be locked
+	if (SDL_MUSTLOCK(surface)) {
+		//Lock the surface
+		SDL_LockSurface(surface);
+	}
+
+	//Go through columns
+	for (int x = 0, rx = flipped->w - 1; x < flipped->w; x++, rx--) {
+		//Go through rows
+		for (int y = 0, ry = flipped->h - 1; y < flipped->h; y++, ry--) {
+			//Get pixel
+			Uint32 pixel = getPixel(surface, x, y);
+
+			//Copy pixel
+			if ((flags & FLIP_VERTICAL) && (flags & FLIP_HORIZONTAL)) {
+				putPixel(flipped, rx, ry, pixel);
+			}
+			else if (flags & FLIP_HORIZONTAL) {
+				putPixel(flipped, rx, y, pixel);
+			}
+			else if (flags & FLIP_VERTICAL) {
+				putPixel(flipped, x, ry, pixel);
+			}
+		}
+	}
+
+	return flipped;
+}
+
 SDL_Texture * const mdTextures::surfaceToTexture(SDL_Surface * surface) const {
 	SDL_Texture* ret = SDL_CreateTextureFromSurface(App->render->renderer, surface);
 
@@ -113,5 +149,20 @@ bool mdTextures::unload(SDL_Texture* texture) {
 bool mdTextures::unloadSurface(SDL_Surface * surface) {
 	bool ret = true;
 	SDL_FreeSurface(surface);
+	return ret;
+}
+
+void mdTextures::putPixel(SDL_Surface * surface, int x, int y, int color) {
+	unsigned int *ptr = (unsigned int*)surface->pixels;
+	int lineoffset = y * (surface->pitch / 4);
+	ptr[lineoffset + x] = color;
+}
+
+int mdTextures::getPixel(SDL_Surface * surface, int x, int y) {
+	int ret = 0;
+	unsigned int *ptr = (unsigned int*)surface->pixels;
+	int lineoffset = y * (surface->pitch / 4);
+	ret = ptr[lineoffset + x];
+	
 	return ret;
 }
