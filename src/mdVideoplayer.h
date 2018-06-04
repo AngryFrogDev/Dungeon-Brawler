@@ -22,7 +22,7 @@ public:
 	bool update(float dt);
 	bool cleanUp();
 
-	bool playAVI(const char* path, bool fullscreen = true);
+	bool playAVI(const char* path, bool fullscreen = true, float scale = -1);
 	bool grabAVIFrame();
 	
 	bool isPlaying() const;
@@ -45,7 +45,8 @@ private:
 	int					fps;                        // Will Hold Rough Milliseconds Per Frame
 
 	SDL_Texture*		frame_texture;
-	Timer			frame_timer;
+	Timer				frame_timer;
+	float				scale;
 
 	bool is_fullscreen;
 };

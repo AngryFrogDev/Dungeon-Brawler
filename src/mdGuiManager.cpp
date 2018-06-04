@@ -267,9 +267,10 @@ void mdGuiManager::assignP2Focus()	{
 	
 	Widgets* object = nullptr;
 	bool has_controller = App->entities->players[1]->getController() != nullptr;
+	bool p1_has_controller = App->entities->players[0]->getController() != nullptr;
 	
 	if (App->input->isButtonState(BUTTON_DPAD_UP, KEY_DOWN, 1) || App->input->isButtonState(BUTTON_DPAD_LEFT, KEY_DOWN, 1) ||
-		(!has_controller && App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN) || (!has_controller && App->input->getKey(SDL_SCANCODE_LEFT) == KEY_DOWN)) {
+		(p1_has_controller && !has_controller && App->input->getKey(SDL_SCANCODE_UP) == KEY_DOWN) || (p1_has_controller && !has_controller && App->input->getKey(SDL_SCANCODE_LEFT) == KEY_DOWN)) {
 
 		std::list<Widgets*>::iterator temp_iterator = p2_focus_elements.begin();
 		for (temp_iterator; temp_iterator != p2_focus_elements.end(); temp_iterator++)
@@ -307,7 +308,7 @@ void mdGuiManager::assignP2Focus()	{
 
 
 	if (App->input->isButtonState(BUTTON_DPAD_DOWN, KEY_DOWN, 1) || App->input->isButtonState(BUTTON_DPAD_RIGHT, KEY_DOWN, 1) ||
-		(!has_controller && App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN) || (!has_controller && App->input->getKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)) {
+		(p1_has_controller && !has_controller && App->input->getKey(SDL_SCANCODE_DOWN) == KEY_DOWN) || (p1_has_controller && !has_controller && App->input->getKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)) {
 
 		std::list<Widgets*>::reverse_iterator temp_iterator = p2_focus_elements.rbegin();
 		for (temp_iterator; temp_iterator != p2_focus_elements.rend(); temp_iterator++)

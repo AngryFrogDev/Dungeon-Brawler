@@ -26,7 +26,7 @@ bool startScene::start()	{
 	//PROVISIONAL: Should find another way to load all scene music
 
 	App->audio->playMusic(scene_music);
-	App->videoplayer->playAVI("video/logo_animation.avi");
+	App->videoplayer->playAVI("video/logo_animation.avi", true, 2.5);
 	loadSceneUi();
 	
 	return true;

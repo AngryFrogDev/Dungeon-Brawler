@@ -35,7 +35,7 @@ bool mdVideoplayer::cleanUp() {
 	return ret;
 }
 
-bool mdVideoplayer::playAVI(const char* path, bool fullscreen) {
+bool mdVideoplayer::playAVI(const char* path, bool fullscreen, float scale) {
 	AVIFileInit();                          // Opens The AVIFile Library
 						
 	if (AVIStreamOpenFromFile(&pavi, path, streamtypeVIDEO, 0, OF_READ, NULL) != 0) {// Opens The AVI Stream
@@ -56,6 +56,7 @@ bool mdVideoplayer::playAVI(const char* path, bool fullscreen) {
 
 	frame_timer.start();
 	is_playing = true;
+	mdVideoplayer::scale = scale;
 	is_fullscreen = fullscreen;
 
 	return true;
@@ -79,14 +80,15 @@ bool mdVideoplayer::grabAVIFrame() {
 	
 	int position_x = 0;
 	int position_y = 0;
-	float scale = 1;
-	if (is_fullscreen) {
+
+	if (is_fullscreen && scale == -1) 
 		scale = App->render->resolution.first / (float)width;
-	}
-	else {
-		position_x = (App->render->resolution.first - width) / 2;
-		position_y = (App->render->resolution.second - height) / 2;
-	}
+	if (scale == -1)
+		scale = 1;
+
+	position_x = (App->render->resolution.first - width * scale) / 2;
+	position_y = (App->render->resolution.second - height * scale) / 2;
+
 	App->render->drawSprite(10, frame_texture, position_x, position_y, nullptr, scale, false, 1, 0, 1, 1, false);
 	double frametime = 1000 / fps;
 
