@@ -395,7 +395,7 @@
     meteorits_rows_offset="-300"
     >
 	<sound_effects>
-		<jump filename = "mage/mage_jump.wav"/>
+		<jump filename = "jump.wav"/>
 		<light_sword_block filename = "light_sword_block.wav"/>
 		<heavy_sword_block filename = "heavy_sword_block.wav"/>
 		<light_sword_whiff filename = "light_sword_whiff.wav"/>
