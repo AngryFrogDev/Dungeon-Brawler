@@ -53,6 +53,9 @@ void startScene::loadSceneTextures()	{
 }
 
 void startScene::checkSceneInput()	{
-	if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || App->input->isButtonState(BUTTON_A, KEY_DOWN))
+	if (App->input->getKey(SDL_SCANCODE_RETURN) == KEY_DOWN || App->input->isButtonState(BUTTON_A, KEY_DOWN)) {
+		if (App->videoplayer->isPlaying())
+			App->videoplayer->stopPlaying();
 		App->scene_manager->changeScene(App->scene_manager->main_scene, this);
+	}
 }

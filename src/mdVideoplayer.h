@@ -24,7 +24,8 @@ public:
 
 	bool playAVI(const char* path, bool fullscreen = true);
 	bool grabAVIFrame();
-
+	
+	bool isPlaying() const;
 	void stopPlaying();
 	
 

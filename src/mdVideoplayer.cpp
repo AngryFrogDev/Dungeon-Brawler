@@ -105,7 +105,12 @@ bool mdVideoplayer::grabAVIFrame() {
 	return true;
 }
 
+bool mdVideoplayer::isPlaying() const {
+	return is_playing;
+}
+
 void mdVideoplayer::stopPlaying() {
+	is_playing = false;
 	AVIStreamGetFrameClose(pointer_to_frame);                // Deallocates The GetFrame Resources
 
 	AVIStreamRelease(pavi);                     // Release The Stream
