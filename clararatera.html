@@ -1,0 +1,95 @@
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
+body, html {
+    height: 100%;
+    color:white;
+    background-color: white;
+    line-height: 1.8;
+}
+
+.foto {
+  opacity: 100% !important;
+}
+
+.custom-title {
+  margin-top: -60px;
+  margin-bottom: 10px;
+  font-family: helvetica;
+  font-size: 40px;
+  font-weight: 100;
+  background-color: black;
+  width: 2400px;
+  margin-left: -700px;
+}
+
+#about {
+  background-color:  rgba(0, 0, 0, 0.6);
+}
+
+.w3-wide {letter-spacing: 10px;}
+.w3-hover-opacity {cursor: pointer;}
+
+/* Turn off parallax scrolling for tablets and phones */
+@media only screen and (max-device-width: 1024px) {
+    .bgimg-1, .bgimg-2, .bgimg-3 {
+        background-attachment: scroll;
+    }
+}
+</style>
+<body style="
+background-color: black;
+background-image: url('https://raw.githubusercontent.com/AngryFrogDev/Dungeon-Brawler/gh-pages/Web/backgound.jpg');
+background-repeat: no-repeat;
+background-size: 100%;
+">
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar" id="myNavbar">
+    <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+      <i class="fa fa-bars"></i>
+    </a>
+    <a href="index.html" class="w3-bar-item w3-button">HOME</a>
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
+    <a href="index.html class="w3-bar-item w3-button" onclick="toggleFunction()">Home</a>
+  </div>
+</div>
+
+<!-- Container (About Section) -->
+<div class="w3-content w3-container w3-padding-64" id="about">
+  <h3 class="w3-center custom-title">CLARA RATERA</h3>
+  <div class="w3-row">
+    <div class="w3-col m6 w3-center w3-padding-large foto">
+      <img src="https://raw.githubusercontent.com/AngryFrogDev/Dungeon-Brawler/gh-pages/images/wiki/Team%20Pictures/clara_ratera_big_RA.jpg" class="w3-round w3-image" alt="Photo of Me" width="500" height="333">
+    </div>
+
+    <!-- Hide this text on small devices -->
+    <div class="w3-col m6 w3-hide-small w3-padding-large">
+      <p>I've worked in the UI department for the most part, creating the UI layout concept. Putting together the UML for the initial UI system alongside Cristian. Worked on the UI code, on its basic structure and the bars with its animations and sound effects. Created the art for the UI 
+	  (the different bars, rounded buttons and general container for the clock, reused in other forms) and worked on the centering and recoloring of spritesheets. During the final development stages helped with QA both playing and playtesting other users. </p>
+    </div>
+  </div>
+  <p class="w3-large w3-center w3-padding-16">Im really good at:</p>
+  <p class="w3-wide"><i class="fa fa-laptop"></i>Interface Design</p>
+  <div class="w3-light-grey">
+    <div class="w3-container w3-padding-small w3-dark-grey w3-center" style="width:85%">85%</div>
+  </div>
+  <p class="w3-wide"><i class="fa fa-laptop"></i>Communication</p>
+  <div class="w3-light-grey">
+    <div class="w3-container w3-padding-small w3-dark-grey w3-center" style="width:75%">75%</div>
+  </div>
+  <p class="w3-wide"><i class="fa fa-photo"></i>Photoshop</p>
+  <div class="w3-light-grey">
+    <div class="w3-container w3-padding-small w3-dark-grey w3-center" style="width:70%">70%</div>
+  </div>
+</div>
