@@ -1,0 +1,99 @@
+<title>Dungeon Brawler - Sergi Parra</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
+body, html {
+    height: 100%;
+    color:white;
+    background-color: white;
+    line-height: 1.8;
+}
+
+.foto {
+  opacity: 100% !important;
+}
+
+.custom-title {
+  margin-top: -60px;
+  margin-bottom: 10px;
+  font-family: helvetica;
+  font-size: 40px;
+  font-weight: 100;
+  background-color: black;
+  width: 2400px;
+  margin-left: -700px;
+}
+
+#about {
+  background-color:  rgba(0, 0, 0, 0.6);
+}
+
+.w3-wide {letter-spacing: 10px;}
+.w3-hover-opacity {cursor: pointer;}
+
+/* Turn off parallax scrolling for tablets and phones */
+@media only screen and (max-device-width: 1024px) {
+    .bgimg-1, .bgimg-2, .bgimg-3 {
+        background-attachment: scroll;
+    }
+}
+</style>
+<body style="
+background-color: black;
+background-image: url('Web/backgound.jpg');
+background-repeat: no-repeat;
+background-size: 100%;
+">
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar" id="myNavbar">
+    <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+      <i class="fa fa-bars"></i>
+    </a>
+    <a href="index.html" class="w3-bar-item w3-button">HOME</a>
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
+    <a href="index.html class="w3-bar-item w3-button" onclick="toggleFunction()">Home</a>
+  </div>
+</div>
+
+<!-- Container (About Section) -->
+<div class="w3-content w3-container w3-padding-64" id="about">
+  <h3 class="w3-center custom-title">SERGI PARRA</h3>
+  <div class="w3-row">
+    <div class="w3-col m6 w3-center w3-padding-large foto">
+      <img src="images/wiki/Team%20Pictures/sergi_parra_big_RA.jpg" class="w3-round w3-image" alt="Photo of Me" width="500" height="333">
+    </div>
+
+    <!-- Hide this text on small devices -->
+    <div class="w3-col m6 w3-hide-small w3-padding-large">
+      <p>Hello! My name is Sergi Parra, and I am one of the coders inside Angry Frog, the team behind Dungeon Brawler. My main task inside Angry Frog was to create the backbone for our game.</p>
+      <p>When starting the project I coded most parts of the engine from scratch, though based on prior projects. My objective doing so was to provide a strong backbone to the game engine to avoid further errors relating to the main modules.
+		 I coded the audio, input, filesystem, render, window and texture modules.</p>
+      <p>I was also responsible for coding the game camera, as well as the character's state machine.</p>
+    </div>
+  </div>
+    <div class="w3-row">
+	    <div class="w3-col m6 w3-center w3-padding-large foto">
+		</br>
+		<a href="web/Sergi/cameraexample.jpg" class="image-popup">
+      <img src="web/Sergi/cameraexample.jpg" class="w3-round w3-image" alt="Photo of Me" width="500" height="333">
+	  </a>
+    </div>
+    <!-- Hide this text on small devices -->
+    <div class="w3-col m6 w3-hide-small w3-padding-large">
+      <p>The camera works by not changing the logic of the game (every calculation is still done at real scale) but then rendering everything that the camera is pointing at and changing its scale to fit in the screen.
+		 If a character tries to move away from the camera, the camera will check if it can move without making any character disappear from view and then acts accordingly.</p>
+	  
+    </div>
+  </div>
+  
+</div>
